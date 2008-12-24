@@ -1,0 +1,76 @@
+<project name="gisgraphy">
+  <bannerLeft>
+    <name>gisgraphy</name>
+    <src>http://www.gisgraphy.com/images/logos/logo.png</src>
+    <href>http://gisgraphy.com</href>
+  </bannerLeft>
+  <publishDate format="dd MMM yyyy" />
+  <skin>
+  <groupId>com.gisgraphy</groupId>
+  <artifactId>gisgraphy-skin</artifactId>
+  <version>1.0</version>
+  </skin>
+   <body>
+   <!-- <head>
+      <link href="http://dev.example.com/sites/hello-world/feeds/news"
+            type="application/atom+xml" 
+            id="auto-discovery" 
+            rel="alternate" 
+            title="Hello-World News"/>
+    </head>
+    -->
+    <breadcrumbs>
+      <!--<item name="Example Software Foundation" href="http://www.example.com"/>
+      <item name="ESF Projects" href="http://dev.example.com"/>-->
+    </breadcrumbs>
+
+    <links>
+     <!-- <item name="Sibling Project" href="http://dev.example.com/sites/sibling"/>
+      <item name="Apache Maven Doxia" href="http://maven.apache.org/doxia"/> -->
+    </links>
+
+    <menu ref="parent"/>
+
+    <menu name="Gisgraphy project" collapse="false">
+     <item name="Home" href="/index.htm"/>
+     <item name="Download" href="/download/index.htm"/>
+     <item name="Features plan / status" href="/features.htm"/>
+     <item name="Dump" href="/dump.htm"/>
+     <item name="Donations - Benefactors" href="/benefactors.htm"/>
+     <item name="Bench" href="/bench.htm"/>
+     <item name="Logos" href="/logos.htm"/>
+     <item name="Maven repository" href="http://gisgraphy.free.fr/mavenrepo"/>
+     <item name="Wo use Gisgraphy" href="/whouse.htm"/>
+     <item name="Contact" href="mailto:davidmasclet@gisgraphy.com"/>
+ 
+     <item name="About geonames" href="http://www.geonames.org/about.html" />
+     </menu>
+        
+    <menu name="Free GIS WebServices" collapse="false"> 
+     <item name="Free fulltext services" href="http://services.gisgraphy.com/ajaxfulltextsearch.html"/>
+     <item name="Free geolocalisation services" href="http://services.gisgraphy.com/ajaxgeolocsearch.html"/>
+	</menu>
+	
+    <menu name="Getting help" collapse="false">
+   	  <item name="Fulltext" href="/documentation/index.htm#fulltextservice"/>
+      <item name="Geolocalisation" href="/documentation/index.htm#geolocservice"/>
+      <item name="Installation" href="/documentation/installation/index.htm"/>
+      <item name="User guide" href="/documentation/index.htm"/>
+      <item name="opensearch" href="/documentation/addons.htm#opensearch"/>
+      <item name="FAQ" href="/faq.html"/>
+      <item name="Glossary" href="/glossary.html"/>
+      <item name="Placetypes available" href="/placetype.htm"/>
+      <item name="Screenshots" href="/screenshots.htm"/>
+      <item name="Forum" href="/forum/"/>
+	</menu>
+ 	  
+      
+     
+
+    
+
+
+    <menu ref="reports"/>
+  </body>
+</project>
+

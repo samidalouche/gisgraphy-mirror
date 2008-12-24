@@ -1,0 +1,3 @@
+run ./site.sh
+replace header.inc / footer.inc with the index one.
+modify the title of header.inc

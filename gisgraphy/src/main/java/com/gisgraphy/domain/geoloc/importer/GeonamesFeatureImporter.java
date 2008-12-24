@@ -1,0 +1,735 @@
+/*******************************************************************************
+ *   Gisgraphy Project 
+ * 
+ *   This library is free software; you can redistribute it and/or
+ *   modify it under the terms of the GNU Lesser General Public
+ *   License as published by the Free Software Foundation; either
+ *   version 2.1 of the License, or (at your option) any later version.
+ * 
+ *   This library is distributed in the hope that it will be useful,
+ *   but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ *   Lesser General Public License for more details.
+ * 
+ *   You should have received a copy of the GNU Lesser General Public
+ *   License along with this library; if not, write to the Free Software
+ *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA
+ * 
+ *  Copyright 2008  Gisgraphy project 
+ *  David Masclet <davidmasclet@gisgraphy.com>
+ *  
+ *  
+ *******************************************************************************/
+package com.gisgraphy.domain.geoloc.importer;
+
+import java.io.File;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import org.hibernate.FlushMode;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Required;
+
+import com.gisgraphy.domain.geoloc.entity.Adm;
+import com.gisgraphy.domain.geoloc.entity.AlternateName;
+import com.gisgraphy.domain.geoloc.entity.Country;
+import com.gisgraphy.domain.geoloc.entity.GisFeature;
+import com.gisgraphy.domain.geoloc.entity.ZipCodeAware;
+import com.gisgraphy.domain.repository.IAdmDao;
+import com.gisgraphy.domain.repository.IAlternateNameDao;
+import com.gisgraphy.domain.repository.ICityDao;
+import com.gisgraphy.domain.repository.ICountryDao;
+import com.gisgraphy.domain.repository.IGisDao;
+import com.gisgraphy.domain.repository.IGisFeatureDao;
+import com.gisgraphy.domain.repository.ISolRSynchroniser;
+import com.gisgraphy.domain.valueobject.AlternateNameSource;
+import com.gisgraphy.domain.valueobject.Constants;
+import com.gisgraphy.domain.valueobject.FeatureCode;
+import com.gisgraphy.domain.valueobject.GISSource;
+import com.gisgraphy.domain.valueobject.NameValueDTO;
+import com.gisgraphy.helper.GeolocHelper;
+
+/**
+ * Import the Features from a Geonames dump file.
+ * 
+ * @author <a href="mailto:david.masclet@gisgraphy.com">David Masclet</a>
+ */
+public class GeonamesFeatureImporter extends AbstractGeonamesProcessor {
+
+    private ICityDao cityDao;
+
+    private IGisFeatureDao gisFeatureDao;
+
+    private IAlternateNameDao alternateNameDao;
+
+    private IAdmDao admDao;
+
+    private ICountryDao countryDao;
+
+    private List<Pattern> acceptedPatterns;
+
+    private ISolRSynchroniser solRSynchroniser;
+    
+    @Autowired
+    IGisDao<? extends GisFeature>[] iDaos;
+
+    /**
+     * Default constructor
+     */
+    public GeonamesFeatureImporter() {
+	super();
+    }
+
+    private static SimpleDateFormat dateFormatter = new SimpleDateFormat(
+	    Constants.GIS_DATE_PATTERN);
+
+    private boolean isFeatureClassCodeAccepted(String featureClass,
+	    String featureCode) {
+	String classCode = featureClass.trim() + "." + featureCode.trim();
+	Matcher matcher = null;
+	for (Pattern pattern : acceptedPatterns) {
+	    matcher = pattern.matcher(classCode);
+	    if (matcher.matches()) {
+		return true;
+	    }
+	}
+	return false;
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see com.gisgraphy.domain.geoloc.importer.AbstractGeonamesProcessor#processData(java.lang.String)
+     */
+    @Override
+    protected void processData(String line) {
+	String[] fields = line.split("\t");
+
+	/*
+	 * line table has the following fields :
+	 * --------------------------------------------------- 0 geonameid : 1
+	 * name 2 asciiname 3 alternatenames 4 latitude 5 longitude 6 feature
+	 * class 7 feature code 8 country code 9 cc2 10 admin1 code 11 admin2
+	 * code 12 admin3 code 13 admin4 code 14 population 15 elevation 16
+	 * gtopo30 17 timezone 18 modification date last modification in
+	 * yyyy-MM-dd format
+	 */
+
+	// check that the csv file line is in a correct format
+	checkNumberOfColumn(fields);
+	String featureClass = null;
+	String featureCode = null;
+
+	// featureClass
+	if (!isEmptyField(fields, 6, false)) {
+	    featureClass = fields[6];
+	} else {
+	    featureClass = ImporterConfig.DEFAULT_FEATURE_CLASS;
+	    logger.warn("[wrongFeatureClass] : set featureClass to "
+		    + ImporterConfig.DEFAULT_FEATURE_CODE + " for gisFeature  "
+		    + fields[0]);
+	}
+
+	// featureCode
+	if (!isEmptyField(fields, 7, false)) {
+	    featureCode = fields[7];
+	} else {
+	    featureCode = ImporterConfig.DEFAULT_FEATURE_CODE;
+	    logger.warn("[wrongFeatureCode] set featureCode to "
+		    + ImporterConfig.DEFAULT_FEATURE_CODE + " for gisFeature  "
+		    + fields[0]);
+	}
+
+	// TODO v2 virtualizeADMD
+	// fields = ImporterHelper.virtualizeADMD(fields);
+	fields = ImporterHelper.correctLastAdmCodeIfPossible(fields);
+
+	if (!isFeatureClassCodeAccepted(featureClass, featureCode)) {
+	    return;
+	}
+
+	GisFeature gisFeature = null;
+	// create GisFeature and set featureId
+	if (!isEmptyField(fields, 0, true)) {
+	    gisFeature = new GisFeature();
+	    gisFeature.setFeatureId(new Long(fields[0]));
+	}
+
+	// set names
+	if (!isEmptyField(fields, 1, true)) {
+	    gisFeature.setName(fields[1].trim());
+	}
+
+	gisFeature.setAsciiName(fields[2].trim());
+
+	// Location
+	if (!isEmptyField(fields, 4, true) && !isEmptyField(fields, 5, true)) {
+	    gisFeature.setLocation(GeolocHelper.createPoint(
+		    new Float(fields[5]), new Float(fields[4])));
+	}
+
+	// featureClass
+	gisFeature.setFeatureClass(featureClass);
+
+	// featureCode
+	gisFeature.setFeatureCode(featureCode);
+
+	// countrycode
+	if (!isEmptyField(fields, 8, true)) {
+	    gisFeature.setCountryCode(fields[8].toUpperCase());
+	}
+
+	// ignore cc2
+
+	// population
+	if (!isEmptyField(fields, 14, false)) {
+	    gisFeature.setPopulation(new Integer(fields[14]));
+	}
+
+	// elevation
+	if (!isEmptyField(fields, 15, false)) {
+	    gisFeature.setElevation(new Integer(fields[15]));
+	} else {
+	    gisFeature.setElevation(null);
+	}
+
+	// gtopo30
+	if (!isEmptyField(fields, 16, false)) {
+	    gisFeature.setGtopo30(new Integer(fields[16]));
+	}
+
+	// timeZone
+	gisFeature.setTimezone(fields[17]);
+
+	// source
+	gisFeature.setSource(GISSource.GEONAMES);
+
+	// modificationDate
+	if (!isEmptyField(fields, 18, false)) {
+	    try {
+		gisFeature.setModificationDate(dateFormatter.parse(fields[18]));
+	    } catch (ParseException e) {
+		gisFeature.setModificationDate(null);
+		logger
+			.info("[wrongModificationDate] Modificationdate is not properly set for featureId "
+				+ fields[0]);
+	    }
+	}
+
+	// add alternatenames
+	// not necessary because alternatenames will ba added by its own
+	// importer
+	if (!isEmptyField(fields, 3, false)
+		&& importerConfig.isImportGisFeatureEmbededAlternateNames()) {
+	    gisFeature.addAlternateNames(addAlternateNames(fields[3],
+		    gisFeature));
+	}
+
+	//some country can have featurecode=TERR or ADMD
+	if (gisFeature.isCountry()
+		|| gisFeature.getFeatureCode().equals("TERR")
+		|| gisFeature.getFeatureCode().equals("ADMD")
+		|| gisFeature.getFeatureCode().startsWith("ISL")
+		|| gisFeature.getFeatureCode().equals("PCLIX")
+		) {
+	    // Rem : country must not have admcode so we don't set admcodes
+	    // rem : country must not have admnames so we don't set admnames
+	    Country country = this.countryDao
+		    .getByFeatureId(new Long(fields[0]));
+	    if (country == null) {
+		if (gisFeature.isCountry()) {
+		    logger.warn("[wrongCountryCode] Country " + fields[8]
+			    + " have no entry in "
+			    + importerConfig.getCountriesFileName()
+			    + " or has not been import. It will be ignored");
+		    return;
+		}
+		//else it is a real ADMD or TERR
+	    } else {
+		String countryName = country.getName();
+		country.populate(gisFeature);
+		// we preffer keep the original name (example : we prefer France,
+		// instead of Republic Of France
+		country.setName(countryName);
+		this.countryDao.save(country);
+		return;
+	    }
+	}
+
+	// Rem :if we don't set the code they will be null for object that
+	// extends gisfeature when populate() will be called
+	// Rem : country don't have their admXcodes and AdmXnames
+	// set admcodes
+	setAdmCodesWithCSVOnes(fields, gisFeature);
+
+	// if gis Feature is an ADM need to update ADM with this GisFeature
+	if (gisFeature.isAdm()) {
+	    int levelFromCode = Adm.getProcessedLevelFromCodes(fields[10],
+		    fields[11], fields[12], fields[13]);
+	    int levelFromClassCode = Adm.getProcessedLevelFromFeatureClassCode(
+		    fields[6], fields[7]);
+	    // check if data are consistant
+	    if (levelFromCode != levelFromClassCode) {
+		logger.warn("[unprocessedAdm] : The Adm " + fields[8] + "."
+			+ fields[10] + "." + fields[11] + "." + fields[12]
+			+ "." + fields[13] + " is not consistant for "
+			+ fields[6] + "." + fields[7] + " adm" + "["
+			+ fields[0] + "] will be ignored");
+		return;
+	    }
+	    Adm adm = this.admDao.getAdm(fields[8], fields[10], fields[11],
+		    fields[12], fields[13]);
+	    if (adm == null) {
+		logger.warn("adm " + fields[8] + "." + fields[10] + "."
+			+ fields[11] + "." + fields[12] + "." + fields[13]
+			+ " have no entry in his admXcode.txt");
+
+		if (levelFromCode != 0) {
+		    adm = new Adm(levelFromCode);
+		    adm.setAdm1Name(fields[10]);
+		    adm.setAdm2Name(fields[11]);
+		    adm.setAdm3Name(fields[12]);
+		    adm.setAdm4Name(fields[13]);
+		    // the only goal to do this code is to get the adm codes in
+		    // the
+		    // logs bellow when toString will be called (in other way it
+		    // will be done by the populate)
+		    setAdmCodesWithCSVOnes(fields, adm);
+		    // try to link to his parent
+		    Adm admParent = this.admDao
+			    .getAdmOrFirstValidParentIfNotFound(fields[8],
+				    fields[10], fields[11], fields[12],
+				    fields[13]);
+		    if (admParent != null) {
+			adm.setParent(admParent);
+			logger
+				.info("[unprocessedAdm] : will save an adm"
+					+ levelFromCode
+					+ " : "
+					+ adm
+					+ " that have not been import when AdmXCodes have been procesed. his parent will be "
+					+ admParent);
+		    } else {
+			logger
+				.warn("[unprocessedAdm] : won't save an adm"
+					+ levelFromCode
+					+ " : "
+					+ adm
+					+ " that have not been import when AdmXCodes and without parent");
+			return;
+		    }
+		} else {
+		    // we can do anything with an Adm with Wrong code/level
+		    logger
+			    .warn("[unprocessedAdm] : Could not detect level of Adm "
+				    + adm + ". it will be ignored");
+		    return;
+		}
+
+	    }
+	    if (isAlreadyUpdated(adm)) {// needed for duplicate
+		// we only keep the first adm
+		return;
+	    }
+	    setAdmNames(adm, gisFeature);
+	    adm.populate(gisFeature);
+
+	    this.admDao.save(adm);
+	    return;
+	}
+
+	// it is not an adm, not a country =>try to set Adm
+	Adm adm = null;
+	if (importerConfig.isTryToDetectAdmIfNotFound()) {
+	    adm = this.admDao.suggestMostAccurateAdm(fields[8], fields[10],
+		    fields[11], fields[12], fields[13], gisFeature);
+	    logger.debug("suggestAdm=" + adm);
+	} else {
+	    adm = this.admDao.getAdm(fields[8], fields[10], fields[11],
+		    fields[12], fields[13]);
+	}
+
+	// log
+	if (adm == null) {
+	    logger.warn("[noAdm] " + fields[8] + "." + fields[10] + "."
+		    + fields[11] + "." + fields[12] + "." + fields[13]
+		    + " for " + gisFeature);
+	} else {
+	    if ("00".equals(fields[10]) && !featureCode.startsWith("ADM")) {
+		logger
+			.info("[adm1autoDetected];" + gisFeature.getFeatureId()
+				+ ";" + gisFeature.getName() + ";"
+				+ gisFeature.getFeatureClass() + ";"
+				+ gisFeature.getFeatureCode() + ";"
+				+ adm.getAdm1Code());
+		// see http://forum.geonames.org/gforum/posts/list/699.page
+	    }
+
+	}
+	gisFeature.setAdm(adm);
+	setAdmCodesWithLinkedAdmOnes(adm, gisFeature, importerConfig
+		.isSyncAdmCodesWithLinkedAdmOnes());
+	setAdmNames(adm, gisFeature);
+
+	FeatureCode featureCode_ = null;
+	try {
+	    featureCode_ = FeatureCode
+		    .valueOf(featureClass + "_" + featureCode);
+	} catch (RuntimeException e) {
+	}
+	if (featureCode_ != null) {
+	    GisFeature featureObject = (GisFeature) featureCode_.getObject();
+	    logger.debug(featureClass + "_" + featureCode
+		    + " have an entry in " + FeatureCode.class.getSimpleName()
+		    + " : " + featureObject.getClass().getSimpleName());
+	    featureObject.populate(gisFeature);
+	    if (featureObject instanceof ZipCodeAware) {
+		logger.debug(featureObject + " is zipCode Aware");
+		ZipCodeAware zipCodeAware = (ZipCodeAware) featureObject;
+		// zipcode
+		zipCodeAware.setZipCode(findZipCode(fields));
+		this.gisFeatureDao.save((GisFeature) zipCodeAware);
+	    }
+	    this.gisFeatureDao.save(featureObject);
+	} else {
+	    logger.debug(featureClass + "_" + featureCode
+		    + " have no entry in " + FeatureCode.class.getSimpleName()
+		    + " and will be considered as a GisFeature");
+	    this.gisFeatureDao.save(gisFeature);
+	}
+	// }
+
+    }
+
+    private boolean isAlreadyUpdated(GisFeature feature) {
+	if (feature.getModificationDate() != null) {
+	    logger
+		    .info(feature
+			    + " has already been updated, it is probably a duplicate entry");
+	    return true;
+	}
+	return false;
+    }
+
+    private void setAdmNames(Adm adm, GisFeature gisFeature) {
+	if (adm == null) {
+	    return;
+	}
+	Adm admTemp = adm;
+	do {
+	    if (admTemp.getLevel() == 1) {
+		gisFeature.setAdm1Name(admTemp.getName());
+	    } else if (admTemp.getLevel() == 2) {
+		gisFeature.setAdm2Name(admTemp.getName());
+	    } else if (admTemp.getLevel() == 3) {
+		gisFeature.setAdm3Name(admTemp.getName());
+	    } else if (admTemp.getLevel() == 4) {
+		gisFeature.setAdm4Name(admTemp.getName());
+	    }
+	    admTemp = admTemp.getParent();
+	} while (admTemp != null);
+
+    }
+
+    private void setAdmCodesWithLinkedAdmOnes(Adm adm, GisFeature gisFeature,
+	    boolean syncAdmCodesWithLinkedAdmOnes) {
+
+	if (syncAdmCodesWithLinkedAdmOnes) {
+	    // reset adm code because we might link to an adm3 and adm4 code
+	    // have
+	    // been set
+	    setAdmCodesToNull(gisFeature);
+	    if (adm != null) {
+		if (adm.getAdm1Code() != null) {
+		    gisFeature.setAdm1Code(adm.getAdm1Code());
+		}
+		if (adm.getAdm2Code() != null) {
+		    gisFeature.setAdm2Code(adm.getAdm2Code());
+		}
+		if (adm.getAdm3Code() != null) {
+		    gisFeature.setAdm3Code(adm.getAdm3Code());
+		}
+		if (adm.getAdm4Code() != null) {
+		    gisFeature.setAdm4Code(adm.getAdm4Code());
+		}
+	    }
+
+	}
+    }
+
+    private void setAdmCodesToNull(GisFeature gisFeature) {
+	gisFeature.setAdm1Code(null);
+	gisFeature.setAdm2Code(null);
+	gisFeature.setAdm3Code(null);
+	gisFeature.setAdm4Code(null);
+    }
+
+    private void setAdmCodesWithCSVOnes(String[] fields, GisFeature gisFeature) {
+	logger.debug("in setAdmCodesWithCSVOnes");
+	if (!isEmptyField(fields, 10, false)) {
+	    gisFeature.setAdm1Code(fields[10]);
+	}
+	if (!isEmptyField(fields, 11, false)) {
+	    gisFeature.setAdm2Code(fields[11]);
+	}
+	if (!isEmptyField(fields, 12, false)) {
+	    gisFeature.setAdm3Code(fields[12]);
+	}
+	if (!isEmptyField(fields, 13, false)) {
+	    gisFeature.setAdm4Code(fields[13]);
+	}
+    }
+
+    private List<AlternateName> addAlternateNames(String alternateNamesString,
+	    GisFeature gisFeature) {
+	String[] alternateNames = alternateNamesString.split(",");
+	List<AlternateName> alternateNamesList = new ArrayList<AlternateName>();
+	for (String name : alternateNames) {
+	    AlternateName alternateName = new AlternateName();
+	    alternateName.setName(name.trim());
+	    alternateName.setSource(AlternateNameSource.EMBEDED);
+	    alternateName.setGisFeature(gisFeature);
+	    alternateNamesList.add(alternateName);
+
+	}
+	return alternateNamesList;
+    }
+
+    private Integer findZipCode(String[] fields) {
+	logger.debug("try to detect zipCode for " + fields[1] + "[" + fields[0]
+		+ "]");
+	Integer zipCode = null;
+	String[] alternateNames = fields[3].split(",");
+	boolean found = false;
+	Pattern patterncountry = null;
+	Matcher matcherCountry = null;
+	if (!isEmptyField(fields, 8, false)) {
+	    Country country = countryDao.getByIso3166Alpha2Code(fields[8]);
+	    if (country != null) {
+		String regex = country.getPostalCodeRegex();
+		if (regex != null) {
+		    patterncountry = Pattern.compile(regex);
+		    if (patterncountry == null) {
+			logger.info("can not compile regexp" + regex);
+			return null;
+		    }
+		} else {
+		    logger.debug("regex=null for country " + country);
+		    return null;
+		}
+	    } else {
+		logger
+			.warn("can not proces ZipCode because can not find country for "
+				+ fields[8]);
+		return null;
+	    }
+
+	} else {
+	    logger.warn("can not proces ZipCode because can not find country ");
+	}
+	for (String element : alternateNames) {
+	    matcherCountry = patterncountry.matcher(element);
+	    if (matcherCountry.matches()) {
+		if (found) {
+		    logger
+			    .info("There is more than one possible ZipCode for feature with featureid="
+				    + fields[0] + ". it will be ignore");
+		    return null;
+		}
+		try {
+		    zipCode = new Integer(element);
+		    found = true;
+		} catch (NumberFormatException e) {
+		}
+
+	    }
+	}
+	logger.debug("found " + zipCode + " for " + fields[1] + "[" + fields[0]
+		+ "]");
+	return zipCode;
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see com.gisgraphy.domain.geoloc.importer.AbstractGeonamesProcessor#shouldIgnoreFirstLine()
+     */
+    @Override
+    protected boolean shouldIgnoreFirstLine() {
+	return false;
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see com.gisgraphy.domain.geoloc.importer.AbstractGeonamesProcessor#shouldIgnoreComments()
+     */
+    @Override
+    protected boolean shouldIgnoreComments() {
+	return true;
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see com.gisgraphy.domain.geoloc.importer.AbstractGeonamesProcessor#setCommitFlushMode()
+     */
+    @Override
+    protected void setCommitFlushMode() {
+	this.cityDao.setFlushMode(FlushMode.COMMIT);
+	this.gisFeatureDao.setFlushMode(FlushMode.COMMIT);
+	this.alternateNameDao.setFlushMode(FlushMode.COMMIT);
+	this.admDao.setFlushMode(FlushMode.COMMIT);
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see com.gisgraphy.domain.geoloc.importer.AbstractGeonamesProcessor#flushAndClear()
+     */
+    @Override
+    protected void flushAndClear() {
+	this.cityDao.flushAndClear();
+	this.gisFeatureDao.flushAndClear();
+	this.alternateNameDao.flushAndClear();
+	this.admDao.flushAndClear();
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see com.gisgraphy.domain.geoloc.importer.AbstractGeonamesProcessor#getNumberOfColumns()
+     */
+    @Override
+    protected int getNumberOfColumns() {
+	return 19;
+    }
+
+    /**
+     * @param cityDao
+     *                The CityDao to set
+     */
+    @Required
+    public void setCityDao(ICityDao cityDao) {
+	this.cityDao = cityDao;
+    }
+
+    /**
+     * @param alternateNameDao
+     *                The alternateNameDao to set
+     */
+    @Required
+    public void setAlternateNameDao(IAlternateNameDao alternateNameDao) {
+	this.alternateNameDao = alternateNameDao;
+    }
+
+    /**
+     * @param gisFeatureDao
+     *                The GisFeatureDao to set
+     */
+    @Required
+    public void setGisFeatureDao(IGisFeatureDao gisFeatureDao) {
+	this.gisFeatureDao = gisFeatureDao;
+    }
+
+    /**
+     * @param admDao
+     *                the admDao to set
+     */
+    @Required
+    public void setAdmDao(IAdmDao admDao) {
+	this.admDao = admDao;
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see com.gisgraphy.domain.geoloc.importer.AbstractGeonamesProcessor#setup()
+     */
+    @Override
+    public void setup() {
+	super.setup();
+	acceptedPatterns = ImporterHelper.compileRegex(importerConfig
+		.getAcceptRegExString());
+    }
+
+    /* (non-Javadoc)
+     * @see com.gisgraphy.domain.geoloc.importer.AbstractGeonamesProcessor#tearDown()
+     */
+    @Override
+    protected void tearDown() {
+	super.tearDown();
+	solRSynchroniser.commit();
+	solRSynchroniser.optimize();
+    }
+
+    /**
+     * @param countryDao
+     *                The countryDao to set
+     */
+    @Required
+    public void setCountryDao(ICountryDao countryDao) {
+	this.countryDao = countryDao;
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see com.gisgraphy.domain.geoloc.importer.AbstractGeonamesProcessor#getFiles()
+     */
+    @Override
+    protected File[] getFiles() {
+	return ImporterHelper.listCountryFilesToImport(importerConfig
+		.getGeonamesDir());
+    }
+
+    /**
+     * @param solRSynchroniser the solRSynchroniser to set
+     */
+    @Required
+    public void setSolRSynchroniser(ISolRSynchroniser solRSynchroniser) {
+	this.solRSynchroniser = solRSynchroniser;
+    }
+    
+    /**
+     * @param daos the iDaos to set
+     */
+    public void setIDaos(IGisDao<? extends GisFeature>[] daos) {
+        iDaos = daos;
+    }
+    
+    /* (non-Javadoc)
+     * @see com.gisgraphy.domain.geoloc.importer.IGeonamesProcessor#rollback()
+     */
+    public List<NameValueDTO<Integer>> rollback() {
+	List<NameValueDTO<Integer>> deletedObjectInfo = new ArrayList<NameValueDTO<Integer>>();
+	//we first reset subClass
+	for (IGisDao<? extends GisFeature> gisDao : iDaos) {
+	    if (gisDao.getPersistenceClass() != GisFeature.class
+		    && gisDao.getPersistenceClass() != Adm.class
+		    && gisDao.getPersistenceClass() != Country.class) {
+		logger.info("deleting "+gisDao.getPersistenceClass().getSimpleName()+"...");
+		//we don't want to remove adm because some feature can be linked again 
+		int deletedgis = gisDao.deleteAll();
+		logger.info(deletedgis + gisDao.getPersistenceClass().getSimpleName()+" have been deleted");
+		if (deletedgis != 0){
+		 deletedObjectInfo.add(new NameValueDTO<Integer>(GisFeature.class.getSimpleName(),deletedgis));
+		}
+	    }
+	}
+	logger.info("deleting gisFeature...");
+	//we don't want to remove adm because some feature can be linked again 
+	int deletedgis = gisFeatureDao.deleteAllExceptAdmsAndCountries();
+	logger.info(deletedgis + " gisFeature have been deleted");
+	if (deletedgis != 0){
+	 deletedObjectInfo.add(new NameValueDTO<Integer>(GisFeature.class.getSimpleName(),deletedgis));
+	}
+	resetStatusFields();
+	return deletedObjectInfo;
+    }
+
+}

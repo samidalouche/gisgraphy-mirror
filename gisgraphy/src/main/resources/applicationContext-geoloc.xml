@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+       http://www.springframework.org/schema/aop
+       http://www.springframework.org/schema/aop/spring-aop.xsd
+       http://www.springframework.org/schema/tx
+       http://www.springframework.org/schema/tx/spring-tx.xsd"
+	default-lazy-init="false" default-autowire="byName">
+	
+
+	<!-- 
+
+	<bean id="cityDao" 
+		class="com.gisgraphy.domain.repository.CityDao">
+		  <property name="sessionFactory" ref="sessionFactory"/>
+		   <property name="eventManager" ref="eventManager"/>
+	</bean>
+	
+	<bean id="admDao"
+		class="com.gisgraphy.domain.repository.AdmDao">
+		<property name="sessionFactory" ref="sessionFactory" />
+		<property name="eventManager" ref="eventManager"/>
+	</bean>
+	
+	<bean id="gisFeatureDao"
+		class="com.gisgraphy.domain.repository.GisFeatureDao">
+		<property name="sessionFactory" ref="sessionFactory" />
+		<property name="eventManager" ref="eventManager"/>
+	</bean>
+ 
+	<bean id="alternateNameDao"
+		class="com.gisgraphy.domain.repository.AlternateNameDao">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+
+ 
+
+	 
+	
+	<bean id="countryDao"
+		class="com.gisgraphy.domain.repository.CountryDao">
+		<property name="sessionFactory" ref="sessionFactory" />
+		<property name="eventManager" ref="eventManager"/>
+	</bean>
+	
+	
+		
+	
+	 <bean id="languageDao"
+		class="com.gisgraphy.domain.repository.LanguageDao">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+
+-->
+
+
+
+	<bean id="abstractGeonamesProcessor"
+		class="com.gisgraphy.domain.geoloc.importer.AbstractGeonamesProcessor"
+		abstract="true">
+		<property name="transactionManager" ref="transactionManager" />
+		<property name="importerConfig" ref="importerConfig"></property>
+	</bean>
+
+
+	<bean id="geonamesFeatureImporter"
+		class="com.gisgraphy.domain.geoloc.importer.GeonamesFeatureImporter"
+		parent="abstractGeonamesProcessor">
+		<property name="cityDao" ref="cityDao" />
+		<property name="gisFeatureDao" ref="gisFeatureDao" />
+		<property name="alternateNameDao" ref="alternateNameDao" />
+		<property name="admDao" ref="admDao" />
+		<property name="countryDao" ref="countryDao" />
+		<property name="solRSynchroniser" ref="solRSynchroniser"/>
+	</bean>
+	
+		<bean id="admExtracter"
+		class="com.gisgraphy.domain.geoloc.importer.AdmExtracter"
+		parent="abstractGeonamesProcessor">
+	</bean>
+
+	<bean id="geonamesFileRetriever"
+		class="com.gisgraphy.domain.geoloc.importer.GeonamesFileRetriever">
+		<property name="importerConfig" ref="importerConfig"></property>
+	</bean>
+
+	<bean id="geonamesLanguageImporter"
+		class="com.gisgraphy.domain.geoloc.importer.GeonamesLanguageImporter"
+		parent="abstractGeonamesProcessor">
+		<property name="languageDao" ref="languageDao" />
+	</bean>
+	
+	<bean id="geonamesCountryImporter"
+		class="com.gisgraphy.domain.geoloc.importer.GeonamesCountryImporter"
+		parent="abstractGeonamesProcessor">
+		<property name="countryDao" ref="countryDao" />
+		<property name="languageDao" ref="languageDao" />
+	</bean>
+
+
+	<bean id="geonamesAdm1Importer"
+		class="com.gisgraphy.domain.geoloc.importer.GeonamesAdm1Importer"
+		parent="abstractGeonamesProcessor">
+		<property name="admDao" ref="admDao" />
+	</bean>
+
+	<bean id="geonamesAdm2Importer"
+		class="com.gisgraphy.domain.geoloc.importer.GeonamesAdm2Importer"
+		parent="abstractGeonamesProcessor">
+		<property name="admDao" ref="admDao" />
+	</bean>
+	
+		<bean id="geonamesAdm3Importer"
+		class="com.gisgraphy.domain.geoloc.importer.GeonamesAdm3Importer"
+		parent="abstractGeonamesProcessor">
+		<property name="admDao" ref="admDao" />
+	</bean>
+	
+		<bean id="geonamesAdm4Importer"
+		class="com.gisgraphy.domain.geoloc.importer.GeonamesAdm4Importer"
+		parent="abstractGeonamesProcessor">
+		<property name="admDao" ref="admDao" />
+	</bean>
+
+	<bean id="geonamesAlternateNamesImporter"
+		class="com.gisgraphy.domain.geoloc.importer.GeonamesAlternateNamesImporter"
+		parent="abstractGeonamesProcessor">
+		<property name="gisFeatureDao" ref="gisFeatureDao" />
+		<property name="alternateNameDao" ref="alternateNameDao" />
+		<property name="cityDao" ref="cityDao" />
+		<property name="solRSynchroniser" ref="solRSynchroniser"/>
+	</bean>
+	
+
+	<bean id="importerManager"
+		class="com.gisgraphy.domain.geoloc.importer.ImporterManager">
+		<property name="importers" ref="importers"/>
+		<property name="importerConfig" ref="importerConfig"/>
+	</bean>
+	
+ 	 <bean id="importers" class="java.util.ArrayList">
+		<constructor-arg>
+		<list>
+				<ref bean="geonamesFileRetriever"/>
+				<ref bean="admExtracter" />
+				<ref bean="geonamesLanguageImporter" />
+				<ref bean="geonamesCountryImporter" />
+				<ref bean="geonamesAdm1Importer" />
+				<ref bean="geonamesAdm2Importer" />
+				<ref bean="geonamesAdm3Importer" />
+				<ref bean="geonamesAdm4Importer" />
+				<ref bean="geonamesFeatureImporter" />
+				<ref bean="geonamesAlternateNamesImporter" />
+			</list>
+		</constructor-arg>
+	</bean>
+
+
+	<bean id="importerConfig" class="com.gisgraphy.domain.geoloc.importer.ImporterConfig">
+		<property name="maxInsertsBeforeFlush" value="1000" /><!-- todo v2 option -->
+		<property name="wrongNumberOfFieldsThrows" value="${importerConfig.wrongNumberOfFieldsThrows}"/>
+		<property name="missingRequiredFieldThrows" value="${importerConfig.missingRequiredFieldThrows}"/>
+		<property name="acceptRegExString" value="${importerConfig.acceptRegExString}"/>
+		<property name="tryToDetectAdmIfNotFound" value="${importerConfig.tryToDetectAdmIfNotFound}"/>
+		<property name="syncAdmCodesWithLinkedAdmOnes" value="${importerConfig.syncAdmCodesWithLinkedAdmOnes}"/>
+		<property name="adm1ExtracterStrategyIfAlreadyExists">
+		<bean class="com.gisgraphy.domain.geoloc.importer.AdmExtracterStrategyOptions" factory-method="valueOf">
+				<constructor-arg>
+					<value>${importerConfig.adm1ExtracterStrategyIfAlreadyExists}</value>
+				</constructor-arg>
+			</bean>
+		</property>
+		<property name="adm2ExtracterStrategyIfAlreadyExists">
+		<bean class="com.gisgraphy.domain.geoloc.importer.AdmExtracterStrategyOptions" factory-method="valueOf">
+				<constructor-arg>
+					<value>${importerConfig.adm2ExtracterStrategyIfAlreadyExists}</value>
+				</constructor-arg>
+			</bean>
+		</property>
+		<property name="adm3ExtracterStrategyIfAlreadyExists">
+		<bean class="com.gisgraphy.domain.geoloc.importer.AdmExtracterStrategyOptions" factory-method="valueOf">
+				<constructor-arg>
+					<value>${importerConfig.adm3ExtracterStrategyIfAlreadyExists}</value>
+				</constructor-arg>
+			</bean>
+		</property>
+		<property name="adm4ExtracterStrategyIfAlreadyExists">
+		<bean class="com.gisgraphy.domain.geoloc.importer.AdmExtracterStrategyOptions" factory-method="valueOf">
+				<constructor-arg>
+					<value>${importerConfig.adm4ExtracterStrategyIfAlreadyExists}</value>
+				</constructor-arg>
+			</bean>
+		</property>
+		<property name="importGisFeatureEmbededAlternateNames"
+			value="${importerConfig.importGisFeatureEmbededAlternateNames}" />
+		<property name="geonamesDir" value="${importer.geonames.dir}"/>
+		<property name="geonamesDownloadURL" value="${importer.geonames.downloadURL}"/>
+		<property name="retrieveFiles" value="${importer.retrieveFiles}"/>
+		<property name="filesToDownload" value="${importer.filesToDownload}"/>
+		<property name="adm1FileName" value="${importerConfig.adm1FileName}"/>
+		<property name="adm2FileName" value="${importerConfig.adm2FileName}"/>
+		<property name="adm3FileName" value="${importerConfig.adm3FileName}"/>
+		<property name="adm4FileName" value="${importerConfig.adm4FileName}"/>
+		<property name="languageFileName" value="${importerConfig.languageFileName}"/>
+		<property name="countriesFileName" value="${importerConfig.countriesFileName}"/>
+		<property name="alternateNamesFileName" value="${importerConfig.alternateNamesFileName}"/>
+	</bean>
+	
+	 
+	<!-- EVENT -->
+ 	 
+	<bean id="gisFeatureEventListener" class="com.gisgraphy.domain.geoloc.entity.event.GisFeatureEventListener">
+	<property name="solRSynchroniser" ref="solRSynchroniser"/>
+	</bean>
+
+ 
+	<bean id="listeners" class="java.util.ArrayList">
+		 <constructor-arg>
+			<list>
+				<ref bean="gisFeatureEventListener" />
+			</list>
+		</constructor-arg>
+	</bean>
+	
+	<bean name="eventManager" class="com.gisgraphy.domain.geoloc.entity.event.EventManager">
+	<property name="listeners" ref="listeners"/>
+	</bean>
+	
+	<bean name="gisgraphyConfig" class="com.gisgraphy.domain.valueobject.GisgraphyConfig">
+		<property name="defaultGeolocSearchPlaceType" value="${geolocsearch.defaultGeolocSearchPlaceType}"/>
+	</bean>
+	
+	
+	
+
+
+</beans>

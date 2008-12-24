@@ -1,0 +1,63 @@
+//adm1
+select a.code, g.* from gisfeature g,adm1 a where a.id=g.id and g.country='FR';
+
+//adm2
+select a.code, g.*,b.code as adm1code from gisfeature g,adm2 a,adm1 b where a.id=g.id and a.adm1=b.id and g.country='FR';
+
+
+//duplicate line
+SELECT featureid, count(*) FROM gisfeature g GROUP BY featureid HAVING count(*) > 1;
+
+//gis feature
+select count(*) from gisfeature ;
+
+//city
+select g.* from gisfeature g where g.featurecode='PPL' limit 100
+
+//neighbours
+
+select level_4_na from counties where iso_code='FR';
+
+select c.level_4_na from counties c, counties d where touches (c.the_geom,d.the_geom)
+and d.the_geom && c.the_geom and d.level_4_na='France';
+
+select c.name from countiesworld c, countiesworld d where touches (c.the_geom,d.the_geom)
+and d.the_geom && c.the_geom and d.gmi_cntry='USA';
+
+select c.level_4_na from counties c, counties d where touches (c.the_geom,d.the_geom)
+and d.the_geom && c.the_geom and d.iso_code='US';
+
+//missing polygon in countryworld
+select c1.iso3166alpha3code from  country c1 where c1.iso3166alpha3code not  in (select c.iso3166alpha3code from  country c where iso3166alpha3code   in (select distinct(co.gmi_cntry) from countiesworld co))
+
+//comparer le nombre de adm1 par pays pour adm1 et countiesl4
+select g.countrycode, count(a), count(c),c.iso_code from gisfeature g,adm1 a,countiesl4 c where g.id=a.id and c.iso_code=g.countrycode group by g.countrycode,c.iso_code , c.count order by g.countrycode
+
+
+//counties world with wrong code
+select c.name,c.gmi_cntry from countiesworld c where c.gmi_cntry not in (select iso3166alpha3code from country )
+
+//adm1 with polygon (263)
+select l4.level_4_na,g.countrycode from adm1 a, countiesl4 l4 ,gisfeature g where a.id=g.id and g.name=l4.level_4_na
+
+//adm2 with polygon (32 BR)
+select l4.level_4_na,g.countrycode from adm2 a, countiesl4 l4 ,gisfeature g where a.id=g.id and g.name=l4.level_4_na
+
+//country with polygon(170)
+select l4.level_4_na from country a, countiesl4 l4 ,gisfeature g where a.id=g.id and g.name=l4.level_4_na
+
+gis with polygon
+select l4.level_4_na,g.countrycode from  countiesl4 l4 ,gisfeature g where  g.name=l4.level_4_na
+
+export csv (test with view)
+COPY gisfeature  TO 'C:\\Documents and Settings\\postgres\\extraction.csv' WITH delimiter as '\t' NULL as '';
+
+bounding box for la france
+select extent(geomunion.the_geom) from (
+select geomunion(location) as the_geom from gisfeature where countrycode='FR' 
+)as geomunion
+
+select distance((select l.location from gisFeature l where L.featureid = 1),(select l.location from gisFeature l where L.featureid = 2)) 
+
+duplicate adm2code 
+select a1.level,a1.featureid,a1.name,a1.countrycode,a1.adm1code,a1.adm2code,a2.level,a2.featureid,a2.name,a2.countrycode,a2.adm1code,a2.adm2code from adm a1, adm a2 where a1.adm2code=a2.adm2code and a1.countrycode=a2.countrycode and a1.level=a2.level and a1.level=2 and a1.featureid<>a2.featureid;

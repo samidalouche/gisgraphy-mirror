@@ -1,0 +1,79 @@
+<h1>Open source framework and free online GIS services</h1>
+<div class="tip yellowtip">
+Gisgraphy is a free open source project but offers free <a href="http://services.gisgraphy.com/">geolocalisation and fulltext webservices</a>.
+</div>
+<div style="width:600px;margin:auto;">
+<span style="float:left;"><a href="http://www.gisgraphy.com/download/index.htm"><img src="/images/homeLogodownload.gif" alt="download gisgraphy" title="download gisgraphy" width="130" /><br/><div style="text-align:center"><strong>Download</strong></div></a></span>
+<span style="float:left;padding-left:20px;"><a href="http://www.gisgraphy.com/documentation/index.htm"><img src="/images/homeLogomanual.gif" alt="Online manual" title="Online manual" width="130" /><br/><div style="text-align:center"><strong>Online manual</div></strong></a></span>
+<span style="float:left;padding-left:20px;"><a href="http://www.gisgraphy.com/forum/"><img src="/images/homeLogoforum2.gif" alt="Forum" title="Forum" width="130" /><br/><div style="text-align:center"><strong>Forum</strong></div></a></span>
+<span style="float:left;padding-left:20px;"><a href="http://services.gisgraphy.com/"><img src="/images/homeLogodemored.gif" alt="Free GIS services" title="Free GIS services" width="130" /><br/><div style="text-align:center"><strong>Free GIS services</strong></div></a></span>
+<br/><br/><br/><br/><br/><br/><br/><br/><br/>
+</div>
+<div>
+<h2>Gisgraphy Framework</h2>
+Gisgraphy is a free and open source framework that provides fulltext search and find nearby services for places on earth (aka : <a href="http://www.wisegeek.com/what-is-a-toponym.htm">toponyms</a>) 
+	from several databases (aka : gazeteers) on the Web (mainly Geonames, but not only : ESRI for instance). It provides an importer to inject the data into a strongly typed Postgres / Postgis database and use them via 2 webservices or a java API : geolocalisation and fulltext in many format (XML, json, PHP, ruby, python, Atom, RSS / GeoRSS). Here are the main functionalities  :
+<ul>
+<li> Importers from geonames CSV files. Just give the country(ies) you wish to import and / or the <a href="/placetype.htm">placetypes</a>, and Gisgraphy download the files  and import them with all the alternateNames (optional), and sync the database with the fulltext search engine</li>
+<li> REST WebService</li>
+<li> Several output formats supported : XML, json, PHP, ruby, python, Atom, RSS / GeoRSS  </li>
+<li> Full text search  (based on <a href="http://lucene.apache.org/java/"/>Lucene</a> / <a href="http://lucene.apache.org/solr/"/>Solr</a>  with default filters optimized for city search
+(case insensitivity, separator characters stripping, ..) via an Java API or a webservice</li>
+<li> Findnearby function (with limits, pagination, restrict to a specific country and/or language and other useful options) via a Java API or a Web Service</li>
+<li> An admin / back office whith statistics <a href="http://www.gisgraphy.com/screenshots.htm"> interface</a></li>
+<li> Fully replicated / scalable / high performance / cached services</li>
+<li> Search for zipcode name, IATA, ICAO </li>
+<li> Internationalized (with support of cyrillique, arabic, chinese,... alphabet)</li>
+<li> Dojo widgets / prototype / Ajax to ease search but can be use it even if javascript is not enabled on the client side</li>
+<li> <a href="http://www.gisgraphy.com/documentation/addons.htm#opensearch">Opensearch module</a></li>
+<li> Plateform / language independent</li>
+<li> Provides all the countries flags in svg and png format</li> 
+</ul>
+<h2>A little bit of technics...</h2>
+<ul>
+<li> Spring Services / Hibernate mapping with its own hibernate dialect </li>
+<li> Lucene Schema </li>
+<li> Use Postgres / postgis but will be soon compliant with other Spatial providers (Oracle, Mysql,...)</li>
+<li> Build using Maven2</li>
+<li> Automatic synchronization between Postgres and Solr</li>
+<li> High test coverage</li>
+<li> Event - based design</li>
+<li> UTF-8 all over the place</li>
+<li> Gisgraphy has its <a href="http://gisgraphy.free.fr/mavenrepo">own maven repository</a> with all the dependencies</li>
+<li> Designed with <a href="http://www.infoq.com/articles/internal-dsls-java">DSL</a> (Domain Specific Language) </li>
+<li> Designed with the <a href="http://www.domaindrivendesign.org/">DDD</a> paradigm</li>
+</ul>
+
+<h2>What's Gisgraphy for ?</h2>
+<ul>
+<li> Find places (city, lake, forest, country, stream, castle airport, more than 650 different features) via a Web service a Java API
+<li> Find city by Zipcode</li>
+<li> Import geonames features into a strongly typed database with error correction.</li>
+<li> Use Spring hibernate to manage places</li>
+<li> Find places around a GPS point or an other place via a REST API or a Java API</li>
+<li> use Dojo widgets / prototype / javascript to ease search </li>
+</ul>
+
+<h2>Some examples of uses :</h2>
+<ul>
+<li> I ve got a project in an other language than java and I want to offer a city fullText search, and open a popup if more than one result match</li>
+<li> I ve got a java project and i need Spring Dao and services / hibernate Mapping for geoloc</li>
+<li> I want to import all the features of Geonames for United state and use them in Python </li>
+<li> Get the zipcode of Paris.</li>
+<li> Find all the forests around Paris and their distances, with a radius of 10 km in spanish, order by distance</li>
+<li> Find all the city that match 'Paris' and paginate from 1 to 1O with scoring.</li>
+<li> Find all the lake of Ireland in JSON format and limit the search to 5 results.</li>
+<li> Find the GPS position of London.</li>
+<li> Search 'Saint-Andr&eacute;', 'st andre', 'SaInT andr&eacute;', 'st-andr&eacute;'; will return the same instance...</li>
+<li> Search paris texas will not return the french capital.</li>
+<li> Type 'lutece' or 'paname' and get Paris.</li>
+<li> Locate on a google map or yahoo map the results.</li>
+<li> Search the elevation of Madrid.</li>
+<li> What is the flag of Argentina</li>
+<li> Find the administrative division of New york.</li>
+<li> Search the nearest city for the GPS point lat=47.5/Long=5 .</li>
+<li> Search all the monuments / restaurants and hotels around a given GPS position.</li>
+<li> Search the country for a specified GPS point.</li>
+<li> Find the limitroph countries of Brasil. </li>
+</ul>
+</div>

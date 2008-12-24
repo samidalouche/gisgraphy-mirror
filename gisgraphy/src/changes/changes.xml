@@ -1,0 +1,13 @@
+<document>
+  <properties>
+    <title>Changes Gisgraphy Project</title>
+    <author email="davidmasclet@gisgraphy.com">David Masclet</author>
+  </properties>
+  <body>
+    <release version="1.0" date="2008-07-01" description="First release">
+      <action dev="David Masclet" type="add">
+        First release.
+      </action>
+    </release>
+  </body>
+</document>

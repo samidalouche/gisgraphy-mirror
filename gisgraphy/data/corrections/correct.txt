@@ -1,0 +1,184 @@
+i've worked all days long and more to check error and correct the one i can in the wiki. here is a summary to correct the errors for adm2 and adm1code that i can not assign by my self.
+
+for a country if there is no adm2 exported in ADM2code.txt and the adm2 for this country are in 'error'= >i say "all ko" that means that all need a code
+for a country if there is some adm2 exported in ADM2code.txt and no adm2 for this country are in 'error'= >i say "all OK" that means that all need a code
+for a country if there is no ADM2 exported in ADM2code.txt and no adm2 for this country are in 'error'= >i say "NO ADM2" that means that all need a code
+for a country if there is some ADM2 exported in ADM2code.txt and some adm2 for this country are in 'error'= >i give the error at the end in # special errors# section
+
+maybe you can check tose information with an sql query that give you the country with adm2 with all adm2 code to null (for ALL KO) and so on
+
+ i will re import all after you've assigned some ADM2 and ADM1 code. i think it can be batched if you assign the featureid of the adm
+
+thanks, i go sleeping now :)
+
+David 
+
+#already treated#
+
+2766358 AT.02.205
+6621169 AT.04.418 
+
+#/already done #
+
+DE: ALL OK
+DK: ALL OK
+ES: all adm2 are ok; 6362988;Melilla; is an adm1 without adm1code
+IT : all OK
+EH : 6547304;Oued Ed-Dahab-Lagouira is an ADM1 without ADM1code
+FR: ALL OK
+GB: ALL OK
+GR: all adm2 should have a ADM2code; the rules seems to be a part of the ascii name in uppercase and 6692223;Pilion; is an adm1 without adm1code
+GT : ALL KO
+HN : ALL KO
+HR : ALL KO
+HT : ALL KO
+JE : 6620384;Jersey (general) is an adm1 without adm1 code should be 0 i think because it is 'general'
+ID : ALL KO
+IN : ALL KO
+IQ : ALL KO
+IR : ALL KO
+KP : all adm2code are missing execpt for feature id 1866790	1869039	1871865	1875980	1876380	1876403 2038910 2041726 2044803 but you can update all ADM2 for country KP because the ADM2 code is the name (not the ascii one. i wonder if it is a good choice)
+
+KR : ALL KO
+KZ : ALL KO
+LA :ALL KO
+LB : ALL KO
+LC : no adm2
+LK : ALL KO
+LR : ALL KO
+LS : no adm2
+LT :ALL KO
+LU : ALL ok
+LY : 2208403;Mutuşarrifīyat Ghadāmis is the aonly ADM2 and need an adm2code to be assign : maybe 18 according http://fr.wikipedia.org/wiki/Libye
+LV : NO ADM2
+MC : No adm2
+MD : all nok
+MQ : all OK
+MR : no adm2
+MS : no adm2
+MT : NO adm2
+MU : no adm2
+MV : no adm 2
+MW : no adm2
+MX : no adm2
+MY : all nok
+MZ all nok (only 2)
+NA : no adm2
+NC : all nok (3)
+NE : all NOK
+NF : NO
+NG : ALL NOK
+NI : ALL NOK
+NL : ALL OK
+NO : ALL ADM2 OK; 6620379;Bouvetøya (general) is an adm1 without adm1code
+NP :ALL NOK
+NR : NO ADM2
+NU : NO ADM2
+NZ : NO ADM2
+OM : NO ADM2
+PE : ALL NOK
+PA : ALL NOK
+PF : ALL NOK
+PG : NO ADM2
+PH : ALL NOK
+PK : ALL NOK
+PL : ALL NOK
+PM : ALL OK
+PN : NO ADM2
+PR : NO ADM2
+PS : NO ADM2
+PT : ALL KO
+PW : NO ADM2
+PY : NO ADM2
+QA : NO ADM2
+RE : ALL OK
+RO : ALL KO
+RS : ALL KO
+RU : some are missing but the code is the name (not ascii one so it can be batched)
+RW : NO ADM2
+SA : NO ADM2
+SB : NO ADM2
+SC : NO ADM2
+SD : ALL KO
+SE : ALL OK
+SG : NO ADM2
+SH : NO ADM2
+SI : ALL KO
+SJ : NO ADM2
+SK : ALL KO
+SL : ALL KO
+SM : NO ADM2
+SN : ALL KO
+SO : ALL KO 
+SR : NO ADM2
+ST : NO ADM2
+SV : ALL KO
+SY : ALL KO
+SZ : NO ADM2
+TC : NO ADM2
+TD : NO ADM2
+TF : ALL KO
+TG : ALL KO
+TH : ALL KO
+TJ : ALL KO
+TK : NO ADM2
+TL : NO ADM2
+TM : ALL KO
+TN : ALL KO
+TO : NO ADM2
+TR : ALL KO
+TT : ALL KO
+TV : NO ADM2
+TW : ALL KO
+TZ : ALL KO
+UA : ALL KO
+UG : ALL KO
+UM : NO ADM2
+US : ALL OK
+UY : NO ADM2
+UZ : ALL KO
+VA : NO ADM2
+VC : NO ADM2
+VE : ALL KO
+VG : NO ADM2
+VI : NO ADM2
+VN : ALL KO
+VU : NO ADM2
+WF : ALL KO
+WS : NO ADM2
+YE : ALL KO
+YT : NO ADM2
+ZA : NO ADM2
+ZM : ALL KO
+ZW : ALL KO
+
+# special errors#
+2660046 seems to be an ADM2 :http://en.wikipedia.org/wiki/Lancy. you should change it and assign a code (how the CH country code are assigned)
+2661145 same thing :http://en.wikipedia.org/wiki/Cologny
+3209499;Collonge-Bellerive same thing : http://en.wikipedia.org/wiki/Collonge-Bellerive
+3209503;Perly-Certoux;http://en.wikipedia.org/wiki/Perly-Certoux
+6691641;Saint-Martin; is an adm3 and need an id
+6547297;need an adm2 : don't know how marocco code are assigned
+6547298;Oued-Ed-Dahab need an adm2 : don't know how marocco code are assigned
+
+
+6692223;Pilion : is an adm1 and have no adm1code
+258151;Eparkhía Lokrídos has no adm2 and ADM3 (i can not find those info maybe Petros Vassiliou will)
+445406;Nomarchía Anatolikís Attikís (i can not find those info maybe Petros Vassiliou will)
+445407;Nomarchía Dytikís Attikís (i can not find those info maybe Petros Vassiliou will)
+445408;Nomarchía Athínas (i can not find those info maybe Petros Vassiliou will)
+445409;Nomarchía Peiraiá (i can not find those info maybe Petros Vassiliou will)
+
+1259230 pune has an adm called 'undefined'=> all adm2Code for country IN should be assign
+Iyo-shi	Iyo	1861143  has an adm called 'undefined'=> all adm2Code for country IN should be assign
+FI 830602;Landskapet Åland has no code you should assign one (20 i think)
+
+
+
+3587505;Municipio de Zunilito need an adm2 code
+
+
+
+
+
+

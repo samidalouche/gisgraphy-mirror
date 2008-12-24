@@ -1,0 +1,37 @@
+FR.A8.92.923.92012	Boulogne-Billancourt
+FR.A8.92.921.92014	Bourg-la-Reine
+FR.A8.92.921.92023	Clamart
+FR.A8.92.921.92032	Fontenay-aux-Roses
+FR.A8.92.922.92033	Garches
+FR.A8.92.922.92036	Gennevilliers
+FR.A8.92.923.92040	Issy-les-Moulineaux
+FR.A8.92.922.92044	Levallois-Perret
+FR.A8.92.921.92046	Malakoff
+FR.A8.92.923.92048	Meudon
+FR.A8.92.921.92049	Montrouge
+FR.A8.92.922.92050	Nanterre
+FR.A8.92.922.92051	Neuilly-sur-Seine
+FR.A8.92.922.92062	Puteaux
+FR.A8.92.922.92063	Rueil-Malmaison
+FR.A8.92.921.92071	Sceaux
+FR.A8.92.923.92072	Sèvres
+FR.A8.92.922.92073	Suresnes
+FR.A8.92.923.92077	Ville-d'Avray
+FR.A8.92.922.92078	Villeneuve-la-Garenne
+FR.A8.92.921.92002	Antony
+FR.A8.92.921.92020	Châtillon
+FR.A8.92.922.92025	Colombes
+FR.A8.92.923.92064	Saint-Cloud
+FR.A8.92.921.92007	Bagneux
+FR.A8.92.923.92022	Chaville
+FR.A8.92.922.92024	Clichy
+FR.A8.92.922.92004	Asnières-sur-Seine
+FR.A8.92.922.92026	Courbevoie
+FR.A8.92.922.92035	La Garenne-Colombes
+FR.A8.92.921.92060	Le Plessis-Robinson
+FR.A8.92.921.92019	Châtenay-Malabry
+FR.A8.92.923.92047	Marnes-la-Coquette
+FR.A8.92.921.92075	Vanves
+FR.A8.92.923.92076	Vaucresson
+FR.A8.92.922.92009	Bois-Colombes
+FR.A8.92..92012	Missing

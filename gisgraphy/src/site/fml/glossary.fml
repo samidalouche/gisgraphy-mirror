@@ -1,0 +1,21 @@
+<faqs title="Glossary">
+  <part id="Glossary">
+    <faq id="placetype">
+      <question>Placetype</question>
+      <answer>
+        <p>
+           A place type regroup some feature code that are nearly the same. Find more info <a href="http://www.gisgraphy.com/placetype.htm">Here</a>
+        </p>
+      </answer>
+    </faq>
+	<faq id="geonames">
+      <question>Geonames</question>
+      <answer>
+        <p>
+         Geonames is a geographical data base freely available (see <a href="http://en.wikipedia.org/wiki/GeoNames">wikipedia</a> or <a href="http://www.geonames.org">official site</a>)
+        </p>
+      </answer>
+    </faq>
+  </part>
+</faqs>
+

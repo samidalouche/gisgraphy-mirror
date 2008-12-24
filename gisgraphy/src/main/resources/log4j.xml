@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE log4j:configuration SYSTEM "log4j.dtd">
+
+<log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/">
+
+    <appender name="CONSOLE" class="org.apache.log4j.ConsoleAppender">
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern"
+                value="%p [%t] %c{1}.%M(%L) | %m%n"/>
+        </layout>
+    </appender>
+    
+     <appender name="RollingFileImporter" class="org.apache.log4j.RollingFileAppender">
+      <param name="file" value="gisgraphy-importer.log"/>
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern"
+                value="[%p] [%d] [%c] (%t,%x) : %m%n"/>
+        </layout>
+    </appender>
+    
+    <appender name="RollingFileService" class="org.apache.log4j.RollingFileAppender">
+      <param name="file" value="gisgraphy-fulltext.log"/>
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern"
+                value="[%p] [%d] [%c] (%t,%x) : %m%n"/>
+        </layout>
+    </appender>
+    
+     <appender name="RollingFileRepository" class="org.apache.log4j.RollingFileAppender">
+      <param name="file" value="gisgraphy-repository.log"/>
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern"
+                value="[%p] [%d] [%c] (%t,%x) : %m%n"/>
+        </layout>
+    </appender>
+
+    <logger name="net.sf.ehcache">
+        <level value="ERROR"/>
+    </logger>
+
+    <!-- Suppress success logging from InteractiveAuthenticationSuccessEvent -->
+    <logger name="org.acegisecurity">
+        <level value="ERROR"/>
+    </logger>
+
+    <logger name="org.apache">
+        <level value="WARN"/>
+    </logger>
+
+    <!-- Suppress invalid warning messages from JSF -->
+    <!-- logger name="org.apache.myfaces.shared_impl.renderkit.html">
+        <level value="ERROR"/>
+    </logger-->
+
+    <logger name="org.hibernate">
+        <level value="WARN"/>
+    </logger>
+  
+    <!--logger name="org.hibernate.SQL">
+        <level value="DEBUG"/>
+    </logger-->
+
+    <!-- logger name="org.springframework">
+        <level value="WARN"/>
+    </logger-->
+   
+    <logger name="com.gisgraphy.domain.geoloc.importer">
+        <level value="ERROR"/>
+        <appender-ref ref="RollingFileImporter"/>
+    </logger>
+    
+    <logger name="com.gisgraphy.domain.geoloc.importer.ImporterManager">
+        <level value="INFO"/>
+        <appender-ref ref="RollingFileImporter"/>
+    </logger>
+    
+     <logger name="com.gisgraphy.webapp.action.ResetImportAction">
+        <level value="INFO"/>
+        <appender-ref ref="RollingFileImporter"/>
+    </logger>
+    
+    <logger name="com.gisgraphy.domain.geoloc.importer.ImporterHelper">
+        <level value="INFO"/>
+        <appender-ref ref="RollingFileImporter"/>
+    </logger>
+    
+     <logger name="com.gisgraphy.helper.EncodingHelper">
+        <level value="INFO"/>
+        <appender-ref ref="RollingFileService"/>
+    </logger>
+    
+    
+    <logger name="com.gisgraphy.domain.repository">
+        <level value="ERROR"/>
+        <appender-ref ref="RollingFileRepository"/>
+    </logger>
+    
+    <logger name="com.gisgraphy.domain.geoloc.service">
+        <level value="INFO"/>
+        <appender-ref ref="RollingFileService"/>
+    </logger>
+
+    <!-- logger name="com.gisgraphy.webapp.filter.StaticFilter">
+        <level value="INFO"/>
+    </logger-->
+
+    <root>
+        <level value="ERROR"/>
+        <appender-ref ref="CONSOLE"/>
+    </root>
+
+</log4j:configuration>

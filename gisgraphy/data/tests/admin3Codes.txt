@@ -1,0 +1,5 @@
+FR.A8.92.6456890	Adm3 with last missing field
+FR.A8.92.921	Arrondissement d'Antony
+FR.A8.92.921	Duplicate Adm3
+FR.A8.92.922	Arrondissement de Nanterre
+FR.A8.92.923	Arrondissement de Boulogne-Billancourt
