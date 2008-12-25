@@ -14,12 +14,12 @@
 	<br/>
 </noscript>
 	
-	<@s.form action="ajaxgeolocsearch!search" method="get" id="geolocsearch">
+	<@s.form action="ajaxgeolocsearch!search.html" method="get" id="geolocsearch">
 			<@breadcrumbs.searchNavBar/>
 		<div id="simplesearch">
 			<div id="searchleftblock">
-				Lat (&#x2195;) : <@s.textfield name="lat" maxlength="10" required="true" size="6" theme="simple" id="lat"/>
-				<span class="spacer">Long (&#x2194;) : </span><@s.textfield name="lng" maxlength="10" required="true" size="6" theme="simple" />
+				Lat (&#x2195;) : <@s.textfield name="lat" maxlength="15" required="true" size="6" theme="simple" id="lat"/>
+				<span class="spacer">Long (&#x2194;) : </span><@s.textfield name="lng" maxlength="15" required="true" size="6" theme="simple" />
 				<div id="searchbuttonbar">
 					<span id="searchexample">e.g. '3.5', '45.2', ... </span>
 					<@s.submit title="Search" value="Search" theme="simple"  onclick="return updatePopupResults()"/>
@@ -66,17 +66,6 @@
 			<br/>
 		</span>
 		<br/>
-		 <div class="clear"></div>
-		<span class="advancedsearchcat"><@s.text name="search.outputSpecs"/></span>
-		<hr/>
-		<div class="clear"></div>
-		<span class="searchfield">
-			<span class="searchfieldlabel"><@s.text name="search.format"/> : </span><@s.select value="formats[0]" name="format" list="formats" multiple="false" required="false" labelposition="left" theme="simple" />
-		</span>
-		<div class="clear"></div>
-		<span class="searchfield">
-			<span class="searchfieldlabel"><@s.text name="search.indent"/> : </span><@s.checkbox label="Indent output" labelposition="left" name="indent" theme="simple" />
-		</span>
 		<div class="clear"></div>
 		<span class="advancedsearchcat"><@s.text name="search.paginationSpecs"/></span>
 		<hr/>
@@ -85,6 +74,17 @@
 		</span>
 		<span class="searchfield">
 			<span class="searchfieldlabel"><@s.text name="search.pagination.to"/> : </span><@s.textfield size="5"  name="to" maxlength="3" required="false"  theme="simple"/> 
+		</span>
+		<br/>
+		<div class="clear"></div>
+		<span class="advancedsearchcat"><@s.text name="search.outputSpecs"/></span>
+		<hr/>
+		<div class="clear"></div>
+		<span class="searchfield">
+			<@s.url id="geolocSearchServiceUrl" action="geolocsearch" includeParams="all" namespace="">
+			 <@s.param name="advancedSearch" value="true" />
+			</@s.url>
+			<@s.text name="search.MoreOutputSpecsGeoloc"><@s.param>${geolocSearchServiceUrl}</@s.param><@s.param><@s.text name="search.geolocsearch.title"/></@s.param></@s.text>
 		</span>
 		
 	</fieldset>
@@ -97,6 +97,20 @@
 <script src="/scripts/gisgraphyapi.js" type="text/javascript"></script>
 
 <script type="text/javascript" >
+
+	DEFAULT_NUMBER_OF_RESULTS_PER_PAGE=${defaultNumberOfResultsPerPage?c};
+
+ 	updatePaginationNext= function(){
+    $('geolocsearch')['from'].value=parseInt($('geolocsearch')['from'].value)+DEFAULT_NUMBER_OF_RESULTS_PER_PAGE;
+    $('geolocsearch')['to'].value=parseInt($('geolocsearch')['to'].value)+DEFAULT_NUMBER_OF_RESULTS_PER_PAGE;
+    return updatePopupResults();
+    }
+    
+     updatePaginationPrevious = function(){
+    $('geolocsearch')['from'].value=parseInt($('geolocsearch')['from'].value)-DEFAULT_NUMBER_OF_RESULTS_PER_PAGE;
+    $('geolocsearch')['to'].value=parseInt($('geolocsearch')['to'].value)-DEFAULT_NUMBER_OF_RESULTS_PER_PAGE;
+    return updatePopupResults();
+    }
 
  	 	displayPopupResults = function(transport){
 	 	 	 if (transport.responseText){

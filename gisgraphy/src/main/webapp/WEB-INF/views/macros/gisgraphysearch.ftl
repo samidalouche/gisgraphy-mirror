@@ -1,8 +1,8 @@
 <#macro displayFulltextResults fulltextResponseDTO>
 			<div id="searchResults">
 			<div class="clear"><br/></div>
-			<div class="bigText">${fulltextResponseDTO.numFound} <@s.text name="search.resultFound"/> <@s.text name="search.requestTime"/> ${fulltextResponseDTO.QTime/1000} <@s.text name="search.secondUnit"/>. <br/>
-			 <@s.text name="search.resultPaginateFromTo"><@s.param>${from}</@s.param><@s.param>${to}</@s.param></@s.text> 
+			<div class="bigText">${fulltextResponseDTO.numFound} <@s.text name="search.resultFound"/>. (<@s.text name="search.resultPaginateFromTo"><@s.param>${from}</@s.param><@s.param>${to}</@s.param></@s.text>).
+			 <@s.text name="search.requestTime"/> ${fulltextResponseDTO.QTime/1000} <@s.text name="search.secondUnit"/>. <br/>
 			 <@s.text name="search.MaxScore"><@s.param>${fulltextResponseDTO.maxScore}</@s.param></@s.text></div>
 			<#if fulltextResponseDTO.results.size()!=0>
 			<br/>
@@ -34,7 +34,7 @@
 					<#if result.population??><@s.text name="global.population"/> : ${result.population};<br/></#if>
 					<#if result.elevation??><@s.text name="global.elevation"/> : ${result.elevation} m<br/></#if>
 					<img src="images/world_link.png" alt="Maps links " />&nbsp;<a href="${result.google_map_url}" class="greenlink" target="gisgraphyMap"><@s.text name="global.viewOnGoogleMap"/></a> | <a href="${result.yahoo_map_url}" class="greenlink" target="gisgraphyMap"><@s.text name="global.viewOnYahooMap"/></a>
-					 <@s.url id="proximitySearchUrl" action="ajaxgeolocsearch!search" forceAddSchemeHostAndPort="true" includeParams="none" >
+					 <@s.url id="proximitySearchUrl" action="ajaxgeolocsearch" forceAddSchemeHostAndPort="true" method="search" includeParams="none" >
 			  			<@s.param name="lat" value="${result.lat?c}" />
 			  			<@s.param name="lng" value="${result.lng?c}" />
 			 		</@s.url>
@@ -46,17 +46,17 @@
 					</div>
 				</#list> 
 				<#if (from > 1)>
-				<span style="float:left;padding-left:15px;"><@s.url id="previousURL" action="ajaxfulltextsearch!search" includeParams="all" >
-			  			<@s.param name="from" value="${from?c}-${DEFAULT_NUMBER_OF_RESULTS_PER_PAGE?c}" />
-			  			<@s.param name="to" value="${to?c}-${DEFAULT_NUMBER_OF_RESULTS_PER_PAGE?c}" />
+				<span style="float:left;padding-left:15px;"><@s.url id="previousURL" action="ajaxfulltextsearch" method="search" includeParams="all" >
+			  			<@s.param name="from" value="${from?c}-${defaultNumberOfResultsPerPage?c}" />
+			  			<@s.param name="to" value="${to?c}-${defaultNumberOfResultsPerPage?c}" />
 			 		</@s.url><a href="${previousURL}" class="bigText strong" onclick="return updatePaginationPrevious();">&lt;&lt;<@s.text name="global.previous"/></a></span>
 			 	</#if>
 			 	<#if ((from + fulltextResponseDTO.resultsSize) < fulltextResponseDTO.numFound)>
 				<span style="float:right;padding-right:15px;"><@s.url id="nextURL" action="ajaxfulltextsearch!search" includeParams="all" >
-			  			<@s.param name="from" value="${from?c}+10" />
-			  			<@s.param name="to" value="${to?c}+10" />
+			  			<@s.param name="from" value="${from?c}+${defaultNumberOfResultsPerPage?c}" />
+			  			<@s.param name="to" value="${to?c}+${defaultNumberOfResultsPerPage?c}" />
 			 		</@s.url><a href="${nextURL}" class="bigText strong" onclick="return updatePaginationNext();"><@s.text name="global.next"/>&gt;&gt;</a></span>
-			 		</#if>
+			 	</#if>
 			 		<div class="clear"><br/></div>
 			</div>
 				<#else>
@@ -70,7 +70,8 @@
 <#macro displayGeolocResults geolocResponseDTO>
 			<div id="searchResults">
 				<div class="clear"><br/></div>
-				<div class="bigText">${geolocResponseDTO.numFound} <@s.text name="search.resultFound"/> <@s.text name="search.requestTime"/> ${geolocResponseDTO.QTime/1000}  <@s.text name="search.secondUnit"/>. </div>
+				<div class="bigText">${geolocResponseDTO.numFound} <@s.text name="search.resultFound"/>. (<@s.text name="search.resultPaginateFromTo"><@s.param>${from}</@s.param><@s.param>${to}</@s.param></@s.text>).
+				 <@s.text name="search.requestTime"/> ${geolocResponseDTO.QTime/1000}  <@s.text name="search.secondUnit"/>. </div>
 				<#if geolocResponseDTO.result.size()!=0>
 					<#list geolocResponseDTO.result as result>
 	 				<div class="bodyResults">
@@ -100,7 +101,19 @@
 					</div>
 					<div class="clear"></div>
 					<br/><br/>
-				</#list> 
+				</#list>
+				<#if (from > 1)>
+				<span style="float:left;padding-left:15px;"><@s.url id="previousURL" action="ajaxgeolocsearch" method="search" includeParams="all" >
+			  			<@s.param name="from" value="${from?c}-${defaultNumberOfResultsPerPage?c}" />
+			  			<@s.param name="to" value="${to?c}-${defaultNumberOfResultsPerPage?c}" />
+			 		</@s.url><a href="${previousURL}" class="bigText strong" onclick="return updatePaginationPrevious();">&lt;&lt;<@s.text name="global.previous"/></a></span>
+			 	</#if>
+			 	<#if defaultNumberOfResultsPerPage==geolocResponseDTO.numFound>
+				<span style="float:right;padding-right:15px;"><@s.url id="nextURL" action="ajaxgeolocsearch" method="search" includeParams="all" >
+			  			<@s.param name="from" value="${from?c}+${defaultNumberOfResultsPerPage?c}" />
+			  			<@s.param name="to" value="${to?c}+${defaultNumberOfResultsPerPage?c}" />
+			 		</@s.url><a href="${nextURL}" class="bigText strong" onclick="return updatePaginationNext();"><@s.text name="global.next"/>&gt;&gt;</a></span>
+			 	</#if>
 			<#else>
 			
 			<br/>

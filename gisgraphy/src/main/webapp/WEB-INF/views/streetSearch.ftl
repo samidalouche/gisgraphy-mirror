@@ -1,7 +1,7 @@
 <#import "macros/breadcrumbs.ftl" as breadcrumbs>
 <html>
 <head>
-<title><@s.text name="search.street.breadcrumbs"/></title>
+<title><@s.text name="search.street.title"/></title>
 </head>
 <body>
 <br/>
@@ -15,7 +15,7 @@
 <@breadcrumbs.searchNavBar/>
 </@s.form>
 <div>
-<h2 class="header"><@s.text name="search.street.breadcrumbs"/></h2>
+<h2 class="header"><@s.text name="search.street.title"/></h2>
 <div class="biggertext">The street search will offer the possibility to search for street name all over the world. It is currently in developpement in the <a href="http://www.gisgraphy.com">Gisgraphy Project</a> it should be available in the second quarter of 2009</div>
 <br/><br/><br/>
 </div>

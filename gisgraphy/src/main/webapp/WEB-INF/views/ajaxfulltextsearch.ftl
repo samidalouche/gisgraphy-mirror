@@ -14,7 +14,7 @@
 <br/>
 </noscript>
 	
-	<@s.form action="ajaxfulltextsearch!search" method="get" id="fulltextsearch">
+	<@s.form action="ajaxfulltextsearch!search.html" method="get" id="fulltextsearch">
 			<@breadcrumbs.searchNavBar/>
 		<div id="simplesearch">
 			<div id="searchleftblock">
@@ -64,11 +64,13 @@
 		<span class="advancedsearchcat"><@s.text name="search.outputSpecs"/></span>
 		<hr/>
 		<span class="searchfield">
-			<span class="searchfieldlabel"><@s.text name="search.language"/> : </span><@s.select name="lang" list="languages" headerValue="--No specific--" headerKey="" multiple="false" required="false" labelposition="left" theme="simple"/>
-			<@s.text name="search.language.info"/>
-		</span>
+			<@s.url id="fulltextSearchServiceUrl" action="fulltextsearch" includeParams="all" namespace="" >
+			 <@s.param name="advancedSearch" value="true" />
+			</@s.url>
+			<@s.text name="search.MoreOutputSpecsFulltext"><@s.param>${fulltextSearchServiceUrl}</@s.param><@s.param><@s.text name="search.fulltext.title"/></@s.param></@s.text>
 		<@s.hidden size="5" maxlength="3" name="to" required="false"  theme="simple"/>
 		<@s.hidden size="5" maxlength="3" name="from" required="false"  theme="simple"/>
+		</span>
 	</fieldset>
 	</div>
 	</@s.form>
