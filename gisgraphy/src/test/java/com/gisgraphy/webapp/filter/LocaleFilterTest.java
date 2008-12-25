@@ -106,7 +106,7 @@ public class LocaleFilterTest extends TestCase {
     public void testLocaleAndCountry() throws Exception {
 	MockHttpServletRequest request = new MockHttpServletRequest();
 	request.setSession(new MockHttpSession());
-	request.addParameter("locale", "zh_TW");
+	request.addParameter("locale", "zh-TW");
 
 	MockHttpServletResponse response = new MockHttpServletResponse();
 	filter.doFilter(request, response, new MockFilterChain());

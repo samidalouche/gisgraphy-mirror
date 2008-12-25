@@ -45,6 +45,7 @@ import com.gisgraphy.domain.geoloc.entity.event.GisFeatureDeleteAllEvent;
 import com.gisgraphy.domain.geoloc.entity.event.GisFeatureDeletedEvent;
 import com.gisgraphy.domain.geoloc.entity.event.GisFeatureStoredEvent;
 import com.gisgraphy.domain.geoloc.entity.event.IEvent;
+import com.gisgraphy.domain.geoloc.entity.event.PlaceTypeDeleteAllEvent;
 import com.gisgraphy.domain.geoloc.service.fulltextsearch.FullTextFields;
 import com.gisgraphy.domain.geoloc.service.fulltextsearch.IsolrClient;
 import com.gisgraphy.domain.geoloc.service.fulltextsearch.SolrClient;
@@ -86,6 +87,7 @@ public class SolRSynchroniser implements ISolRSynchroniser {
 	try {
 	    solClient.getServer().deleteById(
 		    gisFeatureEvent.getGisFeature().getFeatureId().toString());
+	    solClient.getServer().commit(true, true);
 	} catch (SolrServerException e) {
 	    throw new RuntimeException(e);
 	} catch (IOException e) {
@@ -110,10 +112,29 @@ public class SolRSynchroniser implements ISolRSynchroniser {
 	    throw new RuntimeException(e);
 	}
     }
-
-    /**
-     * @param gisFeatureEvent
+    
+    /*
+     * (non-Javadoc)
+     * 
+     * @see com.gisgraphy.domain.repository.ISolRSynchroniser#deleteAll()
      */
+    public void handleEvent(PlaceTypeDeleteAllEvent placeTypeDeleteAllEvent) {
+	    deleteAllByPlaceType(placeTypeDeleteAllEvent.getPlaceType());
+    }
+    
+    public void deleteAllByPlaceType(Class<? extends GisFeature> placetype) {
+	try {
+	    logger.info("GisFeature of type"+placetype.getClass().getSimpleName()+" will be reset");
+	    this.solClient.getServer().deleteByQuery(FullTextFields.PLACETYPE.getValue()+":"+placetype.getSimpleName());
+	    this.solClient.getServer().commit();
+	    this.solClient.getServer().optimize();
+	} catch (SolrServerException e) {
+	    throw new RuntimeException(e);
+	} catch (IOException e) {
+	    throw new RuntimeException(e);
+	}
+    }
+
     private void handleEvent(GisFeatureDeleteAllEvent gisFeatureDeleteAllEvent) {
 	try {
 	    for (GisFeature gisFeature : gisFeatureDeleteAllEvent
@@ -121,6 +142,7 @@ public class SolRSynchroniser implements ISolRSynchroniser {
 		solClient.getServer().deleteById(
 			gisFeature.getFeatureId().toString());
 	    }
+	    solClient.getServer().commit(true, true);
 	} catch (SolrServerException e) {
 	    throw new RuntimeException(e);
 	} catch (IOException e) {
@@ -141,6 +163,8 @@ public class SolRSynchroniser implements ISolRSynchroniser {
 	    handleEvent((GisFeatureDeletedEvent) event);
 	} else if (event instanceof GisFeatureDeleteAllEvent) {
 	    handleEvent((GisFeatureDeleteAllEvent) event);
+	} else if (event instanceof PlaceTypeDeleteAllEvent) {
+	    handleEvent((PlaceTypeDeleteAllEvent) event);
 	} else {
 	    logger.debug("unknow event " + event.getClass().getSimpleName());
 	}

@@ -22,41 +22,11 @@
  *******************************************************************************/
 package com.gisgraphy.domain.geoloc.entity.event;
 
-import java.util.List;
-
-import org.springframework.util.Assert;
-
-import com.gisgraphy.domain.geoloc.entity.GisFeature;
-
 /**
- * Event that occurred on several {@link GisFeature}s
+ * Base interface for all Events that occurs on Gis repository
  * 
- * @see GisFeatureEvent
  * @author <a href="mailto:david.masclet@gisgraphy.com">David Masclet</a>
  */
-public class GisFeaturesEvent implements IGisRepositoryEvent {
-
-    /**
-     * The {@link GisFeature}s the current event refers to
-     */
-    private List<? extends GisFeature> gisFeatures;
-
-    /**
-     * @return The {@link GisFeature}s the current event refers to
-     */
-    public List<? extends GisFeature> getGisFeatures() {
-	return this.gisFeatures;
-    }
-
-    /**
-     * Default constructor
-     * 
-     * @param gisFeatures
-     *                The {@link GisFeature}s the current event refers to
-     */
-    public GisFeaturesEvent(List<? extends GisFeature> gisFeatures) {
-	Assert.notNull(gisFeatures, "can not create an event for a null list");
-	this.gisFeatures = gisFeatures;
-    }
+public interface IGisRepositoryEvent extends IEvent {
 
 }

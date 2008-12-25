@@ -22,15 +22,17 @@
  *******************************************************************************/
 package com.gisgraphy.domain.geoloc.entity.event;
 
+import org.springframework.util.Assert;
+
 import com.gisgraphy.domain.geoloc.entity.GisFeature;
 
 /**
- * Basic class for Event that occurred on GisFeature
+ * Event that occurred on one {@link GisFeature}s
  * 
  * @see GisFeaturesEvent
  * @author <a href="mailto:david.masclet@gisgraphy.com">David Masclet</a>
  */
-public class GisFeatureEvent implements IEvent {
+public class GisFeatureEvent implements IGisRepositoryEvent {
 
     /**
      * The {@link GisFeature} the current event refers to
@@ -51,7 +53,7 @@ public class GisFeatureEvent implements IEvent {
      *                The {@link GisFeature} the current event refers to
      */
     public GisFeatureEvent(GisFeature gisFeature) {
-	super();
+	Assert.notNull(gisFeature, "can not create an event for a null gisfeature");
 	this.gisFeature = gisFeature;
     }
 

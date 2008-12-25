@@ -367,10 +367,10 @@ public class GeolocTestHelper {
 
     public static Country createCountryForFrance() {
 	Country country = new Country("FR", "FRA", 33);
-	country.setFeatureId(new Random().nextLong());
+	country.setFeatureId(Math.abs(new Random().nextLong()));
 	country.setFeatureClass("A");
 	country.setFeatureCode("PCL");
-	country.setLocation(createPoint(0F, 0F));
+	country.setLocation(createPoint(3F, 4F));
 	country.setName("France");
 	country.setSource(GISSource.GEONAMES);
 	return country;
@@ -392,7 +392,7 @@ public class GeolocTestHelper {
 	adm.setAdm3Code(adm3Code);
 	adm.setAdm4Code(adm4Code);
 	if (gisFeature == null) {
-	    adm.setFeatureId(new Random().nextLong());
+	    adm.setFeatureId(Math.abs(new Random().nextLong()));
 	} else {
 	    adm.setFeatureId(gisFeature.getFeatureId());
 	}

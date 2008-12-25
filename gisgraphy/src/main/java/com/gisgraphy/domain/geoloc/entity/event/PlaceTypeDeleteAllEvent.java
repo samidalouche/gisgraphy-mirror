@@ -22,41 +22,36 @@
  *******************************************************************************/
 package com.gisgraphy.domain.geoloc.entity.event;
 
-import java.util.List;
-
-import org.springframework.util.Assert;
-
 import com.gisgraphy.domain.geoloc.entity.GisFeature;
 
 /**
- * Event that occurred on several {@link GisFeature}s
+ * Event that occurred when all {@link GisFeature}s of a placetype are deleted
  * 
- * @see GisFeatureEvent
  * @author <a href="mailto:david.masclet@gisgraphy.com">David Masclet</a>
  */
-public class GisFeaturesEvent implements IGisRepositoryEvent {
+public class PlaceTypeDeleteAllEvent implements IGisRepositoryEvent {
+
+     private Class<? extends GisFeature> placeType;
+
 
     /**
-     * The {@link GisFeature}s the current event refers to
+     * @return The placetype that all gisfeature are deleted
      */
-    private List<? extends GisFeature> gisFeatures;
-
-    /**
-     * @return The {@link GisFeature}s the current event refers to
-     */
-    public List<? extends GisFeature> getGisFeatures() {
-	return this.gisFeatures;
+    public Class<? extends GisFeature> getPlaceType() {
+        return placeType;
     }
+
+
 
     /**
      * Default constructor
      * 
-     * @param gisFeatures
-     *                The {@link GisFeature}s the current event refers to
+     * @param placeType
+     *                The placetype that all GisFeature will be deleted
      */
-    public GisFeaturesEvent(List<? extends GisFeature> gisFeatures) {
-	Assert.notNull(gisFeatures, "can not create an event for a null list");
-	this.gisFeatures = gisFeatures;
+    public PlaceTypeDeleteAllEvent(Class<? extends GisFeature> placeType) {
+	super();
+	this.placeType = placeType;
     }
 
 }

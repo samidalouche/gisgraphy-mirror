@@ -53,7 +53,7 @@ public class GisFeatureEventListener implements IEventListener {
      * @see com.gisgraphy.domain.geoloc.entity.event.IEventListener#supports(com.gisgraphy.domain.geoloc.entity.event.IEvent)
      */
     public boolean supports(IEvent event) {
-	if (event instanceof GisFeatureEvent) {
+	if (event instanceof IGisRepositoryEvent) {
 	    return true;
 	}
 	return false;

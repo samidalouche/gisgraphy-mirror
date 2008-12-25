@@ -51,6 +51,7 @@ import com.gisgraphy.domain.geoloc.entity.event.EventManager;
 import com.gisgraphy.domain.geoloc.entity.event.GisFeatureDeleteAllEvent;
 import com.gisgraphy.domain.geoloc.entity.event.GisFeatureDeletedEvent;
 import com.gisgraphy.domain.geoloc.entity.event.GisFeatureStoredEvent;
+import com.gisgraphy.domain.geoloc.entity.event.PlaceTypeDeleteAllEvent;
 import com.gisgraphy.domain.geoloc.importer.ImporterConfig;
 import com.gisgraphy.domain.geoloc.service.fulltextsearch.FullTextFields;
 import com.gisgraphy.domain.geoloc.service.fulltextsearch.IsolrClient;
@@ -331,6 +332,8 @@ public class GenericGisDao<T extends GisFeature> extends
 		gisFeature);
 	eventManager.handleEvent(gisFeatureDeletedEvent);
     }
+    
+   
 
     /*
      * (non-Javadoc)
@@ -446,10 +449,7 @@ public class GenericGisDao<T extends GisFeature> extends
 	return gisFeatureList;
     }
 
-    @Required
-    public void setEventManager(EventManager eventManager) {
-	this.eventManager = eventManager;
-    }
+   
 
     /*
      * (non-Javadoc)
@@ -462,6 +462,18 @@ public class GenericGisDao<T extends GisFeature> extends
 	GisFeatureDeleteAllEvent gisFeatureDeleteAllEvent = new GisFeatureDeleteAllEvent(
 		list);
 	eventManager.handleEvent(gisFeatureDeleteAllEvent);
+    }
+    
+    /* (non-Javadoc)
+     * @see com.gisgraphy.domain.repository.GenericDao#deleteAll()
+     */
+    @Override
+    public int deleteAll() {
+        int numberOfGisDeleted = super.deleteAll();
+        PlaceTypeDeleteAllEvent placeTypeDeleteAllEvent = new PlaceTypeDeleteAllEvent(
+		this.getPersistenceClass());
+	eventManager.handleEvent(placeTypeDeleteAllEvent);
+	return numberOfGisDeleted;
     }
 
     /*
@@ -499,6 +511,11 @@ public class GenericGisDao<T extends GisFeature> extends
 		    + persistentClass.getSimpleName() + " with id " + id, e);
 	}
 	return returnValue;
+    }
+    
+    @Required
+    public void setEventManager(EventManager eventManager) {
+	this.eventManager = eventManager;
     }
 
 
