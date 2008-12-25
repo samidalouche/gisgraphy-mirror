@@ -69,16 +69,16 @@ public interface IGeonamesProcessor {
      * @return The current status of the importer
      */
     public ImporterStatus getStatus();
-    
+
     /**
-     * @return A text Message for the importer 
+     * @return A text Message for the importer
      */
     public String getStatusMessage();
-    
+
     /**
-     * /!\ USE THIS METHOD VERY CAREFULLY /!\ : If you call this function, all the
-     * imported data for the specified importer will be deleted
-     *  
+     * /!\ USE THIS METHOD VERY CAREFULLY /!\ : If you call this function, all
+     * the imported data for the specified importer will be deleted
+     * 
      * @return a {@linkplain NameValueDTO} with the name of the deleted object
      *         and the number of deleted Object. No entry will be return for
      *         Object that were 0 object will be deleted.

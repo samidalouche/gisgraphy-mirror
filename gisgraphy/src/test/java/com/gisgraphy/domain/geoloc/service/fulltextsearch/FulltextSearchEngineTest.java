@@ -58,44 +58,45 @@ public class FulltextSearchEngineTest extends
 	AbstractIntegrationHttpSolrTestCase {
 
     private ICityDao cityDao;
-    
+
     @Resource
     IStatsUsageService statsUsageService;
-    
-        
+
     @Test
-    public void testIsAlive(){
+    public void testIsAlive() {
 	assertTrue(fullTextSearchEngine.isAlive());
-	FullTextSearchEngine fullTextSearchEngineTobadUrl= new FullTextSearchEngine(new MultiThreadedHttpConnectionManager());
+	FullTextSearchEngine fullTextSearchEngineTobadUrl = new FullTextSearchEngine(
+		new MultiThreadedHttpConnectionManager());
 	IsolrClient mockSolClient = EasyMock.createMock(IsolrClient.class);
 	EasyMock.expect(mockSolClient.isServerAlive()).andReturn(false);
 	EasyMock.replay(mockSolClient);
 	fullTextSearchEngineTobadUrl.setSolrClient(mockSolClient);
-	
+
 	assertFalse(fullTextSearchEngineTobadUrl.isAlive());
 	EasyMock.verify(mockSolClient);
-	
-	FullTextSearchEngine fullTextSearchEngineWithNullSolrClient = new FullTextSearchEngine(new MultiThreadedHttpConnectionManager());
+
+	FullTextSearchEngine fullTextSearchEngineWithNullSolrClient = new FullTextSearchEngine(
+		new MultiThreadedHttpConnectionManager());
 	fullTextSearchEngineWithNullSolrClient.setSolrClient(null);
 	assertFalse(fullTextSearchEngineWithNullSolrClient.isAlive());
     }
-    
+
     @Test
-    public void testGetUrl(){
+    public void testGetUrl() {
 	String urlOfSolrClient = "URLOfSolRclient";
 	assertTrue(fullTextSearchEngine.isAlive());
-	FullTextSearchEngine fullTextSearchEngineTest = new FullTextSearchEngine(new MultiThreadedHttpConnectionManager());
+	FullTextSearchEngine fullTextSearchEngineTest = new FullTextSearchEngine(
+		new MultiThreadedHttpConnectionManager());
 	IsolrClient mockSolClient = EasyMock.createMock(IsolrClient.class);
 	EasyMock.expect(mockSolClient.getURL()).andReturn(urlOfSolrClient);
 	EasyMock.replay(mockSolClient);
 	fullTextSearchEngineTest.setSolrClient(mockSolClient);
-	
-	assertEquals(urlOfSolrClient,fullTextSearchEngineTest.getURL());
+
+	assertEquals(urlOfSolrClient, fullTextSearchEngineTest.getURL());
 	EasyMock.verify(mockSolClient);
-	
+
     }
-    
-    
+
     @Test
     public void testConstructorCanNotHaveNullParam() {
 	try {
@@ -143,7 +144,7 @@ public class FulltextSearchEngineTest extends
 	    fail("executeAndSerialize does not accept null query and must throws an IllegalArgumentException, not FullTextSearchException");
 	}
     }
-    
+
     @Test
     public void testExecuteQueryToStringWithANullQuerythrows() {
 	try {
@@ -178,21 +179,22 @@ public class FulltextSearchEngineTest extends
 	    fail("error during search : " + e.getMessage());
 	}
     }
-    
+
     @Test
     public void testExecuteQueryToDatabaseObjectsShouldNotAcceptNullQuery() {
-	try{ 
-	List<? extends GisFeature> result = fullTextSearchEngine
+	try {
+	    List<? extends GisFeature> result = fullTextSearchEngine
 		    .executeQueryToDatabaseObjects(null);
-	 fail("executeQueryToDatabaseObject should not accept null query");
+	    fail("executeQueryToDatabaseObject should not accept null query");
 	} catch (IllegalArgumentException e) {
-	   
+
 	}
     }
 
     @Test
     public void testExecuteAndSerializeShouldSerialize() {
-	File tempDir = GeolocTestHelper.createTempDir(this.getClass().getSimpleName());
+	File tempDir = GeolocTestHelper.createTempDir(this.getClass()
+		.getSimpleName());
 	File file = new File(tempDir.getAbsolutePath()
 		+ System.getProperty("file.separator") + "serialize.txt");
 
@@ -243,7 +245,7 @@ public class FulltextSearchEngineTest extends
 	assertQ("The query return incorrect values", content,
 		"//*[@numFound='1']", "//*[@name='status'][.='0']",
 		"//*[@name='" + FullTextFields.FULLY_QUALIFIED_NAME.getValue()
-			+ "'][.='"+paris.getFullyQualifiedName(false)+"']");
+			+ "'][.='" + paris.getFullyQualifiedName(false) + "']");
 
 	// delete temp dir
 	assertTrue("the tempDir has not been deleted", GeolocTestHelper
@@ -272,12 +274,13 @@ public class FulltextSearchEngineTest extends
 		    "//*[@numFound='1']", "//*[@name='status'][.='0']",
 		    "//*[@name='"
 			    + FullTextFields.FULLY_QUALIFIED_NAME.getValue()
-			    + "'][.='"+city.getFullyQualifiedName(false)+"']");
+			    + "'][.='" + city.getFullyQualifiedName(false)
+			    + "']");
 	} catch (FullTextSearchException e) {
 	    fail("error during search : " + e.getMessage());
 	}
     }
-    
+
     @Test
     public void testExecuteQueryToStringForPHP() {
 	City city = GeolocTestHelper.createCity("Saint-André", 1.5F, 2F, 1001L);
@@ -293,16 +296,16 @@ public class FulltextSearchEngineTest extends
 		    .withIndentation();
 	    FulltextQuery fulltextQuery = new FulltextQuery("Saint-André",
 		    pagination, output, City.class, "fr");
-	    //don't know how to test php syntax
+	    // don't know how to test php syntax
 	    String response = fullTextSearchEngine
-	    .executeQueryToString(fulltextQuery);
-	   assertTrue(response.startsWith("array"));
-	   assertTrue(!response.contains("error"));
+		    .executeQueryToString(fulltextQuery);
+	    assertTrue(response.startsWith("array"));
+	    assertTrue(!response.contains("error"));
 	} catch (FullTextSearchException e) {
 	    fail("error during search : " + e.getMessage());
 	}
     }
-    
+
     @Test
     public void testExecuteQueryToStringForAtom() {
 	City city = GeolocTestHelper.createCity("Saint-André", 1.5F, 2F, 1001L);
@@ -318,10 +321,10 @@ public class FulltextSearchEngineTest extends
 		    .withIndentation();
 	    FulltextQuery fulltextQuery = new FulltextQuery("Saint-André",
 		    pagination, output, City.class, "fr");
-	    //don't know how to test php syntax
+	    // don't know how to test php syntax
 	    String response = fullTextSearchEngine
-	    .executeQueryToString(fulltextQuery);
-	   assertTrue(!response.contains("error"));
+		    .executeQueryToString(fulltextQuery);
+	    assertTrue(!response.contains("error"));
 	} catch (FullTextSearchException e) {
 	    fail("error during search : " + e.getMessage());
 	}
@@ -394,28 +397,28 @@ public class FulltextSearchEngineTest extends
     }
 
     @Test
-    public void testStatsShouldBeIncreaseForAllCall(){
+    public void testStatsShouldBeIncreaseForAllCall() {
 	statsUsageService.resetUsage(StatsUsageType.FULLTEXT);
-	 Pagination pagination = paginate().from(1).to(10);
-	    Output output = Output.withFormat(OutputFormat.XML)
-		    .withLanguageCode("FR").withStyle(OutputStyle.SHORT)
-		    .withIndentation();
-	    FulltextQuery fulltextQuery = new FulltextQuery("Saint-André",
-		    pagination, output, City.class, "fr");
-	   fullTextSearchEngine
-		    .executeQueryToDatabaseObjects(fulltextQuery);
-	assertEquals(new Long(1),statsUsageService.getUsage(StatsUsageType.FULLTEXT));
-	fullTextSearchEngine
-	    .executeAndSerialize(fulltextQuery, new ByteArrayOutputStream());
-	assertEquals(new Long(2),statsUsageService.getUsage(StatsUsageType.FULLTEXT));
-	fullTextSearchEngine
-	    .executeQuery(fulltextQuery);
-	assertEquals(new Long(3),statsUsageService.getUsage(StatsUsageType.FULLTEXT));
-	fullTextSearchEngine
-	    .executeQueryToString(fulltextQuery);
-	assertEquals(new Long(4),statsUsageService.getUsage(StatsUsageType.FULLTEXT));
+	Pagination pagination = paginate().from(1).to(10);
+	Output output = Output.withFormat(OutputFormat.XML).withLanguageCode(
+		"FR").withStyle(OutputStyle.SHORT).withIndentation();
+	FulltextQuery fulltextQuery = new FulltextQuery("Saint-André",
+		pagination, output, City.class, "fr");
+	fullTextSearchEngine.executeQueryToDatabaseObjects(fulltextQuery);
+	assertEquals(new Long(1), statsUsageService
+		.getUsage(StatsUsageType.FULLTEXT));
+	fullTextSearchEngine.executeAndSerialize(fulltextQuery,
+		new ByteArrayOutputStream());
+	assertEquals(new Long(2), statsUsageService
+		.getUsage(StatsUsageType.FULLTEXT));
+	fullTextSearchEngine.executeQuery(fulltextQuery);
+	assertEquals(new Long(3), statsUsageService
+		.getUsage(StatsUsageType.FULLTEXT));
+	fullTextSearchEngine.executeQueryToString(fulltextQuery);
+	assertEquals(new Long(4), statsUsageService
+		.getUsage(StatsUsageType.FULLTEXT));
     }
-    
+
     @Test
     public void testReturnFields() {
 	// the fields are tested in solrsynchroniserTest, we don't want to
@@ -429,6 +432,5 @@ public class FulltextSearchEngineTest extends
     public void setCityDao(ICityDao cityDao) {
 	this.cityDao = cityDao;
     }
-   
 
 }

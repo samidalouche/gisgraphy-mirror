@@ -331,7 +331,6 @@ public class Output {
 	    }
 
 	}
-	
 
 	/**
 	 * @param serviceType
@@ -340,13 +339,14 @@ public class Output {
 	 * @throws NotImplementedException
 	 *                 if the service is not implemented by the algorithm
 	 */
-	public static OutputFormat[] listByService(GisgraphyServiceType serviceType) {
+	public static OutputFormat[] listByService(
+		GisgraphyServiceType serviceType) {
 	    switch (serviceType) {
 	    case FULLTEXT:
 		// fulltext accept all formats
 		return OutputFormat.values();
 	    case GEOLOC:
-		OutputFormat[] result = {OutputFormat.XML,OutputFormat.JSON};
+		OutputFormat[] result = { OutputFormat.XML, OutputFormat.JSON };
 		return result;
 	    default:
 		throw new NotImplementedException("The service type "

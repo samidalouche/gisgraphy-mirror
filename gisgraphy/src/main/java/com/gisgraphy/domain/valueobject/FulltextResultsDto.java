@@ -33,16 +33,16 @@ import org.apache.solr.client.solrj.response.QueryResponse;
 import com.gisgraphy.domain.geoloc.service.fulltextsearch.SolrUnmarshaller;
 
 /**
- * DTO (data transfer object) that contains a  list of {@link SolrResponseDto} 
+ * DTO (data transfer object) that contains a list of {@link SolrResponseDto}
  * and other metaData like the maximum score, The time the query has take
  * 
  * @author <a href="mailto:david.masclet@gisgraphy.com">David Masclet</a>
  */
 public class FulltextResultsDto {
 
-    private final static List<SolrResponseDto> DEFAULT_RESULTS= new ArrayList<SolrResponseDto>();
-    
-    private List<SolrResponseDto> results= DEFAULT_RESULTS;
+    private final static List<SolrResponseDto> DEFAULT_RESULTS = new ArrayList<SolrResponseDto>();
+
+    private List<SolrResponseDto> results = DEFAULT_RESULTS;
 
     private long numFound = 0;
 
@@ -54,8 +54,7 @@ public class FulltextResultsDto {
 
     /**
      * @param response
-     *                The {@link QueryResponse} to build
-     *                the DTO 
+     *                The {@link QueryResponse} to build the DTO
      */
     public FulltextResultsDto(QueryResponse response) {
 	super();
@@ -98,8 +97,8 @@ public class FulltextResultsDto {
 
     /**
      * @return The size of the results. It is different form {@link #numFound}
-     *         It is different from {@link #getResultsSize()} : due to pagination
-     *         the numFound can be greater than the value returned by
+     *         It is different from {@link #getResultsSize()} : due to
+     *         pagination the numFound can be greater than the value returned by
      *         {@linkplain #getResultsSize()}
      */
     public int getResultsSize() {

@@ -27,7 +27,7 @@ package com.gisgraphy.domain.valueobject;
  * 
  * @param <T>
  *                the type of the value
- *                
+ * 
  * @author <a href="mailto:david.masclet@gisgraphy.com">David Masclet</a>
  */
 public class NameValueDTO<T> {

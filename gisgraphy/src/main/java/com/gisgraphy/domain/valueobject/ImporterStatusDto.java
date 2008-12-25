@@ -38,11 +38,13 @@ public class ImporterStatusDto {
     private static final int NUMBER_OF_FIELDS = 7;
     /**
      * The csv line separator
+     * 
      * @see #toCSV()
      */
     public static final String CSV_LINE_SEPARATOR = "\r\n";
     /**
      * The csv field separator
+     * 
      * @see #toCSV()
      */
     public static final String CSV_FIELD_SEPARATOR = ";";
@@ -52,12 +54,18 @@ public class ImporterStatusDto {
     public static final String DEFAULT_CURRENT_FILE = " any file ";
 
     /**
-     * @param processorName The name of the processor (typically the className)
-     * @param currentFileName wich file is currently processed
-     * @param currentLine which line of the currentFileName is processed
-     * @param numberOfLineToProcess the total of line to be process by the importer
-     * @param numberOfLineProcessed The total of line already process by this importer
-     * @param statusMessage a message
+     * @param processorName
+     *                The name of the processor (typically the className)
+     * @param currentFileName
+     *                wich file is currently processed
+     * @param currentLine
+     *                which line of the currentFileName is processed
+     * @param numberOfLineToProcess
+     *                the total of line to be process by the importer
+     * @param numberOfLineProcessed
+     *                The total of line already process by this importer
+     * @param statusMessage
+     *                a message
      * @param status
      */
     public ImporterStatusDto(String processorName, String currentFileName,
@@ -84,13 +92,11 @@ public class ImporterStatusDto {
     private int percent = 0;
     private String statusMessage = "";
     private ImporterStatus status = ImporterStatus.UNKNOW;
-    
-    
 
     public ImporterStatusDto(IGeonamesProcessor processor) {
 	this.processorName = processor.getClass().getSimpleName();
 	setCurrentFileName(processor.getCurrentFileName());
-	
+
 	this.status = processor.getStatus();
 	this.statusMessage = processor.getStatusMessage();
 	this.currentLine = processor.getReadFileLine();
@@ -98,30 +104,33 @@ public class ImporterStatusDto {
 	this.numberOfLineProcessed = processor.getTotalReadLine();
 	calculateFields();
     }
-    
+
     /**
      * Construct a {@linkplain ImporterStatusDto} from a csv line
-     * @param csv the String that represent the {@linkplain ImporterStatusDto}
+     * 
+     * @param csv
+     *                the String that represent the
+     *                {@linkplain ImporterStatusDto}
      */
     public ImporterStatusDto(String csv) {
-	if (csv.endsWith(CSV_LINE_SEPARATOR)){
-	    //it is not a csv from a readline
-	    csv = csv.substring(0, csv.length()-CSV_LINE_SEPARATOR.length());
+	if (csv.endsWith(CSV_LINE_SEPARATOR)) {
+	    // it is not a csv from a readline
+	    csv = csv.substring(0, csv.length() - CSV_LINE_SEPARATOR.length());
 	}
 	String[] fields = csv.split(CSV_FIELD_SEPARATOR);
-	if (fields.length != NUMBER_OF_FIELDS){
-	    throw new IllegalArgumentException("CSV must have "+NUMBER_OF_FIELDS +" fields");
+	if (fields.length != NUMBER_OF_FIELDS) {
+	    throw new IllegalArgumentException("CSV must have "
+		    + NUMBER_OF_FIELDS + " fields");
 	}
 	this.processorName = fields[0];
 	setCurrentFileName(fields[1]);
 	this.currentLine = Integer.valueOf(fields[2]);
 	this.numberOfLineToProcess = Integer.valueOf(fields[3]);
 	this.numberOfLineProcessed = Integer.valueOf(fields[4]);
-	this.statusMessage =fields[5];
+	this.statusMessage = fields[5];
 	this.status = ImporterStatus.valueOf(fields[6]);
 	calculateFields();
     }
-    
 
     private void calculateFields() {
 	this.numberOfLinelefts = (this.numberOfLineToProcess - this.numberOfLineProcessed);
@@ -191,38 +200,32 @@ public class ImporterStatusDto {
      * @return the errorMessage
      */
     public String getStatusMessage() {
-        return statusMessage;
+	return statusMessage;
     }
 
     /**
-     * @param currentFileName the currentFileName to set,
-     * the CurrentFileName will be set to {@link #DEFAULT_CURRENT_FILE} if the argument is null
+     * @param currentFileName
+     *                the currentFileName to set, the CurrentFileName will be
+     *                set to {@link #DEFAULT_CURRENT_FILE} if the argument is
+     *                null
      */
     private void setCurrentFileName(String currentFileName) {
-	if (currentFileName!= null) {
+	if (currentFileName != null) {
 	    this.currentFileName = currentFileName;
-	}else{
-	    this.currentFileName = DEFAULT_CURRENT_FILE;   
+	} else {
+	    this.currentFileName = DEFAULT_CURRENT_FILE;
 	}
     }
 
     public String toCSV() {
 	StringBuffer sb = new StringBuffer();
-	return sb.append(this.processorName)
-	.append(CSV_FIELD_SEPARATOR)
-	.append(this.currentFileName)
-	.append(CSV_FIELD_SEPARATOR)
-	.append(this.currentLine)
-	.append(CSV_FIELD_SEPARATOR)
-	.append(this.numberOfLineToProcess)
-	.append(CSV_FIELD_SEPARATOR)
-	.append(this.numberOfLineProcessed)
-	.append(CSV_FIELD_SEPARATOR)
-	.append(this.statusMessage)
-	.append(CSV_FIELD_SEPARATOR)
-	.append(status.name())
-	.append(CSV_LINE_SEPARATOR)
-	.toString();
+	return sb.append(this.processorName).append(CSV_FIELD_SEPARATOR)
+		.append(this.currentFileName).append(CSV_FIELD_SEPARATOR)
+		.append(this.currentLine).append(CSV_FIELD_SEPARATOR).append(
+			this.numberOfLineToProcess).append(CSV_FIELD_SEPARATOR)
+		.append(this.numberOfLineProcessed).append(CSV_FIELD_SEPARATOR)
+		.append(this.statusMessage).append(CSV_FIELD_SEPARATOR).append(
+			status.name()).append(CSV_LINE_SEPARATOR).toString();
     }
 
 }

@@ -23,52 +23,61 @@
 package com.gisgraphy.hibernate.projection;
 
 public class _CityDTO {
-    
+
     /**
-	 * 
-	 */
-	public _CityDTO() {
-	    super();
-	}
-	
-	private String name;
-	private Long featureId;
-	private Double distance;
-	/**
-	 * @return the name
-	 */
-	public String getName() {
-	    return name;
-	}
-	/**
-	 * @param name the name to set
-	 */
-	public void setName(String name) {
-	    this.name = name;
-	}
-	/**
-	 * @return the featureId
-	 */
-	public Long getFeatureId() {
-	    return featureId;
-	}
-	/**
-	 * @param featureId the featureId to set
-	 */
-	public void setFeatureId(Long featureId) {
-	    this.featureId = featureId;
-	}
-	/**
-	 * @return the distance
-	 */
-	public Double getDistance() {
-	    return distance;
-	}
-	/**
-	 * @param distance the distance to set
-	 */
-	public void setDistance(Double distance) {
-	    this.distance = distance;
-	}
+     * 
+     */
+    public _CityDTO() {
+	super();
+    }
+
+    private String name;
+    private Long featureId;
+    private Double distance;
+
+    /**
+     * @return the name
+     */
+    public String getName() {
+	return name;
+    }
+
+    /**
+     * @param name
+     *                the name to set
+     */
+    public void setName(String name) {
+	this.name = name;
+    }
+
+    /**
+     * @return the featureId
+     */
+    public Long getFeatureId() {
+	return featureId;
+    }
+
+    /**
+     * @param featureId
+     *                the featureId to set
+     */
+    public void setFeatureId(Long featureId) {
+	this.featureId = featureId;
+    }
+
+    /**
+     * @return the distance
+     */
+    public Double getDistance() {
+	return distance;
+    }
+
+    /**
+     * @param distance
+     *                the distance to set
+     */
+    public void setDistance(Double distance) {
+	this.distance = distance;
+    }
 
 }

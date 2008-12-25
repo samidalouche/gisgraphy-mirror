@@ -139,7 +139,12 @@ public class AdmDao extends GenericGisDao<Adm> implements IAdmDao {
 			    if (!"00".equals(adm1Code)) {
 				throw e;
 			    } else {
-				logger.error("Can not retrieve Adm for countrycode="+countryCode+" and adm2code="+adm2Code+" in flex mode : result is ambiguous");
+				logger
+					.error("Can not retrieve Adm for countrycode="
+						+ countryCode
+						+ " and adm2code="
+						+ adm2Code
+						+ " in flex mode : result is ambiguous");
 				return null;
 			    }
 			}
@@ -192,7 +197,14 @@ public class AdmDao extends GenericGisDao<Adm> implements IAdmDao {
 			    if (!"00".equals(adm1Code)) {
 				throw e;
 			    } else {
-				logger.error("Can not retrieve Adm for countrycode="+countryCode+" and adm2code="+adm2Code+" and adm3code="+adm3Code+" in flex mode : result is ambiguous");
+				logger
+					.error("Can not retrieve Adm for countrycode="
+						+ countryCode
+						+ " and adm2code="
+						+ adm2Code
+						+ " and adm3code="
+						+ adm3Code
+						+ " in flex mode : result is ambiguous");
 				return null;
 			    }
 			}
@@ -249,7 +261,16 @@ public class AdmDao extends GenericGisDao<Adm> implements IAdmDao {
 			    if (!"00".equals(adm1Code)) {
 				throw e;
 			    } else {
-				logger.error("Can not retrieve Adm for countrycode="+countryCode+" and adm2code="+adm2Code+" and adm3code="+adm3Code+" and adm4code="+adm4Code+" in flex mode : result is ambiguous");
+				logger
+					.error("Can not retrieve Adm for countrycode="
+						+ countryCode
+						+ " and adm2code="
+						+ adm2Code
+						+ " and adm3code="
+						+ adm3Code
+						+ " and adm4code="
+						+ adm4Code
+						+ " in flex mode : result is ambiguous");
 				return null;
 			    }
 			}
@@ -630,22 +651,23 @@ public class AdmDao extends GenericGisDao<Adm> implements IAdmDao {
 	    return adm;
 	}
     }
-    
+
     public int deleteAllByLevel(final int level) {
-	 return ((Integer) this.getHibernateTemplate().execute(new HibernateCallback() {
+	return ((Integer) this.getHibernateTemplate().execute(
+		new HibernateCallback() {
 
 		    public Object doInHibernate(Session session)
 			    throws PersistenceException {
-			String queryString = "delete from " + persistentClass.getSimpleName()
+			String queryString = "delete from "
+				+ persistentClass.getSimpleName()
 				+ " as a where a.level=?";
 
 			Query qry = session.createQuery(queryString);
 			qry.setParameter(0, level);
 			qry.setCacheable(false);
 
-			 return Integer.valueOf(qry.executeUpdate());
+			return Integer.valueOf(qry.executeUpdate());
 
-			
 		    }
 		})).intValue();
     }
@@ -675,7 +697,5 @@ public class AdmDao extends GenericGisDao<Adm> implements IAdmDao {
 	    return null;
 	}
     }
-
-   
 
 }

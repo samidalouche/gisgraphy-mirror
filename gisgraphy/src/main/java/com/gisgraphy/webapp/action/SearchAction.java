@@ -61,7 +61,6 @@ public class SearchAction extends ActionSupport {
      */
     protected String errorMessage = "";
 
-  
     /**
      * @param from
      *                the from to set

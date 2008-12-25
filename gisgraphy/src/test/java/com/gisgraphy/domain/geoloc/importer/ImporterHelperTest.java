@@ -106,74 +106,97 @@ public class ImporterHelperTest extends TestCase {
 		.correctLastAdmCodeIfPossible(fieldsAdm4Bis)[13]));
 
     }
-    
+
     @Test
-    public void testIsDirectoryAccessible(){
+    public void testIsDirectoryAccessible() {
 	File tempDir = null;
 	try {
 	    String accessiblePath = System.getProperty("java.io.tmpdir")
-	    	+ System.getProperty("file.separator")
-	    	+ getClass().getSimpleName() + "-" + System.currentTimeMillis();
+		    + System.getProperty("file.separator")
+		    + getClass().getSimpleName() + "-"
+		    + System.currentTimeMillis();
 	    tempDir = new File(accessiblePath);
 	    tempDir.mkdir();
 	    assertTrue(ImporterHelper.isDirectoryAccessible(accessiblePath));
 	    String pathNotAccessible = System.getProperty("java.io.tmpdir")
-		    	+ System.getProperty("file.separator")
-		    	+ getClass().getSimpleName() + "-" + new Random().nextLong();
-	    //System.err.println("#########"+pathNotAccessible);
+		    + System.getProperty("file.separator")
+		    + getClass().getSimpleName() + "-"
+		    + new Random().nextLong();
+	    // System.err.println("#########"+pathNotAccessible);
 	    assertFalse(ImporterHelper.isDirectoryAccessible(pathNotAccessible));
 	    String filePath = tempDir.getAbsolutePath()
-			+ System.getProperty("file.separator") + "test.txt";
+		    + System.getProperty("file.separator") + "test.txt";
 	    File file = new File(filePath);
 	    try {
 		file.createNewFile();
 	    } catch (IOException e) {
-		fail("Can not create file "+filePath);
+		fail("Can not create file " + filePath);
 	    }
 	    assertFalse(ImporterHelper.isDirectoryAccessible(filePath));
-	}finally{
-	 // delete temp dir
-		assertTrue("the tempDir has not been deleted", GeolocTestHelper.DeleteNonEmptyDirectory(tempDir));
+	} finally {
+	    // delete temp dir
+	    assertTrue("the tempDir has not been deleted", GeolocTestHelper
+		    .DeleteNonEmptyDirectory(tempDir));
 	}
-	
+
     }
-    
+
     @Test
-    public void testCompileRegexShouldCompile(){
-	List<Pattern> patterns =ImporterHelper.compileRegex("P[.]PPL[A-Z&&[^QW]];P[.]PPL$;P[.]STLMT$");
+    public void testCompileRegexShouldCompile() {
+	List<Pattern> patterns = ImporterHelper
+		.compileRegex("P[.]PPL[A-Z&&[^QW]];P[.]PPL$;P[.]STLMT$");
 	assertEquals(3, patterns.size());
     }
-    
+
     @Test
-    public void testCompileRegexShouldReturnEmptyListForEmptyString(){
-	List<Pattern> patterns =ImporterHelper.compileRegex("");
+    public void testCompileRegexShouldReturnEmptyListForEmptyString() {
+	List<Pattern> patterns = ImporterHelper.compileRegex("");
 	assertEquals(0, patterns.size());
     }
-    
+
     @Test
-    public void testCompileRegexShouldReturnNullIfRegexAreIncorect(){
-	List<Pattern> patterns =ImporterHelper.compileRegex("P[.]PPL[A-Z&&[^QW]];P[.]PPL$;P[.]STLMT$;*");
+    public void testCompileRegexShouldReturnNullIfRegexAreIncorect() {
+	List<Pattern> patterns = ImporterHelper
+		.compileRegex("P[.]PPL[A-Z&&[^QW]];P[.]PPL$;P[.]STLMT$;*");
 	assertNull(patterns);
     }
-    
+
     @Test
-    public void testFormatSeconds(){
-	//test value and space
+    public void testFormatSeconds() {
+	// test value and space
 	assertTrue(ImporterHelper.formatSeconds(1000000).contains("277 "));
 	assertTrue(ImporterHelper.formatSeconds(1000000).contains(" 46 "));
 	assertTrue(ImporterHelper.formatSeconds(1000000).contains(" 40 "));
-	//test display vfor value '0'
-	assertTrue("minut should not be displayed if 0 : "+ImporterHelper.formatSeconds(3600),!ImporterHelper.formatSeconds(3600).contains("minut"));
-	assertTrue("second should not be displayed if 0 : "+ImporterHelper.formatSeconds(3600),!ImporterHelper.formatSeconds(3600).contains("second"));
-	assertTrue("hour should not be displayed if 0 : "+ImporterHelper.formatSeconds(100),!ImporterHelper.formatSeconds(100).contains(" hour "));
-	//test singular and space
-	assertTrue("hour should be singular when less or equals 1 hour : "+ImporterHelper.formatSeconds(3600),ImporterHelper.formatSeconds(3600).contains("hour "));
-	assertTrue("minut should be singular when less or equals 1 minut : "+ImporterHelper.formatSeconds(60),ImporterHelper.formatSeconds(60).contains(" minut"));
-	assertTrue("second should be singular when less or equals 1 second : "+ImporterHelper.formatSeconds(1),ImporterHelper.formatSeconds(1).contains(" second"));
-	//plural and space
-	assertTrue("hour should be plural when greater 1 hour : "+ImporterHelper.formatSeconds(3600),ImporterHelper.formatSeconds(7200).contains(" hours"));
-	assertTrue("minut should be singular when greater 1 minut : "+ImporterHelper.formatSeconds(60),ImporterHelper.formatSeconds(120).contains(" minuts "));
-	assertTrue("second should be singular when greater 1 minut : "+ImporterHelper.formatSeconds(1),ImporterHelper.formatSeconds(2).contains(" seconds"));
+	// test display vfor value '0'
+	assertTrue("minut should not be displayed if 0 : "
+		+ ImporterHelper.formatSeconds(3600), !ImporterHelper
+		.formatSeconds(3600).contains("minut"));
+	assertTrue("second should not be displayed if 0 : "
+		+ ImporterHelper.formatSeconds(3600), !ImporterHelper
+		.formatSeconds(3600).contains("second"));
+	assertTrue("hour should not be displayed if 0 : "
+		+ ImporterHelper.formatSeconds(100), !ImporterHelper
+		.formatSeconds(100).contains(" hour "));
+	// test singular and space
+	assertTrue("hour should be singular when less or equals 1 hour : "
+		+ ImporterHelper.formatSeconds(3600), ImporterHelper
+		.formatSeconds(3600).contains("hour "));
+	assertTrue("minut should be singular when less or equals 1 minut : "
+		+ ImporterHelper.formatSeconds(60), ImporterHelper
+		.formatSeconds(60).contains(" minut"));
+	assertTrue("second should be singular when less or equals 1 second : "
+		+ ImporterHelper.formatSeconds(1), ImporterHelper
+		.formatSeconds(1).contains(" second"));
+	// plural and space
+	assertTrue("hour should be plural when greater 1 hour : "
+		+ ImporterHelper.formatSeconds(3600), ImporterHelper
+		.formatSeconds(7200).contains(" hours"));
+	assertTrue("minut should be singular when greater 1 minut : "
+		+ ImporterHelper.formatSeconds(60), ImporterHelper
+		.formatSeconds(120).contains(" minuts "));
+	assertTrue("second should be singular when greater 1 minut : "
+		+ ImporterHelper.formatSeconds(1), ImporterHelper
+		.formatSeconds(2).contains(" seconds"));
     }
 
 }

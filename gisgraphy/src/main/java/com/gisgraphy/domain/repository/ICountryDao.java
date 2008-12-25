@@ -43,7 +43,7 @@ public interface ICountryDao extends IGisDao<Country> {
      * @see #getByIso3166Alpha3Code(String)
      * @see #getByIso3166Code(String)
      * @param iso3166Alpha2Code
-     *            The ISO 3166 Alpha 2 code in upper case
+     *                The ISO 3166 Alpha 2 code in upper case
      * @return The expected country for the specified alpha 2 code or null if
      *         the iso639Alpha2LanguageCode is null
      */
@@ -56,7 +56,7 @@ public interface ICountryDao extends IGisDao<Country> {
      * @see #getByIso3166Alpha2Code(String)
      * @see #getByIso3166Code(String)
      * @param iso3166Alpha3Code
-     *            The ISO 3166 Alpha 2 code in upper case
+     *                The ISO 3166 Alpha 2 code in upper case
      * @return The expected country for the specified alpha 3 code or null if
      *         the iso639Alpha3Code is null
      */
@@ -71,7 +71,7 @@ public interface ICountryDao extends IGisDao<Country> {
      * @see #getByIso3166Alpha3Code(String)
      * @see #getByIso3166Alpha2Code(String)
      * @param iso3166Code
-     *            the iso 3166 Code
+     *                the iso 3166 Code
      * @return the expected country or null if the code is null or it is not a 2
      *         or 3 char code
      */
@@ -81,7 +81,7 @@ public interface ICountryDao extends IGisDao<Country> {
      * returns the country for the specified name
      * 
      * @param name
-     *            the name of the country to retrieve
+     *                the name of the country to retrieve
      * @return the expected country or null if the code is null or it is not a 2
      *         or 3 char code
      */

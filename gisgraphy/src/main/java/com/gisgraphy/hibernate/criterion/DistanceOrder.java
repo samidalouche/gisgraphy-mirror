@@ -31,8 +31,9 @@ import com.gisgraphy.domain.valueobject.SRID;
 import com.vividsolutions.jts.geom.Point;
 
 /**
- * A criteria that sort by distance
- * for better performance you can use {@link ProjectionOrder} if a projection for distance calculation have been added
+ * A criteria that sort by distance for better performance you can use
+ * {@link ProjectionOrder} if a projection for distance calculation have been
+ * added
  * 
  * @author <a href="mailto:david.masclet@gisgraphy.com">David Masclet</a>
  */

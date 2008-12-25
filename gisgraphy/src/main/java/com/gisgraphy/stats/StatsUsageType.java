@@ -27,10 +27,11 @@ package com.gisgraphy.stats;
 
 /**
  * Represent all the types of stats
+ * 
  * @author <a href="mailto:david.masclet@gisgraphy.com">David Masclet</a>
- *
+ * 
  */
 public enum StatsUsageType {
 
-    GEOLOC,FULLTEXT
+    GEOLOC, FULLTEXT
 }

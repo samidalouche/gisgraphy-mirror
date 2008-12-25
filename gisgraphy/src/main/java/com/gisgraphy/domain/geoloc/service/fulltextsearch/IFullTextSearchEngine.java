@@ -38,17 +38,15 @@ import com.gisgraphy.domain.valueobject.FulltextResultsDto;
  */
 public interface IFullTextSearchEngine extends IQueryProcessor<FulltextQuery> {
 
-  
-
     /**
      * Execute the query and returns the Java Objects
      * 
      * @param query
-     *            The FulltextQuery to execute
+     *                The FulltextQuery to execute
      * @return The proxied hibernate Java Objects. Never return null but an
      *         empty list
      * @throws ServiceException
-     *             If an error occurred
+     *                 If an error occurred
      */
     public List<? extends GisFeature> executeQueryToDatabaseObjects(
 	    FulltextQuery query) throws ServiceException;
@@ -57,11 +55,11 @@ public interface IFullTextSearchEngine extends IQueryProcessor<FulltextQuery> {
      * Execute the query and returns a list of DTO
      * 
      * @param query
-     *            The FulltextQuery to execute
+     *                The FulltextQuery to execute
      * @return a DTO for the results. note : The list of results will never be
      *         null but an empty list
      * @throws ServiceException
-     *             If an error occurred
+     *                 If an error occurred
      */
     public FulltextResultsDto executeQuery(FulltextQuery query)
 	    throws ServiceException;
@@ -71,7 +69,7 @@ public interface IFullTextSearchEngine extends IQueryProcessor<FulltextQuery> {
      *         false;
      */
     public boolean isAlive();
-    
+
     /**
      * @return the url of the fulltextsearch engine
      */

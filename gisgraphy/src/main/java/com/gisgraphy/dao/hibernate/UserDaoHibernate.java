@@ -92,8 +92,8 @@ public class UserDaoHibernate extends GenericDaoHibernate<User, Long> implements
      */
     public UserDetails loadUserByUsername(String username)
 	    throws UsernameNotFoundException {
-	List<?> users = getHibernateTemplate().find("from User where username=?",
-		username);
+	List<?> users = getHibernateTemplate().find(
+		"from User where username=?", username);
 	if (users == null || users.isEmpty()) {
 	    throw new UsernameNotFoundException("user '" + username
 		    + "' not found...");

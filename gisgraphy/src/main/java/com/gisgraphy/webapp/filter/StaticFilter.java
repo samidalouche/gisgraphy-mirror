@@ -94,7 +94,8 @@ public class StaticFilter extends OncePerRequestFilter {
 		.commaDelimitedListToSet(delimitedPatterns);
 	String[] patterns = new String[patternSet.size()];
 	int i = 0;
-	for (Iterator<String> iterator = patternSet.iterator(); iterator.hasNext(); i++) {
+	for (Iterator<String> iterator = patternSet.iterator(); iterator
+		.hasNext(); i++) {
 	    // no trailing/leading white space.
 	    String pattern = (String) iterator.next();
 	    patterns[i] = pattern.trim();

@@ -41,29 +41,31 @@ public class GeonamesFeatureImporterTest extends TestCase {
     @SuppressWarnings("unchecked")
     public void testRollback() {
 	GeonamesFeatureImporter featureImporter = new GeonamesFeatureImporter();
-	  ICityDao mockCityDao = EasyMock.createMock(ICityDao.class);
-	    EasyMock.expect(mockCityDao.deleteAll()).andReturn(2);
-	    EasyMock.expect(mockCityDao.getPersistenceClass()).andStubReturn(
-		    City.class);
-	    EasyMock.replay(mockCityDao);
-	    IGisDao<Lake> mockLakeDao = EasyMock.createMock(IGisDao.class);
-	    EasyMock.expect(mockLakeDao.deleteAll()).andReturn(0);
-	    EasyMock.expect(mockLakeDao.getPersistenceClass()).andStubReturn(
-		    Lake.class);
-	    EasyMock.replay(mockLakeDao);
-	    IGisFeatureDao mockGisDao = EasyMock
-		    .createMock(IGisFeatureDao.class);
-	    EasyMock.expect(mockGisDao.deleteAllExceptAdmsAndCountries()).andReturn(65);
-	    EasyMock.expect(mockGisDao.getPersistenceClass()).andStubReturn(
-		    GisFeature.class);
-	    EasyMock.replay(mockGisDao);
-	    IGisDao<? extends GisFeature>[] daoList = new IGisDao[2];
-	    daoList[0] = mockCityDao;
-	    daoList[1] = mockLakeDao;
-	    featureImporter.setGisFeatureDao(mockGisDao);
-	    featureImporter.setIDaos(daoList);
-	    List<NameValueDTO<Integer>> deleted = featureImporter.rollback();
-	    assertEquals("if zero elements are deleted(lake), it should not have an entry",2, deleted.size());
+	ICityDao mockCityDao = EasyMock.createMock(ICityDao.class);
+	EasyMock.expect(mockCityDao.deleteAll()).andReturn(2);
+	EasyMock.expect(mockCityDao.getPersistenceClass()).andStubReturn(
+		City.class);
+	EasyMock.replay(mockCityDao);
+	IGisDao<Lake> mockLakeDao = EasyMock.createMock(IGisDao.class);
+	EasyMock.expect(mockLakeDao.deleteAll()).andReturn(0);
+	EasyMock.expect(mockLakeDao.getPersistenceClass()).andStubReturn(
+		Lake.class);
+	EasyMock.replay(mockLakeDao);
+	IGisFeatureDao mockGisDao = EasyMock.createMock(IGisFeatureDao.class);
+	EasyMock.expect(mockGisDao.deleteAllExceptAdmsAndCountries())
+		.andReturn(65);
+	EasyMock.expect(mockGisDao.getPersistenceClass()).andStubReturn(
+		GisFeature.class);
+	EasyMock.replay(mockGisDao);
+	IGisDao<? extends GisFeature>[] daoList = new IGisDao[2];
+	daoList[0] = mockCityDao;
+	daoList[1] = mockLakeDao;
+	featureImporter.setGisFeatureDao(mockGisDao);
+	featureImporter.setIDaos(daoList);
+	List<NameValueDTO<Integer>> deleted = featureImporter.rollback();
+	assertEquals(
+		"if zero elements are deleted(lake), it should not have an entry",
+		2, deleted.size());
     }
 
 }

@@ -49,17 +49,18 @@ public class ImportAction extends ActionSupport {
     private static Logger logger = LoggerFactory.getLogger(ImportAction.class);
 
     public static String WAIT = "wait";
-    
+
     private IImporterManager importerManager;
 
     /**
      * Run import if not in progress or already done, otherwise return Wait view
+     * 
      * @return 'success'
      * @throws Exception
      *                 When errors occurred
      */
     public String doImport() throws Exception {
-	if (importerManager.isInProgress() || importerManager.isAlreadyDone()){
+	if (importerManager.isInProgress() || importerManager.isAlreadyDone()) {
 	    return WAIT;
 	}
 	ImportAction.logger.info("doImport");
@@ -76,7 +77,7 @@ public class ImportAction extends ActionSupport {
 	ImportAction.logger.debug("dowait");
 	return WAIT;
     }
-    
+
     /**
      * @return 'Wait'
      * @throws Exception

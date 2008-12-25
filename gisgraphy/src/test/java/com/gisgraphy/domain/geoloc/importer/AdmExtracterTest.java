@@ -36,33 +36,35 @@ public class AdmExtracterTest extends TestCase {
     public void testRollback() {
 	AdmExtracter admExtracter = new AdmExtracter();
 	ImporterConfig importerConfig = new ImporterConfig();
-	File tempDir = GeolocTestHelper.createTempDir(this.getClass().getSimpleName());
-	//create adm file
-	for (int i=1;i<=4;i++){
-        	File adm = new File(tempDir.getAbsolutePath()
-        		+ System.getProperty("file.separator")+ "ADM"+i+".txt");
-        	try {
-        	    assertTrue(adm.createNewFile());
-        	} catch (IOException e) {
-        	  fail("Can not create file "+adm.getAbsolutePath());
-        	}
+	File tempDir = GeolocTestHelper.createTempDir(this.getClass()
+		.getSimpleName());
+	// create adm file
+	for (int i = 1; i <= 4; i++) {
+	    File adm = new File(tempDir.getAbsolutePath()
+		    + System.getProperty("file.separator") + "ADM" + i + ".txt");
+	    try {
+		assertTrue(adm.createNewFile());
+	    } catch (IOException e) {
+		fail("Can not create file " + adm.getAbsolutePath());
+	    }
 	}
-	
-	
+
 	importerConfig.setGeonamesDir(tempDir.getAbsolutePath());
 	importerConfig.setAdm1FileName("ADM1.txt");
 	importerConfig.setAdm2FileName("ADM2.txt");
 	importerConfig.setAdm3FileName("ADM3.txt");
 	importerConfig.setAdm4FileName("ADM4.txt");
-	
+
 	admExtracter.setImporterConfig(importerConfig);
 	List<NameValueDTO<Integer>> deleted = admExtracter.rollback();
 	assertEquals(4, deleted.size());
-	for (int i=1;i<=4;i++){
-	assertFalse("The adm"+i+" file should have been deleted",new File(tempDir.getAbsolutePath()
-		+ System.getProperty("file.separator")+ "ADM"+i+".txt").exists());
+	for (int i = 1; i <= 4; i++) {
+	    assertFalse("The adm" + i + " file should have been deleted",
+		    new File(tempDir.getAbsolutePath()
+			    + System.getProperty("file.separator") + "ADM" + i
+			    + ".txt").exists());
 	}
-	
+
 	// delete temp dir
 	assertTrue("The tempDir has not been deleted", GeolocTestHelper
 		.DeleteNonEmptyDirectory(tempDir));

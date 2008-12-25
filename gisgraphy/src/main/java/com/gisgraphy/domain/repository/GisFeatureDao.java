@@ -115,29 +115,32 @@ public class GisFeatureDao extends GenericGisDao<GisFeature> implements
 	return getNearestAndDistanceFrom(point, distance, -1, -1, requiredClass);
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see com.gisgraphy.domain.repository.IGisFeatureDao#deleteAllExceptAdms()
      */
     public int deleteAllExceptAdmsAndCountries() {
-	 return ((Integer) this.getHibernateTemplate().execute(new HibernateCallback() {
+	return ((Integer) this.getHibernateTemplate().execute(
+		new HibernateCallback() {
 
-	    public Object doInHibernate(Session session)
-		    throws PersistenceException {
-		String queryString = "delete from " + persistentClass.getSimpleName()
-			+ " as g where (g.featureCode NOT IN ('ADM1','ADM2','ADM3','ADM4') OR g.featureCode is null) AND g.featureId NOT IN (select featureId from Country)  ";
+		    public Object doInHibernate(Session session)
+			    throws PersistenceException {
+			String queryString = "delete from "
+				+ persistentClass.getSimpleName()
+				+ " as g where (g.featureCode NOT IN ('ADM1','ADM2','ADM3','ADM4') OR g.featureCode is null) AND g.featureId NOT IN (select featureId from Country)  ";
 
-		Query qry = session.createQuery(queryString);
-		//Need to flush to avoid optimisticLock exception
-		session.flush();
-		session.clear();
-		qry.setCacheable(false);
+			Query qry = session.createQuery(queryString);
+			// Need to flush to avoid optimisticLock exception
+			session.flush();
+			session.clear();
+			qry.setCacheable(false);
 
-		 return Integer.valueOf(qry.executeUpdate());
+			return Integer.valueOf(qry.executeUpdate());
 
-		
-	    }
-	})).intValue();
-	
+		    }
+		})).intValue();
+
     }
 
 }

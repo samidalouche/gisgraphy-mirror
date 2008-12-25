@@ -36,8 +36,6 @@ import org.apache.commons.logging.LogFactory;
 
 import com.gisgraphy.Constants;
 
-
-
 /**
  * <p>
  * This class is designed to put all the public variables in a class to a

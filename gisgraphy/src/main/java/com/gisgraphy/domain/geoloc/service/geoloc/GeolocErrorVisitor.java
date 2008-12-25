@@ -92,21 +92,27 @@ public class GeolocErrorVisitor implements IoutputFormatVisitor {
 	return visitXML(format);
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see com.gisgraphy.domain.geoloc.service.errors.IoutputFormatVisitor#visitPHP(com.gisgraphy.domain.valueobject.Output.OutputFormat)
      */
     public String visitPHP(OutputFormat format) {
 	return visitXML(format);
     }
-    
-    /* (non-Javadoc)
+
+    /*
+     * (non-Javadoc)
+     * 
      * @see com.gisgraphy.domain.geoloc.service.errors.IoutputFormatVisitor#visitATOM(com.gisgraphy.domain.valueobject.Output.OutputFormat)
      */
     public String visitATOM(OutputFormat outputFormat) {
 	return visitXML(outputFormat);
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see com.gisgraphy.domain.geoloc.service.errors.IoutputFormatVisitor#visitGEORSS(com.gisgraphy.domain.valueobject.Output.OutputFormat)
      */
     public String visitGEORSS(OutputFormat outputFormat) {

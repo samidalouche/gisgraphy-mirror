@@ -39,6 +39,7 @@ public interface IsolrClient {
 
     /**
      * return a handler to the server
+     * 
      * @return The server
      */
     public abstract SolrServer getServer();
@@ -47,9 +48,10 @@ public interface IsolrClient {
      * @return The current url of the server
      */
     public String getURL();
-    
+
     /**
-     * @return true if the fulltextsearchengine is alive, otherwise return false;
+     * @return true if the fulltextsearchengine is alive, otherwise return
+     *         false;
      */
     public boolean isServerAlive();
 

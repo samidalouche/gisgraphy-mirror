@@ -63,7 +63,6 @@ public class AdmExtracter extends AbstractGeonamesProcessor {
 
     private OutputStreamWriter adm3fileOutputStreamWriter;
 
-    
     private OutputStreamWriter adm4fileOutputStreamWriter;
 
     private SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd-HH-mm:ss");
@@ -522,35 +521,37 @@ public class AdmExtracter extends AbstractGeonamesProcessor {
 		.getGeonamesDir());
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see com.gisgraphy.domain.geoloc.importer.IGeonamesProcessor#rollback()
      */
     public List<NameValueDTO<Integer>> rollback() {
 	List<NameValueDTO<Integer>> deletedObjectInfo = new ArrayList<NameValueDTO<Integer>>();
 	adm1file = new File(importerConfig.getGeonamesDir()
 		+ importerConfig.getAdm1FileName());
-	deleteFile(adm1file,deletedObjectInfo);
+	deleteFile(adm1file, deletedObjectInfo);
 	adm2file = new File(importerConfig.getGeonamesDir()
 		+ importerConfig.getAdm2FileName());
-	deleteFile(adm2file,deletedObjectInfo);
+	deleteFile(adm2file, deletedObjectInfo);
 	adm3file = new File(importerConfig.getGeonamesDir()
 		+ importerConfig.getAdm3FileName());
-	deleteFile(adm3file,deletedObjectInfo);
+	deleteFile(adm3file, deletedObjectInfo);
 	adm4file = new File(importerConfig.getGeonamesDir()
 		+ importerConfig.getAdm4FileName());
-	deleteFile(adm4file,deletedObjectInfo);
+	deleteFile(adm4file, deletedObjectInfo);
 	resetStatusFields();
 	return deletedObjectInfo;
     }
 
-    private void deleteFile(File file,List<NameValueDTO<Integer>> deletedObjectInfo) {
-	if (file.delete()){
-	    deletedObjectInfo.add(new NameValueDTO<Integer>(file.getName(),1));
-	    logger.info("File "+file.getName()+" has been deleted");
-	}
-	else {
-	    deletedObjectInfo.add(new NameValueDTO<Integer>(file.getName(),0));
-	    logger.info("File "+file.getName()+" has not been deleted");
+    private void deleteFile(File file,
+	    List<NameValueDTO<Integer>> deletedObjectInfo) {
+	if (file.delete()) {
+	    deletedObjectInfo.add(new NameValueDTO<Integer>(file.getName(), 1));
+	    logger.info("File " + file.getName() + " has been deleted");
+	} else {
+	    deletedObjectInfo.add(new NameValueDTO<Integer>(file.getName(), 0));
+	    logger.info("File " + file.getName() + " has not been deleted");
 	}
     }
 

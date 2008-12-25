@@ -57,17 +57,15 @@ public class IntrospectionHelper {
     /**
      * @param clazz
      *                the class to inspect
-     * @return a list of all private fields of the specified class that are
-     *         not :
+     * @return a list of all private fields of the specified class that are not :
      *         <ul>
      *         <li>Of type List</li>
      *         <li>Annoted with {@link IntrospectionIgnoredField}</li>
      *         <li>Synthetic</li>
      *         </ul>
-     * The result of the method will be cached
+     *         The result of the method will be cached
      * 
-     * see
-     * http://java.sun.com/j2se/1.5.0/docs/api/java/lang/reflect/Field.html
+     * see http://java.sun.com/j2se/1.5.0/docs/api/java/lang/reflect/Field.html
      */
     public static List<String> getGisFeatureFieldsAsList(
 	    Class<? extends GisFeature> clazz) {
@@ -90,10 +88,9 @@ public class IntrospectionHelper {
      *         <li>Annoted with {@link IntrospectionIgnoredField}</li>
      *         <li>Synthetic</li>
      *         </ul>
-     * The result of the method will be cached
+     *         The result of the method will be cached
      * 
-     * see
-     * http://java.sun.com/j2se/1.5.0/docs/api/java/lang/reflect/Field.html
+     * see http://java.sun.com/j2se/1.5.0/docs/api/java/lang/reflect/Field.html
      */
     public static String[] getGisFeatureFieldsAsArray(
 	    Class<? extends GisFeature> clazz) {
@@ -123,8 +120,7 @@ public class IntrospectionHelper {
 			introspectedFields.add(f.getName());
 		    }
 		}
-		clazzParent = (Class<?>) clazzParent
-		.getSuperclass();
+		clazzParent = (Class<?>) clazzParent.getSuperclass();
 	    } while (clazzParent != Object.class);
 
 	} catch (RuntimeException x) {

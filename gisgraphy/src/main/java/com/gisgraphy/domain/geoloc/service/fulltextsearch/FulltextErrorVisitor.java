@@ -100,24 +100,30 @@ public class FulltextErrorVisitor implements IoutputFormatVisitor {
 			errorMessage);
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see com.gisgraphy.domain.geoloc.service.errors.IoutputFormatVisitor#visitPHP(com.gisgraphy.domain.valueobject.Output.OutputFormat)
      */
     public String visitPHP(OutputFormat format) {
 	return String
-	.format(
-		"array('responseHeader'=>array('status'=>0,'error'=>'%s','QTime'=>12),'response'=>array('numFound'=>0,'start'=>0,'maxScore'=>0.0,'docs'=>array() ))",
-		errorMessage);
+		.format(
+			"array('responseHeader'=>array('status'=>0,'error'=>'%s','QTime'=>12),'response'=>array('numFound'=>0,'start'=>0,'maxScore'=>0.0,'docs'=>array() ))",
+			errorMessage);
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see com.gisgraphy.domain.geoloc.service.errors.IoutputFormatVisitor#visitATOM(com.gisgraphy.domain.valueobject.Output.OutputFormat)
      */
     public String visitATOM(OutputFormat outputFormat) {
 	return visitXML(outputFormat);
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see com.gisgraphy.domain.geoloc.service.errors.IoutputFormatVisitor#visitGEORSS(com.gisgraphy.domain.valueobject.Output.OutputFormat)
      */
     public String visitGEORSS(OutputFormat outputFormat) {

@@ -33,7 +33,8 @@ import com.gisgraphy.domain.geoloc.service.fulltextsearch.FullTextFields;
 import com.gisgraphy.domain.repository.exception.RepositoryException;
 
 /**
- * Java Dto for a solr fulltext response. it is used by {@link FulltextResultsDto}
+ * Java Dto for a solr fulltext response. it is used by
+ * {@link FulltextResultsDto}
  * 
  * @author <a href="mailto:david.masclet@gisgraphy.com">David Masclet</a>
  * 
@@ -278,7 +279,6 @@ public class SolrResponseDto {
 	return name;
     }
 
-   
     /**
      * @return the name_alternates
      */
@@ -286,7 +286,6 @@ public class SolrResponseDto {
 	return name_alternates;
     }
 
-  
     /**
      * @return the name_alternates_localized
      */
@@ -294,7 +293,6 @@ public class SolrResponseDto {
 	return name_alternates_localized;
     }
 
-   
     /**
      * @return the feature_id
      */
@@ -309,7 +307,6 @@ public class SolrResponseDto {
 	return feature_class;
     }
 
-   
     /**
      * @return the feature_code
      */
@@ -324,7 +321,6 @@ public class SolrResponseDto {
 	return name_ascii;
     }
 
-   
     /**
      * @return the elevation
      */
@@ -332,7 +328,6 @@ public class SolrResponseDto {
 	return elevation;
     }
 
-    
     /**
      * @return the gtopo30
      */
@@ -340,7 +335,6 @@ public class SolrResponseDto {
 	return gtopo30;
     }
 
-    
     /**
      * @return the timezone
      */
@@ -348,7 +342,6 @@ public class SolrResponseDto {
 	return timezone;
     }
 
-    
     /**
      * @return the fully_qualified_name
      */
@@ -356,7 +349,6 @@ public class SolrResponseDto {
 	return fully_qualified_name;
     }
 
-    
     /**
      * @return the placetype
      */
@@ -364,7 +356,6 @@ public class SolrResponseDto {
 	return placetype;
     }
 
-    
     /**
      * @return the population
      */
@@ -372,7 +363,6 @@ public class SolrResponseDto {
 	return population;
     }
 
-    
     /**
      * @return the lat
      */
@@ -380,7 +370,6 @@ public class SolrResponseDto {
 	return lat;
     }
 
-    
     /**
      * @return the lng
      */
@@ -388,7 +377,6 @@ public class SolrResponseDto {
 	return lng;
     }
 
-   
     /**
      * @return the adm1_code
      */
@@ -396,7 +384,6 @@ public class SolrResponseDto {
 	return adm1_code;
     }
 
-   
     /**
      * @return the adm2_code
      */
@@ -404,7 +391,6 @@ public class SolrResponseDto {
 	return adm2_code;
     }
 
-    
     /**
      * @return the adm3_code
      */
@@ -412,15 +398,12 @@ public class SolrResponseDto {
 	return adm3_code;
     }
 
-    
     /**
      * @return the adm4_code
      */
     public String getAdm4_code() {
 	return adm4_code;
     }
-
-    
 
     /**
      * @return the adm1_name
@@ -429,7 +412,6 @@ public class SolrResponseDto {
 	return adm1_name;
     }
 
-    
     /**
      * @return the adm1_names_alternate
      */
@@ -437,7 +419,6 @@ public class SolrResponseDto {
 	return adm1_names_alternate;
     }
 
-    
     /**
      * @return the adm1_names_alternate_localized
      */
@@ -445,7 +426,6 @@ public class SolrResponseDto {
 	return adm1_names_alternate_localized;
     }
 
-    
     /**
      * @return the adm2_name
      */
@@ -453,15 +433,12 @@ public class SolrResponseDto {
 	return adm2_name;
     }
 
-    
     /**
      * @return the adm2_names_alternate
      */
     public List<String> getAdm2_names_alternate() {
 	return adm2_names_alternate;
     }
-
-   
 
     /**
      * @return the adm2_names_alternate_localized
@@ -470,7 +447,6 @@ public class SolrResponseDto {
 	return adm2_names_alternate_localized;
     }
 
-    
     /**
      * @return the adm3_name
      */
@@ -478,15 +454,12 @@ public class SolrResponseDto {
 	return adm3_name;
     }
 
-    
     /**
      * @return the adm4_name
      */
     public String getAdm4_name() {
 	return adm4_name;
     }
-
-    
 
     /**
      * @return the zipcode
@@ -495,7 +468,6 @@ public class SolrResponseDto {
 	return zipcode;
     }
 
-    
     /**
      * @return the country_code
      */
@@ -503,7 +475,6 @@ public class SolrResponseDto {
 	return country_code;
     }
 
-    
     /**
      * @return the country_name
      */
@@ -511,7 +482,6 @@ public class SolrResponseDto {
 	return country_name;
     }
 
-   
     /**
      * @return the country_names_alternate
      */
@@ -519,15 +489,12 @@ public class SolrResponseDto {
 	return country_names_alternate;
     }
 
-    
     /**
      * @return the country_names_alternate_localized
      */
     public Map<String, List<String>> getCountry_names_alternate_localized() {
 	return country_names_alternate_localized;
     }
-
-   
 
     /**
      * @return the country_flag_url
@@ -536,8 +503,6 @@ public class SolrResponseDto {
 	return country_flag_url;
     }
 
-    
-
     /**
      * @return the google_map_url
      */
@@ -545,15 +510,11 @@ public class SolrResponseDto {
 	return google_map_url;
     }
 
-    
-
     /**
      * @return the yahoo_map_url
      */
     public String getYahoo_map_url() {
 	return yahoo_map_url;
     }
-
-    
 
 }

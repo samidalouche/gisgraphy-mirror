@@ -54,7 +54,9 @@ public class SpatialProjection {
 
     /**
      * projection to get the distance_sphere of a point
-     * @param point the point to get the distance
+     * 
+     * @param point
+     *                the point to get the distance
      * @return the projection
      */
     public static SimpleProjection distance_sphere(final Point point) {
@@ -65,31 +67,39 @@ public class SpatialProjection {
 	     */
 	    private static final long serialVersionUID = -8771843067497785957L;
 
-	    /* (non-Javadoc)
-	     * @see org.hibernate.criterion.Projection#getTypes(org.hibernate.Criteria, org.hibernate.criterion.CriteriaQuery)
+	    /*
+	     * (non-Javadoc)
+	     * 
+	     * @see org.hibernate.criterion.Projection#getTypes(org.hibernate.Criteria,
+	     *      org.hibernate.criterion.CriteriaQuery)
 	     */
 	    public Type[] getTypes(Criteria criteria,
 		    CriteriaQuery criteriaQuery) throws HibernateException {
-		return new Type[] { Hibernate.DOUBLE};
+		return new Type[] { Hibernate.DOUBLE };
 	    }
 
-	    /* (non-Javadoc)
-	     * @see org.hibernate.criterion.Projection#toSqlString(org.hibernate.Criteria, int, org.hibernate.criterion.CriteriaQuery)
+	    /*
+	     * (non-Javadoc)
+	     * 
+	     * @see org.hibernate.criterion.Projection#toSqlString(org.hibernate.Criteria,
+	     *      int, org.hibernate.criterion.CriteriaQuery)
 	     */
 	    public String toSqlString(Criteria criteria, int position,
 		    CriteriaQuery criteriaQuery) throws HibernateException {
-		String columnName = criteriaQuery.getColumn(criteria, GisFeature.LOCATION_COLUMN_NAME);
+		String columnName = criteriaQuery.getColumn(criteria,
+			GisFeature.LOCATION_COLUMN_NAME);
 		StringBuffer sb = new StringBuffer();
-		String sqlString =  sb.append("distance_sphere(").append(columnName).append(", GeometryFromText( 'POINT(").append(point.getX()).append(" ").append(point.getY())
-		.append(")',").append(SRID.WGS84_SRID.getSRID()).append(")) as y").append(position).append("_").toString();
+		String sqlString = sb.append("distance_sphere(").append(
+			columnName).append(", GeometryFromText( 'POINT(")
+			.append(point.getX()).append(" ").append(point.getY())
+			.append(")',").append(SRID.WGS84_SRID.getSRID())
+			.append(")) as y").append(position).append("_")
+			.toString();
 		return sqlString;
 	    }
 
 	};
 
     }
-    
-    
-    
 
 }

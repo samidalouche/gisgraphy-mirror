@@ -65,20 +65,18 @@ import com.gisgraphy.stats.StatsUsageType;
  * 
  */
 public class GeolocSearchEngine implements IGeolocSearchEngine {
-    
+
     @Resource
     IStatsUsageService statsUsageService;
 
     private static JAXBContext contextForList;
-    
+
     @Resource
     IRepositoryStrategy repositoryStrategy;
     /**
      * Json filter, to not serialize all the properties
      */
     protected JsonConfig jsonConfig = new JsonConfig();
-
-   
 
     /**
      * The logger
@@ -94,7 +92,7 @@ public class GeolocSearchEngine implements IGeolocSearchEngine {
 	try {
 	    contextForList = JAXBContext.newInstance(GeolocResultsDto.class);
 	    jsonConfig.setIgnoreTransientFields(true);// does not seems to
-							// work
+	    // work
 	    jsonConfig.setJsonPropertyFilter(new PropertyFilter() {
 		public boolean apply(Object source, String name, Object value) {
 		    if (name.contains("location")
@@ -123,7 +121,8 @@ public class GeolocSearchEngine implements IGeolocSearchEngine {
 	Assert.notNull(query, "Can not execute a null query");
 	long start = System.currentTimeMillis();
 	Class<? extends GisFeature> placetype = query.getPlaceType();
-	IGisDao<? extends GisFeature> dao = repositoryStrategy.getDao(GisFeature.class);
+	IGisDao<? extends GisFeature> dao = repositoryStrategy
+		.getDao(GisFeature.class);
 	if (placetype != null) {
 	    dao = repositoryStrategy.getDao(placetype);
 	}
@@ -207,5 +206,4 @@ public class GeolocSearchEngine implements IGeolocSearchEngine {
 	return outputStream.toString();
     }
 
-  
 }

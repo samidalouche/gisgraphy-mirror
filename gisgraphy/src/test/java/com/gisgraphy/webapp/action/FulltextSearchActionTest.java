@@ -47,12 +47,12 @@ import com.gisgraphy.domain.valueobject.Output.OutputFormat;
 import com.gisgraphy.domain.valueobject.Output.OutputStyle;
 
 public class FulltextSearchActionTest {
-    
+
     FulltextSearchAction action;
     List<SolrResponseDto> results;
     IFullTextSearchEngine mockSearchEngine;
     FulltextResultsDto mockResultDTO;
-    
+
     @Before
     public void setup() {
 	results = new ArrayList<SolrResponseDto>();
@@ -64,98 +64,113 @@ public class FulltextSearchActionTest {
     }
 
     @Test
-    public void testIsDisplayResults() throws Exception{
+    public void testIsDisplayResults() throws Exception {
 	MockHttpServletRequest request = new MockHttpServletRequest("GET",
-	"/search.html");
+		"/search.html");
 	ServletActionContext.setRequest(request);
 	request.setParameter("q", "Paris");
-	SolrResponseDto mockSolrResponseDto = EasyMock.createMock(SolrResponseDto.class);
+	SolrResponseDto mockSolrResponseDto = EasyMock
+		.createMock(SolrResponseDto.class);
 	EasyMock.replay(mockSolrResponseDto);
 	results.add(mockSolrResponseDto);
 	EasyMock.replay(mockResultDTO);
-	EasyMock.expect(mockSearchEngine.executeQuery((FulltextQuery)EasyMock.anyObject())).andReturn(mockResultDTO);
+	EasyMock.expect(
+		mockSearchEngine.executeQuery((FulltextQuery) EasyMock
+			.anyObject())).andReturn(mockResultDTO);
 	EasyMock.replay(mockSearchEngine);
 	String returnAction = action.search();
-	assertEquals(FulltextSearchAction.SUCCESS,returnAction);
-	assertEquals(mockResultDTO,action.getResponseDTO());
+	assertEquals(FulltextSearchAction.SUCCESS, returnAction);
+	assertEquals(mockResultDTO, action.getResponseDTO());
 	assertTrue(action.isDisplayResults());
     }
-  
+
     @Test
     public void testSearch() throws Exception {
 	MockHttpServletRequest request = new MockHttpServletRequest("GET",
-	"/search.html");
+		"/search.html");
 	ServletActionContext.setRequest(request);
 	request.setParameter("q", "Paris");
-	SolrResponseDto mockSolrResponseDto = EasyMock.createMock(SolrResponseDto.class);
+	SolrResponseDto mockSolrResponseDto = EasyMock
+		.createMock(SolrResponseDto.class);
 	EasyMock.replay(mockSolrResponseDto);
 	results.add(mockSolrResponseDto);
 	EasyMock.replay(mockResultDTO);
-	EasyMock.expect(mockSearchEngine.executeQuery((FulltextQuery)EasyMock.anyObject())).andReturn(mockResultDTO);
+	EasyMock.expect(
+		mockSearchEngine.executeQuery((FulltextQuery) EasyMock
+			.anyObject())).andReturn(mockResultDTO);
 	EasyMock.replay(mockSearchEngine);
 	String returnAction = action.search();
-	assertEquals(FulltextSearchAction.SUCCESS,returnAction);
-	assertEquals(mockResultDTO,action.getResponseDTO());
+	assertEquals(FulltextSearchAction.SUCCESS, returnAction);
+	assertEquals(mockResultDTO, action.getResponseDTO());
     }
-    
+
     @Test
     public void testSearchShouldSetErrorMessageWhenFail() throws Exception {
 	String errorMessage = "message";
 	MockHttpServletRequest request = new MockHttpServletRequest("GET",
-	"/search.html");
+		"/search.html");
 	ServletActionContext.setRequest(request);
 	request.setParameter("q", "Paris");
-	SolrResponseDto mockSolrResponseDto = EasyMock.createMock(SolrResponseDto.class);
+	SolrResponseDto mockSolrResponseDto = EasyMock
+		.createMock(SolrResponseDto.class);
 	EasyMock.replay(mockSolrResponseDto);
 	results.add(mockSolrResponseDto);
 	EasyMock.replay(mockResultDTO);
-	EasyMock.expect(mockSearchEngine.executeQuery((FulltextQuery)EasyMock.anyObject())).andThrow(new RuntimeException(errorMessage));
+	EasyMock.expect(
+		mockSearchEngine.executeQuery((FulltextQuery) EasyMock
+			.anyObject())).andThrow(
+		new RuntimeException(errorMessage));
 	EasyMock.replay(mockSearchEngine);
 	String returnAction = action.search();
-	assertEquals(FulltextSearchAction.SUCCESS,returnAction);
+	assertEquals(FulltextSearchAction.SUCCESS, returnAction);
 	assertNull(action.getResponseDTO());
 	assertEquals(errorMessage, action.getErrorMessage());
 	assertFalse(action.isDisplayResults());
     }
-    
+
     @Test
     public void testSearchPopupShouldReturnPopupView() throws Exception {
 	MockHttpServletRequest request = new MockHttpServletRequest("GET",
-	"/search.html");
+		"/search.html");
 	ServletActionContext.setRequest(request);
 	request.setParameter("q", "Paris");
-	SolrResponseDto mockSolrResponseDto = EasyMock.createMock(SolrResponseDto.class);
+	SolrResponseDto mockSolrResponseDto = EasyMock
+		.createMock(SolrResponseDto.class);
 	EasyMock.replay(mockSolrResponseDto);
 	results.add(mockSolrResponseDto);
 	EasyMock.replay(mockResultDTO);
-	EasyMock.expect(mockSearchEngine.executeQuery((FulltextQuery)EasyMock.anyObject())).andReturn(mockResultDTO);
+	EasyMock.expect(
+		mockSearchEngine.executeQuery((FulltextQuery) EasyMock
+			.anyObject())).andReturn(mockResultDTO);
 	EasyMock.replay(mockSearchEngine);
 	String returnAction = action.searchpopup();
-	assertEquals(FulltextSearchAction.POPUP_VIEW,returnAction);
-	assertEquals(mockResultDTO,action.getResponseDTO());
+	assertEquals(FulltextSearchAction.POPUP_VIEW, returnAction);
+	assertEquals(mockResultDTO, action.getResponseDTO());
     }
-    
+
     @Test
     public void testGetStyleShouldReturnDefaultStyle() throws Exception {
 	MockHttpServletRequest request = new MockHttpServletRequest("GET",
-	"/search.html");
+		"/search.html");
 	ServletActionContext.setRequest(request);
 	request.setParameter("q", "Paris");
 	EasyMock.replay(mockResultDTO);
-	EasyMock.expect(mockSearchEngine.executeQuery((FulltextQuery)EasyMock.anyObject())).andReturn(mockResultDTO);
+	EasyMock.expect(
+		mockSearchEngine.executeQuery((FulltextQuery) EasyMock
+			.anyObject())).andReturn(mockResultDTO);
 	EasyMock.replay(mockSearchEngine);
 	String returnAction = action.search();
-	assertEquals(FulltextSearchAction.SUCCESS,returnAction);
-	assertEquals(mockResultDTO,action.getResponseDTO());
+	assertEquals(FulltextSearchAction.SUCCESS, returnAction);
+	assertEquals(mockResultDTO, action.getResponseDTO());
 	assertEquals(OutputStyle.getDefault().toString(), action.getStyle());
     }
-    
+
     @Test
-    public void testGetFormatsShouldReturnFormatForFullText(){
-	Assert.assertEquals(Arrays.asList(OutputFormat.listByService(GisgraphyServiceType.FULLTEXT)),Arrays.asList(action.getFormats()));
-	
+    public void testGetFormatsShouldReturnFormatForFullText() {
+	Assert.assertEquals(Arrays.asList(OutputFormat
+		.listByService(GisgraphyServiceType.FULLTEXT)), Arrays
+		.asList(action.getFormats()));
+
     }
 
-    
-    
 }

@@ -32,8 +32,9 @@ public class NameValueDTOTest {
     public void testNameValueDTO() {
 	String nameParam = "nameX";
 	String valueParam = "val";
-	NameValueDTO<String> nv = new NameValueDTO<String>(nameParam,valueParam);
-	assertEquals(nameParam,nv.getName());
+	NameValueDTO<String> nv = new NameValueDTO<String>(nameParam,
+		valueParam);
+	assertEquals(nameParam, nv.getName());
 	assertEquals(valueParam, nv.getValue());
     }
 
@@ -41,15 +42,17 @@ public class NameValueDTOTest {
     public void testGetName() {
 	String nameParam = "nameX";
 	String valueParam = "val";
-	NameValueDTO<String> nv = new NameValueDTO<String>(nameParam,valueParam);
-	assertEquals(nameParam,nv.getName());
+	NameValueDTO<String> nv = new NameValueDTO<String>(nameParam,
+		valueParam);
+	assertEquals(nameParam, nv.getName());
     }
 
     @Test
     public void testGetValue() {
 	String nameParam = "nameX";
 	String valueParam = "val";
-	NameValueDTO<String> nv = new NameValueDTO<String>(nameParam,valueParam);
+	NameValueDTO<String> nv = new NameValueDTO<String>(nameParam,
+		valueParam);
 	assertEquals(valueParam, nv.getValue());
     }
 

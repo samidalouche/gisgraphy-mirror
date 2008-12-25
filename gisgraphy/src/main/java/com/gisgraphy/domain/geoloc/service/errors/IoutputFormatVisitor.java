@@ -59,6 +59,7 @@ public interface IoutputFormatVisitor {
      * @return the String in the RUBY format
      */
     String visitRUBY(OutputFormat format);
+
     /**
      * @param format
      *                The OutputFormat
@@ -72,7 +73,7 @@ public interface IoutputFormatVisitor {
      * @return the String in the ATOM format
      */
     String visitATOM(OutputFormat format);
-    
+
     /**
      * @param format
      *                The OutputFormat

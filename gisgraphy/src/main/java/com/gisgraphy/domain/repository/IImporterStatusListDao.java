@@ -34,7 +34,8 @@ public interface IImporterStatusListDao {
     String getSavedFilePath();
 
     /**
-     * @param importerStatusDtoList the list to save or update
+     * @param importerStatusDtoList
+     *                the list to save or update
      * @return the saved list
      */
     List<ImporterStatusDto> saveOrUpdate(
@@ -47,7 +48,9 @@ public interface IImporterStatusListDao {
 
     /**
      * Delete the saved list of {@link ImporterStatusDto}
-     * @return true if the deletion is successfull or nothing was saved (no list are still saved) 
+     * 
+     * @return true if the deletion is successfull or nothing was saved (no list
+     *         are still saved)
      */
     boolean delete();
 

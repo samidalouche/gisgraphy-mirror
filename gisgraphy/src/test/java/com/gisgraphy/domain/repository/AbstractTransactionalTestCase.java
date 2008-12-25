@@ -166,7 +166,7 @@ public abstract class AbstractTransactionalTestCase extends
 	this.onTearDownInTransaction();
 	if (isTransactionNeeded()) {
 	    this.transactionManager.rollback(this.txStatus);
-	  //this.transactionManager.commit(this.txStatus);
+	    // this.transactionManager.commit(this.txStatus);
 	}
 	this.txStatus = null;
     }

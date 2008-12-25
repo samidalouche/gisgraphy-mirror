@@ -48,14 +48,16 @@ import org.slf4j.LoggerFactory;
 
 /**
  * 
- * @author <a href="mailto:david.masclet@gisgraphy.com">David Masclet</a> 
+ * @author <a href="mailto:david.masclet@gisgraphy.com">David Masclet</a>
  */
 public class ProjectionBean extends ProjectionList {
 
-    private static Logger logger = LoggerFactory.getLogger(ProjectionBean.class);
+    private static Logger logger = LoggerFactory
+	    .getLogger(ProjectionBean.class);
 
     /**
-     * @param fieldList a list of fields to retrieve
+     * @param fieldList
+     *                a list of fields to retrieve
      * @return a new ProjectionList
      */
     public static ProjectionList fieldList(List<String> fieldList) {
@@ -63,37 +65,41 @@ public class ProjectionBean extends ProjectionList {
     }
 
     /**
-     * @param clazz the class to inspect to retrieve the fields
-     * @param ignoreFields an array of fields that should be ignore
+     * @param clazz
+     *                the class to inspect to retrieve the fields
+     * @param ignoreFields
+     *                an array of fields that should be ignore
      * @return a new ProjectionList
      */
-    public static ProjectionList beanFieldList(Class<?> clazz,String[] ignoreFields) {
-	return new ProjectionBean(inspectBean(clazz,ignoreFields)).projectionList;
+    public static ProjectionList beanFieldList(Class<?> clazz,
+	    String[] ignoreFields) {
+	return new ProjectionBean(inspectBean(clazz, ignoreFields)).projectionList;
     }
 
-    private static List<String> inspectBean(Class<?> clazz, String[] ignoreFields) {
-	if (clazz== null){
+    private static List<String> inspectBean(Class<?> clazz,
+	    String[] ignoreFields) {
+	if (clazz == null) {
 	    throw new IllegalArgumentException("Can not inspect a null bean");
 	}
 	List<String> fieldNames = new ArrayList<String>();
 	PropertyDescriptor[] att = null;
 	try {
 	    att = Introspector.getBeanInfo(clazz).getPropertyDescriptors();
-	   List<String> ignoreFieldsList =  Arrays.asList(ignoreFields);
+	    List<String> ignoreFieldsList = Arrays.asList(ignoreFields);
 	    for (int i = 0; i < att.length; i++) {
 		String fieldName = att[i].getDisplayName();
-		if (!"class".equals(fieldName) && !isIgnoreFields(ignoreFieldsList, fieldName)) {
+		if (!"class".equals(fieldName)
+			&& !isIgnoreFields(ignoreFieldsList, fieldName)) {
 		    fieldNames.add(fieldName);
 		}
 	    }
 	} catch (Exception e) {
-	    logger.error("can not inspect bean "+clazz.getSimpleName());
+	    logger.error("can not inspect bean " + clazz.getSimpleName());
 	}
 
 	return fieldNames;
     }
 
-  
     private static boolean isIgnoreFields(List<String> ignoreFieldsList,
 	    String fieldName) {
 	return ignoreFieldsList.contains(fieldName);
@@ -111,9 +117,8 @@ public class ProjectionBean extends ProjectionList {
      */
     public ProjectionBean(List<String> fields) {
 	super();
-	for (String field :fields) {
-	    projectionList.add(Projections.property(field).as(
-		    field));
+	for (String field : fields) {
+	    projectionList.add(Projections.property(field).as(field));
 	}
     }
 

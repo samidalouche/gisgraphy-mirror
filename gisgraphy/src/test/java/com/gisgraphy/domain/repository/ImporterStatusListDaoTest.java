@@ -39,9 +39,8 @@ import com.gisgraphy.domain.valueobject.ImporterStatus;
 import com.gisgraphy.domain.valueobject.ImporterStatusDto;
 import com.gisgraphy.test.GeolocTestHelper;
 
+public class ImporterStatusListDaoTest extends TestCase {
 
-public class ImporterStatusListDaoTest extends TestCase{
-    
     private static final String STATUS_MESSAGE = "message";
 
     private static final int TOTAL_READ_LINE = 3;
@@ -51,100 +50,116 @@ public class ImporterStatusListDaoTest extends TestCase{
     private static final String CURRENT_FILE_NAME = "currentFileName";
 
     private static final String PROCESSOR_NAME = "processorName";
-    
+
     private static final String PROCESSOR_NAME_2 = "processorName2";
 
     private static final int CURRENT_LINE = 2;
-    
+
     @Test
-    public void testSave(){
+    public void testSave() {
 	ImporterStatusListDao importerstatusDao = new ImporterStatusListDao();
 	// create a temporary directory to download files
-	File tempDir = GeolocTestHelper.createTempDir(this.getClass().getSimpleName());
+	File tempDir = GeolocTestHelper.createTempDir(this.getClass()
+		.getSimpleName());
 	ImporterConfig importerConfig = new ImporterConfig();
 	importerConfig.setGeonamesDir(tempDir.getAbsolutePath());
 	importerstatusDao.setImporterConfig(importerConfig);
-	ImporterStatusDto importerStatus =  new ImporterStatusDto(PROCESSOR_NAME,
-		CURRENT_FILE_NAME, CURRENT_LINE, TOTAL_LINE_TO_PROCESS,
-		TOTAL_READ_LINE, STATUS_MESSAGE, ImporterStatus.PROCESSING);
-	
-	ImporterStatusDto importerStatus2 =  new ImporterStatusDto(PROCESSOR_NAME_2,
-		CURRENT_FILE_NAME, CURRENT_LINE, TOTAL_LINE_TO_PROCESS,
-		TOTAL_READ_LINE, STATUS_MESSAGE, ImporterStatus.PROCESSING);
+	ImporterStatusDto importerStatus = new ImporterStatusDto(
+		PROCESSOR_NAME, CURRENT_FILE_NAME, CURRENT_LINE,
+		TOTAL_LINE_TO_PROCESS, TOTAL_READ_LINE, STATUS_MESSAGE,
+		ImporterStatus.PROCESSING);
+
+	ImporterStatusDto importerStatus2 = new ImporterStatusDto(
+		PROCESSOR_NAME_2, CURRENT_FILE_NAME, CURRENT_LINE,
+		TOTAL_LINE_TO_PROCESS, TOTAL_READ_LINE, STATUS_MESSAGE,
+		ImporterStatus.PROCESSING);
 	List<ImporterStatusDto> importerStatusDtoList = new ArrayList<ImporterStatusDto>();
 	importerStatusDtoList.add(importerStatus);
 	importerStatusDtoList.add(importerStatus2);
 	importerstatusDao.saveOrUpdate(importerStatusDtoList);
 	assertTrue(new File(importerstatusDao.getSavedFilePath()).exists());
-	FileReader fileReader = null;;
+	FileReader fileReader = null;
+	;
 	try {
-	    fileReader = new FileReader(new File(importerstatusDao.getSavedFilePath()));
+	    fileReader = new FileReader(new File(importerstatusDao
+		    .getSavedFilePath()));
 	} catch (FileNotFoundException e) {
-	   fail(e.getMessage());
+	    fail(e.getMessage());
 	}
 	int count = 0;
-	 BufferedReader bufferReader = null;
+	BufferedReader bufferReader = null;
 	try {
-	   bufferReader = new BufferedReader(fileReader);
+	    bufferReader = new BufferedReader(fileReader);
 	    String line = bufferReader.readLine();
-	    while (line !=null){
-	        count++;
-	        line= bufferReader.readLine();
+	    while (line != null) {
+		count++;
+		line = bufferReader.readLine();
 	    }
 	} catch (IOException e) {
-	  fail(e.getMessage());
-	} finally{
-	    if (bufferReader != null){
+	    fail(e.getMessage());
+	} finally {
+	    if (bufferReader != null) {
 		try {
 		    bufferReader.close();
 		} catch (IOException e) {
-		   fail(e.getMessage());
+		    fail(e.getMessage());
 		}
 	    }
-	    
+
 	}
 	assertEquals(2, count);
 	GeolocTestHelper.DeleteNonEmptyDirectory(tempDir);
     }
-    
+
     @Test
-    public void testGet(){
+    public void testGet() {
 	ImporterStatusListDao importerstatusDao = new ImporterStatusListDao();
 	// create a temporary directory to download files
-	File tempDir = GeolocTestHelper.createTempDir(this.getClass().getSimpleName());
+	File tempDir = GeolocTestHelper.createTempDir(this.getClass()
+		.getSimpleName());
 	ImporterConfig importerConfig = new ImporterConfig();
 	importerConfig.setGeonamesDir(tempDir.getAbsolutePath());
 	importerstatusDao.setImporterConfig(importerConfig);
-	ImporterStatusDto importerStatus =  new ImporterStatusDto(PROCESSOR_NAME,
-		CURRENT_FILE_NAME, CURRENT_LINE, TOTAL_LINE_TO_PROCESS,
-		TOTAL_READ_LINE, STATUS_MESSAGE, ImporterStatus.PROCESSING);
+	ImporterStatusDto importerStatus = new ImporterStatusDto(
+		PROCESSOR_NAME, CURRENT_FILE_NAME, CURRENT_LINE,
+		TOTAL_LINE_TO_PROCESS, TOTAL_READ_LINE, STATUS_MESSAGE,
+		ImporterStatus.PROCESSING);
 	List<ImporterStatusDto> importerStatusDtoList = new ArrayList<ImporterStatusDto>();
 	importerStatusDtoList.add(importerStatus);
 	importerstatusDao.saveOrUpdate(importerStatusDtoList);
-	List<ImporterStatusDto> importerStatusDtoListExpected = importerstatusDao.get();
+	List<ImporterStatusDto> importerStatusDtoListExpected = importerstatusDao
+		.get();
 	assertEquals(1, importerStatusDtoListExpected.size());
-	assertEquals(importerStatus.toCSV(), importerStatusDtoListExpected.get(0).toCSV());
+	assertEquals(importerStatus.toCSV(), importerStatusDtoListExpected.get(
+		0).toCSV());
 	GeolocTestHelper.DeleteNonEmptyDirectory(tempDir);
     }
-    
+
     @Test
-    public void testDelete(){
+    public void testDelete() {
 	ImporterStatusListDao importerstatusDao = new ImporterStatusListDao();
 	// create a temporary directory to download files
-	File tempDir = GeolocTestHelper.createTempDir(this.getClass().getSimpleName());
+	File tempDir = GeolocTestHelper.createTempDir(this.getClass()
+		.getSimpleName());
 	ImporterConfig importerConfig = new ImporterConfig();
 	importerConfig.setGeonamesDir(tempDir.getAbsolutePath());
 	importerstatusDao.setImporterConfig(importerConfig);
-	ImporterStatusDto importerStatus =  new ImporterStatusDto(PROCESSOR_NAME,
-		CURRENT_FILE_NAME, CURRENT_LINE, TOTAL_LINE_TO_PROCESS,
-		TOTAL_READ_LINE, STATUS_MESSAGE, ImporterStatus.PROCESSING);
+	ImporterStatusDto importerStatus = new ImporterStatusDto(
+		PROCESSOR_NAME, CURRENT_FILE_NAME, CURRENT_LINE,
+		TOTAL_LINE_TO_PROCESS, TOTAL_READ_LINE, STATUS_MESSAGE,
+		ImporterStatus.PROCESSING);
 	List<ImporterStatusDto> importerStatusDtoList = new ArrayList<ImporterStatusDto>();
 	importerStatusDtoList.add(importerStatus);
 	importerstatusDao.saveOrUpdate(importerStatusDtoList);
-	assertTrue("the delete method shoul return true for success",importerstatusDao.delete());
-	List<ImporterStatusDto> importerStatusDtoListExpected = importerstatusDao.get();
-	assertEquals("after deletion, no impoortersatusListShouldBe stored",0, importerStatusDtoListExpected.size());
-	assertTrue("the delete method shoul return true even if no list were saved",importerstatusDao.delete());
+	assertTrue("the delete method shoul return true for success",
+		importerstatusDao.delete());
+	List<ImporterStatusDto> importerStatusDtoListExpected = importerstatusDao
+		.get();
+	assertEquals("after deletion, no impoortersatusListShouldBe stored", 0,
+		importerStatusDtoListExpected.size());
+	assertTrue(
+		"the delete method shoul return true even if no list were saved",
+		importerstatusDao.delete());
 	GeolocTestHelper.DeleteNonEmptyDirectory(tempDir);
     }
 

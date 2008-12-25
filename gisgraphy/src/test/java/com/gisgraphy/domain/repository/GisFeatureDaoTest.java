@@ -49,16 +49,16 @@ public class GisFeatureDaoTest extends AbstractIntegrationHttpSolrTestCase {
     private ICityDao cityDao;
 
     private IAdmDao admDao;
-    
+
     private ICountryDao countryDao;
 
     private IAlternateNameDao alternateNameDao;
-    
+
     @Resource
     private GeolocTestHelper geolocTestHelper;
 
     /*
-     *  test delete
+     * test delete
      */
 
     @Test
@@ -151,7 +151,7 @@ public class GisFeatureDaoTest extends AbstractIntegrationHttpSolrTestCase {
 	    fail();
 	}
     }
-    
+
     @Test
     public void testDeleteAllListShouldDeleteTheSpecifiedElements() {
 	GisFeature gisFeature = GeolocTestHelper.createCity("cityGisFeature",
@@ -185,9 +185,9 @@ public class GisFeatureDaoTest extends AbstractIntegrationHttpSolrTestCase {
 	assertEquals(savedParis2, stillStored.get(0));
 
     }
-    
+
     @Test
-    public void testDeleteALLShouldDeleteAlltheElements(){
+    public void testDeleteALLShouldDeleteAlltheElements() {
 	GisFeature paris = GeolocTestHelper.createGisFeature("GisFeature",
 		null, null, new Random().nextLong());
 
@@ -208,8 +208,8 @@ public class GisFeatureDaoTest extends AbstractIntegrationHttpSolrTestCase {
 	assertNotNull(retrievedParis2);
 	assertEquals(savedParis2.getId(), retrievedParis2.getId());
 
-	assertEquals(1,this.cityDao.deleteAll());
-	
+	assertEquals(1, this.cityDao.deleteAll());
+
 	List<City> stillStoredCity = this.cityDao.getAll();
 	assertNotNull(stillStoredCity);
 	assertEquals(0, stillStoredCity.size());
@@ -218,7 +218,6 @@ public class GisFeatureDaoTest extends AbstractIntegrationHttpSolrTestCase {
 	assertNotNull(stillStoredGis);
 	assertEquals(1, stillStoredGis.size());
     }
-
 
     @Test
     public void testDeleteAdmShouldNotDeleteTheGisFeaturesContainedInCascade() {
@@ -247,32 +246,32 @@ public class GisFeatureDaoTest extends AbstractIntegrationHttpSolrTestCase {
 	assertEquals(savedGisFeature, retrievedGisFeature);
 
     }
-    
-    
+
     @Test
-    public void testDeleteAllExceptAdmAndCountries(){
+    public void testDeleteAllExceptAdmAndCountries() {
 	geolocTestHelper.createAndSaveCityWithFullAdmTreeAndCountry(3L);
-	GisFeature gisFeatureWithNullFeatureCode = GeolocTestHelper.createGisFeature("gis", 3F, 4F, 4L);
+	GisFeature gisFeatureWithNullFeatureCode = GeolocTestHelper
+		.createGisFeature("gis", 3F, 4F, 4L);
 	gisFeatureDao.save(gisFeatureWithNullFeatureCode);
-	GisFeature gisFeatureWithNotNullFeatureCode = GeolocTestHelper.createGisFeature("gis", 3F, 4F, 5L);
+	GisFeature gisFeatureWithNotNullFeatureCode = GeolocTestHelper
+		.createGisFeature("gis", 3F, 4F, 5L);
 	gisFeatureWithNotNullFeatureCode.setFeatureClass("A");
 	gisFeatureWithNotNullFeatureCode.setFeatureCode("B");
 	gisFeatureDao.save(gisFeatureWithNotNullFeatureCode);
-//	check 3 adm, country,city, and gisFeature are saved
+	// check 3 adm, country,city, and gisFeature are saved
 	assertEquals(1, countryDao.count());
 	assertEquals(7, gisFeatureDao.count());
-	//1 city + 1 gis with null FeatureCode + 1 GIS with not null GisFeature
-	assertEquals(3,gisFeatureDao.deleteAllExceptAdmsAndCountries());
+	// 1 city + 1 gis with null FeatureCode + 1 GIS with not null GisFeature
+	assertEquals(3, gisFeatureDao.deleteAllExceptAdmsAndCountries());
 	assertEquals(3, admDao.count());
 	assertEquals(1, countryDao.count());
-	//3 adm + 1 country
-	assertEquals(4,gisFeatureDao.count());
-	assertEquals(1,countryDao.count());
-	assertEquals(0,cityDao.count());
-	
-	
-	
+	// 3 adm + 1 country
+	assertEquals(4, gisFeatureDao.count());
+	assertEquals(1, countryDao.count());
+	assertEquals(0, cityDao.count());
+
     }
+
     /*
      * test save
      */
@@ -364,23 +363,19 @@ public class GisFeatureDaoTest extends AbstractIntegrationHttpSolrTestCase {
 	assertEquals(2, results.size());
 
     }
-    
 
     @Test
     public void testgetNearestAndDistanceFromGisFeatureShouldThrowsIfGisFeatureIsNull() {
-	
-	 try {
-	    this.gisFeatureDao
-	    	.getNearestAndDistanceFromGisFeature(null, 1000000,
-	    		GisFeature.class);
+
+	try {
+	    this.gisFeatureDao.getNearestAndDistanceFromGisFeature(null,
+		    1000000, GisFeature.class);
 	    fail("getNearestAndDistanceFromGisFeature should throws if gisFeature is null");
 	} catch (IllegalArgumentException e) {
-	   
+
 	}
-	
 
     }
-
 
     @Test
     public void testgetNearestAndDistanceFromGisFeatureShouldPaginate() {
@@ -668,9 +663,6 @@ public class GisFeatureDaoTest extends AbstractIntegrationHttpSolrTestCase {
 	assertNotNull(this.gisFeatureDao.getDirties());
     }
 
-    
-
-
     public void testGetByFeatureIdsShouldReturnTheGisFeature() {
 	City city1 = GeolocTestHelper.createCity("cityGisFeature", null, null,
 		100L);
@@ -878,8 +870,6 @@ public class GisFeatureDaoTest extends AbstractIntegrationHttpSolrTestCase {
 		results.size() == 1);
     }
 
-  
-    
     @Required
     public void setGisFeatureDao(IGisFeatureDao gisFeatureDao) {
 	this.gisFeatureDao = gisFeatureDao;
@@ -901,11 +891,12 @@ public class GisFeatureDaoTest extends AbstractIntegrationHttpSolrTestCase {
     }
 
     /**
-     * @param countryDao the countryDao to set
+     * @param countryDao
+     *                the countryDao to set
      */
     @Required
     public void setCountryDao(ICountryDao countryDao) {
-        this.countryDao = countryDao;
+	this.countryDao = countryDao;
     }
 
 }

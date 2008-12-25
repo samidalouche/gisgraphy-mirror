@@ -148,10 +148,10 @@ public interface IGisFeatureDao extends IGisDao<GisFeature> {
     /**
      * Delete all gisFeatures and subclass except Adms and countries (gisFeature
      * with null featureCode will be deleted too). this method is usefull when
-     * gisFeature 'belongs' to some adms and we want to delete the gisfeature first and
-     * then the adms and countries. We don't control the fact that adms should be delete after
-     * all gisFeature due to Primary /foreign key with
-     * {@linkplain GenericGisDao#deleteAll()}
+     * gisFeature 'belongs' to some adms and we want to delete the gisfeature
+     * first and then the adms and countries. We don't control the fact that
+     * adms should be delete after all gisFeature due to Primary /foreign key
+     * with {@linkplain GenericGisDao#deleteAll()}
      * 
      * @return the number of deleted elements
      */

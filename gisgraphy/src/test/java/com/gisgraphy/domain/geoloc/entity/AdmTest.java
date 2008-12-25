@@ -165,14 +165,13 @@ public class AdmTest extends AbstractIntegrationHttpSolrTestCase {
 	}
 
     }
-    
+
     @Test
     public void testAddChildWithANullChildWShouldThrows() {
 	GisFeature gisFeature = GeolocTestHelper.createGisFeatureForAdm("adm",
 		2.5F, 3.2F, 1000L, 3);
 	Adm adm = new Adm(gisFeature, 3);
 
-	
 	try {
 	    adm.addChild(null);
 	    fail("Adding a null child should throws an IllegalArgumentException");
@@ -198,6 +197,7 @@ public class AdmTest extends AbstractIntegrationHttpSolrTestCase {
 	}
 
     }
+
     /* check level consistence */
     @Test
     public void testThatAnAdmSouldNotHaveAlevelsuperiorTo4() {
@@ -218,7 +218,7 @@ public class AdmTest extends AbstractIntegrationHttpSolrTestCase {
 	} catch (IllegalArgumentException e) {
 	}
     }
-    //TODO
+    // TODO
     /*
      * //test setChildren //we can not put integrity on setter field because all
      * the fields are not setted and so we can not check @Test public void

@@ -122,9 +122,9 @@ public class GeonamesAdm4Importer extends AbstractGeonamesProcessor {
 
 	    // try to get the parent Adm3
 	    Adm adm3 = null;
-	    
+
 	    adm3 = this.admDao.getAdm3(countryCode, adm1Code, adm2Code,
-			adm3Code);
+		    adm3Code);
 
 	    // if found add to Adm3Childs
 	    if (adm3 == null) {
@@ -233,16 +233,19 @@ public class GeonamesAdm4Importer extends AbstractGeonamesProcessor {
 	// cache is NONSTRICT_READ_WRITE (assynchronous)
 	return 1;
     }
-    
-    /* (non-Javadoc)
+
+    /*
+     * (non-Javadoc)
+     * 
      * @see com.gisgraphy.domain.geoloc.importer.IGeonamesProcessor#rollback()
      */
     public List<NameValueDTO<Integer>> rollback() {
 	List<NameValueDTO<Integer>> deletedObjectInfo = new ArrayList<NameValueDTO<Integer>>();
 	logger.info("deleting adm4...");
 	int deletedadm = admDao.deleteAllByLevel(4);
-	if (deletedadm != 0){
-	    deletedObjectInfo.add(new NameValueDTO<Integer>("ADM4",deletedadm));
+	if (deletedadm != 0) {
+	    deletedObjectInfo
+		    .add(new NameValueDTO<Integer>("ADM4", deletedadm));
 	}
 	logger.info(deletedadm + " adm4s have been deleted");
 	resetStatusFields();

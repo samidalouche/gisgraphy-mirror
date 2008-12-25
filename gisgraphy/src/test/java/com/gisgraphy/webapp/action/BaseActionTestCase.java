@@ -21,6 +21,7 @@
  *  
  *******************************************************************************/
 package com.gisgraphy.webapp.action;
+
 import org.apache.commons.logging.Log;
 import org.apache.struts2.ServletActionContext;
 import org.springframework.beans.factory.annotation.Required;
@@ -52,7 +53,7 @@ public abstract class BaseActionTestCase extends AbstractTransactionalTestCase {
     @Override
     protected void onSetUpInTransaction() {
 	LocalizedTextUtil.addDefaultResourceBundle(Constants.BUNDLE_KEY);
-	//ActionContext.getContext().setSession(new HashMap<Object, Object>());
+	// ActionContext.getContext().setSession(new HashMap<Object, Object>());
 
 	// change the port on the mailSender so it doesn't conflict with an
 	// existing SMTP server on localhost
@@ -63,18 +64,18 @@ public abstract class BaseActionTestCase extends AbstractTransactionalTestCase {
 
 	// populate the request so getRequest().getSession() doesn't fail in
 	// BaseAction.java
-	
-	 ConfigurationManager configurationManager = new ConfigurationManager(); 
-	          configurationManager.addContainerProvider(
-	              new XWorkConfigurationProvider()); 
-	         Configuration config = configurationManager.getConfiguration(); 
-	          Container container = config.getContainer();
-	  
-	          ValueStack stack = container.getInstance(ValueStackFactory.class)
-	              .createValueStack(); 
-	         stack.getContext().put(ActionContext.CONTAINER, container); 
-	         ActionContext.setContext(new ActionContext(stack.getContext())); 
-	         ServletActionContext.setRequest(new MockHttpServletRequest());
+
+	ConfigurationManager configurationManager = new ConfigurationManager();
+	configurationManager
+		.addContainerProvider(new XWorkConfigurationProvider());
+	Configuration config = configurationManager.getConfiguration();
+	Container container = config.getContainer();
+
+	ValueStack stack = container.getInstance(ValueStackFactory.class)
+		.createValueStack();
+	stack.getContext().put(ActionContext.CONTAINER, container);
+	ActionContext.setContext(new ActionContext(stack.getContext()));
+	ServletActionContext.setRequest(new MockHttpServletRequest());
     }
 
     @Override

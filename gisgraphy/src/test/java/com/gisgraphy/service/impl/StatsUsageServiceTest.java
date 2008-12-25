@@ -35,61 +35,70 @@ public class StatsUsageServiceTest extends AbstractTransactionalTestCase {
 
     @Resource
     IStatsUsageService statsUsageService;
-    
+
     @Resource
     private IStatsUsageDao statsUsageDao;
-    
+
     @Test
-    public void testStatUsageServiceShouldInitAllTheCounter(){
+    public void testStatUsageServiceShouldInitAllTheCounter() {
 	int counter = statsUsageService.getNumberOfCounter();
 	assertEquals(StatsUsageType.values().length, counter);
     }
-    
+
     @Test
-    public void testGetUsage(){
+    public void testGetUsage() {
 	statsUsageService.resetUsage(StatsUsageType.FULLTEXT);
 	statsUsageService.increaseUsage(StatsUsageType.FULLTEXT);
 	Long usage = statsUsageService.getUsage(StatsUsageType.FULLTEXT);
-	assertEquals(new Long(1), usage );
+	assertEquals(new Long(1), usage);
     }
-    
+
     @Test
-    public void testIncreaseUsageShouldIncrease(){
+    public void testIncreaseUsageShouldIncrease() {
 	Long usage = statsUsageService.getUsage(StatsUsageType.FULLTEXT);
 	statsUsageService.increaseUsage(StatsUsageType.FULLTEXT);
-	assertEquals(++usage, statsUsageService.getUsage(StatsUsageType.FULLTEXT) );
+	assertEquals(++usage, statsUsageService
+		.getUsage(StatsUsageType.FULLTEXT));
     }
-    
+
     @Test
-    public void testFlush(){
+    public void testFlush() {
 	statsUsageService.resetUsage(StatsUsageType.FULLTEXT);
 	statsUsageService.increaseUsage(StatsUsageType.FULLTEXT);
-	assertEquals(new Long(0), statsUsageDao.getByUsageType(StatsUsageType.FULLTEXT).getUsage());
-	assertEquals(new Long(1), statsUsageService.getUsage(StatsUsageType.FULLTEXT) );
+	assertEquals(new Long(0), statsUsageDao.getByUsageType(
+		StatsUsageType.FULLTEXT).getUsage());
+	assertEquals(new Long(1), statsUsageService
+		.getUsage(StatsUsageType.FULLTEXT));
 	statsUsageService.flush(StatsUsageType.FULLTEXT);
-	assertEquals(new Long(1), statsUsageDao.getByUsageType(StatsUsageType.FULLTEXT).getUsage());
+	assertEquals(new Long(1), statsUsageDao.getByUsageType(
+		StatsUsageType.FULLTEXT).getUsage());
     }
-    
+
     @Test
-    public void testResetUsageShouldResetAndFlush(){
+    public void testResetUsageShouldResetAndFlush() {
 	statsUsageService.resetUsage(StatsUsageType.FULLTEXT);
 	statsUsageService.increaseUsage(StatsUsageType.FULLTEXT);
 	statsUsageService.flush(StatsUsageType.FULLTEXT);
-	assertEquals(new Long(1), statsUsageService.getUsage(StatsUsageType.FULLTEXT));
-	
+	assertEquals(new Long(1), statsUsageService
+		.getUsage(StatsUsageType.FULLTEXT));
+
 	statsUsageService.resetUsage(StatsUsageType.FULLTEXT);
-	assertEquals(new Long(0), statsUsageService.getUsage(StatsUsageType.FULLTEXT));
+	assertEquals(new Long(0), statsUsageService
+		.getUsage(StatsUsageType.FULLTEXT));
     }
-    
+
     @Test
-    public void testIncreaseUsageShouldflush(){
+    public void testIncreaseUsageShouldflush() {
 	statsUsageService.resetUsage(StatsUsageType.FULLTEXT);
-	for (int i =1; i < IStatsUsageService.FLUSH_THRESHOLD;i++){
+	for (int i = 1; i < IStatsUsageService.FLUSH_THRESHOLD; i++) {
 	    statsUsageService.increaseUsage(StatsUsageType.FULLTEXT);
-	    assertEquals(new Long(0), statsUsageDao.getByUsageType(StatsUsageType.FULLTEXT).getUsage());
+	    assertEquals(new Long(0), statsUsageDao.getByUsageType(
+		    StatsUsageType.FULLTEXT).getUsage());
 	}
-	 statsUsageService.increaseUsage(StatsUsageType.FULLTEXT);
-	 assertEquals(new Long(IStatsUsageService.FLUSH_THRESHOLD), statsUsageDao.getByUsageType(StatsUsageType.FULLTEXT).getUsage());
+	statsUsageService.increaseUsage(StatsUsageType.FULLTEXT);
+	assertEquals(new Long(IStatsUsageService.FLUSH_THRESHOLD),
+		statsUsageDao.getByUsageType(StatsUsageType.FULLTEXT)
+			.getUsage());
     }
-    
+
 }

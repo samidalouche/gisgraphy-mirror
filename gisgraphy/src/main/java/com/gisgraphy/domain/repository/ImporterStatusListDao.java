@@ -60,9 +60,12 @@ public class ImporterStatusListDao implements IImporterStatusListDao {
 
     ImporterConfig importerConfig;
 
-    private Logger logger = LoggerFactory.getLogger(ImporterStatusListDao.class);
+    private Logger logger = LoggerFactory
+	    .getLogger(ImporterStatusListDao.class);
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see com.gisgraphy.domain.repository.IImporterStatusListDao#getFilePath()
      */
     public String getSavedFilePath() {
@@ -78,7 +81,9 @@ public class ImporterStatusListDao implements IImporterStatusListDao {
 	return dirpath + IMPORTER_STATUS_LIST_FILENAME;
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see com.gisgraphy.domain.repository.IImporterStatusListDao#saveOrUpdate(java.util.List)
      */
     public List<ImporterStatusDto> saveOrUpdate(
@@ -126,7 +131,9 @@ public class ImporterStatusListDao implements IImporterStatusListDao {
 	return writer;
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see com.gisgraphy.domain.repository.IImporterStatusListDao#get()
      */
     public List<ImporterStatusDto> get() {
@@ -159,8 +166,9 @@ public class ImporterStatusListDao implements IImporterStatusListDao {
 	return result;
     }
 
-
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see com.gisgraphy.domain.repository.IImporterStatusListDao#delete()
      */
     public boolean delete() {

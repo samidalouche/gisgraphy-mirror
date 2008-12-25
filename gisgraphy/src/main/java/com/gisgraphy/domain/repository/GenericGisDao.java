@@ -187,31 +187,44 @@ public class GenericGisDao<T extends GisFeature> extends
 
 		    public Object doInHibernate(Session session)
 			    throws PersistenceException {
-			  Criteria criteria = session.createCriteria(requiredClass);
-			 if (maxResults > 0) {
-			     criteria = criteria.setMaxResults(maxResults);
-			     }
-			 if (firstResult >= 1) { 
-			     criteria = criteria.setFirstResult(firstResult - 1);
-			     }
-			 criteria = criteria.add(new DistanceRestriction(point, distance)); 
-			 List<String> fieldList =  IntrospectionHelper.getGisFeatureFieldsAsList(requiredClass);
-			 
-			 Projection projections = ProjectionBean.fieldList(fieldList).add(SpatialProjection.distance_sphere(point).as("distance"));
-			 criteria.setProjection(projections);
-			  if (pointId != 0) { 
-			      // remove The From Point
-			      criteria = criteria.add(Restrictions.ne("id",  pointId));
-			   } 
-			  criteria.addOrder(new ProjectionOrder("distance"));
-			  criteria.setCacheable(true);
-			  // List<Object[]> queryResults =testCriteria.list();
-			  List<GisFeatureDistance> queryResults =criteria.list();
-			  
-			  
-			  List<GisFeatureDistance> results = ResultTransformerUtil.transformToGisFeatureDistance((String[]) ArrayUtils.add(IntrospectionHelper.getGisFeatureFieldsAsArray(requiredClass), "distance"), queryResults);
-			  return results; 
-			  }
+			Criteria criteria = session
+				.createCriteria(requiredClass);
+			if (maxResults > 0) {
+			    criteria = criteria.setMaxResults(maxResults);
+			}
+			if (firstResult >= 1) {
+			    criteria = criteria.setFirstResult(firstResult - 1);
+			}
+			criteria = criteria.add(new DistanceRestriction(point,
+				distance));
+			List<String> fieldList = IntrospectionHelper
+				.getGisFeatureFieldsAsList(requiredClass);
+
+			Projection projections = ProjectionBean.fieldList(
+				fieldList).add(
+				SpatialProjection.distance_sphere(point).as(
+					"distance"));
+			criteria.setProjection(projections);
+			if (pointId != 0) {
+			    // remove The From Point
+			    criteria = criteria.add(Restrictions.ne("id",
+				    pointId));
+			}
+			criteria.addOrder(new ProjectionOrder("distance"));
+			criteria.setCacheable(true);
+			// List<Object[]> queryResults =testCriteria.list();
+			List<GisFeatureDistance> queryResults = criteria.list();
+
+			List<GisFeatureDistance> results = ResultTransformerUtil
+				.transformToGisFeatureDistance(
+					(String[]) ArrayUtils
+						.add(
+							IntrospectionHelper
+								.getGisFeatureFieldsAsArray(requiredClass),
+							"distance"),
+					queryResults);
+			return results;
+		    }
 		});
 
     }
@@ -332,8 +345,6 @@ public class GenericGisDao<T extends GisFeature> extends
 		gisFeature);
 	eventManager.handleEvent(gisFeatureDeletedEvent);
     }
-    
-   
 
     /*
      * (non-Javadoc)
@@ -449,8 +460,6 @@ public class GenericGisDao<T extends GisFeature> extends
 	return gisFeatureList;
     }
 
-   
-
     /*
      * (non-Javadoc)
      * 
@@ -463,14 +472,16 @@ public class GenericGisDao<T extends GisFeature> extends
 		list);
 	eventManager.handleEvent(gisFeatureDeleteAllEvent);
     }
-    
-    /* (non-Javadoc)
+
+    /*
+     * (non-Javadoc)
+     * 
      * @see com.gisgraphy.domain.repository.GenericDao#deleteAll()
      */
     @Override
     public int deleteAll() {
-        int numberOfGisDeleted = super.deleteAll();
-        PlaceTypeDeleteAllEvent placeTypeDeleteAllEvent = new PlaceTypeDeleteAllEvent(
+	int numberOfGisDeleted = super.deleteAll();
+	PlaceTypeDeleteAllEvent placeTypeDeleteAllEvent = new PlaceTypeDeleteAllEvent(
 		this.getPersistenceClass());
 	eventManager.handleEvent(placeTypeDeleteAllEvent);
 	return numberOfGisDeleted;
@@ -512,11 +523,10 @@ public class GenericGisDao<T extends GisFeature> extends
 	}
 	return returnValue;
     }
-    
+
     @Required
     public void setEventManager(EventManager eventManager) {
 	this.eventManager = eventManager;
     }
-
 
 }

@@ -154,16 +154,19 @@ public class GeonamesLanguageImporter extends AbstractGeonamesProcessor {
 		+ importerConfig.getLanguageFileName());
 	return files;
     }
-    
-    /* (non-Javadoc)
+
+    /*
+     * (non-Javadoc)
+     * 
      * @see com.gisgraphy.domain.geoloc.importer.IGeonamesProcessor#rollback()
      */
     public List<NameValueDTO<Integer>> rollback() {
 	List<NameValueDTO<Integer>> deletedObjectInfo = new ArrayList<NameValueDTO<Integer>>();
 	logger.info("deleting languages...");
 	int deletedlang = languageDao.deleteAll();
-	if (deletedlang != 0){
-	    deletedObjectInfo.add(new NameValueDTO<Integer>(Language.class.getSimpleName(),deletedlang));
+	if (deletedlang != 0) {
+	    deletedObjectInfo.add(new NameValueDTO<Integer>(Language.class
+		    .getSimpleName(), deletedlang));
 	}
 	logger.info(deletedlang + " languages have been deleted");
 	resetStatusFields();

@@ -39,15 +39,14 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 /**
  * Represent the usage of a {@link StatsUsageType}
+ * 
  * @author <a href="mailto:david.masclet@gisgraphy.com">David Masclet</a>
- *
+ * 
  */
 @Entity
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 @SequenceGenerator(name = "statsUsageSequence", sequenceName = "stats_Usage_Sequence")
 public class StatsUsage {
-    
-    
 
     /**
      * Default constructor
@@ -56,16 +55,17 @@ public class StatsUsage {
 	super();
     }
 
-
     private Long id;
-    
+
     private StatsUsageType statsUsageType;
-    
+
     private Long usage = 0L;
 
     /**
      * Constructor to init statsUsageType
-     * @param statsUsageType statsUsageType
+     * 
+     * @param statsUsageType
+     *                statsUsageType
      */
     public StatsUsage(StatsUsageType statsUsageType) {
 	this.statsUsageType = statsUsageType;
@@ -77,51 +77,50 @@ public class StatsUsage {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "statsUsageSequence")
     public Long getId() {
-        return id;
+	return id;
     }
 
     /**
-     * @param id the id to set
+     * @param id
+     *                the id to set
      */
     public void setId(Long id) {
-        this.id = id;
+	this.id = id;
     }
 
     /**
      * @return the usageType
      */
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false,unique=true)
+    @Column(nullable = false, unique = true)
     public StatsUsageType getStatsUsageType() {
-        return statsUsageType;
+	return statsUsageType;
     }
-   
+
     /**
      * @param statsUsageType
      */
     public void setStatsUsageType(StatsUsageType statsUsageType) {
-        this.statsUsageType = statsUsageType;
+	this.statsUsageType = statsUsageType;
     }
 
     /**
      * @return the usage
      */
     public Long getUsage() {
-        return usage;
+	return usage;
     }
 
     /**
-     * @param usage the usage to set
+     * @param usage
+     *                the usage to set
      */
     public void setUsage(Long usage) {
-        this.usage = usage;
+	this.usage = usage;
     }
-    
-    
-    public void increaseUsage(){
+
+    public void increaseUsage() {
 	usage++;
     }
 
-  
-    
 }

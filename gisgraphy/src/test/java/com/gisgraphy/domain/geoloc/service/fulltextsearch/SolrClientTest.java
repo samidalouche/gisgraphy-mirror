@@ -88,7 +88,7 @@ public class SolrClientTest extends TestCase {
 	}
 
     }
-    
+
     @Test
     public void testBindToURL() {
 	ServletTester tester = null;
@@ -109,13 +109,13 @@ public class SolrClientTest extends TestCase {
 
 	    tester.addServlet(SolrUpdateServlet.class, "/update/*");
 
-	    String fulltextSearchUrl=null;
+	    String fulltextSearchUrl = null;
 	    try {
 		fulltextSearchUrl = tester.createSocketConnector(true)
-		    + fulltextContext;
+			+ fulltextContext;
 		tester.start();
 	    } catch (Exception e) {
-		fail (e.getMessage());
+		fail(e.getMessage());
 	    }
 	    IsolrClient clientAlive = new SolrClient("http://nowhere.tld/solr",
 		    new MultiThreadedHttpConnectionManager());
@@ -125,7 +125,7 @@ public class SolrClientTest extends TestCase {
 		fail("BindToUrl should throw for malformedUrl");
 	    } catch (Exception e) {
 	    }
-	    
+
 	} finally {
 	    if (tester != null) {
 		try {

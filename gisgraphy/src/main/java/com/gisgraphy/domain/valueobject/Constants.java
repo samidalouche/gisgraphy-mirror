@@ -54,21 +54,21 @@ public class Constants {
      * @see OutputFormat
      */
     public final static String OUTPUT_FORMAT_PARAMETER = "wt";
-    
+
     /**
      * The XSLT stylesheet parameter name
      * 
      * @see OutputFormat
      */
     public final static String STYLESHEET_PARAMETER = "tr";
-    
+
     /**
      * The name of the XSL to apply to output ATOM format
      * 
      * @see OutputFormat
      */
     public final static String ATOM_STYLESHEET = "atom.xsl";
-    
+
     /**
      * The name of the XSL to apply to output Geo RSS format
      * 
@@ -147,8 +147,8 @@ public class Constants {
      * An Array of the ApplicationContext names for tests
      */
     public final static String[] APPLICATION_CONTEXT_NAMES_FOR_TEST = new String[] {
-	   
-	    "classpath:/applicationContext.xml",
+
+    "classpath:/applicationContext.xml",
 	    "classpath:/applicationContext-resources.xml",
 	    "classpath:/applicationContext-repository.xml",
 	    "classpath:/applicationContext-geoloc.xml",
@@ -157,7 +157,7 @@ public class Constants {
 	    "classpath:/WEB-INF/applicationContext-struts.xml",
 	    "classpath:**/applicationContext*.xml",
 	    "classpath:/applicationContext-test.xml",
-	    "classpath:/applicationContext-dao-test.xml"};
+	    "classpath:/applicationContext-dao-test.xml" };
 
     /**
      * A String of the ApplicationContext names
@@ -181,8 +181,7 @@ public class Constants {
 	    "classpath:/applicationContext-dao.xml,").append(
 	    "classpath:/applicationContext-service.xml,").append(
 	    "Classpath:/WEB-INF/applicationContext-struts.xml,").append(
-	    "classpath:/applicationContext-dao-test.xml")
-	    .toString();
+	    "classpath:/applicationContext-dao-test.xml").toString();
 
     /**
      * The node name for {@link GisFeatureDistance} node in JAXB
@@ -210,5 +209,4 @@ public class Constants {
      */
     public static final String FEATURECODE_BUNDLE_KEY = "featurecodes";
 
-  
-  }
+}

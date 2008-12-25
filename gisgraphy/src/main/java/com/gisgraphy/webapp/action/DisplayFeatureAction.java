@@ -44,27 +44,27 @@ import com.opensymphony.xwork2.ActionSupport;
  */
 public class DisplayFeatureAction extends ActionSupport {
 
-
     /**
-     * The reference in the localized file for the error for the fact featureId is required
+     * The reference in the localized file for the error for the fact featureId
+     * is required
      */
     public static final String ERROR_REF_REQUIRED_FEATURE_ID = "required.featureId";
 
-
     /**
-     * The reference in the localized file for the error for the fact that the specified featureId is not a numeric value
+     * The reference in the localized file for the error for the fact that the
+     * specified featureId is not a numeric value
      */
     public static final String ERROR_REF_NON_NUMERIC_FEATUREID = "displayfeature.featureid.numeric";
 
-
     /**
-     * The reference in the localized file for the error for the fact that more than one features were founds for the specified featureId
+     * The reference in the localized file for the error for the fact that more
+     * than one features were founds for the specified featureId
      */
     public static final String ERROR_REF_NON_UNIQUE_RESULT = "result.nouniqueresult";
 
-
     /**
-     * The reference in the localized file for the error for the fact that no features were found for the specified featureId
+     * The reference in the localized file for the error for the fact that no
+     * features were found for the specified featureId
      */
     public static final String ERROR_REF_NORESULT = "result.noresult";
 
@@ -100,7 +100,8 @@ public class DisplayFeatureAction extends ActionSupport {
 	    return "";
 	} else {
 	    String fully_qualified_name = result.getFully_qualified_name();
-	    return !StringUtils.isEmpty(fully_qualified_name) ?  fully_qualified_name : result.getName();
+	    return !StringUtils.isEmpty(fully_qualified_name) ? fully_qualified_name
+		    : result.getName();
 	}
     }
 

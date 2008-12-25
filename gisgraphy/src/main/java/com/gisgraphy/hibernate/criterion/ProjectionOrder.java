@@ -34,7 +34,6 @@ import org.hibernate.criterion.Order;
  */
 public class ProjectionOrder extends Order {
 
-   
     private static final long serialVersionUID = -6838585369943470201L;
     private String aliasName;
     private boolean ascending = true;
@@ -53,8 +52,8 @@ public class ProjectionOrder extends Order {
 
     /**
      * @param aliasName
-     *                The name of the alias we'd like to sort, default
-     *                sorting is ascending
+     *                The name of the alias we'd like to sort, default sorting
+     *                is ascending
      */
     public ProjectionOrder(String aliasName) {
 	super(null, true);
@@ -70,9 +69,10 @@ public class ProjectionOrder extends Order {
     @Override
     public String toSqlString(Criteria criteria, CriteriaQuery criteriaQuery)
 	    throws HibernateException {
-	Order nso = new NativeSQLOrder(criteriaQuery.getColumnsUsingProjection(criteria, aliasName)[0],this.ascending);
+	Order nso = new NativeSQLOrder(criteriaQuery.getColumnsUsingProjection(
+		criteria, aliasName)[0], this.ascending);
 	return nso.toSqlString(criteria, criteriaQuery);
-	
+
     }
 
 }

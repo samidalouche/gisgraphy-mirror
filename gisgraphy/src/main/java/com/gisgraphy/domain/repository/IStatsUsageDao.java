@@ -30,15 +30,13 @@ import com.gisgraphy.stats.StatsUsageType;
  * 
  * @author <a href="mailto:david.masclet@gisgraphy.com">David Masclet</a>
  */
-public interface IStatsUsageDao extends IDao<StatsUsage,Long> {
+public interface IStatsUsageDao extends IDao<StatsUsage, Long> {
 
-   
     /**
-     * @param statsUsageType The {@link StatsUsageType}
+     * @param statsUsageType
+     *                The {@link StatsUsageType}
      * @return the {@link StatsUsage} for the specified {@link StatsUsageType}
      */
     public StatsUsage getByUsageType(StatsUsageType statsUsageType);
-
-   
 
 }

@@ -192,9 +192,9 @@ public class FulltextQueryTest extends AbstractIntegrationHttpSolrTestCase {
 	request.setParameter(FulltextServlet.LANG_PARAMETER, " ");
 	query = new FulltextQuery(request);
 	assertEquals(FulltextServlet.LANG_PARAMETER
-		+ " should be null when not specified  ", Output.DEFAULT_LANGUAGE_CODE, query
-		.getOutputLanguage());
-	
+		+ " should be null when not specified  ",
+		Output.DEFAULT_LANGUAGE_CODE, query.getOutputLanguage());
+
 	// test uppercase
 	request = GeolocTestHelper.createMockHttpServletRequestForFullText();
 	request.setParameter(FulltextServlet.LANG_PARAMETER, "fr");
@@ -350,7 +350,7 @@ public class FulltextQueryTest extends AbstractIntegrationHttpSolrTestCase {
 
 	}
     }
-    
+
     @Test
     public void testFulltextQueryWithEmptyQueryThrows() {
 	Pagination pagination = paginate().from(2).to(7);
@@ -435,12 +435,11 @@ public class FulltextQueryTest extends AbstractIntegrationHttpSolrTestCase {
 	FulltextQuery fulltextQuery = new FulltextQuery("Saint-André",
 		pagination, output, Adm.class, "fr");
 	// split parameters
-	HashMap<String, String> parameters = GeolocTestHelper
-		.splitURLParams(fulltextQuery.toQueryString(),"&");
+	HashMap<String, String> parameters = GeolocTestHelper.splitURLParams(
+		fulltextQuery.toQueryString(), "&");
 	// check parameters
-	assertEquals(
-		Output.OutputStyle.SHORT.getFieldList("FR"),
-		parameters.get(Constants.FL_PARAMETER));
+	assertEquals(Output.OutputStyle.SHORT.getFieldList("FR"), parameters
+		.get(Constants.FL_PARAMETER));
 	assertEquals("wrong indent parameter found", "on", parameters
 		.get(Constants.INDENT_PARAMETER));
 	assertEquals("wrong echoparams parameter found", "none", parameters
@@ -459,7 +458,7 @@ public class FulltextQueryTest extends AbstractIntegrationHttpSolrTestCase {
 		"Saint-André France Admclass ", parameters
 			.get(Constants.QUERY_PARAMETER));
     }
-    
+
     @Test
     public void testToQueryStringShouldreturnCorrectParamsForGeoRSS() {
 	Country france = GeolocTestHelper.createCountryForFrance();
@@ -467,17 +466,17 @@ public class FulltextQueryTest extends AbstractIntegrationHttpSolrTestCase {
 	assertNotNull(saved);
 	assertNotNull(saved.getId());
 	Pagination pagination = paginate().from(3).to(10);
-	Output output = Output.withFormat(OutputFormat.GEORSS).withLanguageCode(
-		"FR").withStyle(OutputStyle.SHORT).withIndentation();
+	Output output = Output.withFormat(OutputFormat.GEORSS)
+		.withLanguageCode("FR").withStyle(OutputStyle.SHORT)
+		.withIndentation();
 	FulltextQuery fulltextQuery = new FulltextQuery("Saint-André",
 		pagination, output, Adm.class, "fr");
 	// split parameters
-	HashMap<String, String> parameters = GeolocTestHelper
-		.splitURLParams(fulltextQuery.toQueryString(),"&");
+	HashMap<String, String> parameters = GeolocTestHelper.splitURLParams(
+		fulltextQuery.toQueryString(), "&");
 	// check parameters
-	assertEquals("wrong field list",
-		Output.OutputStyle.MEDIUM.getFieldList("FR"),
-		parameters.get(Constants.FL_PARAMETER));
+	assertEquals("wrong field list", Output.OutputStyle.MEDIUM
+		.getFieldList("FR"), parameters.get(Constants.FL_PARAMETER));
 	assertEquals("wrong indent parameter found", "on", parameters
 		.get(Constants.INDENT_PARAMETER));
 	assertEquals("wrong echoparams parameter found", "none", parameters
@@ -489,8 +488,8 @@ public class FulltextQueryTest extends AbstractIntegrationHttpSolrTestCase {
 	assertEquals("wrong output format parameter found", OutputFormat.GEORSS
 		.getParameterValue(), parameters
 		.get(Constants.OUTPUT_FORMAT_PARAMETER));
-	assertEquals("wrong stylesheet", Constants.GEORSS_STYLESHEET, parameters
-		.get(Constants.STYLESHEET_PARAMETER));
+	assertEquals("wrong stylesheet", Constants.GEORSS_STYLESHEET,
+		parameters.get(Constants.STYLESHEET_PARAMETER));
 	assertEquals("wrong query type parameter found",
 		Constants.SolrQueryType.typed.toString(), parameters
 			.get(Constants.QT_PARAMETER));
@@ -498,8 +497,7 @@ public class FulltextQueryTest extends AbstractIntegrationHttpSolrTestCase {
 		"Saint-André France Admclass ", parameters
 			.get(Constants.QUERY_PARAMETER));
     }
-    
-    
+
     @Test
     public void testToQueryStringShouldreturnCorrectParamsForAtom() {
 	Country france = GeolocTestHelper.createCountryForFrance();
@@ -512,12 +510,11 @@ public class FulltextQueryTest extends AbstractIntegrationHttpSolrTestCase {
 	FulltextQuery fulltextQuery = new FulltextQuery("Saint-André",
 		pagination, output, Adm.class, "fr");
 	// split parameters
-	HashMap<String, String> parameters = GeolocTestHelper
-		.splitURLParams(fulltextQuery.toQueryString(),"&");
+	HashMap<String, String> parameters = GeolocTestHelper.splitURLParams(
+		fulltextQuery.toQueryString(), "&");
 	// check parameters
-	assertEquals("wrong field list",
-		Output.OutputStyle.MEDIUM.getFieldList("FR"),
-		parameters.get(Constants.FL_PARAMETER));
+	assertEquals("wrong field list", Output.OutputStyle.MEDIUM
+		.getFieldList("FR"), parameters.get(Constants.FL_PARAMETER));
 	assertEquals("wrong indent parameter found", "on", parameters
 		.get(Constants.INDENT_PARAMETER));
 	assertEquals("wrong echoparams parameter found", "none", parameters

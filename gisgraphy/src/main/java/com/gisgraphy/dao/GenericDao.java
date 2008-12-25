@@ -27,7 +27,7 @@ import java.util.List;
 
 /**
  * Generic DAO (Data Access Object) with common methods to CRUD POJOs.
- *
+ * 
  * Extend this interface if you want typesafe (no casting necessary) DAO's for
  * your domain objects.
  * 

@@ -37,11 +37,13 @@ public class GeonamesAlternateNamesImporterTest {
     @Test
     public void testRollback() {
 	GeonamesAlternateNamesImporter geonamesAlternateNamesImporter = new GeonamesAlternateNamesImporter();
-	IAlternateNameDao alternateNameDao = EasyMock.createMock(IAlternateNameDao.class);
+	IAlternateNameDao alternateNameDao = EasyMock
+		.createMock(IAlternateNameDao.class);
 	EasyMock.expect(alternateNameDao.deleteAll()).andReturn(5);
 	EasyMock.replay(alternateNameDao);
 	geonamesAlternateNamesImporter.setAlternateNameDao(alternateNameDao);
-	List<NameValueDTO<Integer>> deleted = geonamesAlternateNamesImporter.rollback();
+	List<NameValueDTO<Integer>> deleted = geonamesAlternateNamesImporter
+		.rollback();
 	assertEquals(1, deleted.size());
 	assertEquals(5, deleted.get(0).getValue().intValue());
     }

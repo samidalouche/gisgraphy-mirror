@@ -29,7 +29,7 @@ import com.gisgraphy.helper.FeatureClassCodeHelper;
 
 public class FeatureClassCodeHelperTest extends
 	AbstractIntegrationHttpSolrTestCase {
-  
+
     @Test
     public void testIsCityWithNullValuesShouldNotThrow() {
 	assertFalse(FeatureClassCodeHelper.isCity(null, null));

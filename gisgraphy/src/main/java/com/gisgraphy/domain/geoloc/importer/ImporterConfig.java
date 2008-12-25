@@ -383,7 +383,6 @@ public class ImporterConfig {
 	adm4ExtracterStrategyIfAlreadyExists = adm4ExtracterStrategy;
     }
 
-    
     /**
      * @return The option
      * @see #setMissingRequiredFieldThrows(boolean)

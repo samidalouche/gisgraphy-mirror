@@ -52,8 +52,6 @@ public class ProjectionOrderTest extends AbstractIntegrationHttpSolrTestCase {
 
     private static String alias = "colProj";
 
-  
-
     @SuppressWarnings("unchecked")
     @Test
     public void testProjectionOrderShouldSortAscByDefault() {
@@ -71,16 +69,16 @@ public class ProjectionOrderTest extends AbstractIntegrationHttpSolrTestCase {
 
 	    @SuppressWarnings("unchecked")
 	    public Object doInHibernate(Session session)
-	    throws PersistenceException {
+		    throws PersistenceException {
 
 		Criteria testCriteria = session.createCriteria(City.class);
 		List<String> fieldList = new ArrayList<String>();
 		fieldList.add("name");
 		Projection projection = Projections.property("featureId").as(
-		"featureId");
+			"featureId");
 		testCriteria.setProjection(projection).addOrder(
 			new ProjectionOrder("featureId")).setResultTransformer(
-				Transformers.aliasToBean(_CityDTO.class));
+			Transformers.aliasToBean(_CityDTO.class));
 
 		List<_CityDTO> results = testCriteria.list();
 		return results;
@@ -88,14 +86,14 @@ public class ProjectionOrderTest extends AbstractIntegrationHttpSolrTestCase {
 	};
 
 	List<_CityDTO> cities = (List<_CityDTO>) testDao
-	.testCallback(hibernateCallback);
+		.testCallback(hibernateCallback);
 	assertEquals(3, cities.size());
 	assertEquals("1", cities.get(0).getFeatureId().toString());
 	assertEquals("2", cities.get(1).getFeatureId().toString());
 	assertEquals("3", cities.get(2).getFeatureId().toString());
 
     }
-    
+
     @SuppressWarnings("unchecked")
     @Test
     public void testProjectionOrderShouldSortDesc() {
@@ -112,15 +110,16 @@ public class ProjectionOrderTest extends AbstractIntegrationHttpSolrTestCase {
 	HibernateCallback hibernateCallback = new HibernateCallback() {
 
 	    public Object doInHibernate(Session session)
-	    throws PersistenceException {
+		    throws PersistenceException {
 
 		Criteria testCriteria = session.createCriteria(City.class);
 		List<String> fieldList = new ArrayList<String>();
 		fieldList.add("name");
 		Projection projection = Projections.property("featureId").as(
-		"featureId");
+			"featureId");
 		testCriteria.setProjection(projection).addOrder(
-			new ProjectionOrder("featureId",false)).setResultTransformer(
+			new ProjectionOrder("featureId", false))
+			.setResultTransformer(
 				Transformers.aliasToBean(_CityDTO.class));
 
 		List<_CityDTO> results = testCriteria.list();
@@ -129,7 +128,7 @@ public class ProjectionOrderTest extends AbstractIntegrationHttpSolrTestCase {
 	};
 
 	List<_CityDTO> cities = (List<_CityDTO>) testDao
-	.testCallback(hibernateCallback);
+		.testCallback(hibernateCallback);
 	assertEquals(3, cities.size());
 	assertEquals("3", cities.get(0).getFeatureId().toString());
 	assertEquals("2", cities.get(1).getFeatureId().toString());
@@ -143,7 +142,7 @@ public class ProjectionOrderTest extends AbstractIntegrationHttpSolrTestCase {
 	EasyMock.expect(
 		criteriaQuery.getColumnsUsingProjection((Criteria) EasyMock
 			.anyObject(), EasyMock.eq(alias))).andReturn(
-				projectionAlias).once();
+		projectionAlias).once();
 	EasyMock.expect(
 		criteriaQuery.getSQLAlias((Criteria) EasyMock.anyObject()))
 		.andReturn("this_alias").once();
@@ -160,7 +159,7 @@ public class ProjectionOrderTest extends AbstractIntegrationHttpSolrTestCase {
 	EasyMock.expect(
 		criteriaQuery.getColumnsUsingProjection((Criteria) EasyMock
 			.anyObject(), EasyMock.eq(alias))).andReturn(
-				projectionAlias).once();
+		projectionAlias).once();
 	EasyMock.expect(
 		criteriaQuery.getSQLAlias((Criteria) EasyMock.anyObject()))
 		.andReturn("this_alias").once();
@@ -177,7 +176,7 @@ public class ProjectionOrderTest extends AbstractIntegrationHttpSolrTestCase {
 	EasyMock.expect(
 		criteriaQuery.getColumnsUsingProjection((Criteria) EasyMock
 			.anyObject(), EasyMock.eq(alias))).andReturn(
-				projectionAlias).once();
+		projectionAlias).once();
 	EasyMock.expect(
 		criteriaQuery.getSQLAlias((Criteria) EasyMock.anyObject()))
 		.andReturn("this_alias").once();
@@ -187,7 +186,7 @@ public class ProjectionOrderTest extends AbstractIntegrationHttpSolrTestCase {
 	assertTrue(sqlString.contains("desc"));
 	EasyMock.verify(criteriaQuery);
     }
-    
+
     @Required
     public void setCityDao(ICityDao cityDao) {
 	this.cityDao = cityDao;

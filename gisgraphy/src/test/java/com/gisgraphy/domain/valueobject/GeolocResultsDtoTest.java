@@ -50,7 +50,8 @@ public class GeolocResultsDtoTest extends AbstractIntegrationHttpSolrTestCase {
 		    .newInstance(GeolocResultsDto.class);
 	    Marshaller m = context.createMarshaller();
 	    m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
-	    result = GeolocTestHelper.createFullFilledGisFeatureDistanceWithGisFeatureConstructor();
+	    result = GeolocTestHelper
+		    .createFullFilledGisFeatureDistanceWithGisFeatureConstructor();
 	    List<GisFeatureDistance> list = new ArrayList<GisFeatureDistance>();
 	    list.add(result);
 	    GeolocResultsDto geolocResultsDto = new GeolocResultsDto(list, 300L);
@@ -100,7 +101,7 @@ public class GeolocResultsDtoTest extends AbstractIntegrationHttpSolrTestCase {
      * @param result
      * @param outputStream
      */
-    //TODO refactoring with GisFeatureDistanceTest
+    // TODO refactoring with GisFeatureDistanceTest
     private void checkJAXBMapping(GisFeatureDistance result,
 	    ByteArrayOutputStream outputStream, int numFound, long qTime) {
 	try {

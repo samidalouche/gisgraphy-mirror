@@ -88,8 +88,8 @@ public class FulltextSearchAction extends SearchAction {
 	} catch (RuntimeException e) {
 	    e.printStackTrace();
 	    String exceptionMessage = "";
-	    if (e.getCause() != null && e.getCause().getCause()!=null) {
-		exceptionMessage =  e.getCause().getCause().toString();
+	    if (e.getCause() != null && e.getCause().getCause() != null) {
+		exceptionMessage = e.getCause().getCause().toString();
 		logger.error("An error occured during search : "
 			+ exceptionMessage);
 	    } else {

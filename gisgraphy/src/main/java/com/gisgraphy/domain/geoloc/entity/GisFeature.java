@@ -172,7 +172,7 @@ public class GisFeature {
 
     @IntrospectionIgnoredField
     private GISSource source;
-    
+
     /**
      * The datastore id
      * 
@@ -280,7 +280,7 @@ public class GisFeature {
      * @return The Adm1Code for this Feature
      */
     @Index(name = "adm1codeIndex")
-    @Column(length=20)
+    @Column(length = 20)
     public String getAdm1Code() {
 	return adm1Code;
     }
@@ -303,7 +303,7 @@ public class GisFeature {
      * @return The Adm2Code for this Feature
      */
     @Index(name = "adm2codeIndex")
-    @Column(length=80)
+    @Column(length = 80)
     public String getAdm2Code() {
 	return adm2Code;
     }
@@ -326,7 +326,7 @@ public class GisFeature {
      * @return The Adm3Code for this Feature
      */
     @Index(name = "adm3codeIndex")
-    @Column(length=20)
+    @Column(length = 20)
     public String getAdm3Code() {
 	return adm3Code;
     }
@@ -349,7 +349,7 @@ public class GisFeature {
      * @return The Adm4Code for this Feature
      */
     @Index(name = "adm4codeIndex")
-    @Column(length=20)
+    @Column(length = 20)
     public String getAdm4Code() {
 	return adm4Code;
     }
@@ -372,7 +372,7 @@ public class GisFeature {
      * @return The name of the Adm of level 1 that this GisFeature is linked to
      */
     @Index(name = "adm1NameIndex")
-    @Column(length=200)
+    @Column(length = 200)
     public String getAdm1Name() {
 	return adm1Name;
     }
@@ -398,7 +398,7 @@ public class GisFeature {
      * @return The name of the Adm of level 2 that this GisFeature is linked to
      */
     @Index(name = "adm2NameIndex")
-    @Column(length=200)
+    @Column(length = 200)
     public String getAdm2Name() {
 	return adm2Name;
     }
@@ -424,7 +424,7 @@ public class GisFeature {
      * @return The name of the Adm of level 3 that this GisFeature is linked to
      */
     @Index(name = "adm3NameIndex")
-    @Column(length=200)
+    @Column(length = 200)
     public String getAdm3Name() {
 	return adm3Name;
     }
@@ -450,7 +450,7 @@ public class GisFeature {
      * @return The name of the Adm of level 4 that this GisFeature is linked to
      */
     @Index(name = "adm4NameIndex")
-    @Column(length=200)
+    @Column(length = 200)
     public String getAdm4Name() {
 	return adm4Name;
     }
@@ -544,7 +544,7 @@ public class GisFeature {
     /**
      * @return The ASCII name of the current GisFeature
      */
-    @Column(nullable = true,length=200)
+    @Column(nullable = true, length = 200)
     @Index(name = "gisFeatureAsciiNameIndex")
     public String getAsciiName() {
 	return this.asciiName;
@@ -566,7 +566,7 @@ public class GisFeature {
      * @return The ISO 3166 alpha-2 letter code.
      */
     @Index(name = "gisFeatureCountryindex")
-    @Column(length=3)
+    @Column(length = 3)
     public String getCountryCode() {
 	return countryCode;
     }
@@ -620,7 +620,7 @@ public class GisFeature {
     /**
      * @return The UTF-8 name for the current GisFeature
      */
-    @Column(nullable = false,length=200)
+    @Column(nullable = false, length = 200)
     @Index(name = "gisFeatureNameIndex")
     public String getName() {
 	return name;
@@ -673,7 +673,7 @@ public class GisFeature {
      *      href="http://download.geonames.org/export/dump/timeZones.txt">Time
      *      zone</a>
      */
-    @Column(length=40)
+    @Column(length = 40)
     public String getTimezone() {
 	return timezone;
     }
@@ -788,7 +788,7 @@ public class GisFeature {
      * @see <a href="http://www.geonames.org/export/codes.html">codes</a>
      */
     @Index(name = "gisFeatureFeatureClassindex")
-    @Column(length=4)
+    @Column(length = 4)
     public String getFeatureClass() {
 	return featureClass;
     }
@@ -815,7 +815,7 @@ public class GisFeature {
      * @see FeatureCode
      */
     @Index(name = "gisFeatureFeatureCodeindex")
-    @Column(length=10)
+    @Column(length = 10)
     public String getFeatureCode() {
 	return featureCode;
     }
@@ -968,8 +968,9 @@ public class GisFeature {
      */
     @Override
     public String toString() {
-	return this.getClass().getSimpleName()+"[" + getFeatureId() + "][" + getFeatureClass() + "."
-		+ getFeatureCode() + "][" + getName() + "]";
+	return this.getClass().getSimpleName() + "[" + getFeatureId() + "]["
+		+ getFeatureClass() + "." + getFeatureCode() + "][" + getName()
+		+ "]";
     }
 
 }

@@ -46,7 +46,7 @@ public class CityDaoTest extends AbstractIntegrationHttpSolrTestCase {
     private ICityDao cityDao;
 
     private IGisFeatureDao gisFeatureDao;
-    
+
     @Resource
     private GeolocTestHelper geolocTestHelper;
 
@@ -310,13 +310,14 @@ public class CityDaoTest extends AbstractIntegrationHttpSolrTestCase {
 	checkDistancePercentError(p1, results);
 
     }
-    
+
     @Test
     public void testgetNearestAndDistanceFromShouldReturnAfullFilledDTO() {
-	City p1 = geolocTestHelper.createAndSaveCityWithFullAdmTreeAndCountry(1L);
+	City p1 = geolocTestHelper
+		.createAndSaveCityWithFullAdmTreeAndCountry(1L);
 	p1.setAdm4Code("D4");
 	p1.setAdm4Name("adm");
-	
+
 	cityDao.save(p1);
 
 	this.cityDao.save(p1);
@@ -327,7 +328,8 @@ public class CityDaoTest extends AbstractIntegrationHttpSolrTestCase {
 	assertEquals(p1.getFeatureId(), gisFeatureDistance.getFeatureId());
 	assertEquals(p1.getName(), gisFeatureDistance.getName());
 	assertEquals(p1.getAsciiName(), gisFeatureDistance.getAsciiName());
-	assertEquals(p1.getLocation().toText(), gisFeatureDistance.getLocation().toText());
+	assertEquals(p1.getLocation().toText(), gisFeatureDistance
+		.getLocation().toText());
 	assertEquals(p1.getLatitude(), gisFeatureDistance.getLat());
 	assertEquals(p1.getLongitude(), gisFeatureDistance.getLng());
 	assertEquals(p1.getAdm1Code(), gisFeatureDistance.getAdm1Code());
@@ -346,15 +348,18 @@ public class CityDaoTest extends AbstractIntegrationHttpSolrTestCase {
 	assertEquals(p1.getGtopo30(), gisFeatureDistance.getGtopo30());
 	assertEquals(p1.getTimezone(), gisFeatureDistance.getTimezone());
 	assertEquals(p1.getZipCode(), gisFeatureDistance.getZipCode());
-	assertEquals("City",gisFeatureDistance.getPlaceType());
-	//check transcient field
-	assertEquals(URLUtils.createCountryFlagUrl(p1.getCountryCode()), gisFeatureDistance.getCountry_flag_url());
-	assertEquals(URLUtils.createGoogleMapUrl(p1.getLocation(), p1.getName()), gisFeatureDistance.getGoogle_map_url());
-	assertEquals(URLUtils.createYahooMapUrl(p1.getLocation()), gisFeatureDistance.getYahoo_map_url());
+	assertEquals("City", gisFeatureDistance.getPlaceType());
+	// check transcient field
+	assertEquals(URLUtils.createCountryFlagUrl(p1.getCountryCode()),
+		gisFeatureDistance.getCountry_flag_url());
+	assertEquals(URLUtils
+		.createGoogleMapUrl(p1.getLocation(), p1.getName()),
+		gisFeatureDistance.getGoogle_map_url());
+	assertEquals(URLUtils.createYahooMapUrl(p1.getLocation()),
+		gisFeatureDistance.getYahoo_map_url());
 	assertNotNull(gisFeatureDistance.getDistance());
-	
+
 	checkDistancePercentError(p1, results);
-	
 
     }
 

@@ -80,8 +80,7 @@ public class GeonamesCountryImporter extends AbstractGeonamesProcessor {
 		    .intValue());
 	    country.setLocation(GeolocHelper.createPoint(0F, 0F));
 	    country.setSource(GISSource.GEONAMES);
-	}
-	else {
+	} else {
 	    logger.warn("country " + fields[4] + " requires iso3166 values");
 	}
 
@@ -241,16 +240,19 @@ public class GeonamesCountryImporter extends AbstractGeonamesProcessor {
 		+ importerConfig.getCountriesFileName());
 	return files;
     }
-    
-    /* (non-Javadoc)
+
+    /*
+     * (non-Javadoc)
+     * 
      * @see com.gisgraphy.domain.geoloc.importer.IGeonamesProcessor#rollback()
      */
     public List<NameValueDTO<Integer>> rollback() {
 	List<NameValueDTO<Integer>> deletedObjectInfo = new ArrayList<NameValueDTO<Integer>>();
 	logger.info("deleting countries...");
 	int deletedCountries = countryDao.deleteAll();
-	if (deletedCountries != 0){
-	    deletedObjectInfo.add(new NameValueDTO<Integer>(Country.class.getSimpleName(),deletedCountries));
+	if (deletedCountries != 0) {
+	    deletedObjectInfo.add(new NameValueDTO<Integer>(Country.class
+		    .getSimpleName(), deletedCountries));
 	}
 	logger.info(deletedCountries + " countries have been deleted");
 	resetStatusFields();

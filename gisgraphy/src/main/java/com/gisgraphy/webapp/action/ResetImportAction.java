@@ -36,9 +36,8 @@ import com.gisgraphy.domain.valueobject.NameValueDTO;
 import com.opensymphony.xwork2.ActionSupport;
 
 /**
- * Action that reset the import.
- * SO USE THIS ACTION VERY CAREFULLY.
- * The reset will be launched only if the confirm attribute in session is equals to true
+ * Action that reset the import. SO USE THIS ACTION VERY CAREFULLY. The reset
+ * will be launched only if the confirm attribute in session is equals to true
  * 
  * @author <a href="mailto:david.masclet@gisgraphy.com">David Masclet</a>
  * @see ImporterManager
@@ -60,7 +59,7 @@ public class ResetImportAction extends ActionSupport {
     private List<NameValueDTO<Integer>> deletedObjectsInfo = new ArrayList<NameValueDTO<Integer>>();
 
     private boolean resetFailed = false;
-    
+
     private String failedMessage;
 
     /**
@@ -90,9 +89,11 @@ public class ResetImportAction extends ActionSupport {
     }
 
     /**
-     * reset the import, only if {@linkplain #RESET_IMPORT_CONFIRM} is equals to true
+     * reset the import, only if {@linkplain #RESET_IMPORT_CONFIRM} is equals to
+     * true
+     * 
      * @see #confirm()
-     * @return the reset view 
+     * @return the reset view
      */
     public String reset() {
 	Boolean confirm = isConfirmed();
@@ -102,7 +103,7 @@ public class ResetImportAction extends ActionSupport {
 		deletedObjectsInfo = importerManager.resetImport();
 	    } catch (RuntimeException e) {
 		resetFailed = true;
-		failedMessage= e.getMessage();
+		failedMessage = e.getMessage();
 		logger.warn("The reset has failed : " + e.getMessage());
 	    }
 	    unconfirm();
@@ -118,14 +119,14 @@ public class ResetImportAction extends ActionSupport {
     public boolean isConfirmed() {
 	Object confirmed = ServletActionContext.getRequest().getSession()
 		.getAttribute(RESET_IMPORT_CONFIRM);
-	logger.info("RESET_IMPORT_CONFIRM="+confirmed+" in session");
-	return confirmed == null ? false:((Boolean) confirmed).booleanValue();
+	logger.info("RESET_IMPORT_CONFIRM=" + confirmed + " in session");
+	return confirmed == null ? false : ((Boolean) confirmed).booleanValue();
     }
 
     /**
-     * set the {@linkplain #RESET_IMPORT_CONFIRM} in session to true 
+     * set the {@linkplain #RESET_IMPORT_CONFIRM} in session to true
      * 
-     * @return the reset view 
+     * @return the reset view
      */
     public String confirm() {
 	ServletActionContext.getRequest().getSession().setAttribute(
@@ -136,7 +137,7 @@ public class ResetImportAction extends ActionSupport {
     }
 
     /**
-     * remove the {@linkplain #RESET_IMPORT_CONFIRM} of the session 
+     * remove the {@linkplain #RESET_IMPORT_CONFIRM} of the session
      */
     public void unconfirm() {
 	ServletActionContext.getRequest().getSession().removeAttribute(
@@ -144,7 +145,8 @@ public class ResetImportAction extends ActionSupport {
     }
 
     /**
-     * @param importerManager the importerManager to set
+     * @param importerManager
+     *                the importerManager to set
      */
     @Required
     public void setImporterManager(IImporterManager importerManager) {
@@ -169,7 +171,7 @@ public class ResetImportAction extends ActionSupport {
      * @return the failedMessage
      */
     public String getFailedMessage() {
-        return failedMessage;
+	return failedMessage;
     }
 
 }

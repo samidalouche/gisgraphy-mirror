@@ -43,12 +43,11 @@ public class LabelValue implements Comparable<LabelValue>, Serializable {
      */
     public static final Comparator<LabelValue> CASE_INSENSITIVE_ORDER = new Comparator<LabelValue>() {
 	public int compare(LabelValue o1, LabelValue o2) {
-	    String label1 =  o1.getLabel();
-	    String label2 =  o2.getLabel();
+	    String label1 = o1.getLabel();
+	    String label2 = o2.getLabel();
 	    return label1.compareToIgnoreCase(label2);
 	}
     };
-
 
     /**
      * Default constructor.

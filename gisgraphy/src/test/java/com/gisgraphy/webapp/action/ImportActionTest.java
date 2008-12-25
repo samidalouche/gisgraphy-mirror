@@ -28,19 +28,18 @@ import org.junit.Test;
 
 import com.gisgraphy.domain.geoloc.importer.IImporterManager;
 
-
 public class ImportActionTest {
-    
+
     @Test
-    public void testdoWaitShouldReturnWaitView() throws Exception{
+    public void testdoWaitShouldReturnWaitView() throws Exception {
 	Assert.assertEquals(ImportAction.WAIT, new ImportAction().doWait());
     }
-    
+
     @Test
-    public void testStatusShouldReturnWaitView() throws Exception{
+    public void testStatusShouldReturnWaitView() throws Exception {
 	Assert.assertEquals(ImportAction.WAIT, new ImportAction().status());
     }
-    
+
     @Test
     public void executeShouldReturnWaitViewIfInProgress() throws Exception {
 	IImporterManager mockImporterManager = EasyMock
@@ -55,8 +54,7 @@ public class ImportActionTest {
     }
 
     @Test
-    public void executeShouldImportIfNotInProgress()
-	    throws Exception {
+    public void executeShouldImportIfNotInProgress() throws Exception {
 	IImporterManager mockImporterManager = EasyMock
 		.createMock(IImporterManager.class);
 	EasyMock.expect(mockImporterManager.isInProgress())
@@ -72,8 +70,7 @@ public class ImportActionTest {
     }
 
     @Test
-    public void executeShouldImportIfNotAlreadyDone()
-	    throws Exception {
+    public void executeShouldImportIfNotAlreadyDone() throws Exception {
 	IImporterManager mockImporterManager = EasyMock
 		.createMock(IImporterManager.class);
 	EasyMock.expect(mockImporterManager.isInProgress())
@@ -101,6 +98,5 @@ public class ImportActionTest {
 	action.setImporterManager(mockImporterManager);
 	Assert.assertEquals(ImportAction.WAIT, action.execute());
     }
-
 
 }

@@ -69,24 +69,26 @@ public class URLUtils {
      */
     public static final String DEFAULT_COUNTRY_FLAG_URL = "/images/flags/default.png";
 
-   
     /**
-     * @param point The Point we'd like to map
-     * @param label the text we'd like to display on the map
+     * @param point
+     *                The Point we'd like to map
+     * @param label
+     *                the text we'd like to display on the map
      * @see #DEFAULT_GOOGLE_MAP_BASE_URL
      * @return an Google Map URL for the specified point and label
      */
-    public static String createGoogleMapUrl(Point point,String label) {
-	if (point == null ) {
+    public static String createGoogleMapUrl(Point point, String label) {
+	if (point == null) {
 	    return DEFAULT_GOOGLE_MAP_BASE_URL;
 	}
 	try {
 	    StringBuffer sb = new StringBuffer(GOOGLE_MAP_BASE_URL);
 	    sb.append(
-		    URLEncoder.encode(label== null?"":label, Constants.CHARSET))
-		    .append("&amp;ll=").append(point.getY() + 0.03)// add
-									    // an
-									    // offset
+		    URLEncoder.encode(label == null ? "" : label,
+			    Constants.CHARSET)).append("&amp;ll=").append(
+		    point.getY() + 0.03)// add
+		    // an
+		    // offset
 		    .append(",").append(point.getX());
 	    return sb.toString();
 	} catch (UnsupportedEncodingException e) {
@@ -94,20 +96,19 @@ public class URLUtils {
 	}
     }
 
-    
-    
     /**
-     * @param point The Point we'd like to map
+     * @param point
+     *                The Point we'd like to map
      * @see #DEFAULT_YAHOO_MAP_BASE_URL
      * @return an Yahoo Map URL for the specified point and label
      */
-     public static String createYahooMapUrl(Point point) {
-	 if (point == null ) {
-		    return DEFAULT_YAHOO_MAP_BASE_URL;
+    public static String createYahooMapUrl(Point point) {
+	if (point == null) {
+	    return DEFAULT_YAHOO_MAP_BASE_URL;
 	}
 	StringBuffer sb = new StringBuffer(YAHOO_MAP_BASE_URL);
-	sb.append("&amp;lon=").append(point.getX()).append("&amp;lat=")
-		.append(point.getY());
+	sb.append("&amp;lon=").append(point.getX()).append("&amp;lat=").append(
+		point.getY());
 	return sb.toString();
     }
 

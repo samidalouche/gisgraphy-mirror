@@ -94,10 +94,10 @@ public class SolrUnmarshallerTest extends AbstractIntegrationHttpSolrTestCase {
 	assertEquals(city.getAdm4Name(), result.getAdm4_name());
 	assertEquals(city.getZipCode(), result.getZipcode());
 	assertEquals(city.getCountry().getName(), result.getCountry_name());
-	assertEquals(URLUtils.createGoogleMapUrl(city.getLocation(),city.getName()), result
-		.getGoogle_map_url());
-	assertEquals(URLUtils.createCountryFlagUrl(city.getCountryCode()), result
-		.getCountry_flag_url());
+	assertEquals(URLUtils.createGoogleMapUrl(city.getLocation(), city
+		.getName()), result.getGoogle_map_url());
+	assertEquals(URLUtils.createCountryFlagUrl(city.getCountryCode()),
+		result.getCountry_flag_url());
 	assertEquals(URLUtils.createYahooMapUrl(city.getLocation()), result
 		.getYahoo_map_url());
 

@@ -129,7 +129,7 @@ public class GisFeatureDistance {
 	    }
 	    return this;
 	}
-	
+
 	public GisFeatureDistanceBuilder withElevation(Integer elevation) {
 	    gisFeatureDistance.elevation = elevation;
 	    return this;
@@ -307,15 +307,17 @@ public class GisFeatureDistance {
 		this.name);
 	this.yahoo_map_url = URLUtils.createYahooMapUrl(this.location);
 	this.country_flag_url = URLUtils.createCountryFlagUrl(this.countryCode);
-	if (this.location!= null){
+	if (this.location != null) {
 	    this.lat = location.getY();
 	    this.lng = location.getX();
 	}
-	if (featureClass!=null && featureCode!= null){
-	try {
-	    this.placeType= FeatureCode.valueOf(featureClass+"_"+featureCode).getObject().getClass().getSimpleName();
-	} catch (RuntimeException e) {
-	}
+	if (featureClass != null && featureCode != null) {
+	    try {
+		this.placeType = FeatureCode.valueOf(
+			featureClass + "_" + featureCode).getObject()
+			.getClass().getSimpleName();
+	    } catch (RuntimeException e) {
+	    }
 	}
     }
 

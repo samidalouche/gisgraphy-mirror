@@ -142,10 +142,10 @@ public class City extends GisFeature implements ZipCodeAware {
 	    this.setZipCode(((ZipCodeAware) gisFeature).getZipCode());
 	}
     }
-    
+
     /**
-     * Returns a name of the form : (adm1Name et adm2Name are printed) Paris(Zipcode),
-     * Département de Ville-De-Paris, Ile-De-France, (FR)
+     * Returns a name of the form : (adm1Name et adm2Name are printed)
+     * Paris(Zipcode), Département de Ville-De-Paris, Ile-De-France, (FR)
      * 
      * @param withCountry
      *                Whether the country information should be added
@@ -156,7 +156,7 @@ public class City extends GisFeature implements ZipCodeAware {
     public String getFullyQualifiedName(boolean withCountry) {
 	StringBuilder completeCityName = new StringBuilder();
 	completeCityName.append(getName());
-	if (zipCode != null){
+	if (zipCode != null) {
 	    completeCityName.append(" (");
 	    completeCityName.append(getZipCode());
 	    completeCityName.append(")");

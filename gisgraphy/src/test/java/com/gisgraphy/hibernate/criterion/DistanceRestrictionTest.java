@@ -47,14 +47,13 @@ import com.gisgraphy.hibernate.projection._CityDTO;
 import com.gisgraphy.test.GeolocTestHelper;
 import com.gisgraphy.test._DaoHelper;
 
-public class DistanceRestrictionTest extends AbstractIntegrationHttpSolrTestCase{
-    
-    
+public class DistanceRestrictionTest extends
+	AbstractIntegrationHttpSolrTestCase {
+
     private ICityDao cityDao;
 
     private _DaoHelper testDao;
 
-  
     @Required
     public void setCityDao(ICityDao cityDao) {
 	this.cityDao = cityDao;
@@ -64,25 +63,36 @@ public class DistanceRestrictionTest extends AbstractIntegrationHttpSolrTestCase
     public void setTestDao(_DaoHelper testDao) {
 	this.testDao = testDao;
     }
+
     @Test
     public void testDistanceRestrictionPointDoubleBooleanShouldUseIndexIfUseIndexTrue() {
 	CriteriaQuery criteriaQuery = EasyMock.createMock(CriteriaQuery.class);
-	EasyMock.expect(criteriaQuery.getColumn((Criteria)EasyMock.anyObject(),EasyMock.eq(GisFeature.LOCATION_COLUMN_NAME))).andReturn("").once();
-	EasyMock.expect(criteriaQuery.getSQLAlias((Criteria)EasyMock.anyObject())).andReturn("").once();
+	EasyMock.expect(
+		criteriaQuery.getColumn((Criteria) EasyMock.anyObject(),
+			EasyMock.eq(GisFeature.LOCATION_COLUMN_NAME)))
+		.andReturn("").once();
+	EasyMock.expect(
+		criteriaQuery.getSQLAlias((Criteria) EasyMock.anyObject()))
+		.andReturn("").once();
 	EasyMock.replay(criteriaQuery);
-	DistanceRestriction dr = new DistanceRestriction(GeolocTestHelper.createPoint(3F, 4F),4D,true);
-	String sqlString = dr.toSqlString(null,criteriaQuery );
+	DistanceRestriction dr = new DistanceRestriction(GeolocTestHelper
+		.createPoint(3F, 4F), 4D, true);
+	String sqlString = dr.toSqlString(null, criteriaQuery);
 	assertTrue(sqlString.contains(" && "));
 	EasyMock.verify(criteriaQuery);
     }
-    
+
     @Test
     public void testDistanceRestrictionPointDoubleBooleanShouldNotUseIndexIfUseIndexFalse() {
 	CriteriaQuery criteriaQuery = EasyMock.createMock(CriteriaQuery.class);
-	EasyMock.expect(criteriaQuery.getColumn((Criteria)EasyMock.anyObject(),EasyMock.eq(GisFeature.LOCATION_COLUMN_NAME))).andReturn(" test ").once();
+	EasyMock.expect(
+		criteriaQuery.getColumn((Criteria) EasyMock.anyObject(),
+			EasyMock.eq(GisFeature.LOCATION_COLUMN_NAME)))
+		.andReturn(" test ").once();
 	EasyMock.replay(criteriaQuery);
-	DistanceRestriction dr = new DistanceRestriction(GeolocTestHelper.createPoint(3F, 4F),4D,false);
-	String sqlString = dr.toSqlString(null,criteriaQuery );
+	DistanceRestriction dr = new DistanceRestriction(GeolocTestHelper
+		.createPoint(3F, 4F), 4D, false);
+	String sqlString = dr.toSqlString(null, criteriaQuery);
 	assertTrue(!sqlString.contains(" && "));
 	EasyMock.verify(criteriaQuery);
     }
@@ -107,11 +117,11 @@ public class DistanceRestrictionTest extends AbstractIntegrationHttpSolrTestCase
 		List<String> fieldList = new ArrayList<String>();
 		fieldList.add("name");
 		Projection projection = Projections.property("name").as("name");
-		testCriteria.setProjection(projection)
-		.add(Restrictions.ne("id", p1.getId()))
-		.add(new DistanceRestriction(p1.getLocation(), 500000D))
-		.setResultTransformer(Transformers
-			.aliasToBean(_CityDTO.class));
+		testCriteria.setProjection(projection).add(
+			Restrictions.ne("id", p1.getId())).add(
+			new DistanceRestriction(p1.getLocation(), 500000D))
+			.setResultTransformer(
+				Transformers.aliasToBean(_CityDTO.class));
 
 		List<_CityDTO> results = testCriteria.list();
 		return results;
@@ -120,11 +130,11 @@ public class DistanceRestrictionTest extends AbstractIntegrationHttpSolrTestCase
 
 	List<_CityDTO> cities = (List<_CityDTO>) testDao
 		.testCallback(hibernateCallback);
-	assertEquals("According to the distance restriction, it should have zero results",0, cities.size());
-	
-	
-	
-	 hibernateCallback = new HibernateCallback() {
+	assertEquals(
+		"According to the distance restriction, it should have zero results",
+		0, cities.size());
+
+	hibernateCallback = new HibernateCallback() {
 
 	    public Object doInHibernate(Session session)
 		    throws PersistenceException {
@@ -133,23 +143,23 @@ public class DistanceRestrictionTest extends AbstractIntegrationHttpSolrTestCase
 		List<String> fieldList = new ArrayList<String>();
 		fieldList.add("name");
 		Projection projection = Projections.property("name").as("name");
-		testCriteria.setProjection(projection)
-		.add(new DistanceRestriction(p1.getLocation(), 600000D))
-		.add(Restrictions.ne("id", p1.getId()))
-		.setResultTransformer(Transformers
-			.aliasToBean(_CityDTO.class));
+		testCriteria.setProjection(projection).add(
+			new DistanceRestriction(p1.getLocation(), 600000D))
+			.add(Restrictions.ne("id", p1.getId()))
+			.setResultTransformer(
+				Transformers.aliasToBean(_CityDTO.class));
 
 		List<_CityDTO> results = testCriteria.list();
 		return results;
 	    }
 	};
 
-	 cities = (List<_CityDTO>) testDao
-		.testCallback(hibernateCallback);
-	assertEquals("According to the distance restriction, it should have one results",1, cities.size());
+	cities = (List<_CityDTO>) testDao.testCallback(hibernateCallback);
+	assertEquals(
+		"According to the distance restriction, it should have one results",
+		1, cities.size());
 	assertEquals("bordeaux", cities.get(0).getName());
-	
-	
+
     }
 
 }

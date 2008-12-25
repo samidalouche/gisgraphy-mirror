@@ -70,21 +70,21 @@ public interface IImporterManager {
     public String getFormatedTimeElapsed();
 
     /**
-     * /!\ USE THIS METHOD VERY CAREFULLY /!\ : If you call this function, all the
-     * imported data will be deleted clear all the tables with GisFeature (and
-     * subclass, adm, languages, country,...), delete alternatenames, delete all
-     * the fulltext search engine entries, in order to re-run a new import from
-     * scratch
+     * /!\ USE THIS METHOD VERY CAREFULLY /!\ : If you call this function, all
+     * the imported data will be deleted clear all the tables with GisFeature
+     * (and subclass, adm, languages, country,...), delete alternatenames,
+     * delete all the fulltext search engine entries, in order to re-run a new
+     * import from scratch
      * 
      * @return a {@linkplain NameValueDTO} with the name of the deleted object
      *         and the number of deleted Object. No entry will be return for
      *         Object that were 0 object will be deleted.
      */
     public List<NameValueDTO<Integer>> resetImport();
-    
+
     /**
      * @return a list of DTO for each importers
      */
-    public List<ImporterStatusDto> getStatusDtoList() ;
+    public List<ImporterStatusDto> getStatusDtoList();
 
 }

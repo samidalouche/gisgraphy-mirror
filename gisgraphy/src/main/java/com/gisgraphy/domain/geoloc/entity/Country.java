@@ -49,7 +49,8 @@ import org.hibernate.annotations.Index;
  */
 @Entity
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-public class Country extends GisFeature implements Serializable,Comparable<Country> {
+public class Country extends GisFeature implements Serializable,
+	Comparable<Country> {
 
     /**
      * Constructor that populate the {@link Country} with the gisFeature fields<br>
@@ -137,7 +138,7 @@ public class Country extends GisFeature implements Serializable,Comparable<Count
      */
     private int iso3166NumericCode;
 
-    // TODO v2 
+    // TODO v2
     // private List<Country> neighbourCountries = new ArrayList<Country>();
     /**
      * @see #getPhonePrefix()
@@ -222,8 +223,7 @@ public class Country extends GisFeature implements Serializable,Comparable<Count
 	    try {
 		c = Currency.getInstance(this.currencyCode);
 	    } catch (RuntimeException e) {
-		logger
-			.warn(" has a wrong currencycode" + getCountryCode());
+		logger.warn(" has a wrong currencycode" + getCountryCode());
 	    }
 	}
 	return c;
@@ -570,14 +570,13 @@ public class Country extends GisFeature implements Serializable,Comparable<Count
     }
 
     /**
-     * compare the name of the country 
+     * compare the name of the country
      */
     public int compareTo(Country country) {
-	if (getName() == null){
-	    if (country.getName()==null){
+	if (getName() == null) {
+	    if (country.getName() == null) {
 		return 0;
-	    }
-	    else {
+	    } else {
 		return -1;
 	    }
 	}

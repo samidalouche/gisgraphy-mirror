@@ -64,14 +64,14 @@ public class ImporterManager implements IImporterManager {
     private boolean alreadyDone = false;
 
     private ISolRSynchroniser solRSynchroniser;
-    
+
     IImporterStatusListDao importerStatusListDao;
-    
+
     /**
      * The logger
      */
     protected static final Logger logger = LoggerFactory
-    .getLogger(ImporterManager.class);
+	    .getLogger(ImporterManager.class);
 
     /*
      * (non-Javadoc)
@@ -81,12 +81,12 @@ public class ImporterManager implements IImporterManager {
     public synchronized void importAll() {
 	if (this.inProgress == true) {
 	    logger
-	    .error("You can not run an import because an other one is in progress");
+		    .error("You can not run an import because an other one is in progress");
 	    return;
 	}
 	if (this.alreadyDone == true) {
 	    logger
-	    .error("You can not run an import because an other has already been done, if you want to run an other import, you must reset all the database and the fulltext search engine first");
+		    .error("You can not run an import because an other has already been done, if you want to run an other import, you must reset all the database and the fulltext search engine first");
 	    return;
 	}
 	this.startTime = System.currentTimeMillis();
@@ -103,7 +103,7 @@ public class ImporterManager implements IImporterManager {
 	    try {
 		this.importerStatusListDao.saveOrUpdate(ComputeStatusDtoList());
 	    } catch (RuntimeException e) {
-		logger.error("Can not save statusDtoList : "+e.getMessage());
+		logger.error("Can not save statusDtoList : " + e.getMessage());
 	    }
 	    this.endTime = System.currentTimeMillis();
 	    this.inProgress = false;
@@ -111,22 +111,25 @@ public class ImporterManager implements IImporterManager {
 	}
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see com.gisgraphy.domain.geoloc.importer.IImporterManager#getStatusDtoList()
      */
     public List<ImporterStatusDto> getStatusDtoList() {
 	try {
-	    if (isInProgress()){
-	        return ComputeStatusDtoList();
+	    if (isInProgress()) {
+		return ComputeStatusDtoList();
 	    } else {
-	        return importerStatusListDao.get();
+		return importerStatusListDao.get();
 	    }
 	} catch (RuntimeException e) {
-	    logger.error("Can not retrieve or process statusDtoList : "+e.getMessage());
-	   return new ArrayList<ImporterStatusDto>();
+	    logger.error("Can not retrieve or process statusDtoList : "
+		    + e.getMessage());
+	    return new ArrayList<ImporterStatusDto>();
 	}
     }
-    
+
     private List<ImporterStatusDto> ComputeStatusDtoList() {
 	List<ImporterStatusDto> list = new ArrayList<ImporterStatusDto>();
 	for (IGeonamesProcessor processor : importers) {
@@ -170,44 +173,51 @@ public class ImporterManager implements IImporterManager {
 	}
     }
 
-   
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see com.gisgraphy.domain.geoloc.importer.IImporterManager#getFormatedTimeElapsed()
      */
     public String getFormatedTimeElapsed() {
 	return ImporterHelper.formatSeconds(getTimeElapsed());
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see com.gisgraphy.domain.geoloc.importer.IImporterManager#isInProgress()
      */
     public boolean isInProgress() {
 	return inProgress;
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see com.gisgraphy.domain.geoloc.importer.IImporterManager#isAlreadyDone()
      */
     public boolean isAlreadyDone() {
 	return alreadyDone;
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see com.gisgraphy.domain.geoloc.importer.IImporterManager#resetImport()
      */
     public List<NameValueDTO<Integer>> resetImport() {
 	List<NameValueDTO<Integer>> deletedObjectInfo = new ArrayList<NameValueDTO<Integer>>();
-	
+
 	List<IGeonamesProcessor> reverseImporters = importers;
-	 Collections.reverse(reverseImporters);
+	Collections.reverse(reverseImporters);
 	setCommitFlushModeForAllDaos();
-	for (IGeonamesProcessor importer : reverseImporters){
-	    logger.info("will reset "+importer.getClass().getSimpleName());
+	for (IGeonamesProcessor importer : reverseImporters) {
+	    logger.info("will reset " + importer.getClass().getSimpleName());
 	    rollbackInTransaction(deletedObjectInfo, importer);
 	}
 	resetFullTextSearchEngine();
-	this.alreadyDone=false;
-	this.inProgress=false;
+	this.alreadyDone = false;
+	this.inProgress = false;
 	return deletedObjectInfo;
 
     }
@@ -216,17 +226,16 @@ public class ImporterManager implements IImporterManager {
      * @param deletedObjectInfo
      * @param importer
      */
-    @Transactional(propagation=Propagation.REQUIRES_NEW)
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
     private void rollbackInTransaction(
 	    List<NameValueDTO<Integer>> deletedObjectInfo,
 	    IGeonamesProcessor importer) {
 	deletedObjectInfo.addAll(importer.rollback());
     }
 
-   
     private void setCommitFlushModeForAllDaos() {
 	for (IGisDao<? extends GisFeature> gisDao : iDaos) {
-	   gisDao.setFlushMode(FlushMode.COMMIT);
+	    gisDao.setFlushMode(FlushMode.COMMIT);
 	}
     }
 
@@ -240,16 +249,15 @@ public class ImporterManager implements IImporterManager {
 	logger.info("end of reset");
     }
 
-   
     /**
-     * @param solRSynchroniser the solRSynchroniser to set
+     * @param solRSynchroniser
+     *                the solRSynchroniser to set
      */
     @Required
     public void setSolRSynchroniser(ISolRSynchroniser solRSynchroniser) {
 	this.solRSynchroniser = solRSynchroniser;
     }
 
-   
     /**
      * @param importerConfig
      *                The {@link ImporterConfig} to set
@@ -269,18 +277,21 @@ public class ImporterManager implements IImporterManager {
     }
 
     /**
-     * @param daos the iDaos to set
+     * @param daos
+     *                the iDaos to set
      */
     public void setIDaos(IGisDao<? extends GisFeature>[] daos) {
-        iDaos = daos;
+	iDaos = daos;
     }
 
     /**
-     * @param importerStatusListDao the importerStatusListDao to set
+     * @param importerStatusListDao
+     *                the importerStatusListDao to set
      */
     @Required
-    public void setImporterStatusListDao(IImporterStatusListDao importerStatusListDao) {
-        this.importerStatusListDao = importerStatusListDao;
+    public void setImporterStatusListDao(
+	    IImporterStatusListDao importerStatusListDao) {
+	this.importerStatusListDao = importerStatusListDao;
     }
 
 }

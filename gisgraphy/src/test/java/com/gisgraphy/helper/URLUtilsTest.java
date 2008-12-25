@@ -36,8 +36,9 @@ public class URLUtilsTest extends TestCase {
     @Test
     public void testCreateGoogleMapUrlShouldReturnCorrectURL() {
 	Point point = GeolocTestHelper.createPoint(2.33333F, 48.86667F);
-	String URL = URLUtils.createGoogleMapUrl(point,"Paris");
-	HashMap<String, String> map = GeolocTestHelper.splitURLParams(URL,"&amp;");
+	String URL = URLUtils.createGoogleMapUrl(point, "Paris");
+	HashMap<String, String> map = GeolocTestHelper.splitURLParams(URL,
+		"&amp;");
 	assertTrue(map.get("q").equals("Paris"));
 	String[] ll = map.get("ll").split(",");
 	assertTrue(ll[0].startsWith("48.896"));
@@ -48,15 +49,15 @@ public class URLUtilsTest extends TestCase {
     @Test
     public void testCreateGoogleMapUrlShouldReturnDefaultGoogleURLIfPointIsNull() {
 	assertEquals(URLUtils.DEFAULT_GOOGLE_MAP_BASE_URL, URLUtils
-		.createGoogleMapUrl(null,null));
+		.createGoogleMapUrl(null, null));
     }
-
 
     @Test
     public void testCreateYahooMapUrlShouldReturnCorrectURL() {
 	Point point = GeolocTestHelper.createPoint(2.33333F, 48.86667F);
 	String URL = URLUtils.createYahooMapUrl(point);
-	HashMap<String, String> map = GeolocTestHelper.splitURLParams(URL,"&amp;");
+	HashMap<String, String> map = GeolocTestHelper.splitURLParams(URL,
+		"&amp;");
 	assertTrue(map.get("lat").startsWith("48.866"));
 	assertTrue(map.get("lon").startsWith("2.333"));
     }
@@ -67,13 +68,12 @@ public class URLUtilsTest extends TestCase {
 		.createYahooMapUrl(null));
     }
 
-
     @Test
     public void testCreateCountryFlagUrlShouldReturnCorrectURL() {
 	assertEquals(URLUtils.COUNTRY_FLAG_BASE_URL + "FR.png", URLUtils
 		.createCountryFlagUrl("FR"));
     }
-    
+
     @Test
     public void testCreateCountryFlagUrlShouldupperCaseTheCountryCode() {
 	assertEquals(URLUtils.COUNTRY_FLAG_BASE_URL + "FR.png", URLUtils
@@ -85,6 +85,5 @@ public class URLUtilsTest extends TestCase {
 	assertEquals(URLUtils.DEFAULT_COUNTRY_FLAG_URL, URLUtils
 		.createCountryFlagUrl(null));
     }
-
 
 }

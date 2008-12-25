@@ -52,7 +52,7 @@ public class GeonamesFileRetriever implements IGeonamesProcessor {
     private int fileIndex = 0;
 
     private int numberOfFileToDownload = 0;
-    
+
     private String statusMessage = "";
 
     /**
@@ -104,8 +104,7 @@ public class GeonamesFileRetriever implements IGeonamesProcessor {
 	    }
 
 	} catch (RuntimeException e) {
-	    this.statusMessage =  "error retrieving file : "
-		    + e.getMessage();
+	    this.statusMessage = "error retrieving file : " + e.getMessage();
 	    logger.error(statusMessage);
 	    status = ImporterStatus.ERROR;
 	    throw new GeonamesProcessorException(statusMessage, e);
@@ -154,28 +153,31 @@ public class GeonamesFileRetriever implements IGeonamesProcessor {
     public String getStatusMessage() {
 	return this.statusMessage;
     }
-    
-    /* (non-Javadoc)
+
+    /*
+     * (non-Javadoc)
+     * 
      * @see com.gisgraphy.domain.geoloc.importer.IGeonamesProcessor#rollback()
      */
     public List<NameValueDTO<Integer>> rollback() {
 	List<NameValueDTO<Integer>> deletedObjectInfo = new ArrayList<NameValueDTO<Integer>>();
-	List<String> filesToImport =  importerConfig
-	.getDownloadFilesListFromOption();
+	List<String> filesToImport = importerConfig
+		.getDownloadFilesListFromOption();
 	int deleted = 0;
 	for (String fileName : filesToImport) {
-	    File file = new File(importerConfig.getGeonamesDir()+fileName);
-	    if (file.delete()){
-	    logger.info("the files " + file.getName()
-		    + " has been deleted");
-	    deleted++;
-	    }
-	    else {
+	    File file = new File(importerConfig.getGeonamesDir() + fileName);
+	    if (file.delete()) {
+		logger
+			.info("the files " + file.getName()
+				+ " has been deleted");
+		deleted++;
+	    } else {
 		logger.info("the files " + file.getName()
-			    + " hasn't been deleted");
+			+ " hasn't been deleted");
 	    }
 	}
-	deletedObjectInfo.add(new NameValueDTO<Integer>("Downloaded files",deleted));
+	deletedObjectInfo.add(new NameValueDTO<Integer>("Downloaded files",
+		deleted));
 	currentFileName = null;
 	status = ImporterStatus.UNPROCESSED;
 	fileIndex = 0;

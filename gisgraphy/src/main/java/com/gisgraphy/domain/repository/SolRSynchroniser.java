@@ -112,20 +112,23 @@ public class SolRSynchroniser implements ISolRSynchroniser {
 	    throw new RuntimeException(e);
 	}
     }
-    
+
     /*
      * (non-Javadoc)
      * 
      * @see com.gisgraphy.domain.repository.ISolRSynchroniser#deleteAll()
      */
     public void handleEvent(PlaceTypeDeleteAllEvent placeTypeDeleteAllEvent) {
-	    deleteAllByPlaceType(placeTypeDeleteAllEvent.getPlaceType());
+	deleteAllByPlaceType(placeTypeDeleteAllEvent.getPlaceType());
     }
-    
+
     public void deleteAllByPlaceType(Class<? extends GisFeature> placetype) {
 	try {
-	    logger.info("GisFeature of type"+placetype.getClass().getSimpleName()+" will be reset");
-	    this.solClient.getServer().deleteByQuery(FullTextFields.PLACETYPE.getValue()+":"+placetype.getSimpleName());
+	    logger.info("GisFeature of type"
+		    + placetype.getClass().getSimpleName() + " will be reset");
+	    this.solClient.getServer().deleteByQuery(
+		    FullTextFields.PLACETYPE.getValue() + ":"
+			    + placetype.getSimpleName());
 	    this.solClient.getServer().commit();
 	    this.solClient.getServer().optimize();
 	} catch (SolrServerException e) {
@@ -261,7 +264,8 @@ public class SolRSynchroniser implements ISolRSynchroniser {
 	ex.setField(FullTextFields.COUNTRY_FLAG_URL.getValue(), URLUtils
 		.createCountryFlagUrl(gisFeature.getCountryCode()));
 	ex.setField(FullTextFields.GOOGLE_MAP_URL.getValue(), URLUtils
-		.createGoogleMapUrl(gisFeature.getLocation(),gisFeature.getName()));
+		.createGoogleMapUrl(gisFeature.getLocation(), gisFeature
+			.getName()));
 	ex.setField(FullTextFields.YAHOO_MAP_URL.getValue(), URLUtils
 		.createYahooMapUrl(gisFeature.getLocation()));
 	// setAdmCode from adm not from the gisfeature one because of
@@ -414,5 +418,4 @@ public class SolRSynchroniser implements ISolRSynchroniser {
 				.size()]));
     }
 
-   
 }

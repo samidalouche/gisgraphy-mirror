@@ -44,15 +44,14 @@ public class StatsAction extends ActionSupport {
     private static final long serialVersionUID = -9018894533914543310L;
 
     private IStatsUsageDao statsUsageDao;
-    
-    private List<StatsUsage> statsUsages;
 
+    private List<StatsUsage> statsUsages;
 
     /**
      * @return the statsUsages
      */
     public List<StatsUsage> getStatsUsages() {
-        return statsUsages;
+	return statsUsages;
     }
 
     /**
@@ -64,7 +63,9 @@ public class StatsAction extends ActionSupport {
 	this.statsUsageDao = statsUsageDao;
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see com.opensymphony.xwork2.ActionSupport#execute()
      */
     @Override

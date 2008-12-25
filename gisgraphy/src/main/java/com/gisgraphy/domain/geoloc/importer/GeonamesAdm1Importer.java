@@ -188,16 +188,19 @@ public class GeonamesAdm1Importer extends AbstractGeonamesProcessor {
 	// cache is NONSTRICT_READ_WRITE (assynchronous)
 	return 1;
     }
-    
-    /* (non-Javadoc)
+
+    /*
+     * (non-Javadoc)
+     * 
      * @see com.gisgraphy.domain.geoloc.importer.IGeonamesProcessor#rollback()
      */
     public List<NameValueDTO<Integer>> rollback() {
 	List<NameValueDTO<Integer>> deletedObjectInfo = new ArrayList<NameValueDTO<Integer>>();
 	logger.info("deleting adm1...");
 	int deletedadm = admDao.deleteAllByLevel(1);
-	if (deletedadm != 0){
-	    deletedObjectInfo.add(new NameValueDTO<Integer>("ADM1",deletedadm));
+	if (deletedadm != 0) {
+	    deletedObjectInfo
+		    .add(new NameValueDTO<Integer>("ADM1", deletedadm));
 	}
 	logger.info(deletedadm + " adm1s have been deleted");
 	resetStatusFields();

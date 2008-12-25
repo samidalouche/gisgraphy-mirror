@@ -73,7 +73,7 @@ public class GeonamesFeatureImporter extends AbstractGeonamesProcessor {
     private List<Pattern> acceptedPatterns;
 
     private ISolRSynchroniser solRSynchroniser;
-    
+
     @Autowired
     IGisDao<? extends GisFeature>[] iDaos;
 
@@ -229,13 +229,12 @@ public class GeonamesFeatureImporter extends AbstractGeonamesProcessor {
 		    gisFeature));
 	}
 
-	//some country can have featurecode=TERR or ADMD
+	// some country can have featurecode=TERR or ADMD
 	if (gisFeature.isCountry()
 		|| gisFeature.getFeatureCode().equals("TERR")
 		|| gisFeature.getFeatureCode().equals("ADMD")
 		|| gisFeature.getFeatureCode().startsWith("ISL")
-		|| gisFeature.getFeatureCode().equals("PCLIX")
-		) {
+		|| gisFeature.getFeatureCode().equals("PCLIX")) {
 	    // Rem : country must not have admcode so we don't set admcodes
 	    // rem : country must not have admnames so we don't set admnames
 	    Country country = this.countryDao
@@ -248,11 +247,12 @@ public class GeonamesFeatureImporter extends AbstractGeonamesProcessor {
 			    + " or has not been import. It will be ignored");
 		    return;
 		}
-		//else it is a real ADMD or TERR
+		// else it is a real ADMD or TERR
 	    } else {
 		String countryName = country.getName();
 		country.populate(gisFeature);
-		// we preffer keep the original name (example : we prefer France,
+		// we preffer keep the original name (example : we prefer
+		// France,
 		// instead of Republic Of France
 		country.setName(countryName);
 		this.countryDao.save(country);
@@ -657,7 +657,9 @@ public class GeonamesFeatureImporter extends AbstractGeonamesProcessor {
 		.getAcceptRegExString());
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see com.gisgraphy.domain.geoloc.importer.AbstractGeonamesProcessor#tearDown()
      */
     @Override
@@ -688,45 +690,55 @@ public class GeonamesFeatureImporter extends AbstractGeonamesProcessor {
     }
 
     /**
-     * @param solRSynchroniser the solRSynchroniser to set
+     * @param solRSynchroniser
+     *                the solRSynchroniser to set
      */
     @Required
     public void setSolRSynchroniser(ISolRSynchroniser solRSynchroniser) {
 	this.solRSynchroniser = solRSynchroniser;
     }
-    
+
     /**
-     * @param daos the iDaos to set
+     * @param daos
+     *                the iDaos to set
      */
     public void setIDaos(IGisDao<? extends GisFeature>[] daos) {
-        iDaos = daos;
+	iDaos = daos;
     }
-    
-    /* (non-Javadoc)
+
+    /*
+     * (non-Javadoc)
+     * 
      * @see com.gisgraphy.domain.geoloc.importer.IGeonamesProcessor#rollback()
      */
     public List<NameValueDTO<Integer>> rollback() {
 	List<NameValueDTO<Integer>> deletedObjectInfo = new ArrayList<NameValueDTO<Integer>>();
-	//we first reset subClass
+	// we first reset subClass
 	for (IGisDao<? extends GisFeature> gisDao : iDaos) {
 	    if (gisDao.getPersistenceClass() != GisFeature.class
 		    && gisDao.getPersistenceClass() != Adm.class
 		    && gisDao.getPersistenceClass() != Country.class) {
-		logger.info("deleting "+gisDao.getPersistenceClass().getSimpleName()+"...");
-		//we don't want to remove adm because some feature can be linked again 
+		logger.info("deleting "
+			+ gisDao.getPersistenceClass().getSimpleName() + "...");
+		// we don't want to remove adm because some feature can be
+		// linked again
 		int deletedgis = gisDao.deleteAll();
-		logger.info(deletedgis + gisDao.getPersistenceClass().getSimpleName()+" have been deleted");
-		if (deletedgis != 0){
-		 deletedObjectInfo.add(new NameValueDTO<Integer>(GisFeature.class.getSimpleName(),deletedgis));
+		logger.info(deletedgis
+			+ gisDao.getPersistenceClass().getSimpleName()
+			+ " have been deleted");
+		if (deletedgis != 0) {
+		    deletedObjectInfo.add(new NameValueDTO<Integer>(
+			    GisFeature.class.getSimpleName(), deletedgis));
 		}
 	    }
 	}
 	logger.info("deleting gisFeature...");
-	//we don't want to remove adm because some feature can be linked again 
+	// we don't want to remove adm because some feature can be linked again
 	int deletedgis = gisFeatureDao.deleteAllExceptAdmsAndCountries();
 	logger.info(deletedgis + " gisFeature have been deleted");
-	if (deletedgis != 0){
-	 deletedObjectInfo.add(new NameValueDTO<Integer>(GisFeature.class.getSimpleName(),deletedgis));
+	if (deletedgis != 0) {
+	    deletedObjectInfo.add(new NameValueDTO<Integer>(GisFeature.class
+		    .getSimpleName(), deletedgis));
 	}
 	resetStatusFields();
 	return deletedObjectInfo;

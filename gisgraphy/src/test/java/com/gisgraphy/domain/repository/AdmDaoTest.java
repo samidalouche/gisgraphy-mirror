@@ -41,7 +41,7 @@ public class AdmDaoTest extends AbstractIntegrationHttpSolrTestCase {
     private IAdmDao admDao;
 
     private IGisFeatureDao gisFeatureDao;
-    
+
     @Resource
     private GeolocTestHelper geolocTestHelper;
 
@@ -165,8 +165,6 @@ public class AdmDaoTest extends AbstractIntegrationHttpSolrTestCase {
 	long nbRetrievedChilds = this.admDao.countByLevel(2);
 	assertEquals(nbChilds, nbRetrievedChilds);
     }
-
-   
 
     /* check level consistence according to admXcode */
     @Test
@@ -324,7 +322,7 @@ public class AdmDaoTest extends AbstractIntegrationHttpSolrTestCase {
 
     }
 
-    //test delete
+    // test delete
 
     @Test
     public void testDeleteAdmShouldDeleteAdm() {
@@ -504,15 +502,16 @@ public class AdmDaoTest extends AbstractIntegrationHttpSolrTestCase {
 	// assertEquals(retrievedGisFeature, retrievedGisFeatrueAfterRemove);
 
     }
-    
+
     @Test
-    public void deleteAllByLevelShouldOnlyDeleteAdmOfTheSpecifiedLevel(){
-	City city = geolocTestHelper.createAndSaveCityWithFullAdmTreeAndCountry(3L);
+    public void deleteAllByLevelShouldOnlyDeleteAdmOfTheSpecifiedLevel() {
+	City city = geolocTestHelper
+		.createAndSaveCityWithFullAdmTreeAndCountry(3L);
 	gisFeatureDao.remove(city);
-	assertEquals(3,admDao.count());
-	assertEquals(1,admDao.deleteAllByLevel(3));
-	assertEquals(2,admDao.count());
-	
+	assertEquals(3, admDao.count());
+	assertEquals(1, admDao.deleteAllByLevel(3));
+	assertEquals(2, admDao.count());
+
     }
 
     // * !!!!!!!!!!!!!!!!!!!!!get!!!!!!!!!!!!!!!!!!!!!!
@@ -1228,124 +1227,122 @@ public class AdmDaoTest extends AbstractIntegrationHttpSolrTestCase {
 	}
 
     }
-    
+
     @Test
-    public void testGetAdm2ShouldReturnNullWhenAmbiguousResultInFlexMode(){
+    public void testGetAdm2ShouldReturnNullWhenAmbiguousResultInFlexMode() {
 	Adm adm2 = GeolocTestHelper.createAdm("adm", "FR", "A1", "B1", null,
 		null, null, 2);
 	this.admDao.save(adm2);
 	Adm adm2bis = GeolocTestHelper.createAdm("adm", "FR", "A1", "B1", null,
 		null, null, 2);
 	this.admDao.save(adm2bis);
-	
+
 	assertNull(this.admDao.getAdm2("FR", "00", "B1"));
-	assertNull(this.admDao.getAdm("FR", "00", "B1",null,null));
-	
+	assertNull(this.admDao.getAdm("FR", "00", "B1", null, null));
+
     }
-    
+
     @Test
-    public void testGetAdm2ShouldThrowsWhenAmbiguousResultInNonFlexMode(){
+    public void testGetAdm2ShouldThrowsWhenAmbiguousResultInNonFlexMode() {
 	Adm adm2 = GeolocTestHelper.createAdm("adm", "FR", "A1", "B1", null,
 		null, null, 2);
 	this.admDao.save(adm2);
 	Adm adm2bis = GeolocTestHelper.createAdm("adm", "FR", "A1", "B1", null,
 		null, null, 2);
 	this.admDao.save(adm2bis);
-	
+
 	try {
 	    this.admDao.getAdm2("FR", "A1", "B1");
 	    fail("getAdm2 should throws if more than one result suits in non flex mode");
 	} catch (RuntimeException e) {
-	   assertTrue(true);
+	    assertTrue(true);
 	}
-	
+
 	try {
-	    this.admDao.getAdm("FR", "A1", "B1",null,null);
+	    this.admDao.getAdm("FR", "A1", "B1", null, null);
 	    fail("getAdm for level 2 should throws if more than one result suits in non flex mode");
 	} catch (RuntimeException e) {
-	   assertTrue(true);
+	    assertTrue(true);
 	}
     }
-    
-    
+
     @Test
-    public void testGetAdm3ShouldReturnNullWhenAmbiguousResultInFlexMode(){
+    public void testGetAdm3ShouldReturnNullWhenAmbiguousResultInFlexMode() {
 	Adm adm3 = GeolocTestHelper.createAdm("adm", "FR", "A1", "B1", "C1",
 		null, null, 3);
 	this.admDao.save(adm3);
 	Adm adm3bis = GeolocTestHelper.createAdm("adm", "FR", "A1", "B1", "C1",
 		null, null, 3);
 	this.admDao.save(adm3bis);
-	
-	assertNull(this.admDao.getAdm3("FR", "00", "B1","C1"));
-	assertNull(this.admDao.getAdm("FR", "00", "B1","C1",null));
-	
+
+	assertNull(this.admDao.getAdm3("FR", "00", "B1", "C1"));
+	assertNull(this.admDao.getAdm("FR", "00", "B1", "C1", null));
+
     }
-    
+
     @Test
-    public void testGetAdm3ShouldThrowsWhenAmbiguousResultInNonFlexMode(){
+    public void testGetAdm3ShouldThrowsWhenAmbiguousResultInNonFlexMode() {
 	Adm adm3 = GeolocTestHelper.createAdm("adm", "FR", "A1", "B1", "C1",
 		null, null, 3);
 	this.admDao.save(adm3);
 	Adm adm3bis = GeolocTestHelper.createAdm("adm", "FR", "A1", "B1", "C1",
 		null, null, 3);
 	this.admDao.save(adm3bis);
-	
+
 	try {
-	    this.admDao.getAdm3("FR", "A1", "B1","C1");
+	    this.admDao.getAdm3("FR", "A1", "B1", "C1");
 	    fail("getAdm3 should throws if more than one result suits in non flex mode");
 	} catch (RuntimeException e) {
-	   assertTrue(true);
+	    assertTrue(true);
 	}
-	
+
 	try {
-	    this.admDao.getAdm("FR", "A1", "B1","C1",null);
+	    this.admDao.getAdm("FR", "A1", "B1", "C1", null);
 	    fail("getAdm for level 3 should throws if more than one result suits in non flex mode");
 	} catch (RuntimeException e) {
-	   assertTrue(true);
+	    assertTrue(true);
 	}
-	
+
     }
-    
+
     @Test
-    public void testGetAdm4ShouldReturnNullWhenAmbiguousResultInFlexMode(){
+    public void testGetAdm4ShouldReturnNullWhenAmbiguousResultInFlexMode() {
 	Adm adm4 = GeolocTestHelper.createAdm("adm", "FR", "A1", "B1", "C1",
 		"D1", null, 4);
 	this.admDao.save(adm4);
 	Adm adm4bis = GeolocTestHelper.createAdm("adm", "FR", "A1", "B1", "C1",
 		"D1", null, 4);
 	this.admDao.save(adm4bis);
-	
-	assertNull(this.admDao.getAdm4("FR", "00", "B1","C1","D1"));
-	assertNull(this.admDao.getAdm("FR", "00", "B1","C1","D1"));
-	
+
+	assertNull(this.admDao.getAdm4("FR", "00", "B1", "C1", "D1"));
+	assertNull(this.admDao.getAdm("FR", "00", "B1", "C1", "D1"));
+
     }
-    
+
     @Test
-    public void testGetAdm4ShouldThrowsWhenAmbiguousResultInNonFlexMode(){
+    public void testGetAdm4ShouldThrowsWhenAmbiguousResultInNonFlexMode() {
 	Adm adm4 = GeolocTestHelper.createAdm("adm", "FR", "A1", "B1", "C1",
 		"D1", null, 4);
 	this.admDao.save(adm4);
 	Adm adm4bis = GeolocTestHelper.createAdm("adm", "FR", "A1", "B1", "C1",
 		"D1", null, 4);
 	this.admDao.save(adm4bis);
-	
+
 	try {
 	    assertNull(this.admDao.getAdm4("FR", "A1", "B1", "C1", "D1"));
 	    fail("getAdm4 should throws if more than one result suits in non flex mode");
 	} catch (RuntimeException e) {
-	   assertTrue(true);
+	    assertTrue(true);
 	}
-	
+
 	try {
 	    assertNull(this.admDao.getAdm("FR", "A1", "B1", "C1", "D1"));
 	    fail("getAdm for level 4 should throws if more than one result suits in non flex mode");
 	} catch (RuntimeException e) {
-	   assertTrue(true);
+	    assertTrue(true);
 	}
-	
+
     }
-    
 
     @Required
     public void setAdmDao(IAdmDao admDao) {

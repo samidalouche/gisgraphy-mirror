@@ -194,46 +194,50 @@ public class CountryDao extends GenericGisDao<Country> implements ICountryDao {
 		    }
 		});
     }
-    
-    /* (non-Javadoc)
+
+    /*
+     * (non-Javadoc)
+     * 
      * @see com.gisgraphy.domain.repository.GenericDao#deleteAll()
      */
     @Override
     public int deleteAll() {
-        List<Country> all = getAll();
-        int deleted = all.size();
-        if (deleted != 0){
-            super.deleteAll(all);
-            super.flushAndClear();
-        }
-        flushAndClear();
+	List<Country> all = getAll();
+	int deleted = all.size();
+	if (deleted != 0) {
+	    super.deleteAll(all);
+	    super.flushAndClear();
+	}
+	flushAndClear();
 	return deleted;
     }
-    
-    /* (non-Javadoc)
+
+    /*
+     * (non-Javadoc)
+     * 
      * @see com.gisgraphy.domain.repository.ICountryDao#getAllSortedByName()
      */
     @SuppressWarnings("unchecked")
-     public List<Country> getAllSortedByName(){
-	    return (List<Country>) this.getHibernateTemplate().execute(
-		    new HibernateCallback() {
+    public List<Country> getAllSortedByName() {
+	return (List<Country>) this.getHibernateTemplate().execute(
+		new HibernateCallback() {
 
-			public Object doInHibernate(Session session)
-				throws PersistenceException {
-			    String queryString = "from "
-				    + persistentClass.getSimpleName()+" order by name";
+		    public Object doInHibernate(Session session)
+			    throws PersistenceException {
+			String queryString = "from "
+				+ persistentClass.getSimpleName()
+				+ " order by name";
 
-			    Query qry = session.createQuery(queryString);
-			    qry.setCacheable(true);
-			    List<Country> results = (List<Country>) qry.list();
-			    if (results == null) {
-				results = new ArrayList<Country>();
-			    }
-			    return results;
+			Query qry = session.createQuery(queryString);
+			qry.setCacheable(true);
+			List<Country> results = (List<Country>) qry.list();
+			if (results == null) {
+			    results = new ArrayList<Country>();
 			}
-		    });
+			return results;
+		    }
+		});
 
     }
-
 
 }

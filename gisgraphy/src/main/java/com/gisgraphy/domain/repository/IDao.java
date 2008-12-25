@@ -172,9 +172,10 @@ public interface IDao<T, PK extends Serializable> {
      *                 in case of errors
      */
     public void deleteAll(List<T> list);
-    
+
     /**
      * Delete all the object from the datastore
+     * 
      * @return the number of deleted objects
      * 
      * @throws DataAccessException

@@ -234,9 +234,9 @@ public class CountryDaoTest extends AbstractIntegrationHttpSolrTestCase {
 	assertEquals(1, retrievedCountry.getSpokenLanguages().size());
 	assertEquals(savedLang, retrievedCountry.getSpokenLanguages().get(0));
     }
-    
+
     @Test
-    public void testDeleteAllShoulDeleteCountryButNotTheLanguages(){
+    public void testDeleteAllShoulDeleteCountryButNotTheLanguages() {
 	Language lang = new Language("french", "FR", "FRA");
 	Language savedLang = languageDao.save(lang);
 	Language retrievedLang = languageDao.get(savedLang.getId());
@@ -249,8 +249,8 @@ public class CountryDaoTest extends AbstractIntegrationHttpSolrTestCase {
 
 	Country retrievedCountry = this.countryDao.getByIso3166Alpha2Code("FR");
 	assertNotNull(retrievedCountry);
-	
-	Country country2  = new Country("US", "USA", 00);
+
+	Country country2 = new Country("US", "USA", 00);
 	country2.setFeatureId(new Random().nextLong());
 	country2.setLocation(GeolocTestHelper.createPoint(0F, 0F));
 	country2.setName("usa");
@@ -258,15 +258,15 @@ public class CountryDaoTest extends AbstractIntegrationHttpSolrTestCase {
 	country2.addSpokenLanguage(lang);
 	Country savedCountry2 = this.countryDao.save(country2);
 	assertNotNull(savedCountry2.getId());
-	
+
 	assertEquals(2, countryDao.deleteAll());
 	assertEquals(0, countryDao.count());
-	
+
 	assertEquals(1, languageDao.count());
     }
-    
+
     @Test
-    public void testGetAllSortedByName(){
+    public void testGetAllSortedByName() {
 	Country country1 = new Country("FR", "FRA", 33);
 	country1.setFeatureId(new Random().nextLong());
 	country1.setFeatureClass("A");
@@ -291,23 +291,23 @@ public class CountryDaoTest extends AbstractIntegrationHttpSolrTestCase {
 	countryDao.save(country1);
 	countryDao.save(country2);
 	countryDao.save(country3);
-	List<Country> expected = countryDao.getAllSortedByName(); 
+	List<Country> expected = countryDao.getAllSortedByName();
 	assertEquals(3, expected.size());
 	assertEquals("a", expected.get(0).getName());
 	assertEquals("B", expected.get(1).getName());
 	assertEquals("c", expected.get(2).getName());
     }
+
     @Test
     public void testGetAllSortedByNameShouldReturnAnEmptyListIfNoResult() {
-	List<Country> expected = countryDao.getAllSortedByName(); 
+	List<Country> expected = countryDao.getAllSortedByName();
 	assertNotNull(expected);
 	assertEquals(0, expected.size());
-	
-	
+
     }
-    
+
     @Test
-    public void testDeleteAllShoulReturn0ifNoCountry(){
+    public void testDeleteAllShoulReturn0ifNoCountry() {
 	assertEquals(0, countryDao.deleteAll());
     }
 

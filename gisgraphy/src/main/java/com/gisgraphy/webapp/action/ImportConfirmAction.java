@@ -45,14 +45,12 @@ public class ImportConfirmAction extends ActionSupport {
     private static final long serialVersionUID = 2387732133217655558L;
 
     private ImporterConfig importerConfig;
-    
-    private IImporterManager importerManager;
-    
-    public static String STATUS = "status";
-    
-    private IFullTextSearchEngine fullTextSearchEngine;
 
-   
+    private IImporterManager importerManager;
+
+    public static String STATUS = "status";
+
+    private IFullTextSearchEngine fullTextSearchEngine;
 
     /*
      * (non-Javadoc)
@@ -61,7 +59,7 @@ public class ImportConfirmAction extends ActionSupport {
      */
     @Override
     public String execute() throws Exception {
-	if (importerManager.isInProgress() || importerManager.isAlreadyDone()){
+	if (importerManager.isInProgress() || importerManager.isAlreadyDone()) {
 	    return STATUS;
 	}
 	return super.execute();
@@ -81,28 +79,31 @@ public class ImportConfirmAction extends ActionSupport {
     public void setImporterConfig(ImporterConfig importerConfig) {
 	this.importerConfig = importerConfig;
     }
-    
+
     /**
-     * @return true if the directory with the file to import exists and is accessible
+     * @return true if the directory with the file to import exists and is
+     *         accessible
      */
-    public boolean isDownloadDirectoryAccessible(){
-	return ImporterHelper.isDirectoryAccessible(importerConfig.getGeonamesDir());
+    public boolean isDownloadDirectoryAccessible() {
+	return ImporterHelper.isDirectoryAccessible(importerConfig
+		.getGeonamesDir());
     }
-    
+
     /**
      * @return true if the regexp of the feature class/ code are correct
      */
-    public boolean isRegexpCorrects(){
-	return ImporterHelper.compileRegex(importerConfig.getAcceptRegExString())!= null;
+    public boolean isRegexpCorrects() {
+	return ImporterHelper.compileRegex(importerConfig
+		.getAcceptRegExString()) != null;
     }
-    
+
     /**
      * @return true if he fulltext search engine is alive
      */
     public boolean isFulltextSearchEngineAlive() {
 	return fullTextSearchEngine.isAlive();
     }
-    
+
     /**
      * @return true if he fulltext search engine is alive
      */
@@ -111,21 +112,22 @@ public class ImportConfirmAction extends ActionSupport {
     }
 
     /**
-     * @param importerManager the importerManager to set
+     * @param importerManager
+     *                the importerManager to set
      */
     @Required
     public void setImporterManager(IImporterManager importerManager) {
-        this.importerManager = importerManager;
+	this.importerManager = importerManager;
     }
 
-      
     /**
-     * @param fullTextSearchEngine the fullTextSearchEngine to set
+     * @param fullTextSearchEngine
+     *                the fullTextSearchEngine to set
      */
     @Required
-    public void setFullTextSearchEngine(IFullTextSearchEngine fullTextSearchEngine) {
-        this.fullTextSearchEngine = fullTextSearchEngine;
+    public void setFullTextSearchEngine(
+	    IFullTextSearchEngine fullTextSearchEngine) {
+	this.fullTextSearchEngine = fullTextSearchEngine;
     }
-   
 
 }

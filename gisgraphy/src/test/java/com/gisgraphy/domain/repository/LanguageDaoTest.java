@@ -32,7 +32,7 @@ public class LanguageDaoTest extends AbstractIntegrationHttpSolrTestCase {
 
     private ILanguageDao languageDao;
 
-    //private ICountryDao countryDao;
+    // private ICountryDao countryDao;
 
     @Test
     public void testFindByIso639Alpha2CodeShouldReturnCorrectLanguage() {
@@ -89,49 +89,44 @@ public class LanguageDaoTest extends AbstractIntegrationHttpSolrTestCase {
 
     }
 
-    /*@Test
-    public void testDeleteAllShouldDeleteLanguagesButNotCountry() {
-	Language lang = new Language("french", "FR", "FRA");
-	Language savedLang = languageDao.save(lang);
-	Language retrievedLang = languageDao.get(savedLang.getId());
-	assertEquals(savedLang, retrievedLang);
-
-	Country country = GeolocTestHelper.createCountryForFrance();
-	country.addSpokenLanguage(lang);
-	Country savedCountry = this.countryDao.save(country);
-	assertNotNull(savedCountry.getId());
-
-	Country retrievedCountry = this.countryDao.getByIso3166Alpha2Code("FR");
-	assertNotNull(retrievedCountry);
-
-	Country country2 = new Country("US", "USA", 00);
-	country2.setFeatureId(new Random().nextLong());
-	country2.setLocation(GeolocTestHelper.createPoint(0F, 0F));
-	country2.setName("usa");
-	country2.setSource(GISSource.GEONAMES);
-	country2.addSpokenLanguage(lang);
-	Country savedCountry2 = this.countryDao.save(country2);
-	assertNotNull(savedCountry2.getId());
-
-	assertEquals(1, languageDao.deleteAll());
-	assertEquals(2, countryDao.count());
-
-	assertEquals(0, languageDao.count());
-    }
-
-    @Test
-    public void testDeleteAllShouldReturn0ifNoLanguages() {
-	assertEquals(0, languageDao.deleteAll());
-    }*/
+    /*
+     * @Test public void testDeleteAllShouldDeleteLanguagesButNotCountry() {
+     * Language lang = new Language("french", "FR", "FRA"); Language savedLang =
+     * languageDao.save(lang); Language retrievedLang =
+     * languageDao.get(savedLang.getId()); assertEquals(savedLang,
+     * retrievedLang);
+     * 
+     * Country country = GeolocTestHelper.createCountryForFrance();
+     * country.addSpokenLanguage(lang); Country savedCountry =
+     * this.countryDao.save(country); assertNotNull(savedCountry.getId());
+     * 
+     * Country retrievedCountry = this.countryDao.getByIso3166Alpha2Code("FR");
+     * assertNotNull(retrievedCountry);
+     * 
+     * Country country2 = new Country("US", "USA", 00);
+     * country2.setFeatureId(new Random().nextLong());
+     * country2.setLocation(GeolocTestHelper.createPoint(0F, 0F));
+     * country2.setName("usa"); country2.setSource(GISSource.GEONAMES);
+     * country2.addSpokenLanguage(lang); Country savedCountry2 =
+     * this.countryDao.save(country2); assertNotNull(savedCountry2.getId());
+     * 
+     * assertEquals(1, languageDao.deleteAll()); assertEquals(2,
+     * countryDao.count());
+     * 
+     * assertEquals(0, languageDao.count()); }
+     * 
+     * @Test public void testDeleteAllShouldReturn0ifNoLanguages() {
+     * assertEquals(0, languageDao.deleteAll()); }
+     */
 
     @Required
     public void setLanguageDao(ILanguageDao languageDao) {
 	this.languageDao = languageDao;
     }
 
-   /* @Required
-    public void setCountryDao(ICountryDao countryDao) {
-	this.countryDao = countryDao;
-    }*/
+    /*
+     * @Required public void setCountryDao(ICountryDao countryDao) {
+     * this.countryDao = countryDao; }
+     */
 
 }

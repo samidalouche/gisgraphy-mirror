@@ -31,17 +31,14 @@ import com.gisgraphy.domain.geoloc.entity.GisFeature;
  */
 public class PlaceTypeDeleteAllEvent implements IGisRepositoryEvent {
 
-     private Class<? extends GisFeature> placeType;
-
+    private Class<? extends GisFeature> placeType;
 
     /**
      * @return The placetype that all gisfeature are deleted
      */
     public Class<? extends GisFeature> getPlaceType() {
-        return placeType;
+	return placeType;
     }
-
-
 
     /**
      * Default constructor

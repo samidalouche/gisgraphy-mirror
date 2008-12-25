@@ -42,7 +42,7 @@ public class DisplayFeatureActionTest {
     List<SolrResponseDto> results;
     IFullTextSearchEngine mockSearchEngine;
     FulltextResultsDto mockResultDTO;
-    
+
     @Before
     public void setup() {
 	results = new ArrayList<SolrResponseDto>();
@@ -52,109 +52,137 @@ public class DisplayFeatureActionTest {
 	mockResultDTO = EasyMock.createMock(FulltextResultsDto.class);
 	EasyMock.expect(mockResultDTO.getResults()).andReturn(results);
     }
-    
+
     @Test
-    public void testGetPreferedNameShouldReturnFullyQualyfiedNameIfExists() throws Exception {
+    public void testGetPreferedNameShouldReturnFullyQualyfiedNameIfExists()
+	    throws Exception {
 	action.setFeatureId("3");
 	String fullyQualifedName = "fully";
-	SolrResponseDto mockSolrResponseDto = EasyMock.createMock(SolrResponseDto.class);
-	EasyMock.expect(mockSolrResponseDto.getFully_qualified_name()).andReturn(fullyQualifedName);
+	SolrResponseDto mockSolrResponseDto = EasyMock
+		.createMock(SolrResponseDto.class);
+	EasyMock.expect(mockSolrResponseDto.getFully_qualified_name())
+		.andReturn(fullyQualifedName);
 	EasyMock.replay(mockSolrResponseDto);
 	results.add(mockSolrResponseDto);
 	EasyMock.replay(mockResultDTO);
-	EasyMock.expect(mockSearchEngine.executeQuery((FulltextQuery)EasyMock.anyObject())).andReturn(mockResultDTO);
+	EasyMock.expect(
+		mockSearchEngine.executeQuery((FulltextQuery) EasyMock
+			.anyObject())).andReturn(mockResultDTO);
 	EasyMock.replay(mockSearchEngine);
 	action.execute();
-	assertEquals(fullyQualifedName,action.getPreferedName());
+	assertEquals(fullyQualifedName, action.getPreferedName());
     }
-    
+
     @Test
-    public void testGetPreferedNameShouldReturnNameWhenNoFullyQualyfiedNameExists() throws Exception {
+    public void testGetPreferedNameShouldReturnNameWhenNoFullyQualyfiedNameExists()
+	    throws Exception {
 	action.setFeatureId("3");
 	String fullyQualifedName = "";
 	String name = "the name";
-	SolrResponseDto mockSolrResponseDto = EasyMock.createMock(SolrResponseDto.class);
-	EasyMock.expect(mockSolrResponseDto.getFully_qualified_name()).andReturn(fullyQualifedName);
+	SolrResponseDto mockSolrResponseDto = EasyMock
+		.createMock(SolrResponseDto.class);
+	EasyMock.expect(mockSolrResponseDto.getFully_qualified_name())
+		.andReturn(fullyQualifedName);
 	EasyMock.expect(mockSolrResponseDto.getName()).andReturn(name);
 	EasyMock.replay(mockSolrResponseDto);
 	results.add(mockSolrResponseDto);
 	EasyMock.replay(mockResultDTO);
-	EasyMock.expect(mockSearchEngine.executeQuery((FulltextQuery)EasyMock.anyObject())).andReturn(mockResultDTO);
+	EasyMock.expect(
+		mockSearchEngine.executeQuery((FulltextQuery) EasyMock
+			.anyObject())).andReturn(mockResultDTO);
 	EasyMock.replay(mockSearchEngine);
 	action.execute();
-	assertEquals(name,action.getPreferedName());
+	assertEquals(name, action.getPreferedName());
     }
 
     @Test
-    public void testExecuteWithOutFeatureId() throws Exception{
-	SolrResponseDto mockSolrResponseDto = EasyMock.createMock(SolrResponseDto.class);
+    public void testExecuteWithOutFeatureId() throws Exception {
+	SolrResponseDto mockSolrResponseDto = EasyMock
+		.createMock(SolrResponseDto.class);
 	EasyMock.replay(mockSolrResponseDto);
 	results.add(mockSolrResponseDto);
 	EasyMock.replay(mockResultDTO);
-	EasyMock.expect(mockSearchEngine.executeQuery((FulltextQuery)EasyMock.anyObject())).andReturn(mockResultDTO);
+	EasyMock.expect(
+		mockSearchEngine.executeQuery((FulltextQuery) EasyMock
+			.anyObject())).andReturn(mockResultDTO);
 	EasyMock.replay(mockSearchEngine);
 	String returnAction = action.execute();
-	assertEquals(DisplayFeatureAction.ERROR,returnAction);
-	assertEquals(DisplayFeatureAction.ERROR_REF_REQUIRED_FEATURE_ID,action.getErrorRef());
+	assertEquals(DisplayFeatureAction.ERROR, returnAction);
+	assertEquals(DisplayFeatureAction.ERROR_REF_REQUIRED_FEATURE_ID, action
+		.getErrorRef());
     }
-    
+
     @Test
-    public void testExecuteWithNonNumericFeatureId() throws Exception{
+    public void testExecuteWithNonNumericFeatureId() throws Exception {
 	action.setFeatureId("a");
-	SolrResponseDto mockSolrResponseDto = EasyMock.createMock(SolrResponseDto.class);
+	SolrResponseDto mockSolrResponseDto = EasyMock
+		.createMock(SolrResponseDto.class);
 	EasyMock.replay(mockSolrResponseDto);
 	results.add(mockSolrResponseDto);
 	EasyMock.replay(mockResultDTO);
-	EasyMock.expect(mockSearchEngine.executeQuery((FulltextQuery)EasyMock.anyObject())).andReturn(mockResultDTO);
+	EasyMock.expect(
+		mockSearchEngine.executeQuery((FulltextQuery) EasyMock
+			.anyObject())).andReturn(mockResultDTO);
 	EasyMock.replay(mockSearchEngine);
 	String returnAction = action.execute();
-	assertEquals(DisplayFeatureAction.ERROR,returnAction);
-	assertEquals(DisplayFeatureAction.ERROR_REF_NON_NUMERIC_FEATUREID,action.getErrorRef());
+	assertEquals(DisplayFeatureAction.ERROR, returnAction);
+	assertEquals(DisplayFeatureAction.ERROR_REF_NON_NUMERIC_FEATUREID,
+		action.getErrorRef());
     }
-    
+
     @Test
-    public void testExecuteWithNonUniqueResult() throws Exception{
+    public void testExecuteWithNonUniqueResult() throws Exception {
 	action.setFeatureId("1");
-	SolrResponseDto mockSolrResponseDto = EasyMock.createMock(SolrResponseDto.class);
+	SolrResponseDto mockSolrResponseDto = EasyMock
+		.createMock(SolrResponseDto.class);
 	EasyMock.replay(mockSolrResponseDto);
 	results.add(mockSolrResponseDto);
 	results.add(mockSolrResponseDto);
 	EasyMock.replay(mockResultDTO);
-	EasyMock.expect(mockSearchEngine.executeQuery((FulltextQuery)EasyMock.anyObject())).andReturn(mockResultDTO);
+	EasyMock.expect(
+		mockSearchEngine.executeQuery((FulltextQuery) EasyMock
+			.anyObject())).andReturn(mockResultDTO);
 	EasyMock.replay(mockSearchEngine);
 	String returnAction = action.execute();
-	assertEquals(DisplayFeatureAction.ERROR,returnAction);
-	assertEquals(DisplayFeatureAction.ERROR_REF_NON_UNIQUE_RESULT,action.getErrorRef());
+	assertEquals(DisplayFeatureAction.ERROR, returnAction);
+	assertEquals(DisplayFeatureAction.ERROR_REF_NON_UNIQUE_RESULT, action
+		.getErrorRef());
     }
-    
+
     @Test
-    public void testExecuteWithNoResult() throws Exception{
+    public void testExecuteWithNoResult() throws Exception {
 	action.setFeatureId("1");
 	EasyMock.replay(mockResultDTO);
 	String errorMessage = "Message";
-	EasyMock.expect(mockSearchEngine.executeQuery((FulltextQuery)EasyMock.anyObject())).andThrow(new RuntimeException(errorMessage));
+	EasyMock.expect(
+		mockSearchEngine.executeQuery((FulltextQuery) EasyMock
+			.anyObject())).andThrow(
+		new RuntimeException(errorMessage));
 	EasyMock.replay(mockSearchEngine);
 	String returnAction = action.execute();
-	assertEquals(DisplayFeatureAction.ERROR,returnAction);
-	assertEquals(DisplayFeatureAction.ERROR_REF_GENERAL_ERROR,action.getErrorRef());
-	assertEquals(errorMessage,action.getErrorMessage());
+	assertEquals(DisplayFeatureAction.ERROR, returnAction);
+	assertEquals(DisplayFeatureAction.ERROR_REF_GENERAL_ERROR, action
+		.getErrorRef());
+	assertEquals(errorMessage, action.getErrorMessage());
     }
-    
+
     @Test
-    public void testExecute() throws Exception{
+    public void testExecute() throws Exception {
 	action.setFeatureId("1");
-	SolrResponseDto mockSolrResponseDto = EasyMock.createMock(SolrResponseDto.class);
+	SolrResponseDto mockSolrResponseDto = EasyMock
+		.createMock(SolrResponseDto.class);
 	EasyMock.replay(mockSolrResponseDto);
 	results.add(mockSolrResponseDto);
 	EasyMock.replay(mockResultDTO);
-	EasyMock.expect(mockSearchEngine.executeQuery((FulltextQuery)EasyMock.anyObject())).andReturn(mockResultDTO);
+	EasyMock.expect(
+		mockSearchEngine.executeQuery((FulltextQuery) EasyMock
+			.anyObject())).andReturn(mockResultDTO);
 	EasyMock.replay(mockSearchEngine);
 	String returnAction = action.execute();
-	assertEquals(DisplayFeatureAction.SUCCESS,returnAction);
-	assertEquals("",action.getErrorRef());
-	assertEquals(mockSolrResponseDto,action.getResult());
-	assertEquals("",action.getErrorMessage());
+	assertEquals(DisplayFeatureAction.SUCCESS, returnAction);
+	assertEquals("", action.getErrorRef());
+	assertEquals(mockSolrResponseDto, action.getResult());
+	assertEquals("", action.getErrorMessage());
     }
-
 
 }

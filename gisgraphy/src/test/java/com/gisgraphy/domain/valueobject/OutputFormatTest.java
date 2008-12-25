@@ -57,7 +57,7 @@ public class OutputFormatTest extends TestCase {
 	    }
 	}
     }
-    
+
     @Test
     public void getListByServiceShouldImplementsAllGisgraphyService() {
 	for (GisgraphyServiceType serviceType : GisgraphyServiceType.values()) {
@@ -68,12 +68,15 @@ public class OutputFormatTest extends TestCase {
 	    }
 	}
     }
-    
+
     @Test
     public void getListByServiceShouldReturnCorrectValues() {
-	Assert.assertEquals(Arrays.asList(OutputFormat.values()),Arrays.asList(OutputFormat.listByService(GisgraphyServiceType.FULLTEXT)));
-	OutputFormat[] expected = {OutputFormat.XML,OutputFormat.JSON};
-	Assert.assertEquals(Arrays.asList(expected),Arrays.asList(OutputFormat.listByService(GisgraphyServiceType.GEOLOC)));
+	Assert.assertEquals(Arrays.asList(OutputFormat.values()), Arrays
+		.asList(OutputFormat
+			.listByService(GisgraphyServiceType.FULLTEXT)));
+	OutputFormat[] expected = { OutputFormat.XML, OutputFormat.JSON };
+	Assert.assertEquals(Arrays.asList(expected), Arrays.asList(OutputFormat
+		.listByService(GisgraphyServiceType.GEOLOC)));
 
     }
 

@@ -58,7 +58,7 @@ public class SolRSynchroniserTest extends AbstractIntegrationHttpSolrTestCase {
 
     @Resource
     private ICityDao cityDao;
-    
+
     @Resource
     private ICountryDao countryDao;
 
@@ -84,8 +84,8 @@ public class SolRSynchroniserTest extends AbstractIntegrationHttpSolrTestCase {
 
 	this.solRSynchroniser.deleteAll();
 	resultsAfterRemove = searchInFulltextSearchEngine("my city");
-	assertTrue("the index is not reset ", resultsAfterRemove
-		.getResults().isEmpty());
+	assertTrue("the index is not reset ", resultsAfterRemove.getResults()
+		.isEmpty());
 
     }
 
@@ -136,23 +136,23 @@ public class SolRSynchroniserTest extends AbstractIntegrationHttpSolrTestCase {
 	City saved = this.cityDao.save(city);
 	assertNotNull(saved);
 	assertNotNull(saved.getId());
-	
+
 	QueryResponse searchResults = searchInFulltextSearchEngine("my city");
 
-	 assertTrue(
-		 "The fulltextSearchEngine should return an empty List before commit",
-		 searchResults.getResults().isEmpty());
+	assertTrue(
+		"The fulltextSearchEngine should return an empty List before commit",
+		searchResults.getResults().isEmpty());
 
-	 this.solRSynchroniser.commit();
-	 
-	 searchResults = searchInFulltextSearchEngine("my city");
+	this.solRSynchroniser.commit();
+
+	searchResults = searchInFulltextSearchEngine("my city");
 
 	int resultsSize = searchResults.getResults().size();
 	assertEquals("The city hasn't been saved", 1, resultsSize);
 	assertEquals("The city hasn't been saved", saved.getFeatureId(),
 		searchResults.getResults().get(0).getFieldValue(
 			FullTextFields.FEATUREID.getValue()));
-	
+
     }
 
     @Test
@@ -211,19 +211,19 @@ public class SolRSynchroniserTest extends AbstractIntegrationHttpSolrTestCase {
 	this.solRSynchroniser.commit();
 	QueryResponse searchResults = searchInFulltextSearchEngine("my city");
 
-		int resultsSize = searchResults.getResults().size();
-		assertEquals("The city hasn't been saved", 1, resultsSize);
-		assertEquals("The city hasn't been saved", saved.getFeatureId(),
-			searchResults.getResults().get(0).getFieldValue(
-				FullTextFields.FEATUREID.getValue()));
+	int resultsSize = searchResults.getResults().size();
+	assertEquals("The city hasn't been saved", 1, resultsSize);
+	assertEquals("The city hasn't been saved", saved.getFeatureId(),
+		searchResults.getResults().get(0).getFieldValue(
+			FullTextFields.FEATUREID.getValue()));
 
 	this.cityDao.remove(saved);
 
-	 searchResults = searchInFulltextSearchEngine("my city");
+	searchResults = searchInFulltextSearchEngine("my city");
 
-	 assertTrue(
-		 "The city hasn't been removed from the full text search engine",
-		 searchResults.getResults().isEmpty());
+	assertTrue(
+		"The city hasn't been removed from the full text search engine",
+		searchResults.getResults().isEmpty());
     }
 
     @Test
@@ -257,7 +257,7 @@ public class SolRSynchroniserTest extends AbstractIntegrationHttpSolrTestCase {
 		"The city hasn't been removed from the full text search engine",
 		resultsAfterRemove.getResults().isEmpty());
     }
-    
+
     @Test
     public void testDeleteallGisFeaturesOfAspecificPlaceTypeShouldSynchronize() {
 	City city = GeolocTestHelper.createCityAtSpecificPoint("my city", 1.5F,
@@ -280,16 +280,15 @@ public class SolRSynchroniserTest extends AbstractIntegrationHttpSolrTestCase {
 	assertNotNull(savedCountry);
 	assertNotNull(savedCountry.getId());
 	this.solRSynchroniser.commit();
-	
+
 	searchResults = searchInFulltextSearchEngine("france");
 
 	resultsSize = searchResults.getResults().size();
 	assertEquals("The country hasn't been saved", 1, resultsSize);
-	assertEquals("The country hasn't been saved", savedCountry.getFeatureId(),
-		searchResults.getResults().get(0).getFieldValue(
-			FullTextFields.FEATUREID.getValue()));
-	
-	
+	assertEquals("The country hasn't been saved", savedCountry
+		.getFeatureId(), searchResults.getResults().get(0)
+		.getFieldValue(FullTextFields.FEATUREID.getValue()));
+
 	this.cityDao.deleteAll();
 
 	QueryResponse resultsAfterRemove = searchInFulltextSearchEngine("my city");
@@ -297,17 +296,16 @@ public class SolRSynchroniserTest extends AbstractIntegrationHttpSolrTestCase {
 	assertTrue(
 		"The city hasn't been removed from the full text search engine",
 		resultsAfterRemove.getResults().isEmpty());
-	
+
 	searchResults = searchInFulltextSearchEngine("france");
 
 	resultsSize = searchResults.getResults().size();
-	assertEquals("The country should still be in the datastore", 1, resultsSize);
-	assertEquals("The country should still be in the datastore", savedCountry.getFeatureId(),
-		searchResults.getResults().get(0).getFieldValue(
-			FullTextFields.FEATUREID.getValue()));
+	assertEquals("The country should still be in the datastore", 1,
+		resultsSize);
+	assertEquals("The country should still be in the datastore",
+		savedCountry.getFeatureId(), searchResults.getResults().get(0)
+			.getFieldValue(FullTextFields.FEATUREID.getValue()));
     }
-
-
 
     public void testZipCodeShouldBeSynchronisedIfFeatureIsACity() {
 	// create one city
@@ -481,7 +479,6 @@ public class SolRSynchroniserTest extends AbstractIntegrationHttpSolrTestCase {
 		.DeleteNonEmptyDirectory(tempDir));
 
     }
-    
 
     private QueryResponse searchInFulltextSearchEngine(String searchWords) {
 	SolrQuery query = new SolrQuery();
@@ -500,6 +497,5 @@ public class SolRSynchroniserTest extends AbstractIntegrationHttpSolrTestCase {
 	}
 	return resultsAfterRemove;
     }
-
 
 }

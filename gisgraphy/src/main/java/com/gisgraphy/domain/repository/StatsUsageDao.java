@@ -34,11 +34,13 @@ import com.gisgraphy.stats.StatsUsageType;
 
 /**
  * Dao for {@link StatsUsage}
+ * 
  * @author <a href="mailto:david.masclet@gisgraphy.com">David Masclet</a>
- *
+ * 
  */
 @Repository
-public class StatsUsageDao extends GenericDao<StatsUsage, Long> implements IStatsUsageDao {
+public class StatsUsageDao extends GenericDao<StatsUsage, Long> implements
+	IStatsUsageDao {
 
     /**
      * Default Constructor
@@ -47,7 +49,9 @@ public class StatsUsageDao extends GenericDao<StatsUsage, Long> implements IStat
 	super(StatsUsage.class);
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see com.gisgraphy.domain.repository.IStatUsageDao#getByUsageType(com.gisgraphy.stats.StatsUsageType)
      */
     public StatsUsage getByUsageType(final StatsUsageType statsUsageType) {
@@ -66,7 +70,5 @@ public class StatsUsageDao extends GenericDao<StatsUsage, Long> implements IStat
 		    }
 		});
     }
-    
-    
 
 }

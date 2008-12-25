@@ -33,8 +33,11 @@ import org.hibernate.util.StringHelper;
  *         hibernate order for SQL
  */
 public class NativeSQLOrder extends Order {
-    /* (non-Javadoc)
-     * @see org.hibernate.criterion.Order#toSqlString(org.hibernate.Criteria, org.hibernate.criterion.CriteriaQuery)
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.hibernate.criterion.Order#toSqlString(org.hibernate.Criteria,
+     *      org.hibernate.criterion.CriteriaQuery)
      */
     @Override
     public String toSqlString(Criteria criteria, CriteriaQuery criteriaQuery)
@@ -54,8 +57,10 @@ public class NativeSQLOrder extends Order {
     private String sql;
 
     /**
-     * @param sql the sql code
-     * @param ascending wether we want to sort asc or desc
+     * @param sql
+     *                the sql code
+     * @param ascending
+     *                wether we want to sort asc or desc
      */
     public NativeSQLOrder(String sql, boolean ascending) {
 	super(null, ascending);
@@ -63,10 +68,10 @@ public class NativeSQLOrder extends Order {
 	this.ascending = ascending;
 
     }
-    
+
     /**
-     * @param sql the sql code
-     * Default sorting will be ascending
+     * @param sql
+     *                the sql code Default sorting will be ascending
      */
     public NativeSQLOrder(String sql) {
 	super(null, true);

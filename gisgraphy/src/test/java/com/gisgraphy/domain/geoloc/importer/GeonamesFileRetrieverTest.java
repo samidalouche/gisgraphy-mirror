@@ -33,34 +33,34 @@ import org.junit.Test;
 import com.gisgraphy.domain.valueobject.NameValueDTO;
 import com.gisgraphy.test.GeolocTestHelper;
 
-
 public class GeonamesFileRetrieverTest extends TestCase {
-   
+
     @Test
     public void testRollback() {
 	GeonamesFileRetriever geonamesFileRetriever = new GeonamesFileRetriever();
 	ImporterConfig importerConfig = new ImporterConfig();
-	File tempDir = GeolocTestHelper.createTempDir(this.getClass().getSimpleName());
+	File tempDir = GeolocTestHelper.createTempDir(this.getClass()
+		.getSimpleName());
 	File file = new File(tempDir.getAbsolutePath()
-		+ System.getProperty("file.separator")+ "FR.zip");
+		+ System.getProperty("file.separator") + "FR.zip");
 	try {
 	    assertTrue(file.createNewFile());
 	} catch (IOException e) {
-	  fail("Can not create file "+file.getAbsolutePath());
+	    fail("Can not create file " + file.getAbsolutePath());
 	}
-	
+
 	importerConfig.setGeonamesDir(tempDir.getAbsolutePath());
 	importerConfig.setFilesToDownload("FR.zip");
 	geonamesFileRetriever.setImporterConfig(importerConfig);
 	List<NameValueDTO<Integer>> list = geonamesFileRetriever.rollback();
 	assertEquals(1, list.size());
-	assertFalse("The importable file should have been deleted",file.exists());
-	
-	
+	assertFalse("The importable file should have been deleted", file
+		.exists());
+
 	// delete temp dir
 	assertTrue("The tempDir has not been deleted", GeolocTestHelper
 		.DeleteNonEmptyDirectory(tempDir));
 
     }
-    
+
 }

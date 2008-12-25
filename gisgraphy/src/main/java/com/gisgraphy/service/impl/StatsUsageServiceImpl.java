@@ -35,60 +35,67 @@ import com.gisgraphy.service.IStatsUsageService;
 import com.gisgraphy.stats.StatsUsage;
 import com.gisgraphy.stats.StatsUsageType;
 
-
 public class StatsUsageServiceImpl implements IStatsUsageService {
 
     @Autowired
     IStatsUsageDao statsUsageDao;
-    
+
     private static final Long RESET_COUNTER_VALUE = Long.valueOf(0L);
-    
-    private Map<String,Long> counterMap = new HashMap<String,Long>();
-    
+
+    private Map<String, Long> counterMap = new HashMap<String, Long>();
+
     @PostConstruct
-    protected void init(){
-	for (StatsUsageType statsUsageType : StatsUsageType.values()){
-	    StatsUsage statsUsage = statsUsageDao.getByUsageType(statsUsageType);
-	    if (statsUsage == null){
+    protected void init() {
+	for (StatsUsageType statsUsageType : StatsUsageType.values()) {
+	    StatsUsage statsUsage = statsUsageDao
+		    .getByUsageType(statsUsageType);
+	    if (statsUsage == null) {
 		statsUsage = new StatsUsage(statsUsageType);
 		statsUsageDao.save(statsUsage);
 	    }
-	    this.counterMap.put(statsUsage.getStatsUsageType().toString(), statsUsage.getUsage());
+	    this.counterMap.put(statsUsage.getStatsUsageType().toString(),
+		    statsUsage.getUsage());
 	}
-	
+
     }
-    
-    /* (non-Javadoc)
+
+    /*
+     * (non-Javadoc)
+     * 
      * @see com.gisgraphy.service.IStatsUsageService#GetNumberOfCounter()
      */
     public int getNumberOfCounter() {
 	return counterMap.size();
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see com.gisgraphy.service.IStatsUsageService#GetUsage(com.gisgraphy.stats.StatsUsageType)
      */
     public Long getUsage(StatsUsageType statsUsageType) {
 	return counterMap.get(statsUsageType.toString());
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see com.gisgraphy.service.IStatsUsageService#increaseUsage(com.gisgraphy.stats.StatsUsageType)
      */
     public void increaseUsage(StatsUsageType statsUsageType) {
-	long newValue = counterMap.get(statsUsageType.toString())+1;
+	long newValue = counterMap.get(statsUsageType.toString()) + 1;
 	counterMap.put(statsUsageType.toString(), newValue);
-	if (newValue%IStatsUsageService.FLUSH_THRESHOLD==0){
+	if (newValue % IStatsUsageService.FLUSH_THRESHOLD == 0) {
 	    flush(statsUsageType);
 	}
-	
+
     }
 
     public void resetUsage(StatsUsageType statsUsageType) {
-	
+
 	counterMap.put(statsUsageType.toString(), RESET_COUNTER_VALUE);
 	flush(statsUsageType);
-	
+
     }
 
     @Transactional
@@ -98,5 +105,4 @@ public class StatsUsageServiceImpl implements IStatsUsageService {
 	statsUsageDao.save(statsUsage);
     }
 
-   
 }

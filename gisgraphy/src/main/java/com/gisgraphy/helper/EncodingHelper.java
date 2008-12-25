@@ -36,10 +36,9 @@ import com.gisgraphy.domain.valueobject.Constants;
  * @author <a href="mailto:david.masclet@gisgraphy.com">David Masclet</a>
  */
 public class EncodingHelper {
-    
+
     protected static final Logger logger = LoggerFactory
-    .getLogger(GisFeature.class);
-    
+	    .getLogger(GisFeature.class);
 
     /**
      * useful for windows only, this method is a workaround for encoding
@@ -58,27 +57,26 @@ public class EncodingHelper {
 	}
 	return utf8;
     }
-    
+
     /**
      * Set the file.encoding and sun.jnu.encoding to UTF-8
      */
     public static void setJVMEncodingToUTF8() {
-	setSystemProperty("file.encoding",Constants.CHARSET);
-	setSystemProperty("sun.jnu.encoding",Constants.CHARSET);
+	setSystemProperty("file.encoding", Constants.CHARSET);
+	setSystemProperty("sun.jnu.encoding", Constants.CHARSET);
     }
 
-    private static void setSystemProperty(String name,String value) {
-	if (System.getProperty(name)== null || !System.getProperty(name).equals(value)) {
+    private static void setSystemProperty(String name, String value) {
+	if (System.getProperty(name) == null
+		|| !System.getProperty(name).equals(value)) {
 	    logger.info("change system property from "
-		    + System.getProperty(name) + " to "
-		    + value);
+		    + System.getProperty(name) + " to " + value);
 	    System.setProperty(name, value);
-	   
-	    logger.info("System property"+name+" is now : "
+
+	    logger.info("System property" + name + " is now : "
 		    + System.getProperty(name));
 	} else {
-	    logger.info(name+"="
-		    + System.getProperty("file.encoding"));
+	    logger.info(name + "=" + System.getProperty("file.encoding"));
 	}
     }
 }

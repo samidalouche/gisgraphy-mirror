@@ -279,16 +279,18 @@ public class GenericDao<T, PK extends Serializable> extends HibernateDaoSupport
 
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see com.gisgraphy.domain.repository.IDao#deleteAll()
      */
-      public int deleteAll() {
+    public int deleteAll() {
 	int deleted = ((Integer) this.getHibernateTemplate().execute(
 		new HibernateCallback() {
 
 		    public Object doInHibernate(Session session)
 			    throws PersistenceException {
-			
+
 			String queryString = "DELETE "
 				+ persistentClass.getSimpleName();
 
@@ -298,7 +300,7 @@ public class GenericDao<T, PK extends Serializable> extends HibernateDaoSupport
 		    }
 		})).intValue();
 	return deleted;
-	
+
     }
 
 }

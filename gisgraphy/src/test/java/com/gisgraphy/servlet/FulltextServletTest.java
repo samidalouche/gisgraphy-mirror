@@ -151,7 +151,7 @@ public class FulltextServletTest extends AbstractIntegrationHttpSolrTestCase {
 	    error = jsTester.eval("evalresult.responseHeader.status")
 		    .toString();
 	    assertEquals("-1.0", error);// -1.0 because it is considered as a
-					// float
+	    // float
 
 	} catch (IOException e) {
 	    fail("An exception has occured " + e.getMessage());

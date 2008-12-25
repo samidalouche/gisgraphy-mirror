@@ -163,7 +163,8 @@ public class Adm extends GisFeature {
     public void addChild(Adm child) {
 	if (child == null) {
 	    logger.info("Could not add a null child");
-	    throw new IllegalArgumentException("Could not add a null child to "+this);
+	    throw new IllegalArgumentException("Could not add a null child to "
+		    + this);
 	}
 	if (child.getLevel() != getLevel() + 1) {
 	    throw new IllegalArgumentException("a child of level "

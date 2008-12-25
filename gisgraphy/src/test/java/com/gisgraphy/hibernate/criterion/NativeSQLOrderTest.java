@@ -46,11 +46,11 @@ import com.gisgraphy.test.GeolocTestHelper;
 import com.gisgraphy.test._DaoHelper;
 
 public class NativeSQLOrderTest extends AbstractIntegrationHttpSolrTestCase {
-    
+
     private ICityDao cityDao;
 
     private _DaoHelper testDao;
-    
+
     @SuppressWarnings("unchecked")
     @Test
     public void testNativeSQLOrderShouldSortAscByDefault() {
@@ -68,16 +68,16 @@ public class NativeSQLOrderTest extends AbstractIntegrationHttpSolrTestCase {
 
 	    @SuppressWarnings("unchecked")
 	    public Object doInHibernate(Session session)
-	    throws PersistenceException {
+		    throws PersistenceException {
 
 		Criteria testCriteria = session.createCriteria(City.class);
 		List<String> fieldList = new ArrayList<String>();
 		fieldList.add("name");
 		Projection projection = Projections.property("featureId").as(
-		"featureId");
+			"featureId");
 		testCriteria.setProjection(projection).addOrder(
 			new NativeSQLOrder("featureId")).setResultTransformer(
-				Transformers.aliasToBean(_CityDTO.class));
+			Transformers.aliasToBean(_CityDTO.class));
 
 		List<_CityDTO> results = testCriteria.list();
 		return results;
@@ -85,13 +85,13 @@ public class NativeSQLOrderTest extends AbstractIntegrationHttpSolrTestCase {
 	};
 
 	List<_CityDTO> cities = (List<_CityDTO>) testDao
-	.testCallback(hibernateCallback);
+		.testCallback(hibernateCallback);
 	assertEquals(3, cities.size());
 	assertEquals("1", cities.get(0).getFeatureId().toString());
 	assertEquals("2", cities.get(1).getFeatureId().toString());
 	assertEquals("3", cities.get(2).getFeatureId().toString());
     }
-    
+
     @SuppressWarnings("unchecked")
     @Test
     public void testNativeSQLOrderShouldSortDesc() {
@@ -109,15 +109,16 @@ public class NativeSQLOrderTest extends AbstractIntegrationHttpSolrTestCase {
 
 	    @SuppressWarnings("unchecked")
 	    public Object doInHibernate(Session session)
-	    throws PersistenceException {
+		    throws PersistenceException {
 
 		Criteria testCriteria = session.createCriteria(City.class);
 		List<String> fieldList = new ArrayList<String>();
 		fieldList.add("name");
 		Projection projection = Projections.property("featureId").as(
-		"featureId");
+			"featureId");
 		testCriteria.setProjection(projection).addOrder(
-			new NativeSQLOrder("featureId",false)).setResultTransformer(
+			new NativeSQLOrder("featureId", false))
+			.setResultTransformer(
 				Transformers.aliasToBean(_CityDTO.class));
 
 		List<_CityDTO> results = testCriteria.list();
@@ -126,7 +127,7 @@ public class NativeSQLOrderTest extends AbstractIntegrationHttpSolrTestCase {
 	};
 
 	List<_CityDTO> cities = (List<_CityDTO>) testDao
-	.testCallback(hibernateCallback);
+		.testCallback(hibernateCallback);
 	assertEquals(3, cities.size());
 	assertEquals("3", cities.get(0).getFeatureId().toString());
 	assertEquals("2", cities.get(1).getFeatureId().toString());
@@ -136,32 +137,38 @@ public class NativeSQLOrderTest extends AbstractIntegrationHttpSolrTestCase {
     @Test
     public void testToSqlStringCriteriaCriteriaQueryShouldReplaceAlias() {
 	CriteriaQuery criteriaQuery = EasyMock.createMock(CriteriaQuery.class);
-	EasyMock.expect(criteriaQuery.getSQLAlias((Criteria)EasyMock.anyObject())).andReturn("sqlname").once();
+	EasyMock.expect(
+		criteriaQuery.getSQLAlias((Criteria) EasyMock.anyObject()))
+		.andReturn("sqlname").once();
 	EasyMock.replay(criteriaQuery);
-	NativeSQLOrder nso = new NativeSQLOrder("{alias}.name",true);
-	String sqlString = nso.toSqlString(null,criteriaQuery );
+	NativeSQLOrder nso = new NativeSQLOrder("{alias}.name", true);
+	String sqlString = nso.toSqlString(null, criteriaQuery);
 	assertTrue(sqlString.contains("sqlname.name"));
 	EasyMock.verify(criteriaQuery);
     }
-    
+
     @Test
     public void testToSqlStringCriteriaCriteriaQueryShouldTakeTheAscOrderIntoAcount() {
 	CriteriaQuery criteriaQuery = EasyMock.createMock(CriteriaQuery.class);
-	EasyMock.expect(criteriaQuery.getSQLAlias((Criteria)EasyMock.anyObject())).andReturn("sqlname").once();
+	EasyMock.expect(
+		criteriaQuery.getSQLAlias((Criteria) EasyMock.anyObject()))
+		.andReturn("sqlname").once();
 	EasyMock.replay(criteriaQuery);
-	NativeSQLOrder nso = new NativeSQLOrder("{alias}.name",true);
-	String sqlString = nso.toSqlString(null,criteriaQuery );
+	NativeSQLOrder nso = new NativeSQLOrder("{alias}.name", true);
+	String sqlString = nso.toSqlString(null, criteriaQuery);
 	assertTrue(sqlString.contains("asc"));
 	EasyMock.verify(criteriaQuery);
     }
-    
+
     @Test
     public void testToSqlStringCriteriaCriteriaQueryShouldTakeTheDescOrderIntoAcount() {
 	CriteriaQuery criteriaQuery = EasyMock.createMock(CriteriaQuery.class);
-	EasyMock.expect(criteriaQuery.getSQLAlias((Criteria)EasyMock.anyObject())).andReturn("sqlname").once();
+	EasyMock.expect(
+		criteriaQuery.getSQLAlias((Criteria) EasyMock.anyObject()))
+		.andReturn("sqlname").once();
 	EasyMock.replay(criteriaQuery);
-	NativeSQLOrder nso = new NativeSQLOrder("{alias}.name",false);
-	String sqlString = nso.toSqlString(null,criteriaQuery );
+	NativeSQLOrder nso = new NativeSQLOrder("{alias}.name", false);
+	String sqlString = nso.toSqlString(null, criteriaQuery);
 	assertTrue(sqlString.contains("desc"));
 	EasyMock.verify(criteriaQuery);
     }
@@ -175,5 +182,5 @@ public class NativeSQLOrderTest extends AbstractIntegrationHttpSolrTestCase {
     public void setTestDao(_DaoHelper testDao) {
 	this.testDao = testDao;
     }
-    
+
 }

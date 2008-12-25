@@ -155,12 +155,17 @@ public class ImporterManagerTest extends AbstractIntegrationHttpSolrTestCase {
 	mockGisDao.setFlushMode(FlushMode.COMMIT);
 	EasyMock.expectLastCall();
 	EasyMock.replay(mockGisDao);
-	IImporterStatusListDao fakeimporterStatusListDao = EasyMock.createMock(IImporterStatusListDao.class);
+	IImporterStatusListDao fakeimporterStatusListDao = EasyMock
+		.createMock(IImporterStatusListDao.class);
 	EasyMock.expect(fakeimporterStatusListDao.delete()).andReturn(true);
-	EasyMock.expect(fakeimporterStatusListDao.saveOrUpdate(( List<ImporterStatusDto>)EasyMock.anyObject())).andReturn(new ArrayList<ImporterStatusDto>());
-	EasyMock.expect(fakeimporterStatusListDao.get()).andReturn(new ArrayList<ImporterStatusDto>());
+	EasyMock.expect(
+		fakeimporterStatusListDao
+			.saveOrUpdate((List<ImporterStatusDto>) EasyMock
+				.anyObject())).andReturn(
+		new ArrayList<ImporterStatusDto>());
+	EasyMock.expect(fakeimporterStatusListDao.get()).andReturn(
+		new ArrayList<ImporterStatusDto>());
 	EasyMock.replay(fakeimporterStatusListDao);
-	
 
 	ImporterConfig mockImporterConfig = EasyMock
 		.createMock(ImporterConfig.class);
@@ -177,15 +182,11 @@ public class ImporterManagerTest extends AbstractIntegrationHttpSolrTestCase {
 	EasyMock.expect(processor1.getCurrentFileName()).andReturn(
 		"currentFileName");
 	EasyMock.expect(processor1.getStatus()).andReturn(
-	ImporterStatus.PROCESSED);
-	EasyMock.expect(processor1.getStatusMessage()).andReturn(
-		"message");
-	EasyMock.expect(processor1.getTotalReadLine()).andReturn(
-	3);
-	EasyMock.expect(processor1.getReadFileLine()).andReturn(
-	1);
-	EasyMock.expect(processor1.getNumberOfLinesToProcess()).andReturn(
-		5);
+		ImporterStatus.PROCESSED);
+	EasyMock.expect(processor1.getStatusMessage()).andReturn("message");
+	EasyMock.expect(processor1.getTotalReadLine()).andReturn(3);
+	EasyMock.expect(processor1.getReadFileLine()).andReturn(1);
+	EasyMock.expect(processor1.getNumberOfLinesToProcess()).andReturn(5);
 	EasyMock.replay(processor1);
 	List<IGeonamesProcessor> processors = new ArrayList<IGeonamesProcessor>();
 	processors.add(processor1);
@@ -207,7 +208,6 @@ public class ImporterManagerTest extends AbstractIntegrationHttpSolrTestCase {
 	assertFalse(fakeimporterManager.isAlreadyDone());
 	assertFalse(fakeimporterManager.isInProgress());
     }
-    
 
     @Test
     public void testImportAdm2WithbadGisFeatureIdFormatShouldNotThrows() {
@@ -2053,7 +2053,8 @@ public class ImporterManagerTest extends AbstractIntegrationHttpSolrTestCase {
     private void processAndCheckGeonamesFileRetriever() {
 
 	// create a temporary directory to download files
-	File tempDir = GeolocTestHelper.createTempDir(this.getClass().getSimpleName());
+	File tempDir = GeolocTestHelper.createTempDir(this.getClass()
+		.getSimpleName());
 
 	// save geonamesdir in order to restore it
 	String savedGeonamesDir = this.importerConfig.getGeonamesDir();
@@ -2295,7 +2296,7 @@ public class ImporterManagerTest extends AbstractIntegrationHttpSolrTestCase {
 
     /**
      * @param geonamesAlternateNamesImporter
-     *            the geonamesAlternateNamesImporter to set
+     *                the geonamesAlternateNamesImporter to set
      */
     @Required
     public void setGeonamesAlternateNamesImporter(
@@ -2305,7 +2306,7 @@ public class ImporterManagerTest extends AbstractIntegrationHttpSolrTestCase {
 
     /**
      * @param importerConfig
-     *            the importerConfig to set
+     *                the importerConfig to set
      */
     @Required
     public void setImporterConfig(ImporterConfig importerConfig) {
@@ -2314,7 +2315,7 @@ public class ImporterManagerTest extends AbstractIntegrationHttpSolrTestCase {
 
     /**
      * @param geonamesFileRetriever
-     *            the geonamesFileRetriever to set
+     *                the geonamesFileRetriever to set
      */
     @Required
     public void setGeonamesFileRetriever(
@@ -2324,7 +2325,7 @@ public class ImporterManagerTest extends AbstractIntegrationHttpSolrTestCase {
 
     /**
      * @param admDao
-     *            the admDao to set
+     *                the admDao to set
      */
     @Required
     public void setAdmDao(IAdmDao admDao) {
@@ -2333,7 +2334,7 @@ public class ImporterManagerTest extends AbstractIntegrationHttpSolrTestCase {
 
     /**
      * @param cityDao
-     *            the cityDao to set
+     *                the cityDao to set
      */
     @Required
     public void setCityDao(ICityDao cityDao) {
@@ -2342,7 +2343,7 @@ public class ImporterManagerTest extends AbstractIntegrationHttpSolrTestCase {
 
     /**
      * @param gisFeatureDao
-     *            the gisFeatureDao to set
+     *                the gisFeatureDao to set
      */
     @Required
     public void setGisFeatureDao(IGisFeatureDao gisFeatureDao) {
@@ -2351,7 +2352,7 @@ public class ImporterManagerTest extends AbstractIntegrationHttpSolrTestCase {
 
     /**
      * @param countryDao
-     *            the countryDao to set
+     *                the countryDao to set
      */
     @Required
     public void setCountryDao(ICountryDao countryDao) {
@@ -2360,7 +2361,7 @@ public class ImporterManagerTest extends AbstractIntegrationHttpSolrTestCase {
 
     /**
      * @param languageDao
-     *            the languageDao to set
+     *                the languageDao to set
      */
     @Required
     public void setLanguageDao(ILanguageDao languageDao) {
@@ -2371,6 +2372,5 @@ public class ImporterManagerTest extends AbstractIntegrationHttpSolrTestCase {
     public void setAlternateNameDao(IAlternateNameDao alternateNameDao) {
 	this.alternateNameDao = alternateNameDao;
     }
-
 
 }

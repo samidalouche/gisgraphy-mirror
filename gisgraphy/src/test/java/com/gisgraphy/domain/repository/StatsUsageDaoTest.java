@@ -28,37 +28,38 @@ import com.gisgraphy.service.IStatsUsageService;
 import com.gisgraphy.stats.StatsUsage;
 import com.gisgraphy.stats.StatsUsageType;
 
-
 public class StatsUsageDaoTest extends AbstractTransactionalTestCase {
 
     @Resource
     IStatsUsageService statsUsageService;
-    
+
     @Resource
     private IStatsUsageDao statUsageDao;
-    
+
     public void testGetByUsageType() {
-	
-	if (statUsageDao.getAll().size() == StatsUsageType.values().length){
-	    StatsUsage retrieved = statUsageDao.getByUsageType(StatsUsageType.FULLTEXT);
-		assertNotNull(retrieved);
-		assertEquals(StatsUsageType.FULLTEXT, retrieved.getStatsUsageType());
+
+	if (statUsageDao.getAll().size() == StatsUsageType.values().length) {
+	    StatsUsage retrieved = statUsageDao
+		    .getByUsageType(StatsUsageType.FULLTEXT);
+	    assertNotNull(retrieved);
+	    assertEquals(StatsUsageType.FULLTEXT, retrieved.getStatsUsageType());
+	} else {
+	    statsUsageService.resetUsage(StatsUsageType.FULLTEXT);
+	    statsUsageService.resetUsage(StatsUsageType.GEOLOC);
+	    StatsUsage statsUsageFulltext = new StatsUsage(
+		    StatsUsageType.FULLTEXT);
+	    statsUsageFulltext.increaseUsage();
+	    statUsageDao.save(statsUsageFulltext);
+	    statUsageDao.flushAndClear();
+
+	    StatsUsage statsUsageGeoloc = new StatsUsage(StatsUsageType.GEOLOC);
+	    statsUsageGeoloc.increaseUsage();
+	    statUsageDao.save(statsUsageGeoloc);
+	    statUsageDao.flushAndClear();
 	}
-	else {
-	statsUsageService.resetUsage(StatsUsageType.FULLTEXT);
-	statsUsageService.resetUsage(StatsUsageType.GEOLOC);
-	StatsUsage statsUsageFulltext = new StatsUsage(StatsUsageType.FULLTEXT);
-	statsUsageFulltext.increaseUsage();
-	statUsageDao.save(statsUsageFulltext);
-	statUsageDao.flushAndClear();
-	
-	StatsUsage statsUsageGeoloc = new StatsUsage(StatsUsageType.GEOLOC);
-	statsUsageGeoloc.increaseUsage();
-	statUsageDao.save(statsUsageGeoloc);
-	statUsageDao.flushAndClear();
-	}
-	
-	StatsUsage retrieved = statUsageDao.getByUsageType(StatsUsageType.FULLTEXT);
+
+	StatsUsage retrieved = statUsageDao
+		.getByUsageType(StatsUsageType.FULLTEXT);
 	assertNotNull(retrieved);
 	assertEquals(StatsUsageType.FULLTEXT, retrieved.getStatsUsageType());
     }

@@ -43,8 +43,6 @@ import com.gisgraphy.test._DaoHelper;
 
 public class ProjectionBeanTest extends AbstractIntegrationHttpSolrTestCase {
 
-   
-    
     private _DaoHelper testDao;
 
     private ICityDao cityDao;
@@ -75,10 +73,11 @@ public class ProjectionBeanTest extends AbstractIntegrationHttpSolrTestCase {
 	    }
 	};
 
-	List<City> cities = (List<City>) testDao.testCallback(hibernateCallback);
+	List<City> cities = (List<City>) testDao
+		.testCallback(hibernateCallback);
 	assertEquals(1, cities.size());
-	assertEquals("paris",cities.get(0).getName());
-	assertEquals("1",cities.get(0).getFeatureId()+"");
+	assertEquals("paris", cities.get(0).getName());
+	assertEquals("1", cities.get(0).getFeatureId() + "");
     }
 
     @SuppressWarnings("unchecked")
@@ -95,28 +94,28 @@ public class ProjectionBeanTest extends AbstractIntegrationHttpSolrTestCase {
 
 		try {
 		    Criteria testCriteria = session.createCriteria(City.class);
-		    String[] ignoreFields = {"distance"};
-		    ProjectionList projection = ProjectionBean.beanFieldList(_CityDTO.class,ignoreFields);
+		    String[] ignoreFields = { "distance" };
+		    ProjectionList projection = ProjectionBean.beanFieldList(
+			    _CityDTO.class, ignoreFields);
 		    testCriteria.setProjection(projection);
 		    testCriteria.setResultTransformer(Transformers
-		    	.aliasToBean(_CityDTO.class));
+			    .aliasToBean(_CityDTO.class));
 
 		    List<_CityDTO> results = testCriteria.list();
 		    return results;
 		} catch (HibernateException e) {
-		   fail("An exception has occured : maybe ignoreFields are not taken into account if the error is 'could not resolve property: distance...");
-		   throw e;
+		    fail("An exception has occured : maybe ignoreFields are not taken into account if the error is 'could not resolve property: distance...");
+		    throw e;
 		}
 	    }
 	};
 
-	List<_CityDTO> cities = (List<_CityDTO>) testDao.testCallback(hibernateCallback);
+	List<_CityDTO> cities = (List<_CityDTO>) testDao
+		.testCallback(hibernateCallback);
 	assertEquals(1, cities.size());
-	assertEquals("paris",cities.get(0).getName());
-	assertEquals("1",cities.get(0).getFeatureId()+"");
+	assertEquals("paris", cities.get(0).getName());
+	assertEquals("1", cities.get(0).getFeatureId() + "");
     }
-
-    
 
     @Required
     public void setCityDao(ICityDao cityDao) {
@@ -124,7 +123,8 @@ public class ProjectionBeanTest extends AbstractIntegrationHttpSolrTestCase {
     }
 
     /**
-     * @param testDao the testDao to set
+     * @param testDao
+     *                the testDao to set
      */
     public void setTestDao(_DaoHelper testDao) {
 	this.testDao = testDao;

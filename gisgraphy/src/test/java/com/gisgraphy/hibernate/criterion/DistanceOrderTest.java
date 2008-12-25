@@ -34,37 +34,44 @@ public class DistanceOrderTest extends TestCase {
 
     public void testDistanceOrderPointBooleanShouldTakeAscOrderIntoAccount() {
 	CriteriaQuery criteriaQuery = EasyMock.createMock(CriteriaQuery.class);
-	EasyMock.expect(criteriaQuery.getSQLAlias((Criteria)EasyMock.anyObject())).andReturn("alias ").once();
+	EasyMock.expect(
+		criteriaQuery.getSQLAlias((Criteria) EasyMock.anyObject()))
+		.andReturn("alias ").once();
 	EasyMock.replay(criteriaQuery);
-	DistanceOrder dorder = new DistanceOrder(GeolocTestHelper.createPoint(3F, 4F),true);
-	String sqlString = dorder.toSqlString(null,criteriaQuery );
+	DistanceOrder dorder = new DistanceOrder(GeolocTestHelper.createPoint(
+		3F, 4F), true);
+	String sqlString = dorder.toSqlString(null, criteriaQuery);
 	assertTrue(sqlString.contains("asc"));
-	assertTrue(sqlString.contains("distance_sphere"));
-	EasyMock.verify(criteriaQuery);
-    }
-    
-    public void testDistanceOrderShouldHaveAscOrderByDefault() {
-	CriteriaQuery criteriaQuery = EasyMock.createMock(CriteriaQuery.class);
-	EasyMock.expect(criteriaQuery.getSQLAlias((Criteria)EasyMock.anyObject())).andReturn("alias ").once();
-	EasyMock.replay(criteriaQuery);
-	DistanceOrder dorder = new DistanceOrder(GeolocTestHelper.createPoint(3F, 4F));
-	String sqlString = dorder.toSqlString(null,criteriaQuery );
-	assertTrue(sqlString.contains("asc"));
-	assertTrue(sqlString.contains("distance_sphere"));
-	EasyMock.verify(criteriaQuery);
-    }
-    
-    public void testDistanceOrderPointBooleanShouldTakeDescOrderIntoAccount() {
-	CriteriaQuery criteriaQuery = EasyMock.createMock(CriteriaQuery.class);
-	EasyMock.expect(criteriaQuery.getSQLAlias((Criteria)EasyMock.anyObject())).andReturn(" alias ").once();
-	EasyMock.replay(criteriaQuery);
-	DistanceOrder dorder = new DistanceOrder(GeolocTestHelper.createPoint(3F, 4F),false);
-	String sqlString = dorder.toSqlString(null,criteriaQuery );
-	assertTrue(sqlString.contains("desc"));
 	assertTrue(sqlString.contains("distance_sphere"));
 	EasyMock.verify(criteriaQuery);
     }
 
-   
+    public void testDistanceOrderShouldHaveAscOrderByDefault() {
+	CriteriaQuery criteriaQuery = EasyMock.createMock(CriteriaQuery.class);
+	EasyMock.expect(
+		criteriaQuery.getSQLAlias((Criteria) EasyMock.anyObject()))
+		.andReturn("alias ").once();
+	EasyMock.replay(criteriaQuery);
+	DistanceOrder dorder = new DistanceOrder(GeolocTestHelper.createPoint(
+		3F, 4F));
+	String sqlString = dorder.toSqlString(null, criteriaQuery);
+	assertTrue(sqlString.contains("asc"));
+	assertTrue(sqlString.contains("distance_sphere"));
+	EasyMock.verify(criteriaQuery);
+    }
+
+    public void testDistanceOrderPointBooleanShouldTakeDescOrderIntoAccount() {
+	CriteriaQuery criteriaQuery = EasyMock.createMock(CriteriaQuery.class);
+	EasyMock.expect(
+		criteriaQuery.getSQLAlias((Criteria) EasyMock.anyObject()))
+		.andReturn(" alias ").once();
+	EasyMock.replay(criteriaQuery);
+	DistanceOrder dorder = new DistanceOrder(GeolocTestHelper.createPoint(
+		3F, 4F), false);
+	String sqlString = dorder.toSqlString(null, criteriaQuery);
+	assertTrue(sqlString.contains("desc"));
+	assertTrue(sqlString.contains("distance_sphere"));
+	EasyMock.verify(criteriaQuery);
+    }
 
 }

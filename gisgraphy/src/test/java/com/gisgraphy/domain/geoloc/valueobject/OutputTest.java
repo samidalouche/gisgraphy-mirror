@@ -67,12 +67,11 @@ public class OutputTest extends TestCase {
 	assertEquals(Output.DEFAULT_LANGUAGE_CODE, Output.withDefaultFormat()
 		.withLanguageCode("").getLanguageCode());
     }
-    
 
     @Test
     public void testWithLanguageCodeShouldBeUpperCased() {
-	assertEquals("FR", Output.withDefaultFormat()
-		.withLanguageCode("fr").getLanguageCode());
+	assertEquals("FR", Output.withDefaultFormat().withLanguageCode("fr")
+		.getLanguageCode());
     }
 
     @Test
@@ -158,8 +157,9 @@ public class OutputTest extends TestCase {
     @Test
     public void testOutputStyleGetFieldListForFullShouldBeCorrect() {
 	String list = OutputStyle.FULL.getFieldList(null);
-	assertEquals("The field list has a wrong size for FULL without countryCode :" + list, 2,
-		list.split(",").length);
+	assertEquals(
+		"The field list has a wrong size for FULL without countryCode :"
+			+ list, 2, list.split(",").length);
 	assertFalse("The field list for FULL must not contains ',,' : " + list,
 		list.contains(",,"));
 	assertFalse("The field list for FULL must not ends with ',' : " + list,

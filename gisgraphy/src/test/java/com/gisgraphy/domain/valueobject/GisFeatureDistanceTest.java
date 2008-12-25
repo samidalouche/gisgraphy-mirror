@@ -48,7 +48,8 @@ public class GisFeatureDistanceTest extends AbstractIntegrationHttpSolrTestCase 
 		    .newInstance(GisFeatureDistance.class);
 	    Marshaller m = context.createMarshaller();
 	    m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
-	    result = GeolocTestHelper.createFullFilledGisFeatureDistanceWithGisFeatureConstructor();
+	    result = GeolocTestHelper
+		    .createFullFilledGisFeatureDistanceWithGisFeatureConstructor();
 	    ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
 	    m.marshal(result, outputStream);
 	    checkJAXBMapping(result, outputStream);
@@ -58,7 +59,7 @@ public class GisFeatureDistanceTest extends AbstractIntegrationHttpSolrTestCase 
 	    fail(e.getMessage());
 	}
     }
-    
+
     @Test
     public void testGisFeatureDistanceShouldBeMappedWithJAXBWhenConstructWithAllFields() {
 	GisFeatureDistance result = null;
@@ -67,7 +68,8 @@ public class GisFeatureDistanceTest extends AbstractIntegrationHttpSolrTestCase 
 		    .newInstance(GisFeatureDistance.class);
 	    Marshaller m = context.createMarshaller();
 	    m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
-	    result = GeolocTestHelper.createFullFilledGisFeatureDistanceWithFieldsConstructor();
+	    result = GeolocTestHelper
+		    .createFullFilledGisFeatureDistanceWithFieldsConstructor();
 	    ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
 	    m.marshal(result, outputStream);
 	    checkJAXBMapping(result, outputStream);
@@ -77,7 +79,6 @@ public class GisFeatureDistanceTest extends AbstractIntegrationHttpSolrTestCase 
 	    fail(e.getMessage());
 	}
     }
-    
 
     /**
      * @param result
@@ -121,8 +122,7 @@ public class GisFeatureDistanceTest extends AbstractIntegrationHttpSolrTestCase 
 			    + "/featureCode[.='" + result.getFeatureCode()
 			    + "']",
 		    "/" + Constants.GISFEATUREDISTANCE_JAXB_NAME
-			    + "/placeType[.='" + result.getPlaceType()
-			    + "']",
+			    + "/placeType[.='" + result.getPlaceType() + "']",
 		    "/" + Constants.GISFEATUREDISTANCE_JAXB_NAME
 			    + "/featureId[.='" + result.getFeatureId() + "']",
 		    "/" + Constants.GISFEATUREDISTANCE_JAXB_NAME

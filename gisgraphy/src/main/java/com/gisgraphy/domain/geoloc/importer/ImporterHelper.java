@@ -260,12 +260,14 @@ public class ImporterHelper {
 	return fields;
 
     }
-    
+
     /**
-     * @param directoryPath  The directory to check. it can be absolute or relative
-     * @return true if the path is a directory (not a file) AND exists AND is writable
+     * @param directoryPath
+     *                The directory to check. it can be absolute or relative
+     * @return true if the path is a directory (not a file) AND exists AND is
+     *         writable
      */
-    public static boolean isDirectoryAccessible(String directoryPath){
+    public static boolean isDirectoryAccessible(String directoryPath) {
 	File dir = new File(directoryPath);
 	return dir.exists() && dir.isDirectory() && dir.canWrite();
     }
@@ -318,20 +320,21 @@ public class ImporterHelper {
 	}
 	return fields;
     }
-    
+
     /**
-     * @param regexpSemiColumnSeparated a string with multiple reqgexp separated by ';'
+     * @param regexpSemiColumnSeparated
+     *                a string with multiple reqgexp separated by ';'
      * @return A list of {@link Pattern} or null if a regexp are not corrects
      */
-    public static  List<Pattern> compileRegex(String regexpSemiColumnSeparated) {
+    public static List<Pattern> compileRegex(String regexpSemiColumnSeparated) {
 	try {
 	    List<Pattern> patternsList = new ArrayList<Pattern>();
-	    String[] acceptRegexpString = regexpSemiColumnSeparated
-	    	.trim().split(ImporterConfig.OPTION_SEPARATOR);
+	    String[] acceptRegexpString = regexpSemiColumnSeparated.trim()
+		    .split(ImporterConfig.OPTION_SEPARATOR);
 	    for (String pattern : acceptRegexpString) {
-	        if (pattern != null && !pattern.trim().equals("")) {
-	    	patternsList.add(Pattern.compile(pattern));
-	        }
+		if (pattern != null && !pattern.trim().equals("")) {
+		    patternsList.add(Pattern.compile(pattern));
+		}
 	    }
 	    logger.info(patternsList.size() + " regex for gisFeatureImporter");
 	    return patternsList;
@@ -339,27 +342,28 @@ public class ImporterHelper {
 	    return null;
 	}
     }
-    
+
     /**
-     * @param secsIn the number of seconds
+     * @param secsIn
+     *                the number of seconds
      * @return a human reading strings. example :1 hour 6 minuts 40 seconds.
      */
-    public static String formatSeconds(long secsIn)
-    {
+    public static String formatSeconds(long secsIn) {
 
-    long hours = secsIn / 3600,
-    
-    remainder = secsIn % 3600,
-    minutes = remainder / 60,
-    seconds = remainder % 60;
-    String displayhours = hours==0?"": hours + " hour"+getPlural(hours);
-    String displayMin = minutes== 0 ? "" : minutes + " minut"+ getPlural(minutes);
-    String displaySec = seconds== 0 ? "" : seconds + " second"+getPlural(seconds);
-    return displayhours+displayMin+displaySec;
+	long hours = secsIn / 3600,
+
+	remainder = secsIn % 3600, minutes = remainder / 60, seconds = remainder % 60;
+	String displayhours = hours == 0 ? "" : hours + " hour"
+		+ getPlural(hours);
+	String displayMin = minutes == 0 ? "" : minutes + " minut"
+		+ getPlural(minutes);
+	String displaySec = seconds == 0 ? "" : seconds + " second"
+		+ getPlural(seconds);
+	return displayhours + displayMin + displaySec;
     }
 
-    private static String getPlural(long count){
-	return count>1?"s ":" ";
+    private static String getPlural(long count) {
+	return count > 1 ? "s " : " ";
     }
 
 }

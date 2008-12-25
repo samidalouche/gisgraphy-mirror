@@ -30,8 +30,9 @@ import com.gisgraphy.stats.StatsUsageType;
 
 /**
  * Manage The {@link StatsUsage}
+ * 
  * @author <a href="mailto:david.masclet@gisgraphy.com">David Masclet</a>
- *
+ * 
  */
 public interface IStatsUsageService {
 
@@ -46,26 +47,30 @@ public interface IStatsUsageService {
     int getNumberOfCounter();
 
     /**
-     * @param statsUsageType the usagetype
+     * @param statsUsageType
+     *                the usagetype
      * @return the Usage for the specified {@link StatsUsageType}
      */
     Long getUsage(StatsUsageType statsUsageType);
 
     /**
-     * @param statsUsageType the {@link StatsUsageType} counter to increase
-     * Increase the counter of the specified type 
+     * @param statsUsageType
+     *                the {@link StatsUsageType} counter to increase Increase
+     *                the counter of the specified type
      */
     void increaseUsage(StatsUsageType statsUsageType);
 
     /**
-     * @param statsUsageType the {@link StatsUsageType} to reset
-     * reset the stats for the specified {@link StatsUsageType}
+     * @param statsUsageType
+     *                the {@link StatsUsageType} to reset reset the stats for
+     *                the specified {@link StatsUsageType}
      */
     void resetUsage(StatsUsageType statsUsageType);
 
     /**
-     *  @param statsUsageType the {@link StatsUsageType} to flush
-     * flush the value into database
+     * @param statsUsageType
+     *                the {@link StatsUsageType} to flush flush the value into
+     *                database
      */
     void flush(StatsUsageType statsUsageType);
 

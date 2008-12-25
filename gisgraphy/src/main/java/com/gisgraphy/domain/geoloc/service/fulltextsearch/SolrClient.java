@@ -42,7 +42,8 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.util.Assert;
 
 /**
- * Default implementation for IsolrClient.it represent a client to connect to solR server
+ * Default implementation for IsolrClient.it represent a client to connect to
+ * solR server
  * 
  * @author <a href="mailto:david.masclet@gisgraphy.com">David Masclet</a>
  */
@@ -120,24 +121,27 @@ public class SolrClient implements IsolrClient {
     public String getURL() {
 	return URL;
     }
-    
-    public boolean isServerAlive(){
+
+    public boolean isServerAlive() {
 	try {
-	    DocumentBuilder builder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
+	    DocumentBuilder builder = DocumentBuilderFactory.newInstance()
+		    .newDocumentBuilder();
 	    XPath xpath = XPathFactory.newInstance().newXPath();
-	    if (xpath == null || builder == null ) {
-	       throw new RuntimeException("Can not determine if searchengine is alive");
+	    if (xpath == null || builder == null) {
+		throw new RuntimeException(
+			"Can not determine if searchengine is alive");
 	    }
 	    SolrPingResponse response = getServer().ping();
-	    if (response == null){
-	        return false;
+	    if (response == null) {
+		return false;
 	    }
 	    return ((String) response.getResponse().get("status")).equals("OK");
 	} catch (Exception e) {
-	    logger.error("can not determine if server is alive "+ e.getMessage());
+	    logger.error("can not determine if server is alive "
+		    + e.getMessage());
 	    return false;
 	}
-	
+
     }
 
 }

@@ -51,9 +51,9 @@ public class GeonamesAlternateNamesImporter extends AbstractGeonamesProcessor {
     private ICityDao cityDao;
 
     private IAlternateNameDao alternateNameDao;
-    
+
     private ISolRSynchroniser solRSynchroniser;
-    
+
     private static final Long defaultFeatureId = Long.valueOf(-1);
 
     /**
@@ -94,8 +94,8 @@ public class GeonamesAlternateNamesImporter extends AbstractGeonamesProcessor {
 	}
 
 	GisFeature gisFeature = null;
-	
-	Long gisFeatureId = defaultFeatureId ;
+
+	Long gisFeatureId = defaultFeatureId;
 	if (!isEmptyField(fields, 1, true)) {
 	    try {
 		gisFeatureId = new Long(fields[1]);
@@ -260,15 +260,17 @@ public class GeonamesAlternateNamesImporter extends AbstractGeonamesProcessor {
     protected int getNumberOfColumns() {
 	return 6;
     }
-    
-    /* (non-Javadoc)
+
+    /*
+     * (non-Javadoc)
+     * 
      * @see com.gisgraphy.domain.geoloc.importer.AbstractGeonamesProcessor#tearDown()
      */
     @Override
     protected void tearDown() {
-        super.tearDown();
-        solRSynchroniser.commit();
-        solRSynchroniser.optimize();
+	super.tearDown();
+	solRSynchroniser.commit();
+	solRSynchroniser.optimize();
     }
 
     /**
@@ -318,23 +320,27 @@ public class GeonamesAlternateNamesImporter extends AbstractGeonamesProcessor {
     }
 
     /**
-     * @param solRSynchroniser the solRSynchroniser to set
+     * @param solRSynchroniser
+     *                the solRSynchroniser to set
      */
     @Required
     public void setSolRSynchroniser(ISolRSynchroniser solRSynchroniser) {
-        this.solRSynchroniser = solRSynchroniser;
+	this.solRSynchroniser = solRSynchroniser;
     }
-    
-    /* (non-Javadoc)
+
+    /*
+     * (non-Javadoc)
+     * 
      * @see com.gisgraphy.domain.geoloc.importer.IGeonamesProcessor#rollback()
      */
     public List<NameValueDTO<Integer>> rollback() {
 	List<NameValueDTO<Integer>> deletedObjectInfo = new ArrayList<NameValueDTO<Integer>>();
 	logger.info("deleting alternateNames...");
 	int deletedAnames = alternateNameDao.deleteAll();
-	if (deletedAnames != 0){
-		 deletedObjectInfo.add(new NameValueDTO<Integer>(GisFeature.class.getSimpleName(),deletedAnames));
-		}
+	if (deletedAnames != 0) {
+	    deletedObjectInfo.add(new NameValueDTO<Integer>(GisFeature.class
+		    .getSimpleName(), deletedAnames));
+	}
 	logger.info(deletedAnames + " alternateNames have been deleted");
 	resetStatusFields();
 	return deletedObjectInfo;

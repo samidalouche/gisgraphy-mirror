@@ -123,7 +123,8 @@ public class FulltextQuery extends AbstractGisQuery {
 	OutputStyle style = OutputStyle.getFromString(req
 		.getParameter(FulltextServlet.STYLE_PARAMETER));
 	String languageparam = req.getParameter(FulltextServlet.LANG_PARAMETER);
-	Output output = Output.withFormat(format).withLanguageCode(languageparam).withStyle(style);
+	Output output = Output.withFormat(format).withLanguageCode(
+		languageparam).withStyle(style);
 
 	// placetype
 	Class<? extends GisFeature> clazz = GeolocHelper
@@ -310,22 +311,24 @@ public class FulltextQuery extends AbstractGisQuery {
 	// at 0
 	parameters.set(Constants.ROWS_PARAMETER, String.valueOf(getPagination()
 		.getMaxNumberOfResults()));
-	if (getOutputFormat()==OutputFormat.ATOM){
-	    parameters.set(Constants.STYLESHEET_PARAMETER, Constants.ATOM_STYLESHEET);
-	}
-	else if (getOutputFormat()==OutputFormat.GEORSS){
-	    parameters.set(Constants.STYLESHEET_PARAMETER, Constants.GEORSS_STYLESHEET);
+	if (getOutputFormat() == OutputFormat.ATOM) {
+	    parameters.set(Constants.STYLESHEET_PARAMETER,
+		    Constants.ATOM_STYLESHEET);
+	} else if (getOutputFormat() == OutputFormat.GEORSS) {
+	    parameters.set(Constants.STYLESHEET_PARAMETER,
+		    Constants.GEORSS_STYLESHEET);
 	}
 	parameters.set(Constants.OUTPUT_FORMAT_PARAMETER, getOutputFormat()
 		.getParameterValue());
-	//force Medium style if ATOM or Geo RSS
-	if (getOutputFormat()==OutputFormat.ATOM || getOutputFormat()==OutputFormat.GEORSS ){
-	    parameters.set(Constants.FL_PARAMETER, OutputStyle.MEDIUM.getFieldList(getOutput().getLanguageCode()));
+	// force Medium style if ATOM or Geo RSS
+	if (getOutputFormat() == OutputFormat.ATOM
+		|| getOutputFormat() == OutputFormat.GEORSS) {
+	    parameters.set(Constants.FL_PARAMETER, OutputStyle.MEDIUM
+		    .getFieldList(getOutput().getLanguageCode()));
+	} else {
+	    parameters.set(Constants.FL_PARAMETER, getOutput().getFields());
 	}
-	else {
-	    parameters.set(Constants.FL_PARAMETER, getOutput().getFields()); 
-	}
-	
+
 	parameters.set(Constants.QT_PARAMETER, Constants.SolrQueryType.standard
 		.toString());
 	if (this.countryCode != null && getCountryNameByCode() != null) {

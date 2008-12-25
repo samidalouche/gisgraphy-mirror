@@ -59,7 +59,8 @@ public class OutputstreamResponseWrapperTest extends
     @Test
     public void testOutputstreamResponseWrapperTestShouldSerializeFromInputStream() {
 
-	File tempDir = GeolocTestHelper.createTempDir(this.getClass().getSimpleName());
+	File tempDir = GeolocTestHelper.createTempDir(this.getClass()
+		.getSimpleName());
 	File file = new File(tempDir.getAbsolutePath()
 		+ System.getProperty("file.separator") + "serialize.txt");
 
@@ -115,7 +116,8 @@ public class OutputstreamResponseWrapperTest extends
 
 	assertQ("The query return incorrect values", content,
 		"//*[@numFound='1']", "//*[@name='status'][.='0']",
-		"//*[@name='fully_qualified_name'][.='"+paris.getFullyQualifiedName(false)+"']");
+		"//*[@name='fully_qualified_name'][.='"
+			+ paris.getFullyQualifiedName(false) + "']");
 
 	// delete temp dir
 	assertTrue("the tempDir has not been deleted", GeolocTestHelper

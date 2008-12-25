@@ -57,7 +57,6 @@ public abstract class AbstractGeonamesProcessor implements IGeonamesProcessor {
     protected int totalReadLine = 0;
     protected int readFileLine = 0;
     protected String statusMessage = "";
-    
 
     private ImporterStatus status = ImporterStatus.UNPROCESSED;
 
@@ -228,25 +227,30 @@ public abstract class AbstractGeonamesProcessor implements IGeonamesProcessor {
 			this.processData(input);
 		    } catch (MissingRequiredFieldException mrfe) {
 			if (this.importerConfig.isMissingRequiredFieldThrows()) {
-			    logger.error("A requrired field is missing "+mrfe.getMessage());
+			    logger.error("A requrired field is missing "
+				    + mrfe.getMessage());
 			    throw new GeonamesProcessorException(
-				    "A requrired field is missing "+mrfe.getMessage(), mrfe);
+				    "A requrired field is missing "
+					    + mrfe.getMessage(), mrfe);
 			} else {
 			    logger.warn(mrfe.getMessage());
 			}
 		    } catch (WrongNumberOfFieldsException wnofe) {
 			if (this.importerConfig.isWrongNumberOfFieldsThrows()) {
-			    logger.error("wrong number of fields during import "+wnofe.getMessage());
+			    logger
+				    .error("wrong number of fields during import "
+					    + wnofe.getMessage());
 			    throw new GeonamesProcessorException(
-				    "Wrong number of fields during import "+wnofe.getMessage() , wnofe);
+				    "Wrong number of fields during import "
+					    + wnofe.getMessage(), wnofe);
 			} else {
 			    logger.warn(wnofe.getMessage());
 			}
 		    } catch (Exception e) {
 			e.printStackTrace();
-			logger.error("An Error occurred on Line " + readFileLine
-			+ " for " + input + " : "
-			+ e.getCause());
+			logger.error("An Error occurred on Line "
+				+ readFileLine + " for " + input + " : "
+				+ e.getCause());
 			throw new GeonamesProcessorException(
 				"An Error occurred on Line " + readFileLine
 					+ " for " + input + " : "
@@ -296,14 +300,12 @@ public abstract class AbstractGeonamesProcessor implements IGeonamesProcessor {
 	} catch (Exception e) {
 	    e.printStackTrace();
 	    this.status = ImporterStatus.ERROR;
-	    this.statusMessage =  "An error occurred when processing "
+	    this.statusMessage = "An error occurred when processing "
 		    + this.getClass().getSimpleName() + " on file "
-		    + currentFile.getName() + " on line "
-		    + getReadFileLine() + " : " + e.getCause();
+		    + currentFile.getName() + " on line " + getReadFileLine()
+		    + " : " + e.getCause();
 	    logger.error(statusMessage);
-	    throw new GeonamesProcessorException(
-		   statusMessage, e
-			    .getCause());
+	    throw new GeonamesProcessorException(statusMessage, e.getCause());
 	} finally {
 	    if (this.status != ImporterStatus.ERROR) {
 		this.status = ImporterStatus.PROCESSED;
@@ -592,7 +594,7 @@ public abstract class AbstractGeonamesProcessor implements IGeonamesProcessor {
 	return importerConfig.getMaxInsertsBeforeFlush();
     }
 
-    protected void resetStatusFields(){
+    protected void resetStatusFields() {
 	this.currentFile = null;
 	this.readFileLine = 0;
 	this.totalReadLine = 0;
@@ -601,11 +603,13 @@ public abstract class AbstractGeonamesProcessor implements IGeonamesProcessor {
 	this.statusMessage = "";
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see com.gisgraphy.domain.geoloc.importer.IGeonamesProcessor#getErrorMessage()
      */
     public String getStatusMessage() {
-        return statusMessage;
+	return statusMessage;
     }
 
 }

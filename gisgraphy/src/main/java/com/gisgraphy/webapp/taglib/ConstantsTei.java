@@ -36,7 +36,6 @@ import org.apache.commons.logging.LogFactory;
 
 import com.gisgraphy.Constants;
 
-
 /**
  * Implementation of <code>TagExtraInfo</code> for the <b>constants</b> tag,
  * identifying the scripting object(s) to be made visible.

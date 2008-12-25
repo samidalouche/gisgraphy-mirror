@@ -118,7 +118,8 @@ public class DistanceRestriction implements Criterion {
      */
     public String toSqlString(Criteria criteria, CriteriaQuery criteriaQuery)
 	    throws HibernateException {
-	String columnName = criteriaQuery.getColumn(criteria, GisFeature.LOCATION_COLUMN_NAME);
+	String columnName = criteriaQuery.getColumn(criteria,
+		GisFeature.LOCATION_COLUMN_NAME);
 	StringBuffer result = new StringBuffer("( distance_sphere(").append(
 		columnName).append(", ?) <=").append(this.distance).append(")");
 	return useIndex ? result.append(" AND ").append(

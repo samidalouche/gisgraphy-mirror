@@ -25,43 +25,38 @@
  */
 package com.gisgraphy.domain.geoloc.service.fulltextsearch;
 
-
 /**
  * @author <a href="mailto:david.masclet@gisgraphy.com">David Masclet</a>
  */
 public class DidYouMeanIndexer {
-/*    private static final String DEFAULT_FIELD = "name";
-    private static String originalindexdir = "/home/dmasclet/workspace/solr/example/solr/data/index/";
-    private static String spelldir = "/home/dmasclet/workspace/solr/example/solr/data/spell2/";
-
-
-    public void createSpellIndex(String field,
-	    Directory originalIndexDirectory, Directory spellIndexDirectory)
-	    throws IOException {
-
-	IndexReader indexReader = null;
-	try {
-	    indexReader = IndexReader.open(originalIndexDirectory);
-	    Dictionary dictionary = new LuceneDictionary(indexReader, field);
-	    SpellChecker spellChecker = new SpellChecker(spellIndexDirectory);
-	    spellChecker.indexDictionary(dictionary);
-	} finally {
-	    if (indexReader != null) {
-		indexReader.close();
-	    }
-	}
-    }
-
-    public static void main(String[] args) throws IOException {
-
-	FSDirectory origDir = FSDirectory.getDirectory(originalindexdir);
-	FSDirectory spellDir = FSDirectory.getDirectory(spelldir);
-	// Call intern() on field to work around bug in LuceneDictionary
-	// indexer.createSpellIndex(DEFAULT_FIELD, origDir, spellDir);
-
-	SpellChecker spell = new SpellChecker(spellDir);
-	spell.indexDictionary(new LuceneDictionary(IndexReader.open(origDir),
-		DEFAULT_FIELD));
-    }*/
+    /*
+     * private static final String DEFAULT_FIELD = "name"; private static String
+     * originalindexdir =
+     * "/home/dmasclet/workspace/solr/example/solr/data/index/"; private static
+     * String spelldir =
+     * "/home/dmasclet/workspace/solr/example/solr/data/spell2/";
+     * 
+     * 
+     * public void createSpellIndex(String field, Directory
+     * originalIndexDirectory, Directory spellIndexDirectory) throws IOException {
+     * 
+     * IndexReader indexReader = null; try { indexReader =
+     * IndexReader.open(originalIndexDirectory); Dictionary dictionary = new
+     * LuceneDictionary(indexReader, field); SpellChecker spellChecker = new
+     * SpellChecker(spellIndexDirectory);
+     * spellChecker.indexDictionary(dictionary); } finally { if (indexReader !=
+     * null) { indexReader.close(); } } }
+     * 
+     * public static void main(String[] args) throws IOException {
+     * 
+     * FSDirectory origDir = FSDirectory.getDirectory(originalindexdir);
+     * FSDirectory spellDir = FSDirectory.getDirectory(spelldir); // Call
+     * intern() on field to work around bug in LuceneDictionary //
+     * indexer.createSpellIndex(DEFAULT_FIELD, origDir, spellDir);
+     * 
+     * SpellChecker spell = new SpellChecker(spellDir);
+     * spell.indexDictionary(new LuceneDictionary(IndexReader.open(origDir),
+     * DEFAULT_FIELD)); }
+     */
 
 }

@@ -39,7 +39,8 @@ public class GeonamesLanguageImporterTest extends TestCase {
 	EasyMock.expect(languageDao.deleteAll()).andReturn(4);
 	EasyMock.replay(languageDao);
 	geonamesLanguageImporter.setLanguageDao(languageDao);
-	List<NameValueDTO<Integer>> deleted = geonamesLanguageImporter.rollback();
+	List<NameValueDTO<Integer>> deleted = geonamesLanguageImporter
+		.rollback();
 	assertEquals(1, deleted.size());
 	assertEquals(4, deleted.get(0).getValue().intValue());
     }

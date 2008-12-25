@@ -53,7 +53,8 @@ public class GisFeatureEvent implements IGisRepositoryEvent {
      *                The {@link GisFeature} the current event refers to
      */
     public GisFeatureEvent(GisFeature gisFeature) {
-	Assert.notNull(gisFeature, "can not create an event for a null gisfeature");
+	Assert.notNull(gisFeature,
+		"can not create an event for a null gisfeature");
 	this.gisFeature = gisFeature;
     }
 

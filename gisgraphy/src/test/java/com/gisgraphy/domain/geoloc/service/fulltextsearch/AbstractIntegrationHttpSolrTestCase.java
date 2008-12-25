@@ -149,19 +149,19 @@ public abstract class AbstractIntegrationHttpSolrTestCase extends
 	if (!serverStarted && isMustStartServlet()) {
 	    String separator = System.getProperty("file.separator");
 	    String name = "solr.data.dir";
-	    String value = "./target" + separator + "classes" + separator +"data";
-	    if (System.getProperty(name)== null || !System.getProperty(name).equals(value)) {
-		    logger.info("change system property from "
-			    + System.getProperty(name) + " to "
-			    + value);
-		    System.setProperty(name, value);
-		   
-		    logger.info("System property"+name+" is now : "
-			    + System.getProperty(name));
-		} else {
-		    logger.info(name+"="
-			    + System.getProperty("file.encoding"));
-		}
+	    String value = "./target" + separator + "classes" + separator
+		    + "data";
+	    if (System.getProperty(name) == null
+		    || !System.getProperty(name).equals(value)) {
+		logger.info("change system property from "
+			+ System.getProperty(name) + " to " + value);
+		System.setProperty(name, value);
+
+		logger.info("System property" + name + " is now : "
+			+ System.getProperty(name));
+	    } else {
+		logger.info(name + "=" + System.getProperty("file.encoding"));
+	    }
 	    tester = new ServletTester();
 
 	    tester.addFilter(SolrDispatchFilter.class, "/*", 0);
@@ -170,7 +170,7 @@ public abstract class AbstractIntegrationHttpSolrTestCase extends
 	    // TODO v2 a solrdir for test
 	    // TODO v2 remove deprecated
 	    tester.addServlet(SolrServlet.class, "/select/*");
-	   
+
 	    tester.setResourceBase("target" + separator + "classes" + separator
 		    + "solradmin");
 	    tester.addServlet("org.mortbay.jetty.servlet.DefaultServlet", "/");
@@ -184,7 +184,7 @@ public abstract class AbstractIntegrationHttpSolrTestCase extends
 
 	    // set log to off
 	    // comment this line to see solr logs
-	   tester
+	    tester
 		    .getResponses("GET /solr/admin/action.jsp?log=OFF HTTP/1.0\r\n\r\n");
 
 	    this.solrClient.bindToUrl(fulltextSearchUrl);

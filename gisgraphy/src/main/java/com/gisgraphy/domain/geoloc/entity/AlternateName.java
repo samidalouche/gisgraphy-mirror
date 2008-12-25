@@ -109,7 +109,7 @@ public class AlternateName {
      * @return The name of the current AlternateName
      */
     @Index(name = "Alternatenameindex")
-    @Column(nullable = false,length=200)
+    @Column(nullable = false, length = 200)
     public String getName() {
 	return name;
     }
@@ -232,7 +232,7 @@ public class AlternateName {
      * @return The iso639 Alpha2 or alpha 3 LanguageCode of the
      *         {@link AlternateName}
      */
-    @Column(length=7)
+    @Column(length = 7)
     public String getLanguage() {
 	return language;
     }

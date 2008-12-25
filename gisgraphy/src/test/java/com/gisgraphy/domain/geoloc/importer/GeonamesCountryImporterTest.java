@@ -36,14 +36,15 @@ public class GeonamesCountryImporterTest {
 
     @Test
     public void testRollback() {
-		GeonamesCountryImporter geonamesCountryImporter = new GeonamesCountryImporter();
-		ICountryDao countryDao = EasyMock.createMock(ICountryDao.class);
-		EasyMock.expect(countryDao.deleteAll()).andReturn(5);
-		EasyMock.replay(countryDao);
-		geonamesCountryImporter.setCountryDao(countryDao);
-		List<NameValueDTO<Integer>> deleted = geonamesCountryImporter.rollback();
-		assertEquals(1, deleted.size());
-		assertEquals(5, deleted.get(0).getValue().intValue());
+	GeonamesCountryImporter geonamesCountryImporter = new GeonamesCountryImporter();
+	ICountryDao countryDao = EasyMock.createMock(ICountryDao.class);
+	EasyMock.expect(countryDao.deleteAll()).andReturn(5);
+	EasyMock.replay(countryDao);
+	geonamesCountryImporter.setCountryDao(countryDao);
+	List<NameValueDTO<Integer>> deleted = geonamesCountryImporter
+		.rollback();
+	assertEquals(1, deleted.size());
+	assertEquals(5, deleted.get(0).getValue().intValue());
     }
 
 }

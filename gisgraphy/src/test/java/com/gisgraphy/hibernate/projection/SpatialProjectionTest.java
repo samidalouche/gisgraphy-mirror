@@ -66,12 +66,11 @@ public class SpatialProjectionTest extends AbstractIntegrationHttpSolrTestCase {
 		    throws PersistenceException {
 
 		Criteria testCriteria = session.createCriteria(City.class);
-		ProjectionList projection = Projections.projectionList()
-		.add(Projections.property("name").as("name"))
-			.add(
-				SpatialProjection.distance_sphere(
-					p1.getLocation()).as("distance"));
-		//remove the from point
+		ProjectionList projection = Projections.projectionList().add(
+			Projections.property("name").as("name")).add(
+			SpatialProjection.distance_sphere(p1.getLocation()).as(
+				"distance"));
+		// remove the from point
 		testCriteria.add(Restrictions.ne("id", p1.getId()))
 			.setProjection(projection);
 		testCriteria.setResultTransformer(Transformers

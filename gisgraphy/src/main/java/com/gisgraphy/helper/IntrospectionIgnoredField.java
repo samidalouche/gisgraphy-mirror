@@ -31,14 +31,15 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * The field annotate with this annotation will be ignored by the {@link IntrospectionHelper}
+ * The field annotate with this annotation will be ignored by the
+ * {@link IntrospectionHelper}
  * 
  * @see IntrospectionHelper
  * @author <a href="mailto:david.masclet@gisgraphy.com">David Masclet</a>
- *
+ * 
  */
 @Retention(RetentionPolicy.RUNTIME)
-@Target({ElementType.FIELD})
+@Target( { ElementType.FIELD })
 public @interface IntrospectionIgnoredField {
 
 }

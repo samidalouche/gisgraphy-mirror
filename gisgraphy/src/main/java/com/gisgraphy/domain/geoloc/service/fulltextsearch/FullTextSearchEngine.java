@@ -71,7 +71,6 @@ public class FullTextSearchEngine implements IFullTextSearchEngine {
     @Qualifier("gisFeatureDao")
     private GisFeatureDao gisFeatureDao;
 
-      
     @Resource
     IStatsUsageService statsUsageService;
 
@@ -120,17 +119,18 @@ public class FullTextSearchEngine implements IFullTextSearchEngine {
 		"Can not serialize into a null outputStream");
 	try {
 	    logger.info(query.toString());
-	    
+
 	    ModifiableSolrParams params = query.parameterize();
-	    CommonsHttpSolrServer server = new CommonsHttpSolrServer(
-		    solrClient.getURL(), this.httpClient,
+	    CommonsHttpSolrServer server = new CommonsHttpSolrServer(solrClient
+		    .getURL(), this.httpClient,
 		    new OutputstreamResponseWrapper(outputStream, params
 			    .get(Constants.OUTPUT_FORMAT_PARAMETER)));
 	    server.query(params);
 	} catch (SolrServerException e) {
 	    e.printStackTrace();
 	    logger.error("Can not execute query " + query.toQueryString()
-		    + "for URL : " + solrClient.getURL()+" : "+e.getCause().getMessage());
+		    + "for URL : " + solrClient.getURL() + " : "
+		    + e.getCause().getMessage());
 	    throw new FullTextSearchException(e.getCause().getMessage());
 	} catch (MalformedURLException e1) {
 	    logger.error("The URL " + solrClient.getURL() + " is incorrect");
@@ -161,7 +161,6 @@ public class FullTextSearchEngine implements IFullTextSearchEngine {
 	}
     }
 
-
     /*
      * (non-Javadoc)
      * 
@@ -176,24 +175,23 @@ public class FullTextSearchEngine implements IFullTextSearchEngine {
 	QueryResponse results = null;
 	try {
 	    results = solrClient.getServer().query(params);
-	
 
-	logger.info(query + " took " + (results.getQTime())
-		+ " ms and returns " + results.getResults().getNumFound()
-		+ " results");
+	    logger.info(query + " took " + (results.getQTime())
+		    + " ms and returns " + results.getResults().getNumFound()
+		    + " results");
 
-	List<Long> ids = new ArrayList<Long>();
-	for (SolrDocument doc : results.getResults()) {
-	    ids.add((Long) doc.getFieldValue(FullTextFields.FEATUREID
-		    .getValue()));
-	}
+	    List<Long> ids = new ArrayList<Long>();
+	    for (SolrDocument doc : results.getResults()) {
+		ids.add((Long) doc.getFieldValue(FullTextFields.FEATUREID
+			.getValue()));
+	    }
 
-	gisFeatureList = gisFeatureDao.listByFeatureIds(ids);
+	    gisFeatureList = gisFeatureDao.listByFeatureIds(ids);
 	} catch (Exception e) {
 	    e.printStackTrace();
 	    logger
-	    .error("An error has occurred during fulltext search to database object for query "
-		    + query + " : " + e.getCause().getMessage());
+		    .error("An error has occurred during fulltext search to database object for query "
+			    + query + " : " + e.getCause().getMessage());
 	    throw new FullTextSearchException(e);
 	}
 
@@ -220,32 +218,36 @@ public class FullTextSearchEngine implements IFullTextSearchEngine {
 	    logger.info(query + " took " + response.getQTime()
 		    + " ms and returns " + numberOfResults + " results");
 	    return new FulltextResultsDto(response);
-	}
-	else {
+	} else {
 	    return new FulltextResultsDto();
 	}
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see com.gisgraphy.domain.geoloc.service.fulltextsearch.IFullTextSearchEngine#isAlive()
      */
-    public boolean isAlive(){
-	return solrClient==null ? false : solrClient.isServerAlive();
+    public boolean isAlive() {
+	return solrClient == null ? false : solrClient.isServerAlive();
     }
 
     /**
-     * @param solrClient the solrClient to set
+     * @param solrClient
+     *                the solrClient to set
      */
     @Required
     public void setSolrClient(IsolrClient solrClient) {
-        this.solrClient = solrClient;
+	this.solrClient = solrClient;
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see com.gisgraphy.domain.geoloc.service.fulltextsearch.IFullTextSearchEngine#getURL()
      */
     public String getURL() {
 	return solrClient.getURL();
     }
-    
+
 }

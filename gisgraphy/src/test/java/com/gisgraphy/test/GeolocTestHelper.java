@@ -68,8 +68,8 @@ public class GeolocTestHelper {
     private IAdmDao admDao;
     @Resource
     private ICountryDao countryDao;
-    
-    public static File createTempDir(String path){
+
+    public static File createTempDir(String path) {
 	File tempDir = new File(System.getProperty("java.io.tmpdir"));
 	if (!tempDir.canWrite()) {
 	    throw new RuntimeException("can not write in temp Directory :"
@@ -77,8 +77,8 @@ public class GeolocTestHelper {
 	}
 
 	tempDir = new File(System.getProperty("java.io.tmpdir")
-		+ System.getProperty("file.separator")
-		+ path + "-" + System.currentTimeMillis());
+		+ System.getProperty("file.separator") + path + "-"
+		+ System.currentTimeMillis());
 
 	tempDir.mkdir();
 	if (!tempDir.canWrite()) {
@@ -98,7 +98,8 @@ public class GeolocTestHelper {
      *                the string representing and sign ('&' or '&amp;')
      * @return an hashmap<paramName, paramValue> for the URL parameter
      */
-    public static HashMap<String, String> splitURLParams(String completeURL, String andSign) {
+    public static HashMap<String, String> splitURLParams(String completeURL,
+	    String andSign) {
 	int i;
 	HashMap<String, String> searchparms = new HashMap<String, String>();
 	;
@@ -109,17 +110,16 @@ public class GeolocTestHelper {
 		    .substring(completeURL.indexOf("?") + 1);
 	    logger.debug("Search URL: " + searchURL);
 
-    
 	    String[] paramArray = searchURL.split(andSign);
-	    for (int c =0; c<paramArray.length;c++){
+	    for (int c = 0; c < paramArray.length; c++) {
 		String[] paramSplited = paramArray[c].split("=");
 		try {
-		searchparms.put(paramSplited[0], java.net.URLDecoder
+		    searchparms.put(paramSplited[0], java.net.URLDecoder
 			    .decode(paramSplited[1], Constants.CHARSET));
 		} catch (UnsupportedEncodingException e) {
 		    return new HashMap<String, String>();
 		}
-		
+
 	    }
 	    // dumpHashtable;
 	    java.util.Iterator<String> keys = searchparms.keySet().iterator();
@@ -308,31 +308,21 @@ public class GeolocTestHelper {
 	return new GisFeatureDistance(gisFeature, 3D);
 
     }
-    
+
     public static GisFeatureDistance createFullFilledGisFeatureDistanceWithFieldsConstructor() {
-	return GisFeatureDistance.GisFeatureDistanceBuilder.gisFeatureDistance()
-	.withAdm1Code("A1")
-	.withAdm2Code("B2")
-	.withAdm3Code("C3")
-	.withAdm4Code("D4")
+	return GisFeatureDistance.GisFeatureDistanceBuilder
+		.gisFeatureDistance().withAdm1Code("A1").withAdm2Code("B2")
+		.withAdm3Code("C3").withAdm4Code("D4")
 
-	.withAdm1Name("adm1 name")
-	.withAdm2Name("adm2 name")
-	.withAdm3Name("adm3 name")
-	.withAdm4Name("adm4 name")
+		.withAdm1Name("adm1 name").withAdm2Name("adm2 name")
+		.withAdm3Name("adm3 name").withAdm4Name("adm4 name")
 
-	.withAsciiName("ascii")
-	.withCountryCode("FR")
-	.withElevation(3)
-	.withFeatureClass("P")
-	.withFeatureCode("PPL")
-	.withFeatureId(1000L)
-	.withGtopo30(30)
-	.withLocation(createPoint(2F, 4F))
-	.withName("a name")
-	.withPopulation(1000000)
-	.withPlaceType(GisFeature.class)
-	.withTimeZone("gmt+1").build();
+		.withAsciiName("ascii").withCountryCode("FR").withElevation(3)
+		.withFeatureClass("P").withFeatureCode("PPL").withFeatureId(
+			1000L).withGtopo30(30)
+		.withLocation(createPoint(2F, 4F)).withName("a name")
+		.withPopulation(1000000).withPlaceType(GisFeature.class)
+		.withTimeZone("gmt+1").build();
     }
 
     public static GisFeatureDistance createFullFilledGisFeatureDistanceForCity() {
