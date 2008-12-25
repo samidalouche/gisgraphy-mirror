@@ -49,13 +49,13 @@
 				<span style="float:left;padding-left:15px;"><@s.url id="previousURL" action="ajaxfulltextsearch" method="search" includeParams="all" >
 			  			<@s.param name="from" value="${from?c}-${defaultNumberOfResultsPerPage?c}" />
 			  			<@s.param name="to" value="${to?c}-${defaultNumberOfResultsPerPage?c}" />
-			 		</@s.url><a href="${previousURL}" class="bigText strong" onclick="return updatePaginationPrevious();">&lt;&lt;<@s.text name="global.previous"/></a></span>
+			 		</@s.url><a href="${previousURL}" class="bigText strong" onclick="return updatePaginationPrevious();" alt="previous" >&lt;&lt;<@s.text name="global.previous"/></a></span>
 			 	</#if>
 			 	<#if ((from + fulltextResponseDTO.resultsSize) < fulltextResponseDTO.numFound)>
 				<span style="float:right;padding-right:15px;"><@s.url id="nextURL" action="ajaxfulltextsearch!search" includeParams="all" >
 			  			<@s.param name="from" value="${from?c}+${defaultNumberOfResultsPerPage?c}" />
 			  			<@s.param name="to" value="${to?c}+${defaultNumberOfResultsPerPage?c}" />
-			 		</@s.url><a href="${nextURL}" class="bigText strong" onclick="return updatePaginationNext();"><@s.text name="global.next"/>&gt;&gt;</a></span>
+			 		</@s.url><a href="${nextURL}" class="bigText strong" onclick="return updatePaginationNext();" alt="next"><@s.text name="global.next"/>&gt;&gt;</a></span>
 			 	</#if>
 			 		<div class="clear"><br/></div>
 			</div>
@@ -106,13 +106,13 @@
 				<span style="float:left;padding-left:15px;"><@s.url id="previousURL" action="ajaxgeolocsearch" method="search" includeParams="all" >
 			  			<@s.param name="from" value="${from?c}-${defaultNumberOfResultsPerPage?c}" />
 			  			<@s.param name="to" value="${to?c}-${defaultNumberOfResultsPerPage?c}" />
-			 		</@s.url><a href="${previousURL}" class="bigText strong" onclick="return updatePaginationPrevious();">&lt;&lt;<@s.text name="global.previous"/></a></span>
+			 		</@s.url><a href="${previousURL}" class="bigText strong" onclick="return updatePaginationPrevious();" alt="previous">&lt;&lt;<@s.text name="global.previous"/></a></span>
 			 	</#if>
 			 	<#if defaultNumberOfResultsPerPage==geolocResponseDTO.numFound>
 				<span style="float:right;padding-right:15px;"><@s.url id="nextURL" action="ajaxgeolocsearch" method="search" includeParams="all" >
 			  			<@s.param name="from" value="${from?c}+${defaultNumberOfResultsPerPage?c}" />
 			  			<@s.param name="to" value="${to?c}+${defaultNumberOfResultsPerPage?c}" />
-			 		</@s.url><a href="${nextURL}" class="bigText strong" onclick="return updatePaginationNext();"><@s.text name="global.next"/>&gt;&gt;</a></span>
+			 		</@s.url><a href="${nextURL}" class="bigText strong" onclick="return updatePaginationNext();" alt="next"><@s.text name="global.next"/>&gt;&gt;</a></span>
 			 	</#if>
 			<#else>
 			
