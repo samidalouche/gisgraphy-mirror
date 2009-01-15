@@ -743,6 +743,17 @@
 			<version>${sitemesh.version}</version>
 		</dependency>
 		<dependency>
+			<groupId>rome</groupId>
+			<artifactId>rome</artifactId>
+			<version>0.9</version>
+		</dependency>
+
+		<dependency>
+			<groupId>rome</groupId>
+			<artifactId>rome-modules</artifactId>
+			<version>0.2</version>
+		</dependency>
+		<dependency>
 			<groupId>com.ibm.icu</groupId>
 			<artifactId>icu4j</artifactId>
 			<version>3.8</version>

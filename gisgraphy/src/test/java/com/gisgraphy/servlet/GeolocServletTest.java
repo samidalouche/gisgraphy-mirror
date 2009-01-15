@@ -37,6 +37,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.gisgraphy.domain.geoloc.service.fulltextsearch.AbstractIntegrationHttpSolrTestCase;
 import com.gisgraphy.domain.geoloc.service.geoloc.IGeolocSearchEngine;
 import com.gisgraphy.domain.valueobject.Constants;
+import com.gisgraphy.domain.valueobject.GisgraphyServiceType;
 import com.gisgraphy.domain.valueobject.Output.OutputFormat;
 
 public class GeolocServletTest extends AbstractIntegrationHttpSolrTestCase {
@@ -85,11 +86,10 @@ public class GeolocServletTest extends AbstractIntegrationHttpSolrTestCase {
 	// servletTester.stop();
     }
 
-    public void testGeolocServletShouldReturnCorrectContentType() {
+    public void testGeolocServletShouldReturnCorrectContentTypeForSupportedFormat() {
 	String url = geolocServletUrl + FULLTEXT_SERVLET_CONTEXT
 		+ "/geolocsearch";
 
-	// String result;
 	String queryString;
 	for (OutputFormat format : OutputFormat.values()) {
 	    GetMethod get = null;
@@ -101,10 +101,11 @@ public class GeolocServletTest extends AbstractIntegrationHttpSolrTestCase {
 		get.setQueryString(queryString);
 		client.executeMethod(get);
 		// result = get.getResponseBodyAsString();
-
+		
 		Header contentType = get.getResponseHeader("Content-Type");
+		OutputFormat expectedformat = format.isSupported(GisgraphyServiceType.GEOLOC)?format:OutputFormat.getDefault();
 		assertTrue(contentType.getValue().equals(
-			format.getContentType()));
+			expectedformat.getContentType()));
 
 	    } catch (IOException e) {
 		fail("An exception has occured " + e.getMessage());

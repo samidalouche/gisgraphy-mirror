@@ -61,6 +61,7 @@ public class GeolocSearchActionTest {
     IGeolocSearchEngine mockSearchEngine;
     GeolocResultsDto mockResultDTO;
 
+    @SuppressWarnings("unchecked")
     @Before
     public void setup() {
 	ConfigurationManager configurationManager = new ConfigurationManager();

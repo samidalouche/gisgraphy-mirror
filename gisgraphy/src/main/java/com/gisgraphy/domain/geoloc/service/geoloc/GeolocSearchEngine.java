@@ -26,21 +26,10 @@
 package com.gisgraphy.domain.geoloc.service.geoloc;
 
 import java.io.ByteArrayOutputStream;
-import java.io.IOException;
 import java.io.OutputStream;
-import java.io.OutputStreamWriter;
-import java.io.Writer;
 import java.util.List;
 
 import javax.annotation.Resource;
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBException;
-import javax.xml.bind.Marshaller;
-
-import net.sf.json.JSON;
-import net.sf.json.JSONSerializer;
-import net.sf.json.JsonConfig;
-import net.sf.json.util.PropertyFilter;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -51,10 +40,8 @@ import com.gisgraphy.domain.geoloc.entity.GisFeature;
 import com.gisgraphy.domain.geoloc.service.ServiceException;
 import com.gisgraphy.domain.repository.IGisDao;
 import com.gisgraphy.domain.repository.IRepositoryStrategy;
-import com.gisgraphy.domain.valueobject.Constants;
 import com.gisgraphy.domain.valueobject.GeolocResultsDto;
 import com.gisgraphy.domain.valueobject.GisFeatureDistance;
-import com.gisgraphy.domain.valueobject.Output.OutputFormat;
 import com.gisgraphy.service.IStatsUsageService;
 import com.gisgraphy.stats.StatsUsageType;
 
@@ -68,15 +55,14 @@ public class GeolocSearchEngine implements IGeolocSearchEngine {
 
     @Resource
     IStatsUsageService statsUsageService;
+    
+    @Resource
+    IGeolocResultsDtoSerializer geolocResultsDtoSerializer;
 
-    private static JAXBContext contextForList;
-
+   
     @Resource
     IRepositoryStrategy repositoryStrategy;
-    /**
-     * Json filter, to not serialize all the properties
-     */
-    protected JsonConfig jsonConfig = new JsonConfig();
+    
 
     /**
      * The logger
@@ -84,28 +70,6 @@ public class GeolocSearchEngine implements IGeolocSearchEngine {
     protected static final Logger logger = LoggerFactory
 	    .getLogger(GeolocSearchEngine.class);
 
-    /**
-     * 
-     */
-    public GeolocSearchEngine() {
-	super();
-	try {
-	    contextForList = JAXBContext.newInstance(GeolocResultsDto.class);
-	    jsonConfig.setIgnoreTransientFields(true);// does not seems to
-	    // work
-	    jsonConfig.setJsonPropertyFilter(new PropertyFilter() {
-		public boolean apply(Object source, String name, Object value) {
-		    if (name.contains("location")
-			    || name.contains("gisFeature")) {
-			return true;
-		    }
-		    return false;
-		}
-	    });
-	} catch (JAXBException e) {
-	    throw new GeolocServiceException(e.getMessage(), e.getCause());
-	}
-    }
 
     @Autowired
     IGisDao<? extends GisFeature>[] iDaos;
@@ -155,43 +119,7 @@ public class GeolocSearchEngine implements IGeolocSearchEngine {
 	Assert.notNull(outputStream,
 		"Can not serialize into a null outputStream");
 	GeolocResultsDto geolocResultsDto = executeQuery(query);
-	if (query.getOutputFormat() == OutputFormat.JSON) {
-	    /*
-	     * JSONArray jsonArray =
-	     * JSONArray.fromObject(results,this.jsonConfig ); int indentFactor =
-	     * query.isOutputIndented()?DEFAULT_INDENT_FACTOR:0;
-	     * jsonArray.toString(indentFactor);
-	     */
-	    // for performance reason json is not indented
-	    JSON json = JSONSerializer.toJSON(geolocResultsDto, jsonConfig);
-	    final Writer writer;
-	    try {
-		writer = new OutputStreamWriter(outputStream, Constants.CHARSET);
-	    } catch (Exception e) {
-		throw new GeolocServiceException("unknow encoding "
-			+ Constants.CHARSET, e);
-	    }
-
-	    json.write(writer);
-	    try {
-		writer.flush();
-	    } catch (IOException e) {
-		throw new GeolocServiceException("error during flush", e);
-	    }
-	} else {
-	    // this is XML or something else but we output XML because only JSON
-	    // and XML are supported
-	    try {
-		Marshaller m = contextForList.createMarshaller();
-		m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, query
-			.isOutputIndented());
-		m.marshal(geolocResultsDto, outputStream);
-	    } catch (Exception e) {
-		throw new ServiceException(e);
-	    }
-
-	}
-
+	geolocResultsDtoSerializer.serialize(outputStream, query.getOutputFormat(), geolocResultsDto, query.isOutputIndented());
     }
 
     /*

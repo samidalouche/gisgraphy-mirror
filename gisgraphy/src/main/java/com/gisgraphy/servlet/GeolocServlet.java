@@ -114,7 +114,7 @@ public class GeolocServlet extends HttpServlet {
 	try {
 	    String formatParam = req.getParameter(FORMAT_PARAMETER);
 	    format = OutputFormat.getFromString(formatParam);
-	    OutputFormat.isForService(format, GisgraphyServiceType.GEOLOC);
+	    format = OutputFormat.getDefaultForServiceIfNotSupported(format, GisgraphyServiceType.GEOLOC);
 	    resp.setHeader("content-type", format.getContentType());
 	    // check empty query
 	    if (HTMLHelper

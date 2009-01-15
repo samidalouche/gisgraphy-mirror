@@ -105,6 +105,8 @@
 	
 	<bean id="geolocSearchEngine" class="com.gisgraphy.domain.geoloc.service.geoloc.GeolocSearchEngine"/>
 	
+	<bean id="gisfeatureDistanceSerializer" class="com.gisgraphy.domain.geoloc.service.geoloc.GeolocResultsDtoSerializer" />
+	
 	
 	<bean id="fulltextSearchUrl" class="java.lang.String">
 	<constructor-arg>

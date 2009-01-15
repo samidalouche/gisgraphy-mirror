@@ -28,6 +28,7 @@ package com.gisgraphy.domain.valueobject;
 import org.apache.commons.lang.NotImplementedException;
 
 import com.gisgraphy.domain.geoloc.service.errors.IoutputFormatVisitor;
+import com.gisgraphy.domain.geoloc.service.errors.UnsupportedFormatException;
 import com.gisgraphy.domain.geoloc.service.fulltextsearch.FullTextFields;
 import com.gisgraphy.domain.geoloc.service.geoloc.GeolocErrorVisitor;
 
@@ -77,6 +78,14 @@ public class Output {
 	    public String accept(IoutputFormatVisitor visitor) {
 		return visitor.visitXML(this);
 	    }
+	    
+	    /* (non-Javadoc)
+	     * @see com.gisgraphy.domain.valueobject.Output.OutputFormat#isSupported(com.gisgraphy.domain.valueobject.Output.OutputFormat, com.gisgraphy.domain.valueobject.GisgraphyServiceType)
+	     */
+	    @Override
+	    public boolean isSupported(GisgraphyServiceType gisgraphyServiceType) {
+	       return true;
+	    }
 
 	},
 	JSON {
@@ -109,6 +118,14 @@ public class Output {
 	    public String accept(IoutputFormatVisitor visitor) {
 		return visitor.visitJSON(this);
 	    }
+	    
+	    /* (non-Javadoc)
+	     * @see com.gisgraphy.domain.valueobject.Output.OutputFormat#isSupported(com.gisgraphy.domain.valueobject.Output.OutputFormat, com.gisgraphy.domain.valueobject.GisgraphyServiceType)
+	     */
+	    @Override
+	    public boolean isSupported(GisgraphyServiceType gisgraphyServiceType) {
+	       return true;
+	    }
 	},
 	PYTHON {
 	    /*
@@ -139,6 +156,14 @@ public class Output {
 	    @Override
 	    public String accept(IoutputFormatVisitor visitor) {
 		return visitor.visitPYTHON(this);
+	    }
+	    
+	    /* (non-Javadoc)
+	     * @see com.gisgraphy.domain.valueobject.Output.OutputFormat#isSupported(com.gisgraphy.domain.valueobject.Output.OutputFormat, com.gisgraphy.domain.valueobject.GisgraphyServiceType)
+	     */
+	    @Override
+	    public boolean isSupported(GisgraphyServiceType gisgraphyServiceType) {
+	       return gisgraphyServiceType == GisgraphyServiceType.FULLTEXT;
 	    }
 	},
 	PHP {
@@ -171,6 +196,14 @@ public class Output {
 	    public String accept(IoutputFormatVisitor visitor) {
 		return visitor.visitPHP(this);
 	    }
+	    
+	    /* (non-Javadoc)
+	     * @see com.gisgraphy.domain.valueobject.Output.OutputFormat#isSupported(com.gisgraphy.domain.valueobject.Output.OutputFormat, com.gisgraphy.domain.valueobject.GisgraphyServiceType)
+	     */
+	    @Override
+	    public boolean isSupported(GisgraphyServiceType gisgraphyServiceType) {
+	       return gisgraphyServiceType == GisgraphyServiceType.FULLTEXT;
+	    }
 	},
 	ATOM {
 	    /*
@@ -201,6 +234,14 @@ public class Output {
 	    @Override
 	    public String accept(IoutputFormatVisitor visitor) {
 		return visitor.visitATOM(this);
+	    }
+	    
+	    /* (non-Javadoc)
+	     * @see com.gisgraphy.domain.valueobject.Output.OutputFormat#isSupported(com.gisgraphy.domain.valueobject.Output.OutputFormat, com.gisgraphy.domain.valueobject.GisgraphyServiceType)
+	     */
+	    @Override
+	    public boolean isSupported(GisgraphyServiceType gisgraphyServiceType) {
+	       return true;
 	    }
 	},
 	GEORSS {
@@ -233,6 +274,14 @@ public class Output {
 	    public String accept(IoutputFormatVisitor visitor) {
 		return visitor.visitGEORSS(this);
 	    }
+	    
+	    /* (non-Javadoc)
+	     * @see com.gisgraphy.domain.valueobject.Output.OutputFormat#isSupported(com.gisgraphy.domain.valueobject.Output.OutputFormat, com.gisgraphy.domain.valueobject.GisgraphyServiceType)
+	     */
+	    @Override
+	    public boolean isSupported(GisgraphyServiceType gisgraphyServiceType) {
+	       return true;
+	    }
 	},
 	RUBY {
 	    /*
@@ -263,6 +312,14 @@ public class Output {
 	    @Override
 	    public String accept(IoutputFormatVisitor visitor) {
 		return visitor.visitRUBY(this);
+	    }
+	    
+	    /* (non-Javadoc)
+	     * @see com.gisgraphy.domain.valueobject.Output.OutputFormat#isSupported(com.gisgraphy.domain.valueobject.Output.OutputFormat, com.gisgraphy.domain.valueobject.GisgraphyServiceType)
+	     */
+	    @Override
+	    public boolean isSupported(GisgraphyServiceType gisgraphyServiceType) {
+	       return gisgraphyServiceType == GisgraphyServiceType.FULLTEXT;
 	    }
 	};
 
@@ -310,28 +367,30 @@ public class Output {
 	 *                applicable
 	 * @return the format if the format is applicable for the service or the
 	 *         default one.
-	 * @throws NotImplementedException
+	 * @throws UnsupportedFormatException
 	 *                 if the service is not implemented by the algorithm
 	 */
-	public static OutputFormat isForService(OutputFormat format,
+	public static OutputFormat getDefaultForServiceIfNotSupported(OutputFormat format,
 		GisgraphyServiceType serviceType) {
+	    //TODO remove the static property
 	    switch (serviceType) {
 	    case FULLTEXT:
 		// fulltext accept all formats
-		return format;
+		return format.isSupported(serviceType)==true?format:getDefault();
 	    case GEOLOC:
-		if (format == JSON || format == XML) {
-		    return format;
-		} else {
-		    return getDefault();
-		}
+		return format.isSupported(serviceType)==true?format:getDefault();
 	    default:
-		throw new NotImplementedException("The service type "
+		throw new UnsupportedFormatException("The service type "
 			+ serviceType + "is not implemented");
 	    }
-
 	}
 
+	/**
+	 * @param serviceType the type of service we'd like to know if the format is supported
+	 * @return true if the format is supported by the specified {@link GisgraphyServiceType}
+	 */
+	public abstract boolean isSupported(GisgraphyServiceType serviceType);
+	
 	/**
 	 * @param serviceType
 	 *                the service type we'd like to know all the formats
@@ -346,7 +405,7 @@ public class Output {
 		// fulltext accept all formats
 		return OutputFormat.values();
 	    case GEOLOC:
-		OutputFormat[] result = { OutputFormat.XML, OutputFormat.JSON };
+		OutputFormat[] result = { OutputFormat.XML, OutputFormat.JSON, OutputFormat.ATOM, OutputFormat.GEORSS };
 		return result;
 	    default:
 		throw new NotImplementedException("The service type "
@@ -354,6 +413,10 @@ public class Output {
 	    }
 
 	}
+	
+	public static final String RSS_VERSION = "rss_1.0";
+	
+	public static final String ATOM_VERSION = "atom_0.3";
 
 	/**
 	 * Method to implement the visitor pattern
