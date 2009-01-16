@@ -414,7 +414,7 @@ public class Output {
 
 	}
 	
-	public static final String RSS_VERSION = "rss_1.0";
+	public static final String RSS_VERSION = "rss2.0";
 	
 	public static final String ATOM_VERSION = "atom_0.3";
 

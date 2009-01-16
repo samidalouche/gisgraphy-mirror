@@ -277,6 +277,26 @@ public class GeolocSearchEngineTest extends AbstractIntegrationHttpSolrTestCase 
 	    }
 	}
     }
+    
+    @Test
+    public void testExecuteQueryInGEORSShouldReturnValidJson() {
+	City p1 = geolocTestHelper
+		.createAndSaveCityWithFullAdmTreeAndCountry(1L);
+	p1.setAdm4Code("D4");
+	p1.setAdm4Name("adm");
+
+	this.cityDao.save(p1);
+
+	Pagination pagination = paginate().from(1).to(15);
+	Output output = Output.withFormat(OutputFormat.GEORSS).withIndentation();
+	GeolocQuery query = new GeolocQuery(p1.getLocation(), 40000,
+		pagination, output, City.class);
+	String results = geolocSearchEngine.executeQueryToString(query);
+	/*assertQ("The query returns incorrect values", results, "/"
+		+ Constants.GEOLOCRESULTSDTO_JAXB_NAME + "/"
+		+ Constants.GISFEATUREDISTANCE_JAXB_NAME + "[1]/name[.='"
+		+ p1.getName() + "']");*/
+    }
 
     public void testStatsShouldBeIncreaseForAllCall() {
 	statsUsageService.resetUsage(StatsUsageType.GEOLOC);

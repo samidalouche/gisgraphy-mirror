@@ -178,9 +178,9 @@ public class GeolocResultsDtoSerializer implements
 	    synFeed.setFeedType(feedVersion);
 	    
 
-	    synFeed.setTitle("Gisgraphy");
-	    synFeed.setLink("http://services.gisgraphy.com/");
-	    synFeed.setDescription("Gisgraphy search");
+	    synFeed.setTitle(Constants.FEED_TITLE);
+	    synFeed.setLink(Constants.FEED_LINK);
+	    synFeed.setDescription(Constants.FEED_DESCRIPTION);
 	    List<SyndEntry> entries = new ArrayList<SyndEntry>();
 
 	    for (GisFeatureDistance gisFeatureDistance : geolocResultsDto
@@ -203,14 +203,16 @@ public class GeolocResultsDtoSerializer implements
 		entry.getModules().add(geoRSSModuleGML);
 		entry.setTitle(gisFeatureDistance.getName());
 		entry
-			.setLink("http://services.gisgraphy.com/displayfeature.html?featureId="
+			.setLink(Constants.FEATURE_BASE_URL+
 				+ gisFeatureDistance.getFeatureId());
 		SyndContent description = new SyndContentImpl();
-		description.setType("text/html");
+		description.setType(OutputFormat.ATOM.getContentType());
 		description.setValue(gisFeatureDistance.getName());
 		entry.setDescription(description);
 		entries.add(entry);
 	    }
+	    
+	    synFeed.setEntries(entries);
 
 	    try {
 		oWriter = new OutputStreamWriter(outputStream, Constants.CHARSET);

@@ -208,5 +208,27 @@ public class Constants {
      * application
      */
     public static final String FEATURECODE_BUNDLE_KEY = "featurecodes";
+    
+    /**
+     * The default title for the RSS/ATOM
+     */
+    public static final String FEED_TITLE = "Gisgraphy";
+    
+    /**
+     * The default Link for the RSS/ATOM
+     */
+    public static final String FEED_LINK = "Gisgraphy";
+    
+    /**
+     * The default Description for the RSS/ATOM
+     */
+    public static final String FEED_DESCRIPTION = "Gisgraphy search";
+    
+    /**
+     * The Base URL for building GISFeature URL
+     */
+    public static final String FEATURE_BASE_URL = "http://services.gisgraphy.com/displayfeature.html?featureId=";
+    
+    
 
 }
