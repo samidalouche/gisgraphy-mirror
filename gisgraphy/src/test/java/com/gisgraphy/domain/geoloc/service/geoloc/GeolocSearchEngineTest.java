@@ -279,7 +279,7 @@ public class GeolocSearchEngineTest extends AbstractIntegrationHttpSolrTestCase 
     }
     
     @Test
-    public void testExecuteQueryInGEORSShouldReturnValidJson() {
+    public void testExecuteQueryInGEORSShouldReturnValidFeed() {
 	City p1 = geolocTestHelper
 		.createAndSaveCityWithFullAdmTreeAndCountry(1L);
 	p1.setAdm4Code("D4");
@@ -287,15 +287,51 @@ public class GeolocSearchEngineTest extends AbstractIntegrationHttpSolrTestCase 
 
 	this.cityDao.save(p1);
 
-	Pagination pagination = paginate().from(1).to(15);
+	Pagination pagination = Pagination.DEFAULT_PAGINATION;
 	Output output = Output.withFormat(OutputFormat.GEORSS).withIndentation();
 	GeolocQuery query = new GeolocQuery(p1.getLocation(), 40000,
 		pagination, output, City.class);
 	String results = geolocSearchEngine.executeQueryToString(query);
-	/*assertQ("The query returns incorrect values", results, "/"
-		+ Constants.GEOLOCRESULTSDTO_JAXB_NAME + "/"
-		+ Constants.GISFEATUREDISTANCE_JAXB_NAME + "[1]/name[.='"
-		+ p1.getName() + "']");*/
+	assertQ("The query returns incorrect values", results, "/"
+		+ "feed/title[.='"+ Constants.FEED_TITLE + "']",
+		"/feed/link[@href='"+ Constants.FEED_LINK + "']",
+		"/feed/tagline[.='"+Constants.FEED_DESCRIPTION+"']",
+		"/feed/entry/title[.='"+p1.getName()+"']",
+		"/feed/entry/link[@href='"+Constants.GISFEATURE_BASE_URL+p1.getFeatureId()+"']",
+		"/feed/entry/author/name[.='"+Constants.MAIL_ADDRESS+"']",
+		"/feed/entry/itemsPerPage[.='"+query.getLastPaginationIndex()+"']",
+		"/feed/entry/totalResults[.='1']",
+		"/feed/entry/startIndex[.='1']",
+		"/feed/entry/point[.='"+p1.getLatitude()+" "+p1.getLongitude()+"']"
+		);
+    }
+    
+    @Test
+    public void testExecuteQueryInATOMShouldReturnValidFeed() {
+	City p1 = geolocTestHelper
+		.createAndSaveCityWithFullAdmTreeAndCountry(1L);
+	p1.setAdm4Code("D4");
+	p1.setAdm4Name("adm");
+
+	this.cityDao.save(p1);
+
+	Pagination pagination = Pagination.DEFAULT_PAGINATION;
+	Output output = Output.withFormat(OutputFormat.ATOM).withIndentation();
+	GeolocQuery query = new GeolocQuery(p1.getLocation(), 40000,
+		pagination, output, City.class);
+	String results = geolocSearchEngine.executeQueryToString(query);
+	assertQ("The query returns incorrect values", results, "/"
+		+ "feed/title[.='"+ Constants.FEED_TITLE + "']",
+		"/feed/link[@href='"+ Constants.FEED_LINK + "']",
+		"/feed/tagline[.='"+Constants.FEED_DESCRIPTION+"']",
+		"/feed/entry/title[.='"+p1.getName()+"']",
+		"/feed/entry/link[@href='"+Constants.GISFEATURE_BASE_URL+p1.getFeatureId()+"']",
+		"/feed/entry/author/name[.='"+Constants.MAIL_ADDRESS+"']",
+		"/feed/entry/itemsPerPage[.='"+query.getLastPaginationIndex()+"']",
+		"/feed/entry/totalResults[.='1']",
+		"/feed/entry/startIndex[.='1']",
+		"/feed/entry/point[.='"+p1.getLatitude()+" "+p1.getLongitude()+"']"
+		);
     }
 
     public void testStatsShouldBeIncreaseForAllCall() {
