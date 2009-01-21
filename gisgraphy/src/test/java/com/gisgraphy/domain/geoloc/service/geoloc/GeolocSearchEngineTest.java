@@ -292,17 +292,17 @@ public class GeolocSearchEngineTest extends AbstractIntegrationHttpSolrTestCase 
 	GeolocQuery query = new GeolocQuery(p1.getLocation(), 40000,
 		pagination, output, City.class);
 	String results = geolocSearchEngine.executeQueryToString(query);
-	assertQ("The query returns incorrect values", results, "/"
-		+ "feed/title[.='"+ Constants.FEED_TITLE + "']",
-		"/feed/link[@href='"+ Constants.FEED_LINK + "']",
-		"/feed/tagline[.='"+Constants.FEED_DESCRIPTION+"']",
-		"/feed/entry/title[.='"+p1.getName()+"']",
-		"/feed/entry/link[@href='"+Constants.GISFEATURE_BASE_URL+p1.getFeatureId()+"']",
-		"/feed/entry/author/name[.='"+Constants.MAIL_ADDRESS+"']",
-		"/feed/entry/itemsPerPage[.='"+query.getLastPaginationIndex()+"']",
-		"/feed/entry/totalResults[.='1']",
-		"/feed/entry/startIndex[.='1']",
-		"/feed/entry/point[.='"+p1.getLatitude()+" "+p1.getLongitude()+"']"
+	assertQ("The query returns incorrect values", results, 
+		"/rss/channel/title[.='"+ Constants.FEED_TITLE + "']",
+		"/rss/channel/link[.='"+ Constants.FEED_LINK + "']",
+		"/rss/channel/description[.='"+Constants.FEED_DESCRIPTION+"']",
+		"/rss/channel/item/title[.='"+p1.getName()+"']",
+		"/rss/channel/item/guid[.='"+Constants.GISFEATURE_BASE_URL+p1.getFeatureId()+"']",
+		"/rss/channel/item/creator[.='"+Constants.MAIL_ADDRESS+"']",
+		"/rss/channel/item/itemsPerPage[.='"+query.getLastPaginationIndex()+"']",
+		"/rss/channel/item/totalResults[.='1']",
+		"/rss/channel/item/startIndex[.='1']",
+		"/rss/channel/item/point[.='"+p1.getLatitude()+" "+p1.getLongitude()+"']"
 		);
     }
     
