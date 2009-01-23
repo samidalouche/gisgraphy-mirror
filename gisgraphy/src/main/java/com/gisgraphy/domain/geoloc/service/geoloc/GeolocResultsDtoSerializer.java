@@ -107,7 +107,7 @@ public class GeolocResultsDtoSerializer implements
      * com.gisgraphy.domain.valueobject.GeolocResultsDto)
      */
     public void serialize(OutputStream outputStream, OutputFormat outputFormat,
-	    GeolocResultsDto geolocResultsDto, boolean indent) {
+	    GeolocResultsDto geolocResultsDto, boolean indent,int startPaginationIndex) {
 	if (!outputFormat.isSupported(GisgraphyServiceType.GEOLOC)) {
 	    throw new UnsupportedFormatException(outputFormat
 		    + " is not applicable for Geoloc");
@@ -117,10 +117,10 @@ public class GeolocResultsDtoSerializer implements
 	    serializeToJSON(outputStream,
 		    geolocResultsDto,indent);
 	} else 	if (outputFormat==OutputFormat.ATOM){
-	    serializeToFeed(outputStream,geolocResultsDto,ATOM_VERSION);
+	    serializeToFeed(outputStream,geolocResultsDto,OutputFormat.ATOM_VERSION, startPaginationIndex);
 	}
 	else if (outputFormat==OutputFormat.GEORSS) {
-	    serializeToFeed(outputStream,geolocResultsDto,RSS_VERSION);
+	    serializeToFeed(outputStream,geolocResultsDto,OutputFormat.RSS_VERSION, startPaginationIndex);
 	}
 	else {
 	    //default
@@ -170,7 +170,7 @@ public class GeolocResultsDtoSerializer implements
 
     @SuppressWarnings("unchecked")
     private void serializeToFeed(OutputStream outputStream,
-	    GeolocResultsDto geolocResultsDto,String feedVersion) {
+	    GeolocResultsDto geolocResultsDto,String feedVersion, int startPaginationIndex) {
 	SyndFeed synFeed = new SyndFeedImpl();
 	Writer oWriter = null;
 	try {
@@ -197,13 +197,14 @@ public class GeolocResultsDtoSerializer implements
 			.setItemsPerPage(Pagination.DEFAULT_MAX_RESULTS);
 		openSearchModule
 			.setTotalResults(geolocResultsDto.getNumFound());
-		openSearchModule.setStartIndex(1);
+		openSearchModule.setStartIndex(startPaginationIndex);
 
 		entry.getModules().add(openSearchModule);
 		entry.getModules().add(geoRSSModuleGML);
 		entry.setTitle(gisFeatureDistance.getName());
+		entry.setAuthor(Constants.MAIL_ADDRESS);
 		entry
-			.setLink(Constants.FEATURE_BASE_URL+
+			.setLink(Constants.GISFEATURE_BASE_URL+
 				+ gisFeatureDistance.getFeatureId());
 		SyndContent description = new SyndContentImpl();
 		description.setType(OutputFormat.ATOM.getContentType());

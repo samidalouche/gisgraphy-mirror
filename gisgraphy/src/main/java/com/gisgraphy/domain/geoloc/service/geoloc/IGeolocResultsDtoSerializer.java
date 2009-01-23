@@ -29,9 +29,6 @@ import com.gisgraphy.domain.valueobject.Output.OutputFormat;
 
 public interface IGeolocResultsDtoSerializer {
 
-    public final static String RSS_VERSION = "atom_0.3";
-
-    public final static String ATOM_VERSION = "atom_0.3";
 
     /**
      * @param outputStream the {@link OutputStream} to serialize in
@@ -40,6 +37,6 @@ public interface IGeolocResultsDtoSerializer {
      * @param indent whether the stream should be indented (if the format support indentation)
      */
     public abstract void serialize(OutputStream outputStream,OutputFormat outputFormat,
-	    GeolocResultsDto geolocResultsDto,boolean indent);
+	    GeolocResultsDto geolocResultsDto,boolean indent,int startPaginationIndex);
 
 }

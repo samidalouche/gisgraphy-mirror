@@ -39,7 +39,7 @@ public class GisfeatureDistanceSerializerTest {
 	IGeolocResultsDtoSerializer geolocResultsDtoSerializer = new GeolocResultsDtoSerializer();
 	try {
 	    geolocResultsDtoSerializer.serialize(new ByteArrayOutputStream(),
-		    OutputFormat.RUBY, new GeolocResultsDto(),true);
+		    OutputFormat.RUBY, new GeolocResultsDto(),true,1);
 	    fail();
 	} catch (UnsupportedFormatException e) {
 	    //ok

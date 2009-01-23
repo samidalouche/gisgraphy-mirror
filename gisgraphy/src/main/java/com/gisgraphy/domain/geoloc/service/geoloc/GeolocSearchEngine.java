@@ -119,7 +119,7 @@ public class GeolocSearchEngine implements IGeolocSearchEngine {
 	Assert.notNull(outputStream,
 		"Can not serialize into a null outputStream");
 	GeolocResultsDto geolocResultsDto = executeQuery(query);
-	geolocResultsDtoSerializer.serialize(outputStream, query.getOutputFormat(), geolocResultsDto, query.isOutputIndented());
+	geolocResultsDtoSerializer.serialize(outputStream, query.getOutputFormat(), geolocResultsDto, query.isOutputIndented(),query.getFirstPaginationIndex());
     }
 
     /*

@@ -227,7 +227,12 @@ public class Constants {
     /**
      * The Base URL for building GISFeature URL
      */
-    public static final String FEATURE_BASE_URL = "http://services.gisgraphy.com/displayfeature.html?featureId=";
+    public static final String GISFEATURE_BASE_URL = "http://services.gisgraphy.com/displayfeature.html?featureId=";
+
+    /**
+     * The default mail address
+     */
+    public static final String MAIL_ADDRESS = "davidMasclet@gisgraphy.com";
     
     
 
