@@ -1309,8 +1309,8 @@
 				</property>
 			</activation>
 			<build>
-				<plugins>
-					<plugin>
+				 <plugins>
+				<!--	<plugin>
 						<groupId>org.codehaus.cargo</groupId>
 						<artifactId>cargo-maven2-plugin</artifactId>
 						<version>0.3</version>
@@ -1320,7 +1320,7 @@
 								<containerId>
 									${cargo.container}
 								</containerId>
-								<!--home>${cargo.container.home}</home-->
+								<home>${cargo.container.home}</home
 								<zipUrlInstaller>
 									<url>${cargo.container.url}</url>
 									<installDir>
@@ -1358,7 +1358,7 @@
 								</goals>
 							</execution>
 						</executions>
-					</plugin>
+					</plugin>-->
 					<plugin>
 						<artifactId>maven-antrun-plugin</artifactId>
 						<version>1.1</version>
