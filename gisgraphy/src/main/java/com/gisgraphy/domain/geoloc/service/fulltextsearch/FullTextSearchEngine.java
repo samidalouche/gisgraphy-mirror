@@ -202,7 +202,6 @@ public class FullTextSearchEngine implements IFullTextSearchEngine {
 	    throws ServiceException {
 	statsUsageService.increaseUsage(StatsUsageType.FULLTEXT);
 	Assert.notNull(query, "Can not execute a null query");
-	logger.info(query.toString());
 	ModifiableSolrParams params = query.parameterize();
 	QueryResponse response = null;
 	try {
