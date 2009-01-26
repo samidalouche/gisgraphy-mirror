@@ -1,101 +1,101 @@
 <faqs title="Frequently Asked Questions">
   <part id="General">
     <faq id="project-start">
-      <question>When did the Gisgraphy project has been launched ?</question>
+      <question>When was the Gisgraphy project launched?</question>
       <answer>
         <p>
-           It has been launched on june 2008.
+           It was launched in June 2008.
         </p>
       </answer>
     </faq>
 <faq id="name-gisgraphy">
-      <question>Why the name of Gisgraphy ?</question>
+      <question>Why the name Gisgraphy?</question>
       <answer>
         <p>
-          it is geography for GIS (aka Geographic Information system)
+          It is geography for GIS (aka Geographic Information System).
         </p>
       </answer>
     </faq>
  <faq id="how-long-import">
-      <question>How long does it take to import all the data ?</question>
+      <question>How long does it take to import all of the data?</question>
       <answer>
         <p>
-          It depends on the machine and the Memory. on a core2 Duo it take about 24 hours. If you need Postgres dump or solr dump <a href="mailto:david.masclet@gisgraphy.com">contact me </a>
+          It depends on the machine and the memory. On a core2 Duo it takes about 24 hours. If you need a Postgres dump or solr dump <a href="mailto:david.masclet@gisgraphy.com">contact me</a>.
         </p>
       </answer>
       </faq>
     <faq id="young">
-     <question>The project is young, has it been tested ?</question>
+     <question>The project is young, has it been tested?</question>
       <answer>
         <p>
-		Yes, it has been tested on several machine, OS (linux, Windows) and JVM. Gisgraphy have a high unit / integration test coverage
+		It has been tested on several machines using linux, Windows and various JVMs. Gisgraphy has high unit/integration test coverage.
         </p>
       </answer>
     </faq>
     <faq id="goon">
-     <question>Does the project will go on ?</question>
+     <question>Will the project go on?</question>
       <answer>
         <p>
-			Yes, i plan to
+			Yes, I plan to keep the development going.
         </p>
       </answer>
     </faq>
      <faq id="dev">
-     <question>Who are the developers ?</question>
+     <question>Who are the developers?</question>
       <answer>
         <p>
-		Me and Myself : <a href="mailto:david.masclet@gisgraphy.com">David Masclet </a>:) 
+		Me and myself : <a href="mailto:david.masclet@gisgraphy.com">David Masclet </a>:) 
         </p>
       </answer>
     </faq>
     <faq id="techno">
-     <question>What are the technology used ?</question>
+     <question>What technology is used?</question>
       <answer>
         <p>
-		Java / Spring / Hibernate / Hibernate spatial / maven 2 / postgis / postgres / Jersey (CXF when V2.1 will be released) 
+		Java / Spring / Hibernate / Hibernate Spatial / Maven 2 / PostGIS / PostgreSQL / Jersey (CXF when V2.1 is released). 
         </p>
       </answer>
     </faq>
     <faq id="jvm14">
-     <question>Can gisgraphy run on java 1.4</question>
+     <question>Can Gisgraphy run on Java 1.4?</question>
       <answer>
         <p>
-		Gisgraphy is designed for java 1.5 but you can try this <a href="http://retrotranslator.sourceforge.net/">tools </a>
+		Gisgraphy is designed for Java 1.5 but you can try this <a href="http://retrotranslator.sourceforge.net/">tool</a>.
         </p>
       </answer>
     </faq>
     http://retrotranslator.sourceforge.net/
     
     <faq id="importcountries">
-     <question>Is it possible to only Import the countries i'm interested in ?</question>
+     <question>Is it possible to only Import the countries I'm interested in?</question>
       <answer>
         <p>
-		Yes just edit the importer.filesToDownload option in the env.properties file : Set the county you want to download and process. Or, if you don't want Gisgraphy to download files : set the importer.retrieveFiles option to false and put the files you want to process in the <code>'importer.geonames.dir'</code> directory
+		Edit the importer.filesToDownload option in the env.properties file. Set the country you want to download and process. Or, if you don't want Gisgraphy to download files; set the importer.retrieveFiles option to false and put the files you want to process in the <code>'importer.geonames.dir'</code> directory.
         </p>
       </answer>
     </faq>
     <faq id="importfeatures">
-     <question>Is it possible to only Import the feature i'm interested in ?</question>
+     <question>Is it possible to only Import the features I'm interested in?</question>
       <answer>
         <p>
-		Yes, just edit the <code>importerConfig.acceptRegExString</code> option. (See user guide) 
+		Yes, just edit the <code>importerConfig.acceptRegExString</code> option. See user the guide. 
         </p>
       </answer>
     </faq>
     <faq id="customizeplacetype">
-     <question>Is it possible to customize placetype ?</question>
+     <question>Is it possible to customize placetype?</question>
       <answer>
         <p>
-		Yes, you can find some informations <a href="http://www.gisgraphy.com/placetype.htm" >Here</a> 
+		Yes, you can find some information <a href="http://www.gisgraphy.com/placetype.htm">here</a>. 
         </p>
       </answer>
     </faq>
     <faq id="toomanyopenfiles">
-     <question>On Linux / Unix, i got "Too many open files", what does it mean ?</question>
+     <question>On Linux / Unix, I get the messge "Too many open files", what does it mean?</question>
       <answer>
         <p>
-		It is due to SolR &lt; = &gt;Unix, you need to update the max numbers of open files on your system.
-		See <a href="http://www.xenoclast.org/doc/benchmark/HTTP-benchmarking-HOWTO/node7.html">this link</a> and <a href="http://issues.apache.org/jira/browse/SOLR-4#action_12370001">this one</a> for help
+		It is due to SolR &lt; = &gt; Unix, you need to update the max numbers of open files on your system.
+		See <a href="http://www.xenoclast.org/doc/benchmark/HTTP-benchmarking-HOWTO/node7.html">this link</a> and <a href="http://issues.apache.org/jira/browse/SOLR-4#action_12370001">this one</a> for help.
         </p>
       </answer>
     </faq>

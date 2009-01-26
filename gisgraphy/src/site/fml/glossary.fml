@@ -4,7 +4,7 @@
       <question>Placetype</question>
       <answer>
         <p>
-           A place type regroup some feature code that are nearly the same. Find more info <a href="http://www.gisgraphy.com/placetype.htm">Here</a>
+           A placetype groups feature codes that are nearly the same. Find more info <a href="http://www.gisgraphy.com/placetype.htm">here</a>.
         </p>
       </answer>
     </faq>
@@ -12,7 +12,7 @@
       <question>Geonames</question>
       <answer>
         <p>
-         Geonames is a geographical data base freely available (see <a href="http://en.wikipedia.org/wiki/GeoNames">wikipedia</a> or <a href="http://www.geonames.org">official site</a>)
+         Geonames is a freely available geographical database (see <a href="http://en.wikipedia.org/wiki/GeoNames">wikipedia</a> or the <a href="http://www.geonames.org">official site</a>).
         </p>
       </answer>
     </faq>

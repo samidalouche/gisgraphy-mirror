@@ -1,11 +1,11 @@
-<h1>PlaceType</h1>
+<h1>Place Type</h1>
 
-<h2>What is a place type ?</h2>
-Gisgraphy is based on the Geonames features which are group by <a href="http://download.geonames.org/export/dump/featureCodes.txt">feature codes</a>. Because there is more than 650 feature codes, Gisgraphy simplifies and groups the feature codes in an abstraction level called place type. A place type regroup some feature code that are nearly the same. A basic schema and some informations can be found on the <a href="/documentation/index.htm#placetypeschema">user guide</a> 
+<h2>What is a place type?</h2>
+Gisgraphy is based on the Geonames features which are grouped by <a href="http://download.geonames.org/export/dump/featureCodes.txt">feature codes</a>. Because there are more than 650 feature codes, Gisgraphy simplifies this and groups the feature codes in an abstraction level called place type. A place type groups feature codes that are nearly the same. A basic schema and some further information can be found in the <a href="/documentation/index.htm#placetypeschema">user guide</a> 
 
-<h2>What are the placetypes available ?</h2>
+<h2>What place types are available ?</h2>
 
-Actually there is 100 different placetypes :
+Actually there are 100 different place types:
 <ul>
  <li>Adm</li>
  <li>Airport</li>
@@ -112,29 +112,29 @@ Actually there is 100 different placetypes :
  <li>Zoo</li>
 </ul>
 
-<h2>I want to add my own feature class, what should i do ?</h2>
+<h2>I want to add my own feature class, what should I do?</h2>
 
-Yes. Placetype are java class and they are associated to a Hibernate Data Access Object (aka : DAO). There is no Configuration file for the placetype, so you have to build your own Gisgraphy version :
+Place types are Java classes and they are associated with a Hibernate Data Access Object (aka : DAO). There is no configuration file for place types, so you have to build your own Gisgraphy version:
 <ul>
-<li> Download the Gisgraphy sources <a href="http://www.gisgraphy.com/source-repository.html">here</a> </li>
-<li> Edit the FeatureCode class in the 'com.gisgraphy.domain.valueobject' package</li>
-<li> Put the mapping in hibernate.cfg.xml</li>
-<li> Add an entry in the placetype.properties file (and in other localized placetype file <a href="#localized">see</a>)</li>
-<li> Create a DAO by create a class that extends GenericGisDao. You can find examples in any placetype class (example : com.gisgraphy.domain.valueobject.Forest</li>
-<li> Then you need to build your own Gisgraphy version with the command in the /src/main/assembly/dist.xml file. There is no developer guide yet but if you're familiar with maven project, it should be easy. </li>
+<li> Download the Gisgraphy sources <a href="http://www.gisgraphy.com/source-repository.html">here</a>.</li>
+<li> Edit the FeatureCode class in the 'com.gisgraphy.domain.valueobject' package.</li>
+<li> Put the mapping in hibernate.cfg.xml.</li>
+<li> Add an entry in the placetype.properties file (and in the other localised placetype files, <a href="#localized">see here</a>).</li>
+<li> Create a DAO by creating a class that extends GenericGisDao. You can find examples in any of the placetype classes (example : com.gisgraphy.domain.valueobject.Forest.</li>
+<li> Then you need to build your own Gisgraphy version with the command in the /src/main/assembly/dist.xml file. There is no developer guide yet but if you're familiar with Maven projects, it should be easy.</li>
 </ul>
 
-<h2>There is too much placetype and i want to remove some, can i remove some placetypes ?</h2>
- There is no Configuration file for the placetype, so you have to build your own Gisgraphy version. If you don't want to use all the features :
+<h2>There are too many place types and i want to remove some of them</h2>
+ There is no Configuration file for the placetype, so you have to build your own Gisgraphy version. If you don't want to use all of the features:
  <ul>
- <li> Edit the hibernate.cfg.xml and remove the one you don't want to use.</li>
- <li> Remove the deleted objects from the featureCode.class (it is not necessary to delete the class them self and the DAO and the entry in placetype.properties but it is cleaner)</li>
- <li> Then you need to build your own Gisgraphy version with the command in the /src/main/assembly/dist.xml file. There is no developer guide yet but if you're familiar with maven project, it should be easy.</li>
+ <li> Edit the hibernate.cfg.xml and remove the ones you don't want to use.</li>
+ <li> Remove the deleted objects from the featureCode.class (it is not necessary to delete the classes themselves and the DAO and the entry in placetype.properties but it is cleaner).</li>
+ <li> Then you need to build your own Gisgraphy version with the command in the /src/main/assembly/dist.xml file. There is no developer guide yet but if you're familiar with Maven projects, it should be easy.</li>
  </ul>
  
  
  <a name="localized">
- <h2>Are the placetype localized ?</h2>
+ <h2>Are the place types localised?</h2>
  
- Yes they are localized in the placetype.properties and placetype_<i>LANGUAGE</i>.properties files
+ Yes they are localised in the placetype.properties and placetype_<i>LANGUAGE</i>.properties files
 

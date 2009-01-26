@@ -11,7 +11,7 @@
 
 <html>
   <head>
-    <title>gisgraphy | Importer, geolocalisation and fulltext services for Geonames</title>
+    <title>Gisgraphy | importer, geolocation and full-text services for Geonames</title>
    <link rel="stylesheet" type="text/css" media="all" href="/css/maven-base.css" />
     <link rel="stylesheet" type="text/css" media="all" href="/css/maven-theme.css" />
     <link rel="stylesheet" type="text/css" media="all" href="/css/site.css" />
@@ -37,7 +37,7 @@
   <body>
     <div id="banner">
      <a href="http://www.gisgraphy.com/"><img src="/images/logos/logo_70.png" alt="Gisgraphy" title="gisgraphy" /><span class="gisgraphy">Gisgraphy</span></a>
-      <p class="tagline">Importer, geolocalisation and fulltext services for Geonames</p>
+      <p class="tagline">Importer, geolocation and full-text services for Geonames</p>
       <div class="clear">
         <hr/>
       </div>
@@ -89,7 +89,7 @@
 	          </li>
               
     <li class="none">
-                    <a href="/features.htm">Features plan / status</a>
+                    <a href="/features.htm">Feature - planning / status</a>
 	          </li>
               
     <li class="none">
@@ -109,7 +109,7 @@
 	          </li>
               
     <li class="none">
-                    <a href="/whouse.htm">Wo use Gisgraphy</a>
+                    <a href="/whouse.htm">Who uses Gisgraphy?</a>
 	          </li>
               
     <li class="none">
@@ -117,18 +117,18 @@
 	          </li>
               
     <li class="none">
-                    <a href="http://en.wikipedia.org/wiki/GeoNames">About geonames</a>
+                    <a href="http://en.wikipedia.org/wiki/GeoNames">About Geonames</a>
 	          </li>
           </ul>
-              <h5 onclick="expand('menu2')">WebServices</h5>
+              <h5 onclick="expand('menu2')">Web services</h5>
         <ul id="menu2" style="display:block">
               
     <li class="none">
-                    <a href="/documentation/index.htm#fulltextservice">Fulltext</a>
+                    <a href="/documentation/index.htm#fulltextservice">Full-text</a>
 	          </li>
               
     <li class="none">
-                    <a href="/documentation/index.htm#geolocservice">Geolocalisation</a>
+                    <a href="/documentation/index.htm#geolocservice">Geolocation</a>
 	          </li>
               
     <li class="none">
@@ -155,7 +155,7 @@
 	          </li>
               
     <li class="none">
-                    <a href="/placetype.htm">Placetypes available</a>
+                    <a href="/placetype.htm">Place types</a>
 	          </li>
               
     <li class="none">
@@ -248,11 +248,11 @@
       
               
         <li class="collapsed">
-                    <a onclick="expand('list30')" style="cursor:pointer">Project Reports</a>
+                    <a onclick="expand('list30')" style="cursor:pointer">Project Report</a>
 	                <ul id="list30" style="display:none">
 	              
     <li class="none">
-                    <a href="/changes-report.html">Changes Report</a>
+                    <a href="/changes-report.html">Change Report</a>
 	          </li>
               
     <li class="none">
