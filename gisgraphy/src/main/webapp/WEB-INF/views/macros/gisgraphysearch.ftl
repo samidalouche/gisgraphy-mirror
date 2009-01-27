@@ -62,7 +62,7 @@
 				<#else>
 			
 			<br/>
-			 <div class="importantMessage"><@s.text name="No Result found"/>!!<br/><br/></div>
+			 <div class="importantMessage"><@s.text name="search.noResult"/>!!<br/><br/></div>
 			 <div class="bigText"><@s.text name="search.noresultMessage.part1"/><a href="http://www.geonames.org" target="geonames">Geonames page</a>. <@s.text name="search.noresultMessage.part2"/></div>
 		</#if>
 </#macro>
@@ -120,8 +120,8 @@
 			<#else>
 			
 			<br/>
-			  <div class="importantMessage">No results founds!!<br/><br/></div>
-			 <div class="bigText"> If you want to add a place in the database : go to <a href="http://www.geonames.org" target="geonames">Geonames page</a>. The place will be include in the next Gisgraphy import.</div>
+			  <div class="importantMessage"><@s.text name="search.noResult"/>!!<br/><br/></div>
+			 <div class="bigText"> <@s.text name="search.noresultMessage.part1"/><a href="http://www.geonames.org" target="geonames">Geonames page</a><@s.text name="search.noresultMessage.part2"/></div>
 		</#if>
 		</div>
 </#macro>

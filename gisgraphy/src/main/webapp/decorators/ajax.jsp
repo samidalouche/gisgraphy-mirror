@@ -1,8 +1,8 @@
 <%@ include file="/common/taglibs.jsp"%>
 <div id="popupContainer">
 			<div class="headerResults">
-			<span class="headerResultsLabel" id="headerResultsLabel">Results</span>
-			<span class="closeLabel">Press ESC to close or click here -> <span class="closeButton" id ="closePopupResultsPopupButton" >X</span> </span>
+			<span class="headerResultsLabel" id="headerResultsLabel"><fmt:message key="search.display.result"/></span>
+			<span class="closeLabel"><fmt:message key="search.closePopup"/> -> <span class="closeButton" id ="closePopupResultsPopupButton" >X</span> </span>
 			</div>
                 <decorator:body/>
 </div>
