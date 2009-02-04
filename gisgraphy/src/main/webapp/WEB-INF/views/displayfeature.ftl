@@ -1,6 +1,8 @@
 <html>
 <head>
 <title>${preferedName}</title>
+<meta name="Description" content="${preferedName}"/>
+<meta name="keywords" content="${preferedName} GPS information population elevation"/>
 </head>
 <body>
 <br/>

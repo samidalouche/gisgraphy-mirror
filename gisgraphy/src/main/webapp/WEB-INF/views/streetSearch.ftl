@@ -2,6 +2,8 @@
 <html>
 <head>
 <title><@s.text name="search.street.title"/></title>
+<meta name="Description" content="free webservices for street search for openstreetmap. Pagination, indentation, several languages are supported"/>
+<meta name="keywords" content="street search java openstreetmap webservices postgis hibernate toponyms gazeteers"/>
 </head>
 <body>
 <br/>

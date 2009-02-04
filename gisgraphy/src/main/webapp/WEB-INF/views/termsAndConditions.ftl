@@ -2,6 +2,8 @@
 <html>
 <head>
 <title><@s.text name="termsAndConditions"/></title>
+<meta name="Description" content="terms and conditions for Gisgraphy"/>
+<meta name="keywords" content="terms conditions license Gisgraphy rights"/>
 </head>
 <body>
 <div>

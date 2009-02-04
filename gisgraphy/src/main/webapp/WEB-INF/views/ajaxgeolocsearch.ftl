@@ -3,6 +3,8 @@
 <html>
 <head>
 <title><@s.text name="search.ajaxgeolocsearch.title"/></title>
+<meta name="Description" content="free geoloc webservices demo for Geonames Data. Results are shown in an human readable way. Pagination, indentation, several languages are supported"/>
+<meta name="keywords" content="geoloc find nearby GPS java geonames ajax webservices postgis hibernate toponyms gazeteers"/>
 </head>
 <body>
 <br/>

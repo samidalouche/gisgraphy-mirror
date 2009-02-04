@@ -2,6 +2,8 @@
 <html>
 <head>
 <title><@s.text name="search.fulltext.title"/></title>
+<meta name="Description" content="Free fulltext webservices for Geonames Data. Results can be output in XML, json, PHP, ruby, python, Atom, RSS/GeoRSS. Pagination, indentation, several languages are supported"/>
+<meta name="keywords" content="fulltext java geonames webservices lucene solr hibernate toponyms gazeteers"/>
 </head>
 <body>
 <br/>
