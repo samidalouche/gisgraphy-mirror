@@ -71,10 +71,10 @@ psql -U YOURUSER -h YOURIP -d gisgraphy -f /usr/share/postgresql-YOURPOSTGRESVER
 
 
 #create tables;
-psql -U<i>YOURUSER</i> -f /path/to/file/create_tables.txt
+psql -U<i>YOURUSER</i> -d gisgraphy -f /path/to/file/create_tables.txt
 
 #create spatial indexes
- psql -U YOURUSER -h YOURIP -f createGISTIndex.sql
+ psql -U YOURUSER -h YOURIP -d gisgraphy -f createGISTIndex.sql
  
 </pre> 
 Where YOURUSER is a postgresql user with admin rights,YOURIP is the ip adress of your server(127.0.0.1 in most case) and YOURPOSTGRESVERSION is your postgres version (8.3 in this tutorial) <br/>
