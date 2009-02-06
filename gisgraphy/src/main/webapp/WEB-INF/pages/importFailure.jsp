@@ -21,7 +21,7 @@ An error occured during import. You have to:
 <br/>usage :
 <ul>
 <li> psql -UYOURUSER -f /path/to/file/resetdb.sql</li>
-<li> psql -UYOURUSER -f /path/to/file/create_tables-YOURPOSTGRESVERSION.txt</li>
+<li> psql -UYOURUSER -f /path/to/file/create_tables.txt</li>
 </ul>
 <br/>
 <li>delete the downloaded files and the AdmXcodes.txt files.</li>
