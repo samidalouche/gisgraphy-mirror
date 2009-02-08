@@ -85,7 +85,7 @@
 							<@s.url id="featureURL" action="displayfeature" includeParams="none" >
 				  					<@s.param name="featureId" value="${result.featureId?c}" />
 				 				</@s.url>
-								<div class="resultheaderleft"><a href="${featureURL}">${result.name} (${result.countryCode})</a> : ${result.distance} meters</div>
+								<div class="resultheaderleft"><a href="${featureURL}">${result.name} (${result.countryCode})</a> : ${result.distance} <@s.text name="search.unit.meter"/></div>
 								<div class="resultheaderright">${result.placeType}</div>
 						</div>
 					
