@@ -17,6 +17,8 @@ Gisgraphy is composed of two website :
 </ul>
 In other words : <a href="http://services.gisgraphy.com">services.gisgraphy.com</a> is not for commercial use, but <a href="http://www.gisgraphy.com">www.gisgraphy.com</a> is. 
 </li>
+</ul>
+<ul>
 <li class="biggertext">
 Free : The Gisgraphy services (<a href="http://services.gisgraphy.com">services.gisgraphy.com</a>) are free for personal and no commercial use.
  Any warranty, SLA, or time response are given. If you want to use Gisgraphy for commercial use or have SLA,

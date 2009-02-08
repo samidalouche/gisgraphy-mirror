@@ -17,7 +17,7 @@
 <form action="https://www.paypal.com/cgi-bin/webscr" method="post">
 <input type="hidden" name="cmd" value="_s-xclick"/>
 <input type="hidden" name="hosted_button_id" value="1694440"/>
-<input type="image" src="https://www.paypal.com/en_US/i/btn/btn_donate_SM.gif" border="0" name="submit" alt="donate"/>
+<input type="image" src="https://www.paypal.com/en_US/i/btn/btn_donate_SM.gif"  name="submit" alt="donate"/>
 <img alt="pixel" src="https://www.paypal.com/fr_FR/i/scr/pixel.gif" width="1" height="1"/>
 </form>
 </#macro>
@@ -26,7 +26,7 @@
 <form action="https://www.paypal.com/cgi-bin/webscr" method="post">
 <input type="hidden" name="cmd" value="_s-xclick"/>
 <input type="hidden" name="hosted_button_id" value="1694727"/>
-<input type="image" src="https://www.paypal.com/en_US/i/btn/btn_donate_LG.gif" border="0" name="submit" alt="donate"/>
+<input type="image" src="https://www.paypal.com/en_US/i/btn/btn_donate_LG.gif" name="submit" alt="donate"/>
 <img alt="pixel" border="0" src="https://www.paypal.com/fr_FR/i/scr/pixel.gif" width="1" height="1"/>
 </form>
 </#macro>

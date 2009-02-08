@@ -79,10 +79,10 @@
 					<br/><br/>
 					<@s.text name="global.adm1"/>
 					<div class="separator"><hr/></div>
-					<ul>
-					<#if result.adm1_code??><li><@s.text name="global.adm1Code"/> : ${result.adm1_code}</li></#if>
-					<#if result.adm1_name??><li><@s.text name="global.adm1Name"/>: ${result.adm1_name}</li></#if>
-					</ul>
+					
+					<#if result.adm1_code??><ul><li><@s.text name="global.adm1Code"/> : ${result.adm1_code}</li></ul></#if>
+					<#if result.adm1_name??><ul><li><@s.text name="global.adm1Name"/>: ${result.adm1_name}</li></ul></#if>
+					
 					<@s.text name="global.alternateNames"/> :
 					<br/><br/>
 					<p class="quote">
@@ -99,10 +99,8 @@
 					
 					<@s.text name="global.adm2"/>
 					<div class="separator"><hr/></div>
-					<ul>
-					<#if result.adm2_code??><li><@s.text name="global.adm2Code"/> : ${result.adm2_code}</li></#if>
-					<#if result.adm2_name??><li><@s.text name="global.adm2Name"/> : ${result.adm2_name}</li></#if>
-					</ul>
+					<#if result.adm2_code??><ul><li><@s.text name="global.adm2Code"/> : ${result.adm2_code}</li></ul></#if>
+					<#if result.adm2_name??><ul><li><@s.text name="global.adm2Name"/> : ${result.adm2_name}</li></ul></#if>
 					<@s.text name="global.alternateNames"/> :
 					<br/><br/>
 					<p class="quote">
@@ -119,18 +117,15 @@
 					
 					<@s.text name="global.adm3"/>
 					<div class="separator"><hr/></div>
-					<ul>
-					<#if result.adm3_code??><li><@s.text name="global.adm3Code"/> : ${result.adm3_code}</li></#if>
-					<#if result.adm3_name??><li><@s.text name="global.adm3Name"/> : ${result.adm3_name}</li></#if>
-					</ul>
+					<#if result.adm3_code??><ul><li><@s.text name="global.adm3Code"/> : ${result.adm3_code}</li></ul></#if>
+					<#if result.adm3_name??><ul><li><@s.text name="global.adm3Name"/> : ${result.adm3_name}</li></ul></#if>
 					<br/><br/>
 					
 					<@s.text name="global.adm4"/>
 					<div class="separator"><hr/></div>
-					<ul>
-					<#if result.adm4_code??><li><@s.text name="global.adm4Code"/> : ${result.adm4_code}</li></#if>
-					<#if result.adm4_name??><li><@s.text name="global.adm4Name"/> : ${result.adm4_name}</li></#if>
-					</ul>
+					
+					<#if result.adm4_code??><ul><li><@s.text name="global.adm4Code"/> : ${result.adm4_code}</li></ul></#if>
+					<#if result.adm4_name??><ul><li><@s.text name="global.adm4Name"/> : ${result.adm4_name}</li></ul></#if>
 					<br/>
 					
 					
