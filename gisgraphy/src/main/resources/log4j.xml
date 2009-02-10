@@ -42,6 +42,10 @@
     <logger name="org.acegisecurity">
         <level value="ERROR"/>
     </logger>
+    
+    <logger name="org.apache.struts2.components">
+        <level value="ERROR"/>
+    </logger>
 
     <logger name="org.apache">
         <level value="WARN"/>
