@@ -140,6 +140,8 @@
         closePopupResults = function(){
         	$('popupResults').hide();
         	$('popupResults').update("");
+        	$('geolocsearch')['from'].value=1;
+        	$('geolocsearch')['to'].value=DEFAULT_NUMBER_OF_RESULTS_PER_PAGE
         }
         
  	
