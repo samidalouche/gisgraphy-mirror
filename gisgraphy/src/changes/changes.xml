@@ -4,10 +4,38 @@
     <author email="davidmasclet@gisgraphy.com">David Masclet</author>
   </properties>
   <body>
-    <release version="1.0" date="2008-07-01" description="First release">
+    <release version="1.0" date="2008-23-01" description="First release">
       <action dev="David Masclet" type="add">
         First release.
       </action>
+    </release>
+    
+     <release version="1.01" date="2008-09-02" description="second release">
+      <action dev="David Masclet" type="add" >
+        Python client
+      </action>
+      
+      <action dev="David Masclet" type="update" >
+        Some L10N improvement
+      </action>
+      
+      <action dev="David Masclet" type="update" >
+        Improve XHTML on pages
+      </action>
+      
+      <action dev="David Masclet" type="add" >
+        Solr auto commit every 10000 docs or 300000 ms
+      </action>
+      
+      <action dev="Tim King" type="update" >
+       Improve doc and site
+      </action>
+      
+       <action dev="Tim King" type="update" >
+       Solr logo update
+      </action>
+      
+       	
     </release>
   </body>
 </document>
