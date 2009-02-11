@@ -1276,7 +1276,7 @@
 				<config.directory>${basedir}/etc/gisgraphy</config.directory>
 				<jdbc.url><![CDATA[jdbc:postgresql://88.191.92.137/gisgraphy]]></jdbc.url>
 				<jdbc.username>postgres</jdbc.username>
-				<jdbc.password>mdpsdf99</jdbc.password>
+				<jdbc.password></jdbc.password>
 				<maven.test.skip>true</maven.test.skip>
 				<resetdb>false</resetdb>
 				<hbm2ddl.drop>false</hbm2ddl.drop>
