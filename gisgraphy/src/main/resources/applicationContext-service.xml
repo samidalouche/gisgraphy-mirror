@@ -127,6 +127,20 @@
 				<ref bean="solrClient" />
 	</constructor-arg>
   </bean>
+  
+  	<bean id="spellCheckerConfig" class="com.gisgraphy.domain.geoloc.service.fulltextsearch.spell.SpellCheckerConfig">
+		<property name="enabled" value="${spellchecker.enabled}" />
+		<property name="activeByDefault" value="${spellchecker.activeByDefault}"/>
+		<property name="numberOfSuggestion" value="${spellchecker.numberOfSuggestion}"/>
+		<property name="collateResults" value="${spellchecker.collateResults}"/>
+		<property name="SpellcheckerName">
+		<bean class="com.gisgraphy.domain.geoloc.service.fulltextsearch.spell.SpellCheckerNames" factory-method="valueOf">
+				<constructor-arg>
+					<value>${spellchecker.spellcheckerName}</value>
+				</constructor-arg>
+			</bean>
+		</property>
+	</bean>
 	
 	
 </beans>
