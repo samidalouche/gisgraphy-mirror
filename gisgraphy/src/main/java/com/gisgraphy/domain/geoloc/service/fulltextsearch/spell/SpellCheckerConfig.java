@@ -48,7 +48,7 @@ public class SpellCheckerConfig {
 	 * the default spellchecker name, default value is the value returned by
 	 * {@link SpellCheckerNames#getDefault()}
 	 */
-	public static SpellCheckerNames SpellcheckerName = SpellCheckerNames
+	public static SpellCheckerNames spellcheckerName = SpellCheckerNames
 			.getDefault();
 
 	/**
@@ -73,14 +73,14 @@ public class SpellCheckerConfig {
 	 * @param enabled
 	 *            the enabled to set
 	 */
-	public static void setEnabled(boolean enabled) {
+	public void setEnabled(boolean enabled) {
 		SpellCheckerConfig.enabled = enabled;
 	}
 
 	/**
 	 * @return the activeByDefault
 	 */
-	public static boolean isActiveByDefault() {
+	public boolean isActiveByDefault() {
 		return activeByDefault;
 	}
 
@@ -88,29 +88,29 @@ public class SpellCheckerConfig {
 	 * @param activeByDefault
 	 *            the activeByDefault to set
 	 */
-	public static void setActiveByDefault(boolean activeByDefault) {
+	public void setActiveByDefault(boolean activeByDefault) {
 		SpellCheckerConfig.activeByDefault = activeByDefault;
 	}
 
 	/**
 	 * @return the spellcheckerName
 	 */
-	public static SpellCheckerNames getSpellcheckerName() {
-		return SpellcheckerName;
+	public SpellCheckerNames getSpellcheckerName() {
+		return spellcheckerName;
 	}
 
 	/**
 	 * @param spellcheckerName
 	 *            the spellcheckerName to set
 	 */
-	public static void setSpellcheckerName(SpellCheckerNames spellcheckerName) {
-		SpellcheckerName = spellcheckerName;
+	public void setSpellcheckerName(SpellCheckerNames spellcheckerName) {
+		SpellCheckerConfig.spellcheckerName = spellcheckerName;
 	}
 
 	/**
 	 * @return the numberOfSuggestion
 	 */
-	public static int getNumberOfSuggestion() {
+	public int getNumberOfSuggestion() {
 		return numberOfSuggestion;
 	}
 
@@ -118,14 +118,14 @@ public class SpellCheckerConfig {
 	 * @param numberOfSuggestion
 	 *            the numberOfSuggestion to set
 	 */
-	public static void setNumberOfSuggestion(int numberOfSuggestion) {
+	public void setNumberOfSuggestion(int numberOfSuggestion) {
 		SpellCheckerConfig.numberOfSuggestion = numberOfSuggestion;
 	}
 
 	/**
 	 * @return the collateResults
 	 */
-	public static boolean isCollateResults() {
+	public boolean isCollateResults() {
 		return collateResults;
 	}
 
@@ -133,7 +133,7 @@ public class SpellCheckerConfig {
 	 * @param collateResults
 	 *            the collateResults to set
 	 */
-	public static void setCollateResults(boolean collateResults) {
+	public void setCollateResults(boolean collateResults) {
 		SpellCheckerConfig.collateResults = collateResults;
 	}
 
