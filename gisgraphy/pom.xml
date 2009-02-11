@@ -7,7 +7,7 @@
 	<groupId>com.gisgraphy</groupId>
 	<artifactId>gisgraphy</artifactId>
 	<packaging>war</packaging>
-	<version>1.0</version>
+	<version>1.01</version>
 	<name>gisgraphy</name>
 	<url>http://www.gisgraphy.com</url>
 
@@ -1276,7 +1276,7 @@
 				<config.directory>${basedir}/etc/gisgraphy</config.directory>
 				<jdbc.url><![CDATA[jdbc:postgresql://88.191.92.137/gisgraphy]]></jdbc.url>
 				<jdbc.username>postgres</jdbc.username>
-				<jdbc.password></jdbc.password>
+				<jdbc.password>mdpsdf99</jdbc.password>
 				<maven.test.skip>true</maven.test.skip>
 				<resetdb>false</resetdb>
 				<hbm2ddl.drop>false</hbm2ddl.drop>
