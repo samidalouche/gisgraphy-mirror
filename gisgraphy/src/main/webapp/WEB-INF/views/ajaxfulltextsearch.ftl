@@ -112,6 +112,9 @@
         closePopupResults = function(){
         	$('popupResults').hide();
         	$('popupResults').update("");
+        	$('fulltextsearch')['from'].value=1;
+        	$('fulltextsearch')['to'].value=DEFAULT_NUMBER_OF_RESULTS_PER_PAGE
+        	
         }
         
     updatePaginationNext= function(){
