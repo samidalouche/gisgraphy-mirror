@@ -38,6 +38,7 @@ import org.springframework.mock.web.MockHttpServletRequest;
 import com.gisgraphy.domain.geoloc.entity.Adm;
 import com.gisgraphy.domain.geoloc.entity.City;
 import com.gisgraphy.domain.geoloc.entity.Country;
+import com.gisgraphy.domain.geoloc.service.fulltextsearch.spell.SpellCheckerConfig;
 import com.gisgraphy.domain.repository.ICountryDao;
 import com.gisgraphy.domain.valueobject.Constants;
 import com.gisgraphy.domain.valueobject.Output;
@@ -267,7 +268,7 @@ public class FulltextQueryTest extends AbstractIntegrationHttpSolrTestCase {
 		.isOutputIndented());
 	// test case sensitive
 	request = GeolocTestHelper.createMockHttpServletRequestForFullText();
-	request.setParameter(FulltextServlet.INDENT_PARAMETER, "true");
+	request.setParameter(FulltextServlet.INDENT_PARAMETER, "True");
 	query = new FulltextQuery(request);
 	assertTrue(FulltextServlet.INDENT_PARAMETER
 		+ " should be case insensitive  ", query.isOutputIndented());
@@ -279,6 +280,46 @@ public class FulltextQueryTest extends AbstractIntegrationHttpSolrTestCase {
 		FulltextServlet.INDENT_PARAMETER
 			+ " should be true for 'on' value (case insensitive and on value)  ",
 		query.isOutputIndented());
+	
+	
+	// test spellchecking
+	// with no value specified
+	request = GeolocTestHelper.createMockHttpServletRequestForFullText();
+	request.removeParameter(FulltextServlet.SPELLCHECKING_PARAMETER);
+	query = new FulltextQuery(request);
+	assertEquals("When no " + FulltextServlet.SPELLCHECKING_PARAMETER
+		+ " is specified, the  parameter should be the default one",SpellCheckerConfig.activeByDefault, query
+		.hasSpellChecking());
+	// with wrong value
+	request = GeolocTestHelper.createMockHttpServletRequestForFullText();
+	request.setParameter(FulltextServlet.SPELLCHECKING_PARAMETER, "UNK");
+	query = new FulltextQuery(request);
+	assertEquals("When wrong " + FulltextServlet.SPELLCHECKING_PARAMETER
+		+ " is specified, the  parameter should be set to the default one",SpellCheckerConfig.activeByDefault, query
+		.hasSpellChecking());
+	// test case sensitive
+	request = GeolocTestHelper.createMockHttpServletRequestForFullText();
+	request.setParameter(FulltextServlet.SPELLCHECKING_PARAMETER, String.valueOf(!SpellCheckerConfig.activeByDefault).toUpperCase());
+	query = new FulltextQuery(request);
+	assertEquals(FulltextServlet.SPELLCHECKING_PARAMETER
+		+ " should be case insensitive  ", !SpellCheckerConfig.activeByDefault, query.hasSpellChecking());
+	// test with on value
+	
+	boolean savedSpellCheckingValue = SpellCheckerConfig.activeByDefault;
+	try {
+		SpellCheckerConfig.activeByDefault = false;
+		request = GeolocTestHelper.createMockHttpServletRequestForFullText();
+		request.setParameter(FulltextServlet.SPELLCHECKING_PARAMETER, "oN");
+		query = new FulltextQuery(request);
+		assertTrue(
+			FulltextServlet.SPELLCHECKING_PARAMETER
+				+ " should be true for 'on' value (case insensitive and on value)  ",
+			query.hasSpellChecking());
+	} catch (RuntimeException e) {
+		//reset the last value
+		SpellCheckerConfig.activeByDefault = savedSpellCheckingValue;
+	}
+	
 
 	// test query
 	// With no value specified
@@ -534,6 +575,62 @@ public class FulltextQueryTest extends AbstractIntegrationHttpSolrTestCase {
 	assertEquals("wrong query parameter found",
 		"Saint-André France Admclass ", parameters
 			.get(Constants.QUERY_PARAMETER));
+    }
+    
+    @Test
+    public void testToQueryStringShouldreturnCorrectParamsForSpellChecking() {
+    	boolean savedSpellCheckingValue = SpellCheckerConfig.activeByDefault;
+    	try {
+    	Country france = GeolocTestHelper.createCountryForFrance();
+	Country saved = countryDao.save(france);
+	assertNotNull(saved);
+	assertNotNull(saved.getId());
+	SpellCheckerConfig.activeByDefault= true;
+	SpellCheckerConfig.enabled = false;
+	Pagination pagination = paginate().from(3).to(10);
+	Output output = Output.withFormat(OutputFormat.ATOM).withLanguageCode(
+		"FR").withStyle(OutputStyle.SHORT).withIndentation();
+	FulltextQuery fulltextQuery = new FulltextQuery("Saint-André",
+		pagination, output, Adm.class, "fr").withSpellChecking();
+	// split parameters
+	HashMap<String, String> parameters = GeolocTestHelper.splitURLParams(
+		fulltextQuery.toQueryString(), "&");
+	// check parameters
+	assertTrue("the fulltextquery should have spellchecking enabled even if spellchecker is disabled", fulltextQuery.hasSpellChecking());
+	assertTrue("spellchecker should not be listed if spellchecker is disabled", !parameters
+		.containsKey(Constants.SPELLCHECKER_ENABLED_PARAMETER));
+	//active spellchecker and re test
+	SpellCheckerConfig.enabled = true;
+	fulltextQuery = new FulltextQuery("Saint-André",
+			pagination, output, Adm.class, "fr").withSpellChecking();
+	parameters = GeolocTestHelper.splitURLParams(
+			fulltextQuery.toQueryString(), "&");
+	assertTrue("the fulltextquery should have spellchecking enabled when spellchecker is enabled", fulltextQuery.hasSpellChecking());
+	assertEquals("spellchecker should be enabled", "true", parameters
+			.get(Constants.SPELLCHECKER_ENABLED_PARAMETER));
+	assertEquals("spellchecker should be enabled", String.valueOf(SpellCheckerConfig.collateResults), parameters
+			.get(Constants.SPELLCHECKER_COLLATE_RESULTS_PARAMETER));
+	assertEquals("spellchecker should be enabled",  String.valueOf(SpellCheckerConfig.numberOfSuggestion), parameters
+			.get(Constants.SPELLCHECKER_NUMBER_OF_SUGGESTION_PARAMETER));
+	assertEquals("spellchecker should be enabled", SpellCheckerConfig.spellcheckerDictionaryName.toString(), parameters
+			.get(Constants.SPELLCHECKER_DICTIONARY_NAME_PARAMETER));
+    	} catch (RuntimeException e) {
+			SpellCheckerConfig.activeByDefault = savedSpellCheckingValue;
+		}
+    }
+    
+    @Test
+    public void testQueryShouldHaveSpellcheckingCorrectDefaultValue(){
+    	boolean savedSpellCheckingValue = SpellCheckerConfig.activeByDefault;
+    	try {
+			FulltextQuery query = new FulltextQuery("test");
+			assertEquals(savedSpellCheckingValue, query.hasSpellChecking());
+			SpellCheckerConfig.activeByDefault = ! SpellCheckerConfig.activeByDefault;
+			query = new FulltextQuery("test2");
+			assertEquals(SpellCheckerConfig.activeByDefault, query.hasSpellChecking());
+		} catch (RuntimeException e) {
+			SpellCheckerConfig.activeByDefault = savedSpellCheckingValue;
+		}
     }
 
 }

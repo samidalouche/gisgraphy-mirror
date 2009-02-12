@@ -29,6 +29,8 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.solr.client.solrj.util.ClientUtils;
 import org.apache.solr.common.params.ModifiableSolrParams;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Configurable;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -38,8 +40,10 @@ import org.springframework.util.Assert;
 import com.gisgraphy.domain.geoloc.entity.Country;
 import com.gisgraphy.domain.geoloc.entity.GisFeature;
 import com.gisgraphy.domain.geoloc.service.AbstractGisQuery;
+import com.gisgraphy.domain.geoloc.service.fulltextsearch.spell.SpellCheckerConfig;
 import com.gisgraphy.domain.repository.ICountryDao;
 import com.gisgraphy.domain.valueobject.Constants;
+import com.gisgraphy.domain.valueobject.GisgraphyConfig;
 import com.gisgraphy.domain.valueobject.Output;
 import com.gisgraphy.domain.valueobject.Pagination;
 import com.gisgraphy.domain.valueobject.Output.OutputFormat;
@@ -60,6 +64,12 @@ import com.gisgraphy.servlet.FulltextServlet;
 public class FulltextQuery extends AbstractGisQuery {
 
     public final static int QUERY_MAX_LENGTH = 200;
+    
+    /**
+     * The logger
+     */
+    public static final Logger logger = LoggerFactory
+	    .getLogger(GisgraphyConfig.class);
 
     /**
      * Constructor needed by CGLib
@@ -80,6 +90,8 @@ public class FulltextQuery extends AbstractGisQuery {
 
     private String query = "";
     private String countryCode;
+    
+    private boolean spellchecking = SpellCheckerConfig.activeByDefault;
 
     /**
      * @param req
@@ -137,11 +149,22 @@ public class FulltextQuery extends AbstractGisQuery {
 	this.countryCode = countrycodeParam == null ? null : countrycodeParam
 		.toUpperCase();
 
+	//indentation
 	if ("true".equalsIgnoreCase(req
 		.getParameter(FulltextServlet.INDENT_PARAMETER))
 		|| "on".equalsIgnoreCase(req
 			.getParameter(FulltextServlet.INDENT_PARAMETER))) {
 	    output.withIndentation();
+	}
+	//spellchecking
+	if ("true".equalsIgnoreCase(req
+			.getParameter(FulltextServlet.SPELLCHECKING_PARAMETER))
+			|| "on".equalsIgnoreCase(req
+				.getParameter(FulltextServlet.SPELLCHECKING_PARAMETER))) {
+		    this.withSpellChecking();
+		}
+	else if ("false".equalsIgnoreCase(req.getParameter(FulltextServlet.SPELLCHECKING_PARAMETER))) {
+		this.withoutSpellChecking();
 	}
 
 	this.pagination = pagination;
@@ -284,6 +307,32 @@ public class FulltextQuery extends AbstractGisQuery {
 	country = countryDao.getByIso3166Alpha2Code(countryCode.toUpperCase());
 	return country != null ? country.getName() : "";
     }
+    
+    /**
+     *  Enable the spellchecking for this query
+     * @return The current query to chain methods
+     */
+    public FulltextQuery withSpellChecking(){
+    	this.spellchecking = true;
+    	return this;
+    }
+    
+    /**
+     *  Disable the spellchecking for this query
+     * @return The current query to chain methods
+     */
+    public FulltextQuery withoutSpellChecking(){
+    	this.spellchecking = false;
+    	return this;
+    }
+    
+    /**
+     *  Wether the spellchecking is enabled for this query
+     * @return The current query to chain methods
+     */
+    public boolean hasSpellChecking(){
+    	return this.spellchecking; 
+    }
 
     /**
      * @return A query string for the specified parameter (starting with '?')
@@ -348,6 +397,13 @@ public class FulltextQuery extends AbstractGisQuery {
 	}
 	// we add the query param
 	parameters.set(Constants.QUERY_PARAMETER, query.toString());
+	
+	if (SpellCheckerConfig.enabled && this.hasSpellChecking()){
+		parameters.set(Constants.SPELLCHECKER_ENABLED_PARAMETER,"true");
+		parameters.set(Constants.SPELLCHECKER_COLLATE_RESULTS_PARAMETER,SpellCheckerConfig.collateResults);
+		parameters.set(Constants.SPELLCHECKER_NUMBER_OF_SUGGESTION_PARAMETER,SpellCheckerConfig.numberOfSuggestion);
+		parameters.set(Constants.SPELLCHECKER_DICTIONARY_NAME_PARAMETER,SpellCheckerConfig.spellcheckerDictionaryName.toString());
+	}
 
 	return parameters;
     }

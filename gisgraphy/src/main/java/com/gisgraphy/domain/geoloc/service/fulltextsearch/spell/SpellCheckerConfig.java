@@ -22,7 +22,11 @@
  *******************************************************************************/
 package com.gisgraphy.domain.geoloc.service.fulltextsearch.spell;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.gisgraphy.domain.geoloc.service.fulltextsearch.FulltextQuery;
+import com.gisgraphy.domain.valueobject.GisgraphyConfig;
 
 /**
  * 
@@ -32,6 +36,12 @@ import com.gisgraphy.domain.geoloc.service.fulltextsearch.FulltextQuery;
  * 
  */
 public class SpellCheckerConfig {
+	
+	 /**
+     * The logger
+     */
+    public static final Logger logger = LoggerFactory
+	    .getLogger(SpellCheckerConfig.class);
 
 	/**
 	 * Wether the spellchecker is active or not. default is true
@@ -46,9 +56,9 @@ public class SpellCheckerConfig {
 
 	/**
 	 * the default spellchecker name, default value is the value returned by
-	 * {@link SpellCheckerNames#getDefault()}
+	 * {@link SpellCheckerDictionaryNames#getDefault()}
 	 */
-	public static SpellCheckerNames spellcheckerName = SpellCheckerNames
+	public static SpellCheckerDictionaryNames spellcheckerDictionaryName = SpellCheckerDictionaryNames
 			.getDefault();
 
 	/**
@@ -75,6 +85,7 @@ public class SpellCheckerConfig {
 	 */
 	public void setEnabled(boolean enabled) {
 		SpellCheckerConfig.enabled = enabled;
+		logger.info("the spellchecker enabled parameter has been set to "+enabled);
 	}
 
 	/**
@@ -90,21 +101,23 @@ public class SpellCheckerConfig {
 	 */
 	public void setActiveByDefault(boolean activeByDefault) {
 		SpellCheckerConfig.activeByDefault = activeByDefault;
+		logger.info("the spellchecker active by default parameter has been set to "+activeByDefault);
 	}
 
 	/**
 	 * @return the spellcheckerName
 	 */
-	public SpellCheckerNames getSpellcheckerName() {
-		return spellcheckerName;
+	public SpellCheckerDictionaryNames getSpellcheckerDictionaryName() {
+		return spellcheckerDictionaryName;
 	}
 
 	/**
-	 * @param spellcheckerName
+	 * @param spellcheckerDictionaryName
 	 *            the spellcheckerName to set
 	 */
-	public void setSpellcheckerName(SpellCheckerNames spellcheckerName) {
-		SpellCheckerConfig.spellcheckerName = spellcheckerName;
+	public void setSpellcheckerDictionaryName(SpellCheckerDictionaryNames spellcheckerDictionaryName) {
+		SpellCheckerConfig.spellcheckerDictionaryName = spellcheckerDictionaryName;
+		logger.info("the spellchecker dictionary name parameter has been set to "+spellcheckerDictionaryName);
 	}
 
 	/**
@@ -120,6 +133,7 @@ public class SpellCheckerConfig {
 	 */
 	public void setNumberOfSuggestion(int numberOfSuggestion) {
 		SpellCheckerConfig.numberOfSuggestion = numberOfSuggestion;
+		logger.info("the spellchecker number of suggetion parameter has been set to "+numberOfSuggestion);
 	}
 
 	/**
@@ -135,6 +149,7 @@ public class SpellCheckerConfig {
 	 */
 	public void setCollateResults(boolean collateResults) {
 		SpellCheckerConfig.collateResults = collateResults;
+		logger.info("the spellchecker collate results parameter has been set to "+collateResults);
 	}
 
 }

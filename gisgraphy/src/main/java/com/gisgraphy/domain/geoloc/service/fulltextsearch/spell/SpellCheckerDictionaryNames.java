@@ -29,14 +29,14 @@ package com.gisgraphy.domain.geoloc.service.fulltextsearch.spell;
  * @author <a href="mailto:david.masclet@gisgraphy.com">David Masclet</a>
  *
  */
-public enum SpellCheckerNames {
+public enum SpellCheckerDictionaryNames {
 
 	jarowinkler, levenstein;
 	
 	/**
 	 * @return the default spellcheckerNames
 	 */
-	public static SpellCheckerNames getDefault(){
+	public static SpellCheckerDictionaryNames getDefault(){
 		return jarowinkler;
 	}
 	

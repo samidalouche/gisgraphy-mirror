@@ -544,6 +544,7 @@ public class GeolocTestHelper {
 	request.addParameter(FulltextServlet.INDENT_PARAMETER, "XML");
 	request.addParameter(FulltextServlet.PLACETYPE_PARAMETER, "city");
 	request.addParameter(FulltextServlet.QUERY_PARAMETER, "query");
+	request.addParameter(FulltextServlet.SPELLCHECKING_PARAMETER, "true");
 	return request;
     }
 

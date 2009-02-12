@@ -77,40 +77,71 @@ public class Constants {
     public final static String GEORSS_STYLESHEET = "georss.xsl";
 
     /**
-     * The field list to return
+     * The field list to return (Solr parameter name)
      */
     public static final String FL_PARAMETER = "fl";
 
     /**
-     * The parameter to specifie the text to search
+     * The parameter to specifie the text to search (Solr parameter name)
      */
     public static final String QUERY_PARAMETER = "q";
 
     /**
-     * The query type parameter (dismax, standard, ...)
+     * The query type parameter (dismax, standard, ...) (Solr parameter name)
      */
     public static final String QT_PARAMETER = "qt";
 
     /**
-     * The rows parameter (useful for paginate)
+     * The rows parameter (useful for paginate, Solr parameter name)
      */
     public static final String ROWS_PARAMETER = "rows";
 
     /**
-     * The indent parameter
+     * The indent parameter (Solr parameter name)
      */
     public static final String INDENT_PARAMETER = "indent";
 
     /**
      * The echoparam parameter (if the query parameters should be print in the
-     * response)
+     * response, Solr parameter name)
      */
     public static final String ECHOPARAMS_PARAMETER = "echoParams";
 
     /**
-     * The start rows parameter (useful for paginate)
+     * The start rows parameter (useful for paginate, Solr parameter name)
      */
     public static final String START_PARAMETER = "start";
+    
+    /**
+     * The parameter name to active the spellchecker (Solr parameter name)
+     */
+    public static final String SPELLCHECKER_ENABLED_PARAMETER = "spellcheck";
+    
+    /**
+     * The parameter name to Rebuild the spellchecker (Solr parameter name)
+     */
+    public static final String SPELLCHECKER_BUILD_PARAMETER = "spellcheck.build";
+    
+    /**
+     * The parameter name to Rebuild the spellchecker (Solr parameter name)
+     */
+    public static final String SPELLCHECKER_RELOAD_PARAMETER = "spellcheck.reload";
+    
+    /**
+     * The parameter name to define the number of suggestion for the spellchecker (Solr parameter name)
+     */
+    public static final String SPELLCHECKER_NUMBER_OF_SUGGESTION_PARAMETER = "spellcheck.count";
+    
+    /**
+     * The parameter name to define the number of suggestion for the spellchecker (Solr parameter name)
+     */
+    public static final String SPELLCHECKER_COLLATE_RESULTS_PARAMETER = "spellcheck.collate";
+    
+    /**
+     * The parameter name to define the name of the dictionary to use for the spellchecker (Solr parameter name)
+     */
+    public static final String SPELLCHECKER_DICTIONARY_NAME_PARAMETER = "spellcheck.dictionary";
+    
 
     /**
      * A string that is used to load a class from a string with class.forName()
