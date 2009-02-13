@@ -78,10 +78,10 @@ public class GeolocSearchAction extends SearchAction {
 	    setTo(geolocQuery.getLastPaginationIndex());
 	} catch (RuntimeException e) {
 	    if (e.getCause() != null) {
-		logger.warn("An error occured during search : "
+		logger.error("An error occured during search : "
 			+ e.getCause().getMessage());
 	    } else {
-		logger.warn("An error occured during search : "
+		logger.error("An error occured during search : "
 			+ e.getMessage());
 	    }
 	    this.errorMessage = e.getMessage();
