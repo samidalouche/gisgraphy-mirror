@@ -244,7 +244,7 @@ public class GeonamesFeatureImporter extends AbstractGeonamesProcessor {
 		    logger.warn("[wrongCountryCode] Country " + fields[8]
 			    + " have no entry in "
 			    + importerConfig.getCountriesFileName()
-			    + " or has not been import. It will be ignored");
+			    + " or has not been imported. It will be ignored");
 		    return;
 		}
 		// else it is a real ADMD or TERR
