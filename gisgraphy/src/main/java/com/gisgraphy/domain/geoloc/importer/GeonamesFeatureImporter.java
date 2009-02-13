@@ -247,7 +247,7 @@ public class GeonamesFeatureImporter extends AbstractGeonamesProcessor {
 			    + " or has not been imported. It will be ignored");
 		    return;
 		}
-		// else it is a real ADMD or TERR
+		// else it is a real ADMD or TERR, ISL OR PCLIX
 	    } else {
 		String countryName = country.getName();
 		country.populate(gisFeature);
