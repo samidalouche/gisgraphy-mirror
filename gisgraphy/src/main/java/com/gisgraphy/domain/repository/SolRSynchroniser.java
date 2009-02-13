@@ -351,6 +351,10 @@ public class SolRSynchroniser implements ISolRSynchroniser {
 			country.getAlternateNames(), ex);
 		ex.setField(FullTextFields.COUNTRYNAME.getValue(),
 			EncodingHelper.toUTF8(country.getName()));
+	    } else {
+	    	logger
+	    	.error("Can not find country with code "
+	    			+gisFeature.getCountryCode()+" for "+gisFeature);
 	    }
 	}
 
