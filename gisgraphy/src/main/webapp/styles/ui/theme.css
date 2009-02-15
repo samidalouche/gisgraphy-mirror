@@ -265,7 +265,7 @@ div#main form ul li {
 
 #simplesearch  {
 	margin: 0 auto;
-	width: 400px;
+	width: 450px;
 }
 
 #searchleftblock {
@@ -288,6 +288,7 @@ div#main form ul li {
 	padding-left: 10px;
 	float: left;
 	text-align: left;
+	width: 140px;
 }
 
 #advancedsearch {
