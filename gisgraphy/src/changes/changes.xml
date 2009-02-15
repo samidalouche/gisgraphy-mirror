@@ -31,8 +31,24 @@
        Improve doc and site
       </action>
       
-       <action dev="Tim King" type="update" >
+       <action dev="David Masclet" type="update" >
        Solr logo update
+      </action>
+      
+       <action dev="David Masclet" type="fix" >
+       Geoloc service for ADM or Country throws an exception
+      </action>
+      
+       <action dev="David Masclet" type="update" >
+        Add some fields for geolocservice for Country and Adm (level)
+      </action>
+      
+      <action dev="David Masclet" type="fix" >
+        pagination parameters 'from' and 'to' was not reset when closing popup 
+      </action>
+      
+       <action dev="David Masclet" type="add" >
+        Add a page to describe the services 
       </action>
       
        	
