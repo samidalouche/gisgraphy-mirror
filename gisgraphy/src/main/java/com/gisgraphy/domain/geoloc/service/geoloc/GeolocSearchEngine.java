@@ -33,7 +33,6 @@ import javax.annotation.Resource;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.Assert;
 
 import com.gisgraphy.domain.geoloc.entity.GisFeature;
@@ -71,8 +70,6 @@ public class GeolocSearchEngine implements IGeolocSearchEngine {
 	    .getLogger(GeolocSearchEngine.class);
 
 
-    @Autowired
-    IGisDao<? extends GisFeature>[] iDaos;
 
     /*
      * (non-Javadoc)
