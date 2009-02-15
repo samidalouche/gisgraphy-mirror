@@ -21,7 +21,7 @@
 			 				</@s.url>
 							<a href="${featureURL}">${result.name} (${result.country_name})</a>
 							</div>
-							<div class="resultheaderright">${result.placetype}</div>
+							<div class="resultheaderright"><@s.text name="${result.feature_class}_${result.feature_code}"/></div>
 					</div>
 					
 					<div class="separator"><hr/></div>
@@ -86,7 +86,7 @@
 				  					<@s.param name="featureId" value="${result.featureId?c}" />
 				 				</@s.url>
 								<div class="resultheaderleft"><a href="${featureURL}">${result.name} (${result.countryCode})</a> : ${result.distance} <@s.text name="search.unit.meter"/></div>
-								<div class="resultheaderright">${result.placeType}</div>
+								<div class="resultheaderright"><@s.text name="${result.feature_class}_${result.feature_code}"/></div>
 						</div>
 					
 						<div class="separator"><hr/></div>
