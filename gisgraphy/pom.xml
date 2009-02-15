@@ -1504,7 +1504,7 @@
 
 	<properties>
 		<!-- Application settings -->
-		<copyright.year>2008</copyright.year>
+		<copyright.year>2009</copyright.year>
 		<dao.framework>hibernate</dao.framework>
 		<web.framework>struts</web.framework>
 		<amp.genericCore>true</amp.genericCore>
