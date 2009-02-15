@@ -153,6 +153,9 @@
          <action name="termsAndConditions" >
              <result name="success" type="freemarker">/WEB-INF/views/termsAndConditions.ftl</result>
         </action>
+         <action name="servicesdescription" >
+             <result name="success" type="freemarker">/WEB-INF/views/servicesdescription.ftl</result>
+        </action>
          <action name="streetSearch" >
              <result name="success" type="freemarker">/WEB-INF/views/streetSearch.ftl</result>
         </action>
