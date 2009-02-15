@@ -41,6 +41,7 @@ import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.Index;
 
 import com.gisgraphy.helper.FeatureClassCodeHelper;
+import com.gisgraphy.helper.IntrospectionIgnoredField;
 
 /**
  * Represents a (sub) division of a {@link Country} (Region, Province, state,
@@ -122,6 +123,7 @@ public class Adm extends GisFeature {
 
     private Integer level;
 
+    @IntrospectionIgnoredField
     private Adm parent;
 
     private List<Adm> children;

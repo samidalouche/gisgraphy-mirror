@@ -31,6 +31,8 @@ import javax.xml.bind.annotation.XmlTransient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.gisgraphy.domain.geoloc.entity.Adm;
+import com.gisgraphy.domain.geoloc.entity.Country;
 import com.gisgraphy.domain.geoloc.entity.GisFeature;
 import com.gisgraphy.domain.geoloc.entity.ZipCodeAware;
 import com.gisgraphy.helper.URLUtils;
@@ -169,6 +171,83 @@ public class GisFeatureDistance {
 	    gisFeatureDistance.zipCode = zipCode;
 	    return this;
 	}
+	
+	public GisFeatureDistanceBuilder withArea(Double area) {
+	    gisFeatureDistance.area = area;
+	    return this;
+	}
+	
+	public GisFeatureDistanceBuilder withLevel(Integer level) {
+	    gisFeatureDistance.level = level;
+	    return this;
+	}
+	
+	public GisFeatureDistanceBuilder withTld(String tld) {
+	    gisFeatureDistance.tld = tld;
+	    return this;
+	}
+	
+	public GisFeatureDistanceBuilder withCapitalName(String capitalName) {
+	    gisFeatureDistance.capitalName = capitalName;
+	    return this;
+	}
+	
+	public GisFeatureDistanceBuilder withContinent(String continent) {
+	    gisFeatureDistance.continent = continent;
+	    return this;
+	}
+	
+	public GisFeatureDistanceBuilder withPostalCodeRegex(String postalCodeRegex) {
+	    gisFeatureDistance.postalCodeRegex = postalCodeRegex;
+	    return this;
+	}
+	
+	    
+	public GisFeatureDistanceBuilder withCurrencyCode(String currencyCode) {
+	    gisFeatureDistance.currencyCode = currencyCode;
+	    return this;
+	}
+	    
+	public GisFeatureDistanceBuilder withCurrencyName(String currencyName) {
+	    gisFeatureDistance.currencyName = currencyName;
+	    return this;
+	}
+	
+	public GisFeatureDistanceBuilder withEquivalentFipsCode(String equivalentFipsCode) {
+	    gisFeatureDistance.equivalentFipsCode = equivalentFipsCode;
+	    return this;
+	}
+	  
+	public GisFeatureDistanceBuilder withFipsCode(String fipsCode) {
+	    gisFeatureDistance.fipsCode = fipsCode;
+	    return this;
+	}
+
+	public GisFeatureDistanceBuilder withIso3166Alpha2Code(String iso3166Alpha2Code) {
+	    gisFeatureDistance.iso3166Alpha2Code = iso3166Alpha2Code;
+	    return this;
+	}
+	
+	public GisFeatureDistanceBuilder withIso3166Alpha3Code(String iso3166Alpha3Code) {
+	    gisFeatureDistance.iso3166Alpha3Code = iso3166Alpha3Code;
+	    return this;
+	}
+
+	public GisFeatureDistanceBuilder withIso3166NumericCode(Integer iso3166NumericCode) {
+	    gisFeatureDistance.iso3166NumericCode = iso3166NumericCode;
+	    return this;
+	}
+
+	public GisFeatureDistanceBuilder withPhonePrefix(String phonePrefix) {
+	    gisFeatureDistance.phonePrefix = phonePrefix;
+	    return this;
+	}
+	    
+	public GisFeatureDistanceBuilder withPostalCodeMask(String postalCodeMask) {
+	    gisFeatureDistance.postalCodeMask = postalCodeMask;
+	    return this;
+	}
+
 
 	public GisFeatureDistanceBuilder withPlaceType(
 		Class<? extends GisFeature> placeType) {
@@ -244,10 +323,37 @@ public class GisFeatureDistance {
     private String yahoo_map_url;
 
     private String country_flag_url;
+    
+    private Integer level;
+    
+    private Double area;
 
-    /**
-     * Default Constructor
-     */
+    private String tld;
+
+    private String capitalName;
+
+    private String continent;
+
+    private String postalCodeRegex;
+    
+    private String currencyCode;
+
+    private String currencyName;
+
+    private String equivalentFipsCode;
+
+    private String fipsCode;
+
+    private String iso3166Alpha2Code;
+
+    private String iso3166Alpha3Code;
+
+    private int iso3166NumericCode;
+    
+    private String phonePrefix;
+
+    private String postalCodeMask;
+
     public GisFeatureDistance() {
 	super();
     }
@@ -296,6 +402,52 @@ public class GisFeatureDistance {
 		    .toLowerCase();
 	    updateFields();
 	}
+    }
+    
+    
+    
+    /**
+     * @param Adm
+     *                The adm
+     * @param distance
+     *                The distance
+     */
+    public GisFeatureDistance(Adm adm, Double distance) {
+	this((GisFeature)adm,distance);
+	this.level = adm.getLevel();
+    }
+    
+    /**
+     * @param country
+     *                The country
+     * @param distance
+     *                The distance
+     */
+    public GisFeatureDistance(Country country, Double distance) {
+	this((GisFeature)country,distance);
+	    this.elevation = country.getElevation();
+	    this.featureClass = country.getFeatureClass();
+	    this.featureCode = country.getFeatureCode();
+	    this.featureId = country.getFeatureId();
+	    this.gtopo30 = country.getGtopo30();
+	    this.location = country.getLocation();
+	    this.name = country.getName().trim();
+	    this.population = country.getPopulation();
+	    this.timezone = country.getTimezone();
+	    this.area=country.getArea();
+	    this.tld=country.getTld();
+	    this.capitalName=country.getCapitalName();
+	    this.continent=country.getContinent();
+	    this.postalCodeMask=country.getPostalCodeMask();
+	    this.postalCodeRegex=country.getPostalCodeRegex();
+	    this.currencyCode=country.getCurrencyCode();
+	    this.currencyName=country.getCurrencyName();
+	    this.equivalentFipsCode = country.getEquivalentFipsCode();
+	    this.fipsCode=country.getFipsCode();
+	    this.iso3166Alpha2Code= country.getIso3166Alpha2Code();
+	    this.iso3166Alpha3Code= country.getIso3166Alpha3Code();
+	    this.iso3166NumericCode= country.getIso3166NumericCode();
+	    this.phonePrefix=country.getPhonePrefix();
     }
 
     /**
@@ -519,6 +671,111 @@ public class GisFeatureDistance {
      */
     public String getCountry_flag_url() {
 	return this.country_flag_url;
+    }
+
+    /**
+     * @return the level
+     */
+    public Integer getLevel() {
+        return level;
+    }
+
+    /**
+     * @return the area
+     */
+    public Double getArea() {
+        return area;
+    }
+
+    /**
+     * @return the tld
+     */
+    public String getTld() {
+        return tld;
+    }
+
+    /**
+     * @return the capitalName
+     */
+    public String getCapitalName() {
+        return capitalName;
+    }
+
+    /**
+     * @return the continent
+     */
+    public String getContinent() {
+        return continent;
+    }
+
+    /**
+     * @return the postalCodeRegex
+     */
+    public String getPostalCodeRegex() {
+        return postalCodeRegex;
+    }
+
+    /**
+     * @return the currencyCode
+     */
+    public String getCurrencyCode() {
+        return currencyCode;
+    }
+
+    /**
+     * @return the currencyName
+     */
+    public String getCurrencyName() {
+        return currencyName;
+    }
+
+    /**
+     * @return the equivalentFipsCode
+     */
+    public String getEquivalentFipsCode() {
+        return equivalentFipsCode;
+    }
+
+    /**
+     * @return the fipsCode
+     */
+    public String getFipsCode() {
+        return fipsCode;
+    }
+
+    /**
+     * @return the iso3166Alpha2Code
+     */
+    public String getIso3166Alpha2Code() {
+        return iso3166Alpha2Code;
+    }
+
+    /**
+     * @return the iso3166Alpha3Code
+     */
+    public String getIso3166Alpha3Code() {
+        return iso3166Alpha3Code;
+    }
+
+    /**
+     * @return the iso3166NumericCode
+     */
+    public int getIso3166NumericCode() {
+        return iso3166NumericCode;
+    }
+
+    /**
+     * @return the phonePrefix
+     */
+    public String getPhonePrefix() {
+        return phonePrefix;
+    }
+
+    /**
+     * @return the postalCodeMask
+     */
+    public String getPostalCodeMask() {
+        return postalCodeMask;
     }
 
 }

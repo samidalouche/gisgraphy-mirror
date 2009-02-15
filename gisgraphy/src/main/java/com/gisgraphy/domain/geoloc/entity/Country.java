@@ -92,18 +92,15 @@ public class Country extends GisFeature implements Serializable,
 
     private static final long serialVersionUID = 1L;
 
-    /**
-     * @see #getArea()
-     */
     private Double area;
 
     private String tld;
 
-    private String CapitalName;
+    private String capitalName;
 
     private String continent;
 
-    private String PostalCodeRegex;
+    private String postalCodeRegex;
 
     /**
      * @see #getCurrencyCode()
@@ -488,14 +485,14 @@ public class Country extends GisFeature implements Serializable,
      * @return the Capital for this country
      */
     public String getCapitalName() {
-	return CapitalName;
+	return capitalName;
     }
 
     /**
      * @see #getCapitalName()
      */
     public void setCapitalName(String capitalName) {
-	CapitalName = capitalName;
+	this.capitalName = capitalName;
     }
 
     // TODO v2 continent importer
@@ -541,14 +538,14 @@ public class Country extends GisFeature implements Serializable,
      * @return The regexp that every zipcode for this country matches
      */
     public String getPostalCodeRegex() {
-	return PostalCodeRegex;
+	return postalCodeRegex;
     }
 
     /**
      * @see #getPostalCodeRegex()
      */
     public void setPostalCodeRegex(String postalCodeRegex) {
-	PostalCodeRegex = postalCodeRegex;
+	this.postalCodeRegex = postalCodeRegex;
     }
 
     /**

@@ -28,6 +28,7 @@ import junit.framework.TestCase;
 
 import com.gisgraphy.domain.geoloc.entity.City;
 import com.gisgraphy.domain.geoloc.entity.GisFeature;
+import com.gisgraphy.test.FakeBean;
 
 public class IntrospectionHelperTest extends TestCase {
 
@@ -86,6 +87,12 @@ public class IntrospectionHelperTest extends TestCase {
 	String[] fields = IntrospectionHelper
 		.getGisFeatureFieldsAsArray(GisFeature.class);
 	assertEquals(19, fields.length);
+    }
+    
+    public void testGetGisFeatureFieldsAsArrayShouldIgnoreFinalFields() {
+	String[] fields = IntrospectionHelper
+		.getGisFeatureFieldsAsArray(FakeBean.class);
+	assertEquals(20, fields.length);
     }
 
     public void testGetGisFeatureFieldsAsArrayShouldExploreSubClass() {

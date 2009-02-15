@@ -49,6 +49,7 @@ import com.gisgraphy.domain.geoloc.entity.event.PlaceTypeDeleteAllEvent;
 import com.gisgraphy.domain.geoloc.service.fulltextsearch.FullTextFields;
 import com.gisgraphy.domain.geoloc.service.fulltextsearch.IsolrClient;
 import com.gisgraphy.domain.geoloc.service.fulltextsearch.SolrClient;
+import com.gisgraphy.helper.ClassNameHelper;
 import com.gisgraphy.helper.EncodingHelper;
 import com.gisgraphy.helper.URLUtils;
 
@@ -252,8 +253,8 @@ public class SolRSynchroniser implements ISolRSynchroniser {
 
 	ex.setField(FullTextFields.PLACETYPE.getValue(), gisFeature.getClass()
 		.getSimpleName());
-	ex.setField(FullTextFields.PLACETYPECLASS.getValue(), gisFeature
-		.getClass().getSimpleName()
+	ex.setField(FullTextFields.PLACETYPECLASS.getValue(), ClassNameHelper.stripEnhancerClass(gisFeature
+		.getClass().getSimpleName())
 		+ FullTextFields.PLACETYPECLASS_SUFFIX.getValue());
 	ex.setField(FullTextFields.POPULATION.getValue(), gisFeature
 		.getPopulation());

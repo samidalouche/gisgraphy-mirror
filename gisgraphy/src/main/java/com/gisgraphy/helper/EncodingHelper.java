@@ -38,7 +38,7 @@ import com.gisgraphy.domain.valueobject.Constants;
 public class EncodingHelper {
 
     protected static final Logger logger = LoggerFactory
-	    .getLogger(GisFeature.class);
+	    .getLogger(EncodingHelper.class);
 
     /**
      * useful for windows only, this method is a workaround for encoding

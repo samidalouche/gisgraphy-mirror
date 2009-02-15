@@ -35,11 +35,11 @@
        Solr logo update
       </action>
       
-       <action dev="David Masclet" type="fix" >
+      <action dev="David Masclet" type="fix" >
        Geoloc service for ADM or Country throws an exception
       </action>
       
-       <action dev="David Masclet" type="update" >
+      <action dev="David Masclet" type="update" >
         Add some fields for geolocservice for Country and Adm (level)
       </action>
       
@@ -48,7 +48,11 @@
       </action>
       
        <action dev="David Masclet" type="add" >
-        Add a page to describe the services 
+        Add a page to describe the services   
+      </action>
+      
+      <action dev="David Masclet" type="fix" >
+        some features contains EnhancerByCGLIB when sync with solr 
       </action>
       
        	

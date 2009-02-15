@@ -44,6 +44,7 @@ import org.springframework.mock.web.MockHttpServletRequest;
 import com.gisgraphy.domain.geoloc.entity.Adm;
 import com.gisgraphy.domain.geoloc.entity.AlternateName;
 import com.gisgraphy.domain.geoloc.entity.City;
+import com.gisgraphy.domain.geoloc.entity.CitySubdivision;
 import com.gisgraphy.domain.geoloc.entity.Country;
 import com.gisgraphy.domain.geoloc.entity.GisFeature;
 import com.gisgraphy.domain.repository.IAdmDao;
@@ -309,7 +310,7 @@ public class GeolocTestHelper {
 
     }
 
-    public static GisFeatureDistance createFullFilledGisFeatureDistanceWithFieldsConstructor() {
+    public static GisFeatureDistance createFullFilledGisFeatureDistanceWithBuilder() {
 	return GisFeatureDistance.GisFeatureDistanceBuilder
 		.gisFeatureDistance().withAdm1Code("A1").withAdm2Code("B2")
 		.withAdm3Code("C3").withAdm4Code("D4")
@@ -326,32 +327,134 @@ public class GeolocTestHelper {
     }
 
     public static GisFeatureDistance createFullFilledGisFeatureDistanceForCity() {
-	City gisFeature = new City();
-	gisFeature.setAdm1Code("A1");
-	gisFeature.setAdm2Code("B2");
-	gisFeature.setAdm3Code("C3");
-	gisFeature.setAdm4Code("D4");
+	City city = new City();
+	city.setAdm1Code("A1");
+	city.setAdm2Code("B2");
+	city.setAdm3Code("C3");
+	city.setAdm4Code("D4");
 
-	gisFeature.setAdm1Name("adm1 name");
-	gisFeature.setAdm2Name("adm2 name");
-	gisFeature.setAdm3Name("adm3 name");
-	gisFeature.setAdm4Name("adm4 name");
+	city.setAdm1Name("adm1 name");
+	city.setAdm2Name("adm2 name");
+	city.setAdm3Name("adm3 name");
+	city.setAdm4Name("adm4 name");
 
-	gisFeature.setAsciiName("ascii");
-	gisFeature.setCountryCode("FR");
-	gisFeature.setElevation(3);
-	gisFeature.setFeatureClass("P");
-	gisFeature.setFeatureCode("PPL");
-	gisFeature.setFeatureId(1000L);
-	gisFeature.setGtopo30(30);
-	gisFeature.setLocation(createPoint(2F, 4F));
-	gisFeature.setName("a name");
-	gisFeature.setPopulation(1000000);
-	gisFeature.setSource(GISSource.PERSONAL);
-	gisFeature.setTimezone("gmt+1");
-	gisFeature.setZipCode(3456);
+	city.setAsciiName("ascii");
+	city.setCountryCode("FR");
+	city.setElevation(3);
+	city.setFeatureClass("P");
+	city.setFeatureCode("PPL");
+	city.setFeatureId(1000L);
+	city.setGtopo30(30);
+	city.setLocation(createPoint(2F, 4F));
+	city.setName("a name");
+	city.setPopulation(1000000);
+	city.setSource(GISSource.PERSONAL);
+	city.setTimezone("gmt+1");
+	city.setZipCode(3456);
 
-	return new GisFeatureDistance(gisFeature, 3D);
+	return new GisFeatureDistance(city, 3D);
+
+    }
+    
+    public static GisFeatureDistance createFullFilledGisFeatureDistanceForAdm() {
+	Adm adm = new Adm(2);
+	adm.setAdm1Code("A1");
+	adm.setAdm2Code("B2");
+	adm.setAdm3Code("C3");
+	adm.setAdm4Code("D4");
+
+	adm.setAdm1Name("adm1 name");
+	adm.setAdm2Name("adm2 name");
+	adm.setAdm3Name("adm3 name");
+	adm.setAdm4Name("adm4 name");
+
+	adm.setAsciiName("ascii");
+	adm.setCountryCode("FR");
+	adm.setElevation(3);
+	adm.setFeatureClass("P");
+	adm.setFeatureCode("PPL");
+	adm.setFeatureId(1000L);
+	adm.setGtopo30(30);
+	adm.setLocation(createPoint(2F, 4F));
+	adm.setName("a name");
+	adm.setPopulation(1000000);
+	adm.setSource(GISSource.PERSONAL);
+	adm.setTimezone("gmt+1");
+
+	return new GisFeatureDistance(adm, 3D);
+
+    }
+    
+    public static GisFeatureDistance createFullFilledGisFeatureDistanceForCitySubdivision() {
+	CitySubdivision citySubdivision = new CitySubdivision();
+	citySubdivision.setAdm1Code("A1");
+	citySubdivision.setAdm2Code("B2");
+	citySubdivision.setAdm3Code("C3");
+	citySubdivision.setAdm4Code("D4");
+
+	citySubdivision.setAdm1Name("adm1 name");
+	citySubdivision.setAdm2Name("adm2 name");
+	citySubdivision.setAdm3Name("adm3 name");
+	citySubdivision.setAdm4Name("adm4 name");
+
+	citySubdivision.setAsciiName("ascii");
+	citySubdivision.setCountryCode("FR");
+	citySubdivision.setElevation(3);
+	citySubdivision.setFeatureClass("P");
+	citySubdivision.setFeatureCode("PPL");
+	citySubdivision.setFeatureId(1000L);
+	citySubdivision.setGtopo30(30);
+	citySubdivision.setLocation(createPoint(2F, 4F));
+	citySubdivision.setName("a name");
+	citySubdivision.setPopulation(1000000);
+	citySubdivision.setSource(GISSource.PERSONAL);
+	citySubdivision.setTimezone("gmt+1");
+	citySubdivision.setZipCode(3456);
+
+	return new GisFeatureDistance(citySubdivision, 3D);
+
+    }
+    
+    public static Country createFullFilledCountry() {
+	Country country = createCountryForFrance();
+	country.setAdm1Code("A1");
+	country.setAdm2Code("B2");
+	country.setAdm3Code("C3");
+	country.setAdm4Code("D4");
+
+	country.setAdm1Name("adm1 name");
+	country.setAdm2Name("adm2 name");
+	country.setAdm3Name("adm3 name");
+	country.setAdm4Name("adm4 name");
+
+	country.setAsciiName("ascii");
+	country.setCountryCode("FR");
+	country.setElevation(3);
+	country.setFeatureClass("P");
+	country.setFeatureCode("PPL");
+	country.setFeatureId(1000L);
+	country.setGtopo30(30);
+	country.setLocation(createPoint(2F, 4F));
+	country.setName("a name");
+	country.setPopulation(1000000);
+	country.setSource(GISSource.PERSONAL);
+	country.setTimezone("gmt+1");
+	country.setArea(123456D);
+	country.setTld(".fr");
+	country.setCapitalName("paris");
+	country.setContinent("Europe");
+	country.setPostalCodeMask("postalCodeMask");
+	country.setPostalCodeRegex("postalCodeRegex");
+	country.setCurrencyCode("currencyCode");
+	country.setCurrencyName("currencyName");
+	country.setEquivalentFipsCode("equivalentFipsCode");
+	country.setFipsCode("fipsCode");
+	country.setIso3166Alpha2Code("isoA2Code");
+	country.setIso3166Alpha3Code("isoA3Code");
+	country.setIso3166NumericCode(33);
+	country.setPhonePrefix("+33");
+	country.setPostalCodeMask("postalCodeMask");
+	return country;
 
     }
 

@@ -87,6 +87,7 @@ public class IntrospectionHelper {
      *         <li>Of type List</li>
      *         <li>Annoted with {@link IntrospectionIgnoredField}</li>
      *         <li>Synthetic</li>
+     *         <li>final</li>
      *         </ul>
      *         The result of the method will be cached
      * 
@@ -116,7 +117,7 @@ public class IntrospectionHelper {
 		    int foundMods = f.getModifiers();
 		    if ((foundMods & searchMods) == searchMods
 			    && !f.isSynthetic() && f.getType() != List.class
-			    && !isIgnoreField(f)) {
+			    && !isIgnoreField(f) && !Modifier.isFinal(foundMods)) {
 			introspectedFields.add(f.getName());
 		    }
 		}
