@@ -288,7 +288,7 @@ public class FulltextQuery extends AbstractGisQuery {
      */
     @Override
     public String toString() {
-	String asString = this.getClass().getSimpleName() + " '" + this.query
+	String asString = "FullTextQuery '" + this.query
 		+ "' for ";
 	if (this.placeType == null) {
 	    asString += "all placeType";

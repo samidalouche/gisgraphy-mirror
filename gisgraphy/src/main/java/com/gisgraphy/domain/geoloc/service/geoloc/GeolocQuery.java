@@ -288,7 +288,7 @@ public class GeolocQuery extends AbstractGisQuery {
      */
     @Override
     public String toString() {
-	String asString = this.getClass().getSimpleName() + " (lat='"
+	String asString = "GeolocQuery (lat='"
 		+ point.getY() + "',long='" + point.getX() + "') and radius="
 		+ this.radius + " for ";
 	if (this.placeType == null) {
