@@ -37,7 +37,10 @@ import com.gisgraphy.stats.StatsUsageType;
 public interface IStatsUsageService {
 
     /**
-     * The satsUsage will be flush into the database every ...
+     * The satsUsage will be flush into the database every ... It is recommended
+     * to increase this value to a higher value to improve performances. if the
+     * server is stopped, you can loose FLUSH_THRESHOLD usage at most because the
+     * value won't be persist in the datastore
      */
     int FLUSH_THRESHOLD = 50;
 
