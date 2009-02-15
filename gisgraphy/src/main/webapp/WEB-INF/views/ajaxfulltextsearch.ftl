@@ -54,7 +54,7 @@
 		<hr/>
 		<span class="searchfield">
 			<span class="searchfieldlabel"><@s.text name="global.placetype"/> : </span>
-			<@s.select headerKey="" headerValue="--any place--"  name="placetype" list="placetypes"  multiple="false" required="false"  labelposition="left" theme="simple"/>
+			<@s.select headerKey="" headerValue="--Any place--"  name="placetype" list="placetypes"  multiple="false" required="false"  labelposition="left" theme="simple"/>
 			<br/>
 		</span>
 		<div class="clear"></div>
