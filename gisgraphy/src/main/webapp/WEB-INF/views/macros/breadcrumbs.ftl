@@ -51,11 +51,12 @@
 			 <@s.url id="advancedSearchUrl" action="${advancedSearchURLParam}" includeParams="all" >
 			  <@s.param name="advancedSearch" value="true" />
 			 </@s.url>
+			 <@s.url id="servicesDescription" action="servicesdescription" includeParams="all" namespace="public" />
 				<a href="${advancedSearchUrl}" onclick="$('advancedsearch').toggle();return false;"><@s.text name="search.advanced"/></a>
 				<br/>
 				<a href="http://www.gisgraphy.com/documentation/index.htm#fulltextservice" ><@s.text name="global.help"/></a>
 				<br/>
-				<a href="http://www.gisgraphy.com/"><@s.text name="global.more"/>...</a>
+				<a href="${servicesDescription}"><@s.text name="search.servicesdescription.title"/></a>
 				<br/>
 			</div>
 </#macro>
@@ -65,11 +66,12 @@
 			 <@s.url id="advancedSearchUrl" action="${advancedSearchURLParam}" includeParams="all" >
 			  <@s.param name="advancedSearch" value="true" />
 			 </@s.url>
+			  <@s.url id="servicesDescription" action="servicesdescription" includeParams="all" namespace="public" />
 				<a href="${advancedSearchUrl}" onclick="$('advancedsearch').toggle();return false;"><@s.text name="search.advanced"/></a>
 				<br/>
 				<a href="http://gisgraphy.com/documentation/index.htm#geolocservice" ><@s.text name="global.help"/></a>
 				<br/>
-				<a href="http://www.gisgraphy.com/"><@s.text name="global.more"/>...</a>
+				<a href="${servicesDescription}"><@s.text name="search.servicesdescription.title"/></a>
 				<br/>
 			</div>
 </#macro>
