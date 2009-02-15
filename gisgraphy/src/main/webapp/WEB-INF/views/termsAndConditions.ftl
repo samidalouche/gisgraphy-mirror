@@ -7,10 +7,10 @@
 </head>
 <body>
 <div>
-<h1 class="header"><@s.text name="termsAndConditions"/></h1>
+<h2 class="header"><@s.text name="termsAndConditions"/></h2>
 <ul>
 <li class="biggertext">
-Gisgraphy is composed of two website : 
+Gisgraphy is composed of two web sites : 
 <ul>
 <li>The Gisgraphy project (www.gisgraphy.com) is the website where you can download the framework, sources, have doc, ask questions, and so on. </li>
 <li>The Gisgraphy services is the site where you can use the Gisgraphy project for free. it is the public site where the gisgraphy framework is deployed.</li>
