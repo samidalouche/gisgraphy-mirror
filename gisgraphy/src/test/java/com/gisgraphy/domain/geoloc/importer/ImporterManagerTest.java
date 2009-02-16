@@ -1437,7 +1437,7 @@ public class ImporterManagerTest extends AbstractIntegrationHttpSolrTestCase {
 	GisFeature gisFeatureWithNoFeatureCode = this.gisFeatureDao
 		.getByFeatureId(3007830L);
 	assertNotNull(
-		"The gisFeature with featureid 3007830 should not be null even if his featureCcode is not Correct",
+		"The gisFeature with featureid 3007830 should not be null even if his featureCode is not Correct",
 		gisFeatureWithNoFeatureCode);
 	assertEquals("The GisFeature 3007830 should have a featureCode="
 		+ ImporterConfig.DEFAULT_FEATURE_CODE,

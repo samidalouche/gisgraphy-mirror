@@ -230,7 +230,7 @@ public class GeonamesFeatureImporter extends AbstractGeonamesProcessor {
 	}
 
 	// some country can have featurecode=TERR or ADMD
-	if (gisFeature.isCountry()
+	/*if (gisFeature.isCountry()
 		|| gisFeature.getFeatureCode().equals("TERR")
 		|| gisFeature.getFeatureCode().equals("ADMD")
 		|| gisFeature.getFeatureCode().startsWith("ISL")
@@ -257,6 +257,37 @@ public class GeonamesFeatureImporter extends AbstractGeonamesProcessor {
 		country.setName(countryName);
 		this.countryDao.save(country);
 		return;
+	    }
+	}*/
+
+	Country country = this.countryDao.getByFeatureId(new Long(fields[0]));
+
+	if (country != null) {
+	    String countryName = country.getName();
+	    country.populate(gisFeature);
+	    // we preffer keep the original name (example : we prefer
+	    // France,
+	    // instead of Republic Of France
+	    country.setName(countryName);
+	    this.countryDao.save(country);
+	    return;
+	}
+
+	FeatureCode featureCode_ = null;
+
+	try {
+	    featureCode_ = FeatureCode
+		    .valueOf(featureClass + "_" + featureCode);
+	} catch (RuntimeException e) {
+	}
+	if (featureCode_ != null) {
+	    if (featureCode_.getObject() instanceof Country) {
+		logger.warn("[wrongCountryCode] Country " + fields[8]
+			+ " have no entry in "
+			+ importerConfig.getCountriesFileName()
+			+ " or has not been imported. It will be ignored");
+		return;
+
 	    }
 	}
 
@@ -375,12 +406,6 @@ public class GeonamesFeatureImporter extends AbstractGeonamesProcessor {
 		.isSyncAdmCodesWithLinkedAdmOnes());
 	setAdmNames(adm, gisFeature);
 
-	FeatureCode featureCode_ = null;
-	try {
-	    featureCode_ = FeatureCode
-		    .valueOf(featureClass + "_" + featureCode);
-	} catch (RuntimeException e) {
-	}
 	if (featureCode_ != null) {
 	    GisFeature featureObject = (GisFeature) featureCode_.getObject();
 	    logger.debug(featureClass + "_" + featureCode

@@ -55,6 +55,14 @@
         some features contains EnhancerByCGLIB when sync with solr 
       </action>
       
+      <action dev="David Masclet" type="update" >
+        GeonameFeatureImporter : change the way Country are detect and updated
+      </action>
+      
+       <action dev="David Masclet" type="update" >
+        solRSynchroniser : adm Parents are treated when Adm are sync
+      </action>
+      
        	
     </release>
   </body>

@@ -273,6 +273,10 @@ public class SolRSynchroniser implements ISolRSynchroniser {
 	// syncAdmCodesWithLinkedAdmOnes if it is false , the value may not be
 	// the same
 	Adm adm = gisFeature.getAdm();
+	
+	if (gisFeature instanceof Adm){
+	    adm  = (Adm) gisFeature;
+	}
 	// we set admCode once for all
 	if (adm != null) {
 	    ex.setField(FullTextFields.ADM1CODE.getValue(), adm.getAdm1Code());
@@ -291,33 +295,7 @@ public class SolRSynchroniser implements ISolRSynchroniser {
 	    }
 	    adm = adm.getParent();
 	}
-
-	/*
-	 * if (gisFeature.getAdm()!= null && gisFeature.getAdm().getAdm1Code() !=
-	 * null) { ex.setField(FullTextFields.ADM1CODE.getValue(),
-	 * gisFeature.getAdm().getAdm1Code()); } if (gisFeature.getAdm()!= null &&
-	 * gisFeature.getAdm().getAdm2Code()!= null) {
-	 * ex.setField(FullTextFields.ADM2CODE.getValue(),
-	 * gisFeature.getAdm().getAdm2Code()); } if (gisFeature.getAdm()!= null &&
-	 * gisFeature.getAdm().getAdm3Code() != null) {
-	 * ex.setField(FullTextFields.ADM3CODE.getValue(),
-	 * gisFeature.getAdm().getAdm3Code()); } if (gisFeature.getAdm()!= null &&
-	 * gisFeature.getAdm().getAdm4Code() != null) {
-	 * ex.setField(FullTextFields.ADM4CODE.getValue(),
-	 * gisFeature.getAdm().getAdm4Code()); } // admNames if
-	 * (gisFeature.getAdm()!= null && gisFeature.getAdm().getAdm1Name() !=
-	 * null) { ex.setField(FullTextFields.ADM1NAME.getValue(),
-	 * EncodingHelper.toUTF8(gisFeature.getAdm().getAdm1Name())); } if
-	 * (gisFeature.getAdm()!= null && gisFeature.getAdm().getAdm2Name() !=
-	 * null) { ex.setField(FullTextFields.ADM2NAME.getValue(),
-	 * EncodingHelper.toUTF8(gisFeature.getAdm().getAdm2Name())); } if
-	 * (gisFeature.getAdm()!= null && gisFeature.getAdm().getAdm3Name() !=
-	 * null) {
-	 * ex.setField(FullTextFields.ADM3NAME.getValue(),EncodingHelper.toUTF8(gisFeature.getAdm().getAdm3Name())); }
-	 * if (gisFeature.getAdm()!= null && gisFeature.getAdm().getAdm4Name() !=
-	 * null) { ex.setField(FullTextFields.ADM4NAME.getValue(),
-	 * EncodingHelper.toUTF8(gisFeature.getAdm().getAdm4Name())); }
-	 */
+	
 	if (gisFeature instanceof ZipCodeAware) {
 	    try {
 		ZipCodeAware city = (ZipCodeAware) gisFeature;
