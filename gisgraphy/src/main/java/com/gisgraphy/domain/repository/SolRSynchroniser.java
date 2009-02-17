@@ -272,10 +272,13 @@ public class SolRSynchroniser implements ISolRSynchroniser {
 	// setAdmCode from adm not from the gisfeature one because of
 	// syncAdmCodesWithLinkedAdmOnes if it is false , the value may not be
 	// the same
-	Adm adm = gisFeature.getAdm();
+	Adm adm = null;
 	
 	if (gisFeature instanceof Adm){
 	    adm  = (Adm) gisFeature;
+	}
+	else {
+	    adm = gisFeature.getAdm();
 	}
 	// we set admCode once for all
 	if (adm != null) {
