@@ -407,7 +407,7 @@ public class GisFeatureDistance {
     
     
     /**
-     * @param Adm
+     * @param adm
      *                The adm
      * @param distance
      *                The distance
