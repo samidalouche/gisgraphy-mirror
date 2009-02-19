@@ -128,6 +128,10 @@
 	</constructor-arg>
   </bean>
   
+  <bean id="spellCheckerIndexer" class="com.gisgraphy.domain.geoloc.service.fulltextsearch.spell.SpellCheckerIndexer">
+		<property name="solrClient" ref="solrClient"/>
+  </bean>
+  
   	<bean id="spellCheckerConfig" class="com.gisgraphy.domain.geoloc.service.fulltextsearch.spell.SpellCheckerConfig">
 		<property name="enabled" value="${spellchecker.enabled}" />
 		<property name="activeByDefault" value="${spellchecker.activeByDefault}"/>

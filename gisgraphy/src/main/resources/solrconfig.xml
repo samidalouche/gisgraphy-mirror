@@ -556,7 +556,7 @@
   </searchComponent>
 
   <!-- a request handler utilizing the spellcheck component -->
-  <requestHandler name="/spellCheckCompRH" class="solr.SearchHandler">
+  <requestHandler name="spellcheck" class="solr.SearchHandler">
     <lst name="defaults">
       <!-- omp = Only More Popular -->
       <str name="spellcheck.onlyMorePopular">false</str>
