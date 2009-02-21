@@ -148,6 +148,7 @@ public class FulltextServlet extends HttpServlet {
 	String response = format.accept(visitor);
 	Writer writer = null;
 	try {
+	    resp.reset();
 	    writer = resp.getWriter();
 	    writer.append(response);
 	    writer.flush();
