@@ -316,7 +316,9 @@ public class FulltextQueryTest extends AbstractIntegrationHttpSolrTestCase {
 				+ " should be true for 'on' value (case insensitive and on value)  ",
 			query.hasSpellChecking());
 	} catch (RuntimeException e) {
-		//reset the last value
+	    fail(e.getMessage());
+	} finally {
+	    //reset the last value
 		SpellCheckerConfig.activeByDefault = savedSpellCheckingValue;
 	}
 	
@@ -615,8 +617,10 @@ public class FulltextQueryTest extends AbstractIntegrationHttpSolrTestCase {
 	assertEquals("spellchecker should be enabled", SpellCheckerConfig.spellcheckerDictionaryName.toString(), parameters
 			.get(Constants.SPELLCHECKER_DICTIONARY_NAME_PARAMETER));
     	} catch (RuntimeException e) {
-			SpellCheckerConfig.activeByDefault = savedSpellCheckingValue;
-		}
+		fail(e.getMessage());
+	} finally {
+	    SpellCheckerConfig.activeByDefault = savedSpellCheckingValue;
+	}
     }
     
     @Test

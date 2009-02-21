@@ -23,10 +23,9 @@
 package com.gisgraphy.domain.geoloc.service.fulltextsearch.spell;
 
 import org.apache.solr.client.solrj.SolrQuery;
-import org.apache.solr.client.solrj.SolrServerException;
+import org.apache.solr.client.solrj.response.QueryResponse;
 import org.springframework.beans.factory.annotation.Required;
 
-import com.gisgraphy.domain.geoloc.service.fulltextsearch.FullTextFields;
 import com.gisgraphy.domain.geoloc.service.fulltextsearch.IsolrClient;
 import com.gisgraphy.domain.valueobject.Constants;
 
@@ -46,17 +45,17 @@ public class SpellCheckerIndexer implements ISpellCheckerIndexer {
 	/* (non-Javadoc)
 	 * @see com.gisgraphy.domain.geoloc.service.fulltextsearch.spell.ISpellCheckerIndexer#buildAllIndex()
 	 */
-	public void buildAllIndex(){
-		
+	public boolean buildAllIndex(){
+		return true;
 		
 	}
 	
 	/* (non-Javadoc)
 	 * @see com.gisgraphy.domain.geoloc.service.fulltextsearch.spell.ISpellCheckerIndexer#buildIndex(com.gisgraphy.domain.geoloc.service.fulltextsearch.spell.SpellCheckerDictionaryNames)
 	 */
-	public void buildIndex(SpellCheckerDictionaryNames spellCheckerDictionaryName){
+	public boolean buildIndex(SpellCheckerDictionaryNames spellCheckerDictionaryName){
 		if (!SpellCheckerConfig.isEnabled()){
-			throw new SpellCheckerException("The spellchecker is not enabled");
+			return false;
 		}
 		
 		SolrQuery solrQuery = new SolrQuery();
@@ -64,11 +63,17 @@ public class SpellCheckerIndexer implements ISpellCheckerIndexer {
 		solrQuery.add(Constants.SPELLCHECKER_DICTIONARY_NAME_PARAMETER, spellCheckerDictionaryName.toString());
 		solrQuery.add(Constants.SPELLCHECKER_BUILD_PARAMETER, "true");
 		solrQuery.add(Constants.SPELLCHECKER_ENABLED_PARAMETER, "true");
+		solrQuery.setQuery("spell");
 		try {
-			solrClient.getServer().query(solrQuery);
-		} catch (SolrServerException e) {
+			QueryResponse response = solrClient.getServer().query(solrQuery);
+			if (response.getStatus()!=0){
+			    return false;
+			}
+			return true;
+			
+		} catch (Exception e) {
 			e.printStackTrace();
-			throw new SpellCheckerException(e);
+			return false;
 		}
 		
 	}

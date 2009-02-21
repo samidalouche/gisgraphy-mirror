@@ -138,6 +138,11 @@ public class FulltextServletTest extends AbstractIntegrationHttpSolrTestCase {
 	    get.setQueryString(queryString);
 	    client.executeMethod(get);
 	    result = get.getResponseBodyAsString();
+	    
+	    //check content 
+	    Header contentType = get.getResponseHeader("Content-Type");
+		assertEquals("The content-type is not correct",OutputFormat.JSON.getContentType(),contentType.getValue()
+			);
 
 	    // JsTester
 	    jsTester.eval("evalresult= eval(" + result + ");");

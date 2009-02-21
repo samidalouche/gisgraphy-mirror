@@ -112,16 +112,13 @@ public class GeolocServlet extends HttpServlet {
 	    throws ServletException, IOException {
 	OutputFormat format = OutputFormat.getDefault();
 	try {
-	    String formatParam = req.getParameter(FORMAT_PARAMETER);
-	    format = OutputFormat.getFromString(formatParam);
-	    format = OutputFormat.getDefaultForServiceIfNotSupported(format, GisgraphyServiceType.GEOLOC);
-	    resp.setHeader("content-type", format.getContentType());
+	    format = setResponseContentType(req, resp);
 	    // check empty query
 	    if (HTMLHelper
 		    .isParametersEmpty(req, LAT_PARAMETER, LONG_PARAMETER)) {
 		sendCustomError(ResourceBundle.getBundle(
 			Constants.BUNDLE_ERROR_KEY).getString(
-			"error.emptyLatLong"), format, resp);
+			"error.emptyLatLong"), format, resp,req);
 		return;
 	    }
 	    GeolocQuery query = new GeolocQuery(req);
@@ -137,20 +134,31 @@ public class GeolocServlet extends HttpServlet {
 	    sendCustomError(ResourceBundle
 		    .getBundle(Constants.BUNDLE_ERROR_KEY).getString(
 			    "error.error")
-		    + errorMessage, format, resp);
+		    + errorMessage, format, resp,req);
 	    return;
 	}
 
     }
 
-    public void sendCustomError(String errorMessage, OutputFormat format,
+    private OutputFormat setResponseContentType(HttpServletRequest req,
 	    HttpServletResponse resp) {
+	OutputFormat format;
+	String formatParam = req.getParameter(FORMAT_PARAMETER);
+	format = OutputFormat.getFromString(formatParam);
+	format = OutputFormat.getDefaultForServiceIfNotSupported(format, GisgraphyServiceType.GEOLOC);
+	resp.setHeader("content-type", format.getContentType());
+	return format;
+    }
+
+    public void sendCustomError(String errorMessage, OutputFormat format,
+	    HttpServletResponse resp,HttpServletRequest req) {
 	IoutputFormatVisitor visitor = new GeolocErrorVisitor(errorMessage);
 	String response = format.accept(visitor);
 	Writer writer = null;
 	try {
 	    resp.reset();
 	    writer = resp.getWriter();
+	    setResponseContentType(req, resp);
 	    writer.append(response);
 	    writer.flush();
 	} catch (IOException e) {

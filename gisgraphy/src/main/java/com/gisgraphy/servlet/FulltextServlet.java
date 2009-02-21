@@ -41,6 +41,7 @@ import com.gisgraphy.domain.geoloc.service.fulltextsearch.FulltextErrorVisitor;
 import com.gisgraphy.domain.geoloc.service.fulltextsearch.FulltextQuery;
 import com.gisgraphy.domain.geoloc.service.fulltextsearch.IFullTextSearchEngine;
 import com.gisgraphy.domain.valueobject.Constants;
+import com.gisgraphy.domain.valueobject.GisgraphyServiceType;
 import com.gisgraphy.domain.valueobject.Output.OutputFormat;
 import com.gisgraphy.helper.EncodingHelper;
 import com.gisgraphy.helper.HTMLHelper;
@@ -114,14 +115,12 @@ public class FulltextServlet extends HttpServlet {
 	    throws ServletException, IOException {
 	OutputFormat format = OutputFormat.getDefault();
 	try {
-	    String formatParam = req.getParameter(FORMAT_PARAMETER);
-	    format = OutputFormat.getFromString(formatParam);
-	    resp.setHeader("content-type", format.getContentType());
+	    format = setResponseContentType(req, resp);
 	    // check empty query
 	    if (HTMLHelper.isParametersEmpty(req, QUERY_PARAMETER)) {
 		sendCustomError(ResourceBundle.getBundle(
 			Constants.BUNDLE_ERROR_KEY).getString(
-			"error.emptyQuery"), format, resp);
+			"error.emptyQuery"), format, resp,req);
 		return;
 	    }
 	    FulltextQuery query = new FulltextQuery(req);
@@ -136,19 +135,30 @@ public class FulltextServlet extends HttpServlet {
 	    sendCustomError(ResourceBundle
 		    .getBundle(Constants.BUNDLE_ERROR_KEY).getString(
 			    "error.error")
-		    + errorMessage, format, resp);
+		    + errorMessage, format, resp,req);
 	    return;
 	}
 
     }
+    
+    private OutputFormat setResponseContentType(HttpServletRequest req,
+	    HttpServletResponse resp) {
+	OutputFormat format;
+	String formatParam = req.getParameter(FORMAT_PARAMETER);
+	format = OutputFormat.getFromString(formatParam);
+	format = OutputFormat.getDefaultForServiceIfNotSupported(format, GisgraphyServiceType.FULLTEXT);
+	resp.setHeader("content-type", format.getContentType());
+	return format;
+    }
 
     public void sendCustomError(String errorMessage, OutputFormat format,
-	    HttpServletResponse resp) {
+	    HttpServletResponse resp,HttpServletRequest req) {
 	IoutputFormatVisitor visitor = new FulltextErrorVisitor(errorMessage);
 	String response = format.accept(visitor);
 	Writer writer = null;
 	try {
 	    resp.reset();
+	    setResponseContentType(req, resp);
 	    writer = resp.getWriter();
 	    writer.append(response);
 	    writer.flush();

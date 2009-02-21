@@ -30,6 +30,11 @@ package com.gisgraphy.domain.geoloc.service.fulltextsearch.spell;
  */
 public class SpellCheckerException extends RuntimeException {
 
+     /**
+     * Generated serial ID 
+     */
+    private static final long serialVersionUID = -8534626865010822443L;
+
 	/**
 	 * Default Constructor
 	 */

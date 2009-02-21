@@ -94,7 +94,7 @@ public class GeolocServletTest extends AbstractIntegrationHttpSolrTestCase {
 	for (OutputFormat format : OutputFormat.values()) {
 	    GetMethod get = null;
 	    try {
-		queryString = "q=test&format=" + format.toString();
+		queryString = GeolocServlet.LAT_PARAMETER+"=3&"+GeolocServlet.LONG_PARAMETER+"=4&format=" + format.toString();
 		HttpClient client = new HttpClient();
 		get = new GetMethod(url);
 
@@ -106,6 +106,37 @@ public class GeolocServletTest extends AbstractIntegrationHttpSolrTestCase {
 		OutputFormat expectedformat = format.isSupported(GisgraphyServiceType.GEOLOC)?format:OutputFormat.getDefault();
 		assertTrue(contentType.getValue().equals(
 			expectedformat.getContentType()));
+
+	    } catch (IOException e) {
+		fail("An exception has occured " + e.getMessage());
+	    } finally {
+		if (get != null) {
+		    get.releaseConnection();
+		}
+	    }
+	}
+
+    }
+    
+    public void testGeolocServletShouldReturnCorrectContentTypeForSupportedFormatWhenErrorOccured() {
+	String url = geolocServletUrl + FULLTEXT_SERVLET_CONTEXT
+		+ "/geolocsearch";
+
+	String queryStringWithMissingLat;
+	for (OutputFormat format : OutputFormat.values()) {
+	    GetMethod get = null;
+	    try {
+		queryStringWithMissingLat = GeolocServlet.LONG_PARAMETER+"=4&format=" + format.toString();
+		HttpClient client = new HttpClient();
+		get = new GetMethod(url);
+
+		get.setQueryString(queryStringWithMissingLat);
+		client.executeMethod(get);
+		// result = get.getResponseBodyAsString();
+		
+		Header contentType = get.getResponseHeader("Content-Type");
+		OutputFormat expectedformat = format.isSupported(GisgraphyServiceType.GEOLOC)?format:OutputFormat.getDefault();
+		assertEquals("The content-type is not correct",expectedformat.getContentType(),contentType.getValue());
 
 	    } catch (IOException e) {
 		fail("An exception has occured " + e.getMessage());
@@ -131,7 +162,7 @@ public class GeolocServletTest extends AbstractIntegrationHttpSolrTestCase {
 	try {
 	    jsTester = new JsTester();
 	    jsTester.onSetUp();
-	    queryString = "q=&format=" + format.getParameterValue();
+	    queryString = "format=" + format.getParameterValue();
 	    HttpClient client = new HttpClient();
 	    get = new GetMethod(url);
 
@@ -170,7 +201,7 @@ public class GeolocServletTest extends AbstractIntegrationHttpSolrTestCase {
 	OutputFormat format = OutputFormat.XML;
 	GetMethod get = null;
 	try {
-	    queryString = "q=&format=" + format.getParameterValue();
+	    queryString = "format=" + format.getParameterValue();
 	    HttpClient client = new HttpClient();
 	    get = new GetMethod(url);
 
