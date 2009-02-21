@@ -63,6 +63,10 @@
         solRSynchroniser : adm Parents are treated when Adm are sync
       </action>
       
+       <action dev="David Masclet" type="fix" >
+       Reset the response buffer before sending errors to avoid "getOutputStream()" a déjà été appelé pour cette réponse
+      </action>
+      
        	
     </release>
   </body>
