@@ -1051,7 +1051,7 @@ public class ImporterManagerTest extends AbstractIntegrationHttpSolrTestCase {
 	    assertTrue(
 		    "The alternateNames size : "
 			    + allAlternateNamesAfterImport.size()
-			    + ", should not be the same after the alternateNamesImporter : "
+			    + ", should be the same after the alternateNamesImporter : "
 			    + allAlternateNamesSize
 			    + ", because ImportGisFeatureEmbededAlternateNames="
 			    + importerConfig
@@ -1063,7 +1063,7 @@ public class ImporterManagerTest extends AbstractIntegrationHttpSolrTestCase {
 	    assertTrue(
 		    "The alternateNames size : "
 			    + allAlternateNamesAfterImport.size()
-			    + ", should be the same after the alternateNamesImporter : "
+			    + ", should not be the same after the alternateNamesImporter : "
 			    + allAlternateNamesSize
 			    + ", because ImportGisFeatureEmbededAlternateNames="
 			    + importerConfig
