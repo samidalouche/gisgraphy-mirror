@@ -249,6 +249,14 @@
       @import url("/css/maven-theme.css");
       @import url("/css/site.css");
     </style>
+     <link rel="alternate" type="application/atom+xml" title="download changes" href="http://code.google.com/feeds/p/gisgraphy/downloads/basic" />
+     <link rel="alternate" type="application/atom+xml" title="Project updates" href="http://code.google.com/feeds/p/gisgraphy/updates/basic" />
+     <link rel="alternate" type="application/atom+xml" title="Issues updates" href="http://code.google.com/feeds/p/gisgraphy/issueupdates/basic" />
+     <link rel="alternate" type="application/atom+xml" title="Sources changes" href="http://code.google.com/feeds/p/gisgraphy/svnchanges/basic" />
+     <link rel="alternate" type="application/atom+xml" title="Project updates" href="http://code.google.com/feeds/p/gisgraphy/updates/basic" />
+      
+      
+    
     <link rel="stylesheet" href="/css/print.css" type="text/css" media="print" />
     #foreach( $author in $authors )
       <meta name="author" content="$author" />
