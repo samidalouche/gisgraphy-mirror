@@ -57,7 +57,7 @@ public class GeonamesAlternateNamesImporter extends AbstractGeonamesProcessor {
 
     private static final Long defaultFeatureId = Long.valueOf(-1);
     
-    ISpellCheckerIndexer spellCheckerIndexer;
+    private ISpellCheckerIndexer spellCheckerIndexer;
 
 
     /**
