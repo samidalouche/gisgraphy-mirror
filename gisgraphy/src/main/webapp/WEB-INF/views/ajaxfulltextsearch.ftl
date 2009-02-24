@@ -134,7 +134,7 @@
     try {
      if (!checkParameters('fulltextsearch'))
      {
- 	    return false;;
+ 	    return false;
      }
     var savedAction = $('fulltextsearch').action;
     $('fulltextsearch').action='/ajaxfulltextsearch!searchpopup.html';
