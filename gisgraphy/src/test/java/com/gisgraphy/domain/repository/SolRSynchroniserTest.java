@@ -31,6 +31,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 
@@ -46,6 +47,7 @@ import com.gisgraphy.domain.geoloc.service.fulltextsearch.AbstractIntegrationHtt
 import com.gisgraphy.domain.geoloc.service.fulltextsearch.FullTextFields;
 import com.gisgraphy.domain.geoloc.service.fulltextsearch.FullTextSearchException;
 import com.gisgraphy.domain.geoloc.service.fulltextsearch.FulltextQuery;
+import com.gisgraphy.domain.geoloc.service.fulltextsearch.spell.ISpellCheckerIndexer;
 import com.gisgraphy.domain.valueobject.Constants;
 import com.gisgraphy.domain.valueobject.Output;
 import com.gisgraphy.domain.valueobject.Pagination;
@@ -64,6 +66,9 @@ public class SolRSynchroniserTest extends AbstractIntegrationHttpSolrTestCase {
 
     @Resource
     private GeolocTestHelper geolocTestHelper;
+    
+    @Resource
+    private ISpellCheckerIndexer spellCheckerIndexer;
 
     @Test
     public void testDeleteAllShouldResetTheIndex() {
@@ -343,6 +348,11 @@ public class SolRSynchroniserTest extends AbstractIntegrationHttpSolrTestCase {
 		.createAndSaveCityWithFullAdmTreeAndCountry(featureId);
 	// commit changes
 	this.solRSynchroniser.commit();
+	//buildIndex
+	Map<String,Boolean> spellChekerResultMap = spellCheckerIndexer.buildAllIndex();
+	for (String key : spellChekerResultMap.keySet()){
+	    assertTrue(spellChekerResultMap.get(key).booleanValue());
+	}
 	File tempDir = GeolocTestHelper.createTempDir(this.getClass()
 		.getSimpleName());
 	File file = new File(tempDir.getAbsolutePath()
@@ -457,7 +467,8 @@ public class SolRSynchroniserTest extends AbstractIntegrationHttpSolrTestCase {
 		, "//*[@name='" + FullTextFields.NAMEASCII.getValue()
 			+ "'][.='ascii']",
 		"//*[@name='" + FullTextFields.ELEVATION.getValue()
-			+ "'][.='13456']", "//*[@name='"
+			+ "'][.='13456']"
+		, "//*[@name='"
 			+ FullTextFields.GTOPO30.getValue() + "'][.='7654']",
 		"//*[@name='" + FullTextFields.TIMEZONE.getValue()
 			+ "'][.='Europe/Paris']"
@@ -465,14 +476,25 @@ public class SolRSynchroniserTest extends AbstractIntegrationHttpSolrTestCase {
 		, "//*[@name='" + FullTextFields.COUNTRY_FLAG_URL.getValue()
 			+ "'][.='"
 			+ URLUtils.createCountryFlagUrl(paris.getCountryCode())
-			+ "']", "//*[@name='"
+			+ "']"
+		, "//*[@name='"
 			+ FullTextFields.GOOGLE_MAP_URL.getValue()
 			+ "'][.='"
 			+ URLUtils.createGoogleMapUrl(paris.getLocation(),
 				paris.getName()) + "']", "//*[@name='"
 			+ FullTextFields.YAHOO_MAP_URL.getValue() + "'][.='"
 			+ URLUtils.createYahooMapUrl(paris.getLocation())
-			+ "']");
+			+ "']"
+		,//spellchecker fields
+		"//*[@name='" + FullTextFields.SPELLCHECK.getValue()
+			+ "']"
+		,"//*[@name='" + FullTextFields.SPELLCHECK_SUGGESTIONS.getValue()
+			+ "']"
+		,"//*[./arr[1]/str[1]/.='saint']"
+		,"//*[./arr[1]/str[1]/.='andré']"
+		,"//*[./arr[1]/str[1]/.='france']"
+	
+	);
 
 	// delete temp dir
 	assertTrue("the tempDir has not been deleted", GeolocTestHelper

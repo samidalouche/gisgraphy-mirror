@@ -31,6 +31,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 
@@ -43,6 +44,7 @@ import org.junit.Test;
 import com.gisgraphy.domain.geoloc.entity.AlternateName;
 import com.gisgraphy.domain.geoloc.entity.City;
 import com.gisgraphy.domain.geoloc.entity.GisFeature;
+import com.gisgraphy.domain.geoloc.service.fulltextsearch.spell.ISpellCheckerIndexer;
 import com.gisgraphy.domain.repository.ICityDao;
 import com.gisgraphy.domain.valueobject.AlternateNameSource;
 import com.gisgraphy.domain.valueobject.FulltextResultsDto;
@@ -61,6 +63,9 @@ public class FulltextSearchEngineTest extends
 
     @Resource
     IStatsUsageService statsUsageService;
+
+    @Resource
+    private ISpellCheckerIndexer spellCheckerIndexer;
 
     @Test
     public void testIsAlive() {
@@ -235,7 +240,6 @@ public class FulltextSearchEngineTest extends
 	    fail("error during search : " + e.getMessage());
 	}
 
-	// TODO test file and remove tempdir
 	String content = "";
 	try {
 	    content = GeolocTestHelper.readFileAsString(file.getAbsolutePath());
@@ -276,6 +280,48 @@ public class FulltextSearchEngineTest extends
 			    + FullTextFields.FULLY_QUALIFIED_NAME.getValue()
 			    + "'][.='" + city.getFullyQualifiedName(false)
 			    + "']");
+	} catch (FullTextSearchException e) {
+	    fail("error during search : " + e.getMessage());
+	}
+    }
+
+    @Test
+    public void testExecuteQueryShouldTakeSpellCheckerIntoAccount() {
+	City city = GeolocTestHelper.createCity("Saint-André", 1.5F, 2F, 1001L);
+	this.cityDao.save(city);
+	assertNotNull(this.cityDao.getByFeatureId(1001L));
+	// commit changes
+	this.solRSynchroniser.commit();
+	//buildIndex
+	Map<String, Boolean> spellChekerResultMap = spellCheckerIndexer
+		.buildAllIndex();
+	for (String key : spellChekerResultMap.keySet()) {
+	    assertTrue(spellChekerResultMap.get(key).booleanValue());
+	}
+
+	try {
+	    Pagination pagination = paginate().from(1).to(10);
+	    Output output = Output.withFormat(OutputFormat.XML)
+		    .withLanguageCode("FR").withStyle(OutputStyle.SHORT)
+		    .withIndentation();
+	    FulltextQuery fulltextQuery = new FulltextQuery("Saint-André",
+		    pagination, output, City.class, "fr").withSpellChecking();
+	    String result = fullTextSearchEngine
+		    .executeQueryToString(fulltextQuery);
+	    assertQ("The query return incorrect values", result,
+		    "//*[@numFound='1']", "//*[@name='status'][.='0']",
+		    "//*[@name='"
+			    + FullTextFields.FULLY_QUALIFIED_NAME.getValue()
+			    + "'][.='" + city.getFullyQualifiedName(false)
+			    + "']", "//*[@name='"
+			    + FullTextFields.SPELLCHECK.getValue() + "']",
+		    "//*[@name='"
+			    + FullTextFields.SPELLCHECK_SUGGESTIONS.getValue()
+			    + "']"
+			    ,"//*[./arr[1]/str[1]/.='saint']"
+				,"//*[./arr[1]/str[1]/.='andré']"
+
+	    );
 	} catch (FullTextSearchException e) {
 	    fail("error during search : " + e.getMessage());
 	}

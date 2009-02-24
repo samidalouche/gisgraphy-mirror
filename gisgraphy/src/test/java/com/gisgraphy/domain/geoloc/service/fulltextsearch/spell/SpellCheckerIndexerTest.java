@@ -13,7 +13,7 @@ import com.gisgraphy.domain.valueobject.Constants;
 public class SpellCheckerIndexerTest extends
 	AbstractIntegrationHttpSolrTestCase {
 
-    ISpellCheckerIndexer spellCheckerIndexer;
+    private ISpellCheckerIndexer spellCheckerIndexer;
 
     @Test
     public void testBuildAllIndex() {
