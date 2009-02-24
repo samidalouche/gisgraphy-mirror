@@ -27,8 +27,11 @@ package com.gisgraphy.domain.valueobject;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import org.apache.solr.client.solrj.response.QueryResponse;
+import org.apache.solr.client.solrj.response.SpellCheckResponse.Suggestion;
 
 import com.gisgraphy.domain.geoloc.service.fulltextsearch.SolrUnmarshaller;
 
@@ -63,6 +66,15 @@ public class FulltextResultsDto {
 	this.numFound = response.getResults().getNumFound();
 	this.maxScore = response.getResults().getMaxScore();
 	this.resultsSize = results == null ? 0 : results.size();
+	/*Map<String, Suggestion> map = response.getSpellCheckResponse().getSuggestionMap();
+	for (Entry<String, Suggestion> e : map.entrySet()){
+	    System.err.println(e.getKey()+"="+e.getValue().getSuggestions().get(0));
+	    
+	}
+	List<Suggestion> sug = response.getSpellCheckResponse().getSuggestions();
+	for (Suggestion s : sug){
+	    System.err.println(s.getSuggestions().get(0));
+	}*/
     }
 
     /**
