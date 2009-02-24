@@ -361,7 +361,7 @@ public class SolRSynchroniserTest extends AbstractIntegrationHttpSolrTestCase {
 		    .withLanguageCode("FR").withStyle(OutputStyle.FULL)
 		    .withIndentation();
 	    FulltextQuery fulltextQuery = new FulltextQuery("Saint-André",
-		    pagination, output, City.class, "fr");
+		    pagination, output, City.class, "fr").withSpellChecking();
 	    fullTextSearchEngine.executeAndSerialize(fulltextQuery,
 		    outputStream);
 	} catch (FullTextSearchException e) {

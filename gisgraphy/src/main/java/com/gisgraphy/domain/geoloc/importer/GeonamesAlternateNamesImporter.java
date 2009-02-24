@@ -32,6 +32,7 @@ import org.springframework.beans.factory.annotation.Required;
 import com.gisgraphy.domain.geoloc.entity.AlternateName;
 import com.gisgraphy.domain.geoloc.entity.GisFeature;
 import com.gisgraphy.domain.geoloc.entity.ZipCodeAware;
+import com.gisgraphy.domain.geoloc.service.fulltextsearch.spell.ISpellCheckerIndexer;
 import com.gisgraphy.domain.repository.IAlternateNameDao;
 import com.gisgraphy.domain.repository.ICityDao;
 import com.gisgraphy.domain.repository.IGisFeatureDao;
@@ -55,6 +56,9 @@ public class GeonamesAlternateNamesImporter extends AbstractGeonamesProcessor {
     private ISolRSynchroniser solRSynchroniser;
 
     private static final Long defaultFeatureId = Long.valueOf(-1);
+    
+    ISpellCheckerIndexer spellCheckerIndexer;
+
 
     /**
      * Default constructor
@@ -271,6 +275,7 @@ public class GeonamesAlternateNamesImporter extends AbstractGeonamesProcessor {
 	super.tearDown();
 	solRSynchroniser.commit();
 	solRSynchroniser.optimize();
+	spellCheckerIndexer.buildAllIndex();
     }
 
     /**
@@ -326,6 +331,13 @@ public class GeonamesAlternateNamesImporter extends AbstractGeonamesProcessor {
     @Required
     public void setSolRSynchroniser(ISolRSynchroniser solRSynchroniser) {
 	this.solRSynchroniser = solRSynchroniser;
+    }
+    
+    /**
+     * @param spellCheckerIndexer the spellCheckerIndexer to set
+     */
+    public void setSpellCheckerIndexer(ISpellCheckerIndexer spellCheckerIndexer) {
+        this.spellCheckerIndexer = spellCheckerIndexer;
     }
 
     /*

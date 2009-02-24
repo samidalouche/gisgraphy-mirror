@@ -24,12 +24,15 @@ package com.gisgraphy.domain.geoloc.importer;
 
 import static org.junit.Assert.assertEquals;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.easymock.classextension.EasyMock;
 import org.junit.Test;
 
+import com.gisgraphy.domain.geoloc.service.fulltextsearch.spell.ISpellCheckerIndexer;
 import com.gisgraphy.domain.repository.IAlternateNameDao;
+import com.gisgraphy.domain.repository.ISolRSynchroniser;
 import com.gisgraphy.domain.valueobject.NameValueDTO;
 
 public class GeonamesAlternateNamesImporterTest {
@@ -46,6 +49,25 @@ public class GeonamesAlternateNamesImporterTest {
 		.rollback();
 	assertEquals(1, deleted.size());
 	assertEquals(5, deleted.get(0).getValue().intValue());
+    }
+    
+    @Test
+    public void testTeardown(){
+	ISolRSynchroniser mockSolRSynchroniser = EasyMock.createMock(ISolRSynchroniser.class);
+	mockSolRSynchroniser.commit();
+	EasyMock.expectLastCall();
+	mockSolRSynchroniser.optimize();
+	EasyMock.expectLastCall();
+	ISpellCheckerIndexer mockSpellCheckerIndexer = EasyMock.createMock(ISpellCheckerIndexer.class);
+	EasyMock.expect(mockSpellCheckerIndexer.buildAllIndex()).andReturn(new HashMap<String, Boolean>());
+	EasyMock.replay(mockSolRSynchroniser);
+	EasyMock.replay(mockSpellCheckerIndexer);
+	GeonamesAlternateNamesImporter importer = new GeonamesAlternateNamesImporter();
+	importer.setSolRSynchroniser(mockSolRSynchroniser);
+	importer.setSpellCheckerIndexer(mockSpellCheckerIndexer);
+	importer.tearDown();
+	EasyMock.verify(mockSolRSynchroniser);
+	EasyMock.verify(mockSpellCheckerIndexer);
     }
 
 }

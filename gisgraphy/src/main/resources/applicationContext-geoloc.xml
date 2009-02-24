@@ -133,6 +133,7 @@
 		<property name="alternateNameDao" ref="alternateNameDao" />
 		<property name="cityDao" ref="cityDao" />
 		<property name="solRSynchroniser" ref="solRSynchroniser"/>
+		<property name="spellCheckerIndexer" ref="spellCheckerIndexer"/>
 	</bean>
 	
 

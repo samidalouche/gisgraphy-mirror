@@ -422,7 +422,7 @@ public class FulltextSearchEngineTest extends
     @Test
     public void testReturnFields() {
 	// the fields are tested in solrsynchroniserTest, we don't want to
-	// duplicate code
+	// duplicate tests
     }
 
     /**

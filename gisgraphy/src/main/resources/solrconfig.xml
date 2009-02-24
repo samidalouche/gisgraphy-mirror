@@ -375,6 +375,9 @@
         population^2.0
      </str>
      </lst>
+     <arr name="last-components">
+      <str>spellcheck</str>
+   	 </arr>
      </requestHandler>
      
       <!-- search in name, zipcode admXname, an countryname for a specific typed :
@@ -398,6 +401,9 @@
         population^2.0
      </str>
      </lst>
+     <arr name="last-components">
+      <str>spellcheck</str>
+   	 </arr>
      </requestHandler>
      
      <!-- search zipcode or featureId (a country can be specified) -->
@@ -443,6 +449,9 @@
 	 -->
      
     </lst>
+    <arr name="last-components">
+      <str>spellcheck</str>
+   	 </arr>
   </requestHandler>
      
       <!-- search in name zipcode and alternatenames -->
@@ -469,6 +478,9 @@
 	 -->
      
     </lst>
+    <arr name="last-components">
+      <str>spellcheck</str>
+   	 </arr>
   </requestHandler>
   
   <!-- advanced/personalised search 
@@ -486,6 +498,9 @@
        <str name="version">2.1</str>
         -->
      </lst>
+     <arr name="last-components">
+      <str>spellcheck</str>
+   	 </arr>
   </requestHandler>
 
   
@@ -532,6 +547,9 @@
       <str name="name">default</str>
       <str name="field">spell</str>
       <str name="spellcheckIndexDir">./spellchecker1</str>
+      <str name="distanceMeasure">org.apache.lucene.search.spell.JaroWinklerDistance</str>
+      <str name="accuracy">0.7</str>
+      <str name="spellcheckIndexDir">./spellchecker2</str>
     </lst>
   
     

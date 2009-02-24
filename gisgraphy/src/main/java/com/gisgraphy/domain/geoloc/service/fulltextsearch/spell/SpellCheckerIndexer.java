@@ -22,8 +22,13 @@
  *******************************************************************************/
 package com.gisgraphy.domain.geoloc.service.fulltextsearch.spell;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.apache.solr.client.solrj.SolrQuery;
 import org.apache.solr.client.solrj.response.QueryResponse;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Required;
 
 import com.gisgraphy.domain.geoloc.service.fulltextsearch.IsolrClient;
@@ -32,53 +37,74 @@ import com.gisgraphy.domain.valueobject.Constants;
 /**
  * 
  * Solr implementation of {@link ISpellCheckerIndexer}
+ * 
  * @author <a href="mailto:david.masclet@gisgraphy.com">David Masclet</a>
- *
+ * 
  */
 public class SpellCheckerIndexer implements ISpellCheckerIndexer {
-	
-	 private IsolrClient solrClient;
-	 
-	
-	
 
-	/* (non-Javadoc)
-	 * @see com.gisgraphy.domain.geoloc.service.fulltextsearch.spell.ISpellCheckerIndexer#buildAllIndex()
-	 */
-	public boolean buildAllIndex(){
-		return true;
-		
+    private IsolrClient solrClient;
+
+    /**
+     * The logger
+     */
+    protected static final Logger logger = LoggerFactory
+	    .getLogger(SpellCheckerIndexer.class);
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see com.gisgraphy.domain.geoloc.service.fulltextsearch.spell.ISpellCheckerIndexer#buildAllIndex()
+     */
+    public Map<String, Boolean> buildAllIndex() {
+	Map<String, Boolean> resultMap = new HashMap<String, Boolean>();
+	for (SpellCheckerDictionaryNames dictionary : SpellCheckerDictionaryNames
+		.values()) {
+	    Boolean result = buildIndex(dictionary);
+	    resultMap.put(dictionary.name(), result);
+	}
+	return resultMap;
+
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see com.gisgraphy.domain.geoloc.service.fulltextsearch.spell.ISpellCheckerIndexer#buildIndex(com.gisgraphy.domain.geoloc.service.fulltextsearch.spell.SpellCheckerDictionaryNames)
+     */
+    public boolean buildIndex(
+	    SpellCheckerDictionaryNames spellCheckerDictionaryName) {
+	if (!SpellCheckerConfig.isEnabled()) {
+	    return false;
 	}
 	
-	/* (non-Javadoc)
-	 * @see com.gisgraphy.domain.geoloc.service.fulltextsearch.spell.ISpellCheckerIndexer#buildIndex(com.gisgraphy.domain.geoloc.service.fulltextsearch.spell.SpellCheckerDictionaryNames)
-	 */
-	public boolean buildIndex(SpellCheckerDictionaryNames spellCheckerDictionaryName){
-		if (!SpellCheckerConfig.isEnabled()){
-			return false;
-		}
-		
-		SolrQuery solrQuery = new SolrQuery();
-		solrQuery.setQueryType(Constants.SolrQueryType.spellcheck.toString());
-		solrQuery.add(Constants.SPELLCHECKER_DICTIONARY_NAME_PARAMETER, spellCheckerDictionaryName.toString());
-		solrQuery.add(Constants.SPELLCHECKER_BUILD_PARAMETER, "true");
-		solrQuery.add(Constants.SPELLCHECKER_ENABLED_PARAMETER, "true");
-		solrQuery.setQuery("spell");
-		try {
-			QueryResponse response = solrClient.getServer().query(solrQuery);
-			if (response.getStatus()!=0){
-			    return false;
-			}
-			return true;
-			
-		} catch (Exception e) {
-			e.printStackTrace();
-			return false;
-		}
-		
+	SolrQuery solrQuery = new SolrQuery();
+	solrQuery.setQueryType(Constants.SolrQueryType.spellcheck.toString());
+	solrQuery.add(Constants.SPELLCHECKER_DICTIONARY_NAME_PARAMETER,
+		spellCheckerDictionaryName.toString());
+	solrQuery.add(Constants.SPELLCHECKER_BUILD_PARAMETER, "true");
+	solrQuery.add(Constants.SPELLCHECKER_ENABLED_PARAMETER, "true");
+	solrQuery.setQuery("spell");
+	try {
+	    QueryResponse response = solrClient.getServer().query(solrQuery);
+	    if (response.getStatus() != 0) {
+		 logger.error("Indexing dictionary "
+			    + spellCheckerDictionaryName.name()+" fails");
+		return false;
+	    }
+	    logger.info("Successfully indexing dictionary "
+		    + spellCheckerDictionaryName.name());
+	    return true;
+
+	} catch (Exception e) {
+	    logger.error("An error has occured when indexing spellchecker "
+		    + spellCheckerDictionaryName + " : " + e);
+	    return false;
 	}
-	
-	 /**
+
+    }
+
+    /**
      * @param solrClient
      *                the solrClient to set
      */
@@ -86,6 +112,5 @@ public class SpellCheckerIndexer implements ISpellCheckerIndexer {
     public void setSolrClient(IsolrClient solrClient) {
 	this.solrClient = solrClient;
     }
-    
-   
+
 }
