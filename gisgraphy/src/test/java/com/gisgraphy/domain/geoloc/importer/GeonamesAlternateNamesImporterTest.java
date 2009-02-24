@@ -22,20 +22,43 @@
  *******************************************************************************/
 package com.gisgraphy.domain.geoloc.importer;
 
-import static org.junit.Assert.assertEquals;
-
 import java.util.HashMap;
 import java.util.List;
 
 import org.easymock.classextension.EasyMock;
 import org.junit.Test;
+import org.springframework.beans.factory.annotation.Required;
 
+import com.gisgraphy.domain.geoloc.service.fulltextsearch.AbstractIntegrationHttpSolrTestCase;
 import com.gisgraphy.domain.geoloc.service.fulltextsearch.spell.ISpellCheckerIndexer;
 import com.gisgraphy.domain.repository.IAlternateNameDao;
 import com.gisgraphy.domain.repository.ISolRSynchroniser;
 import com.gisgraphy.domain.valueobject.NameValueDTO;
 
-public class GeonamesAlternateNamesImporterTest {
+public class GeonamesAlternateNamesImporterTest extends AbstractIntegrationHttpSolrTestCase {
+    
+    private ImporterConfig importerConfig;
+    
+    private GeonamesAlternateNamesImporter geonamesAlternateNamesImporter;
+    
+    
+    private ISpellCheckerIndexer spellCheckerIndexer;
+
+  
+
+    /**
+     * @param solRSynchroniser the solRSynchroniser to set
+     */
+    public void setSolRSynchroniser(ISolRSynchroniser solRSynchroniser) {
+        this.solRSynchroniser = solRSynchroniser;
+    }
+
+    /**
+     * @param spellCheckerIndexer the spellCheckerIndexer to set
+     */
+    public void setSpellCheckerIndexer(ISpellCheckerIndexer spellCheckerIndexer) {
+        this.spellCheckerIndexer = spellCheckerIndexer;
+    }
 
     @Test
     public void testRollback() {
@@ -70,4 +93,49 @@ public class GeonamesAlternateNamesImporterTest {
 	EasyMock.verify(mockSpellCheckerIndexer);
     }
 
+    
+    @Test
+    public void testTeardownShouldBeCalledWhateverImportGisFeatureEmbededAlternateNamesOptions(){
+	boolean savedvalue = importerConfig.isImportGisFeatureEmbededAlternateNames();
+	try {
+	 //teardown must be called even if ImportGisFeatureEmbededAlternateNames is true
+	importerConfig.setImportGisFeatureEmbededAlternateNames(true);
+	ISolRSynchroniser mockSolRSynchroniser = EasyMock.createMock(ISolRSynchroniser.class);
+	mockSolRSynchroniser.commit();
+	EasyMock.expectLastCall();
+	mockSolRSynchroniser.optimize();
+	EasyMock.expectLastCall();
+	ISpellCheckerIndexer mockSpellCheckerIndexer = EasyMock.createMock(ISpellCheckerIndexer.class);
+	EasyMock.expect(mockSpellCheckerIndexer.buildAllIndex()).andReturn(new HashMap<String, Boolean>());
+	EasyMock.replay(mockSolRSynchroniser);
+	EasyMock.replay(mockSpellCheckerIndexer);
+	
+	geonamesAlternateNamesImporter.setSolRSynchroniser(mockSolRSynchroniser);
+	geonamesAlternateNamesImporter.setSpellCheckerIndexer(mockSpellCheckerIndexer);
+	geonamesAlternateNamesImporter.process();
+	EasyMock.verify(mockSolRSynchroniser);
+	EasyMock.verify(mockSpellCheckerIndexer);
+	} finally {
+	    importerConfig.setImportGisFeatureEmbededAlternateNames(savedvalue);
+	    geonamesAlternateNamesImporter.setSolRSynchroniser(solRSynchroniser);
+	    geonamesAlternateNamesImporter.setSpellCheckerIndexer(spellCheckerIndexer);
+	}
+    }
+    
+    /**
+     * @param importerConfig the importerConfig to set
+     */
+    @Required
+    public void setImporterConfig(ImporterConfig importerConfig) {
+        this.importerConfig = importerConfig;
+    }
+
+    /**
+     * @param geonamesAlternateNamesImporter the geonamesAlternateNamesImporter to set
+     */
+    @Required
+    public void setGeonamesAlternateNamesImporter(
+    	GeonamesAlternateNamesImporter geonamesAlternateNamesImporter) {
+        this.geonamesAlternateNamesImporter = geonamesAlternateNamesImporter;
+    }
 }
