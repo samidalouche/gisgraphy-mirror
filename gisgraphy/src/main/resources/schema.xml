@@ -190,7 +190,7 @@
       </analyzer>
     </fieldType>
 	
-	<!--
+	
 	<fieldType name="spell" class="solr.TextField" positionIncrementGap="100">
 		  <analyzer type="index">
 		    <tokenizer class="solr.StandardTokenizerFactory"/>
@@ -201,7 +201,18 @@
 		    <filter class="solr.StandardFilterFactory"/>
 		  </analyzer>
 	</fieldType>
-	-->
+	
+	<fieldType name="nontokenizedspell" class="solr.TextField" positionIncrementGap="100">
+		  <analyzer type="index">
+		    <tokenizer class="solr.StandardTokenizerFactory"/>
+		    <filter class="solr.StandardFilterFactory"/>
+		  </analyzer>
+		  <analyzer type="query">
+		    <tokenizer class="solr.StandardTokenizerFactory"/>
+		    <filter class="solr.StandardFilterFactory"/>
+		  </analyzer>
+	</fieldType>
+	
 
 
     <!-- Less flexible matching, but less false matches.  Probably not ideal for product names,
@@ -343,10 +354,14 @@ Full (alternatenames for adm and country): Long + country_alternate_name_, adm1_
    
    
   <!--  --><field name="spell" type="string" indexed="true" stored="false"/>
+  <field name="nontokenizedspell" type="nontokenizedspell" indexed="true" stored="false"/>
+  <field name="altspell" type="spell" indexed="true" stored="false"/>
    
    
    <!-- spell -->
    <copyField source="name" dest="spell"/> 
+   <copyField source="name" dest="nontokenizedspell"/> 
+   <copyField source="name" dest="altspell"/> 
    
 	<!-- fill the all_name field -->  
    <copyField source="name*" dest="all_name"/>
