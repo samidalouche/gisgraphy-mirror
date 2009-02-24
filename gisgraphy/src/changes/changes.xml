@@ -67,6 +67,9 @@
        Reset the response buffer before sending errors to avoid "getOutputStream()" a déjà été appelé pour cette réponse
       </action>
       
+      <action dev="David Masclet" type="add" >
+       Add javascript capabilities for adding gisgraphy opensearch module
+      </action>
        	
     </release>
   </body>
