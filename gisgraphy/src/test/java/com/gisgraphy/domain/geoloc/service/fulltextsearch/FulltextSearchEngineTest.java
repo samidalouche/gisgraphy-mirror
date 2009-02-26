@@ -32,7 +32,6 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import javax.annotation.Resource;
 
@@ -58,7 +57,6 @@ import com.gisgraphy.domain.valueobject.Output.OutputStyle;
 import com.gisgraphy.service.IStatsUsageService;
 import com.gisgraphy.stats.StatsUsageType;
 import com.gisgraphy.test.GeolocTestHelper;
-import com.lowagie.text.pdf.hyphenation.TernaryTree.Iterator;
 
 public class FulltextSearchEngineTest extends
 	AbstractIntegrationHttpSolrTestCase {
@@ -458,7 +456,7 @@ public class FulltextSearchEngineTest extends
     }
     
     @Test
-    public void testExecuteQueryWithSpellCheckingAndWithSpellResultsAndWithOutCollate() {
+    public void testExecuteQueryWithSpellCheckingAndWithSpellResultsAndWithoutCollate() {
 	City city = GeolocTestHelper.createCity("Saint-André", 1.5F, 2F, 1001L);
 	this.cityDao.save(city);
 	assertNotNull(this.cityDao.getByFeatureId(1001L));
@@ -528,6 +526,7 @@ public class FulltextSearchEngineTest extends
 	    FulltextResultsDto result = fullTextSearchEngine
 		    .executeQuery(fulltextQuery);
 	    Map<String, Suggestion> suggestionMap = result.getSuggestionMap();
+	    assertEquals("suggestionMap should not have elements if there is no results ", 0 ,suggestionMap.size());
 	    assertNotNull("suggestionMap should never be null",suggestionMap);
 	    assertNull(result.getSpellCheckProposal());
 	    assertNull(result.getCollatedResult());
@@ -567,6 +566,7 @@ public class FulltextSearchEngineTest extends
 		    .executeQuery(fulltextQuery);
 	    Map<String, Suggestion> suggestionMap = result.getSuggestionMap();
 	    assertNotNull("suggestionMap should never be null",suggestionMap);
+	    assertEquals("suggestionMap should not have elements if there is no results ", 0,suggestionMap.size());
 	    assertNull(result.getSpellCheckProposal());
 	    assertNull(result.getCollatedResult());
 	} catch (FullTextSearchException e) {
