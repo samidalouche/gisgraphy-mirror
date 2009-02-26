@@ -26,6 +26,7 @@
 package com.gisgraphy.domain.valueobject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -49,7 +50,14 @@ public class FulltextResultsDto {
 
     private long numFound = 0;
 
+    private Map<String, Suggestion> suggestionMap = new HashMap<String, Suggestion>();
+
+    private String collatedResult;
+
+    private String spellCheckProposal;
+
     private int QTime = 0;
+
 
     private int resultsSize = 0;
 
@@ -57,7 +65,7 @@ public class FulltextResultsDto {
 
     /**
      * @param response
-     *                The {@link QueryResponse} to build the DTO
+     *            The {@link QueryResponse} to build the DTO
      */
     public FulltextResultsDto(QueryResponse response) {
 	super();
@@ -66,7 +74,8 @@ public class FulltextResultsDto {
 	this.numFound = response.getResults().getNumFound();
 	this.maxScore = response.getResults().getMaxScore();
 	this.resultsSize = results == null ? 0 : results.size();
-	/*Map<String, Suggestion> map = response.getSpellCheckResponse().getSuggestionMap();
+	if (response.getSpellCheckResponse() != null) {
+	Map<String, Suggestion> map = response.getSpellCheckResponse().getSuggestionMap();
 	for (Entry<String, Suggestion> e : map.entrySet()){
 	    System.err.println(e.getKey()+"="+e.getValue().getSuggestions().get(0));
 	    
@@ -74,7 +83,20 @@ public class FulltextResultsDto {
 	List<Suggestion> sug = response.getSpellCheckResponse().getSuggestions();
 	for (Suggestion s : sug){
 	    System.err.println(s.getSuggestions().get(0));
-	}*/
+	}
+	    Map<String, Suggestion> suggestionMapInternal = response.getSpellCheckResponse().getSuggestionMap();
+	    if (suggestionMapInternal != null) {
+		suggestionMap = response.getSpellCheckResponse().getSuggestionMap();
+	    }
+	    collatedResult = response.getSpellCheckResponse().getCollatedResult();
+	    List<Suggestion> suggestions = response.getSpellCheckResponse().getSuggestions();
+	    StringBuffer sb = new StringBuffer();
+	    for (Suggestion suggestion : suggestions) {
+		sb.append(suggestion.getSuggestions().get(0)).append(" ");
+	    }
+	    spellCheckProposal = sb.toString().trim();
+	}
+
     }
 
     /**
@@ -126,10 +148,34 @@ public class FulltextResultsDto {
 
     /**
      * @param resultsSize
-     *                the resultsSize to set
+     *            the resultsSize to set
      */
     public void setResultsSize(int resultsSize) {
 	this.resultsSize = resultsSize;
+    }
+
+    /**
+     * @return the suggestionMap<{@link String},{@link Suggestion}> with the
+     *         entered searched term as key and a {@linkplain Suggestion} as
+     *         value that contains several information (see SolRj javadoc). it
+     *         will never return null but an empty map if there is no suggestion
+     */
+    public Map<String, Suggestion> getSuggestionMap() {
+	return suggestionMap;
+    }
+    
+    /**
+     * @return the collatedResult returned by Solr
+     */
+    public String getCollatedResult() {
+        return collatedResult;
+    }
+
+    /**
+     * @return a string for the best proposal for spellChecking
+     */
+    public String getSpellCheckProposal() {
+        return spellCheckProposal;
     }
 
 }

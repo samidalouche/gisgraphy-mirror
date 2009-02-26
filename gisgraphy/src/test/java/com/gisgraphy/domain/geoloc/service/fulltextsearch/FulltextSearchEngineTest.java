@@ -32,12 +32,14 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.annotation.Resource;
 
 import junit.framework.Assert;
 
 import org.apache.commons.httpclient.MultiThreadedHttpConnectionManager;
+import org.apache.solr.client.solrj.response.SpellCheckResponse.Suggestion;
 import org.easymock.classextension.EasyMock;
 import org.junit.Test;
 
@@ -45,6 +47,7 @@ import com.gisgraphy.domain.geoloc.entity.AlternateName;
 import com.gisgraphy.domain.geoloc.entity.City;
 import com.gisgraphy.domain.geoloc.entity.GisFeature;
 import com.gisgraphy.domain.geoloc.service.fulltextsearch.spell.ISpellCheckerIndexer;
+import com.gisgraphy.domain.geoloc.service.fulltextsearch.spell.SpellCheckerConfig;
 import com.gisgraphy.domain.repository.ICityDao;
 import com.gisgraphy.domain.valueobject.AlternateNameSource;
 import com.gisgraphy.domain.valueobject.FulltextResultsDto;
@@ -55,6 +58,7 @@ import com.gisgraphy.domain.valueobject.Output.OutputStyle;
 import com.gisgraphy.service.IStatsUsageService;
 import com.gisgraphy.stats.StatsUsageType;
 import com.gisgraphy.test.GeolocTestHelper;
+import com.lowagie.text.pdf.hyphenation.TernaryTree.Iterator;
 
 public class FulltextSearchEngineTest extends
 	AbstractIntegrationHttpSolrTestCase {
@@ -188,7 +192,7 @@ public class FulltextSearchEngineTest extends
     @Test
     public void testExecuteQueryToDatabaseObjectsShouldNotAcceptNullQuery() {
 	try {
-	    List<? extends GisFeature> result = fullTextSearchEngine
+	     fullTextSearchEngine
 		    .executeQueryToDatabaseObjects(null);
 	    fail("executeQueryToDatabaseObject should not accept null query");
 	} catch (IllegalArgumentException e) {
@@ -286,7 +290,7 @@ public class FulltextSearchEngineTest extends
     }
 
     @Test
-    public void testExecuteQueryShouldTakeSpellCheckerIntoAccount() {
+    public void testExecuteQueryToStringShouldTakeSpellCheckerIntoAccount() {
 	City city = GeolocTestHelper.createCity("Saint-André", 1.5F, 2F, 1001L);
 	this.cityDao.save(city);
 	assertNotNull(this.cityDao.getByFeatureId(1001L));
@@ -408,7 +412,172 @@ public class FulltextSearchEngineTest extends
 	    fail("error during search : " + e.getMessage());
 	}
     }
+    
+    @Test
+    public void testExecuteQueryWithSpellCheckingAndWithSpellResults() {
+	City city = GeolocTestHelper.createCity("Saint-André", 1.5F, 2F, 1001L);
+	this.cityDao.save(city);
+	assertNotNull(this.cityDao.getByFeatureId(1001L));
+	// commit changes
+	this.solRSynchroniser.commit();
+	//buildIndex
+	Map<String, Boolean> spellChekerResultMap = spellCheckerIndexer
+		.buildAllIndex();
+	for (String key : spellChekerResultMap.keySet()) {
+	    assertTrue(spellChekerResultMap.get(key).booleanValue());
+	}
+	boolean collatedSavedvalue = SpellCheckerConfig.collateResults; 
+	boolean enabledSavedvalue = SpellCheckerConfig.enabled; 
+	try {
+	    SpellCheckerConfig.collateResults = true;
+	    SpellCheckerConfig.enabled = true;
+	    Pagination pagination = paginate().from(1).to(10);
+	    Output output = Output.withFormat(OutputFormat.XML)
+		    .withLanguageCode("FR").withStyle(OutputStyle.SHORT)
+		    .withIndentation();
+	    FulltextQuery fulltextQuery = new FulltextQuery("Saint-André",
+		    pagination, output, City.class, "fr").withSpellChecking();
+	    FulltextResultsDto result = fullTextSearchEngine
+		    .executeQuery(fulltextQuery);
+	    Map<String, Suggestion> suggestionMap = result.getSuggestionMap();
+	    assertNotNull("suggestionMap should never be null",suggestionMap);
+	    assertEquals(2, suggestionMap.size());
+	    String[] keys =  suggestionMap.keySet().toArray(new String[2]);
+	    assertEquals("Saint", keys[0]);
+	    assertEquals("Andr", keys[1]);
+	    assertNotNull(suggestionMap.get(keys[0]));
+	    assertNotNull(suggestionMap.get(keys[1]));
+	    assertEquals("saint andré", result.getSpellCheckProposal());
+	    assertNotNull(result.getCollatedResult());
+	} catch (FullTextSearchException e) {
+	    fail("error during search : " + e.getMessage());
+	} finally {
+	    SpellCheckerConfig.collateResults = collatedSavedvalue;
+	    SpellCheckerConfig.enabled = enabledSavedvalue;
+	}
+    }
+    
+    @Test
+    public void testExecuteQueryWithSpellCheckingAndWithSpellResultsAndWithOutCollate() {
+	City city = GeolocTestHelper.createCity("Saint-André", 1.5F, 2F, 1001L);
+	this.cityDao.save(city);
+	assertNotNull(this.cityDao.getByFeatureId(1001L));
+	// commit changes
+	this.solRSynchroniser.commit();
+	//buildIndex
+	Map<String, Boolean> spellChekerResultMap = spellCheckerIndexer
+		.buildAllIndex();
+	for (String key : spellChekerResultMap.keySet()) {
+	    assertTrue(spellChekerResultMap.get(key).booleanValue());
+	}
+	boolean collatedSavedvalue = SpellCheckerConfig.collateResults; 
+	boolean enabledSavedvalue = SpellCheckerConfig.enabled; 
+	try {
+	    SpellCheckerConfig.collateResults = false;
+	    SpellCheckerConfig.enabled = true;
+	    Pagination pagination = paginate().from(1).to(10);
+	    Output output = Output.withFormat(OutputFormat.XML)
+		    .withLanguageCode("FR").withStyle(OutputStyle.SHORT)
+		    .withIndentation();
+	    FulltextQuery fulltextQuery = new FulltextQuery("Saint-André",
+		    pagination, output, City.class, "fr").withSpellChecking();
+	    FulltextResultsDto result = fullTextSearchEngine
+		    .executeQuery(fulltextQuery);
+	    Map<String, Suggestion> suggestionMap = result.getSuggestionMap();
+	    assertNotNull("suggestionMap should never be null",suggestionMap);
+	    assertEquals(2, suggestionMap.size());
+	    String[] keys =  suggestionMap.keySet().toArray(new String[2]);
+	    assertEquals("Saint", keys[0]);
+	    assertEquals("Andr", keys[1]);
+	    assertNotNull(suggestionMap.get(keys[0]));
+	    assertNotNull(suggestionMap.get(keys[1]));
+	    assertEquals("saint andré", result.getSpellCheckProposal());
+	    assertNull(result.getCollatedResult());
+	} catch (FullTextSearchException e) {
+	    fail("error during search : " + e.getMessage());
+	} finally {
+	    SpellCheckerConfig.collateResults = collatedSavedvalue;
+	    SpellCheckerConfig.enabled = enabledSavedvalue;
+	}
+    }
+    
+    @Test
+    public void testExecuteQueryWithSpellCheckingAndWithSpellResultsWithoutSpellCheckingEnabled() {
+	City city = GeolocTestHelper.createCity("Saint-André", 1.5F, 2F, 1001L);
+	this.cityDao.save(city);
+	assertNotNull(this.cityDao.getByFeatureId(1001L));
+	// commit changes
+	this.solRSynchroniser.commit();
+	//buildIndex
+	Map<String, Boolean> spellChekerResultMap = spellCheckerIndexer
+		.buildAllIndex();
+	for (String key : spellChekerResultMap.keySet()) {
+	    assertTrue(spellChekerResultMap.get(key).booleanValue());
+	}
+	boolean collatedSavedvalue = SpellCheckerConfig.collateResults; 
+	boolean enabledSavedvalue = SpellCheckerConfig.enabled; 
+	try {
+	    SpellCheckerConfig.collateResults = true;
+	    SpellCheckerConfig.enabled = false;
+	    Pagination pagination = paginate().from(1).to(10);
+	    Output output = Output.withFormat(OutputFormat.XML)
+		    .withLanguageCode("FR").withStyle(OutputStyle.SHORT)
+		    .withIndentation();
+	    FulltextQuery fulltextQuery = new FulltextQuery("Saint-André",
+		    pagination, output, City.class, "fr").withSpellChecking();
+	    FulltextResultsDto result = fullTextSearchEngine
+		    .executeQuery(fulltextQuery);
+	    Map<String, Suggestion> suggestionMap = result.getSuggestionMap();
+	    assertNotNull("suggestionMap should never be null",suggestionMap);
+	    assertNull(result.getSpellCheckProposal());
+	    assertNull(result.getCollatedResult());
+	} catch (FullTextSearchException e) {
+	    fail("error during search : " + e.getMessage());
+	} finally {
+	    SpellCheckerConfig.collateResults = collatedSavedvalue;
+	    SpellCheckerConfig.enabled = enabledSavedvalue;
+	}
+    }
 
+    @Test
+    public void testExecuteQueryWithSpellCheckingAndWithOutSpellResults() {
+	City city = GeolocTestHelper.createCity("Saint-André", 1.5F, 2F, 1001L);
+	this.cityDao.save(city);
+	assertNotNull(this.cityDao.getByFeatureId(1001L));
+	// commit changes
+	this.solRSynchroniser.commit();
+	//buildIndex
+	Map<String, Boolean> spellChekerResultMap = spellCheckerIndexer
+		.buildAllIndex();
+	for (String key : spellChekerResultMap.keySet()) {
+	    assertTrue(spellChekerResultMap.get(key).booleanValue());
+	}
+	boolean collatedSavedvalue = SpellCheckerConfig.collateResults; 
+	boolean enabledSavedvalue = SpellCheckerConfig.enabled; 
+	try {
+	    SpellCheckerConfig.collateResults = true;
+	    SpellCheckerConfig.enabled = false;
+	    Pagination pagination = paginate().from(1).to(10);
+	    Output output = Output.withFormat(OutputFormat.XML)
+		    .withLanguageCode("FR").withStyle(OutputStyle.SHORT)
+		    .withIndentation();
+	    FulltextQuery fulltextQuery = new FulltextQuery("noSpellresults",
+		    pagination, output, City.class, "fr").withSpellChecking();
+	    FulltextResultsDto result = fullTextSearchEngine
+		    .executeQuery(fulltextQuery);
+	    Map<String, Suggestion> suggestionMap = result.getSuggestionMap();
+	    assertNotNull("suggestionMap should never be null",suggestionMap);
+	    assertNull(result.getSpellCheckProposal());
+	    assertNull(result.getCollatedResult());
+	} catch (FullTextSearchException e) {
+	    fail("error during search : " + e.getMessage());
+	} finally {
+	    SpellCheckerConfig.collateResults = collatedSavedvalue;
+	    SpellCheckerConfig.enabled = enabledSavedvalue;
+	}
+    }
+
+    
     @Test
     public void testExecuteQueryWithNoResults() {
 	try {
