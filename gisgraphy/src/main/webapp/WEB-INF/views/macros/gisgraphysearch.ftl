@@ -19,7 +19,7 @@
 							<@s.url id="featureURL" action="displayfeature" includeParams="none" >
 			  					<@s.param name="featureId" value="${result.feature_id?c}" />
 			 				</@s.url>
-							<a href="${featureURL}">${result.name} (${result.country_name})</a>
+							<a href="${featureURL}">${result.name} <#if result.country_name??>(${result.country_name})</#if></a>
 							</div>
 							<div class="resultheaderright"><@s.text name="${result.feature_class}_${result.feature_code}"/></div>
 					</div>
