@@ -60,9 +60,18 @@
 			 		<div class="clear"><br/></div>
 			</div>
 				<#else>
-			
 			<br/>
 			 <div class="importantMessage"><@s.text name="search.noResult"/>!!<br/><br/></div>
+			 <div>
+			 <#if fulltextResponseDTO.spellCheckProposal??>
+			 <@s.url id="spellURL" action="ajaxfulltextsearch!search" includeParams="all" >
+			  			<@s.param name="from" value="1" />
+			  			<@s.param name="to" value="${defaultNumberOfResultsPerPage?c}" />
+			  			<@s.param name="q" value="fulltextResponseDTO.spellCheckProposal" />
+			 </@s.url>
+			 <i>Try : </i> <a href="${spellURL}" alt="retry with spell check">${fulltextResponseDTO.spellCheckProposal}</a>
+			 <br/></div>
+			 </#if>
 			 <div class="bigText"><@s.text name="search.noresultMessage.part1"/><a href="http://www.geonames.org" target="geonames">Geonames page</a>. <@s.text name="search.noresultMessage.part2"/></div>
 		</#if>
 </#macro>
