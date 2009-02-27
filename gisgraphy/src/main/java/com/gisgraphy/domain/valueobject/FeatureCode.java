@@ -3428,7 +3428,7 @@ public enum FeatureCode {
     },
     UNK_UNK {
 	public GisFeature getObject() {
-	    return new Vineyard();
+	    return new GisFeature();
 	}
     };
 
