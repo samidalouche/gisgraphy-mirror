@@ -73,6 +73,7 @@
       
       <action dev="David Masclet" type="fix" >
        Displayfeature won't throw if the country name is not known
+       Search result won't throw if the country name is not known
       </action>
       
        <action dev="David Masclet" type="fix" >
