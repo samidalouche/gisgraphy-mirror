@@ -70,6 +70,15 @@
       <action dev="David Masclet" type="add" >
        Add javascript capabilities for adding gisgraphy opensearch module
       </action>
+      
+      <action dev="David Masclet" type="fix" >
+       Displayfeature won't throw if the country name is not known
+      </action>
+      
+       <action dev="David Masclet" type="fix" >
+      Unknow feature class / feature code (UNK_UNK) are considered as gisFeature, not as vineYard
+      </action>
+      
        	
     </release>
   </body>
