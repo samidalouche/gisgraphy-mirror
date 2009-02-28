@@ -29,9 +29,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 
 import org.apache.solr.client.solrj.response.QueryResponse;
+import org.apache.solr.client.solrj.response.SpellCheckResponse;
 import org.apache.solr.client.solrj.response.SpellCheckResponse.Suggestion;
 
 import com.gisgraphy.domain.geoloc.service.fulltextsearch.SolrUnmarshaller;
@@ -74,27 +74,23 @@ public class FulltextResultsDto {
 	this.numFound = response.getResults().getNumFound();
 	this.maxScore = response.getResults().getMaxScore();
 	this.resultsSize = results == null ? 0 : results.size();
-	if (response.getSpellCheckResponse() != null) {
-	Map<String, Suggestion> map = response.getSpellCheckResponse().getSuggestionMap();
-	for (Entry<String, Suggestion> e : map.entrySet()){
-	    System.err.println(e.getKey()+"="+e.getValue().getSuggestions().get(0));
-	    
-	}
-	List<Suggestion> sug = response.getSpellCheckResponse().getSuggestions();
-	for (Suggestion s : sug){
-	    System.err.println(s.getSuggestions().get(0));
-	}
-	    Map<String, Suggestion> suggestionMapInternal = response.getSpellCheckResponse().getSuggestionMap();
+	SpellCheckResponse spellCheckResponse = response.getSpellCheckResponse();
+	if (spellCheckResponse != null) {
+	    Map<String, Suggestion> suggestionMapInternal = spellCheckResponse.getSuggestionMap();
 	    if (suggestionMapInternal != null) {
-		suggestionMap = response.getSpellCheckResponse().getSuggestionMap();
+		suggestionMap = spellCheckResponse.getSuggestionMap();
 	    }
-	    collatedResult = response.getSpellCheckResponse().getCollatedResult();
-	    List<Suggestion> suggestions = response.getSpellCheckResponse().getSuggestions();
+	    if (spellCheckResponse.getCollatedResult()!= null){
+		collatedResult = spellCheckResponse.getCollatedResult().trim();
+	    }
+	    List<Suggestion> suggestions = spellCheckResponse.getSuggestions();
+	    if (suggestions.size()!= 0){
 	    StringBuffer sb = new StringBuffer();
 	    for (Suggestion suggestion : suggestions) {
 		sb.append(suggestion.getSuggestions().get(0)).append(" ");
 	    }
 	    spellCheckProposal = sb.toString().trim();
+	    }
 	}
 
     }

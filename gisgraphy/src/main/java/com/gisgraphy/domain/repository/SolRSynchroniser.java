@@ -250,11 +250,10 @@ public class SolRSynchroniser implements ISolRSynchroniser {
 	ex.setField(FullTextFields.GTOPO30.getValue(), gisFeature.getGtopo30());
 	ex.setField(FullTextFields.TIMEZONE.getValue(), gisFeature
 		.getTimezone());
-
-	ex.setField(FullTextFields.PLACETYPE.getValue(), gisFeature.getClass()
-		.getSimpleName());
-	ex.setField(FullTextFields.PLACETYPECLASS.getValue(), ClassNameHelper.stripEnhancerClass(gisFeature
-		.getClass().getSimpleName())
+	String placetype = ClassNameHelper.stripEnhancerClass(gisFeature
+	.getClass().getSimpleName());
+	ex.setField(FullTextFields.PLACETYPE.getValue(), placetype);
+	ex.setField(FullTextFields.PLACETYPECLASS.getValue(),placetype
 		+ FullTextFields.PLACETYPECLASS_SUFFIX.getValue());
 	ex.setField(FullTextFields.POPULATION.getValue(), gisFeature
 		.getPopulation());

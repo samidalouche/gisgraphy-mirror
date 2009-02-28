@@ -44,7 +44,7 @@
       </action>
       
       <action dev="David Masclet" type="fix" >
-        pagination parameters 'from' and 'to' was not reset when closing popup 
+        Pagination parameters 'from' and 'to' was not reset when closing popup 
       </action>
       
        <action dev="David Masclet" type="add" >
@@ -60,11 +60,11 @@
       </action>
       
        <action dev="David Masclet" type="update" >
-        solRSynchroniser : adm Parents are treated when Adm are sync
+        SolRSynchroniser : adm Parents are treated when Adm are sync
       </action>
       
        <action dev="David Masclet" type="fix" >
-       Reset the response buffer before sending errors to avoid "getOutputStream()" a déjà été appelé pour cette réponse
+       Reset the response buffer before sending errors to avoid "getOutputStream() has already been called"
       </action>
       
       <action dev="David Masclet" type="add" >

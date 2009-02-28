@@ -32,6 +32,7 @@ import org.springframework.beans.factory.annotation.Required;
 import com.gisgraphy.domain.geoloc.entity.Country;
 import com.gisgraphy.domain.geoloc.service.fulltextsearch.FulltextQuery;
 import com.gisgraphy.domain.geoloc.service.fulltextsearch.IFullTextSearchEngine;
+import com.gisgraphy.domain.geoloc.service.fulltextsearch.spell.SpellCheckerConfig;
 import com.gisgraphy.domain.repository.CountryDao;
 import com.gisgraphy.domain.repository.IAlternateNameDao;
 import com.gisgraphy.domain.valueobject.FulltextResultsDto;
@@ -69,6 +70,9 @@ public class FulltextSearchAction extends SearchAction {
 
     private String style;
     private String q;
+    private boolean spellchecking = SpellCheckerConfig.activeByDefault;
+
+   
 
     /**
      * @return Wether the search has been done and the results should be
@@ -262,6 +266,20 @@ public class FulltextSearchAction extends SearchAction {
      */
     public FulltextResultsDto getResponseDTO() {
 	return this.responseDTO;
+    }
+    
+    /**
+     * @return the spellchecking
+     */
+    public boolean isSpellchecking() {
+        return spellchecking;
+    }
+
+    /**
+     * @param spellchecking the spellchecking to set
+     */
+    public void setSpellchecking(boolean spellchecking) {
+        this.spellchecking = spellchecking;
     }
 
 }

@@ -40,6 +40,7 @@ import org.springframework.mock.web.MockHttpServletRequest;
 
 import com.gisgraphy.domain.geoloc.service.fulltextsearch.FulltextQuery;
 import com.gisgraphy.domain.geoloc.service.fulltextsearch.IFullTextSearchEngine;
+import com.gisgraphy.domain.geoloc.service.fulltextsearch.spell.SpellCheckerConfig;
 import com.gisgraphy.domain.valueobject.FulltextResultsDto;
 import com.gisgraphy.domain.valueobject.GisgraphyServiceType;
 import com.gisgraphy.domain.valueobject.SolrResponseDto;
@@ -172,5 +173,22 @@ public class FulltextSearchActionTest {
 		.asList(action.getFormats()));
 
     }
+    
+    @Test
+    public void testisSpellCheckingShouldHaveDefaultValue() {
+	boolean savevalue = SpellCheckerConfig.activeByDefault;
+	try {
+	    SpellCheckerConfig.activeByDefault = false;
+	    FulltextSearchAction action = new FulltextSearchAction();
+	    assertFalse(action.isSpellchecking());
+	    SpellCheckerConfig.activeByDefault = true;
+	    action = new FulltextSearchAction();
+	    assertTrue(action.isSpellchecking());
+	} finally{
+	    SpellCheckerConfig.activeByDefault = savevalue;
+	}
+
+    }
+
 
 }

@@ -1,7 +1,7 @@
 <#macro displayFulltextResults fulltextResponseDTO>
 			<div id="searchResults">
 			<div class="clear"><br/></div>
-			<div class="bigText">${fulltextResponseDTO.numFound} <@s.text name="search.resultFound"/>. (<@s.text name="search.resultPaginateFromTo"><@s.param>${from}</@s.param><@s.param>${to}</@s.param></@s.text>).
+			<div class="bigText indented">${fulltextResponseDTO.numFound} <@s.text name="search.resultFound"/>. (<@s.text name="search.resultPaginateFromTo"><@s.param>${from}</@s.param><@s.param>${to}</@s.param></@s.text>).
 			 <@s.text name="search.requestTime"/> ${fulltextResponseDTO.QTime/1000} <@s.text name="search.secondUnit"/>. <br/>
 			 <@s.text name="search.MaxScore"><@s.param>${fulltextResponseDTO.maxScore}</@s.param></@s.text></div>
 			<#if fulltextResponseDTO.results.size()!=0>
@@ -61,25 +61,32 @@
 			</div>
 				<#else>
 			<br/>
-			 <div class="importantMessage"><@s.text name="search.noResult"/>!!<br/><br/></div>
 			 <div>
-			 <#if fulltextResponseDTO.spellCheckProposal??>
+			 <#if fulltextResponseDTO.collatedResult??>
 			 <@s.url id="spellURL" action="ajaxfulltextsearch!search" includeParams="all" >
+			  			<@s.param name="q" value="" />
 			  			<@s.param name="from" value="1" />
 			  			<@s.param name="to" value="${defaultNumberOfResultsPerPage?c}" />
-			  			<@s.param name="q" value="fulltextResponseDTO.spellCheckProposal" />
 			 </@s.url>
-			 <i>Try : </i> <a href="${spellURL}" alt="retry with spell check">${fulltextResponseDTO.spellCheckProposal}</a>
-			 <br/></div>
+			 <br/>
+			 <span class="spell"><@s.text name="search.spellChecking.proposalSentence"/></span> : <a href="${spellURL}&q=${fulltextResponseDTO.spellCheckProposal}" onclick="return executeSpellSearch('${fulltextResponseDTO.spellCheckProposal}');" alt="search.spellChecking.proposalSentence" class="spellLink">${fulltextResponseDTO.spellCheckProposal}</a> 
+			<#if !(fulltextResponseDTO.collatedResult.equals(fulltextResponseDTO.spellCheckProposal.trim()))>,
+ <a href="${spellURL}&q=${fulltextResponseDTO.collatedResult}" onclick="return executeSpellSearch('${fulltextResponseDTO.collatedResult}');" alt="search.spellChecking.proposalSentence" class="spellLink">${fulltextResponseDTO.collatedResult}</a> 
+			</#if>
+			 <br/>
+			 <br/>
+ 			<br/>
+			 <br/>
+			 </div>
 			 </#if>
-			 <div class="bigText"><@s.text name="search.noresultMessage.part1"/><a href="http://www.geonames.org" target="geonames">Geonames page</a>. <@s.text name="search.noresultMessage.part2"/></div>
+			 <div class="bigText indented"><@s.text name="search.noresultMessage.part1"/><a href="http://www.geonames.org" target="geonames">Geonames page</a>. <@s.text name="search.noresultMessage.part2"/></div>
 		</#if>
 </#macro>
 
 <#macro displayGeolocResults geolocResponseDTO>
 			<div id="searchResults">
 				<div class="clear"><br/></div>
-				<div class="bigText">${geolocResponseDTO.numFound} <@s.text name="search.resultFound"/>. (<@s.text name="search.resultPaginateFromTo"><@s.param>${from}</@s.param><@s.param>${to}</@s.param></@s.text>).
+				<div class="bigText indented">${geolocResponseDTO.numFound} <@s.text name="search.resultFound"/>. (<@s.text name="search.resultPaginateFromTo"><@s.param>${from}</@s.param><@s.param>${to}</@s.param></@s.text>).
 				 <@s.text name="search.requestTime"/> ${geolocResponseDTO.QTime/1000}  <@s.text name="search.secondUnit"/>. </div>
 				<#if geolocResponseDTO.result.size()!=0>
 				<br/>
@@ -95,7 +102,7 @@
 				  					<@s.param name="featureId" value="${result.featureId?c}" />
 				 				</@s.url>
 								<div class="resultheaderleft"><a href="${featureURL}">${result.name} (${result.countryCode})</a> : ${result.distance} <@s.text name="search.unit.meter"/></div>
-								<div class="resultheaderright"><@s.text name="${result.feature_class}_${result.feature_code}"/></div>
+								<div class="resultheaderright"><@s.text name="${result.featureClass}_${result.featureCode}"/></div>
 						</div>
 					
 						<div class="separator"><hr/></div>
@@ -128,9 +135,9 @@
 			 	</#if>
 			<#else>
 			
-			<br/>
-			  <div class="importantMessage"><@s.text name="search.noResult"/>!!<br/><br/></div>
-			 <div class="bigText"> <@s.text name="search.noresultMessage.part1"/><a href="http://www.geonames.org" target="geonames">Geonames page</a><@s.text name="search.noresultMessage.part2"/></div>
+			<br/><br/><br/>
+			  <div class="importantMessage indented"><@s.text name="search.noResult"/>!!<br/><br/><br/><br/></div>
+			 <div class="bigText indented"> <@s.text name="search.noresultMessage.part1"/><a href="http://www.geonames.org" target="geonames">Geonames page</a><@s.text name="search.noresultMessage.part2"/></div>
 		</#if>
 		</div>
 </#macro>

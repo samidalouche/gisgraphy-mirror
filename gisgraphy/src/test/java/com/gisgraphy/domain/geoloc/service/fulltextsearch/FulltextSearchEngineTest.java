@@ -447,6 +447,8 @@ public class FulltextSearchEngineTest extends
 	    assertNotNull(suggestionMap.get(keys[1]));
 	    assertEquals("saint andré", result.getSpellCheckProposal());
 	    assertNotNull(result.getCollatedResult());
+	    assertFalse(result.getCollatedResult().startsWith(" "));
+	    assertFalse(result.getCollatedResult().endsWith(" "));
 	} catch (FullTextSearchException e) {
 	    fail("error during search : " + e.getMessage());
 	} finally {
@@ -555,7 +557,7 @@ public class FulltextSearchEngineTest extends
 	boolean enabledSavedvalue = SpellCheckerConfig.enabled; 
 	try {
 	    SpellCheckerConfig.collateResults = true;
-	    SpellCheckerConfig.enabled = false;
+	    SpellCheckerConfig.enabled = true;
 	    Pagination pagination = paginate().from(1).to(10);
 	    Output output = Output.withFormat(OutputFormat.XML)
 		    .withLanguageCode("FR").withStyle(OutputStyle.SHORT)

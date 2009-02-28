@@ -123,6 +123,13 @@
     return updatePopupResults();
     }
     
+    executeSpellSearch= function(words){
+    $('fulltextsearch')['from'].value=1;
+    $('fulltextsearch')['to'].value=DEFAULT_NUMBER_OF_RESULTS_PER_PAGE;
+    $('fulltextsearch')['q'].value=words;
+    return updatePopupResults();
+    }
+    
      updatePaginationPrevious = function(){
     $('fulltextsearch')['from'].value=parseInt($('fulltextsearch')['from'].value)-DEFAULT_NUMBER_OF_RESULTS_PER_PAGE;
     $('fulltextsearch')['to'].value=parseInt($('fulltextsearch')['to'].value)-DEFAULT_NUMBER_OF_RESULTS_PER_PAGE;
