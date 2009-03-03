@@ -52,7 +52,7 @@
       </action>
       
       <action dev="David Masclet" type="fix" >
-        some features contains EnhancerByCGLIB when sync with solr 
+        Some features contains EnhancerByCGLIB when synchronize with solr 
       </action>
       
       <action dev="David Masclet" type="update" >
@@ -76,8 +76,12 @@
        Search result won't throw if the country name is not known
       </action>
       
-       <action dev="David Masclet" type="fix" >
+      <action dev="David Masclet" type="fix" >
       Unknow feature class / feature code (UNK_UNK) are considered as gisFeature, not as vineYard
+      </action>
+      
+       <action dev="David Masclet" type="update" >
+      	Improve statistique page 
       </action>
       
        	
