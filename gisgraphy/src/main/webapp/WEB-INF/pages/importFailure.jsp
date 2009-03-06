@@ -28,11 +28,12 @@ An error occured during import. You have to:
 <li>Restart the web application, in order to flush the cache and to reset the configuration : importers keep informations of what have been imported. So you must restart the web application in order to clear those informations</li>
 <li>Re-run the import</li> 
 </ul>
-<!--
+
 <% 
 Exception ex = (Exception) request.getAttribute("exception");
-ex.printStackTrace(new java.io.PrintWriter(out)); 
+if (ex != null){
+	ex.printStackTrace(new java.io.PrintWriter(out)); 
+}
 %>
--->
 
 <a href="mainMenu.html" onclick="history.back();return false">&#171; Back</a>
