@@ -6,7 +6,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
     <head>
         <%@ include file="/common/meta.jsp" %>
-        <title><decorator:title/> | <fmt:message key="webapp.name"/> Free GIS Services</title>
+        <title><decorator:title/> | <fmt:message key="webapp.name"/> Free Geolocalisation Services</title>
 		
         <link rel="stylesheet" type="text/css" media="all" href="<c:url value='/styles/ui/theme.css'/>" />
 		<link rel="search" type="application/opensearchdescription+xml" title="Gisgraphy" href="/static/gisgraphy_opensearch_fulltext.xml"/>
@@ -16,7 +16,7 @@
     <div id="page">
         <div id="header" class="clearfix">
             <div id="branding">
-   				 <h1><a href="http://services.gisgraphy.com/"><img src="/images/logos/logo_70.png" alt="Free GIS Services"/><fmt:message key="webapp.name"/> Free GIS Services</a></h1>
+   				 <h1><a href="http://services.gisgraphy.com/"><img src="/images/logos/logo_70.png" alt="Free Geolocalisation Services"/><fmt:message key="webapp.name"/> Free Geolocalisation Services</a></h1>
     			 <div id="tagline"><fmt:message key="webapp.tagline"/></div>
 			</div>
         </div>
