@@ -1,7 +1,8 @@
 """ generate a sitemap"""
-MAX_SITEMAP_ENTRY_PER_FILE = 100000
+MAX_SITEMAP_ENTRY_PER_FILE = 50000
 SITEMAP_BASE_FILENAME = 'gisgraphy-sitemap-'
 SITEMAP_INDEX_FILENAME = 'gisgraphy-sitemap-index.html'
+BUFFER_SIZE = 4500000
 
 class SitemapGenerator:
 	def __init__(self,filePath):
@@ -31,10 +32,12 @@ class SitemapGenerator:
 		fdesc = open(self.filePath,'r');
 		count = 1;
 		while 1:
-			lines = fdesc.readlines(4500000)
+			lines = fdesc.readlines(BUFFER_SIZE)
     			if not lines:
       				break
 			else :
+				if len(lines) > MAX_SITEMAP_ENTRY_PER_FILE:
+					raise "you should decrease the buffer size value"
 				count = count + 1
 				sitemapFilename = self.generate_sitemap_file(lines,count);
 				self.write_index_file_entry(sitemapFilename);
