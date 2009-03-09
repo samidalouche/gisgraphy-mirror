@@ -1,0 +1,70 @@
+""" generate a sitemap"""
+MAX_SITEMAP_ENTRY_PER_FILE = 100000
+SITEMAP_BASE_FILENAME = 'gisgraphy-sitemap-'
+SITEMAP_INDEX_FILENAME = 'gisgraphy-sitemap-index.html'
+
+class SitemapGenerator:
+	def __init__(self,filePath):
+		"""doc"""
+		self.filePath = filePath
+		self.indexSitemapDesc = open(SITEMAP_INDEX_FILENAME,'w');
+		
+		
+	def write_index_file_header(self):
+		self.indexSitemapDesc.write("<?xml version=\"1.0\" encoding=\"UTF-8\"?><sitemapindex xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\">")
+
+	def write_index_file_footer(self):
+		self.indexSitemapDesc.write("</sitemapindex>")
+
+	def write_index_file_entry(self,filename):
+		self.indexSitemapDesc.write("<sitemap><loc>http://services.gisgraphy.com/"+filename+"</loc><lastmod>2005-01-01</lastmod></sitemap>")
+	
+	def generate_sitemap(self):
+		"""doc"""
+		self.write_index_file_header()
+		self.readFile();
+		self.write_index_file_header()
+		self.indexSitemapDesc.close();
+
+	def readFile(self):
+		"""doc"""
+		fdesc = open(self.filePath,'r');
+		count = 1;
+		while 1:
+			lines = fdesc.readlines(4500000)
+    			if not lines:
+      				break
+			else :
+				count = count + 1
+				sitemapFilename = self.generate_sitemap_file(lines,count);
+				self.write_index_file_entry(sitemapFilename);
+
+	def generate_sitemap_file(self, lines, increment):
+		"""doc"""
+		filename = SITEMAP_BASE_FILENAME+str(increment)+".xml"
+		print "will generate "+filename+" with "+str(len(lines))+ " lines"
+		fileSitemap = open(filename,'w')
+		fileSitemap.write("<urlset>")
+		for line in lines:
+			        splited = line.split('\t')
+				if len(splited) == 19:
+					featureId= splited[0]
+					fileSitemap.write(self.generate_sitemap_node(featureId))
+				else : 
+					print "invalid size : "+str(len(splited))
+		fileSitemap.write("</urlset>")
+		fileSitemap.close();
+		return filename;
+		
+		
+	
+	def generate_sitemap_node(self,featureId):
+		"""doc"""
+		return "<url><loc>http://services.gisgraphy.com/displayfeature.html?featureId="+str(featureId)+"</loc><lastmod>2008-05-15</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>"
+		
+
+def generate():
+	generator = SitemapGenerator("/home/david/gisgraphy-test/data/import/allCountries.txt");
+	generator.generate_sitemap()
+
+generate()
