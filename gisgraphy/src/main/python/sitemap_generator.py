@@ -1,8 +1,11 @@
+import math
+import random
 """ generate a sitemap"""
 MAX_SITEMAP_ENTRY_PER_FILE = 50000
 SITEMAP_BASE_FILENAME = 'gisgraphy-sitemap-'
 SITEMAP_INDEX_FILENAME = 'gisgraphy-sitemap-index.html'
 BUFFER_SIZE = 4500000
+PRIORITY=["0.4","0.5","0.6"]
 
 class SitemapGenerator:
 	def __init__(self,filePath):
@@ -52,7 +55,8 @@ class SitemapGenerator:
 			        splited = line.split('\t')
 				if len(splited) == 19:
 					featureId= splited[0]
-					fileSitemap.write(self.generate_sitemap_node(featureId))
+					population= splited[14]
+					fileSitemap.write(self.generate_sitemap_node(featureId,population))
 				else : 
 					print "invalid size : "+str(len(splited))
 		fileSitemap.write("</urlset>")
@@ -61,9 +65,28 @@ class SitemapGenerator:
 		
 		
 	
-	def generate_sitemap_node(self,featureId):
+	def generate_sitemap_node(self,featureId,population):
 		"""doc"""
-		return "<url><loc>http://services.gisgraphy.com/displayfeature.html?featureId="+str(featureId)+"</loc><lastmod>2008-05-15</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>"
+		return "<url><loc>http://services.gisgraphy.com/displayfeature.html?featureId="+str(featureId)+"</loc><lastmod>2009-03-11</lastmod><changefreq>monthly</changefreq><priority>"+str(self.calculate_priority(population))+"</priority></url>"
+	
+	def calculate_priority(self,population):
+		#print int(population;
+		if ((int(population))==0):
+			#print PRIORITY[random.randint(0,2)];
+			return PRIORITY[random.randint(0,2)];
+		priority = (int(population) * 0.5)/18000;
+		round_priority = (math.ceil(priority*10)/10);
+		if (round_priority >= 1):
+			return 1;
+		if (round_priority <= 0.1):
+			return 0.1;
+		else :
+			#print population;		
+			#print round_priority;
+			return round_priority;
+
+
+
 		
 
 def generate():
