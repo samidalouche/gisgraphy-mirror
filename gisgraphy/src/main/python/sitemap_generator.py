@@ -21,7 +21,7 @@ class SitemapGenerator:
 		self.indexSitemapDesc.write("</sitemapindex>")
 
 	def write_index_file_entry(self,filename):
-		self.indexSitemapDesc.write("<sitemap><loc>http://services.gisgraphy.com/"+filename+"</loc><lastmod>2005-01-01</lastmod></sitemap>")
+		self.indexSitemapDesc.write("<sitemap><loc>http://services.gisgraphy.com/"+filename+"</loc><lastmod>2009-03-01</lastmod></sitemap>")
 	
 	def generate_sitemap(self):
 		"""doc"""
