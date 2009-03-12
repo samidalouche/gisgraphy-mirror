@@ -3,7 +3,7 @@ import random
 """ generate a sitemap"""
 MAX_SITEMAP_ENTRY_PER_FILE = 50000
 SITEMAP_BASE_FILENAME = 'gisgraphy-sitemap-'
-SITEMAP_INDEX_FILENAME = 'gisgraphy-sitemap-index.html'
+SITEMAP_INDEX_FILENAME = 'gisgraphy-sitemap-index.xml'
 BUFFER_SIZE = 4500000
 PRIORITY=["0.4","0.5","0.6"]
 
@@ -27,7 +27,7 @@ class SitemapGenerator:
 		"""doc"""
 		self.write_index_file_header()
 		self.readFile();
-		self.write_index_file_header()
+		self.write_index_file_footer()
 		self.indexSitemapDesc.close();
 
 	def readFile(self):
@@ -50,7 +50,7 @@ class SitemapGenerator:
 		filename = SITEMAP_BASE_FILENAME+str(increment)+".xml"
 		print "will generate "+filename+" with "+str(len(lines))+ " lines"
 		fileSitemap = open(filename,'w')
-		fileSitemap.write("<urlset>")
+		fileSitemap.write("<?xml version=\"1.0\" encoding=\"UTF-8\"?><urlset xmlns=\"http://www.google.com/schemas/sitemap/0.84\">")
 		for line in lines:
 			        splited = line.split('\t')
 				if len(splited) == 19:
