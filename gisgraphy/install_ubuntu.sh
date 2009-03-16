@@ -267,6 +267,12 @@ iptables :
 sudo iptables -A INPUT -p tcp -s 0/0  -d 88.191.92.137  --dport 8080 -m state --state NEW,ESTABLISHED -j REJECT
 sudo iptables -A INPUT -p tcp -s 0/0  -d 88.191.92.137  --dport 8983 -m state --state NEW,ESTABLISHED -j REJECT
 
+to see host names modify in the server.wml of the tomcat:
+
+ <Connector port="8009"
+               enableLookups="true" redirectPort="8443" protocol="AJP/1.3" URIEncoding="UTF-8" />
+
+
 
 
 
