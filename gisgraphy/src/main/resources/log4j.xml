@@ -26,6 +26,15 @@
         </layout>
     </appender>
     
+    <appender name="RollingFileServlet" class="org.apache.log4j.RollingFileAppender">
+      <param name="file" value="./logs/gisgraphy-servlet.log"/>
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern"
+                value="%p [%t] [%d{dd MMM yyyy HH:mm:ss,SSS}] | %m%n"/>
+        </layout>
+    </appender>
+    
+    
      <appender name="RollingFileRepository" class="org.apache.log4j.RollingFileAppender">
       <param name="file" value="./logs/gisgraphy-repository.log"/>
         <layout class="org.apache.log4j.PatternLayout">
@@ -91,6 +100,11 @@
      <logger name="com.gisgraphy.helper.EncodingHelper">
         <level value="INFO"/>
         <appender-ref ref="RollingFileService"/>
+    </logger>
+    
+    <logger name="com.gisgraphy.servlet">
+        <level value="INFO"/>
+        <appender-ref ref="RollingFileServlet"/>
     </logger>
     
     

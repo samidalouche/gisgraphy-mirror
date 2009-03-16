@@ -126,6 +126,8 @@ public class FulltextServlet extends HttpServlet {
 	    FulltextQuery query = new FulltextQuery(req);
 	    logger.debug("query=" + query);
 	    logger.debug("fulltext engine=" + fullTextSearchEngine);
+	    logger.info("A request from "+req.getRemoteHost()+" / "+req.getRemoteAddr()+" was received");
+	    
 	    fullTextSearchEngine.executeAndSerialize(query, resp
 		    .getOutputStream());
 	} catch (RuntimeException e) {
