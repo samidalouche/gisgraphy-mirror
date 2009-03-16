@@ -318,7 +318,7 @@ public class SolRSynchroniserTest extends AbstractIntegrationHttpSolrTestCase {
 	City paris = GeolocTestHelper.createCity("Saint-André", 1.5F, 2F,
 		featureId);
 
-	paris.setZipCode(50263);
+	paris.setZipCode("50263");
 
 	// save city and check it is saved
 	ZipCodeAware saved = this.cityDao.save(paris);

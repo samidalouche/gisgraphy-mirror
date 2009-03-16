@@ -236,7 +236,7 @@ public class GeolocTestHelper {
 	gisFeature.addAlternateName(alternateNamecity);
 	gisFeature.addAlternateName(alternateNamecityFR);
 	City paris = new City(gisFeature);
-	paris.setZipCode(50263);
+	paris.setZipCode("50263");
 
 	paris.setAsciiName("ascii");
 	paris.setFeatureClass("P");
@@ -350,7 +350,7 @@ public class GeolocTestHelper {
 	city.setPopulation(1000000);
 	city.setSource(GISSource.PERSONAL);
 	city.setTimezone("gmt+1");
-	city.setZipCode(3456);
+	city.setZipCode("3456");
 
 	return new GisFeatureDistance(city, 3D);
 
@@ -409,7 +409,7 @@ public class GeolocTestHelper {
 	citySubdivision.setPopulation(1000000);
 	citySubdivision.setSource(GISSource.PERSONAL);
 	citySubdivision.setTimezone("gmt+1");
-	citySubdivision.setZipCode(3456);
+	citySubdivision.setZipCode("3456");
 
 	return new GisFeatureDistance(citySubdivision, 3D);
 
@@ -567,7 +567,7 @@ public class GeolocTestHelper {
 	City city = new City(gisFeature);
 	city.setFeatureClass("P");
 	city.setFeatureCode("PPL");
-	city.setZipCode(75000);
+	city.setZipCode("75000");
 	return city;
     }
 

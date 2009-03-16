@@ -36,7 +36,7 @@ import org.hibernate.annotations.Index;
 @Entity
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 public class CitySubdivision extends GisFeature implements ZipCodeAware {
-    private Integer zipCode;
+    private String zipCode;
 
     /**
      * Constructor that populate the {@link CitySubdivision} with the gisFeature
@@ -55,7 +55,7 @@ public class CitySubdivision extends GisFeature implements ZipCodeAware {
      * 
      * @see com.gisgraphy.domain.geoloc.entity.ZipCodeAware#setZipCode(java.lang.Integer)
      */
-    public void setZipCode(Integer zipCode) {
+    public void setZipCode(String zipCode) {
 	this.zipCode = zipCode;
     }
 
@@ -65,7 +65,7 @@ public class CitySubdivision extends GisFeature implements ZipCodeAware {
      * @see com.gisgraphy.domain.geoloc.entity.ZipCodeAware#getZipCode()
      */
     @Index(name = "citySubdivisionZipCode")
-    public Integer getZipCode() {
+    public String getZipCode() {
 	return zipCode;
     }
 

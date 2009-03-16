@@ -97,7 +97,7 @@ public class SolrResponseDto {
 		    FullTextFields.ADM3NAME.getValue());
 	    this.adm4_name = getFieldAsString(solrDocument,
 		    FullTextFields.ADM4NAME.getValue());
-	    this.zipcode = getFieldAsInteger(solrDocument,
+	    this.zipcode = getFieldAsString(solrDocument,
 		    FullTextFields.ZIPCODE.getValue());
 	    this.country_name = getFieldAsString(solrDocument,
 		    FullTextFields.COUNTRYNAME.getValue());
@@ -261,7 +261,7 @@ public class SolrResponseDto {
 
     private String adm3_name;
     private String adm4_name;
-    private Integer zipcode;
+    private String zipcode;
     private String country_code;
 
     private String country_name;
@@ -464,7 +464,7 @@ public class SolrResponseDto {
     /**
      * @return the zipcode
      */
-    public Integer getZipcode() {
+    public String getZipcode() {
 	return zipcode;
     }
 

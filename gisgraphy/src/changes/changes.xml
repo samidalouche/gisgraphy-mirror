@@ -1,94 +1,113 @@
 <document>
-  <properties>
-    <title>Changes Gisgraphy Project</title>
-    <author email="davidmasclet@gisgraphy.com">David Masclet</author>
-  </properties>
-  <body>
-    <release version="1.0" date="2008-23-01" description="First release">
-      <action dev="David Masclet" type="add">
-        First release.
-      </action>
-    </release>
-    
-     <release version="1.01" date="2008-09-02" description="second release">
-      <action dev="David Masclet" type="add" >
-        Python client
-      </action>
-      
-      <action dev="David Masclet" type="update" >
-        Some L10N improvement
-      </action>
-      
-      <action dev="David Masclet" type="update" >
-        Improve XHTML on pages
-      </action>
-      
-      <action dev="David Masclet" type="add" >
-        Solr auto commit every 10000 docs or 300000 ms
-      </action>
-      
-      <action dev="Tim King" type="update" >
-       Improve doc and site
-      </action>
-      
-       <action dev="David Masclet" type="update" >
-       Solr logo update
-      </action>
-      
-      <action dev="David Masclet" type="fix" >
-       Geoloc service for ADM or Country throws an exception
-      </action>
-      
-      <action dev="David Masclet" type="update" >
-        Add some fields for geolocservice for Country and Adm (level)
-      </action>
-      
-      <action dev="David Masclet" type="fix" >
-        Pagination parameters 'from' and 'to' was not reset when closing popup 
-      </action>
-      
-       <action dev="David Masclet" type="add" >
-        Add a page to describe the services   
-      </action>
-      
-      <action dev="David Masclet" type="fix" >
-        Some features contains EnhancerByCGLIB when synchronize with solr 
-      </action>
-      
-      <action dev="David Masclet" type="update" >
-        GeonameFeatureImporter : change the way Country are detect and updated
-      </action>
-      
-       <action dev="David Masclet" type="update" >
-        SolRSynchroniser : adm Parents are treated when Adm are sync
-      </action>
-      
-       <action dev="David Masclet" type="fix" >
-       Reset the response buffer before sending errors to avoid "getOutputStream() has already been called"
-      </action>
-      
-      <action dev="David Masclet" type="add" >
-       Add javascript capabilities for adding gisgraphy opensearch module
-      </action>
-      
-      <action dev="David Masclet" type="fix" >
-       Displayfeature won't throw if the country name is not known
-       Search result won't throw if the country name is not known
-      </action>
-      
-      <action dev="David Masclet" type="fix" >
-      Unknow feature class / feature code (UNK_UNK) are considered as gisFeature, not as vineYard
-      </action>
-      
-       <action dev="David Masclet" type="update" >
-      	Improve statistique page 
-      </action>
-      
-       <action dev="David Masclet" type="fix" >
-      	ImportFailure.jsp won't throw a NullPointerException
-      </action>
-      
-       	
-    </release>
-  </body>
+	<properties>
+		<title>Changes Gisgraphy Project</title>
+		<author email="davidmasclet@gisgraphy.com">
+			David Masclet
+		</author>
+	</properties>
+	<body>
+		<release version="1.0" date="2008-23-01"
+			description="First release">
+			<action dev="David Masclet" type="add">
+				First release.
+			</action>
+		</release>
+
+		<release version="1.01" date="2008-09-02"
+			description="second release">
+			<action dev="David Masclet" type="add">
+				Python client
+			</action>
+
+			<action dev="David Masclet" type="update">
+				Some L10N improvement
+			</action>
+
+			<action dev="David Masclet" type="update">
+				Improve XHTML on pages
+			</action>
+
+			<action dev="David Masclet" type="add">
+				Solr auto commit every 10000 docs or 300000 ms
+			</action>
+
+			<action dev="Tim King" type="update">
+				Improve doc and site
+			</action>
+
+			<action dev="David Masclet" type="update">
+				Solr logo update
+			</action>
+
+			<action dev="David Masclet" type="fix">
+				Geoloc service for ADM or Country throws an exception
+			</action>
+
+			<action dev="David Masclet" type="update">
+				Add some fields for geolocservice for Country and Adm
+				(level)
+			</action>
+
+			<action dev="David Masclet" type="fix">
+				Pagination parameters 'from' and 'to' was not reset when
+				closing popup
+			</action>
+
+			<action dev="David Masclet" type="add">
+				Add a page to describe the services
+			</action>
+
+			<action dev="David Masclet" type="fix">
+				Some features contains EnhancerByCGLIB when synchronize
+				with solr
+			</action>
+
+			<action dev="David Masclet" type="update">
+				GeonameFeatureImporter : change the way Country are
+				detect and updated
+			</action>
+
+			<action dev="David Masclet" type="update">
+				SolRSynchroniser : adm Parents are treated when Adm are
+				sync
+			</action>
+
+			<action dev="David Masclet" type="fix">
+				Reset the response buffer before sending errors to avoid
+				"getOutputStream() has already been called"
+			</action>
+
+			<action dev="David Masclet" type="add">
+				Add javascript capabilities for adding gisgraphy
+				opensearch module
+			</action>
+
+			<action dev="David Masclet" type="fix">
+				Displayfeature won't throw if the country name is not
+				known Search result won't throw if the country name is
+				not known
+			</action>
+
+			<action dev="David Masclet" type="fix">
+				Unknow feature class / feature code (UNK_UNK) are
+				considered as gisFeature, not as vineYard
+			</action>
+
+			<action dev="David Masclet" type="update">
+				Improve statistique page
+			</action>
+
+			<action dev="David Masclet" type="fix">
+				ImportFailure.jsp won't throw a NullPointerException
+			</action>
+
+			<action dev="David Masclet" type="fix">
+				Zipcode is of type string to correct the problem that
+				zipcode which starts with zero are not well handled (e.g :
+				01234 was considered as 1234)
+			</action>
+
+
+		</release>
+	</body>
 </document>

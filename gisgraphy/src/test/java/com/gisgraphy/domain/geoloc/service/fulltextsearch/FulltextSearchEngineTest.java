@@ -214,7 +214,7 @@ public class FulltextSearchEngineTest extends
 	alternateName.setSource(AlternateNameSource.ALTERNATENAMES_FILE);
 	gisFeature.addAlternateName(alternateName);
 	City paris = new City(gisFeature);
-	paris.setZipCode(50263);
+	paris.setZipCode("50263");
 
 	// save cities and check it is saved
 	this.cityDao.save(paris);

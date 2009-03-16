@@ -167,7 +167,7 @@ public class GisFeatureDistance {
 	    return this;
 	}
 
-	public GisFeatureDistanceBuilder withZipCode(Integer zipCode) {
+	public GisFeatureDistanceBuilder withZipCode(String zipCode) {
 	    gisFeatureDistance.zipCode = zipCode;
 	    return this;
 	}
@@ -316,7 +316,7 @@ public class GisFeatureDistance {
 
     private String placeType;
 
-    private Integer zipCode;
+    private String zipCode;
 
     private String google_map_url;
 
@@ -641,7 +641,7 @@ public class GisFeatureDistance {
     /**
      * @return the zipCode
      */
-    public Integer getZipCode() {
+    public String getZipCode() {
 	return this.zipCode;
     }
 

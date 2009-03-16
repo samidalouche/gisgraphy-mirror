@@ -139,15 +139,15 @@ public class GeonamesAlternateNamesImporter extends AbstractGeonamesProcessor {
 		try {
 		    if (gisFeature instanceof ZipCodeAware) {
 			ZipCodeAware zipCodeAware = (ZipCodeAware) gisFeature;
-			Integer zipCode = zipCodeAware.getZipCode();
+			String zipCode = zipCodeAware.getZipCode();
 			// for log purpose
-			if (zipCode != null && zipCode != 0
+			if (zipCode != null 
 				&& !zipCode.equals(new Integer(fields[3]))) {
 			    logger.warn("gisFeature " + gisFeature
 				    + " already has a zip code : " + zipCode
 				    + " and will be replaced by " + fields[3]);
 			}
-			zipCodeAware.setZipCode(new Integer(fields[3]));
+			zipCodeAware.setZipCode(fields[3]);
 			// Hibernate will save the feature according to his
 			// class even if it is cast in an other class
 			this.gisFeatureDao.save((GisFeature) zipCodeAware);

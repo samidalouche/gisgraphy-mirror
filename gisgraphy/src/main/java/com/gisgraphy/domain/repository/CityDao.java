@@ -56,7 +56,7 @@ public class CityDao extends GenericGisDao<City> implements ICityDao {
      *      java.lang.String)
      */
     @SuppressWarnings("unchecked")
-    public List<City> listByZipCode(final int zipcode, final String countrycode) {
+    public List<City> listByZipCode(final String zipcode, final String countrycode) {
 	return (List<City>) this.getHibernateTemplate().execute(
 		new HibernateCallback() {
 

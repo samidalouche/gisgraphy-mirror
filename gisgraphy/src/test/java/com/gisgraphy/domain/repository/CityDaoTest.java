@@ -647,20 +647,20 @@ public class CityDaoTest extends AbstractIntegrationHttpSolrTestCase {
     public void testListByZipCodeShouldReturnCorrectValues() {
 	City city1 = GeolocTestHelper.createCity("paris", 48.86667F, 2.3333F,
 		1L);
-	city1.setZipCode(75000);
+	city1.setZipCode("75000");
 	city1.setCountryCode("FR");
 	City city2 = GeolocTestHelper.createCity("paris2", 48.86667F, 2.3333F,
 		2L);
-	city1.setZipCode(75000);
+	city1.setZipCode("75000");
 	city1.setCountryCode("EN");
 	this.cityDao.save(city1);
 	this.cityDao.save(city2);
-	List<City> results = this.cityDao.listByZipCode(75000, null);
+	List<City> results = this.cityDao.listByZipCode("75000", null);
 	assertEquals(2, results.size());
-	results = this.cityDao.listByZipCode(75001, null);
+	results = this.cityDao.listByZipCode("75001", null);
 	assertNotNull(results);
 	assertEquals(0, results.size());
-	results = this.cityDao.listByZipCode(75000, "fr");
+	results = this.cityDao.listByZipCode("75000", "fr");
 	assertEquals(
 		"ListByZipCode should be case insensitive for countrycode", 1,
 		results.size());

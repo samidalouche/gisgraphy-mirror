@@ -43,6 +43,6 @@ public interface ICityDao extends IGisDao<City> {
      *         specified, the list should have one city. To search for name or
      *         zip code use : {@link CityDao#listFromText(String, boolean)}.
      */
-    public List<City> listByZipCode(int zipcode, String countrycode);
+    public List<City> listByZipCode(String zipcode, String countrycode);
 
 }

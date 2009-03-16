@@ -38,12 +38,12 @@ public interface ZipCodeAware {
      * @param zipCode
      *                The zipCode for the City
      */
-    public void setZipCode(Integer zipCode);
+    public void setZipCode(String zipCode);
 
     /**
      * @return The zipCode for The city
      */
     @Index(name = "gisFeatureZipCode")
-    public Integer getZipCode();
+    public String getZipCode();
 
 }

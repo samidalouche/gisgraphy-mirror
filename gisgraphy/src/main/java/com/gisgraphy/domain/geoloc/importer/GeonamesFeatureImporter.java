@@ -524,10 +524,10 @@ public class GeonamesFeatureImporter extends AbstractGeonamesProcessor {
 	return alternateNamesList;
     }
 
-    private Integer findZipCode(String[] fields) {
+    private String findZipCode(String[] fields) {
 	logger.debug("try to detect zipCode for " + fields[1] + "[" + fields[0]
 		+ "]");
-	Integer zipCode = null;
+	String zipCode = null;
 	String[] alternateNames = fields[3].split(",");
 	boolean found = false;
 	Pattern patterncountry = null;
@@ -566,7 +566,7 @@ public class GeonamesFeatureImporter extends AbstractGeonamesProcessor {
 		    return null;
 		}
 		try {
-		    zipCode = new Integer(element);
+		    zipCode = element;
 		    found = true;
 		} catch (NumberFormatException e) {
 		}

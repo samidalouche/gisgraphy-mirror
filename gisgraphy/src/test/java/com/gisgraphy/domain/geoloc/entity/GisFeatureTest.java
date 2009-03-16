@@ -221,7 +221,7 @@ public class GisFeatureTest extends AbstractIntegrationHttpSolrTestCase {
     @Test
     public void testPopulateAcityShouldsetZipCode() {
 	City city1 = GeolocTestHelper.createCity("name", 1.5F, 1.6F, 2L);
-	city1.setZipCode(10000);
+	city1.setZipCode("10000");
 	City city2 = new City();
 	city2.populate(city1);
 	assertEquals("Populate a city with a city should set the zipcode",
@@ -232,7 +232,7 @@ public class GisFeatureTest extends AbstractIntegrationHttpSolrTestCase {
     @Test
     public void testToStringShouldContainsTheClassName() {
 	City city1 = GeolocTestHelper.createCity("name", 1.5F, 1.6F, 2L);
-	city1.setZipCode(10000);
+	city1.setZipCode("10000");
 	assertTrue(city1.toString().startsWith(City.class.getSimpleName()));
 
     }
