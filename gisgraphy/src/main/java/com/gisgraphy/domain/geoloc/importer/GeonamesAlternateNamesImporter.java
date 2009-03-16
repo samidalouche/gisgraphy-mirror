@@ -274,8 +274,8 @@ public class GeonamesAlternateNamesImporter extends AbstractGeonamesProcessor {
     protected void tearDown() {
 	super.tearDown();
 	solRSynchroniser.commit();
-	solRSynchroniser.optimize();
 	spellCheckerIndexer.buildAllIndex();
+	solRSynchroniser.optimize();
     }
 
     /**
