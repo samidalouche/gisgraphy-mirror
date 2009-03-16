@@ -106,6 +106,10 @@
 				zipcode which starts with zero are not well handled (e.g :
 				01234 was considered as 1234)
 			</action>
+			
+			<action dev="David Masclet" type="add">
+				log IP adress for Geoloc and Fulltext servlet call 
+			</action>
 
 
 		</release>
