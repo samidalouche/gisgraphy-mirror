@@ -239,6 +239,10 @@ JkWorkersFile /etc/apache2/workers.properties
 ServerName services.gisgraphy.com
 ServerAdmin davidmasclet@gisgraphy.com
 
+CustomLog /var/log/apache2/access.log combined
+
+ErrorLog /var/log/apache2/error.log
+
 JkMount /* default
 DirectoryIndex index.jsp index.html
 # Globally deny access to the WEB-INF directory
