@@ -124,7 +124,9 @@ public class GeolocServlet extends HttpServlet {
 	    GeolocQuery query = new GeolocQuery(req);
 	    logger.debug("query=" + query);
 	    logger.debug("fulltext engine=" + geolocSearchEngine);
-	    logger.info("A geoloc request from "+req.getRemoteHost()+" / "+req.getRemoteAddr()+" was received");
+	    String UA = req.getHeader("User-Agent");
+	    String referer = req.getHeader("Referer");
+	    logger.info("A geoloc request from "+req.getRemoteHost()+" / "+req.getRemoteAddr()+" was received | Referer : "+referer+" | UA : "+UA);
 	    
 	    geolocSearchEngine.executeAndSerialize(query, resp
 		    .getOutputStream());

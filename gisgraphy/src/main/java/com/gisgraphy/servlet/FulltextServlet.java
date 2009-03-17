@@ -126,7 +126,9 @@ public class FulltextServlet extends HttpServlet {
 	    FulltextQuery query = new FulltextQuery(req);
 	    logger.debug("query=" + query);
 	    logger.debug("fulltext engine=" + fullTextSearchEngine);
-	    logger.info("A fulltext request from "+req.getRemoteHost()+" / "+req.getRemoteAddr()+" was received");
+	    String UA = req.getHeader(Constants.HTTP_USER_AGENT_HEADER_NAME);
+	    String referer = req.getHeader(Constants.HTTP_REFERER_HEADER_NAME);
+	    logger.info("A Fulltext request from "+req.getRemoteHost()+" / "+req.getRemoteAddr()+" was received , Referer : "+referer+" , UA : "+UA);
 	    
 	    fullTextSearchEngine.executeAndSerialize(query, resp
 		    .getOutputStream());
