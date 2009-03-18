@@ -63,3 +63,20 @@ duplicate adm2code
 select a1.level,a1.featureid,a1.name,a1.countrycode,a1.adm1code,a1.adm2code,a2.level,a2.featureid,a2.name,a2.countrycode,a2.adm1code,a2.adm2code from adm a1, adm a2 where a1.adm2code=a2.adm2code and a1.countrycode=a2.countrycode and a1.level=a2.level and a1.level=2 and a1.featureid<>a2.featureid;
 
 /usr/bin/pg_dump -i -h 127.0.0.1 -p 5432 -U postgres -F p -O -v -f "/home/david/bkup/dump_localhost.sql" gisgraphy
+
+
+\f ','
+\a
+\t
+\o url.csv
+select 'http://downloads.cloudmade.com/'||continent ||'/'||lower(replace(name,' ', '_'))||'/'||lower(replace(name,' ', '_'))||'.shapefiles.zip' from country_work order by id ;
+\q 
+
+\f ','
+\a
+\t
+\o outputfile.csv
+select countrycode from country_work order by id ;
+\q 
+
+select countrycode from country_work order by id ;
