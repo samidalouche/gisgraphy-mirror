@@ -69,14 +69,14 @@ select a1.level,a1.featureid,a1.name,a1.countrycode,a1.adm1code,a1.adm2code,a2.l
 \a
 \t
 \o url.csv
-select 'http://downloads.cloudmade.com/'||continent ||'/'||lower(replace(name,' ', '_'))||'/'||lower(replace(name,' ', '_'))||'.shapefiles.zip' from country_work order by id ;
+select 'downloads.cloudmade.com/'||continent ||'/'||lower(replace(name,' ', '_'))||'/'||lower(replace(name,' ', '_'))||'.shapefiles.zip' from country_work order by id ;
 \q 
 
 \f ','
 \a
 \t
-\o outputfile.csv
-select countrycode from country_work order by id ;
+\o countrycode.csv
+select countrycode||'.zip' from country_work order by id ;
 \q 
 
 select countrycode from country_work order by id ;
