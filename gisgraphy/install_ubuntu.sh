@@ -171,6 +171,14 @@ worker.default.port=8009
 worker.default.host=localhost
 worker.default.type=ajp13
 worker.default.lbfactor=1
+
+
+
+  <Host name="services.gisgraphy.com"
+       appBase="/dir/to/gisgraphy"
+     unpackWARs="true" autoDeploy="false"
+     deployOnStartup="true" deployXML="false" />
+
   
 sudo vim /etc/apache2/apache2.conf
 in apache2.conf :
