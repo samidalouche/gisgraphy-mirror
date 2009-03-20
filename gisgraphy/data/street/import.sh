@@ -1,3 +1,4 @@
+
 #CREATE TABLE "openstreetmap" (gid serial PRIMARY KEY,"type" varchar(20),"name" varchar(68),"oneway" varchar(9),"shape" geometry NOT NULL,"countrycode" varchar(3));
 
 for i in *.zip
