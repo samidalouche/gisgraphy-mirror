@@ -760,7 +760,7 @@ public class GisFeatureDistance {
     /**
      * @return the iso3166NumericCode
      */
-    public int getIso3166NumericCode() {
+    public Integer getIso3166NumericCode() {
         return iso3166NumericCode;
     }
 

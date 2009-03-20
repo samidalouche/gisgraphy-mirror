@@ -3,7 +3,7 @@
 2968819	Ville-d'Avray	Ville-d'Avray	92410	48.8166667	2.1833333	P	PPL	FR		A8	92	923	92077	0		125	Europe/Paris	2006-04-30
 2970540	Vaucresson	Vaucresson	92420	48.8333333	2.1666667	P	PPL	FR		A8	92	923	92076	8693		144	Europe/Paris	2006-04-30
 2973675	Suresnes	Suresnes	92150,Siren,Sjuren,Suresnes,?????,?????	48.8666667	2.2333333	P	PPL	FR		A8	92	922	92073	44697		30	Europe/Paris	2007-02-18
-2974678	Sèvres	Sevres	92310,Sevr,Sevres,Sèvres,????,????,???	48.8166667	2.2	P	PPL	FR		A8	92	923	92072	23724		95	Europe/Paris	2007-02-17
+2974678	Sèvres	Sevres	02310,Sevr,Sevres,Sèvres,????,????,???	48.8166667	2.2	P	PPL	FR		A8	92	923	92072	23724		95	Europe/Paris	2007-02-17
 2975469	Sceaux	Sceaux	92330,Sceaux-l'Unite,Sceaux-l'Unité	48.7833333	2.2833333	P	PPL	FR		A8	92			21511		90	Europe/Paris	2007-09-08
 2981041	Saint-Cloud	Saint-Cloud	92210,La Montagne-Cherie,La Montagne-Chérie,Pont-la-Montagne,Saint-Cloud	48.8333333	2.1833333	P	PPL	FR		A8	92	923	92064	28839		138	Europe/Paris	2007-09-08
 2982235	Rueil-Malmaison	Rueil-Malmaison	92500,Rueil,Rueil-Malmaison	48.8833333	2.2	P	PPL	FR		A8	92	922	92063	76616		90	Europe/Paris	2006-11-05

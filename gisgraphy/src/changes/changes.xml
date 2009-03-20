@@ -108,7 +108,7 @@
 			</action>
 			
 			<action dev="David Masclet" type="add">
-				log IP adress for Geoloc and Fulltext servlet call 
+				Log IP adress for Geoloc and Fulltext servlet call 
 			</action>
 
 
