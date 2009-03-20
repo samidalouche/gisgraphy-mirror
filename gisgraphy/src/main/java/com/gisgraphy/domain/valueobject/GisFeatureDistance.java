@@ -348,7 +348,7 @@ public class GisFeatureDistance {
 
     private String iso3166Alpha3Code;
 
-    private int iso3166NumericCode;
+    private Integer iso3166NumericCode;
     
     private String phonePrefix;
 
