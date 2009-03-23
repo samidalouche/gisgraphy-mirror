@@ -1,3 +1,1 @@
-UM,TL,PN,MS,KY
-
-Hong kong?
+AX,DM,HK,KY,MS,PS,TC,TL,TZ,UM

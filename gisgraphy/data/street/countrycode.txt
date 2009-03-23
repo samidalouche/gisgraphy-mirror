@@ -12,7 +12,6 @@ AS.zip
 AT.zip
 AU.zip
 AW.zip
-AX.zip
 AZ.zip
 BA.zip
 BB.zip
@@ -54,7 +53,6 @@ CZ.zip
 DE.zip
 DJ.zip
 DK.zip
-DM.zip
 DO.zip
 DZ.zip
 EC.zip
@@ -89,7 +87,6 @@ GT.zip
 GU.zip
 GW.zip
 GY.zip
-HK.zip
 HM.zip
 HN.zip
 HR.zip
@@ -118,7 +115,6 @@ KN.zip
 KP.zip
 KR.zip
 KW.zip
-KY.zip
 KZ.zip
 LA.zip
 LB.zip
@@ -145,7 +141,6 @@ MO.zip
 MP.zip
 MQ.zip
 MR.zip
-MS.zip
 MT.zip
 MU.zip
 MV.zip
@@ -176,7 +171,6 @@ PL.zip
 PM.zip
 PN.zip
 PR.zip
-PS.zip
 PT.zip
 PW.zip
 PY.zip
@@ -205,14 +199,12 @@ ST.zip
 SV.zip
 SY.zip
 SZ.zip
-TC.zip
 TD.zip
 TF.zip
 TG.zip
 TH.zip
 TJ.zip
 TK.zip
-TL.zip
 TM.zip
 TN.zip
 TO.zip
@@ -220,10 +212,8 @@ TR.zip
 TT.zip
 TV.zip
 TW.zip
-TZ.zip
 UA.zip
 UG.zip
-UM.zip
 US.zip
 UY.zip
 UZ.zip
