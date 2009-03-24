@@ -79,4 +79,3 @@ select 'downloads.cloudmade.com/'||continent ||'/'||lower(replace(name,' ', '_')
 select countrycode||'.zip' from country_work order by id ;
 \q 
 
-select countrycode from country_work order by id ;

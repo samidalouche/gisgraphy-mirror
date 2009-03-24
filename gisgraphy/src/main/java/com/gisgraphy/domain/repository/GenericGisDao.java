@@ -213,7 +213,7 @@ public class GenericGisDao<T extends GisFeature> extends
 			criteria.addOrder(new ProjectionOrder("distance"));
 			criteria.setCacheable(true);
 			// List<Object[]> queryResults =testCriteria.list();
-			List<GisFeatureDistance> queryResults = criteria.list();
+			List<?> queryResults = criteria.list();
 
 			List<GisFeatureDistance> results = ResultTransformerUtil
 				.transformToGisFeatureDistance(

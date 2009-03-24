@@ -1,3 +1,23 @@
+#
+
+CREATE TABLE streetosm2
+(
+  id serial PRIMARY KEY,
+  "name" character varying(68),
+  "location" geometry,
+  "type" character varying(20),
+  length integer,
+  gid serial,
+  oneway character varying(9),
+  shape geometry NOT NULL,
+  countrycode character varying(3),
+  CONSTRAINT streetosm_gid_key UNIQUE (gid)
+)
+
+WITH (OIDS=FALSE);
+ALTER TABLE streetosm OWNER TO postgres;
+
+
 #urls.txt
 \f ','
 \a
@@ -30,4 +50,20 @@ select 'downloads.cloudmade.com/north_america/united_states/'||lower(replace(nam
 select 'US.'||lower(replace(name,' ', '_'))||'.zip' from ADM where level=1 and countrycode='US' order by id;
 \q 
 
-  
+ 
+ 
+  psql -U postgres  -c  "CREATE DATABASE openstreetmap WITH TEMPLATE = template0 ENCODING = 'UTF8';"
+ createlang -U postgres plpgsql openstreetmap
+ 
+ psql -U postgres  -d openstreetmap -f /usr/share/postgresql-8.3-postgis/lwpostgis.sql
+ psql -U postgres  -d openstreetmap -f /usr/share/postgresql-8.3-postgis/spatial_ref_sys.sql 
+ 
+ 
+ CREATE TABLE "street" (gid serial PRIMARY KEY,
+"type" varchar(23),
+"name" varchar(119),
+"oneway" varchar(9));
+SELECT AddGeometryColumn('','street','shape','-1','MULTILINESTRING',2);
+
+
+INSERT INTO "street" ("type","name","oneway",shape)

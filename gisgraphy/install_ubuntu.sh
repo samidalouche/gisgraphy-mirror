@@ -159,6 +159,8 @@ Is the information correct? [y/N] y
   
   vim /etc/apache2/workers.properties
   
+   sudo apt-get install php5-gd
+  
   # This file provides minimal jk configuration properties needed to
 # connect to Tomcat.
 #
