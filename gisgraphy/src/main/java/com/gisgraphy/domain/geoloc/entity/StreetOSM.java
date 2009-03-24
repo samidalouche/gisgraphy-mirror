@@ -66,17 +66,18 @@ public class StreetOSM  {
 
     private String name;
     
-    private String type;
+    private String streetType;
     
     private String oneWay;
     
     private Point location;
     
-    private com.vividsolutions.jts.geom.LineSegment shape;
+    @IntrospectionIgnoredField
+    private LineSegment shape;
     
-    private String countrycode;
+    private String countryCode;
     
-    private Integer Length;
+    private Double length;
 
     /**
      * @return the id
@@ -139,15 +140,15 @@ public class StreetOSM  {
     //TODO OSM ENUM?
     @Index(name = "streetosmtypeIndex")
     @Column(length = 50)
-    public String getType() {
-        return type;
+    public String getStreetType() {
+        return streetType;
     }
 
     /**
      * @param type the type to set
      */
-    public void setType(String type) {
-        this.type = type;
+    public void setStreetType(String streetType) {
+        this.streetType = streetType;
     }
 
     /**
@@ -160,13 +161,6 @@ public class StreetOSM  {
         return oneWay;
     }
 
-    /**
-     * @param oneway the oneway to set
-     */
-    public void setOneway(String oneWay) {
-        this.oneWay = oneWay;
-    }
-    
 
     /**
      * @param oneWay the oneWay to set
@@ -209,7 +203,7 @@ public class StreetOSM  {
     /**
      * @param shape the shape to set
      */
-    public void setShape(com.vividsolutions.jts.geom.LineSegment shape) {
+    public void setShape(LineSegment shape) {
         this.shape = shape;
     }
 
@@ -218,29 +212,29 @@ public class StreetOSM  {
      */
     @Index(name = "gisFeatureCountryindex")
     @Column(length = 3)
-    public String getCountrycode() {
-        return countrycode;
+    public String getCountryCode() {
+        return countryCode;
     }
 
     /**
      * @param countrycode the countrycode to set
      */
-    public void setCountrycode(String countrycode) {
-        this.countrycode = countrycode;
+    public void setCountryCode(String countryCode) {
+        this.countryCode = countryCode;
     }
 
     /**
      * @return the length of the street in meters
      */
-    public Integer getLength() {
-        return Length;
+    public Double getLength() {
+        return length;
     }
 
     /**
      * @param length the length to set
      */
-    public void setLength(Integer length) {
-        Length = length;
+    public void setLength(Double length) {
+        this.length = length;
     }
 
   

@@ -20,9 +20,6 @@
  *  
  *  
  *******************************************************************************/
-/**
- *
- */
 package com.gisgraphy.domain.geoloc.service.geoloc;
 
 import javax.persistence.Transient;
@@ -166,10 +163,9 @@ public class GeolocQuery extends AbstractGisQuery {
 
     /**
      * @param point
-     *                the text to query, if the query is a number zipcode will
-     *                be searched
+     *                the point to query around
      * @param radius
-     *                The radius (distance)
+     *                The radius (distance) in meters
      * @param pagination
      *                The pagination specification, if null : use default
      * @param output
@@ -198,7 +194,7 @@ public class GeolocQuery extends AbstractGisQuery {
      * @param point
      *                The point from which we want to find GIS Object
      * @param radius
-     *                The radius (distance)
+     *                The radius (distance) in meters
      */
     public GeolocQuery(Point point, double radius) {
 	this(point, radius, null, null,

@@ -198,7 +198,7 @@ public class GenericGisDao<T extends GisFeature> extends
 			criteria = criteria.add(new DistanceRestriction(point,
 				distance));
 			List<String> fieldList = IntrospectionHelper
-				.getGisFeatureFieldsAsList(requiredClass);
+				.getFieldsAsList(requiredClass);
 
 			Projection projections = ProjectionBean.fieldList(
 				fieldList).add(
@@ -220,7 +220,7 @@ public class GenericGisDao<T extends GisFeature> extends
 					(String[]) ArrayUtils
 						.add(
 							IntrospectionHelper
-								.getGisFeatureFieldsAsArray(requiredClass),
+								.getFieldsAsArray(requiredClass),
 							"distance"),
 					queryResults);
 			return results;

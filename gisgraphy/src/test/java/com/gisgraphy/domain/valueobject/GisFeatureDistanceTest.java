@@ -237,7 +237,7 @@ public class GisFeatureDistanceTest extends AbstractIntegrationHttpSolrTestCase 
 	}
 	List<String> GisFeatureDistanceFields = inspectGisFeatureDistance();
 	for (Class<? extends GisFeature> gisClass : classList) {
-	    for (String field : IntrospectionHelper.getGisFeatureFieldsAsList(gisClass)){
+	    for (String field : IntrospectionHelper.getFieldsAsList(gisClass)){
 		assertTrue("GisFeatureDistance does not contain "+field+ " and should  because "+gisClass+" has this field",GisFeatureDistanceFields.contains(field));
 	    }
 	}

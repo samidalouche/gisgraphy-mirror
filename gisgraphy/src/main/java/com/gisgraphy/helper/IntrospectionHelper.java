@@ -33,7 +33,7 @@ import com.gisgraphy.domain.geoloc.entity.GisFeature;
 import com.gisgraphy.hibernate.projection.ProjectionBean;
 
 /**
- * Inspect gisFeature and all subClass to retrieve the fields in order to be
+ * Inspect object and all subClass to retrieve the fields in order to be
  * used by the {@link ProjectionBean}
  * 
  * @see IntrospectionIgnoredField
@@ -42,9 +42,9 @@ import com.gisgraphy.hibernate.projection.ProjectionBean;
  */
 public class IntrospectionHelper {
 
-    private static Map<Class<? extends GisFeature>, String[]> cacheArray = new HashMap<Class<? extends GisFeature>, String[]>();
+    private static Map<Class<?>, String[]> cacheArray = new HashMap<Class<?>, String[]>();
 
-    private static Map<Class<? extends GisFeature>, List<String>> cacheList = new HashMap<Class<? extends GisFeature>, List<String>>();
+    private static Map<Class<?>, List<String>> cacheList = new HashMap<Class<?>, List<String>>();
 
     /**
      * clear the cache of introspected class
@@ -67,8 +67,8 @@ public class IntrospectionHelper {
      * 
      * see http://java.sun.com/j2se/1.5.0/docs/api/java/lang/reflect/Field.html
      */
-    public static List<String> getGisFeatureFieldsAsList(
-	    Class<? extends GisFeature> clazz) {
+    public static List<String> getFieldsAsList(
+	    Class<?> clazz) {
 	List<String> cached = cacheList.get(clazz);
 	if (cached == null) {
 	    updateCache(clazz);
@@ -93,8 +93,8 @@ public class IntrospectionHelper {
      * 
      * see http://java.sun.com/j2se/1.5.0/docs/api/java/lang/reflect/Field.html
      */
-    public static String[] getGisFeatureFieldsAsArray(
-	    Class<? extends GisFeature> clazz) {
+    public static String[] getFieldsAsArray(
+	    Class<?> clazz) {
 	String[] cached = cacheArray.get(clazz);
 	if (cached == null) {
 	    updateCache(clazz);
@@ -104,7 +104,7 @@ public class IntrospectionHelper {
 	}
     }
 
-    private static void updateCache(Class<? extends GisFeature> clazz) {
+    private static void updateCache(Class<?> clazz) {
 	Class<?> clazzParent = clazz;
 	List<String> introspectedFields = new ArrayList<String>();
 	try {

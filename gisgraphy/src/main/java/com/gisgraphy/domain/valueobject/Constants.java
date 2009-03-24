@@ -218,6 +218,12 @@ public class Constants {
      * The node name for {@link GisFeatureDistance} node in JAXB
      */
     public final static String GISFEATUREDISTANCE_JAXB_NAME = "result";
+    
+
+    /**
+     * The node name for {@link StreetDistance} node in JAXB
+     */
+    public final static String STREETDISTANCE_JAXB_NAME = "result";
 
     /**
      * The node name for {@link GeolocResultsDto} node in JAXB
