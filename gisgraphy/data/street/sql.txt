@@ -1,0 +1,33 @@
+#urls.txt
+\f ','
+\a
+\t
+\o urls.txt
+select 'downloads.cloudmade.com/'||continent ||'/'||lower(replace(name,' ', '_'))||'/'||lower(replace(name,' ', '_'))||'.shapefiles.zip' from country_work order by id ;
+\q 
+
+#countrycode.txt
+\f ','
+\a
+\t
+\o countrycode.txt
+select countrycode||'.zip' from country_work order by id ;
+\q 
+
+#usurls.txt
+\f ','
+\a
+\t
+\o usurls.txt
+select 'downloads.cloudmade.com/north_america/united_states/'||lower(replace(name,' ', '_'))||'/'||lower(replace(name,' ', '_'))||'.shapefiles.zip' from ADM where level=1 and countrycode='US' order by id;   
+\q 
+
+#usfilename.txt
+\f ','
+\a
+\t
+\o usfilename.txt
+select 'US.'||lower(replace(name,' ', '_'))||'.zip' from ADM where level=1 and countrycode='US' order by id;
+\q 
+
+  
