@@ -14,6 +14,11 @@ CREATE TABLE streetosm2
   CONSTRAINT streetosm_gid_key UNIQUE (gid)
 )
 
+SELECT setval('public.street_osm_sequence', 259623, true);
+SELECT setval('public.streetosm_gid_key', 169852, true);
+
+
+
 WITH (OIDS=FALSE);
 ALTER TABLE streetosm OWNER TO postgres;
 
