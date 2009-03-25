@@ -35,6 +35,7 @@ public interface IGeolocResultsDtoSerializer {
      * @param outputFormat the outputFormat we'd like to serialize the geolocResultsDto
      * @param geolocResultsDto the geolocResultsDto to serialize
      * @param indent whether the stream should be indented (if the format support indentation)
+     * @param startPaginationIndex the pagination index (needed for RSS and ATOM)
      */
     public abstract void serialize(OutputStream outputStream,OutputFormat outputFormat,
 	    GeolocResultsDto geolocResultsDto,boolean indent,int startPaginationIndex);

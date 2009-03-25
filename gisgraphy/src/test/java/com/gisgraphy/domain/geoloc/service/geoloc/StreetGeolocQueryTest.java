@@ -26,6 +26,7 @@
 package com.gisgraphy.domain.geoloc.service.geoloc;
 
 import static com.gisgraphy.domain.valueobject.Pagination.paginate;
+import junit.framework.TestCase;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -35,7 +36,6 @@ import com.gisgraphy.domain.geoloc.entity.Adm;
 import com.gisgraphy.domain.geoloc.entity.City;
 import com.gisgraphy.domain.geoloc.entity.Country;
 import com.gisgraphy.domain.geoloc.entity.GisFeature;
-import com.gisgraphy.domain.geoloc.service.fulltextsearch.AbstractIntegrationHttpSolrTestCase;
 import com.gisgraphy.domain.valueobject.GisgraphyConfig;
 import com.gisgraphy.domain.valueobject.Output;
 import com.gisgraphy.domain.valueobject.Pagination;
@@ -47,7 +47,7 @@ import com.gisgraphy.servlet.GeolocServlet;
 import com.gisgraphy.test.GeolocTestHelper;
 import com.vividsolutions.jts.geom.Point;
 
-public class StreetGeolocQueryTest extends AbstractIntegrationHttpSolrTestCase {
+public class StreetGeolocQueryTest extends TestCase {
 
     /**
      * a simple point to avoid creation of new one for each test
@@ -60,7 +60,7 @@ public class StreetGeolocQueryTest extends AbstractIntegrationHttpSolrTestCase {
 	Output output = Output.withFormat(OutputFormat.JSON).withLanguageCode(
 		"FR").withStyle(OutputStyle.FULL).withIndentation();
 	StreetGeolocQuery query = new StreetGeolocQuery(GENERIC_POINT, 3D, pagination,
-		output, "streetType");
+		output, "streetType","namePrefix");
 	assertEquals(pagination, query.getPagination());
 	assertEquals(output, query.getOutput());
 	assertEquals(null, query.getPlaceType());
@@ -68,6 +68,7 @@ public class StreetGeolocQueryTest extends AbstractIntegrationHttpSolrTestCase {
 	assertTrue(query.isOutputIndented());
 	assertEquals(3D, query.getRadius());
 	assertEquals("streetType", query.getStreetType());
+	assertEquals("namePrefix", query.getNamePrefix());
     }
 
     public void testStreetGeolocQueryPointRadius() {
@@ -453,12 +454,12 @@ public class StreetGeolocQueryTest extends AbstractIntegrationHttpSolrTestCase {
 		"FR").withStyle(OutputStyle.FULL);
 	// with negaive value
 	StreetGeolocQuery query = new StreetGeolocQuery(GENERIC_POINT, -1, pagination,
-		output, "streetType");
+		output, "streetType","namePrefix");
 	assertEquals(GeolocQuery.DEFAULT_RADIUS, query.getRadius());
 
 	// with 0
 	 query = new StreetGeolocQuery(GENERIC_POINT, 0, pagination,
-		output, "streetType");
+		output, "streetType","namePrefix");
 	assertEquals(GeolocQuery.DEFAULT_RADIUS, query.getRadius());
 
     }

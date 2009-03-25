@@ -31,6 +31,8 @@ import com.vividsolutions.jts.geom.Point;
 public class StreetGeolocQuery extends GeolocQuery {
 
     private String streetType = null;
+    
+    private String namePrefix = null;
 
     public StreetGeolocQuery(HttpServletRequest req) {
 	super(req);
@@ -55,9 +57,10 @@ public class StreetGeolocQuery extends GeolocQuery {
      *                 {@link IllegalArgumentException} if the point is null
      */
     public StreetGeolocQuery(Point point, double radius, Pagination pagination,
-	    Output output, String streetType) {
+	    Output output, String streetType,String namePrefix) {
 	super(point, radius, pagination, output, null);
 	withStreetType(streetType);
+	withNamePrefix(namePrefix);
     }
 
     /**
@@ -101,6 +104,23 @@ public class StreetGeolocQuery extends GeolocQuery {
      */
     public StreetGeolocQuery withStreetType(String streetType) {
 	this.streetType = streetType;
+	return this;
+    }
+    
+    /**
+     * @return the string that the street must starts with (aka : 'name%'). 
+     */
+    public String getNamePrefix() {
+	return this.namePrefix;
+    }
+
+    /**
+     * @param namePrefix the string that the street must starts with (aka : 'name%').
+     * Don't prefix with 'Street'
+     * @return The current query to chain methods
+     */
+    public StreetGeolocQuery withNamePrefix(String namePrefix) {
+	this.namePrefix = namePrefix;
 	return this;
     }
 
