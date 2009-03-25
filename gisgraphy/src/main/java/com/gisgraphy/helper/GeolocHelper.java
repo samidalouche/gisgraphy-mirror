@@ -36,8 +36,11 @@ import com.gisgraphy.domain.valueobject.FeatureCode;
 import com.gisgraphy.domain.valueobject.SRID;
 import com.vividsolutions.jts.geom.Coordinate;
 import com.vividsolutions.jts.geom.GeometryFactory;
+import com.vividsolutions.jts.geom.LineString;
+import com.vividsolutions.jts.geom.MultiLineString;
 import com.vividsolutions.jts.geom.Point;
 import com.vividsolutions.jts.geom.PrecisionModel;
+import com.vividsolutions.jts.io.WKTReader;
 
 /**
  * Provides useful methods for geolocalisation
@@ -72,9 +75,46 @@ public class GeolocHelper {
 	}
 	GeometryFactory factory = new GeometryFactory(new PrecisionModel(
 		PrecisionModel.FLOATING), SRID.WGS84_SRID.getSRID());
-	com.vividsolutions.jts.geom.Point point = (com.vividsolutions.jts.geom.Point) factory
+	Point point = (Point) factory
 		.createPoint(new Coordinate(longitude, latitude));
 	return point;
+    }
+    
+    
+    /**
+     * Create a JTS MultiLineString from the specified array of linestring for the SRID
+     * (aka : Spatial Reference IDentifier) 4326 (WGS84)<br>
+     * 
+     * example : {"LINESTRING (0 0, 10 10, 20 20)","LINESTRING (30 30, 40 40, 50 50)"}
+     * 
+     * @see <a href="http://en.wikipedia.org/wiki/SRID">SRID</a>
+     * @see SRID
+     * @param wktLineStrings
+     *                The longitude for the point
+     * @return A MultilineStringObject from the specified array of linestring
+     * @throws IllegalArgumentException
+     *                 if the string are not correct
+     */
+    public static MultiLineString createMultiLineStringFromString(String[] wktLineStrings) {
+	LineString[] lineStrings = new LineString[wktLineStrings.length];
+	for (int i = 0;i< wktLineStrings.length;i++){
+	 LineString ls;
+	try {
+	    ls = (LineString) new WKTReader().read(wktLineStrings[i]);
+	} catch (com.vividsolutions.jts.io.ParseException pe) {
+	   throw new IllegalArgumentException(wktLineStrings[i]+" is not valid "+pe);
+	}
+	catch (ClassCastException cce) {
+		   throw new IllegalArgumentException(wktLineStrings[i]+" is not a LINESTRING");
+	}
+	 lineStrings[i] = ls;
+	}
+	
+	GeometryFactory factory = new GeometryFactory(new PrecisionModel(
+		PrecisionModel.FLOATING), SRID.WGS84_SRID.getSRID());
+	MultiLineString multiLineString = (MultiLineString) factory
+		.createMultiLineString(lineStrings);
+	return multiLineString;
     }
 
     /**

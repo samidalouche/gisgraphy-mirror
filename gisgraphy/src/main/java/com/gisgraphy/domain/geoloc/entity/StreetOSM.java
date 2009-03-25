@@ -37,6 +37,7 @@ import org.hibernate.annotations.Type;
 import com.gisgraphy.domain.valueobject.SRID;
 import com.gisgraphy.helper.IntrospectionIgnoredField;
 import com.vividsolutions.jts.geom.LineSegment;
+import com.vividsolutions.jts.geom.MultiLineString;
 import com.vividsolutions.jts.geom.Point;
 
 /**
@@ -73,7 +74,7 @@ public class StreetOSM  {
     private Point location;
     
     @IntrospectionIgnoredField
-    private LineSegment shape;
+    private MultiLineString shape;
     
     private String countryCode;
     
@@ -111,12 +112,6 @@ public class StreetOSM  {
         this.gid = gid;
     }
 
-    /**
-     * @param featureId the featureId to set
-     */
-    public void setFeatureId(Long gid) {
-        this.gid = gid;
-    }
 
     /**
      * @return the name
@@ -196,14 +191,14 @@ public class StreetOSM  {
      */
     @Type(type = "org.hibernatespatial.GeometryUserType")
     @Column(nullable = false)
-    public LineSegment getShape() {
+    public MultiLineString getShape() {
         return shape;
     }
 
     /**
      * @param shape the shape to set
      */
-    public void setShape(LineSegment shape) {
+    public void setShape(MultiLineString shape) {
         this.shape = shape;
     }
 
