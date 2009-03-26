@@ -72,6 +72,7 @@ import com.gisgraphy.domain.valueobject.ImporterStatusDto;
 import com.gisgraphy.domain.valueobject.NameValueDTO;
 import com.gisgraphy.test.GeolocTestHelper;
 
+@Ignore
 public class ImporterManagerTest extends AbstractIntegrationHttpSolrTestCase {
 
     private static final String ADM1_FILENAME_WITH_WRONG_NUMBER_OF_FIELDS = "admin1CodesWithWrongNumberOfFields.txt";

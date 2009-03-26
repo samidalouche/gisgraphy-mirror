@@ -81,7 +81,7 @@ public class OutputTest extends TestCase {
     }
 
     //don't know why this test fails
-    /*
+    
     @Test
     public void testDefaultOutputShouldHaveDefaultParameters() {
 	assertEquals(Output.DEFAULT_LANGUAGE_CODE, Output.DEFAULT_OUTPUT
@@ -91,7 +91,7 @@ public class OutputTest extends TestCase {
 	assertEquals(Output.DEFAULT_OUTPUT_STYLE, Output.DEFAULT_OUTPUT
 		.getStyle());
     }
-*/
+
     @Test
     public void testWithwithIndentationShouldSetTheIndentationToTrue() {
 	assertEquals(true, Output.withDefaultFormat().withIndentation()
