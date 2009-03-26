@@ -80,8 +80,6 @@ public class OutputTest extends TestCase {
 		.withStyle(null).getStyle());
     }
 
-    //don't know why this test fails
-    
     @Test
     public void testDefaultOutputShouldHaveDefaultParameters() {
 	assertEquals(Output.DEFAULT_LANGUAGE_CODE, Output.DEFAULT_OUTPUT
