@@ -135,7 +135,7 @@
         <mapping class="com.gisgraphy.domain.geoloc.entity.Strait"/>
         <mapping class="com.gisgraphy.domain.geoloc.entity.Stream"/>
         <mapping class="com.gisgraphy.domain.geoloc.entity.Street"/>
-        <mapping class="com.gisgraphy.domain.geoloc.entity.StreetOSM"/>
+        <mapping class="com.gisgraphy.domain.geoloc.entity.OpenStreetMap"/>
         <mapping class="com.gisgraphy.domain.geoloc.entity.Theater"/>
         <mapping class="com.gisgraphy.domain.geoloc.entity.Tower"/>
         <mapping class="com.gisgraphy.domain.geoloc.entity.Tree"/>

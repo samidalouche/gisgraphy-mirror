@@ -41,22 +41,20 @@ import com.vividsolutions.jts.geom.MultiLineString;
 import com.vividsolutions.jts.geom.Point;
 
 /**
- * Represents a {@link StreetOSM}.
+ * Represents a {@link OpenStreetMap}.
  * 
  * @author <a href="mailto:david.masclet@gisgraphy.com">David Masclet</a>
  */
 @Entity
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 @SequenceGenerator(name = "streetosmsequence", sequenceName = "street_osm_sequence")
-public class StreetOSM  {
+public class OpenStreetMap  {
 
-    //gid serial PRIMARY KEY,"type" varchar(20),"name" varchar(68),"oneway" varchar(9),"shape" geometry NOT NULL,"countrycode" varchar(3),"length" integer,"location" geometry
-   
 
     /**
      * Needed by CGLib
      */
-    public StreetOSM() {
+    public OpenStreetMap() {
 	super();
     }
     
@@ -99,7 +97,7 @@ public class StreetOSM  {
     /**
      * @return an uniqueid that identify the street
      */
-    @Index(name = "streetosmfeatureIdIndex")
+    @Index(name = "streetosmgidindex")
     @Column(unique = true, nullable = false)
     public Long getGid() {
         return gid;
