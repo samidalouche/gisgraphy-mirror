@@ -46,7 +46,6 @@ import com.vividsolutions.jts.geom.Point;
  * @see Output
  * @author <a href="mailto:david.masclet@gisgraphy.com">David Masclet</a>
  */
-@Component
 public class GeolocQuery extends AbstractGisQuery {
 
     /**

@@ -4,13 +4,14 @@ import org.junit.Test;
 import org.springframework.beans.factory.annotation.Required;
 
 import com.gisgraphy.domain.geoloc.entity.OpenStreetMap;
+import com.gisgraphy.domain.geoloc.service.fulltextsearch.AbstractIntegrationHttpSolrTestCase;
 import com.gisgraphy.helper.GeolocHelper;
 import com.vividsolutions.jts.geom.MultiLineString;
 
 import junit.framework.TestCase;
 
 
-public class OpenStreetMapDaotest extends TestCase{
+public class OpenStreetMapDaoTest extends AbstractIntegrationHttpSolrTestCase{
 
  IOpenStreetMapDao openStreetMapDao;
     
