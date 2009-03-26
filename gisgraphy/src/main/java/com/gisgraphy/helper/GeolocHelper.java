@@ -32,6 +32,7 @@ import org.opengis.referencing.operation.TransformException;
 import org.springframework.util.Assert;
 
 import com.gisgraphy.domain.geoloc.entity.GisFeature;
+import com.gisgraphy.domain.valueobject.Constants;
 import com.gisgraphy.domain.valueobject.FeatureCode;
 import com.gisgraphy.domain.valueobject.SRID;
 import com.vividsolutions.jts.geom.Coordinate;
@@ -39,6 +40,7 @@ import com.vividsolutions.jts.geom.GeometryFactory;
 import com.vividsolutions.jts.geom.LineString;
 import com.vividsolutions.jts.geom.MultiLineString;
 import com.vividsolutions.jts.geom.Point;
+import com.vividsolutions.jts.geom.Polygon;
 import com.vividsolutions.jts.geom.PrecisionModel;
 import com.vividsolutions.jts.io.WKTReader;
 
@@ -95,7 +97,7 @@ public class GeolocHelper {
      * @throws IllegalArgumentException
      *                 if the string are not correct
      */
-    public static MultiLineString createMultiLineStringFromString(String[] wktLineStrings) {
+    public static MultiLineString createMultiLineString(String[] wktLineStrings) {
 	LineString[] lineStrings = new LineString[wktLineStrings.length];
 	for (int i = 0;i< wktLineStrings.length;i++){
 	 LineString ls;
@@ -181,5 +183,56 @@ public class GeolocHelper {
 	Number numberToReturn = number.indexOf(',') != -1 ? nffrench
 		.parse(number) : nfus.parse(number);
 	return numberToReturn.floatValue();
+    }
+    
+    /**
+     * @param lat the central latitude for the Polygon
+     * @param lng the central longitude for the polygon
+     * @param distance the distance in meters from the point to create the polygon
+     * @return a polygon / square with a side of distance * 2
+     * throws {@link RuntimeException} if an error occured 
+     * thros {@link IllegalArgumentException} if lat, long or distance is not correct
+     */
+    public static Polygon createPolygonBox(Float lng, Float lat,Float distance){
+	Assert.notNull(lat,"lat should not be null");
+	Assert.notNull(lng,"long should not be null");
+	Assert.notNull(distance, "distance should not be null");
+	
+	if (distance <=0){
+	    throw new IllegalArgumentException("distance is incorect : "+distance);
+	}
+	
+
+	double deltaXInDegrees = Math.abs(Math.toDegrees(Math.asin(Math
+		.sin(distance / Constants.RADIUS_OF_EARTH_IN_METERS)
+		/ Math.cos(lat))));
+	double deltaYInDegrees = Math.abs(Math.toDegrees(distance
+		/ Constants.RADIUS_OF_EARTH_IN_METERS));
+
+	double minX = lng - deltaXInDegrees;
+	double maxX = lng + deltaXInDegrees;
+	double minY = lat - deltaYInDegrees;
+	double maxY = lat + deltaYInDegrees;
+	/*System.err.println(distance(createPoint(Double.valueOf(minX).floatValue(), Double.valueOf(minY).floatValue()), 
+		createPoint(Double.valueOf(maxX).floatValue(), Double.valueOf(minY).floatValue())	
+	
+	));*/
+	
+	
+	
+	WKTReader reader = new WKTReader();
+	StringBuffer sb = new StringBuffer("POLYGON((");
+	String polygonString = sb.append(minX).append(" ").append(minY).append(",")
+	.append(maxX).append(" ").append(minY).append(",")
+	.append(maxX).append(" ").append(maxY).append(",")
+	.append(minX).append(" ").append(maxY).append(",")
+	.append(minX).append(" ").append(minY).append("))").toString();
+	
+	
+	try {
+	    return (Polygon) reader.read(polygonString);
+	} catch (com.vividsolutions.jts.io.ParseException e) {
+	    throw new RuntimeException("can not create Polygon for lat="+lat+" long="+lng+" and distance="+distance +" : "+e);
+	}
     }
 }

@@ -605,29 +605,23 @@ public class Output {
     /**
      * The default output format
      */
-    public static final OutputFormat DEFAULT_OUTPUT_FORMAT = OutputFormat.XML;
+  //  public static final OutputFormat DEFAULT_OUTPUT_FORMAT = OutputFormat.XML;
 
     /**
      * The Default Output style
      */
-    public static final OutputStyle DEFAULT_OUTPUT_STYLE = OutputStyle.MEDIUM;
+    //public static final OutputStyle DEFAULT_OUTPUT_STYLE = OutputStyle.getDefault();
 
     /**
      * The Default {@link #languageCode}
      */
     public static final String DEFAULT_LANGUAGE_CODE = null;
 
-    /**
-     * Output with default values
-     */
-    public static final Output DEFAULT_OUTPUT = Output.withDefaultFormat()
-	    .withStyle(Output.DEFAULT_OUTPUT_STYLE).withLanguageCode(
-		    Output.DEFAULT_LANGUAGE_CODE);
-
+   
     /**
      * The output format value default to {@link OutputFormat#XML}
      */
-    private OutputFormat format = Output.DEFAULT_OUTPUT_FORMAT;
+    private OutputFormat format = OutputFormat.getDefault();
 
     /**
      * the iso639 Alpha2 LanguageCode, default to {@link #DEFAULT_LANGUAGE_CODE}
@@ -637,7 +631,7 @@ public class Output {
     /**
      * The output style verbosity, default to {@link #DEFAULT_OUTPUT_STYLE}
      */
-    private OutputStyle style = Output.DEFAULT_OUTPUT_STYLE;
+    private OutputStyle style =  OutputStyle.MEDIUM;
 
     private boolean indent = false;
 
@@ -646,7 +640,7 @@ public class Output {
      */
     private Output(OutputFormat format) {
 	if (format == null) {
-	    this.format = Output.DEFAULT_OUTPUT_FORMAT;
+	    this.format = OutputFormat.getDefault();
 	} else {
 	    this.format = format;
 	}
@@ -666,7 +660,7 @@ public class Output {
      * @see Output#DEFAULT_OUTPUT_FORMAT
      */
     public static Output withDefaultFormat() {
-	return new Output(Output.DEFAULT_OUTPUT_FORMAT);
+	return new Output(OutputFormat.getDefault());
     }
 
     /**
@@ -752,7 +746,7 @@ public class Output {
      */
     public Output withStyle(OutputStyle style) {
 	if (style == null) {
-	    this.style = DEFAULT_OUTPUT_STYLE;
+	    this.style = OutputStyle.MEDIUM;
 	} else {
 	    this.style = style;
 	}
@@ -770,5 +764,12 @@ public class Output {
 		+ " style with language " + languageCode + " and ident="
 		+ isIndented();
     }
+    
+    /**
+     * Output with default values
+     */
+    public static final Output DEFAULT_OUTPUT = Output.withFormat(OutputFormat.XML)
+	    .withStyle(OutputStyle.MEDIUM).withLanguageCode(
+		    Output.DEFAULT_LANGUAGE_CODE);
 
 }

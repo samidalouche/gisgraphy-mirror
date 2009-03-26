@@ -20,7 +20,7 @@ public class OpenStreetMapDaoTest extends AbstractIntegrationHttpSolrTestCase{
     public void testGetNearestAndDistanceFromShouldReturnValidDTO() {
 	OpenStreetMap streetOSM = new OpenStreetMap();
 	String[] wktLineStrings={"LINESTRING (0 0, 10 10, 20 20)","LINESTRING (30 30, 40 40, 50 50)"};
-	MultiLineString shape = GeolocHelper.createMultiLineStringFromString(wktLineStrings);
+	MultiLineString shape = GeolocHelper.createMultiLineString(wktLineStrings);
 	streetOSM.setShape(shape);
 	streetOSM.setGid(1L);
 	streetOSM.setOneWay("oneWay");

@@ -158,7 +158,7 @@ public class Constants {
     /**
      * The radius of the earth
      */
-    public static final double RADIUS_OF_EARTH_IN_METERS = 6371008;
+    public static final double RADIUS_OF_EARTH_IN_METERS = 6378100;
 
     /**
      * An Array of the applicationContext names

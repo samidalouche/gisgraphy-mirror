@@ -50,6 +50,7 @@ import com.vividsolutions.jts.geom.Point;
 @SequenceGenerator(name = "streetosmsequence", sequenceName = "street_osm_sequence")
 public class OpenStreetMap  {
 
+    public static final String SHAPE_COLUMN_NAME = "shape";
 
     /**
      * Needed by CGLib

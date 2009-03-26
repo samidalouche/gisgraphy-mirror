@@ -39,6 +39,7 @@ import com.gisgraphy.domain.geoloc.entity.OpenStreetMap;
 import com.gisgraphy.domain.geoloc.entity.Street;
 import com.gisgraphy.domain.valueobject.GisFeatureDistance;
 import com.gisgraphy.domain.valueobject.StreetDistance;
+import com.gisgraphy.helper.GeolocHelper;
 import com.gisgraphy.helper.IntrospectionHelper;
 import com.gisgraphy.hibernate.criterion.DistanceRestriction;
 import com.gisgraphy.hibernate.criterion.ProjectionOrder;
@@ -94,8 +95,10 @@ public class OpenStreetMapDao extends GenericDao<OpenStreetMap, Long> implements
 			if (namePrefix != null) {
 			    criteria = criteria.add(Restrictions.like("name", namePrefix));
 			}
-			criteria = criteria.add(new DistanceRestriction(point,
-				distance));
+			String[] wktLineStrings={"LINESTRING (0 0, 10 10, 20 20)","LINESTRING (30 30, 40 40, 50 50)"};
+			criteria = criteria.add(org.hibernatespatial.criterion.SpatialRestrictions.
+				intersects(OpenStreetMap.SHAPE_COLUMN_NAME, null, 
+					GeolocHelper.createMultiLineString(wktLineStrings)));
 			List<String> fieldList = IntrospectionHelper
 				.getFieldsAsList(OpenStreetMap.class);
 

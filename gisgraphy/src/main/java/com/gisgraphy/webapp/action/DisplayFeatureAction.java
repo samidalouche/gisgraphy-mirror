@@ -78,7 +78,7 @@ public class DisplayFeatureAction extends ActionSupport {
      */
     private static final long serialVersionUID = 2940477008022016677L;
 
-    private static final Output FULL_OUTPUT = Output.DEFAULT_OUTPUT
+    private static final Output FULL_OUTPUT = Output.withDefaultFormat().withLanguageCode(Output.DEFAULT_LANGUAGE_CODE)
 	    .withStyle(OutputStyle.FULL);
 
     private static Logger logger = LoggerFactory

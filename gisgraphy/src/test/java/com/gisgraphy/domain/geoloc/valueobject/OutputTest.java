@@ -37,7 +37,7 @@ public class OutputTest extends TestCase {
 
     @Test
     public void testOutputTestWithNullValuesSetTheDefaultFormat() {
-	assertEquals(Output.DEFAULT_OUTPUT_FORMAT, Output.withFormat(null)
+	assertEquals(OutputFormat.getDefault(), Output.withFormat(null)
 		.getFormat());
     }
 
@@ -54,7 +54,7 @@ public class OutputTest extends TestCase {
 
     @Test
     public void testWithDefaultFormatShouldBeSetToFormat() {
-	assertEquals(Output.DEFAULT_OUTPUT_FORMAT, Output.withDefaultFormat()
+	assertEquals(OutputFormat.getDefault(), Output.withDefaultFormat()
 		.getFormat());
     }
 
@@ -76,7 +76,7 @@ public class OutputTest extends TestCase {
 
     @Test
     public void testWithStyleWithNullShouldBeSetToDefault() {
-	assertEquals(Output.DEFAULT_OUTPUT_STYLE, Output.withDefaultFormat()
+	assertEquals(OutputStyle.getDefault(), Output.withDefaultFormat()
 		.withStyle(null).getStyle());
     }
 
@@ -84,9 +84,9 @@ public class OutputTest extends TestCase {
     public void testDefaultOutputShouldHaveDefaultParameters() {
 	assertEquals(Output.DEFAULT_LANGUAGE_CODE, Output.DEFAULT_OUTPUT
 		.getLanguageCode());
-	assertEquals(Output.DEFAULT_OUTPUT_FORMAT, Output.DEFAULT_OUTPUT
+	assertEquals(OutputFormat.getDefault(), Output.DEFAULT_OUTPUT
 		.getFormat());
-	assertEquals(Output.DEFAULT_OUTPUT_STYLE, Output.DEFAULT_OUTPUT
+	assertEquals(OutputStyle.getDefault(), Output.DEFAULT_OUTPUT
 		.getStyle());
     }
 
@@ -175,7 +175,7 @@ public class OutputTest extends TestCase {
 
     @Test
     public void testGetFieldListshouldbeConsistant() {
-	assertEquals(Output.DEFAULT_OUTPUT_STYLE
+	assertEquals(OutputStyle.getDefault()
 		.getFieldList(Output.DEFAULT_LANGUAGE_CODE), Output
 		.withDefaultFormat().getFields());
 	// with style
