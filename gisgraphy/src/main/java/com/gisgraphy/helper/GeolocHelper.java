@@ -207,29 +207,37 @@ public class GeolocHelper {
 	double lngrad = ((lng * Math.PI) / 180);
 	double angulardistance = distance/Constants.RADIUS_OF_EARTH_IN_METERS;
 	double deltaYLatInDegrees = Math.abs(Math.asin( Math.sin(latrad)*Math.cos(angulardistance) + 
-                 Math.cos(latrad)*Math.sin(angulardistance)*Math.cos(0) ));
+                 Math.cos(latrad)*Math.sin(angulardistance)*Math.cos(0) )-latrad);
 	
-	double deltaXlngInDegrees = lngrad + Math.atan2(Math.sin(0) * Math.sin(angulardistance) * Math.cos(latrad), 
-                Math.cos(angulardistance)-Math.sin(latrad)*Math.sin(latrad));
+	double deltaXlngInDegrees =  Math.abs(Math.atan2(Math.sin(90) * Math.sin(angulardistance) * Math.cos(latrad), 
+                Math.cos(angulardistance)-Math.sin(latrad)*Math.sin(latrad)));
 
 	lngrad = (lngrad+Math.PI)%(2*Math.PI) - Math.PI;
 	
 	double latdeg = ((deltaYLatInDegrees * 180 ) /Math.PI);
-	double slngdeg = ((deltaXlngInDegrees * 180 ) /Math.PI);
+	double lngdeg = ((deltaXlngInDegrees * 180 ) /Math.PI);
 
 	//System.err.println("deltaY"+deltaYLatInDegrees);
 	//System.err.println("deltaX"+deltaXlngInDegrees);
-	double minX = lng - slngdeg;
-	double maxX = lng + slngdeg;
+	double minX = lng - lngdeg;
+	double maxX = lng + lngdeg;
 	double minY = lat - latdeg;
 	double maxY = lat + latdeg;
 	Point point1 = createPoint(Double.valueOf(lng).floatValue(), Double.valueOf(lat).floatValue());
-	Point point2 = createPoint(Double.valueOf(slngdeg).floatValue(), Double.valueOf(latdeg).floatValue());
+	Point point2 = createPoint(Double.valueOf(lng).floatValue(), Double.valueOf(lat - latdeg).floatValue());
+	Point point3 = createPoint(Double.valueOf(lng).floatValue(), Double.valueOf(lat + latdeg).floatValue());
+	Point point4 = createPoint(Double.valueOf(lng - lngdeg).floatValue(), Double.valueOf(lat).floatValue());
+	Point point5 = createPoint(Double.valueOf(lng + lngdeg).floatValue(), Double.valueOf(lat).floatValue());
 	//System.err.println("point1="+point1);
 	//System.err.println("point2="+point2);
 	System.err.println("distance="+distance(point1, point2));
+	System.err.println("distance="+distance(point1, point3));
+	System.err.println("distance="+distance(point1, point4));
+	System.err.println("distance="+distance(point1, point5));
+	System.err.println("distance="+distance(point2, point3));
+	System.err.println("###########");
 	
-	
+
 	
 	WKTReader reader = new WKTReader();
 	StringBuffer sb = new StringBuffer("POLYGON((");
@@ -242,6 +250,7 @@ public class GeolocHelper {
 	
 	try {
 	    Polygon polygon = (Polygon) reader.read(polygonString);
+		System.err.println("###########"+polygonString);
 	    polygon.setSRID(SRID.WGS84_SRID.getSRID());
 	    return polygon;
 	} catch (com.vividsolutions.jts.io.ParseException e) {
