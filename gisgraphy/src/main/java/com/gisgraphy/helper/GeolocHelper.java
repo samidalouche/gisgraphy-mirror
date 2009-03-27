@@ -209,14 +209,17 @@ public class GeolocHelper {
 	double deltaYInDegrees = Math.abs(Math.toDegrees(distance
 		/ Constants.RADIUS_OF_EARTH_IN_METERS));
 
+	deltaXInDegrees = (distance * 360) /(40000);
+	deltaYInDegrees = (distance * 180) /40000;
 	double minX = lng - deltaXInDegrees;
 	double maxX = lng + deltaXInDegrees;
 	double minY = lat - deltaYInDegrees;
 	double maxY = lat + deltaYInDegrees;
-	/*System.err.println(distance(createPoint(Double.valueOf(minX).floatValue(), Double.valueOf(minY).floatValue()), 
-		createPoint(Double.valueOf(maxX).floatValue(), Double.valueOf(minY).floatValue())	
-	
-	));*/
+	Point point1 = createPoint(Double.valueOf(minX).floatValue(), Double.valueOf(minY).floatValue());
+	Point point2 = createPoint(Double.valueOf(maxX).floatValue(), Double.valueOf(minY).floatValue());
+	System.err.println(distance(point1, point2));
+	System.err.println("point1="+point1);
+	System.err.println("point2="+point2);
 	
 	
 	
