@@ -132,7 +132,7 @@ public class StreetDistance {
 
     private Double lng;
 
-    private StreetDistance() {
+    public StreetDistance() {
 	super();
     }
 

@@ -22,6 +22,7 @@
  *******************************************************************************/
 package com.gisgraphy.domain.repository;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.PersistenceException;
@@ -30,7 +31,9 @@ import org.apache.commons.lang.ArrayUtils;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.criterion.Projection;
+import org.hibernate.criterion.Property;
 import org.hibernate.criterion.Restrictions;
+import org.hibernatespatial.criterion.SpatialRestrictions;
 import org.springframework.orm.hibernate3.HibernateCallback;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.Assert;
@@ -83,37 +86,39 @@ public class OpenStreetMapDao extends GenericDao<OpenStreetMap, Long> implements
 			    throws PersistenceException {
 			Criteria criteria = session
 				.createCriteria(OpenStreetMap.class);
+			
+			List<String> fieldList = IntrospectionHelper
+				.getFieldsAsList(OpenStreetMap.class);
+
+			Projection projections = ProjectionBean.fieldList(
+				fieldList,false).add(
+				SpatialProjection.distance_sphere(point).as(
+					"distance"));
+			criteria.setProjection(projections);
+			criteria.addOrder(new ProjectionOrder("distance"));
 			if (maxResults > 0) {
 			    criteria = criteria.setMaxResults(maxResults);
 			}
 			if (firstResult >= 1) {
 			    criteria = criteria.setFirstResult(firstResult - 1);
 			}
-			if (streetType != null) {
-			    criteria = criteria.add(Restrictions.eq("streetType", streetType));
-			}
+			
 			if (namePrefix != null) {
 			    criteria = criteria.add(Restrictions.like("name", namePrefix));
 			}
-			String[] wktLineStrings={"LINESTRING (0 0, 10 10, 20 20)","LINESTRING (30 30, 40 40, 50 50)"};
-			criteria = criteria.add(org.hibernatespatial.criterion.SpatialRestrictions.
+			criteria = criteria.add(SpatialRestrictions.
 				intersects(OpenStreetMap.SHAPE_COLUMN_NAME, null, 
-					GeolocHelper.createMultiLineString(wktLineStrings)));
-			List<String> fieldList = IntrospectionHelper
-				.getFieldsAsList(OpenStreetMap.class);
-
-			Projection projections = ProjectionBean.fieldList(
-				fieldList).add(
-				SpatialProjection.distance_sphere(point).as(
-					"distance"));
-			criteria.setProjection(projections);
-			criteria.addOrder(new ProjectionOrder("distance"));
+					GeolocHelper.createPolygonBox(point.getX(), point.getY(), distance)));
+			if (streetType != null) {
+			    criteria = criteria.add(Property.forName("streetType").eq(streetType));
+			}
 			criteria.setCacheable(true);
 			// List<Object[]> queryResults =testCriteria.list();
 			List<?> queryResults = criteria.list();
-
-			List<GisFeatureDistance> results = ResultTransformerUtil
-				.transformToGisFeatureDistance(
+			
+			if (queryResults != null && queryResults.size()!=0){
+			List<StreetDistance> results = ResultTransformerUtil
+				.transformToStreetDistance(
 					(String[]) ArrayUtils
 						.add(
 							IntrospectionHelper
@@ -121,6 +126,10 @@ public class OpenStreetMapDao extends GenericDao<OpenStreetMap, Long> implements
 							"distance"),
 					queryResults);
 			return results;
+			} else {
+			    return new ArrayList<StreetDistance>();
+			}
+			
 		    }
 		});
     }

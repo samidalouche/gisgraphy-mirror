@@ -31,6 +31,7 @@ import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.criterion.ProjectionList;
+import org.hibernate.criterion.Restrictions;
 import org.hibernate.transform.Transformers;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.orm.hibernate3.HibernateCallback;
@@ -63,7 +64,8 @@ public class ProjectionBeanTest extends AbstractIntegrationHttpSolrTestCase {
 		List<String> fieldList = new ArrayList<String>();
 		fieldList.add("name");
 		fieldList.add("featureId");
-		ProjectionList projection = ProjectionBean.fieldList(fieldList);
+		ProjectionList projection = ProjectionBean.fieldList(fieldList,
+			true);
 		testCriteria.setProjection(projection);
 		testCriteria.setResultTransformer(Transformers
 			.aliasToBean(City.class));
@@ -96,7 +98,7 @@ public class ProjectionBeanTest extends AbstractIntegrationHttpSolrTestCase {
 		    Criteria testCriteria = session.createCriteria(City.class);
 		    String[] ignoreFields = { "distance" };
 		    ProjectionList projection = ProjectionBean.beanFieldList(
-			    _CityDTO.class, ignoreFields);
+			    _CityDTO.class, ignoreFields, true);
 		    testCriteria.setProjection(projection);
 		    testCriteria.setResultTransformer(Transformers
 			    .aliasToBean(_CityDTO.class));
@@ -104,7 +106,8 @@ public class ProjectionBeanTest extends AbstractIntegrationHttpSolrTestCase {
 		    List<_CityDTO> results = testCriteria.list();
 		    return results;
 		} catch (HibernateException e) {
-		    fail("An exception has occured : maybe ignoreFields are not taken into account if the error is 'could not resolve property: distance...");
+		    fail("An exception has occured : maybe ignoreFields are not taken into account if the error is 'could not resolve property: distance... :"
+			    + e);
 		    throw e;
 		}
 	    }
@@ -115,6 +118,42 @@ public class ProjectionBeanTest extends AbstractIntegrationHttpSolrTestCase {
 	assertEquals(1, cities.size());
 	assertEquals("paris", cities.get(0).getName());
 	assertEquals("1", cities.get(0).getFeatureId() + "");
+    }
+
+    @SuppressWarnings("unchecked")
+    public void testBeanFieldListWithOutAutoAliasing() {
+
+	City p1 = GeolocTestHelper.createCity("paris", 48.86667F, 2.3333F, 1L);
+
+	this.cityDao.save(p1);
+	HibernateCallback hibernateCallback = new HibernateCallback() {
+
+	    @SuppressWarnings("unchecked")
+	    public Object doInHibernate(Session session)
+		    throws PersistenceException {
+
+		try {
+		    Criteria testCriteria = session.createCriteria(City.class);
+		    String[] ignoreFields = { "distance" };
+		    ProjectionList projection = ProjectionBean.beanFieldList(
+			    _CityDTO.class, ignoreFields, false);
+		    testCriteria.setProjection(projection);
+		    testCriteria.add(Restrictions.eq("name", "paris"));
+
+		    List<Object[]> results = testCriteria.list();
+		    return results;
+		} catch (HibernateException e) {
+		    fail("An exception has occured : there is maybe a bug with autoaliasing"
+			    + e);
+		    throw e;
+		}
+	    }
+	};
+
+	List<Object[]> cities = (List<Object[]>) testDao
+		.testCallback(hibernateCallback);
+	assertEquals(1, cities.size());
+	assertEquals(1L, cities.get(0)[0]);
     }
 
     @Required

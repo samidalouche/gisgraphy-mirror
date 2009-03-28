@@ -27,7 +27,9 @@ import java.text.ParseException;
 import org.junit.Assert;
 import org.junit.Test;
 
+import com.gisgraphy.domain.valueobject.SRID;
 import com.gisgraphy.helper.GeolocHelper;
+import com.vividsolutions.jts.geom.Coordinate;
 import com.vividsolutions.jts.geom.MultiLineString;
 import com.vividsolutions.jts.geom.Point;
 import com.vividsolutions.jts.geom.Polygon;
@@ -142,9 +144,10 @@ public class GeolocHelperTest {
     public void testCreateMultiLineStringFromString(){
 	//test with negative and Float values
 	String[] wktLineStrings={"LINESTRING (0 0, 10 10, 20 20)","LINESTRING (30 30, 40.5 40, 50 -50)"};
-	MultiLineString MultiLineStringFromString = GeolocHelper.createMultiLineString(wktLineStrings);
-	Assert.assertNotNull(MultiLineStringFromString);
-	Assert.assertTrue("createMultiLineStringFromString is not of MultiLineString type", MultiLineStringFromString instanceof MultiLineString);
+	MultiLineString MultiLineString = GeolocHelper.createMultiLineString(wktLineStrings);
+	Assert.assertNotNull(MultiLineString);
+	Assert.assertEquals("wrong SRID",SRID.WGS84_SRID.getSRID(), MultiLineString.getSRID());
+	Assert.assertTrue("createMultiLineStringFromString is not of MultiLineString type", MultiLineString instanceof MultiLineString);
     }
 
     @Test
@@ -162,26 +165,7 @@ public class GeolocHelperTest {
     
     @Test
     public void testCreatePolygonBoxShouldNotAcceptWrongParameters(){
-	try {
-	    GeolocHelper.createPolygonBox(null, 3F, 2F);
-	    Assert.fail("null lat should not be permited");
-	} catch (IllegalArgumentException e) {
-	    //ok
-	}
 	
-	try {
-	    GeolocHelper.createPolygonBox(3F, null, 2F);
-	    Assert.fail("null long should not be permited");
-	} catch (IllegalArgumentException e) {
-	    //ok
-	}
-	
-	try {
-	    GeolocHelper.createPolygonBox(4F, 3F, null);
-	    Assert.fail("null distance should not be permited");
-	} catch (IllegalArgumentException e) {
-	    //ok
-	}
 	
 	try {
 	    GeolocHelper.createPolygonBox(4F, 3F, 0F);
@@ -201,11 +185,27 @@ public class GeolocHelperTest {
     
     @Test
     public void testCreatePolygonBox(){
-	    Polygon polygon = GeolocHelper.createPolygonBox(10F, 10F, 5F);
-	    Polygon polygon2 = GeolocHelper.createPolygonBox(1F, 13F, 5F);
+	Float distance = 5F;
+	    Polygon polygon = GeolocHelper.createPolygonBox(10F, 30F, distance);
+	    Assert.assertEquals(SRID.WGS84_SRID.getSRID(), polygon.getSRID());
+	    Polygon polygon2 = GeolocHelper.createPolygonBox(1F, 13F, distance);
 	    Assert.assertEquals("Area of polygon calculate for the same distance should be equals",polygon.getArea(), polygon2.getArea(),0.01);
-	    //System.err.println(polygon2.getArea());
-	
+	    
+	    
+	Coordinate[] coordinates = polygon.getCoordinates();
+	Assert.assertEquals(5,coordinates.length);
+	Point pointBottomLeft = GeolocHelper.createPoint(Double.valueOf(coordinates[0].x).floatValue(), Double.valueOf(coordinates[0].y).floatValue());
+	Point pointBottomRight = GeolocHelper.createPoint(Double.valueOf(coordinates[1].x).floatValue(), Double.valueOf(coordinates[1].y).floatValue());
+	Point pointTopRight = GeolocHelper.createPoint(Double.valueOf(coordinates[2].x).floatValue(), Double.valueOf(coordinates[2].y).floatValue());
+	Point poitnTopLeft = GeolocHelper.createPoint(Double.valueOf(coordinates[3].x).floatValue(), Double.valueOf(coordinates[3].y).floatValue());
+		
+		
+		
+		Assert.assertEquals("The first point should be the same as the last one",coordinates[0].x, coordinates[4].x,0.01);
+		Assert.assertEquals("The first point should be the same as the last one",coordinates[0].y, coordinates[4].y,0.01);
+		Assert.assertEquals(2*distance,GeolocHelper.distance(pointBottomLeft, pointBottomRight),1);
+		Assert.assertEquals(2*distance,GeolocHelper.distance(pointBottomRight, pointTopRight),1);
+		Assert.assertEquals(2*distance,GeolocHelper.distance(poitnTopLeft, pointBottomLeft),1);
 	
     }
 

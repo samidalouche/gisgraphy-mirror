@@ -51,6 +51,9 @@ import com.vividsolutions.jts.io.WKTReader;
  */
 public class GeolocHelper {
 
+    private static final double COS0 = Math.cos(0);
+    private static final double SIN90 = Math.sin(90);
+
     /**
      * Create a JTS point from the specified longitude and latitude for the SRID
      * (aka : Spatial Reference IDentifier) 4326 (WGS84)<br>
@@ -77,17 +80,17 @@ public class GeolocHelper {
 	}
 	GeometryFactory factory = new GeometryFactory(new PrecisionModel(
 		PrecisionModel.FLOATING), SRID.WGS84_SRID.getSRID());
-	Point point = (Point) factory
-		.createPoint(new Coordinate(longitude, latitude));
+	Point point = (Point) factory.createPoint(new Coordinate(longitude,
+		latitude));
 	return point;
     }
-    
-    
+
     /**
-     * Create a JTS MultiLineString from the specified array of linestring for the SRID
-     * (aka : Spatial Reference IDentifier) 4326 (WGS84)<br>
+     * Create a JTS MultiLineString from the specified array of linestring for
+     * the SRID (aka : Spatial Reference IDentifier) 4326 (WGS84)<br>
      * 
-     * example : {"LINESTRING (0 0, 10 10, 20 20)","LINESTRING (30 30, 40 40, 50 50)"}
+     * example : {"LINESTRING (0 0, 10 10, 20 20)","LINESTRING (30 30, 40 40, 50
+     * 50)"}
      * 
      * @see <a href="http://en.wikipedia.org/wiki/SRID">SRID</a>
      * @see SRID
@@ -99,19 +102,20 @@ public class GeolocHelper {
      */
     public static MultiLineString createMultiLineString(String[] wktLineStrings) {
 	LineString[] lineStrings = new LineString[wktLineStrings.length];
-	for (int i = 0;i< wktLineStrings.length;i++){
-	 LineString ls;
-	try {
-	    ls = (LineString) new WKTReader().read(wktLineStrings[i]);
-	} catch (com.vividsolutions.jts.io.ParseException pe) {
-	   throw new IllegalArgumentException(wktLineStrings[i]+" is not valid "+pe);
+	for (int i = 0; i < wktLineStrings.length; i++) {
+	    LineString ls;
+	    try {
+		ls = (LineString) new WKTReader().read(wktLineStrings[i]);
+	    } catch (com.vividsolutions.jts.io.ParseException pe) {
+		throw new IllegalArgumentException(wktLineStrings[i]
+			+ " is not valid " + pe);
+	    } catch (ClassCastException cce) {
+		throw new IllegalArgumentException(wktLineStrings[i]
+			+ " is not a LINESTRING");
+	    }
+	    lineStrings[i] = ls;
 	}
-	catch (ClassCastException cce) {
-		   throw new IllegalArgumentException(wktLineStrings[i]+" is not a LINESTRING");
-	}
-	 lineStrings[i] = ls;
-	}
-	
+
 	GeometryFactory factory = new GeometryFactory(new PrecisionModel(
 		PrecisionModel.FLOATING), SRID.WGS84_SRID.getSRID());
 	MultiLineString multiLineString = (MultiLineString) factory
@@ -184,77 +188,66 @@ public class GeolocHelper {
 		.parse(number) : nfus.parse(number);
 	return numberToReturn.floatValue();
     }
-    
+
     /**
-     * @param lat the central latitude for the Polygon
-     * @param lng the central longitude for the polygon
-     * @param distance the distance in meters from the point to create the polygon
-     * @return a polygon / square with a side of distance * 2
-     * throws {@link RuntimeException} if an error occured 
-     * thros {@link IllegalArgumentException} if lat, long or distance is not correct
+     * @param lat
+     *                the central latitude for the Polygon
+     * @param lng
+     *                the central longitude for the polygon
+     * @param distance
+     *                the distance in meters from the point to create the
+     *                polygon
+     * @return a polygon / square with a side of distance , with the point
+     *         (long,lat) as centroid throws {@link RuntimeException} if an
+     *         error occured thros {@link IllegalArgumentException} if lat, long
+     *         or distance is not correct
      */
-    public static Polygon createPolygonBox(Float lng, Float lat,Float distance){
-	Assert.notNull(lat,"lat should not be null");
-	Assert.notNull(lng,"long should not be null");
-	Assert.notNull(distance, "distance should not be null");
-	
-	if (distance <=0){
-	    throw new IllegalArgumentException("distance is incorect : "+distance);
+    public static Polygon createPolygonBox(double lng, double lat, double distance) {
+	if (distance <= 0) {
+	    throw new IllegalArgumentException("distance is incorect : "
+		    + distance);
 	}
-	
 
 	double latrad = ((lat * Math.PI) / 180);
 	double lngrad = ((lng * Math.PI) / 180);
-	double angulardistance = distance/Constants.RADIUS_OF_EARTH_IN_METERS;
-	double deltaYLatInDegrees = Math.abs(Math.asin( Math.sin(latrad)*Math.cos(angulardistance) + 
-                 Math.cos(latrad)*Math.sin(angulardistance)*Math.cos(0) )-latrad);
-	
-	double deltaXlngInDegrees =  Math.abs(Math.atan2(Math.sin(90) * Math.sin(angulardistance) * Math.cos(latrad), 
-                Math.cos(angulardistance)-Math.sin(latrad)*Math.sin(latrad)));
+	double angulardistance = distance / Constants.RADIUS_OF_EARTH_IN_METERS;
+	double latRadSinus = Math.sin(latrad);
+	double latRadCosinus = Math.cos(latrad);
+	double angularDistanceCosinus = Math.cos(angulardistance);
+	double deltaYLatInDegrees = Math.abs(Math.asin(latRadSinus
+		* angularDistanceCosinus + latRadCosinus
+		* Math.sin(angulardistance) * COS0)
+		- latrad);
 
-	lngrad = (lngrad+Math.PI)%(2*Math.PI) - Math.PI;
-	
-	double latdeg = ((deltaYLatInDegrees * 180 ) /Math.PI);
-	double lngdeg = ((deltaXlngInDegrees * 180 ) /Math.PI);
+	double deltaXlngInDegrees = Math.abs(Math.atan2(SIN90
+		* Math.sin(angulardistance) * latRadCosinus,
+		angularDistanceCosinus - latRadSinus * latRadSinus));
 
-	//System.err.println("deltaY"+deltaYLatInDegrees);
-	//System.err.println("deltaX"+deltaXlngInDegrees);
+	lngrad = (lngrad + Math.PI) % (2 * Math.PI) - Math.PI;
+
+	double latdeg = ((deltaYLatInDegrees * 180) / Math.PI);
+	double lngdeg = ((deltaXlngInDegrees * 180) / Math.PI);
+
 	double minX = lng - lngdeg;
 	double maxX = lng + lngdeg;
 	double minY = lat - latdeg;
 	double maxY = lat + latdeg;
-	Point point1 = createPoint(Double.valueOf(lng).floatValue(), Double.valueOf(lat).floatValue());
-	Point point2 = createPoint(Double.valueOf(lng).floatValue(), Double.valueOf(lat - latdeg).floatValue());
-	Point point3 = createPoint(Double.valueOf(lng).floatValue(), Double.valueOf(lat + latdeg).floatValue());
-	Point point4 = createPoint(Double.valueOf(lng - lngdeg).floatValue(), Double.valueOf(lat).floatValue());
-	Point point5 = createPoint(Double.valueOf(lng + lngdeg).floatValue(), Double.valueOf(lat).floatValue());
-	//System.err.println("point1="+point1);
-	//System.err.println("point2="+point2);
-	System.err.println("distance="+distance(point1, point2));
-	System.err.println("distance="+distance(point1, point3));
-	System.err.println("distance="+distance(point1, point4));
-	System.err.println("distance="+distance(point1, point5));
-	System.err.println("distance="+distance(point2, point3));
-	System.err.println("###########");
-	
 
-	
 	WKTReader reader = new WKTReader();
 	StringBuffer sb = new StringBuffer("POLYGON((");
-	String polygonString = sb.append(minX).append(" ").append(minY).append(",")
-	.append(maxX).append(" ").append(minY).append(",")
-	.append(maxX).append(" ").append(maxY).append(",")
-	.append(minX).append(" ").append(maxY).append(",")
-	.append(minX).append(" ").append(minY).append("))").toString();
-	
-	
+	String polygonString = sb.append(minX).append(" ").append(minY).append(
+		",").append(maxX).append(" ").append(minY).append(",").append(
+		maxX).append(" ").append(maxY).append(",").append(minX).append(
+		" ").append(maxY).append(",").append(minX).append(" ").append(
+		minY).append("))").toString();
+
 	try {
 	    Polygon polygon = (Polygon) reader.read(polygonString);
-		System.err.println("###########"+polygonString);
 	    polygon.setSRID(SRID.WGS84_SRID.getSRID());
 	    return polygon;
 	} catch (com.vividsolutions.jts.io.ParseException e) {
-	    throw new RuntimeException("can not create Polygon for lat="+lat+" long="+lng+" and distance="+distance +" : "+e);
+	    throw new RuntimeException("can not create Polygon for lat=" + lat
+		    + " long=" + lng + " and distance=" + distance + " : " + e);
 	}
     }
 }

@@ -57,11 +57,20 @@ public class ProjectionBean extends ProjectionList {
 
     /**
      * @param fieldList
-     *                a list of fields to retrieve
+     *                a list of fields to retrieve <b>Important Note</b> : the
+     *                projection are automatically aliased with the same name,
+     *                you could have some problems when using restriction
+     *                (column yX_ doesn't exists) see
+     *                http://opensource.atlassian.com/projects/hibernate/browse/HHH-817.
+     *                To avoid this problem you could disable aliasing .<br/>
+     *                activate auto-aliasing if you want to use aliasToBean
+     *                Transformers. disable auto-aliasing if you want to add a
+     *                restriction on a field that is in the fields list
      * @return a new ProjectionList
      */
-    public static ProjectionList fieldList(List<String> fieldList) {
-	return new ProjectionBean(fieldList).projectionList;
+    public static ProjectionList fieldList(List<String> fieldList,
+	    boolean autoaliasing) {
+	return new ProjectionBean(fieldList, autoaliasing).projectionList;
     }
 
     /**
@@ -69,11 +78,15 @@ public class ProjectionBean extends ProjectionList {
      *                the class to inspect to retrieve the fields
      * @param ignoreFields
      *                an array of fields that should be ignore
+     * @param autoAliasing
+     *                if the fields should be auto-aliased <b>See important note
+     *                above</b>
      * @return a new ProjectionList
      */
     public static ProjectionList beanFieldList(Class<?> clazz,
-	    String[] ignoreFields) {
-	return new ProjectionBean(inspectBean(clazz, ignoreFields)).projectionList;
+	    String[] ignoreFields, boolean autoaliasing) {
+	return new ProjectionBean(inspectBean(clazz, ignoreFields),
+		autoaliasing).projectionList;
     }
 
     private static List<String> inspectBean(Class<?> clazz,
@@ -115,10 +128,21 @@ public class ProjectionBean extends ProjectionList {
     /**
      * 
      */
-    public ProjectionBean(List<String> fields) {
+    /**
+     * @param fields
+     *                the list of the field names
+     * @param autoAliasing
+     *                if the fields should be autoaliased. <b>See important note
+     *                above</b>
+     */
+    public ProjectionBean(List<String> fields, boolean autoAliasing) {
 	super();
 	for (String field : fields) {
-	    projectionList.add(Projections.property(field).as(field));
+	    if (autoAliasing) {
+		projectionList.add(Projections.property(field).as(field));
+	    } else {
+		projectionList.add(Projections.property(field));
+	    }
 	}
     }
 
