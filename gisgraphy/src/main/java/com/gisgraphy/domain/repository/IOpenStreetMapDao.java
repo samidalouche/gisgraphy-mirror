@@ -16,28 +16,27 @@ public interface IOpenStreetMapDao extends IDao<OpenStreetMap, java.lang.Long> {
      * @param point
      *                The point from which we want to find GIS Object
      * @param distance
-     *                distance The radius in meters
-     * @param pointId
-     *                the id of the point that we don't want to be include, it
-     *                is used to not include the gisFeature from which we want
-     *                to find the nearest
+     *                The radius in meters
      * @param firstResult
      *                the firstResult index (for pagination), numbered from 1,
      *                if < 1 : it will not be taken into account
      * @param maxResults
      *                The Maximum number of results to retrieve (for
      *                pagination), if <= 0 : it will not be taken into acount
-     * @param requiredClass
-     *                the class of the object to be retireved
-     * @return A List of GisFeatureDistance with the nearest elements or an
-     *         emptylist (never return null), ordered by distance.<u>note</u>
-     *         the specified gisFeature will not be included into results
-     * @see GisFeatureDistance
-     * @return a list of gisFeature (never return null but an empty list)
+     * @param streetType
+     *                The type of street
+     * @param oneWay
+     *                wether the street should be oneway or not
+     * @param namePrefix
+     *                the name the street name must starts
+     * 
+     * @return A List of StreetDistance with the nearest elements or an
+     *         empty list (never return null), ordered by distance.
+     * @see StreetDistance
      */
     public List<StreetDistance> getNearestAndDistanceFrom(
 	    final Point point, final double distance,
 	    final int firstResult, final int maxResults,
-	    final String streetType,final String namePrefix) ;
+	    final String streetType,String oneWay, final String namePrefix) ;
     
 }

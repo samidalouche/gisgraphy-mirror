@@ -76,7 +76,7 @@ public class OpenStreetMapDao extends GenericDao<OpenStreetMap, Long> implements
     public List<StreetDistance> getNearestAndDistanceFrom(
 	    final Point point, final double distance,
 	    final int firstResult, final int maxResults,
-	    final String streetType,final String namePrefix) {
+	    final String streetType, final String oneWay ,final String namePrefix) {
 	
 	Assert.notNull(point);
 	return (List<StreetDistance>) this.getHibernateTemplate().execute(
@@ -103,14 +103,17 @@ public class OpenStreetMapDao extends GenericDao<OpenStreetMap, Long> implements
 			    criteria = criteria.setFirstResult(firstResult - 1);
 			}
 			
-			if (namePrefix != null) {
-			    criteria = criteria.add(Restrictions.like("name", namePrefix));
-			}
 			criteria = criteria.add(SpatialRestrictions.
 				intersects(OpenStreetMap.SHAPE_COLUMN_NAME, null, 
 					GeolocHelper.createPolygonBox(point.getX(), point.getY(), distance)));
+			if (namePrefix != null) {
+			    criteria = criteria.add(Restrictions.ilike("name", namePrefix+"%"));
+			}
 			if (streetType != null) {
-			    criteria = criteria.add(Property.forName("streetType").eq(streetType));
+			    criteria = criteria.add(Restrictions.eq("streetType",streetType));
+			}
+			if (oneWay != null) {
+			    criteria = criteria.add(Restrictions.eq("oneWay",oneWay));
 			}
 			criteria.setCacheable(true);
 			// List<Object[]> queryResults =testCriteria.list();
