@@ -50,6 +50,7 @@ import com.gisgraphy.helper.URLUtils;
 import com.gisgraphy.service.IStatsUsageService;
 import com.gisgraphy.stats.StatsUsageType;
 import com.gisgraphy.test.GeolocTestHelper;
+import com.gisgraphy.test.XpathChecker;
 
 public class GeolocSearchEngineTest extends AbstractIntegrationHttpSolrTestCase {
 
@@ -103,7 +104,7 @@ public class GeolocSearchEngineTest extends AbstractIntegrationHttpSolrTestCase 
 	} catch (IOException e) {
 	    fail("can not get content of file " + file.getAbsolutePath());
 	}
-	assertQ("The query returns incorrect values", content, "/"
+	XpathChecker.assertQ("The query returns incorrect values", content, "/"
 		+ Constants.GEOLOCRESULTSDTO_JAXB_NAME + "/"
 		+ Constants.GISFEATUREDISTANCE_JAXB_NAME + "[1]/name[.='"
 		+ p1.getName() + "']", "/"
@@ -140,7 +141,7 @@ public class GeolocSearchEngineTest extends AbstractIntegrationHttpSolrTestCase 
 	GeolocQuery query = new GeolocQuery(p1.getLocation(), 1000001,
 		pagination, output, City.class);
 	String results = geolocSearchEngine.executeQueryToString(query);
-	assertQ("The query returns incorrect values", results, "/"
+	XpathChecker.assertQ("The query returns incorrect values", results, "/"
 		+ Constants.GEOLOCRESULTSDTO_JAXB_NAME + "/"
 		+ Constants.GISFEATUREDISTANCE_JAXB_NAME + "[1]/name[.='"
 		+ p1.getName() + "']", "/"
@@ -292,7 +293,7 @@ public class GeolocSearchEngineTest extends AbstractIntegrationHttpSolrTestCase 
 	GeolocQuery query = new GeolocQuery(p1.getLocation(), 40000,
 		pagination, output, City.class);
 	String results = geolocSearchEngine.executeQueryToString(query);
-	assertQ("The query returns incorrect values", results, 
+	XpathChecker.assertQ("The query returns incorrect values", results, 
 		"/rss/channel/title[.='"+ Constants.FEED_TITLE + "']",
 		"/rss/channel/link[.='"+ Constants.FEED_LINK + "']",
 		"/rss/channel/description[.='"+Constants.FEED_DESCRIPTION+"']",
@@ -320,7 +321,7 @@ public class GeolocSearchEngineTest extends AbstractIntegrationHttpSolrTestCase 
 	GeolocQuery query = new GeolocQuery(p1.getLocation(), 40000,
 		pagination, output, City.class);
 	String results = geolocSearchEngine.executeQueryToString(query);
-	assertQ("The query returns incorrect values", results, "/"
+	XpathChecker.assertQ("The query returns incorrect values", results, "/"
 		+ "feed/title[.='"+ Constants.FEED_TITLE + "']",
 		"/feed/link[@href='"+ Constants.FEED_LINK + "']",
 		"/feed/tagline[.='"+Constants.FEED_DESCRIPTION+"']",

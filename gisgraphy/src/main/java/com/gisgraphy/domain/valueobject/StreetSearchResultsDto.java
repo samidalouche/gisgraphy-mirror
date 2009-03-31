@@ -32,20 +32,22 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
- * DTO (data transfer object) for a list of {@link GisFeatureDistance} The node
- * name is {@link Constants#GEOLOCRESULTSDTO_JAXB_NAME}
+ * DTO (data transfer object) for a list of {@link StreetDistance} The node
+ * name is {@link Constants#STREETSEARCHRESULTSDTO_JAXB_NAME}
  * 
  * @author <a href="mailto:david.masclet@gisgraphy.com">David Masclet</a>
  */
-@XmlRootElement(name = Constants.GEOLOCRESULTSDTO_JAXB_NAME)
+@XmlRootElement(name = Constants.STREETSEARCHRESULTSDTO_JAXB_NAME)
 @XmlAccessorType(XmlAccessType.FIELD)
-public class GeolocResultsDto {
+public class StreetSearchResultsDto {
 
-    private List<GisFeatureDistance> result;
+    private List<StreetDistance> result;
 
     private int numFound = 0;
 
     private Long QTime = null;
+    
+    private String query = null;
 
     /**
      * @param result
@@ -53,29 +55,29 @@ public class GeolocResultsDto {
      * @param qTime
      *                The execution time
      */
-    public GeolocResultsDto(List<GisFeatureDistance> result, Long QTime) {
+    public StreetSearchResultsDto(List<StreetDistance> result, Long QTime,String query) {
 	super();
 	this.result = result;
 	this.numFound = result == null ? 0 : result.size();
 	this.QTime = QTime;
+	this.query = query;
     }
 
     /**
      * Default Constructor
      */
-    public GeolocResultsDto() {
+    public StreetSearchResultsDto() {
 	super();
     }
 
     /**
      * @return The list of {@link GisFeatureDistance}
      */
-    public List<GisFeatureDistance> getResult() {
+    public List<StreetDistance> getResult() {
 	return result;
     }
 
    
-
     /**
      * @return the numFound
      */
@@ -84,7 +86,6 @@ public class GeolocResultsDto {
     }
 
    
-
     /**
      * @return the qTime (aka : the execution Time) in ms
      */
@@ -92,5 +93,14 @@ public class GeolocResultsDto {
 	return QTime;
     }
 
+  
+    /**
+     * @return the name (prefix) of the street that has been searched
+     */
+    public String getQuery() {
+        return query;
+    }
+
    
+
 }

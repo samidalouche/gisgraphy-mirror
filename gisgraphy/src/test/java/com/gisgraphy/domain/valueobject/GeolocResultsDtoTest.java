@@ -35,12 +35,15 @@ import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.PropertyException;
 
+import junit.framework.TestCase;
+
 import org.junit.Test;
 
 import com.gisgraphy.domain.geoloc.service.fulltextsearch.AbstractIntegrationHttpSolrTestCase;
 import com.gisgraphy.test.GeolocTestHelper;
+import com.gisgraphy.test.XpathChecker;
 
-public class GeolocResultsDtoTest extends AbstractIntegrationHttpSolrTestCase {
+public class GeolocResultsDtoTest extends TestCase {
 
     @Test
     public void testGeolocResultsDtoShouldBeMappedWithJAXB() {
@@ -57,8 +60,7 @@ public class GeolocResultsDtoTest extends AbstractIntegrationHttpSolrTestCase {
 	    GeolocResultsDto geolocResultsDto = new GeolocResultsDto(list, 300L);
 	    ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
 	    m.marshal(geolocResultsDto, outputStream);
-	    checkJAXBMapping(result, outputStream, list.size(),
-		    geolocResultsDto.getQTime());
+	    checkJAXBMapping(geolocResultsDto, outputStream);
 	} catch (PropertyException e) {
 	    fail(e.getMessage());
 	} catch (JAXBException e) {
@@ -79,7 +81,7 @@ public class GeolocResultsDtoTest extends AbstractIntegrationHttpSolrTestCase {
 	    ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
 	    m.marshal(geolocResultsDto, outputStream);
 	    try {
-		assertQ(
+		XpathChecker.assertQ(
 			"GeolocResultsDto for an Empty List should return valid XML",
 			outputStream.toString(Constants.CHARSET), "/"
 				+ Constants.GEOLOCRESULTSDTO_JAXB_NAME + "",
@@ -102,11 +104,14 @@ public class GeolocResultsDtoTest extends AbstractIntegrationHttpSolrTestCase {
      * @param outputStream
      */
     // TODO refactoring with GisFeatureDistanceTest
-    private void checkJAXBMapping(GisFeatureDistance result,
-	    ByteArrayOutputStream outputStream, int numFound, long qTime) {
+    private void checkJAXBMapping(GeolocResultsDto geolocResultsDto,
+	    ByteArrayOutputStream outputStream) {
 	try {
-	    assertQ(
-		    "GisFeatureList is not correcty mapped with jaxb",
+	    List<GisFeatureDistance> results = geolocResultsDto.getResult();
+	    assertEquals("The number of results found is incorrect",1, results.size());
+	    GisFeatureDistance result = results.get(0);
+	    XpathChecker.assertQ(
+		    "GisFeatureDistance list is not correcty mapped with jaxb",
 		    outputStream.toString(Constants.CHARSET),
 		    "/" + Constants.GEOLOCRESULTSDTO_JAXB_NAME + "/"
 			    + Constants.GISFEATUREDISTANCE_JAXB_NAME
@@ -172,9 +177,9 @@ public class GeolocResultsDtoTest extends AbstractIntegrationHttpSolrTestCase {
 			    + Constants.GISFEATUREDISTANCE_JAXB_NAME
 			    + "/lng[.='" + result.getLng() + "']", "/"
 			    + Constants.GEOLOCRESULTSDTO_JAXB_NAME
-			    + "/numFound[.='" + numFound + "']", "/"
+			    + "/numFound[.='" + geolocResultsDto.getNumFound() + "']", "/"
 			    + Constants.GEOLOCRESULTSDTO_JAXB_NAME
-			    + "/QTime[.='" + qTime + "']"
+			    + "/QTime[.='" + geolocResultsDto.getQTime() + "']"
 
 	    );
 	} catch (UnsupportedEncodingException e) {

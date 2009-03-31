@@ -51,9 +51,6 @@ public abstract class AbstractIntegrationHttpSolrTestCase extends
 
     private static boolean serverStarted = false;
 
-    private DocumentBuilder builder = null;
-    private XPath xpath = null;
-
     /**
      * Harness initialized by initTestHarness.
      * <p>
@@ -126,15 +123,6 @@ public abstract class AbstractIntegrationHttpSolrTestCase extends
     @Override
     public void onSetUp() throws Exception {
 	super.onSetUp();
-	builder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
-	xpath = XPathFactory.newInstance().newXPath();
-	if (xpath == null) {
-	    fail("error during onSetUp()  for xpath");
-	}
-
-	if (builder == null) {
-	    fail("error during onSetUp()  for builder");
-	}
 
 	/*
 	 * server = new Server(8983); Context root = new
@@ -196,65 +184,7 @@ public abstract class AbstractIntegrationHttpSolrTestCase extends
 
     }
 
-    /**
-     * Validates a query matches some XPath test expressions and closes the
-     * query
-     */
-    public void assertQ(String message, String response, String... tests) {
-	try {
-	    String m = (null == message) ? "" : message + " ";
-	    String results = this.validateXPath(response, tests);
-	    if (null != results) {
-		fail(m + "query failed XPath: " + results
-			+ " xml response was: " + response);
-	    }
-	} catch (XPathExpressionException e1) {
-	    throw new RuntimeException("XPath is invalid", e1);
-	} catch (Exception e2) {
-	    throw new RuntimeException("Exception during query", e2);
-	}
-    }
-
-    /**
-     * A helper method which valides a String against an array of XPath test
-     * strings.
-     * 
-     * @param xml
-     *                The xml String to validate
-     * @param tests
-     *                Array of XPath strings to test (in boolean mode) on the
-     *                xml
-     * @return null if all good, otherwise the first test that fails.
-     */
-    public String validateXPath(String xml, String... tests)
-	    throws XPathExpressionException, SAXException {
-
-	if (tests == null || tests.length == 0) {
-	    return null;
-	}
-
-	Document document = null;
-	try {
-	    document = builder.parse(new ByteArrayInputStream(xml
-		    .getBytes(Constants.CHARSET)));
-	} catch (UnsupportedEncodingException e1) {
-	    throw new RuntimeException("Totally weird UTF-8 exception", e1);
-	} catch (IOException e2) {
-	    throw new RuntimeException("Totally weird io exception", e2);
-	}
-
-	for (String xp : tests) {
-	    xp = xp.trim();
-	    Boolean bool = (Boolean) xpath.evaluate(xp, document,
-		    XPathConstants.BOOLEAN);
-
-	    if (!bool) {
-		return xp;
-	    }
-	}
-	return null;
-
-    }
+   
 
     /**
      * Shuts down the test harness, and makes the best attempt possible to
@@ -266,8 +196,6 @@ public abstract class AbstractIntegrationHttpSolrTestCase extends
 	super.onTearDown();
 	// server.stop();
 	solRSynchroniser.deleteAll();
-	xpath = null;
-	builder = null;
 	// tester.stop();
 	// TODO v2 remove solrdir after all test
     }

@@ -14,7 +14,7 @@ public class StreetDistanceTest {
     @Test
     public void builderShouldSetValuesAndUpdateCalculatedFields(){
 	Point point = GeolocHelper.createPoint(45F, 56F);
-	StreetDistance streetDistance = StreetDistanceBuilder.gisFeatureDistance()
+	StreetDistance streetDistance = StreetDistanceBuilder.streetDistance()
 	.withCountryCode("fr")
 	.withDistance(3D)
 	.withGid(123L)
@@ -23,7 +23,7 @@ public class StreetDistanceTest {
 	.withName("name")
 	.withOneWay("OneWay")
 	.withStreetType("streetType").build();
-	Assert.assertEquals("countryCode Should Be upperCased","FR",streetDistance.getCountryCode());
+	Assert.assertEquals("countryCode Should be upperCased","FR",streetDistance.getCountryCode());
 	Assert.assertEquals(3D,streetDistance.getDistance());
 	Assert.assertEquals(123L,streetDistance.getGid().longValue());
 	Assert.assertEquals(point,streetDistance.getLocation());
@@ -32,9 +32,7 @@ public class StreetDistanceTest {
 	Assert.assertEquals("streetType",streetDistance.getStreetType());
 	Assert.assertEquals("calculated fields should be process",45F,streetDistance.getLng().floatValue());
 	Assert.assertEquals("calculated fields should be process",56F,streetDistance.getLat().floatValue());
-	
-	
-	
-	
     }
+    
+    //TODO test mapping jaxb
 }

@@ -143,14 +143,6 @@ public class FulltextResultsDto {
     }
 
     /**
-     * @param resultsSize
-     *            the resultsSize to set
-     */
-    public void setResultsSize(int resultsSize) {
-	this.resultsSize = resultsSize;
-    }
-
-    /**
      * @return the suggestionMap<{@link String},{@link Suggestion}> with the
      *         entered searched term as key and a {@linkplain Suggestion} as
      *         value that contains several information (see SolRj javadoc). it

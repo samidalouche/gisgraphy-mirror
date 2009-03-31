@@ -45,7 +45,7 @@ public class StreetDistance {
 
     public static class StreetDistanceBuilder {
 
-	public static StreetDistanceBuilder gisFeatureDistance() {
+	public static StreetDistanceBuilder streetDistance() {
 	    return new StreetDistanceBuilder();
 	}
 
@@ -132,11 +132,14 @@ public class StreetDistance {
 
     private Double lng;
 
+    /**
+     * Default Constructor needed by cglib
+     */
     public StreetDistance() {
 	super();
     }
-
-    /**
+    
+       /**
      * update the calculated fields (lat,lng,...)
      * 
      */

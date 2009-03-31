@@ -47,6 +47,7 @@ import com.gisgraphy.domain.geoloc.entity.City;
 import com.gisgraphy.domain.geoloc.entity.CitySubdivision;
 import com.gisgraphy.domain.geoloc.entity.Country;
 import com.gisgraphy.domain.geoloc.entity.GisFeature;
+import com.gisgraphy.domain.geoloc.entity.OpenStreetMap;
 import com.gisgraphy.domain.geoloc.service.geoloc.StreetGeolocQuery;
 import com.gisgraphy.domain.repository.IAdmDao;
 import com.gisgraphy.domain.repository.ICityDao;
@@ -55,9 +56,14 @@ import com.gisgraphy.domain.valueobject.AlternateNameSource;
 import com.gisgraphy.domain.valueobject.Constants;
 import com.gisgraphy.domain.valueobject.GISSource;
 import com.gisgraphy.domain.valueobject.GisFeatureDistance;
+import com.gisgraphy.domain.valueobject.StreetDistance;
+import com.gisgraphy.domain.valueobject.StreetSearchResultsDto;
+import com.gisgraphy.domain.valueobject.StreetSearchResultsDtoTest;
+import com.gisgraphy.domain.valueobject.StreetDistance.StreetDistanceBuilder;
 import com.gisgraphy.helper.GeolocHelper;
 import com.gisgraphy.servlet.FulltextServlet;
 import com.gisgraphy.servlet.GeolocServlet;
+import com.vividsolutions.jts.geom.MultiLineString;
 import com.vividsolutions.jts.geom.Point;
 
 public class GeolocTestHelper {
@@ -309,6 +315,34 @@ public class GeolocTestHelper {
 
 	return new GisFeatureDistance(gisFeature, 3D);
 
+    }
+    
+    public static OpenStreetMap createOpenStreetMap() {
+	OpenStreetMap streetOSM = new OpenStreetMap();
+	String[] wktLineStrings2={"LINESTRING (30 30, 40 40)"};
+	
+	MultiLineString shape2 = GeolocHelper.createMultiLineString(wktLineStrings2);
+	streetOSM.setShape(shape2);
+	streetOSM.setGid(2L);
+	//Simulate middle point
+	streetOSM.setLocation(GeolocHelper.createPoint(30.11F, 30.11F));
+	streetOSM.setOneWay("oneWay");
+	streetOSM.setStreetType("streetType2");
+	streetOSM.setName("John Kenedy");
+	return streetOSM;
+
+    }
+    
+    public static StreetDistance createStreetDistance() {
+	return StreetDistanceBuilder.streetDistance().withName("streetName").withCountryCode("FR").withGid(123L).withLength(3D).withOneWay("OneWay")
+	.withStreetType("streetType").withLocation(GeolocHelper.createPoint(25F, 54F)).withDistance(43D).build();
+
+    }
+    
+    public static StreetSearchResultsDto createStreetSearchResultsDto() {
+	List<StreetDistance> list = new ArrayList<StreetDistance>();
+	list.add(createStreetDistance());
+	return new StreetSearchResultsDto(list,1L,"query");
     }
 
     public static GisFeatureDistance createFullFilledGisFeatureDistanceWithBuilder() {

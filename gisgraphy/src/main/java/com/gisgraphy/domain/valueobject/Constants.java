@@ -229,6 +229,12 @@ public class Constants {
      * The node name for {@link GeolocResultsDto} node in JAXB
      */
     public final static String GEOLOCRESULTSDTO_JAXB_NAME = "results";
+    
+
+    /**
+     * The node name for {@link StreetSearchResultsDto} node in JAXB
+     */
+    public final static String STREETSEARCHRESULTSDTO_JAXB_NAME = "results";
 
     /**
      * The name of the ResourceBundle used in this application
