@@ -30,13 +30,15 @@ import com.vividsolutions.jts.geom.Point;
 
 public class StreetGeolocQuery extends GeolocQuery {
 
+    public static final int MAX_RESULTS = 50;
+
     private String streetType = null;
     
     private String namePrefix = null;
 
     public StreetGeolocQuery(HttpServletRequest req) {
 	super(req);
-	//TODO OSM +test
+
     }
 
     /**
@@ -124,4 +126,10 @@ public class StreetGeolocQuery extends GeolocQuery {
 	return this;
     }
 
+    @Override
+    public int getMaxLimitResult() {
+	//TODO OSM
+	return MAX_RESULTS;
+    }
+    
 }

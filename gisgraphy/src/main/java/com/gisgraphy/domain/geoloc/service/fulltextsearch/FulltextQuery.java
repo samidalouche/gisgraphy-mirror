@@ -128,7 +128,7 @@ public class FulltextQuery extends AbstractGisQuery {
 	}
 
 	pagination = Pagination.paginate().from(from).to(to)
-		.limitNumberOfResults(FulltextServlet.DEFAULT_MAX_RESULTS);
+		.limitNumberOfResults(getMaxLimitResult());
 	// output
 	OutputFormat format = OutputFormat.getFromString(req
 		.getParameter(FulltextServlet.FORMAT_PARAMETER));
@@ -406,6 +406,11 @@ public class FulltextQuery extends AbstractGisQuery {
 	}
 
 	return parameters;
+    }
+
+    @Override
+    public int getMaxLimitResult() {
+	return FulltextServlet.DEFAULT_MAX_RESULTS;
     }
 
 }

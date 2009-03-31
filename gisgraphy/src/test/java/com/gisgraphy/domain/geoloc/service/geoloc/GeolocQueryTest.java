@@ -26,6 +26,7 @@
 package com.gisgraphy.domain.geoloc.service.geoloc;
 
 import static com.gisgraphy.domain.valueobject.Pagination.paginate;
+import junit.framework.TestCase;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -35,7 +36,6 @@ import com.gisgraphy.domain.geoloc.entity.Adm;
 import com.gisgraphy.domain.geoloc.entity.City;
 import com.gisgraphy.domain.geoloc.entity.Country;
 import com.gisgraphy.domain.geoloc.entity.GisFeature;
-import com.gisgraphy.domain.geoloc.service.fulltextsearch.AbstractIntegrationHttpSolrTestCase;
 import com.gisgraphy.domain.valueobject.GisgraphyConfig;
 import com.gisgraphy.domain.valueobject.Output;
 import com.gisgraphy.domain.valueobject.Pagination;
@@ -47,7 +47,7 @@ import com.gisgraphy.servlet.GeolocServlet;
 import com.gisgraphy.test.GeolocTestHelper;
 import com.vividsolutions.jts.geom.Point;
 
-public class GeolocQueryTest extends AbstractIntegrationHttpSolrTestCase {
+public class GeolocQueryTest extends TestCase {
 
     /**
      * a simple point to avoid creation of new one for each test
@@ -109,8 +109,9 @@ public class GeolocQueryTest extends AbstractIntegrationHttpSolrTestCase {
 	    MockHttpServletRequest request = GeolocTestHelper
 		    .createMockHttpServletRequestForGeoloc();
 	    GeolocQuery query = new GeolocQuery(request);
-	    assertEquals(3, query.getFirstPaginationIndex());
-	    assertEquals(12, query.getLastPaginationIndex());
+	    int firstPaginationIndex = 3;
+	    assertEquals(firstPaginationIndex, query.getFirstPaginationIndex());
+	    assertEquals(GeolocServlet.DEFAULT_MAX_RESULTS+firstPaginationIndex-1, query.getLastPaginationIndex());
 	    assertEquals("the pagination should be limit to "
 		    + GeolocServlet.DEFAULT_MAX_RESULTS,
 		    GeolocServlet.DEFAULT_MAX_RESULTS, query

@@ -135,7 +135,7 @@ public class GeolocQuery extends AbstractGisQuery {
 	}
 
 	pagination = Pagination.paginate().from(from).to(to)
-		.limitNumberOfResults(GeolocServlet.DEFAULT_MAX_RESULTS);
+		.limitNumberOfResults(getMaxLimitResult());
 	// output format
 	OutputFormat format = OutputFormat.getFromString(req
 		.getParameter(GeolocServlet.FORMAT_PARAMETER));
@@ -311,6 +311,11 @@ public class GeolocQuery extends AbstractGisQuery {
     public GeolocQuery withPlaceType(Class<? extends GisFeature> placeType) {
 	this.placeType = placeType;
 	return this;
+    }
+
+    @Override
+    public int getMaxLimitResult() {
+	return GeolocServlet.DEFAULT_MAX_RESULTS;
     }
 
 }

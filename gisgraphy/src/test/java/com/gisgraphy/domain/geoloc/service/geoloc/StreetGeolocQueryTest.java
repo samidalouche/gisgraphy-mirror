@@ -95,13 +95,14 @@ public class StreetGeolocQueryTest extends TestCase {
 	try {
 	    GisgraphyConfig.defaultGeolocSearchPlaceTypeClass = Country.class;
 	    MockHttpServletRequest request = GeolocTestHelper
-		    .createMockHttpServletRequestForGeoloc();
-	    GeolocQuery query = new GeolocQuery(request);
-	    assertEquals(3, query.getFirstPaginationIndex());
-	    assertEquals(12, query.getLastPaginationIndex());
+		    .createMockHttpServletRequestForStreetGeoloc();
+	    StreetGeolocQuery query = new StreetGeolocQuery(request);
+	    int firstPaginationIndex =3;
+	    assertEquals(firstPaginationIndex, query.getFirstPaginationIndex());
+	    assertEquals(StreetGeolocQuery.MAX_RESULTS+firstPaginationIndex-1, query.getLastPaginationIndex());
 	    assertEquals("the pagination should be limit to "
-		    + GeolocServlet.DEFAULT_MAX_RESULTS,
-		    GeolocServlet.DEFAULT_MAX_RESULTS, query
+		    + StreetGeolocQuery.MAX_RESULTS,
+		    StreetGeolocQuery.MAX_RESULTS, query
 			    .getMaxNumberOfResults());
 	    assertEquals(OutputFormat.XML, query.getOutputFormat());
 	    assertEquals(null, query.getOutputLanguage());
@@ -113,25 +114,25 @@ public class StreetGeolocQueryTest extends TestCase {
 
 	    // test first pagination index
 	    // with no value specified
-	    request = GeolocTestHelper.createMockHttpServletRequestForGeoloc();
+	    request = GeolocTestHelper.createMockHttpServletRequestForStreetGeoloc();
 	    request.removeParameter(GeolocServlet.FROM_PARAMETER);
-	    query = new GeolocQuery(request);
+	    query = new StreetGeolocQuery(request);
 	    assertEquals("When no " + GeolocServlet.FROM_PARAMETER
 		    + " is specified, the parameter should be "
 		    + Pagination.DEFAULT_FROM, Pagination.DEFAULT_FROM, query
 		    .getFirstPaginationIndex());
 	    // with a wrong value
-	    request = GeolocTestHelper.createMockHttpServletRequestForGeoloc();
+	    request = GeolocTestHelper.createMockHttpServletRequestForStreetGeoloc();
 	    request.setParameter(GeolocServlet.FROM_PARAMETER, "-1");
-	    query = new GeolocQuery(request);
+	    query = new StreetGeolocQuery(request);
 	    assertEquals("When a wrong " + GeolocServlet.FROM_PARAMETER
 		    + " is specified, the parameter should be "
 		    + Pagination.DEFAULT_FROM, Pagination.DEFAULT_FROM, query
 		    .getFirstPaginationIndex());
 	    // with a non mumeric value
-	    request = GeolocTestHelper.createMockHttpServletRequestForGeoloc();
+	    request = GeolocTestHelper.createMockHttpServletRequestForStreetGeoloc();
 	    request.setParameter(GeolocServlet.FROM_PARAMETER, "a");
-	    query = new GeolocQuery(request);
+	    query = new StreetGeolocQuery(request);
 	    assertEquals("When a wrong " + GeolocServlet.FROM_PARAMETER
 		    + " is specified, the parameter should be "
 		    + Pagination.DEFAULT_FROM, Pagination.DEFAULT_FROM, query
@@ -139,9 +140,9 @@ public class StreetGeolocQueryTest extends TestCase {
 
 	    // test last pagination index
 	    // with no value specified
-	    request = GeolocTestHelper.createMockHttpServletRequestForGeoloc();
+	    request = GeolocTestHelper.createMockHttpServletRequestForStreetGeoloc();
 	    request.removeParameter(GeolocServlet.TO_PARAMETER);
-	    query = new GeolocQuery(request);
+	    query = new StreetGeolocQuery(request);
 	    // non specify
 	    assertEquals(
 		    "When no "
@@ -151,9 +152,9 @@ public class StreetGeolocQueryTest extends TestCase {
 		    FulltextServlet.DEFAULT_MAX_RESULTS, query
 			    .getMaxNumberOfResults());
 	    // with a wrong value
-	    request = GeolocTestHelper.createMockHttpServletRequestForGeoloc();
+	    request = GeolocTestHelper.createMockHttpServletRequestForStreetGeoloc();
 	    request.setParameter(GeolocServlet.TO_PARAMETER, "2");// to<from
-	    query = new GeolocQuery(request);
+	    query = new StreetGeolocQuery(request);
 	    assertEquals("When a wrong " + GeolocServlet.TO_PARAMETER
 		    + " is specified, the numberOf results should be "
 		    + Pagination.DEFAULT_MAX_RESULTS,
@@ -161,10 +162,10 @@ public class StreetGeolocQueryTest extends TestCase {
 			    .getMaxNumberOfResults());
 	    assertEquals("a wrong to does not change the from value", 3, query
 		    .getFirstPaginationIndex());
-	    request = GeolocTestHelper.createMockHttpServletRequestForGeoloc();
+	    request = GeolocTestHelper.createMockHttpServletRequestForStreetGeoloc();
 	    // non numeric
 	    request.setParameter(GeolocServlet.TO_PARAMETER, "a");// to<from
-	    query = new GeolocQuery(request);
+	    query = new StreetGeolocQuery(request);
 	    assertEquals("a wrong to does not change the from value", 3, query
 		    .getFirstPaginationIndex());
 	    assertEquals("When a wrong " + GeolocServlet.TO_PARAMETER
@@ -175,29 +176,29 @@ public class StreetGeolocQueryTest extends TestCase {
 
 	    // test indentation
 	    // with no value specified
-	    request = GeolocTestHelper.createMockHttpServletRequestForGeoloc();
+	    request = GeolocTestHelper.createMockHttpServletRequestForStreetGeoloc();
 	    request.removeParameter(GeolocServlet.INDENT_PARAMETER);
-	    query = new GeolocQuery(request);
+	    query = new StreetGeolocQuery(request);
 	    assertFalse("When no " + GeolocServlet.INDENT_PARAMETER
 		    + " is specified, the  parameter should be set to false",
 		    query.isOutputIndented());
 	    // with wrong value
-	    request = GeolocTestHelper.createMockHttpServletRequestForGeoloc();
+	    request = GeolocTestHelper.createMockHttpServletRequestForStreetGeoloc();
 	    request.setParameter(GeolocServlet.INDENT_PARAMETER, "UNK");
-	    query = new GeolocQuery(request);
+	    query = new StreetGeolocQuery(request);
 	    assertFalse("When wrong " + GeolocServlet.INDENT_PARAMETER
 		    + " is specified, the  parameter should be set to false",
 		    query.isOutputIndented());
 	    // test case sensitive
-	    request = GeolocTestHelper.createMockHttpServletRequestForGeoloc();
+	    request = GeolocTestHelper.createMockHttpServletRequestForStreetGeoloc();
 	    request.setParameter(GeolocServlet.INDENT_PARAMETER, "true");
-	    query = new GeolocQuery(request);
+	    query = new StreetGeolocQuery(request);
 	    assertTrue(GeolocServlet.INDENT_PARAMETER
 		    + " should be case insensitive  ", query.isOutputIndented());
 	    // test 'on' value
-	    request = GeolocTestHelper.createMockHttpServletRequestForGeoloc();
+	    request = GeolocTestHelper.createMockHttpServletRequestForStreetGeoloc();
 	    request.setParameter(FulltextServlet.INDENT_PARAMETER, "oN");
-	    query = new GeolocQuery(request);
+	    query = new StreetGeolocQuery(request);
 	    assertTrue(
 		    FulltextServlet.INDENT_PARAMETER
 			    + " should be true for 'on' value (case insensitive and on value)  ",
@@ -205,34 +206,34 @@ public class StreetGeolocQueryTest extends TestCase {
 
 	    // test outputFormat
 	    // with no value specified
-	    request = GeolocTestHelper.createMockHttpServletRequestForGeoloc();
+	    request = GeolocTestHelper.createMockHttpServletRequestForStreetGeoloc();
 	    request.removeParameter(GeolocServlet.FORMAT_PARAMETER);
-	    query = new GeolocQuery(request);
+	    query = new StreetGeolocQuery(request);
 	    assertEquals("When no " + GeolocServlet.FORMAT_PARAMETER
 		    + " is specified, the  parameter should be set to  "
 		    + OutputFormat.getDefault(), OutputFormat.getDefault(),
 		    query.getOutputFormat());
 	    // with wrong value
-	    request = GeolocTestHelper.createMockHttpServletRequestForGeoloc();
+	    request = GeolocTestHelper.createMockHttpServletRequestForStreetGeoloc();
 	    request.setParameter(GeolocServlet.FORMAT_PARAMETER, "UNK");
-	    query = new GeolocQuery(request);
+	    query = new StreetGeolocQuery(request);
 	    assertEquals("When wrong " + GeolocServlet.FORMAT_PARAMETER
 		    + " is specified, the  parameter should be set to  "
 		    + OutputFormat.getDefault(), OutputFormat.getDefault(),
 		    query.getOutputFormat());
 	    // test case sensitive
-	    request = GeolocTestHelper.createMockHttpServletRequestForGeoloc();
+	    request = GeolocTestHelper.createMockHttpServletRequestForStreetGeoloc();
 	    request.setParameter(GeolocServlet.FORMAT_PARAMETER, "json");
-	    query = new GeolocQuery(request);
+	    query = new StreetGeolocQuery(request);
 	    assertEquals(GeolocServlet.FORMAT_PARAMETER
 		    + " should be case insensitive  ", OutputFormat.JSON, query
 		    .getOutputFormat());
 
 	    // test placetype
 	    // with no value specified
-	    request = GeolocTestHelper.createMockHttpServletRequestForGeoloc();
+	    request = GeolocTestHelper.createMockHttpServletRequestForStreetGeoloc();
 	    request.removeParameter(GeolocServlet.PLACETYPE_PARAMETER);
-	    query = new GeolocQuery(request);
+	    query = new StreetGeolocQuery(request);
 	    assertEquals(
 		    "When no "
 			    + GeolocServlet.PLACETYPE_PARAMETER
@@ -240,9 +241,9 @@ public class StreetGeolocQueryTest extends TestCase {
 		    GisgraphyConfig.defaultGeolocSearchPlaceTypeClass, query
 			    .getPlaceType());
 	    // with wrong value
-	    request = GeolocTestHelper.createMockHttpServletRequestForGeoloc();
+	    request = GeolocTestHelper.createMockHttpServletRequestForStreetGeoloc();
 	    request.setParameter(GeolocServlet.PLACETYPE_PARAMETER, "unk");
-	    query = new GeolocQuery(request);
+	    query = new StreetGeolocQuery(request);
 	    assertEquals(
 		    "When wrong "
 			    + GeolocServlet.PLACETYPE_PARAMETER
@@ -250,104 +251,104 @@ public class StreetGeolocQueryTest extends TestCase {
 		    GisgraphyConfig.defaultGeolocSearchPlaceTypeClass, query
 			    .getPlaceType());
 	    // test case sensitive
-	    request = GeolocTestHelper.createMockHttpServletRequestForGeoloc();
+	    request = GeolocTestHelper.createMockHttpServletRequestForStreetGeoloc();
 	    request.setParameter(GeolocServlet.FORMAT_PARAMETER, "city");
-	    query = new GeolocQuery(request);
+	    query = new StreetGeolocQuery(request);
 	    assertEquals(GeolocServlet.PLACETYPE_PARAMETER
 		    + " should be case insensitive  ", City.class, query
 		    .getPlaceType());
 
 	    // test Point
 	    // with missing lat
-	    request = GeolocTestHelper.createMockHttpServletRequestForGeoloc();
+	    request = GeolocTestHelper.createMockHttpServletRequestForStreetGeoloc();
 	    request.removeParameter(GeolocServlet.LAT_PARAMETER);
 	    try {
-		query = new GeolocQuery(request);
+		query = new StreetGeolocQuery(request);
 		fail("When there is no latitude, query should throw");
 	    } catch (RuntimeException e) {
 	    }
 	    // with empty lat
-	    request = GeolocTestHelper.createMockHttpServletRequestForGeoloc();
+	    request = GeolocTestHelper.createMockHttpServletRequestForStreetGeoloc();
 	    request.setParameter(GeolocServlet.LAT_PARAMETER, "");
 	    try {
-		query = new GeolocQuery(request);
+		query = new StreetGeolocQuery(request);
 		fail("When there is empty latitude, query should throw");
 	    } catch (RuntimeException e) {
 	    }
 	    // With wrong lat
-	    request = GeolocTestHelper.createMockHttpServletRequestForGeoloc();
+	    request = GeolocTestHelper.createMockHttpServletRequestForStreetGeoloc();
 	    request.setParameter(GeolocServlet.LAT_PARAMETER, "a");
 	    try {
-		query = new GeolocQuery(request);
+		query = new StreetGeolocQuery(request);
 		fail("A null lat should throw");
 	    } catch (RuntimeException e) {
 	    }
 	    // With too small lat
-	    request = GeolocTestHelper.createMockHttpServletRequestForGeoloc();
+	    request = GeolocTestHelper.createMockHttpServletRequestForStreetGeoloc();
 	    request.setParameter(GeolocServlet.LAT_PARAMETER, "-92");
 	    try {
-		query = new GeolocQuery(request);
+		query = new StreetGeolocQuery(request);
 		fail("latitude should not accept latitude < -90");
 	    } catch (RuntimeException e) {
 	    }
 
 	    // With too high lat
-	    request = GeolocTestHelper.createMockHttpServletRequestForGeoloc();
+	    request = GeolocTestHelper.createMockHttpServletRequestForStreetGeoloc();
 	    request.setParameter(GeolocServlet.LAT_PARAMETER, "92");
 	    try {
-		query = new GeolocQuery(request);
+		query = new StreetGeolocQuery(request);
 		fail("latitude should not accept latitude > 90");
 	    } catch (RuntimeException e) {
 	    }
 
 	    // with missing long
-	    request = GeolocTestHelper.createMockHttpServletRequestForGeoloc();
+	    request = GeolocTestHelper.createMockHttpServletRequestForStreetGeoloc();
 	    request.removeParameter(GeolocServlet.LONG_PARAMETER);
 	    try {
-		query = new GeolocQuery(request);
+		query = new StreetGeolocQuery(request);
 		fail("When there is no latitude, query should throw");
 	    } catch (RuntimeException e) {
 	    }
 	    // with empty long
-	    request = GeolocTestHelper.createMockHttpServletRequestForGeoloc();
+	    request = GeolocTestHelper.createMockHttpServletRequestForStreetGeoloc();
 	    request.setParameter(GeolocServlet.LONG_PARAMETER, "");
 	    try {
-		query = new GeolocQuery(request);
+		query = new StreetGeolocQuery(request);
 		fail("When there is empty longitude, query should throw");
 	    } catch (RuntimeException e) {
 	    }
 	    // With wrong Long
-	    request = GeolocTestHelper.createMockHttpServletRequestForGeoloc();
+	    request = GeolocTestHelper.createMockHttpServletRequestForStreetGeoloc();
 	    request.setParameter(GeolocServlet.LONG_PARAMETER, "a");
 	    try {
-		query = new GeolocQuery(request);
+		query = new StreetGeolocQuery(request);
 		fail("A null lat should throw");
 	    } catch (RuntimeException e) {
 	    }
 
 	    // with too small long
-	    request = GeolocTestHelper.createMockHttpServletRequestForGeoloc();
+	    request = GeolocTestHelper.createMockHttpServletRequestForStreetGeoloc();
 	    request.setParameter(GeolocServlet.LONG_PARAMETER, "-182");
 	    try {
-		query = new GeolocQuery(request);
+		query = new StreetGeolocQuery(request);
 		fail("longitude should not accept longitude < -180");
 	    } catch (RuntimeException e) {
 	    }
 
 	    // with too high long
-	    request = GeolocTestHelper.createMockHttpServletRequestForGeoloc();
+	    request = GeolocTestHelper.createMockHttpServletRequestForStreetGeoloc();
 	    request.setParameter(GeolocServlet.LONG_PARAMETER, "182");
 	    try {
-		query = new GeolocQuery(request);
+		query = new StreetGeolocQuery(request);
 		fail("longitude should not accept longitude > 180");
 	    } catch (RuntimeException e) {
 	    }
 
 	    // with long with comma
-	    request = GeolocTestHelper.createMockHttpServletRequestForGeoloc();
+	    request = GeolocTestHelper.createMockHttpServletRequestForStreetGeoloc();
 	    request.setParameter(GeolocServlet.LONG_PARAMETER, "10,3");
 	    try {
-		query = new GeolocQuery(request);
+		query = new StreetGeolocQuery(request);
 		Assert.assertEquals(
 			"request should accept longitude with comma", 10.3D,
 			query.getLongitude().doubleValue(), 0.1);
@@ -356,10 +357,10 @@ public class StreetGeolocQueryTest extends TestCase {
 	    }
 
 	    // with long with point
-	    request = GeolocTestHelper.createMockHttpServletRequestForGeoloc();
+	    request = GeolocTestHelper.createMockHttpServletRequestForStreetGeoloc();
 	    request.setParameter(GeolocServlet.LONG_PARAMETER, "10.3");
 	    try {
-		query = new GeolocQuery(request);
+		query = new StreetGeolocQuery(request);
 		Assert.assertEquals(
 			"request should accept longitude with comma", 10.3D,
 			query.getLongitude().doubleValue(), 0.1);
@@ -368,10 +369,10 @@ public class StreetGeolocQueryTest extends TestCase {
 	    }
 
 	    // with lat with comma
-	    request = GeolocTestHelper.createMockHttpServletRequestForGeoloc();
+	    request = GeolocTestHelper.createMockHttpServletRequestForStreetGeoloc();
 	    request.setParameter(GeolocServlet.LAT_PARAMETER, "10,3");
 	    try {
-		query = new GeolocQuery(request);
+		query = new StreetGeolocQuery(request);
 		Assert.assertEquals(
 			"request should accept latitude with comma", 10.3D,
 			query.getLatitude().doubleValue(), 0.1);
@@ -380,10 +381,10 @@ public class StreetGeolocQueryTest extends TestCase {
 	    }
 
 	    // with lat with point
-	    request = GeolocTestHelper.createMockHttpServletRequestForGeoloc();
+	    request = GeolocTestHelper.createMockHttpServletRequestForStreetGeoloc();
 	    request.setParameter(GeolocServlet.LAT_PARAMETER, "10.3");
 	    try {
-		query = new GeolocQuery(request);
+		query = new StreetGeolocQuery(request);
 		Assert.assertEquals(
 			"request should accept latitude with point", 10.3D,
 			query.getLatitude().doubleValue(), 0.1);
@@ -393,32 +394,32 @@ public class StreetGeolocQueryTest extends TestCase {
 
 	    // test radius
 	    // with missing radius
-	    request = GeolocTestHelper.createMockHttpServletRequestForGeoloc();
+	    request = GeolocTestHelper.createMockHttpServletRequestForStreetGeoloc();
 	    request.removeParameter(GeolocServlet.RADIUS_PARAMETER);
-	    query = new GeolocQuery(request);
+	    query = new StreetGeolocQuery(request);
 	    assertEquals("When no " + GeolocServlet.RADIUS_PARAMETER
 		    + " is specified, the  parameter should be set to  "
 		    + GeolocQuery.DEFAULT_RADIUS, GeolocQuery.DEFAULT_RADIUS,
 		    query.getRadius(), 0.1);
 	    // With wrong radius
-	    request = GeolocTestHelper.createMockHttpServletRequestForGeoloc();
+	    request = GeolocTestHelper.createMockHttpServletRequestForStreetGeoloc();
 	    request.setParameter(GeolocServlet.RADIUS_PARAMETER, "a");
-	    query = new GeolocQuery(request);
+	    query = new StreetGeolocQuery(request);
 	    assertEquals("When wrong " + GeolocServlet.RADIUS_PARAMETER
 		    + " is specified, the  parameter should be set to  "
 		    + GeolocQuery.DEFAULT_RADIUS, GeolocQuery.DEFAULT_RADIUS,
 		    query.getRadius(), 0.1);
 	    // radius with comma
-	    request = GeolocTestHelper.createMockHttpServletRequestForGeoloc();
+	    request = GeolocTestHelper.createMockHttpServletRequestForStreetGeoloc();
 	    request.setParameter(GeolocServlet.RADIUS_PARAMETER, "1,4");
-	    query = new GeolocQuery(request);
+	    query = new StreetGeolocQuery(request);
 	    assertEquals("Radius should accept comma as decimal separator",
 		    1.4D, query.getRadius(), 0.1);
 
 	    // radius with point
-	    request = GeolocTestHelper.createMockHttpServletRequestForGeoloc();
+	    request = GeolocTestHelper.createMockHttpServletRequestForStreetGeoloc();
 	    request.setParameter(GeolocServlet.RADIUS_PARAMETER, "1.4");
-	    query = new GeolocQuery(request);
+	    query = new StreetGeolocQuery(request);
 	    assertEquals("Radius should accept point as decimal separator",
 		    1.4D, query.getRadius(), 0.1);
 

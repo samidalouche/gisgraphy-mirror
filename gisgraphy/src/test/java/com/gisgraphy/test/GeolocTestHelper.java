@@ -47,6 +47,7 @@ import com.gisgraphy.domain.geoloc.entity.City;
 import com.gisgraphy.domain.geoloc.entity.CitySubdivision;
 import com.gisgraphy.domain.geoloc.entity.Country;
 import com.gisgraphy.domain.geoloc.entity.GisFeature;
+import com.gisgraphy.domain.geoloc.service.geoloc.StreetGeolocQuery;
 import com.gisgraphy.domain.repository.IAdmDao;
 import com.gisgraphy.domain.repository.ICityDao;
 import com.gisgraphy.domain.repository.ICountryDao;
@@ -640,7 +641,7 @@ public class GeolocTestHelper {
 	MockHttpServletRequest request = new MockHttpServletRequest();
 	request.addParameter(FulltextServlet.COUNTRY_PARAMETER, "FR");
 	request.addParameter(FulltextServlet.FROM_PARAMETER, "3");
-	request.addParameter(FulltextServlet.TO_PARAMETER, "20");
+	request.addParameter(FulltextServlet.TO_PARAMETER, FulltextServlet.DEFAULT_MAX_RESULTS+20+"");
 	request.addParameter(FulltextServlet.FORMAT_PARAMETER, "XML");
 	request.addParameter(FulltextServlet.STYLE_PARAMETER, "FULL");
 	request.addParameter(FulltextServlet.LANG_PARAMETER, "fr");
@@ -654,7 +655,19 @@ public class GeolocTestHelper {
     public static MockHttpServletRequest createMockHttpServletRequestForGeoloc() {
 	MockHttpServletRequest request = new MockHttpServletRequest();
 	request.addParameter(GeolocServlet.FROM_PARAMETER, "3");
-	request.addParameter(GeolocServlet.TO_PARAMETER, "20");
+	request.addParameter(GeolocServlet.TO_PARAMETER, GeolocServlet.DEFAULT_MAX_RESULTS+20+"");
+	request.addParameter(GeolocServlet.FORMAT_PARAMETER, "XML");
+	request.addParameter(GeolocServlet.PLACETYPE_PARAMETER, "city");
+	request.addParameter(GeolocServlet.LAT_PARAMETER, "1.0");
+	request.addParameter(GeolocServlet.LONG_PARAMETER, "2.0");
+	request.addParameter(GeolocServlet.LONG_PARAMETER, "3.0");
+	return request;
+    }
+    
+    public static MockHttpServletRequest createMockHttpServletRequestForStreetGeoloc() {
+	MockHttpServletRequest request = new MockHttpServletRequest();
+	request.addParameter(GeolocServlet.FROM_PARAMETER, "3");
+	request.addParameter(GeolocServlet.TO_PARAMETER, StreetGeolocQuery.MAX_RESULTS+10+"");
 	request.addParameter(GeolocServlet.FORMAT_PARAMETER, "XML");
 	request.addParameter(GeolocServlet.PLACETYPE_PARAMETER, "city");
 	request.addParameter(GeolocServlet.LAT_PARAMETER, "1.0");

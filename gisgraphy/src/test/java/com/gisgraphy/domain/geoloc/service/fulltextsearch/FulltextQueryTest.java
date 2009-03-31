@@ -73,8 +73,9 @@ public class FulltextQueryTest extends AbstractIntegrationHttpSolrTestCase {
 	MockHttpServletRequest request = GeolocTestHelper
 		.createMockHttpServletRequestForFullText();
 	FulltextQuery query = new FulltextQuery(request);
-	assertEquals(3, query.getFirstPaginationIndex());
-	assertEquals(12, query.getLastPaginationIndex());
+	int firstPaginationIndex = 3;
+	assertEquals(firstPaginationIndex, query.getFirstPaginationIndex());
+	assertEquals(FulltextServlet.DEFAULT_MAX_RESULTS+firstPaginationIndex-1, query.getLastPaginationIndex());
 	assertEquals("the pagination should be limit to "
 		+ FulltextServlet.DEFAULT_MAX_RESULTS,
 		FulltextServlet.DEFAULT_MAX_RESULTS, query

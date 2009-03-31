@@ -59,6 +59,13 @@ public abstract class AbstractGisQuery {
     public AbstractGisQuery() {
 	super();
     }
+    
+    /**
+     * @return the maximum number of results that the query should return
+     */
+    public int getMaxLimitResult(){
+	return 10;
+    }
 
     /**
      * @see Pagination
