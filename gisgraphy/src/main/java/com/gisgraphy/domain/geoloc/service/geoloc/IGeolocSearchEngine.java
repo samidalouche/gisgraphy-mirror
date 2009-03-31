@@ -40,7 +40,7 @@ public interface IGeolocSearchEngine extends IQueryProcessor<GeolocQuery> {
      * 
      * @param query
      *                The GeolocQuery to execute
-     * @return The Java Objects. Never return null but an empty list
+     * @return GeolocResultsDto 
      * @throws ServiceException
      *                 If an error occurred
      */

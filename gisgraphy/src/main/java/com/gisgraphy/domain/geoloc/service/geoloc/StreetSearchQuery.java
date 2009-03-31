@@ -28,7 +28,7 @@ import com.gisgraphy.domain.valueobject.Output;
 import com.gisgraphy.domain.valueobject.Pagination;
 import com.vividsolutions.jts.geom.Point;
 
-public class StreetGeolocQuery extends GeolocQuery {
+public class StreetSearchQuery extends GeolocQuery {
 
     public static final int MAX_RESULTS = 50;
 
@@ -36,7 +36,10 @@ public class StreetGeolocQuery extends GeolocQuery {
     
     private String namePrefix = null;
 
-    public StreetGeolocQuery(HttpServletRequest req) {
+    private String oneWay;
+    
+
+    public StreetSearchQuery(HttpServletRequest req) {
 	super(req);
 
     }
@@ -55,14 +58,15 @@ public class StreetGeolocQuery extends GeolocQuery {
      * @param streetType
      *                the type of street to search , if null : search for all street
      *                type.
+     * @param oneWay the oneWay type criteria of the street
      * @throws An
      *                 {@link IllegalArgumentException} if the point is null
      */
-    public StreetGeolocQuery(Point point, double radius, Pagination pagination,
-	    Output output, String streetType,String namePrefix) {
+    public StreetSearchQuery(Point point, double radius, Pagination pagination,
+	    Output output, String streetType,String oneWay,String namePrefix) {
 	super(point, radius, pagination, output, null);
-	withStreetType(streetType);
-	withNamePrefix(namePrefix);
+	withStreetType(streetType).
+	withNamePrefix(namePrefix).withOneWay(oneWay);
     }
 
     /**
@@ -73,10 +77,11 @@ public class StreetGeolocQuery extends GeolocQuery {
      * @param streetType
      *                the type of street to search , if null : search for all street
      *                type.
+     * @param oneWay the oneWay type criteria of the street
      * @throws An
      *                 {@link IllegalArgumentException} if the point is null
      */
-    public StreetGeolocQuery(Point point, double radius, String streetType) {
+    public StreetSearchQuery(Point point, double radius, String streetType) {
 	super(point, radius);
 	withStreetType(streetType);
     }
@@ -88,7 +93,7 @@ public class StreetGeolocQuery extends GeolocQuery {
      *                the type of street to search , if null : search for all street
      *                type.
      */
-    public StreetGeolocQuery(Point point, String streetType) {
+    public StreetSearchQuery(Point point, String streetType) {
 	super(point);
 	withStreetType(streetType);
     }
@@ -104,7 +109,7 @@ public class StreetGeolocQuery extends GeolocQuery {
      * @param streetType the type of street we'd like to query
      * @return The current query to chain methods
      */
-    public StreetGeolocQuery withStreetType(String streetType) {
+    public StreetSearchQuery withStreetType(String streetType) {
 	this.streetType = streetType;
 	return this;
     }
@@ -121,8 +126,17 @@ public class StreetGeolocQuery extends GeolocQuery {
      * Don't prefix with 'Street'
      * @return The current query to chain methods
      */
-    public StreetGeolocQuery withNamePrefix(String namePrefix) {
+    public StreetSearchQuery withNamePrefix(String namePrefix) {
 	this.namePrefix = namePrefix;
+	return this;
+    }
+    
+    /**
+     * @param oneWay The oneWay type criteria of the street
+     * @return  The current query to chain methods
+     */
+    public StreetSearchQuery withOneWay(String oneWay){
+	this.oneWay = oneWay;
 	return this;
     }
 
@@ -130,6 +144,27 @@ public class StreetGeolocQuery extends GeolocQuery {
     public int getMaxLimitResult() {
 	//TODO OSM
 	return MAX_RESULTS;
+    }
+
+    /**
+     * @return the oneWay criteria
+     */
+    public String getOneWay() {
+	return this.oneWay;
+    }
+    
+    /*
+     * (non-Javadoc)
+     * 
+     * @see java.lang.Object#toString()
+     */
+    @Override
+    public String toString() {
+	String asString = "StreetSearchQuery (lat='"
+		+ getPoint().getY() + "',long='" + getPoint().getX() + "') and namePrefix="+this.namePrefix+" and radius="
+		+ getRadius() + " for streetType="+streetType+" and oneWay="+this.oneWay;
+	asString += " with " + getOutput() + " and " + pagination;
+	return asString;
     }
     
 }

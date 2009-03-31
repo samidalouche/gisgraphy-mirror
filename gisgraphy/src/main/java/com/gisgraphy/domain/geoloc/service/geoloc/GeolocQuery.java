@@ -25,7 +25,6 @@ package com.gisgraphy.domain.geoloc.service.geoloc;
 import javax.persistence.Transient;
 import javax.servlet.http.HttpServletRequest;
 
-import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 
 import com.gisgraphy.domain.geoloc.entity.GisFeature;

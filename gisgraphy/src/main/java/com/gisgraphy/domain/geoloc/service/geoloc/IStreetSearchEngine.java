@@ -20,18 +20,31 @@
  *  
  *  
  *******************************************************************************/
-/**
- * 
- */
-package com.gisgraphy.stats;
+package com.gisgraphy.domain.geoloc.service.geoloc;
+
+import com.gisgraphy.domain.geoloc.service.IQueryProcessor;
+import com.gisgraphy.domain.geoloc.service.ServiceException;
+import com.gisgraphy.domain.valueobject.StreetSearchResultsDto;
 
 /**
- * Represent all the types of stats
+ * Execute a {@linkplain StreetSearchQuery} and returns the results in a specific
+ * format
  * 
+ * @see StreetSearchQuery
  * @author <a href="mailto:david.masclet@gisgraphy.com">David Masclet</a>
- * 
  */
-public enum StatsUsageType {
+public interface IStreetSearchEngine extends IQueryProcessor<StreetSearchQuery> {
 
-    GEOLOC, FULLTEXT, STREET
+    /**
+     * Execute the query and returns a {@link StreetSearchResultsDto}
+     * 
+     * @param query
+     *                The {@link StreetSearchQuery} to execute
+     * @return The StreetSearchResultsDto Objects.
+     * @throws ServiceException
+     *                 If an error occurred
+     */
+    public StreetSearchResultsDto executeQuery(StreetSearchQuery query)
+	    throws ServiceException;
+
 }

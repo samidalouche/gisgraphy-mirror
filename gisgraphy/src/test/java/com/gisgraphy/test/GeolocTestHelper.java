@@ -48,7 +48,7 @@ import com.gisgraphy.domain.geoloc.entity.CitySubdivision;
 import com.gisgraphy.domain.geoloc.entity.Country;
 import com.gisgraphy.domain.geoloc.entity.GisFeature;
 import com.gisgraphy.domain.geoloc.entity.OpenStreetMap;
-import com.gisgraphy.domain.geoloc.service.geoloc.StreetGeolocQuery;
+import com.gisgraphy.domain.geoloc.service.geoloc.StreetSearchQuery;
 import com.gisgraphy.domain.repository.IAdmDao;
 import com.gisgraphy.domain.repository.ICityDao;
 import com.gisgraphy.domain.repository.ICountryDao;
@@ -701,7 +701,7 @@ public class GeolocTestHelper {
     public static MockHttpServletRequest createMockHttpServletRequestForStreetGeoloc() {
 	MockHttpServletRequest request = new MockHttpServletRequest();
 	request.addParameter(GeolocServlet.FROM_PARAMETER, "3");
-	request.addParameter(GeolocServlet.TO_PARAMETER, StreetGeolocQuery.MAX_RESULTS+10+"");
+	request.addParameter(GeolocServlet.TO_PARAMETER, StreetSearchQuery.MAX_RESULTS+10+"");
 	request.addParameter(GeolocServlet.FORMAT_PARAMETER, "XML");
 	request.addParameter(GeolocServlet.PLACETYPE_PARAMETER, "city");
 	request.addParameter(GeolocServlet.LAT_PARAMETER, "1.0");
