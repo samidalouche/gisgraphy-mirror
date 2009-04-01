@@ -53,8 +53,8 @@ public class StreetSearchEngine implements IStreetSearchEngine {
     @Resource
     IOpenStreetMapDao openStreetMapDao;
 
-    @Resource
-    IGeolocResultsDtoSerializer geolocResultsDtoSerializer;
+   // @Resource
+    IStreetSearchResultsDtoSerializer streetSearchResultsDtoSerializer;
 
     @Resource
     IStatsUsageService statsUsageService;
@@ -98,10 +98,10 @@ public class StreetSearchEngine implements IStreetSearchEngine {
 	Assert.notNull(outputStream,
 		"Can not serialize into a null outputStream");
 	StreetSearchResultsDto streetSearchResultsDto = executeQuery(query);
-	/*geolocResultsDtoSerializer.serialize(outputStream, query
+	streetSearchResultsDtoSerializer.serialize(outputStream, query
 		.getOutputFormat(), streetSearchResultsDto, query.isOutputIndented(),
-		query.getFirstPaginationIndex());*/
-    }
+		query.getFirstPaginationIndex());
+	}
 
     /*
      * (non-Javadoc)
