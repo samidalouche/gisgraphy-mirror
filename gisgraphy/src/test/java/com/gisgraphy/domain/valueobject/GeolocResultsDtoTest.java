@@ -39,7 +39,6 @@ import junit.framework.TestCase;
 
 import org.junit.Test;
 
-import com.gisgraphy.domain.geoloc.service.fulltextsearch.AbstractIntegrationHttpSolrTestCase;
 import com.gisgraphy.test.GeolocTestHelper;
 import com.gisgraphy.test.XpathChecker;
 
@@ -47,23 +46,20 @@ public class GeolocResultsDtoTest extends TestCase {
 
     @Test
     public void testGeolocResultsDtoShouldBeMappedWithJAXB() {
-	GisFeatureDistance result = null;
 	try {
 	    JAXBContext context = JAXBContext
 		    .newInstance(GeolocResultsDto.class);
 	    Marshaller m = context.createMarshaller();
 	    m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
-	    result = GeolocTestHelper
-		    .createFullFilledGisFeatureDistanceWithGisFeatureConstructor();
-	    List<GisFeatureDistance> list = new ArrayList<GisFeatureDistance>();
-	    list.add(result);
-	    GeolocResultsDto geolocResultsDto = new GeolocResultsDto(list, 300L);
+	    GeolocResultsDto geolocResultsDto = GeolocTestHelper.createGeolocResultsDto(300L);
 	    ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
 	    m.marshal(geolocResultsDto, outputStream);
-	    checkJAXBMapping(geolocResultsDto, outputStream);
+	    GeolocTestHelper.checkGeolocResultsDtoJAXBMapping(geolocResultsDto, outputStream.toString(Constants.CHARSET));
 	} catch (PropertyException e) {
 	    fail(e.getMessage());
 	} catch (JAXBException e) {
+	    fail(e.getMessage());
+	} catch (UnsupportedEncodingException e) {
 	    fail(e.getMessage());
 	}
     }
@@ -99,92 +95,6 @@ public class GeolocResultsDtoTest extends TestCase {
 	}
     }
 
-    /**
-     * @param result
-     * @param outputStream
-     */
-    // TODO refactoring with GisFeatureDistanceTest
-    private void checkJAXBMapping(GeolocResultsDto geolocResultsDto,
-	    ByteArrayOutputStream outputStream) {
-	try {
-	    List<GisFeatureDistance> results = geolocResultsDto.getResult();
-	    assertEquals("The number of results found is incorrect",1, results.size());
-	    GisFeatureDistance result = results.get(0);
-	    XpathChecker.assertQ(
-		    "GisFeatureDistance list is not correcty mapped with jaxb",
-		    outputStream.toString(Constants.CHARSET),
-		    "/" + Constants.GEOLOCRESULTSDTO_JAXB_NAME + "/"
-			    + Constants.GISFEATUREDISTANCE_JAXB_NAME
-			    + "/name[.='" + result.getName() + "']",
-		    "/" + Constants.GEOLOCRESULTSDTO_JAXB_NAME + "/"
-			    + Constants.GISFEATUREDISTANCE_JAXB_NAME
-			    + "/adm1Code[.='" + result.getAdm1Code() + "']",
-		    "/" + Constants.GEOLOCRESULTSDTO_JAXB_NAME + "/"
-			    + Constants.GISFEATUREDISTANCE_JAXB_NAME
-			    + "/adm2Code[.='" + result.getAdm2Code() + "']",
-		    "/" + Constants.GEOLOCRESULTSDTO_JAXB_NAME + "/"
-			    + Constants.GISFEATUREDISTANCE_JAXB_NAME
-			    + "/adm3Code[.='" + result.getAdm3Code() + "']",
-		    "/" + Constants.GEOLOCRESULTSDTO_JAXB_NAME + "/"
-			    + Constants.GISFEATUREDISTANCE_JAXB_NAME
-			    + "/adm4Code[.='" + result.getAdm4Code() + "']",
-		    "/" + Constants.GEOLOCRESULTSDTO_JAXB_NAME + "/"
-			    + Constants.GISFEATUREDISTANCE_JAXB_NAME
-			    + "/adm1Name[.='" + result.getAdm1Name() + "']",
-		    "/" + Constants.GEOLOCRESULTSDTO_JAXB_NAME + "/"
-			    + Constants.GISFEATUREDISTANCE_JAXB_NAME
-			    + "/adm2Name[.='" + result.getAdm2Name() + "']",
-		    "/" + Constants.GEOLOCRESULTSDTO_JAXB_NAME + "/"
-			    + Constants.GISFEATUREDISTANCE_JAXB_NAME
-			    + "/adm3Name[.='" + result.getAdm3Name() + "']",
-		    "/" + Constants.GEOLOCRESULTSDTO_JAXB_NAME + "/"
-			    + Constants.GISFEATUREDISTANCE_JAXB_NAME
-			    + "/adm4Name[.='" + result.getAdm4Name() + "']",
-		    "/" + Constants.GEOLOCRESULTSDTO_JAXB_NAME + "/"
-			    + Constants.GISFEATUREDISTANCE_JAXB_NAME
-			    + "/asciiName[.='" + result.getAsciiName() + "']",
-		    "/" + Constants.GEOLOCRESULTSDTO_JAXB_NAME + "/"
-			    + Constants.GISFEATUREDISTANCE_JAXB_NAME
-			    + "/countryCode[.='" + result.getCountryCode()
-			    + "']",
-		    "/" + Constants.GEOLOCRESULTSDTO_JAXB_NAME + "/"
-			    + Constants.GISFEATUREDISTANCE_JAXB_NAME
-			    + "/elevation[.='" + result.getElevation() + "']",
-		    "/" + Constants.GEOLOCRESULTSDTO_JAXB_NAME + "/"
-			    + Constants.GISFEATUREDISTANCE_JAXB_NAME
-			    + "/featureClass[.='" + result.getFeatureClass()
-			    + "']",
-		    "/" + Constants.GEOLOCRESULTSDTO_JAXB_NAME + "/"
-			    + Constants.GISFEATUREDISTANCE_JAXB_NAME
-			    + "/featureCode[.='" + result.getFeatureCode()
-			    + "']",
-		    "/" + Constants.GEOLOCRESULTSDTO_JAXB_NAME + "/"
-			    + Constants.GISFEATUREDISTANCE_JAXB_NAME
-			    + "/featureId[.='" + result.getFeatureId() + "']",
-		    "/" + Constants.GEOLOCRESULTSDTO_JAXB_NAME + "/"
-			    + Constants.GISFEATUREDISTANCE_JAXB_NAME
-			    + "/gtopo30[.='" + result.getGtopo30() + "']",
-		    "/" + Constants.GEOLOCRESULTSDTO_JAXB_NAME + "/"
-			    + Constants.GISFEATUREDISTANCE_JAXB_NAME
-			    + "/population[.='" + result.getPopulation() + "']",
-		    "/" + Constants.GEOLOCRESULTSDTO_JAXB_NAME + "/"
-			    + Constants.GISFEATUREDISTANCE_JAXB_NAME
-			    + "/timezone[.='" + result.getTimezone() + "']",
-		    "/" + Constants.GEOLOCRESULTSDTO_JAXB_NAME + "/"
-			    + Constants.GISFEATUREDISTANCE_JAXB_NAME
-			    + "/lat[.='" + result.getLat() + "']", "/"
-			    + Constants.GEOLOCRESULTSDTO_JAXB_NAME + "/"
-			    + Constants.GISFEATUREDISTANCE_JAXB_NAME
-			    + "/lng[.='" + result.getLng() + "']", "/"
-			    + Constants.GEOLOCRESULTSDTO_JAXB_NAME
-			    + "/numFound[.='" + geolocResultsDto.getNumFound() + "']", "/"
-			    + Constants.GEOLOCRESULTSDTO_JAXB_NAME
-			    + "/QTime[.='" + geolocResultsDto.getQTime() + "']"
-
-	    );
-	} catch (UnsupportedEncodingException e) {
-	    fail("unsupported encoding for " + Constants.CHARSET);
-	}
-    }
+   
 
 }

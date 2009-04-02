@@ -64,10 +64,12 @@ public class GisFeatureDistanceTest extends AbstractIntegrationHttpSolrTestCase 
 		    .createFullFilledGisFeatureDistanceWithGisFeatureConstructor();
 	    ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
 	    m.marshal(result, outputStream);
-	    checkJAXBMapping(result, outputStream);
+	    GeolocTestHelper.checkGisFeatureDistanceJAXBMapping(result, outputStream.toString(Constants.CHARSET),"");
 	} catch (PropertyException e) {
 	    fail(e.getMessage());
 	} catch (JAXBException e) {
+	    fail(e.getMessage());
+	} catch (UnsupportedEncodingException e) {
 	    fail(e.getMessage());
 	}
     }
@@ -84,10 +86,12 @@ public class GisFeatureDistanceTest extends AbstractIntegrationHttpSolrTestCase 
 		    .createFullFilledGisFeatureDistanceWithBuilder();
 	    ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
 	    m.marshal(result, outputStream);
-	    checkJAXBMapping(result, outputStream);
+	    GeolocTestHelper.checkGisFeatureDistanceJAXBMapping(result, outputStream.toString(Constants.CHARSET),"");
 	} catch (PropertyException e) {
 	    fail(e.getMessage());
 	} catch (JAXBException e) {
+	    fail(e.getMessage());
+	} catch (UnsupportedEncodingException e) {
 	    fail(e.getMessage());
 	}
     }
@@ -106,7 +110,7 @@ public class GisFeatureDistanceTest extends AbstractIntegrationHttpSolrTestCase 
 		    .createFullFilledGisFeatureDistanceForCity();
 	    ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
 	    m.marshal(result, outputStream);
-	    checkJAXBMapping(result, outputStream);
+	    GeolocTestHelper.checkGisFeatureDistanceJAXBMapping(result, outputStream.toString(Constants.CHARSET),"");
 	    XpathChecker.assertQ("Zipcode should be output if The GisFeature is a city",
 		    outputStream.toString(Constants.CHARSET), "/"
 			    + Constants.GISFEATUREDISTANCE_JAXB_NAME
@@ -132,7 +136,7 @@ public class GisFeatureDistanceTest extends AbstractIntegrationHttpSolrTestCase 
 		    .createFullFilledGisFeatureDistanceForAdm();
 	    ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
 	    m.marshal(result, outputStream);
-	    checkJAXBMapping(result, outputStream);
+	    GeolocTestHelper.checkGisFeatureDistanceJAXBMapping(result, outputStream.toString(Constants.CHARSET),"");
 	    XpathChecker.assertQ("Zipcode should be output if The GisFeature is a city",
 		    outputStream.toString(Constants.CHARSET), "/"
 			    + Constants.GISFEATUREDISTANCE_JAXB_NAME
@@ -159,7 +163,7 @@ public class GisFeatureDistanceTest extends AbstractIntegrationHttpSolrTestCase 
 	    
 	    ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
 	    m.marshal(result, outputStream);
-	    checkJAXBMapping(result, outputStream);
+	    GeolocTestHelper.checkGisFeatureDistanceJAXBMapping(result, outputStream.toString(Constants.CHARSET),"");
 	    XpathChecker.assertQ("Zipcode should be output if The GisFeature is a city",
 		    outputStream.toString(Constants.CHARSET), "/"
 			    + Constants.GISFEATUREDISTANCE_JAXB_NAME
@@ -184,7 +188,7 @@ public class GisFeatureDistanceTest extends AbstractIntegrationHttpSolrTestCase 
 	    result = new GisFeatureDistance(GeolocTestHelper.createFullFilledCountry(), 3D);
 	    ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
 	    m.marshal(result, outputStream);
-	    checkJAXBMapping(result, outputStream);
+	    GeolocTestHelper.checkGisFeatureDistanceJAXBMapping(result, outputStream.toString(Constants.CHARSET),"");
 	    String streamToString = outputStream.toString(Constants.CHARSET);
 	    XpathChecker.assertQ("area should be filled if The GisFeature is a Country",
 		    streamToString, "/"
@@ -244,76 +248,8 @@ public class GisFeatureDistanceTest extends AbstractIntegrationHttpSolrTestCase 
 	}
     }
     
-    /**
-     * @param result
-     * @param outputStream
-     */
-    private void checkJAXBMapping(GisFeatureDistance result,
-	    ByteArrayOutputStream outputStream) {
-	try {
-	    XpathChecker.assertQ(
-		    "GisFeatureDistance is not correcty mapped with jaxb",
-		    outputStream.toString(Constants.CHARSET),
-		    "/" + Constants.GISFEATUREDISTANCE_JAXB_NAME + "/name[.='"
-			    + result.getName() + "']",
-		    "/" + Constants.GISFEATUREDISTANCE_JAXB_NAME
-			    + "/adm1Code[.='" + result.getAdm1Code() + "']",
-		    "/" + Constants.GISFEATUREDISTANCE_JAXB_NAME
-			    + "/adm2Code[.='" + result.getAdm2Code() + "']",
-		    "/" + Constants.GISFEATUREDISTANCE_JAXB_NAME
-			    + "/adm3Code[.='" + result.getAdm3Code() + "']",
-		    "/" + Constants.GISFEATUREDISTANCE_JAXB_NAME
-			    + "/adm4Code[.='" + result.getAdm4Code() + "']",
-		    "/" + Constants.GISFEATUREDISTANCE_JAXB_NAME
-			    + "/adm1Name[.='" + result.getAdm1Name() + "']",
-		    "/" + Constants.GISFEATUREDISTANCE_JAXB_NAME
-			    + "/adm2Name[.='" + result.getAdm2Name() + "']",
-		    "/" + Constants.GISFEATUREDISTANCE_JAXB_NAME
-			    + "/adm3Name[.='" + result.getAdm3Name() + "']",
-		    "/" + Constants.GISFEATUREDISTANCE_JAXB_NAME
-			    + "/adm4Name[.='" + result.getAdm4Name() + "']",
-		    "/" + Constants.GISFEATUREDISTANCE_JAXB_NAME
-			    + "/asciiName[.='" + result.getAsciiName() + "']",
-		    "/" + Constants.GISFEATUREDISTANCE_JAXB_NAME
-			    + "/countryCode[.='" + result.getCountryCode()
-			    + "']",
-		    "/" + Constants.GISFEATUREDISTANCE_JAXB_NAME
-			    + "/elevation[.='" + result.getElevation() + "']",
-		    "/" + Constants.GISFEATUREDISTANCE_JAXB_NAME
-			    + "/featureClass[.='" + result.getFeatureClass()
-			    + "']",
-		    "/" + Constants.GISFEATUREDISTANCE_JAXB_NAME
-			    + "/featureCode[.='" + result.getFeatureCode()
-			    + "']",
-		    "/" + Constants.GISFEATUREDISTANCE_JAXB_NAME
-			    + "/placeType[.='" + result.getPlaceType() + "']",
-		    "/" + Constants.GISFEATUREDISTANCE_JAXB_NAME
-			    + "/featureId[.='" + result.getFeatureId() + "']",
-		    "/" + Constants.GISFEATUREDISTANCE_JAXB_NAME
-			    + "/gtopo30[.='" + result.getGtopo30() + "']",
-		    "/" + Constants.GISFEATUREDISTANCE_JAXB_NAME
-			    + "/population[.='" + result.getPopulation() + "']",
-		    "/" + Constants.GISFEATUREDISTANCE_JAXB_NAME
-			    + "/timezone[.='" + result.getTimezone() + "']",
-		    "/" + Constants.GISFEATUREDISTANCE_JAXB_NAME + "/lat[.='"
-			    + result.getLat() + "']", "/"
-			    + Constants.GISFEATUREDISTANCE_JAXB_NAME
-			    + "/lng[.='" + result.getLng() + "']", "/"
-			    + Constants.GISFEATUREDISTANCE_JAXB_NAME
-			    + "/google_map_url[.='"
-			    + result.getGoogle_map_url() + "']", "/"
-			    + Constants.GISFEATUREDISTANCE_JAXB_NAME
-			    + "/yahoo_map_url[.='" + result.getYahoo_map_url()
-			    + "']", "/"
-			    + Constants.GISFEATUREDISTANCE_JAXB_NAME
-			    + "/country_flag_url[.='"
-			    + result.getCountry_flag_url() + "']"
 
-	    );
-	} catch (UnsupportedEncodingException e) {
-	    fail("unsupported encoding for " + Constants.CHARSET);
-	}
-    }
+   
 
     private List<String> inspectGisFeatureDistance(){
 	Class<?> clazzParent = GisFeatureDistance.class;

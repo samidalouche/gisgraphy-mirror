@@ -20,13 +20,30 @@
  *  
  *  
  *******************************************************************************/
-package com.gisgraphy.domain.valueobject;
+package com.gisgraphy.domain.geoloc.service.geoloc;
 
-/**
- * List of The services provided by gisgraphy
- * 
- * @author <a href="mailto:david.masclet@gisgraphy.com">David Masclet</a>
- */
-public enum GisgraphyServiceType {
-    FULLTEXT, GEOLOC, STREET
+import static org.junit.Assert.fail;
+
+import java.io.ByteArrayOutputStream;
+
+import org.junit.Test;
+
+import com.gisgraphy.domain.geoloc.service.errors.UnsupportedFormatException;
+import com.gisgraphy.domain.valueobject.StreetSearchResultsDto;
+import com.gisgraphy.domain.valueobject.Output.OutputFormat;
+
+public class StreetSearchResultsDtoSerializerTest {
+
+    @Test
+    public void testSerializeShouldThrowIfTheformatisNotSupported() {
+	IStreetSearchResultsDtoSerializer streetSearchResultsDtoSerializer = new StreetSearchResultsDtoSerializer();
+	try {
+	    streetSearchResultsDtoSerializer.serialize(new ByteArrayOutputStream(),
+		    OutputFormat.RUBY, new StreetSearchResultsDto(),true,1);
+	    fail();
+	} catch (UnsupportedFormatException e) {
+	    //ok
+	}
+    }
+
 }

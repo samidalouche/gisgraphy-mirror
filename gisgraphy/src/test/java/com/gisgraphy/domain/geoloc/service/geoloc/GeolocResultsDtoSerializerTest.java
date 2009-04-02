@@ -25,12 +25,15 @@ package com.gisgraphy.domain.geoloc.service.geoloc;
 import static org.junit.Assert.fail;
 
 import java.io.ByteArrayOutputStream;
+import java.io.UnsupportedEncodingException;
 
 import org.junit.Test;
 
 import com.gisgraphy.domain.geoloc.service.errors.UnsupportedFormatException;
+import com.gisgraphy.domain.valueobject.Constants;
 import com.gisgraphy.domain.valueobject.GeolocResultsDto;
 import com.gisgraphy.domain.valueobject.Output.OutputFormat;
+import com.gisgraphy.test.GeolocTestHelper;
 
 public class GeolocResultsDtoSerializerTest {
 
@@ -45,5 +48,52 @@ public class GeolocResultsDtoSerializerTest {
 	    //ok
 	}
     }
+    
+    @Test
+    public void testSerializeShouldSerializeInXML() throws UnsupportedEncodingException {
+	IGeolocResultsDtoSerializer geolocResultsDtoSerializer = new GeolocResultsDtoSerializer();
+	    GeolocResultsDto geolocResultsDto = GeolocTestHelper.createGeolocResultsDto(310L);
+	    ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+	    geolocResultsDtoSerializer.serialize(byteArrayOutputStream,
+		    OutputFormat.XML, geolocResultsDto,true,1);
+	    GeolocTestHelper.checkGeolocResultsDtoJAXBMapping(geolocResultsDto, 
+		    byteArrayOutputStream.toString(Constants.CHARSET));
+    }
+    
+    @Test
+    public void testSerializeShouldSerializeInJSON() throws UnsupportedEncodingException {
+	IGeolocResultsDtoSerializer geolocResultsDtoSerializer = new GeolocResultsDtoSerializer();
+	    GeolocResultsDto geolocResultsDto = GeolocTestHelper.createGeolocResultsDto(310L);
+	    ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+	    geolocResultsDtoSerializer.serialize(byteArrayOutputStream,
+		    OutputFormat.JSON, geolocResultsDto,true,1);
+	    GeolocTestHelper.checkGeolocResultsDtoJSON(geolocResultsDto, 
+		    byteArrayOutputStream.toString(Constants.CHARSET));
+    }
+    
+    @Test
+    public void testSerializeShouldSerializeInGEORSS() throws UnsupportedEncodingException {
+	IGeolocResultsDtoSerializer geolocResultsDtoSerializer = new GeolocResultsDtoSerializer();
+	    GeolocResultsDto geolocResultsDto = GeolocTestHelper.createGeolocResultsDto(310L);
+	    ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+	    geolocResultsDtoSerializer.serialize(byteArrayOutputStream,
+		    OutputFormat.GEORSS, geolocResultsDto,true,1);
+	    GeolocTestHelper.checkGeolocResultsDtoGEORSS(geolocResultsDto, 
+		    byteArrayOutputStream.toString(Constants.CHARSET));
+    }
+    
+    @Test
+    public void testSerializeShouldSerializeInATOM() throws UnsupportedEncodingException {
+	IGeolocResultsDtoSerializer geolocResultsDtoSerializer = new GeolocResultsDtoSerializer();
+	    GeolocResultsDto geolocResultsDto = GeolocTestHelper.createGeolocResultsDto(310L);
+	    ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+	    geolocResultsDtoSerializer.serialize(byteArrayOutputStream,
+		    OutputFormat.ATOM, geolocResultsDto,true,1);
+	    GeolocTestHelper.checkGeolocResultsDtoATOM(geolocResultsDto, 
+		    byteArrayOutputStream.toString(Constants.CHARSET));
+    }
+    
+    
+    
 
 }

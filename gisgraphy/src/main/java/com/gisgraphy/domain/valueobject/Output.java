@@ -379,6 +379,8 @@ public class Output {
 		return format.isSupported(serviceType)==true?format:getDefault();
 	    case GEOLOC:
 		return format.isSupported(serviceType)==true?format:getDefault();
+	    case STREET:
+		return format.isSupported(serviceType)==true?format:getDefault();
 	    default:
 		throw new UnsupportedFormatException("The service type "
 			+ serviceType + "is not implemented");

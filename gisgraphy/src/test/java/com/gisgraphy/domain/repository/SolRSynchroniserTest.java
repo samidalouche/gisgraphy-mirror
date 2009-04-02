@@ -457,7 +457,7 @@ public class SolRSynchroniserTest extends AbstractIntegrationHttpSolrTestCase {
 			+ FullTextFields.FEATUREID.getValue() + "'][.='1001']",
 		"//*[@name='" + FullTextFields.FULLY_QUALIFIED_NAME.getValue()
 			+ "'][.='" + paris.getFullyQualifiedName(false) + "']",
-		"//*[@name='" + FullTextFields.LAT.getValue() + "'][.='2.0']",
+		"//*[@name='" + FullTextFields.LAT.getValue() + "'][.='2.5']",
 		"//*[@name='" + FullTextFields.LONG.getValue() + "'][.='1.5']",
 		"//*[@name='" + FullTextFields.PLACETYPE.getValue()
 			+ "'][.='City']", "//*[@name='"

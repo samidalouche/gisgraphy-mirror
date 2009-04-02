@@ -32,6 +32,8 @@ import java.io.IOException;
 
 import javax.annotation.Resource;
 
+import net.sf.jstester.JsTester;
+
 import org.junit.Test;
 
 import com.gisgraphy.domain.geoloc.entity.City;
@@ -40,17 +42,17 @@ import com.gisgraphy.domain.geoloc.service.fulltextsearch.AbstractIntegrationHtt
 import com.gisgraphy.domain.repository.ICityDao;
 import com.gisgraphy.domain.valueobject.Constants;
 import com.gisgraphy.domain.valueobject.GeolocResultsDto;
-import com.gisgraphy.domain.valueobject.GisFeatureDistance;
 import com.gisgraphy.domain.valueobject.Output;
 import com.gisgraphy.domain.valueobject.Pagination;
 import com.gisgraphy.domain.valueobject.Output.OutputFormat;
 import com.gisgraphy.helper.GeolocHelper;
+import com.gisgraphy.helper.URLUtils;
 import com.gisgraphy.service.IStatsUsageService;
 import com.gisgraphy.stats.StatsUsageType;
 import com.gisgraphy.test.GeolocTestHelper;
 import com.gisgraphy.test.XpathChecker;
 
-public class GeolocSearchEngineTest extends AbstractIntegrationHttpSolrTestCase {
+public class StreetSearchEngineTest extends AbstractIntegrationHttpSolrTestCase {
 
     @Resource
     IGeolocSearchEngine geolocSearchEngine;
@@ -195,7 +197,7 @@ public class GeolocSearchEngineTest extends AbstractIntegrationHttpSolrTestCase 
     @Test
     public void testExecuteQueryInJSONShouldReturnValidJson() {
 	City p1 = geolocTestHelper
-		.createAndSaveCityWithFullAdmTreeAndCountry(10000000L);
+		.createAndSaveCityWithFullAdmTreeAndCountry(1L);
 	p1.setAdm4Code("D4");
 	p1.setAdm4Name("adm");
 
@@ -206,32 +208,104 @@ public class GeolocSearchEngineTest extends AbstractIntegrationHttpSolrTestCase 
 	GeolocQuery query = new GeolocQuery(p1.getLocation(), 40000,
 		pagination, output, City.class);
 	String results = geolocSearchEngine.executeQueryToString(query);
-	GeolocResultsDto geolocResultsDto = geolocSearchEngine.executeQuery(query);
-	new GisFeatureDistance(((GisFeature)p1),0D);
-	GeolocTestHelper.checkGeolocResultsDtoJSON(geolocResultsDto, results);
-    }
+	JsTester jsTester = null;
 
-   
+	try {
+	    jsTester = new JsTester();
+	    jsTester.onSetUp();
+
+	    // JsTester
+	    jsTester.eval("evalresult= eval(" + results + ");");
+	    jsTester.assertNotNull("evalresult");
+	    assertEquals(p1.getName(), jsTester.eval(
+		    "evalresult.result[0]['name']").toString());
+	    assertEquals(1D, jsTester.eval("evalresult.result[0]['featureId']"));
+	    assertEquals(p1.getAsciiName(), jsTester.eval(
+		    "evalresult.result[0]['asciiName']").toString());
+	    assertEquals(p1.getLatitude(), jsTester
+		    .eval("evalresult.result[0]['lat']"));
+	    assertEquals(p1.getLongitude(), jsTester
+		    .eval("evalresult.result[0]['lng']"));
+	    assertEquals(p1.getAdm1Code(), jsTester
+		    .eval("evalresult.result[0]['adm1Code']"));
+	    assertEquals(p1.getAdm2Code(), jsTester
+		    .eval("evalresult.result[0]['adm2Code']"));
+	    assertEquals(p1.getAdm3Code(), jsTester
+		    .eval("evalresult.result[0]['adm3Code']"));
+	    assertEquals(p1.getAdm4Code(), jsTester
+		    .eval("evalresult.result[0]['adm4Code']"));
+	    assertEquals(p1.getAdm1Name(), jsTester
+		    .eval("evalresult.result[0]['adm1Name']"));
+	    assertEquals(p1.getAdm2Name(), jsTester
+		    .eval("evalresult.result[0]['adm2Name']"));
+	    assertEquals(p1.getAdm3Name(), jsTester
+		    .eval("evalresult.result[0]['adm3Name']"));
+	    assertEquals(p1.getAdm4Name(), jsTester
+		    .eval("evalresult.result[0]['adm4Name']"));
+	    assertEquals(p1.getFeatureClass(), jsTester
+		    .eval("evalresult.result[0]['featureClass']"));
+	    assertEquals(p1.getFeatureCode(), jsTester
+		    .eval("evalresult.result[0]['featureCode']"));
+	    assertEquals(p1.getCountryCode(), jsTester
+		    .eval("evalresult.result[0]['countryCode']"));
+	    assertEquals(p1.getPopulation(), jsTester
+		    .eval("evalresult.result[0]['population']"));
+	    assertEquals(p1.getElevation(), jsTester
+		    .eval("evalresult.result[0]['elevation']"));
+	    assertEquals(p1.getGtopo30(), jsTester
+		    .eval("evalresult.result[0]['gtopo30']"));
+	    assertEquals(p1.getTimezone(), jsTester
+		    .eval("evalresult.result[0]['timezone']"));
+	    assertEquals(p1.getZipCode(), jsTester
+		    .eval("evalresult.result[0]['zipCode']"));
+	    assertEquals(p1.getClass().getSimpleName(), jsTester
+		    .eval("evalresult.result[0]['placeType']"));
+	    assertTrue(jsTester.eval("evalresult.QTime").toString() != "0");
+	    assertEquals(1D, jsTester.eval("evalresult.numFound"));
+	    assertEquals(URLUtils.createGoogleMapUrl(p1.getLocation(), p1
+		    .getName()), jsTester
+		    .eval("evalresult.result[0]['google_map_url']"));
+	    assertEquals(URLUtils.createYahooMapUrl(p1.getLocation()), jsTester
+		    .eval("evalresult.result[0]['yahoo_map_url']"));
+	    assertEquals(URLUtils.createCountryFlagUrl(p1.getCountryCode()),
+		    jsTester.eval("evalresult.result[0]['country_flag_url']"));
+
+	} catch (Exception e) {
+	    fail("An exception has occured " + e.getMessage());
+	} finally {
+	    if (jsTester != null) {
+		jsTester.onTearDown();
+	    }
+	}
+    }
     
     @Test
     public void testExecuteQueryInGEORSShouldReturnValidFeed() {
-	GisFeature city = geolocTestHelper
+	City p1 = geolocTestHelper
 		.createAndSaveCityWithFullAdmTreeAndCountry(1L);
-	city.setAdm4Code("D4");
-	city.setAdm4Name("adm");
+	p1.setAdm4Code("D4");
+	p1.setAdm4Name("adm");
 
-	this.cityDao.save((City)city);
+	this.cityDao.save(p1);
 
 	Pagination pagination = Pagination.DEFAULT_PAGINATION;
 	Output output = Output.withFormat(OutputFormat.GEORSS).withIndentation();
-	GeolocQuery query = new GeolocQuery(city.getLocation(), 40000,
+	GeolocQuery query = new GeolocQuery(p1.getLocation(), 40000,
 		pagination, output, City.class);
-	GeolocResultsDto geolocResultsDto = geolocSearchEngine.executeQuery(query);
 	String results = geolocSearchEngine.executeQueryToString(query);
-	GeolocTestHelper.checkGeolocResultsDtoGEORSS(geolocResultsDto, results);
+	XpathChecker.assertQ("The query returns incorrect values", results, 
+		"/rss/channel/title[.='"+ Constants.FEED_TITLE + "']",
+		"/rss/channel/link[.='"+ Constants.FEED_LINK + "']",
+		"/rss/channel/description[.='"+Constants.FEED_DESCRIPTION+"']",
+		"/rss/channel/item/title[.='"+p1.getName()+"']",
+		"/rss/channel/item/guid[.='"+Constants.GISFEATURE_BASE_URL+p1.getFeatureId()+"']",
+		"/rss/channel/item/creator[.='"+Constants.MAIL_ADDRESS+"']",
+		"/rss/channel/item/itemsPerPage[.='"+query.getLastPaginationIndex()+"']",
+		"/rss/channel/item/totalResults[.='1']",
+		"/rss/channel/item/startIndex[.='1']",
+		"/rss/channel/item/point[.='"+p1.getLatitude()+" "+p1.getLongitude()+"']"
+		);
     }
-
-	
     
     @Test
     public void testExecuteQueryInATOMShouldReturnValidFeed() {
@@ -246,12 +320,20 @@ public class GeolocSearchEngineTest extends AbstractIntegrationHttpSolrTestCase 
 	Output output = Output.withFormat(OutputFormat.ATOM).withIndentation();
 	GeolocQuery query = new GeolocQuery(p1.getLocation(), 40000,
 		pagination, output, City.class);
-	GeolocResultsDto geolocResultsDto = geolocSearchEngine.executeQuery(query);
 	String results = geolocSearchEngine.executeQueryToString(query);
-	GeolocTestHelper.checkGeolocResultsDtoATOM(geolocResultsDto, results);
+	XpathChecker.assertQ("The query returns incorrect values", results, "/"
+		+ "feed/title[.='"+ Constants.FEED_TITLE + "']",
+		"/feed/link[@href='"+ Constants.FEED_LINK + "']",
+		"/feed/tagline[.='"+Constants.FEED_DESCRIPTION+"']",
+		"/feed/entry/title[.='"+p1.getName()+"']",
+		"/feed/entry/link[@href='"+Constants.GISFEATURE_BASE_URL+p1.getFeatureId()+"']",
+		"/feed/entry/author/name[.='"+Constants.MAIL_ADDRESS+"']",
+		"/feed/entry/itemsPerPage[.='"+query.getLastPaginationIndex()+"']",
+		"/feed/entry/totalResults[.='1']",
+		"/feed/entry/startIndex[.='1']",
+		"/feed/entry/point[.='"+p1.getLatitude()+" "+p1.getLongitude()+"']"
+		);
     }
-
-   
 
     public void testStatsShouldBeIncreaseForAllCall() {
 	statsUsageService.resetUsage(StatsUsageType.GEOLOC);
