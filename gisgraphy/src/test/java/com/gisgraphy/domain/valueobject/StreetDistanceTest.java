@@ -34,5 +34,4 @@ public class StreetDistanceTest {
 	Assert.assertEquals("calculated fields should be process",56F,streetDistance.getLat().floatValue());
     }
     
-    //TODO test mapping jaxb
 }
