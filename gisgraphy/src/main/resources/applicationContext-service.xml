@@ -107,6 +107,10 @@
 	
 	<bean id="gisfeatureDistanceSerializer" class="com.gisgraphy.domain.geoloc.service.geoloc.GeolocResultsDtoSerializer" />
 	
+	<bean id="streetSearchResultsDtoSerializer" class="com.gisgraphy.domain.geoloc.service.geoloc.StreetSearchResultsDtoSerializer" />
+	
+	<bean id="streetSearchEngine" class="com.gisgraphy.domain.geoloc.service.geoloc.StreetSearchEngine"/>
+	
 	
 	<bean id="fulltextSearchUrl" class="java.lang.String">
 	<constructor-arg>

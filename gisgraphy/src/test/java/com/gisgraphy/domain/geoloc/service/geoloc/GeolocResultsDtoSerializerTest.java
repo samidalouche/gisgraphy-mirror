@@ -34,6 +34,7 @@ import com.gisgraphy.domain.valueobject.Constants;
 import com.gisgraphy.domain.valueobject.GeolocResultsDto;
 import com.gisgraphy.domain.valueobject.Output.OutputFormat;
 import com.gisgraphy.test.GeolocTestHelper;
+import com.gisgraphy.test.FeedChecker;
 
 public class GeolocResultsDtoSerializerTest {
 
@@ -56,7 +57,7 @@ public class GeolocResultsDtoSerializerTest {
 	    ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
 	    geolocResultsDtoSerializer.serialize(byteArrayOutputStream,
 		    OutputFormat.XML, geolocResultsDto,true,1);
-	    GeolocTestHelper.checkGeolocResultsDtoJAXBMapping(geolocResultsDto, 
+	    FeedChecker.checkGeolocResultsDtoJAXBMapping(geolocResultsDto, 
 		    byteArrayOutputStream.toString(Constants.CHARSET));
     }
     
@@ -67,7 +68,7 @@ public class GeolocResultsDtoSerializerTest {
 	    ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
 	    geolocResultsDtoSerializer.serialize(byteArrayOutputStream,
 		    OutputFormat.JSON, geolocResultsDto,true,1);
-	    GeolocTestHelper.checkGeolocResultsDtoJSON(geolocResultsDto, 
+	    FeedChecker.checkGeolocResultsDtoJSON(geolocResultsDto, 
 		    byteArrayOutputStream.toString(Constants.CHARSET));
     }
     
@@ -78,7 +79,7 @@ public class GeolocResultsDtoSerializerTest {
 	    ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
 	    geolocResultsDtoSerializer.serialize(byteArrayOutputStream,
 		    OutputFormat.GEORSS, geolocResultsDto,true,1);
-	    GeolocTestHelper.checkGeolocResultsDtoGEORSS(geolocResultsDto, 
+	    FeedChecker.checkGeolocResultsDtoGEORSS(geolocResultsDto, 
 		    byteArrayOutputStream.toString(Constants.CHARSET));
     }
     
@@ -89,7 +90,7 @@ public class GeolocResultsDtoSerializerTest {
 	    ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
 	    geolocResultsDtoSerializer.serialize(byteArrayOutputStream,
 		    OutputFormat.ATOM, geolocResultsDto,true,1);
-	    GeolocTestHelper.checkGeolocResultsDtoATOM(geolocResultsDto, 
+	    FeedChecker.checkGeolocResultsDtoATOM(geolocResultsDto, 
 		    byteArrayOutputStream.toString(Constants.CHARSET));
     }
     

@@ -57,7 +57,7 @@ import com.gisgraphy.domain.valueobject.Output.OutputStyle;
 import com.gisgraphy.service.IStatsUsageService;
 import com.gisgraphy.stats.StatsUsageType;
 import com.gisgraphy.test.GeolocTestHelper;
-import com.gisgraphy.test.XpathChecker;
+import com.gisgraphy.test.FeedChecker;
 
 public class FulltextSearchEngineTest extends
 	AbstractIntegrationHttpSolrTestCase {
@@ -249,7 +249,7 @@ public class FulltextSearchEngineTest extends
 	} catch (IOException e) {
 	    fail("can not get content of file " + file.getAbsolutePath());
 	}
-	XpathChecker.assertQ("The query return incorrect values", content,
+	FeedChecker.assertQ("The query return incorrect values", content,
 		"//*[@numFound='1']", "//*[@name='status'][.='0']",
 		"//*[@name='" + FullTextFields.FULLY_QUALIFIED_NAME.getValue()
 			+ "'][.='" + paris.getFullyQualifiedName(false) + "']");
@@ -277,7 +277,7 @@ public class FulltextSearchEngineTest extends
 		    pagination, output, City.class, "fr");
 	    String result = fullTextSearchEngine
 		    .executeQueryToString(fulltextQuery);
-	    XpathChecker.assertQ("The query return incorrect values", result,
+	    FeedChecker.assertQ("The query return incorrect values", result,
 		    "//*[@numFound='1']", "//*[@name='status'][.='0']",
 		    "//*[@name='"
 			    + FullTextFields.FULLY_QUALIFIED_NAME.getValue()
@@ -311,7 +311,7 @@ public class FulltextSearchEngineTest extends
 		    pagination, output, City.class, "fr").withSpellChecking();
 	    String result = fullTextSearchEngine
 		    .executeQueryToString(fulltextQuery);
-	    XpathChecker.assertQ("The query return incorrect values", result,
+	    FeedChecker.assertQ("The query return incorrect values", result,
 		    "//*[@numFound='1']", "//*[@name='status'][.='0']",
 		    "//*[@name='"
 			    + FullTextFields.FULLY_QUALIFIED_NAME.getValue()

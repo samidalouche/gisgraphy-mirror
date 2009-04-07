@@ -40,7 +40,7 @@ import junit.framework.TestCase;
 import org.junit.Test;
 
 import com.gisgraphy.test.GeolocTestHelper;
-import com.gisgraphy.test.XpathChecker;
+import com.gisgraphy.test.FeedChecker;
 
 public class StreetSearchResultsDtoTest extends TestCase {
 
@@ -68,7 +68,7 @@ public class StreetSearchResultsDtoTest extends TestCase {
 	    StreetSearchResultsDto streetSearchResultsDto = GeolocTestHelper.createStreetSearchResultsDto();
 	    ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
 	    m.marshal(streetSearchResultsDto, outputStream);
-	    GeolocTestHelper.checkStreetSearchResultsDtoJAXBMapping(streetSearchResultsDto, outputStream);
+	    FeedChecker.checkStreetSearchResultsDtoJAXBMapping(streetSearchResultsDto, outputStream);
 	} catch (PropertyException e) {
 	    fail(e.getMessage());
 	} catch (JAXBException e) {
@@ -90,7 +90,7 @@ public class StreetSearchResultsDtoTest extends TestCase {
 	    ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
 	    m.marshal(streetSearchResultsDto, outputStream);
 	    try {
-		XpathChecker.assertQ(
+		FeedChecker.assertQ(
 			"streetSearchResultsDto for an Empty List should return valid XML",
 			outputStream.toString(Constants.CHARSET), "/"
 				+ Constants.STREETSEARCHRESULTSDTO_JAXB_NAME + "",

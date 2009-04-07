@@ -24,25 +24,23 @@ package com.gisgraphy.domain.valueobject;
 
 import java.util.Arrays;
 
-import junit.framework.TestCase;
-
 import org.junit.Assert;
 import org.junit.Test;
 
 import com.gisgraphy.domain.valueobject.Output.OutputFormat;
 
-public class OutputFormatTest extends TestCase {
+public class OutputFormatTest  {
 
     @Test
-    public void testGetFromStringShouldReturnCorrectValues() {
-	assertEquals("A null value should return the default outputFormat ",
+    public void getFromStringShouldReturnCorrectValues() {
+	Assert.assertEquals("A null value should return the default outputFormat ",
 		OutputFormat.getDefault(), OutputFormat.getFromString(null));
-	assertEquals(
+	Assert.assertEquals(
 		"A correct value should return the associated outputFormat ",
 		OutputFormat.JSON, OutputFormat.getFromString("JSON"));
-	assertEquals("getFromString should be case insensitive ",
+	Assert.assertEquals("getFromString should be case insensitive ",
 		OutputFormat.XML, OutputFormat.getFromString("xml"));
-	assertEquals(
+	Assert.assertEquals(
 		"An incorrect value should return the default outputFormat ",
 		OutputFormat.getDefault(), OutputFormat.getFromString("unknow"));
     }
@@ -54,7 +52,7 @@ public class OutputFormatTest extends TestCase {
 		OutputFormat.getDefaultForServiceIfNotSupported(
 			OutputFormat.XML, serviceType);
 	    } catch (RuntimeException e) {
-		fail(e.getMessage());
+		Assert.fail(e.getMessage());
 	    }
 	}
     }
@@ -64,8 +62,8 @@ public class OutputFormatTest extends TestCase {
 	for (GisgraphyServiceType serviceType : GisgraphyServiceType.values()) {
 	    try {
 		OutputFormat.listByService(serviceType);
-	    } catch (RuntimeException e) {
-		fail(e.getMessage());
+	    } catch (Exception e) {
+		Assert.fail(e.getMessage());
 	    }
 	}
     }
@@ -84,22 +82,22 @@ public class OutputFormatTest extends TestCase {
 
     @Test
     public void getDefaultForServiceIfNotSupportedShouldReturnsCorrectValues() {
-	assertEquals(OutputFormat.XML, OutputFormat
+	Assert.assertEquals(OutputFormat.XML, OutputFormat
 		.getDefaultForServiceIfNotSupported(OutputFormat.XML,
 			GisgraphyServiceType.GEOLOC));
-	assertEquals(OutputFormat.JSON, OutputFormat
+	Assert.assertEquals(OutputFormat.JSON, OutputFormat
 		.getDefaultForServiceIfNotSupported(OutputFormat.JSON,
 			GisgraphyServiceType.GEOLOC));
-	assertEquals(OutputFormat.getDefault(), OutputFormat
+	Assert.assertEquals(OutputFormat.getDefault(), OutputFormat
 		.getDefaultForServiceIfNotSupported(OutputFormat.RUBY,
 			GisgraphyServiceType.GEOLOC));
-	assertEquals(OutputFormat.getDefault(), OutputFormat
+	Assert.assertEquals(OutputFormat.getDefault(), OutputFormat
 		.getDefaultForServiceIfNotSupported(OutputFormat.PYTHON,
 			GisgraphyServiceType.GEOLOC));
 
 	// fulltext service allows all formats
 	for (OutputFormat format : OutputFormat.values()) {
-	    assertEquals(format, OutputFormat
+	    Assert.assertEquals(format, OutputFormat
 		    .getDefaultForServiceIfNotSupported(format,
 			    GisgraphyServiceType.FULLTEXT));
 	}
@@ -108,14 +106,16 @@ public class OutputFormatTest extends TestCase {
     @Test
     public void isSupportedShouldReturnCorrectValues() {
 	for (OutputFormat format : OutputFormat.values()) {
-	    assertTrue(format.isSupported(GisgraphyServiceType.FULLTEXT));
+	    Assert.assertTrue(format.isSupported(GisgraphyServiceType.FULLTEXT));
 	}
 
 	for (OutputFormat format : OutputFormat.values()) {
-	    if (format == OutputFormat.XML || format == OutputFormat.JSON) {
-		assertTrue(format.isSupported(GisgraphyServiceType.GEOLOC));
+	    if (format == OutputFormat.XML || format == OutputFormat.JSON || format == OutputFormat.GEORSS || format == OutputFormat.ATOM) {
+		Assert.assertTrue(format.isSupported(GisgraphyServiceType.GEOLOC));
+		Assert.assertTrue(format.isSupported(GisgraphyServiceType.STREET));
 	    } else {
-		assertTrue(!format.isSupported(GisgraphyServiceType.GEOLOC));
+		Assert.assertFalse(format.isSupported(GisgraphyServiceType.GEOLOC));
+		Assert.assertFalse(format.isSupported(GisgraphyServiceType.STREET));
 	    }
 	}
     }

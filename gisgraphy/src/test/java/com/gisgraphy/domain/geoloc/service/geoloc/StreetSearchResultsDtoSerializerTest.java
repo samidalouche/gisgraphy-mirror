@@ -34,6 +34,7 @@ import com.gisgraphy.domain.valueobject.Constants;
 import com.gisgraphy.domain.valueobject.StreetSearchResultsDto;
 import com.gisgraphy.domain.valueobject.Output.OutputFormat;
 import com.gisgraphy.test.GeolocTestHelper;
+import com.gisgraphy.test.FeedChecker;
 
 public class StreetSearchResultsDtoSerializerTest {
 
@@ -56,7 +57,7 @@ public class StreetSearchResultsDtoSerializerTest {
 	    ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
 	    streetSearchResultsDtoSerializer.serialize(byteArrayOutputStream,
 		    OutputFormat.XML, streetSearchResultsDto,true,1);
-	    GeolocTestHelper.checkStreetSearchResultsDtoJAXBMapping(streetSearchResultsDto, 
+	    FeedChecker.checkStreetSearchResultsDtoJAXBMapping(streetSearchResultsDto, 
 		    byteArrayOutputStream);
     }
 
@@ -67,30 +68,30 @@ public class StreetSearchResultsDtoSerializerTest {
 	    ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
 	    streetSearchResultsDtoSerializer.serialize(byteArrayOutputStream,
 		    OutputFormat.JSON, streetSearchResultsDto,true,1);
-	    GeolocTestHelper.checkStreetSearchResultsDtoJSON(streetSearchResultsDto, 
+	    FeedChecker.checkStreetSearchResultsDtoJSON(streetSearchResultsDto, 
 		    byteArrayOutputStream.toString(Constants.CHARSET));
     }
-   /* 
+   
     @Test
     public void testSerializeShouldSerializeInGEORSS() throws UnsupportedEncodingException {
-	IGeolocResultsDtoSerializer geolocResultsDtoSerializer = new GeolocResultsDtoSerializer();
-	    GeolocResultsDto geolocResultsDto = GeolocTestHelper.createGeolocResultsDto(310L);
+	IStreetSearchResultsDtoSerializer streetSearchResultsDtoSerializer = new StreetSearchResultsDtoSerializer();
+	   StreetSearchResultsDto streetSearchResultsDto = GeolocTestHelper.createStreetSearchResultsDto();
 	    ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-	    geolocResultsDtoSerializer.serialize(byteArrayOutputStream,
-		    OutputFormat.GEORSS, geolocResultsDto,true,1);
-	    GeolocTestHelper.checkGeolocResultsDtoGEORSS(geolocResultsDto, 
+	    streetSearchResultsDtoSerializer.serialize(byteArrayOutputStream,
+		    OutputFormat.GEORSS, streetSearchResultsDto,true,1);
+	    FeedChecker.checkStreetSearchResultsDtoGEORSS(streetSearchResultsDto, 
 		    byteArrayOutputStream.toString(Constants.CHARSET));
     }
     
     @Test
     public void testSerializeShouldSerializeInATOM() throws UnsupportedEncodingException {
-	IGeolocResultsDtoSerializer geolocResultsDtoSerializer = new GeolocResultsDtoSerializer();
-	    GeolocResultsDto geolocResultsDto = GeolocTestHelper.createGeolocResultsDto(310L);
+	IStreetSearchResultsDtoSerializer streetSearchResultsDtoSerializer = new StreetSearchResultsDtoSerializer();
+	   StreetSearchResultsDto streetSearchResultsDto = GeolocTestHelper.createStreetSearchResultsDto();
 	    ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-	    geolocResultsDtoSerializer.serialize(byteArrayOutputStream,
-		    OutputFormat.ATOM, geolocResultsDto,true,1);
-	    GeolocTestHelper.checkGeolocResultsDtoATOM(geolocResultsDto, 
+	    streetSearchResultsDtoSerializer.serialize(byteArrayOutputStream,
+		    OutputFormat.ATOM, streetSearchResultsDto,true,1);
+	    FeedChecker.checkStreetSearchResultsDtoATOM(streetSearchResultsDto, 
 		    byteArrayOutputStream.toString(Constants.CHARSET));
     }
-    */
+    
 }

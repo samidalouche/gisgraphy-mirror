@@ -39,7 +39,7 @@ import com.gisgraphy.domain.geoloc.service.geoloc.IGeolocSearchEngine;
 import com.gisgraphy.domain.valueobject.Constants;
 import com.gisgraphy.domain.valueobject.GisgraphyServiceType;
 import com.gisgraphy.domain.valueobject.Output.OutputFormat;
-import com.gisgraphy.test.XpathChecker;
+import com.gisgraphy.test.FeedChecker;
 
 public class GeolocServletTest extends AbstractIntegrationHttpSolrTestCase {
 
@@ -213,7 +213,7 @@ public class GeolocServletTest extends AbstractIntegrationHttpSolrTestCase {
 	    // JsTester
 	    String expected = ResourceBundle.getBundle(
 		    Constants.BUNDLE_ERROR_KEY).getString("error.emptyLatLong");
-	    XpathChecker.assertQ("The XML error is not correct", result, "//error[.='"
+	    FeedChecker.assertQ("The XML error is not correct", result, "//error[.='"
 		    + expected + "']");
 	} catch (IOException e) {
 	    fail("An exception has occured " + e.getMessage());

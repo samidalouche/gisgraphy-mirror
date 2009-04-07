@@ -407,8 +407,12 @@ public class Output {
 		// fulltext accept all formats
 		return OutputFormat.values();
 	    case GEOLOC:
-		OutputFormat[] result = { OutputFormat.XML, OutputFormat.JSON, OutputFormat.ATOM, OutputFormat.GEORSS };
-		return result;
+		OutputFormat[] resultGeoloc = { OutputFormat.XML, OutputFormat.JSON, OutputFormat.ATOM, OutputFormat.GEORSS };
+		return resultGeoloc;
+		
+	    case STREET:
+		OutputFormat[] resultStreet = { OutputFormat.XML, OutputFormat.JSON, OutputFormat.ATOM, OutputFormat.GEORSS };
+		return resultStreet;
 	    default:
 		throw new NotImplementedException("The service type "
 			+ serviceType + "is not implemented");

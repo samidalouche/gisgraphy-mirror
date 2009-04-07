@@ -50,7 +50,7 @@ import com.gisgraphy.domain.valueobject.Pagination;
 import com.gisgraphy.domain.valueobject.Output.OutputFormat;
 import com.gisgraphy.domain.valueobject.Output.OutputStyle;
 import com.gisgraphy.test.GeolocTestHelper;
-import com.gisgraphy.test.XpathChecker;
+import com.gisgraphy.test.FeedChecker;
 
 public class OutputstreamResponseWrapperTest extends
 	AbstractIntegrationHttpSolrTestCase {
@@ -115,7 +115,7 @@ public class OutputstreamResponseWrapperTest extends
 	    fail("can not get content of file " + file.getAbsolutePath());
 	}
 
-	XpathChecker.assertQ("The query return incorrect values", content,
+	FeedChecker.assertQ("The query return incorrect values", content,
 		"//*[@numFound='1']", "//*[@name='status'][.='0']",
 		"//*[@name='fully_qualified_name'][.='"
 			+ paris.getFullyQualifiedName(false) + "']");

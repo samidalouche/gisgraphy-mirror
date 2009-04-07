@@ -38,7 +38,7 @@ import com.gisgraphy.domain.geoloc.service.fulltextsearch.AbstractIntegrationHtt
 import com.gisgraphy.domain.geoloc.service.fulltextsearch.IFullTextSearchEngine;
 import com.gisgraphy.domain.valueobject.Constants;
 import com.gisgraphy.domain.valueobject.Output.OutputFormat;
-import com.gisgraphy.test.XpathChecker;
+import com.gisgraphy.test.FeedChecker;
 
 public class FulltextServletTest extends AbstractIntegrationHttpSolrTestCase {
 
@@ -193,7 +193,7 @@ public class FulltextServletTest extends AbstractIntegrationHttpSolrTestCase {
 	    // JsTester
 	    String expected = ResourceBundle.getBundle(
 		    Constants.BUNDLE_ERROR_KEY).getString("error.emptyQuery");
-	    XpathChecker.assertQ("The XML error is not correct", result,
+	    FeedChecker.assertQ("The XML error is not correct", result,
 		    "//*[@name='status'][.='-1']", "//*[@name='error'][.='"
 			    + expected + "']");
 	} catch (IOException e) {

@@ -55,7 +55,7 @@ import com.gisgraphy.domain.valueobject.Output.OutputFormat;
 import com.gisgraphy.domain.valueobject.Output.OutputStyle;
 import com.gisgraphy.helper.URLUtils;
 import com.gisgraphy.test.GeolocTestHelper;
-import com.gisgraphy.test.XpathChecker;
+import com.gisgraphy.test.FeedChecker;
 
 public class SolRSynchroniserTest extends AbstractIntegrationHttpSolrTestCase {
 
@@ -386,7 +386,7 @@ public class SolRSynchroniserTest extends AbstractIntegrationHttpSolrTestCase {
 	    fail("can not get content of file " + file.getAbsolutePath());
 	}
 
-	XpathChecker.assertQ(
+	FeedChecker.assertQ(
 		"The query return incorrect values",
 		content,
 		"//*[@numFound='1']",

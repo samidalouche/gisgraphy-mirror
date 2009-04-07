@@ -26,7 +26,6 @@
 package com.gisgraphy.test;
 
 import java.io.BufferedReader;
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileReader;
 import java.io.UnsupportedEncodingException;
@@ -37,12 +36,10 @@ import java.util.Random;
 
 import javax.annotation.Resource;
 
-import net.sf.jstester.JsTester;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.joda.time.DateTime;
-import org.junit.Assert;
 import org.springframework.mock.web.MockHttpServletRequest;
 
 import com.gisgraphy.domain.geoloc.entity.Adm;
@@ -61,12 +58,10 @@ import com.gisgraphy.domain.valueobject.Constants;
 import com.gisgraphy.domain.valueobject.GISSource;
 import com.gisgraphy.domain.valueobject.GeolocResultsDto;
 import com.gisgraphy.domain.valueobject.GisFeatureDistance;
-import com.gisgraphy.domain.valueobject.Pagination;
 import com.gisgraphy.domain.valueobject.StreetDistance;
 import com.gisgraphy.domain.valueobject.StreetSearchResultsDto;
 import com.gisgraphy.domain.valueobject.StreetDistance.StreetDistanceBuilder;
 import com.gisgraphy.helper.GeolocHelper;
-import com.gisgraphy.helper.URLUtils;
 import com.gisgraphy.servlet.FulltextServlet;
 import com.gisgraphy.servlet.GeolocServlet;
 import com.vividsolutions.jts.geom.MultiLineString;
@@ -722,298 +717,6 @@ public class GeolocTestHelper {
 	request.addParameter(GeolocServlet.LONG_PARAMETER, "2.0");
 	request.addParameter(GeolocServlet.LONG_PARAMETER, "3.0");
 	return request;
-    }
-    
-    public static void checkStreetSearchResultsDtoJAXBMapping(StreetSearchResultsDto streetSearchResultsDto,
-	    ByteArrayOutputStream outputStream) {
-	try {
-	    List<StreetDistance> results = streetSearchResultsDto.getResult();
-	    StreetDistance result = results.get(0);
-	    String feed = outputStream.toString(Constants.CHARSET);
-	    checkStreetDistanceJAXBMapping(result, feed, "/" + Constants.STREETSEARCHRESULTSDTO_JAXB_NAME);
-	    XpathChecker.assertQ(
-		    "streetSearchResultsDto is not correcty mapped with jaxb",
-		    feed,
-		    		"/"
-			    + Constants.STREETSEARCHRESULTSDTO_JAXB_NAME
-			    + "/numFound[.='" + streetSearchResultsDto.getNumFound() + "']", "/"
-			    + Constants.STREETSEARCHRESULTSDTO_JAXB_NAME
-			    + "/QTime[.='" + streetSearchResultsDto.getQTime() + "']",
-			    "/"+ Constants.STREETSEARCHRESULTSDTO_JAXB_NAME
-			    + "/query[.='" + streetSearchResultsDto.getQuery() + "']"
-
-	    );
-	} catch (UnsupportedEncodingException e) {
-	   throw new RuntimeException("an error has occured during checkStreetSearchResultsDtoJAXBMapping : "+e);
-	}
-    }
-    
-    public static void checkStreetDistanceJAXBMapping(StreetDistance result,String feed, String parentXpath){
-	XpathChecker.assertQ(
-		    "streetDistance is not correcty mapped with jaxb",
-		    feed,
-	"/" + Constants.STREETSEARCHRESULTSDTO_JAXB_NAME + "/"
-	    + Constants.STREETDISTANCE_JAXB_NAME
-	    + "/name[.='" + result.getName() + "']",
-	    "/" + Constants.STREETSEARCHRESULTSDTO_JAXB_NAME + "/"
-	    + Constants.GISFEATUREDISTANCE_JAXB_NAME
-	    + "/gid[.='" + result.getGid() + "']",
-	    "/" + Constants.STREETSEARCHRESULTSDTO_JAXB_NAME + "/"
-	    + Constants.GISFEATUREDISTANCE_JAXB_NAME
-	    + "/oneWay[.='" + result.getOneWay() + "']",
-	    "/" + Constants.STREETSEARCHRESULTSDTO_JAXB_NAME + "/"
-	    + Constants.GISFEATUREDISTANCE_JAXB_NAME
-	    + "/streetType[.='" + result.getStreetType() + "']",
-	    "/" + Constants.STREETSEARCHRESULTSDTO_JAXB_NAME + "/"
-	    + Constants.GISFEATUREDISTANCE_JAXB_NAME
-	    + "/distance[.='" + result.getDistance() + "']",
-	    "/" + Constants.STREETSEARCHRESULTSDTO_JAXB_NAME + "/"
-	    + Constants.GISFEATUREDISTANCE_JAXB_NAME
-	    + "/lat[.='" + result.getLat() + "']",
-	    "/" + Constants.STREETSEARCHRESULTSDTO_JAXB_NAME + "/"
-	    + Constants.GISFEATUREDISTANCE_JAXB_NAME
-	    + "/lng[.='" + result.getLng() + "']",
-	    "/" + Constants.STREETSEARCHRESULTSDTO_JAXB_NAME + "/"
-	    + Constants.GISFEATUREDISTANCE_JAXB_NAME
-	    + "/length[.='" + result.getLength() + "']",
-	    "/" + Constants.STREETSEARCHRESULTSDTO_JAXB_NAME + "/"
-	    + Constants.GISFEATUREDISTANCE_JAXB_NAME
-	    + "/countryCode[.='" + result.getCountryCode() + "']");
-    }
-
-    
-    public static void checkStreetSearchResultsDtoJSON(StreetSearchResultsDto streetSearchResultsDto, String results) {
-	JsTester jsTester = null;
-	StreetDistance streetDistance = streetSearchResultsDto.getResult().get(0);
-	try {
-	    jsTester = new JsTester();
-	    jsTester.onSetUp();
-
-	    // JsTester
-	    jsTester.eval("evalresult= eval(" + results + ");");
-	    Assert.assertNotNull(jsTester.eval("evalresult"));
-	    Assert.assertNotNull(jsTester.eval("evalresult.QTime"));
-	    Assert.assertNotNull(jsTester.eval("evalresult.query"));
-	    Assert.assertEquals(streetSearchResultsDto.getNumFound(), ((Double)jsTester.eval(
-	    "evalresult.numFound")).longValue());
-	    Assert.assertEquals(streetDistance.getName(), jsTester.eval(
-		    "evalresult.result[0]['name']").toString());
-	    Assert.assertEquals(streetDistance.getGid().toString(),(jsTester.eval("evalresult.result[0]['gid']")).toString());
-	    Assert.assertEquals(streetDistance.getLat().toString(),(jsTester
-		    .eval("evalresult.result[0]['lat']")).toString());
-	    Assert.assertEquals(streetDistance.getLng(), jsTester
-		    .eval("evalresult.result[0]['lng']"));
-	    Assert.assertEquals(streetDistance.getOneWay(), jsTester
-		    .eval("evalresult.result[0]['oneWay']"));
-	    Assert.assertEquals(streetDistance.getStreetType(), jsTester
-		    .eval("evalresult.result[0]['streetType']"));
-	    Assert.assertEquals(streetDistance.getDistance(), jsTester
-		    .eval("evalresult.result[0]['distance']"));
-	    Assert.assertEquals(streetDistance.getLength(), jsTester
-		    .eval("evalresult.result[0]['length']"));
-	    Assert.assertEquals(streetDistance.getCountryCode(), jsTester
-		    .eval("evalresult.result[0]['countryCode']"));	
-	    Assert.assertTrue(jsTester.eval("evalresult.QTime").toString() != "0");
-	    Assert.assertEquals(1D, jsTester.eval("evalresult.numFound"));
-	} finally {
-	    if (jsTester != null) {
-		jsTester.onTearDown();
-	    }
-	}
-    }
-    
-    public static  void checkGeolocResultsDtoJAXBMapping(GeolocResultsDto geolocResultsDto,
-	    String feed) {
-	List<GisFeatureDistance> results = geolocResultsDto.getResult();
-	GisFeatureDistance result = results.get(0);
-	checkGisFeatureDistanceJAXBMapping(result,feed,"/" + Constants.GEOLOCRESULTSDTO_JAXB_NAME );
-	XpathChecker.assertQ(
-	    "GeolocResultsDto list is not correcty mapped with jaxb",
-	    feed, "/"
-		    + Constants.GEOLOCRESULTSDTO_JAXB_NAME
-		    + "/numFound[.='" + geolocResultsDto.getNumFound() + "']", "/"
-		    + Constants.GEOLOCRESULTSDTO_JAXB_NAME
-		    + "/QTime[.='" + geolocResultsDto.getQTime() + "']"
-
-	);
-    }
-    
-    
-    public static void checkGisFeatureDistanceJAXBMapping(GisFeatureDistance result,
-	    String feed, String parentXpath) {
-	XpathChecker.assertQ(
-	    "GisFeatureDistance is not correcty mapped with jaxb",
-	    feed,
-	    parentXpath+"/" + Constants.GISFEATUREDISTANCE_JAXB_NAME + "/name[.='"
-		    + result.getName() + "']",
-		    parentXpath+"/" + Constants.GISFEATUREDISTANCE_JAXB_NAME
-		    + "/adm1Code[.='" + result.getAdm1Code() + "']",
-		    parentXpath+"/" + Constants.GISFEATUREDISTANCE_JAXB_NAME
-		    + "/adm2Code[.='" + result.getAdm2Code() + "']",
-		    parentXpath+"/" + Constants.GISFEATUREDISTANCE_JAXB_NAME
-		    + "/adm3Code[.='" + result.getAdm3Code() + "']",
-		    parentXpath+"/" + Constants.GISFEATUREDISTANCE_JAXB_NAME
-		    + "/adm4Code[.='" + result.getAdm4Code() + "']",
-		    parentXpath+"/" + Constants.GISFEATUREDISTANCE_JAXB_NAME
-		    + "/adm1Name[.='" + result.getAdm1Name() + "']",
-		    parentXpath+"/" + Constants.GISFEATUREDISTANCE_JAXB_NAME
-		    + "/adm2Name[.='" + result.getAdm2Name() + "']",
-		    parentXpath+"/" + Constants.GISFEATUREDISTANCE_JAXB_NAME
-		    + "/adm3Name[.='" + result.getAdm3Name() + "']",
-		    parentXpath+"/" + Constants.GISFEATUREDISTANCE_JAXB_NAME
-		    + "/adm4Name[.='" + result.getAdm4Name() + "']",
-		    parentXpath+"/" + Constants.GISFEATUREDISTANCE_JAXB_NAME
-		    + "/asciiName[.='" + result.getAsciiName() + "']",
-		    parentXpath+"/" + Constants.GISFEATUREDISTANCE_JAXB_NAME
-		    + "/countryCode[.='" + result.getCountryCode()
-		    + "']",
-		    parentXpath+"/" + Constants.GISFEATUREDISTANCE_JAXB_NAME
-		    + "/elevation[.='" + result.getElevation() + "']",
-		    parentXpath+"/" + Constants.GISFEATUREDISTANCE_JAXB_NAME
-		    + "/featureClass[.='" + result.getFeatureClass()
-		    + "']",
-		    parentXpath+"/" + Constants.GISFEATUREDISTANCE_JAXB_NAME
-		    + "/featureCode[.='" + result.getFeatureCode()
-		    + "']",
-		    parentXpath+"/" + Constants.GISFEATUREDISTANCE_JAXB_NAME
-		    + "/placeType[.='" + result.getPlaceType() + "']",
-		    parentXpath+"/" + Constants.GISFEATUREDISTANCE_JAXB_NAME
-		    + "/featureId[.='" + result.getFeatureId() + "']",
-		    parentXpath+"/" + Constants.GISFEATUREDISTANCE_JAXB_NAME
-		    + "/gtopo30[.='" + result.getGtopo30() + "']",
-		    parentXpath+"/" + Constants.GISFEATUREDISTANCE_JAXB_NAME
-		    + "/population[.='" + result.getPopulation() + "']",
-		    parentXpath+"/" + Constants.GISFEATUREDISTANCE_JAXB_NAME
-		    + "/timezone[.='" + result.getTimezone() + "']",
-		    parentXpath+"/" + Constants.GISFEATUREDISTANCE_JAXB_NAME + "/lat[.='"
-		    + result.getLat() + "']", 
-		    parentXpath+"/" + Constants.GISFEATUREDISTANCE_JAXB_NAME + "/distance[.='"
-		    + result.getDistance() + "']",
-		    parentXpath+"/"
-		    + Constants.GISFEATUREDISTANCE_JAXB_NAME
-		    + "/lng[.='" + result.getLng() + "']", 
-		    parentXpath+"/"
-		    + Constants.GISFEATUREDISTANCE_JAXB_NAME
-		    + "/google_map_url[.='"
-		    + result.getGoogle_map_url() + "']", 
-		    parentXpath+"/"+ Constants.GISFEATUREDISTANCE_JAXB_NAME
-		    + "/yahoo_map_url[.='" + result.getYahoo_map_url()
-		    + "']",  
-		    parentXpath+"/"
-		    + Constants.GISFEATUREDISTANCE_JAXB_NAME
-		    + "/country_flag_url[.='"
-		    + result.getCountry_flag_url() + "']"
-
-	);
-    }
-    
-    public static void checkGeolocResultsDtoJSON(GeolocResultsDto geolocResultsDto, String results) {
-	JsTester jsTester = null;
-	GisFeatureDistance gisFeatureDistance = geolocResultsDto.getResult().get(0);
-	try {
-	    jsTester = new JsTester();
-	    jsTester.onSetUp();
-
-	    // JsTester
-	    jsTester.eval("evalresult= eval(" + results + ");");
-	    jsTester.assertNotNull("evalresult");
-	    Assert.assertNotNull(jsTester.eval("evalresult.QTime"));
-	    Assert.assertEquals(geolocResultsDto.getNumFound(), ((Double)jsTester.eval(
-	    "evalresult.numFound")).longValue());
-	    Assert.assertEquals(gisFeatureDistance.getName(), jsTester.eval(
-		    "evalresult.result[0]['name']").toString());
-	    Assert.assertEquals(gisFeatureDistance.getFeatureId().toString(),(jsTester.eval("evalresult.result[0]['featureId']")).toString());
-	    Assert.assertEquals(gisFeatureDistance.getAsciiName(), jsTester.eval(
-		    "evalresult.result[0]['asciiName']").toString());
-	    Assert.assertEquals(gisFeatureDistance.getLat().toString(),(jsTester
-		    .eval("evalresult.result[0]['lat']")).toString());
-	    Assert.assertEquals(gisFeatureDistance.getLng(), jsTester
-		    .eval("evalresult.result[0]['lng']"));
-	    Assert.assertEquals(gisFeatureDistance.getAdm1Code(), jsTester
-		    .eval("evalresult.result[0]['adm1Code']"));
-	    Assert.assertEquals(gisFeatureDistance.getAdm2Code(), jsTester
-		    .eval("evalresult.result[0]['adm2Code']"));
-	    Assert.assertEquals(gisFeatureDistance.getAdm3Code(), jsTester
-		    .eval("evalresult.result[0]['adm3Code']"));
-	    Assert.assertEquals(gisFeatureDistance.getAdm4Code(), jsTester
-		    .eval("evalresult.result[0]['adm4Code']"));
-	    Assert.assertEquals(gisFeatureDistance.getAdm1Name(), jsTester
-		    .eval("evalresult.result[0]['adm1Name']"));
-	    Assert.assertEquals(gisFeatureDistance.getAdm2Name(), jsTester
-		    .eval("evalresult.result[0]['adm2Name']"));
-	    Assert.assertEquals(gisFeatureDistance.getAdm3Name(), jsTester
-		    .eval("evalresult.result[0]['adm3Name']"));
-	    Assert.assertEquals(gisFeatureDistance.getAdm4Name(), jsTester
-		    .eval("evalresult.result[0]['adm4Name']"));
-	    Assert.assertEquals(gisFeatureDistance.getFeatureClass(), jsTester
-		    .eval("evalresult.result[0]['featureClass']"));
-	    Assert.assertEquals(gisFeatureDistance.getFeatureCode(), jsTester
-		    .eval("evalresult.result[0]['featureCode']"));
-	    Assert.assertEquals(gisFeatureDistance.getCountryCode(), jsTester
-		    .eval("evalresult.result[0]['countryCode']"));
-	    Assert.assertEquals(gisFeatureDistance.getPopulation(), jsTester
-		    .eval("evalresult.result[0]['population']"));
-	    Assert.assertEquals(gisFeatureDistance.getElevation(), jsTester
-		    .eval("evalresult.result[0]['elevation']"));
-	    Assert.assertEquals(gisFeatureDistance.getGtopo30(), jsTester
-		    .eval("evalresult.result[0]['gtopo30']"));
-	    Assert.assertEquals(gisFeatureDistance.getTimezone(), jsTester
-		    .eval("evalresult.result[0]['timezone']"));
-	    Assert.assertEquals(gisFeatureDistance.getDistance(), jsTester
-		    .eval("evalresult.result[0]['distance']"));
-	    if (gisFeatureDistance.getPlaceType().equals(City.class.getSimpleName()) && gisFeatureDistance.getZipCode()!= null){
-	    Assert.assertEquals(gisFeatureDistance.getZipCode(), jsTester
-	    		    .eval("evalresult.result[0]['zipCode']"));
-	    }
-	    Assert.assertEquals(gisFeatureDistance.getPlaceType(), jsTester
-		    .eval("evalresult.result[0]['placeType']"));
-	    Assert.assertTrue(jsTester.eval("evalresult.QTime").toString() != "0");
-	    Assert.assertEquals(1D, jsTester.eval("evalresult.numFound"));
-	    Assert.assertEquals(URLUtils.createGoogleMapUrl(gisFeatureDistance.getLocation(), gisFeatureDistance
-		    .getName()), jsTester
-		    .eval("evalresult.result[0]['google_map_url']"));
-	    Assert.assertEquals(URLUtils.createYahooMapUrl(gisFeatureDistance.getLocation()), jsTester
-		    .eval("evalresult.result[0]['yahoo_map_url']"));
-	    Assert.assertEquals(URLUtils.createCountryFlagUrl(gisFeatureDistance.getCountryCode()),
-		    jsTester.eval("evalresult.result[0]['country_flag_url']"));
-
-	} finally {
-	    if (jsTester != null) {
-		jsTester.onTearDown();
-	    }
-	}
-    }
-    
-    public static void checkGeolocResultsDtoGEORSS(GeolocResultsDto geolocResultsDto, String results) {
-	GisFeatureDistance gisFeatureDistance = geolocResultsDto.getResult().get(0);
-	XpathChecker.assertQ("The query returns incorrect values", results, 
-		"/rss/channel/title[.='"+ Constants.FEED_TITLE + "']",
-		"/rss/channel/link[.='"+ Constants.FEED_LINK + "']",
-		"/rss/channel/description[.='"+Constants.FEED_DESCRIPTION+"']",
-		"/rss/channel/item/title[.='"+gisFeatureDistance.getName()+"']",
-		"/rss/channel/item/guid[.='"+Constants.GISFEATURE_BASE_URL+gisFeatureDistance.getFeatureId()+"']",
-		"/rss/channel/item/creator[.='"+Constants.MAIL_ADDRESS+"']",
-		"/rss/channel/item/itemsPerPage[.='"+Pagination.DEFAULT_PAGINATION.getMaxNumberOfResults()+"']",
-		"/rss/channel/item/totalResults[.='1']",
-		"/rss/channel/item/startIndex[.='1']",
-		"/rss/channel/item/point[.='"+gisFeatureDistance.getLat()+" "+gisFeatureDistance.getLng()+"']"
-		);
-    }
-    
-    public static void checkGeolocResultsDtoATOM(GeolocResultsDto geolocResultsDto, String results) {
-	GisFeatureDistance gisFeatureDistance = geolocResultsDto.getResult().get(0);
-	XpathChecker.assertQ("The query returns incorrect values", results, "/"
-		+ "feed/title[.='"+ Constants.FEED_TITLE + "']",
-		"/feed/link[@href='"+ Constants.FEED_LINK + "']",
-		"/feed/tagline[.='"+Constants.FEED_DESCRIPTION+"']",
-		"/feed/entry/title[.='"+gisFeatureDistance.getName()+"']",
-		"/feed/entry/link[@href='"+Constants.GISFEATURE_BASE_URL+gisFeatureDistance.getFeatureId()+"']",
-		"/feed/entry/author/name[.='"+Constants.MAIL_ADDRESS+"']",
-		"/feed/entry/itemsPerPage[.='"+Pagination.DEFAULT_PAGINATION.getMaxNumberOfResults()+"']",
-		"/feed/entry/totalResults[.='1']",
-		"/feed/entry/startIndex[.='1']",
-		"/feed/entry/point[.='"+gisFeatureDistance.getLat()+" "+gisFeatureDistance.getLng()+"']"
-		);
     }
     
 }

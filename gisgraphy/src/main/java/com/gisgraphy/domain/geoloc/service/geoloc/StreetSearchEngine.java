@@ -53,7 +53,7 @@ public class StreetSearchEngine implements IStreetSearchEngine {
     @Resource
     IOpenStreetMapDao openStreetMapDao;
 
-   // @Resource
+    @Resource
     IStreetSearchResultsDtoSerializer streetSearchResultsDtoSerializer;
 
     @Resource

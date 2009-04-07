@@ -45,7 +45,7 @@ import com.gisgraphy.domain.geoloc.service.fulltextsearch.AbstractIntegrationHtt
 import com.gisgraphy.domain.repository.IGisDao;
 import com.gisgraphy.helper.IntrospectionHelper;
 import com.gisgraphy.test.GeolocTestHelper;
-import com.gisgraphy.test.XpathChecker;
+import com.gisgraphy.test.FeedChecker;
 
 public class GisFeatureDistanceTest extends AbstractIntegrationHttpSolrTestCase {
 
@@ -64,7 +64,7 @@ public class GisFeatureDistanceTest extends AbstractIntegrationHttpSolrTestCase 
 		    .createFullFilledGisFeatureDistanceWithGisFeatureConstructor();
 	    ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
 	    m.marshal(result, outputStream);
-	    GeolocTestHelper.checkGisFeatureDistanceJAXBMapping(result, outputStream.toString(Constants.CHARSET),"");
+	    FeedChecker.checkGisFeatureDistanceJAXBMapping(result, outputStream.toString(Constants.CHARSET),"");
 	} catch (PropertyException e) {
 	    fail(e.getMessage());
 	} catch (JAXBException e) {
@@ -86,7 +86,7 @@ public class GisFeatureDistanceTest extends AbstractIntegrationHttpSolrTestCase 
 		    .createFullFilledGisFeatureDistanceWithBuilder();
 	    ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
 	    m.marshal(result, outputStream);
-	    GeolocTestHelper.checkGisFeatureDistanceJAXBMapping(result, outputStream.toString(Constants.CHARSET),"");
+	    FeedChecker.checkGisFeatureDistanceJAXBMapping(result, outputStream.toString(Constants.CHARSET),"");
 	} catch (PropertyException e) {
 	    fail(e.getMessage());
 	} catch (JAXBException e) {
@@ -110,8 +110,8 @@ public class GisFeatureDistanceTest extends AbstractIntegrationHttpSolrTestCase 
 		    .createFullFilledGisFeatureDistanceForCity();
 	    ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
 	    m.marshal(result, outputStream);
-	    GeolocTestHelper.checkGisFeatureDistanceJAXBMapping(result, outputStream.toString(Constants.CHARSET),"");
-	    XpathChecker.assertQ("Zipcode should be output if The GisFeature is a city",
+	    FeedChecker.checkGisFeatureDistanceJAXBMapping(result, outputStream.toString(Constants.CHARSET),"");
+	    FeedChecker.assertQ("Zipcode should be output if The GisFeature is a city",
 		    outputStream.toString(Constants.CHARSET), "/"
 			    + Constants.GISFEATUREDISTANCE_JAXB_NAME
 			    + "/zipCode[.='" + result.getZipCode() + "']");
@@ -136,8 +136,8 @@ public class GisFeatureDistanceTest extends AbstractIntegrationHttpSolrTestCase 
 		    .createFullFilledGisFeatureDistanceForAdm();
 	    ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
 	    m.marshal(result, outputStream);
-	    GeolocTestHelper.checkGisFeatureDistanceJAXBMapping(result, outputStream.toString(Constants.CHARSET),"");
-	    XpathChecker.assertQ("Zipcode should be output if The GisFeature is a city",
+	    FeedChecker.checkGisFeatureDistanceJAXBMapping(result, outputStream.toString(Constants.CHARSET),"");
+	    FeedChecker.assertQ("Zipcode should be output if The GisFeature is a city",
 		    outputStream.toString(Constants.CHARSET), "/"
 			    + Constants.GISFEATUREDISTANCE_JAXB_NAME
 			    + "/level[.='" + result.getLevel() + "']");
@@ -163,8 +163,8 @@ public class GisFeatureDistanceTest extends AbstractIntegrationHttpSolrTestCase 
 	    
 	    ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
 	    m.marshal(result, outputStream);
-	    GeolocTestHelper.checkGisFeatureDistanceJAXBMapping(result, outputStream.toString(Constants.CHARSET),"");
-	    XpathChecker.assertQ("Zipcode should be output if The GisFeature is a city",
+	    FeedChecker.checkGisFeatureDistanceJAXBMapping(result, outputStream.toString(Constants.CHARSET),"");
+	    FeedChecker.assertQ("Zipcode should be output if The GisFeature is a city",
 		    outputStream.toString(Constants.CHARSET), "/"
 			    + Constants.GISFEATUREDISTANCE_JAXB_NAME
 			    + "/zipCode[.='" + result.getZipCode() + "']");
@@ -188,9 +188,9 @@ public class GisFeatureDistanceTest extends AbstractIntegrationHttpSolrTestCase 
 	    result = new GisFeatureDistance(GeolocTestHelper.createFullFilledCountry(), 3D);
 	    ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
 	    m.marshal(result, outputStream);
-	    GeolocTestHelper.checkGisFeatureDistanceJAXBMapping(result, outputStream.toString(Constants.CHARSET),"");
+	    FeedChecker.checkGisFeatureDistanceJAXBMapping(result, outputStream.toString(Constants.CHARSET),"");
 	    String streamToString = outputStream.toString(Constants.CHARSET);
-	    XpathChecker.assertQ("area should be filled if The GisFeature is a Country",
+	    FeedChecker.assertQ("area should be filled if The GisFeature is a Country",
 		    streamToString, "/"
 			    + Constants.GISFEATUREDISTANCE_JAXB_NAME
 			    + "/area[.='" + result.getArea() + "']",

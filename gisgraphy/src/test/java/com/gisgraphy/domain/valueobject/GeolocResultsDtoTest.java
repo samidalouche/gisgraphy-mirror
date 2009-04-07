@@ -40,7 +40,7 @@ import junit.framework.TestCase;
 import org.junit.Test;
 
 import com.gisgraphy.test.GeolocTestHelper;
-import com.gisgraphy.test.XpathChecker;
+import com.gisgraphy.test.FeedChecker;
 
 public class GeolocResultsDtoTest extends TestCase {
 
@@ -54,7 +54,7 @@ public class GeolocResultsDtoTest extends TestCase {
 	    GeolocResultsDto geolocResultsDto = GeolocTestHelper.createGeolocResultsDto(300L);
 	    ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
 	    m.marshal(geolocResultsDto, outputStream);
-	    GeolocTestHelper.checkGeolocResultsDtoJAXBMapping(geolocResultsDto, outputStream.toString(Constants.CHARSET));
+	    FeedChecker.checkGeolocResultsDtoJAXBMapping(geolocResultsDto, outputStream.toString(Constants.CHARSET));
 	} catch (PropertyException e) {
 	    fail(e.getMessage());
 	} catch (JAXBException e) {
@@ -77,7 +77,7 @@ public class GeolocResultsDtoTest extends TestCase {
 	    ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
 	    m.marshal(geolocResultsDto, outputStream);
 	    try {
-		XpathChecker.assertQ(
+		FeedChecker.assertQ(
 			"GeolocResultsDto for an Empty List should return valid XML",
 			outputStream.toString(Constants.CHARSET), "/"
 				+ Constants.GEOLOCRESULTSDTO_JAXB_NAME + "",
