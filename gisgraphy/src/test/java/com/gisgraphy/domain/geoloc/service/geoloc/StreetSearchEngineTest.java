@@ -24,7 +24,6 @@ package com.gisgraphy.domain.geoloc.service.geoloc;
 
 import static com.gisgraphy.domain.valueobject.Pagination.paginate;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -32,59 +31,48 @@ import java.io.IOException;
 
 import javax.annotation.Resource;
 
-import net.sf.jstester.JsTester;
-
 import org.junit.Test;
 
 import com.gisgraphy.domain.geoloc.entity.City;
 import com.gisgraphy.domain.geoloc.entity.GisFeature;
+import com.gisgraphy.domain.geoloc.entity.OpenStreetMap;
 import com.gisgraphy.domain.geoloc.service.fulltextsearch.AbstractIntegrationHttpSolrTestCase;
 import com.gisgraphy.domain.repository.ICityDao;
+import com.gisgraphy.domain.repository.IOpenStreetMapDao;
 import com.gisgraphy.domain.valueobject.Constants;
-import com.gisgraphy.domain.valueobject.GeolocResultsDto;
 import com.gisgraphy.domain.valueobject.Output;
 import com.gisgraphy.domain.valueobject.Pagination;
+import com.gisgraphy.domain.valueobject.StreetSearchResultsDto;
 import com.gisgraphy.domain.valueobject.Output.OutputFormat;
 import com.gisgraphy.helper.GeolocHelper;
-import com.gisgraphy.helper.URLUtils;
 import com.gisgraphy.service.IStatsUsageService;
-import com.gisgraphy.stats.StatsUsageType;
-import com.gisgraphy.test.GeolocTestHelper;
 import com.gisgraphy.test.FeedChecker;
+import com.gisgraphy.test.GeolocTestHelper;
 
 public class StreetSearchEngineTest extends AbstractIntegrationHttpSolrTestCase {
 
     @Resource
-    IGeolocSearchEngine geolocSearchEngine;
+    IStreetSearchEngine streetSearchEngine;
+
+   
 
     @Resource
-    private GeolocTestHelper geolocTestHelper;
-
-    @Resource
-    ICityDao cityDao;
+    IOpenStreetMapDao openStreetMapDao;
 
     @Resource
     IStatsUsageService statsUsageService;
     
-    public void testExecuteAndSerializeShouldSerialize() {
+  /*  public void testExecuteAndSerializeShouldSerialize() {
 	//TODO OSM
     
     }
-
-  /*  @Test
+*/
+    @Test
     public void testExecuteAndSerializeShouldSerialize() {
-	City p1 = GeolocTestHelper.createCity("paris", 48.86667F, 2.3333F, 1L);
-	// N 48° 52' 0'' 2° 20' 0'' E
-	City p2 = GeolocTestHelper.createCity("bordeaux", 44.83333F, -0.56667F,
-		3L);
-	// N 44 50 0 ; 0 34 0 W
-	City p3 = GeolocTestHelper.createCity("goussainville", 49.01667F,
-		2.46667F, 2L);
-	// N49° 1' 0'' E 2° 28' 0''
+	OpenStreetMap street = GeolocTestHelper.createOpenStreetMap();
+	
 
-	this.cityDao.save(p1);
-	this.cityDao.save(p2);
-	this.cityDao.save(p3);
+	this.openStreetMapDao.save(street);
 
 	File tempDir = GeolocTestHelper.createTempDir(this.getClass()
 		.getSimpleName());
@@ -93,15 +81,14 @@ public class StreetSearchEngineTest extends AbstractIntegrationHttpSolrTestCase 
 
 	Pagination pagination = paginate().from(1).to(15);
 	Output output = Output.withFormat(OutputFormat.XML).withIndentation();
-	GeolocQuery query = new GeolocQuery(p1.getLocation(), 1000000,
-		pagination, output, GisFeature.class);
+	StreetSearchQuery query = new StreetSearchQuery(street.getLocation(),10000,pagination,output,street.getStreetType(),street.getOneWay(),null);
 	FileOutputStream outputStream = null;
 	try {
 	    outputStream = new FileOutputStream(file);
 	} catch (FileNotFoundException e) {
 	    fail("Error when instanciate OutputStream");
 	}
-	geolocSearchEngine.executeAndSerialize(query, outputStream);
+	streetSearchEngine.executeAndSerialize(query, outputStream);
 
 	String content = "";
 	try {
@@ -109,16 +96,10 @@ public class StreetSearchEngineTest extends AbstractIntegrationHttpSolrTestCase 
 	} catch (IOException e) {
 	    fail("can not get content of file " + file.getAbsolutePath());
 	}
-	XpathChecker.assertQ("The query returns incorrect values", content, "/"
+	FeedChecker.assertQ("The query returns incorrect values", content, "/"
 		+ Constants.GEOLOCRESULTSDTO_JAXB_NAME + "/"
 		+ Constants.GISFEATUREDISTANCE_JAXB_NAME + "[1]/name[.='"
-		+ p1.getName() + "']", "/"
-		+ Constants.GEOLOCRESULTSDTO_JAXB_NAME + "/"
-		+ Constants.GISFEATUREDISTANCE_JAXB_NAME + "[2]/name[.='"
-		+ p3.getName() + "']", "/"
-		+ Constants.GEOLOCRESULTSDTO_JAXB_NAME + "/"
-		+ Constants.GISFEATUREDISTANCE_JAXB_NAME + "[3]/name[.='"
-		+ p2.getName() + "']");
+		+ street.getName() + "']");
 
 	// delete temp dir
 	assertTrue("the tempDir has not been deleted", GeolocTestHelper
@@ -128,77 +109,53 @@ public class StreetSearchEngineTest extends AbstractIntegrationHttpSolrTestCase 
 
     @Test
     public void testExecuteQueryToStringShouldReturnsAValidStringWithResults() {
-	City p1 = GeolocTestHelper.createCity("paris", 48.86667F, 2.3333F, 1L);
-	// N 48° 52' 0'' 2° 20' 0'' E
-	City p2 = GeolocTestHelper.createCity("bordeaux", 44.83333F, -0.56667F,
-		3L);
-	// N 44 50 0 ; 0 34 0 W
-	City p3 = GeolocTestHelper.createCity("goussainville", 49.01667F,
-		2.46667F, 2L);
-	// N49° 1' 0'' E 2° 28' 0''
+	OpenStreetMap street = GeolocTestHelper.createOpenStreetMap();
 
-	this.cityDao.save(p1);
-	this.cityDao.save(p2);
-	this.cityDao.save(p3);
+	this.openStreetMapDao.save(street);
 
 	Pagination pagination = paginate().from(1).to(15);
 	Output output = Output.withFormat(OutputFormat.XML).withIndentation();
-	GeolocQuery query = new GeolocQuery(p1.getLocation(), 1000001,
-		pagination, output, City.class);
-	String results = geolocSearchEngine.executeQueryToString(query);
-	XpathChecker.assertQ("The query returns incorrect values", results, "/"
+	StreetSearchQuery query = new StreetSearchQuery(street.getLocation(),10000,pagination,output,street.getStreetType(),street.getOneWay(),null);
+	
+	String content = streetSearchEngine.executeQueryToString(query);
+
+	FeedChecker.assertQ("The query returns incorrect values", content, "/"
 		+ Constants.GEOLOCRESULTSDTO_JAXB_NAME + "/"
 		+ Constants.GISFEATUREDISTANCE_JAXB_NAME + "[1]/name[.='"
-		+ p1.getName() + "']", "/"
-		+ Constants.GEOLOCRESULTSDTO_JAXB_NAME + "/"
-		+ Constants.GISFEATUREDISTANCE_JAXB_NAME + "[2]/name[.='"
-		+ p3.getName() + "']", "/"
-		+ Constants.GEOLOCRESULTSDTO_JAXB_NAME + "/"
-		+ Constants.GISFEATUREDISTANCE_JAXB_NAME + "[3]/name[.='"
-		+ p2.getName() + "']");
+		+ street.getName() + "']");
+
+	
     }
 
     @Test
     public void testExecuteQueryShouldReturnsAValidDTOOrderedByDistance() {
-	City p1 = GeolocTestHelper.createCity("paris", 48.86667F, 2.3333F, 1L);
-	// N 48° 52' 0'' 2° 20' 0'' E
-	City p2 = GeolocTestHelper.createCity("bordeaux", 44.83333F, -0.56667F,
-		3L);
-	// N 44 50 0 ; 0 34 0 W
-	City p3 = GeolocTestHelper.createCity("goussainville", 49.01667F,
-		2.46667F, 2L);
-	// N49° 1' 0'' E 2° 28' 0''
+	OpenStreetMap street = GeolocTestHelper.createOpenStreetMap();
 
-	this.cityDao.save(p1);
-	this.cityDao.save(p2);
-	this.cityDao.save(p3);
+	this.openStreetMapDao.save(street);
 
 	Pagination pagination = paginate().from(1).to(15);
 	Output output = Output.withFormat(OutputFormat.XML).withIndentation();
-	GeolocQuery query = new GeolocQuery(p1.getLocation(), 1000001,
-		pagination, output, City.class);
-	GeolocResultsDto results = geolocSearchEngine.executeQuery(query);
-	assertEquals(3, results.getResult().size());
-	assertEquals(p1.getName(), results.getResult().get(0).getName());
-	assertEquals(p3.getName(), results.getResult().get(1).getName());
-	assertEquals(p2.getName(), results.getResult().get(2).getName());
+	StreetSearchQuery query = new StreetSearchQuery(street.getLocation(),10000,pagination,output,street.getStreetType(),street.getOneWay(),null);
+	
+	StreetSearchResultsDto results = streetSearchEngine.executeQuery(query);
+	assertEquals(1, results.getResult().size());
+	assertEquals(street.getName(), results.getResult().get(0).getName());
     }
 
     @Test
     public void testExecuteQueryShouldReturnsAnEmptyListIfThereIsNoResults() {
-	City p1 = GeolocTestHelper.createCity("paris", 48.86667F, 2.3333F, 1L);
 
 	Pagination pagination = paginate().from(1).to(15);
 	Output output = Output.withFormat(OutputFormat.XML).withIndentation();
-	GeolocQuery query = new GeolocQuery(p1.getLocation(), 1000001,
-		pagination, output, City.class);
-	GeolocResultsDto results = geolocSearchEngine.executeQuery(query);
+	StreetSearchQuery query = new StreetSearchQuery(GeolocHelper.createPoint(2F, 3F),10000,pagination,output,null,null,null);
+	
+	StreetSearchResultsDto results = streetSearchEngine.executeQuery(query);
 	assertNotNull(
-		"Geoloc search engine should never return null but an empty list",
+		"street search engine should never return null but an empty list",
 		results);
 	assertEquals(0, results.getResult().size());
     }
-
+/*
     @Test
     public void testExecuteQueryInJSONShouldReturnValidJson() {
 	City p1 = geolocTestHelper

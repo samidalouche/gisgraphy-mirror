@@ -22,14 +22,7 @@ public class OpenStreetMapDaoTest extends AbstractIntegrationHttpSolrTestCase{
 
     @Test
     public void testGetNearestAndDistanceFromShouldReturnValidDTO() {
-	OpenStreetMap streetOSM = new OpenStreetMap();
-	String[] wktLineStrings={"LINESTRING (10 10, 20 20)"};
-	MultiLineString shape = GeolocHelper.createMultiLineString(wktLineStrings);
-	streetOSM.setShape(shape);
-	streetOSM.setGid(1L);
-	streetOSM.setOneWay("oneWay");
-	streetOSM.setStreetType("streetType");
-	streetOSM.setStreetType("peter martin");
+	OpenStreetMap streetOSM = createOpenStreetMap();
 	openStreetMapDao.save(streetOSM);
 	assertNotNull(openStreetMapDao.get(streetOSM.getId()));
 	
@@ -86,6 +79,19 @@ public class OpenStreetMapDaoTest extends AbstractIntegrationHttpSolrTestCase{
 	
 	
     
+    }
+
+
+    private OpenStreetMap createOpenStreetMap() {
+	OpenStreetMap streetOSM = new OpenStreetMap();
+	String[] wktLineStrings={"LINESTRING (10 10, 20 20)"};
+	MultiLineString shape = GeolocHelper.createMultiLineString(wktLineStrings);
+	streetOSM.setShape(shape);
+	streetOSM.setGid(1L);
+	streetOSM.setOneWay("oneWay");
+	streetOSM.setStreetType("streetType");
+	streetOSM.setStreetType("peter martin");
+	return streetOSM;
     }
 
 
