@@ -74,8 +74,15 @@ public class OpenStreetMapDaoTest extends AbstractIntegrationHttpSolrTestCase{
 	assertEquals(streetOSM2.getGid(),nearestStreet.get(0).getGid());
 	
 	//test pagination
-	nearestStreet = openStreetMapDao.getNearestAndDistanceFrom(searchPoint, 10000, 2, 2, null,null, null);
-	assertEquals(0,nearestStreet.size());
+	nearestStreet = openStreetMapDao.getNearestAndDistanceFrom(searchPoint, 10000, 1, 2, null,null, null);
+	assertEquals(2,nearestStreet.size());
+	
+	//test Order
+	nearestStreet = openStreetMapDao.getNearestAndDistanceFrom(searchPoint, 10000, 1, 2, null,null, null);
+	assertEquals(2,nearestStreet.size());
+	Double firstDist = nearestStreet.get(0).getDistance();
+	Double secondDist = nearestStreet.get(1).getDistance();
+	assertTrue("result should be sorted by distance : "+firstDist +"  should be < " +secondDist ,firstDist < secondDist);
 	
 	
     
@@ -84,13 +91,15 @@ public class OpenStreetMapDaoTest extends AbstractIntegrationHttpSolrTestCase{
 
     private OpenStreetMap createOpenStreetMap() {
 	OpenStreetMap streetOSM = new OpenStreetMap();
-	String[] wktLineStrings={"LINESTRING (10 10, 20 20)"};
+	String[] wktLineStrings={"LINESTRING (30.001 30.001, 40 40)"};
 	MultiLineString shape = GeolocHelper.createMultiLineString(wktLineStrings);
 	streetOSM.setShape(shape);
 	streetOSM.setGid(1L);
 	streetOSM.setOneWay("oneWay");
 	streetOSM.setStreetType("streetType");
-	streetOSM.setStreetType("peter martin");
+	streetOSM.setName("peter martin");
+	streetOSM.setLocation(GeolocHelper.createPoint(30.001F, 40F));
+	
 	return streetOSM;
     }
 
