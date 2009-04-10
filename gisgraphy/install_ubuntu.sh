@@ -263,7 +263,24 @@ allow from all
 </LocationMatch>
 </VirtualHost>
 
+###########################
+mod bandwith (need GCC)
 
+wget http://ivn.cl/files/source/mod_bw-0.8.tgz
+tar xvzf mod_bw-0.8.tgz
+cd mod_bw
+apxs2 -i -a -c mod_bw.c
+
+
+LoadModule bw_module /usr/lib/apache2/modules/mod_bw.so
+      BandWidthModule On
+      BandWidth all 2000000
+      MinBandWidth all -1
+#     MinBandWidth all 10000
+#     ForceBandWidthModule On
+      AddOutputFilterByType MOD_BW application/x-gzip  application/zip
+
+##########################
 
   
 sudo a2ensite services
