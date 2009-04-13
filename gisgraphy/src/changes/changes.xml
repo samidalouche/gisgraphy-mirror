@@ -118,6 +118,11 @@
 			<action dev="David Masclet" type="update">
 				extract code that check XPath in AbstractIntegrationHttpSolrTestCase to a class called XpathChecker
 			</action>
+			
+			<action dev="David Masclet" type="update">
+				404 page send an 404 error status code instead of 200
+			</action>
+			
 
 
 		</release>

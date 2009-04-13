@@ -1,5 +1,5 @@
 <%@ include file="/common/taglibs.jsp"%>
-
+<% response.setStatus(404); %>
 <page:applyDecorator name="ui">
 
 <head>
@@ -11,6 +11,8 @@
     <fmt:message key="404.message">
         <fmt:param><c:url value="/"/></fmt:param>
     </fmt:message>
+    
+    
     
     <style type="text/css">
   #goog-wm { }

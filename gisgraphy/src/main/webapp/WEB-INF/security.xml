@@ -17,6 +17,7 @@
                 /public/**=#NONE#
                 /static/**=#NONE#
                 /*search*.html*=#NONE#
+                /google*.html=#NONE#
                 /displayfeature.html*=#NONE#
                 /**=httpSessionContextIntegrationFilter,authenticationProcessingFilter,securityContextHolderAwareRequestFilter,rememberMeProcessingFilter,anonymousProcessingFilter,exceptionTranslationFilter,filterInvocationInterceptor
             </value>

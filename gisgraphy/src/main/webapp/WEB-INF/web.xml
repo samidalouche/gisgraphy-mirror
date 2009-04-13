@@ -96,7 +96,7 @@
         <filter-class>com.gisgraphy.webapp.filter.StaticFilter</filter-class>
         <init-param>
             <param-name>includes</param-name>
-            <param-value>/scripts/dojo/*,/dwr/*</param-value>
+            <param-value>/scripts/dojo/*,/dwr/*,/google*</param-value>
         </init-param>
     </filter>
   
