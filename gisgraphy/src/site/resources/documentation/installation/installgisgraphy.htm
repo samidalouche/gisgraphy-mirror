@@ -71,7 +71,7 @@ psql -U YOURUSER -h YOURIP -d gisgraphy -f /usr/share/postgresql-YOURPOSTGRESVER
 
 
 #create tables;
-psql -U<i>YOURUSER</i> -d gisgraphy -f /path/to/file/create-tables.txt
+psql -U<i>YOURUSER</i> -d gisgraphy -f /path/to/file/create-tables.sql
 
 #create spatial indexes
  psql -U YOURUSER -h YOURIP -d gisgraphy -f createGISTIndex.sql
