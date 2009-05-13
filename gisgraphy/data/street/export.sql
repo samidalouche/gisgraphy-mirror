@@ -1,7 +1,7 @@
-\f 'Ctrl-V TAB'
+\f '	'
 \a
 \t
-\o street.txt
+\o street.csv
 select * from openstreetmap limit 10 ;
 \q 
  
