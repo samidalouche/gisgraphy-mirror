@@ -115,8 +115,12 @@ sudo update-java-alternatives --set ia32-java-6-sun
  
  /etc/alternatives/java -> /usr/lib/jvm/java-6-sun/jre/bin/java
  
- add this line to .bashrc
- export JAVA_HOME=/usr/lib/jvm/java-6-sun-1.6.0.06/
+add this line to .bashrc
+
+export JAVA_HOME=/usr/lib/jvm/java-6-sun-1.6.0.06/
+
+export CATALINA_OPTS="-Xmx1024m -Xms256m -Dfile.encoding=UTF-8 -Dsun.jnu.encoding=UTF-8 "
+
  
  execute
  source ~/.bashrc or logout and login
@@ -249,9 +253,9 @@ JkWorkersFile /etc/apache2/workers.properties
 ServerName services.gisgraphy.com
 ServerAdmin davidmasclet@gisgraphy.com
 
-CustomLog /var/log/apache2/access.log combined
+CustomLog /var/log/apache2/access-services.log combined
 
-ErrorLog /var/log/apache2/error.log
+ErrorLog /var/log/apache2/error-services.log
 
 JkMount /* default
 DirectoryIndex index.jsp index.html
