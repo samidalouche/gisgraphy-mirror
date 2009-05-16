@@ -135,7 +135,11 @@
 				Modify Launch script
 			</action>
 			
-
+			<action dev="David Masclet" type="fix">
+			Fix Bug UTF-8 problem on non-Linux platforms : 
+			http://code.google.com/p/gisgraphy/issues/detail?id=1
+			</action>
+			
 		</release>
 	</body>
 </document>
