@@ -123,9 +123,18 @@
 				404 page send an 404 error status code instead of 200
 			</action>
 			
-				<action dev="David Masclet" type="fix">
+			<action dev="David Masclet" type="fix">
 				Add an entry for UNK.UNK in features.properties
 			</action>
+			
+			<action dev="David Masclet" type="add">
+				Add launch script for macintosh
+			</action>
+			
+			<action dev="David Masclet" type="update">
+				Modify Launch script
+			</action>
+			
 
 		</release>
 	</body>
