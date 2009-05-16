@@ -7,8 +7,7 @@
     <head>
         <%@ include file="/common/meta.jsp" %>
         <title><decorator:title/> | <fmt:message key="webapp.name"/> Free Geolocalisation Services</title>
-		
-        <link rel="stylesheet" type="text/css" media="all" href="<c:url value='/styles/ui/theme.css'/>" />
+		<link rel="stylesheet" type="text/css" media="all" href="<c:url value='/styles/ui/theme.css'/>" />
 		<link rel="search" type="application/opensearchdescription+xml" title="Gisgraphy" href="/static/gisgraphy_opensearch_fulltext.xml"/>
         <decorator:head/>
     </head>
