@@ -203,6 +203,7 @@ public class GeolocResultsDtoSerializer implements
 		entry.getModules().add(geoRSSModuleGML);
 		entry.setTitle(gisFeatureDistance.getName());
 		entry.setAuthor(Constants.MAIL_ADDRESS);
+		//TODO OSM link for street +test
 		entry
 			.setLink(Constants.GISFEATURE_BASE_URL+
 				+ gisFeatureDistance.getFeatureId());

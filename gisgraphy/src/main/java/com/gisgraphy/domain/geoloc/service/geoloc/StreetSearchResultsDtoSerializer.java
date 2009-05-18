@@ -189,6 +189,7 @@ public class StreetSearchResultsDtoSerializer implements
 
 		openSearchModule
 			.setItemsPerPage(Pagination.DEFAULT_MAX_RESULTS);
+		//TODO OSM change for StreetSearchQuery.MAX_RESULTS. If yes, change it in GeolocResultsDtoSerializer ?
 		openSearchModule
 			.setTotalResults(streetSearchResultsDto.getNumFound());
 		openSearchModule.setStartIndex(startPaginationIndex);
