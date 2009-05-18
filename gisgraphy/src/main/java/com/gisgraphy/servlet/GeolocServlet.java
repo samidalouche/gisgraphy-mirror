@@ -131,7 +131,7 @@ public class GeolocServlet extends HttpServlet {
 	    geolocSearchEngine.executeAndSerialize(query, resp
 		    .getOutputStream());
 	} catch (RuntimeException e) {
-	    logger.error("error while creating full text query : " + e);
+	    logger.error("error while creating geoloc query : " + e);
 	    e.printStackTrace();
 	    String errorMessage = this.debugMode ? " : " + e.getMessage() : "";
 	    sendCustomError(ResourceBundle
