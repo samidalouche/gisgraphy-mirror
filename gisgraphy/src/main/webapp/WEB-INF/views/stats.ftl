@@ -10,6 +10,7 @@
     <@s.iterator value="statsUsages" >
      <li><@s.property value='statsUsageType' /> <@s.text name="stats.called"/> <@s.property value='usage' /> <@s.text name="stats.times"/></li>
  </@s.iterator>
+ <li><strong><@s.text name="stats.allservices"/> <@s.text name="stats.called"/> ${totalUsage} <@s.text name="stats.times"/></strong></li>
  </ul>
 <br/>
 <br/> 

@@ -140,6 +140,10 @@
 			http://code.google.com/p/gisgraphy/issues/detail?id=1
 			</action>
 			
+			<action dev="David Masclet" type="add">
+				Add how many times all the services has been called on the stats page
+			</action>
+			
 		</release>
 	</body>
 </document>

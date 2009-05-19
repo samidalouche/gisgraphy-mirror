@@ -46,6 +46,8 @@ public class StatsAction extends ActionSupport {
     private IStatsUsageDao statsUsageDao;
 
     private List<StatsUsage> statsUsages;
+    
+    private Long totalUsage;
 
     /**
      * @return the statsUsages
@@ -71,7 +73,18 @@ public class StatsAction extends ActionSupport {
     @Override
     public String execute() throws Exception {
 	statsUsages = statsUsageDao.getAll();
+	totalUsage = 0L;
+	for (StatsUsage statsUsage: statsUsages){
+	    totalUsage = totalUsage + statsUsage.getUsage();
+	}
 	return Action.SUCCESS;
+    }
+
+    /**
+     * @return the totalUsage
+     */
+    public Long getTotalUsage() {
+        return totalUsage;
     }
 
 }
