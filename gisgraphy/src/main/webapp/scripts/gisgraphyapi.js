@@ -119,21 +119,19 @@ GisgraphyQuery.prototype.execute = function(){
 	request= this;
 	//overide format
 	this.parameters.format=GisgraphyQuery.JSON_FORMAT;
-	alert(this.formName);
 	checkParameters(this.formName);
 	new Ajax.Request(this.URL, {
 	  method: 'get',
 	  evalJSON : true,
 	  onSuccess: function(transport) {
-	    var notice = $('notice');
 	    if (transport.responseText){
 	     request.callback(transport.responseText)
 	    } else {
-	      alert("no response from server");
+	      alert("No response from server");
 	      }
 	  },
 	  onFailure : function(transport){
-	  	alert("an error has occured");
+	  	alert("An error has occured : "+ transport.responseText.error);
 	  }, 
 	  encoding : "UTF-8",
 	  parameters : this.parameters
