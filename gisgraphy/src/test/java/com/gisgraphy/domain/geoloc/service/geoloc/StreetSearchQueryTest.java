@@ -44,6 +44,7 @@ import com.gisgraphy.domain.valueobject.Output.OutputStyle;
 import com.gisgraphy.helper.GeolocHelper;
 import com.gisgraphy.servlet.FulltextServlet;
 import com.gisgraphy.servlet.GeolocServlet;
+import com.gisgraphy.servlet.GisgraphyServlet;
 import com.gisgraphy.test.GeolocTestHelper;
 import com.vividsolutions.jts.geom.Point;
 
@@ -116,25 +117,25 @@ public class StreetSearchQueryTest extends TestCase {
 	    // test first pagination index
 	    // with no value specified
 	    request = GeolocTestHelper.createMockHttpServletRequestForStreetGeoloc();
-	    request.removeParameter(GeolocServlet.FROM_PARAMETER);
+	    request.removeParameter(GisgraphyServlet.FROM_PARAMETER);
 	    query = new StreetSearchQuery(request);
-	    assertEquals("When no " + GeolocServlet.FROM_PARAMETER
+	    assertEquals("When no " + GisgraphyServlet.FROM_PARAMETER
 		    + " is specified, the parameter should be "
 		    + Pagination.DEFAULT_FROM, Pagination.DEFAULT_FROM, query
 		    .getFirstPaginationIndex());
 	    // with a wrong value
 	    request = GeolocTestHelper.createMockHttpServletRequestForStreetGeoloc();
-	    request.setParameter(GeolocServlet.FROM_PARAMETER, "-1");
+	    request.setParameter(GisgraphyServlet.FROM_PARAMETER, "-1");
 	    query = new StreetSearchQuery(request);
-	    assertEquals("When a wrong " + GeolocServlet.FROM_PARAMETER
+	    assertEquals("When a wrong " + GisgraphyServlet.FROM_PARAMETER
 		    + " is specified, the parameter should be "
 		    + Pagination.DEFAULT_FROM, Pagination.DEFAULT_FROM, query
 		    .getFirstPaginationIndex());
 	    // with a non mumeric value
 	    request = GeolocTestHelper.createMockHttpServletRequestForStreetGeoloc();
-	    request.setParameter(GeolocServlet.FROM_PARAMETER, "a");
+	    request.setParameter(GisgraphyServlet.FROM_PARAMETER, "a");
 	    query = new StreetSearchQuery(request);
-	    assertEquals("When a wrong " + GeolocServlet.FROM_PARAMETER
+	    assertEquals("When a wrong " + GisgraphyServlet.FROM_PARAMETER
 		    + " is specified, the parameter should be "
 		    + Pagination.DEFAULT_FROM, Pagination.DEFAULT_FROM, query
 		    .getFirstPaginationIndex());
@@ -142,21 +143,21 @@ public class StreetSearchQueryTest extends TestCase {
 	    // test last pagination index
 	    // with no value specified
 	    request = GeolocTestHelper.createMockHttpServletRequestForStreetGeoloc();
-	    request.removeParameter(GeolocServlet.TO_PARAMETER);
+	    request.removeParameter(GisgraphyServlet.TO_PARAMETER);
 	    query = new StreetSearchQuery(request);
 	    // non specify
 	    assertEquals(
 		    "When no "
-			    + GeolocServlet.TO_PARAMETER
+			    + GisgraphyServlet.TO_PARAMETER
 			    + " is specified, the  parameter should be set to limit results to "
 			    + FulltextServlet.DEFAULT_MAX_RESULTS,
 		    FulltextServlet.DEFAULT_MAX_RESULTS, query
 			    .getMaxNumberOfResults());
 	    // with a wrong value
 	    request = GeolocTestHelper.createMockHttpServletRequestForStreetGeoloc();
-	    request.setParameter(GeolocServlet.TO_PARAMETER, "2");// to<from
+	    request.setParameter(GisgraphyServlet.TO_PARAMETER, "2");// to<from
 	    query = new StreetSearchQuery(request);
-	    assertEquals("When a wrong " + GeolocServlet.TO_PARAMETER
+	    assertEquals("When a wrong " + GisgraphyServlet.TO_PARAMETER
 		    + " is specified, the numberOf results should be "
 		    + Pagination.DEFAULT_MAX_RESULTS,
 		    Pagination.DEFAULT_MAX_RESULTS, query
@@ -165,11 +166,11 @@ public class StreetSearchQueryTest extends TestCase {
 		    .getFirstPaginationIndex());
 	    request = GeolocTestHelper.createMockHttpServletRequestForStreetGeoloc();
 	    // non numeric
-	    request.setParameter(GeolocServlet.TO_PARAMETER, "a");// to<from
+	    request.setParameter(GisgraphyServlet.TO_PARAMETER, "a");// to<from
 	    query = new StreetSearchQuery(request);
 	    assertEquals("a wrong to does not change the from value", 3, query
 		    .getFirstPaginationIndex());
-	    assertEquals("When a wrong " + GeolocServlet.TO_PARAMETER
+	    assertEquals("When a wrong " + GisgraphyServlet.TO_PARAMETER
 		    + " is specified, the numberOf results should be "
 		    + Pagination.DEFAULT_MAX_RESULTS,
 		    Pagination.DEFAULT_MAX_RESULTS, query
@@ -208,25 +209,25 @@ public class StreetSearchQueryTest extends TestCase {
 	    // test outputFormat
 	    // with no value specified
 	    request = GeolocTestHelper.createMockHttpServletRequestForStreetGeoloc();
-	    request.removeParameter(GeolocServlet.FORMAT_PARAMETER);
+	    request.removeParameter(GisgraphyServlet.FORMAT_PARAMETER);
 	    query = new StreetSearchQuery(request);
-	    assertEquals("When no " + GeolocServlet.FORMAT_PARAMETER
+	    assertEquals("When no " + GisgraphyServlet.FORMAT_PARAMETER
 		    + " is specified, the  parameter should be set to  "
 		    + OutputFormat.getDefault(), OutputFormat.getDefault(),
 		    query.getOutputFormat());
 	    // with wrong value
 	    request = GeolocTestHelper.createMockHttpServletRequestForStreetGeoloc();
-	    request.setParameter(GeolocServlet.FORMAT_PARAMETER, "UNK");
+	    request.setParameter(GisgraphyServlet.FORMAT_PARAMETER, "UNK");
 	    query = new StreetSearchQuery(request);
-	    assertEquals("When wrong " + GeolocServlet.FORMAT_PARAMETER
+	    assertEquals("When wrong " + GisgraphyServlet.FORMAT_PARAMETER
 		    + " is specified, the  parameter should be set to  "
 		    + OutputFormat.getDefault(), OutputFormat.getDefault(),
 		    query.getOutputFormat());
 	    // test case sensitive
 	    request = GeolocTestHelper.createMockHttpServletRequestForStreetGeoloc();
-	    request.setParameter(GeolocServlet.FORMAT_PARAMETER, "json");
+	    request.setParameter(GisgraphyServlet.FORMAT_PARAMETER, "json");
 	    query = new StreetSearchQuery(request);
-	    assertEquals(GeolocServlet.FORMAT_PARAMETER
+	    assertEquals(GisgraphyServlet.FORMAT_PARAMETER
 		    + " should be case insensitive  ", OutputFormat.JSON, query
 		    .getOutputFormat());
 
@@ -253,7 +254,7 @@ public class StreetSearchQueryTest extends TestCase {
 			    .getPlaceType());
 	    // test case sensitive
 	    request = GeolocTestHelper.createMockHttpServletRequestForStreetGeoloc();
-	    request.setParameter(GeolocServlet.FORMAT_PARAMETER, "city");
+	    request.setParameter(GisgraphyServlet.FORMAT_PARAMETER, "city");
 	    query = new StreetSearchQuery(request);
 	    assertEquals(GeolocServlet.PLACETYPE_PARAMETER
 		    + " should be case insensitive  ", City.class, query

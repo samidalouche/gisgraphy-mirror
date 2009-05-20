@@ -27,7 +27,6 @@ import java.io.Writer;
 import java.util.ResourceBundle;
 
 import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -37,6 +36,7 @@ import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
 import com.gisgraphy.domain.geoloc.service.errors.IoutputFormatVisitor;
+import com.gisgraphy.domain.geoloc.service.fulltextsearch.FulltextErrorVisitor;
 import com.gisgraphy.domain.geoloc.service.geoloc.GeolocErrorVisitor;
 import com.gisgraphy.domain.geoloc.service.geoloc.GeolocQuery;
 import com.gisgraphy.domain.geoloc.service.geoloc.IGeolocSearchEngine;
@@ -51,11 +51,8 @@ import com.gisgraphy.helper.HTMLHelper;
  * 
  * @author <a href="mailto:david.masclet@gisgraphy.com">David Masclet</a>
  */
-public class GeolocServlet extends HttpServlet {
+public class GeolocServlet extends GisgraphyServlet {
 
-    public static final String FROM_PARAMETER = "from";
-    public static final String TO_PARAMETER = "to";
-    public static final String FORMAT_PARAMETER = "format";
     public static final String PLACETYPE_PARAMETER = "placetype";
     public static final String LAT_PARAMETER = "lat";
     public static final String LONG_PARAMETER = "lng";
@@ -122,12 +119,16 @@ public class GeolocServlet extends HttpServlet {
 		return;
 	    }
 	    GeolocQuery query = new GeolocQuery(req);
+	    if (logger.isDebugEnabled()){
 	    logger.debug("query=" + query);
 	    logger.debug("fulltext engine=" + geolocSearchEngine);
+	    }
 	    String UA = req.getHeader("User-Agent");
 	    String referer = req.getHeader("Referer");
-	    logger.info("A geoloc request from "+req.getRemoteHost()+" / "+req.getRemoteAddr()+" was received , Referer : "+referer+" , UA : "+UA);
-	    
+	    if (logger.isInfoEnabled()){
+		logger.info("A geoloc request from "+req.getRemoteHost()+" / "+req.getRemoteAddr()+" was received , Referer : "+referer+" , UA : "+UA);
+	    }
+
 	    geolocSearchEngine.executeAndSerialize(query, resp
 		    .getOutputStream());
 	} catch (RuntimeException e) {
@@ -143,113 +144,10 @@ public class GeolocServlet extends HttpServlet {
 
     }
 
-    private OutputFormat setResponseContentType(HttpServletRequest req,
-	    HttpServletResponse resp) {
-	OutputFormat format;
-	String formatParam = req.getParameter(FORMAT_PARAMETER);
-	format = OutputFormat.getFromString(formatParam);
-	format = OutputFormat.getDefaultForServiceIfNotSupported(format, GisgraphyServiceType.GEOLOC);
-	resp.setHeader("content-type", format.getContentType());
-	return format;
-    }
 
-    public void sendCustomError(String errorMessage, OutputFormat format,
-	    HttpServletResponse resp,HttpServletRequest req) {
-	IoutputFormatVisitor visitor = new GeolocErrorVisitor(errorMessage);
-	String response = format.accept(visitor);
-	Writer writer = null;
-	try {
-	    resp.reset();
-	    writer = resp.getWriter();
-	    setResponseContentType(req, resp);
-	    writer.append(response);
-	    writer.flush();
-	} catch (IOException e) {
-	    logger.warn("error when sending error");
-	} finally {
-	    if (writer != null) {
-		try {
-		    writer.close();
-		} catch (IOException e) {
-		    logger
-			    .warn("error when closing writer after sending error");
-		}
-	    }
-	}
-    }
+ 
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see javax.servlet.http.HttpServlet#doDelete(javax.servlet.http.HttpServletRequest,
-     *      javax.servlet.http.HttpServletResponse)
-     */
-    @Override
-    protected void doDelete(HttpServletRequest req, HttpServletResponse resp)
-	    throws ServletException, IOException {
-	resp.sendError(HttpServletResponse.SC_METHOD_NOT_ALLOWED);
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see javax.servlet.http.HttpServlet#doHead(javax.servlet.http.HttpServletRequest,
-     *      javax.servlet.http.HttpServletResponse)
-     */
-    @Override
-    protected void doHead(HttpServletRequest req, HttpServletResponse resp)
-	    throws ServletException, IOException {
-	resp.sendError(HttpServletResponse.SC_METHOD_NOT_ALLOWED);
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see javax.servlet.http.HttpServlet#doOptions(javax.servlet.http.HttpServletRequest,
-     *      javax.servlet.http.HttpServletResponse)
-     */
-    @Override
-    protected void doOptions(HttpServletRequest req, HttpServletResponse resp)
-	    throws ServletException, IOException {
-	resp.sendError(HttpServletResponse.SC_METHOD_NOT_ALLOWED);
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see javax.servlet.http.HttpServlet#doPost(javax.servlet.http.HttpServletRequest,
-     *      javax.servlet.http.HttpServletResponse)
-     */
-    @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp)
-	    throws ServletException, IOException {
-	resp.sendError(HttpServletResponse.SC_METHOD_NOT_ALLOWED);
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see javax.servlet.http.HttpServlet#doPut(javax.servlet.http.HttpServletRequest,
-     *      javax.servlet.http.HttpServletResponse)
-     */
-    @Override
-    protected void doPut(HttpServletRequest req, HttpServletResponse resp)
-	    throws ServletException, IOException {
-	resp.sendError(HttpServletResponse.SC_METHOD_NOT_ALLOWED);
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see javax.servlet.http.HttpServlet#doTrace(javax.servlet.http.HttpServletRequest,
-     *      javax.servlet.http.HttpServletResponse)
-     */
-    @Override
-    protected void doTrace(HttpServletRequest req, HttpServletResponse resp)
-	    throws ServletException, IOException {
-	resp.sendError(HttpServletResponse.SC_METHOD_NOT_ALLOWED);
-    }
-
+   
     /**
      * @param geolocSearchEngine
      *                the geolocSearchEngine to set
@@ -258,19 +156,23 @@ public class GeolocServlet extends HttpServlet {
 	this.geolocSearchEngine = geolocSearchEngine;
     }
 
-    /**
-     * @return the debugMode
+   
+
+    /* (non-Javadoc)
+     * @see com.gisgraphy.servlet.GisgraphyServlet#getGisgraphyServiceType()
      */
-    public boolean isDebugMode() {
-	return debugMode;
+    @Override
+    public GisgraphyServiceType getGisgraphyServiceType() {
+	return GisgraphyServiceType.GEOLOC;
     }
 
-    /**
-     * @param debugMode
-     *                the debugMode to set
+
+    /* (non-Javadoc)
+     * @see com.gisgraphy.servlet.GisgraphyServlet#getErrorVisitor(java.lang.String)
      */
-    public void setDebugMode(boolean debugMode) {
-	this.debugMode = debugMode;
+    @Override
+    public IoutputFormatVisitor getErrorVisitor(String errorMessage) {
+	return new GeolocErrorVisitor(errorMessage);
     }
 
 }

@@ -27,7 +27,6 @@ import java.io.Writer;
 import java.util.ResourceBundle;
 
 import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -52,13 +51,11 @@ import com.gisgraphy.helper.HTMLHelper;
  * @author <a href="mailto:david.masclet@gisgraphy.com">David Masclet</a>
  * @see GeolocServlet
  */
-public class FulltextServlet extends HttpServlet {
+public class FulltextServlet extends GisgraphyServlet {
 
-    public static final String FROM_PARAMETER = "from";
-    public static final String TO_PARAMETER = "to";
+    
     public static final String COUNTRY_PARAMETER = "country";
     public static final String LANG_PARAMETER = "lang";
-    public static final String FORMAT_PARAMETER = "format";
     public static final String STYLE_PARAMETER = "style";
     public static final String INDENT_PARAMETER = "indent";
     public static final String PLACETYPE_PARAMETER = "placetype";
@@ -66,7 +63,6 @@ public class FulltextServlet extends HttpServlet {
     public static final int DEFAULT_MAX_RESULTS = 10;
     public static final String SPELLCHECKING_PARAMETER = "spellchecking";
 
-    private boolean debugMode = false;
 
     /*
      * (non-Javadoc)
@@ -99,7 +95,7 @@ public class FulltextServlet extends HttpServlet {
     /**
      * The logger
      */
-    protected static final Logger logger = LoggerFactory
+    protected static Logger logger = LoggerFactory
 	    .getLogger(FulltextServlet.class);
 
     private IFullTextSearchEngine fullTextSearchEngine;
@@ -124,11 +120,15 @@ public class FulltextServlet extends HttpServlet {
 		return;
 	    }
 	    FulltextQuery query = new FulltextQuery(req);
-	    logger.debug("query=" + query);
-	    logger.debug("fulltext engine=" + fullTextSearchEngine);
+	    if (logger.isDebugEnabled()){
+		logger.debug("query=" + query);
+		logger.debug("fulltext engine=" + fullTextSearchEngine);
+	    }
 	    String UA = req.getHeader(Constants.HTTP_USER_AGENT_HEADER_NAME);
 	    String referer = req.getHeader(Constants.HTTP_REFERER_HEADER_NAME);
-	    logger.info("A Fulltext request from "+req.getRemoteHost()+" / "+req.getRemoteAddr()+" was received , Referer : "+referer+" , UA : "+UA);
+	    if (logger.isInfoEnabled()){
+		logger.info("A fulltext request from "+req.getRemoteHost()+" / "+req.getRemoteAddr()+" was received , Referer : "+referer+" , UA : "+UA);
+	    }
 	    
 	    fullTextSearchEngine.executeAndSerialize(query, resp
 		    .getOutputStream());
@@ -145,113 +145,7 @@ public class FulltextServlet extends HttpServlet {
 
     }
     
-    private OutputFormat setResponseContentType(HttpServletRequest req,
-	    HttpServletResponse resp) {
-	OutputFormat format;
-	String formatParam = req.getParameter(FORMAT_PARAMETER);
-	format = OutputFormat.getFromString(formatParam);
-	format = OutputFormat.getDefaultForServiceIfNotSupported(format, GisgraphyServiceType.FULLTEXT);
-	resp.setHeader("content-type", format.getContentType());
-	return format;
-    }
-
-    public void sendCustomError(String errorMessage, OutputFormat format,
-	    HttpServletResponse resp,HttpServletRequest req) {
-	IoutputFormatVisitor visitor = new FulltextErrorVisitor(errorMessage);
-	String response = format.accept(visitor);
-	Writer writer = null;
-	try {
-	    resp.reset();
-	    setResponseContentType(req, resp);
-	    writer = resp.getWriter();
-	    writer.append(response);
-	    writer.flush();
-	} catch (IOException e) {
-	    logger.warn("Error when sending error");
-	} finally {
-	    if (writer != null) {
-		try {
-		    writer.close();
-		} catch (IOException e) {
-		    logger
-			    .warn("Error when closing writer after sending error");
-		}
-	    }
-	}
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see javax.servlet.http.HttpServlet#doDelete(javax.servlet.http.HttpServletRequest,
-     *      javax.servlet.http.HttpServletResponse)
-     */
-    @Override
-    protected void doDelete(HttpServletRequest req, HttpServletResponse resp)
-	    throws ServletException, IOException {
-	resp.sendError(HttpServletResponse.SC_METHOD_NOT_ALLOWED);
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see javax.servlet.http.HttpServlet#doHead(javax.servlet.http.HttpServletRequest,
-     *      javax.servlet.http.HttpServletResponse)
-     */
-    @Override
-    protected void doHead(HttpServletRequest req, HttpServletResponse resp)
-	    throws ServletException, IOException {
-	resp.sendError(HttpServletResponse.SC_METHOD_NOT_ALLOWED);
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see javax.servlet.http.HttpServlet#doOptions(javax.servlet.http.HttpServletRequest,
-     *      javax.servlet.http.HttpServletResponse)
-     */
-    @Override
-    protected void doOptions(HttpServletRequest req, HttpServletResponse resp)
-	    throws ServletException, IOException {
-	resp.sendError(HttpServletResponse.SC_METHOD_NOT_ALLOWED);
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see javax.servlet.http.HttpServlet#doPost(javax.servlet.http.HttpServletRequest,
-     *      javax.servlet.http.HttpServletResponse)
-     */
-    @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp)
-	    throws ServletException, IOException {
-	resp.sendError(HttpServletResponse.SC_METHOD_NOT_ALLOWED);
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see javax.servlet.http.HttpServlet#doPut(javax.servlet.http.HttpServletRequest,
-     *      javax.servlet.http.HttpServletResponse)
-     */
-    @Override
-    protected void doPut(HttpServletRequest req, HttpServletResponse resp)
-	    throws ServletException, IOException {
-	resp.sendError(HttpServletResponse.SC_METHOD_NOT_ALLOWED);
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see javax.servlet.http.HttpServlet#doTrace(javax.servlet.http.HttpServletRequest,
-     *      javax.servlet.http.HttpServletResponse)
-     */
-    @Override
-    protected void doTrace(HttpServletRequest req, HttpServletResponse resp)
-	    throws ServletException, IOException {
-	resp.sendError(HttpServletResponse.SC_METHOD_NOT_ALLOWED);
-    }
-
+   
     /**
      * @param fullTextSearchEngine
      *                the fullTextSearchEngine to set
@@ -259,6 +153,22 @@ public class FulltextServlet extends HttpServlet {
     public void setFullTextSearchEngine(
 	    IFullTextSearchEngine fullTextSearchEngine) {
 	this.fullTextSearchEngine = fullTextSearchEngine;
+    }
+
+    /* (non-Javadoc)
+     * @see com.gisgraphy.servlet.GisgraphyServlet#getGisgraphyServiceType()
+     */
+    @Override
+    public GisgraphyServiceType getGisgraphyServiceType() {
+	return GisgraphyServiceType.FULLTEXT;
+    }
+    
+    /* (non-Javadoc)
+     * @see com.gisgraphy.servlet.GisgraphyServlet#getErrorVisitor(java.lang.String)
+     */
+    @Override
+    public IoutputFormatVisitor getErrorVisitor(String errorMessage) {
+	return new FulltextErrorVisitor(errorMessage);
     }
 
 }

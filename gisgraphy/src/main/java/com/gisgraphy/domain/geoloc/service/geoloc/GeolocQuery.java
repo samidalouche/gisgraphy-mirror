@@ -36,6 +36,7 @@ import com.gisgraphy.domain.valueobject.Pagination;
 import com.gisgraphy.domain.valueobject.Output.OutputFormat;
 import com.gisgraphy.helper.GeolocHelper;
 import com.gisgraphy.servlet.GeolocServlet;
+import com.gisgraphy.servlet.GisgraphyServlet;
 import com.vividsolutions.jts.geom.Point;
 
 /**
@@ -121,13 +122,13 @@ public class GeolocQuery extends AbstractGisQuery {
 	int to;
 	try {
 	    from = Integer.valueOf(
-		    req.getParameter(GeolocServlet.FROM_PARAMETER)).intValue();
+		    req.getParameter(GisgraphyServlet.FROM_PARAMETER)).intValue();
 	} catch (Exception e) {
 	    from = Pagination.DEFAULT_FROM;
 	}
 
 	try {
-	    to = Integer.valueOf(req.getParameter(GeolocServlet.TO_PARAMETER))
+	    to = Integer.valueOf(req.getParameter(GisgraphyServlet.TO_PARAMETER))
 		    .intValue();
 	} catch (NumberFormatException e) {
 	    to = -1;
@@ -137,7 +138,7 @@ public class GeolocQuery extends AbstractGisQuery {
 		.limitNumberOfResults(getMaxLimitResult());
 	// output format
 	OutputFormat format = OutputFormat.getFromString(req
-		.getParameter(GeolocServlet.FORMAT_PARAMETER));
+		.getParameter(GisgraphyServlet.FORMAT_PARAMETER));
 	format = OutputFormat.getDefaultForServiceIfNotSupported(format, GisgraphyServiceType.GEOLOC);
 	Output output = Output.withFormat(format);
 

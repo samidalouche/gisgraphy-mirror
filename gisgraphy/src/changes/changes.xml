@@ -145,7 +145,11 @@
 			</action>
 			
 			<action dev="David Masclet" type="update">
-				Remove some unused code and some alert in js API
+				Remove some unused code and some alert() in js API
+			</action>
+			
+			<action dev="David Masclet" type="update">
+				Servlet send an 500 status code when an error occurred instead of 200
 			</action>
 			
 			

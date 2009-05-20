@@ -37,6 +37,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.gisgraphy.domain.geoloc.service.fulltextsearch.AbstractIntegrationHttpSolrTestCase;
 import com.gisgraphy.domain.geoloc.service.fulltextsearch.IFullTextSearchEngine;
 import com.gisgraphy.domain.valueobject.Constants;
+import com.gisgraphy.domain.valueobject.GisgraphyServiceType;
 import com.gisgraphy.domain.valueobject.Output.OutputFormat;
 import com.gisgraphy.test.FeedChecker;
 
@@ -171,6 +172,37 @@ public class FulltextServletTest extends AbstractIntegrationHttpSolrTestCase {
 	}
 
     }
+    
+    
+    public void testFulltextServletShouldReturnCorrectStatusCode() {
+	String url = fulltextServletUrl + FULLTEXT_SERVLET_CONTEXT
+		+ "/fulltextsearch";
+
+	// String result;
+	String queryString;
+	    GetMethod get = null;
+	    try {
+		queryString = "q=&format=" + OutputFormat.JSON.toString();
+		HttpClient client = new HttpClient();
+		get = new GetMethod(url);
+
+		get.setQueryString(queryString);
+		client.executeMethod(get);
+		// result = get.getResponseBodyAsString();
+
+		assertEquals("status code is not correct ",500,get.getStatusCode());
+
+	    } catch (IOException e) {
+		fail("An exception has occured " + e.getMessage());
+	    } finally {
+		if (get != null) {
+		    get.releaseConnection();
+		}
+	    }
+
+    }
+   
+    
 
     public void testFulltextServletShouldReturnCorrectXMLError() {
 
@@ -203,6 +235,12 @@ public class FulltextServletTest extends AbstractIntegrationHttpSolrTestCase {
 		get.releaseConnection();
 	    }
 	}
+
+    }
+    
+    public void testgetGisgraphyServiceTypeShouldReturnTheCorrectValue(){
+	GisgraphyServlet servlet = new FulltextServlet();
+    	assertEquals(GisgraphyServiceType.FULLTEXT, servlet.getGisgraphyServiceType());
 
     }
 

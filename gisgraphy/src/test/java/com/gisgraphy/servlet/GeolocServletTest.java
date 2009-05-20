@@ -149,6 +149,33 @@ public class GeolocServletTest extends AbstractIntegrationHttpSolrTestCase {
 	}
 
     }
+    
+    public void testGeolocServletShouldReturnCorrectStatusCode() {
+	String url = geolocServletUrl + FULLTEXT_SERVLET_CONTEXT
+		+ "/geolocsearch";
+
+	String queryStringWithMissingLat;
+	    GetMethod get = null;
+	    try {
+		queryStringWithMissingLat = GeolocServlet.LONG_PARAMETER+"=4&format=" + OutputFormat.JSON.toString();
+		HttpClient client = new HttpClient();
+		get = new GetMethod(url);
+
+		get.setQueryString(queryStringWithMissingLat);
+		client.executeMethod(get);
+		// result = get.getResponseBodyAsString();
+		
+		assertEquals("status code is not correct ",500 ,get.getStatusCode());
+
+	    } catch (IOException e) {
+		fail("An exception has occured " + e.getMessage());
+	    } finally {
+		if (get != null) {
+		    get.releaseConnection();
+		}
+	    }
+
+    }
 
     public void testFulltextServletShouldReturnCorrectJSONError() {
 
@@ -224,5 +251,10 @@ public class GeolocServletTest extends AbstractIntegrationHttpSolrTestCase {
 	}
 
     }
+    
+    public void testgetGisgraphyServiceTypeShouldReturnTheCorrectValue(){
+	GisgraphyServlet servlet = new GeolocServlet();
+    	assertEquals(GisgraphyServiceType.GEOLOC, servlet.getGisgraphyServiceType());
 
+    }
 }

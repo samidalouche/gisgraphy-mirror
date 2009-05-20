@@ -64,6 +64,7 @@ import com.gisgraphy.domain.valueobject.StreetDistance.StreetDistanceBuilder;
 import com.gisgraphy.helper.GeolocHelper;
 import com.gisgraphy.servlet.FulltextServlet;
 import com.gisgraphy.servlet.GeolocServlet;
+import com.gisgraphy.servlet.GisgraphyServlet;
 import com.vividsolutions.jts.geom.MultiLineString;
 import com.vividsolutions.jts.geom.Point;
 
@@ -697,9 +698,9 @@ public class GeolocTestHelper {
 
     public static MockHttpServletRequest createMockHttpServletRequestForGeoloc() {
 	MockHttpServletRequest request = new MockHttpServletRequest();
-	request.addParameter(GeolocServlet.FROM_PARAMETER, "3");
-	request.addParameter(GeolocServlet.TO_PARAMETER, GeolocServlet.DEFAULT_MAX_RESULTS+20+"");
-	request.addParameter(GeolocServlet.FORMAT_PARAMETER, "XML");
+	request.addParameter(GisgraphyServlet.FROM_PARAMETER, "3");
+	request.addParameter(GisgraphyServlet.TO_PARAMETER, GeolocServlet.DEFAULT_MAX_RESULTS+20+"");
+	request.addParameter(GisgraphyServlet.FORMAT_PARAMETER, "XML");
 	request.addParameter(GeolocServlet.PLACETYPE_PARAMETER, "city");
 	request.addParameter(GeolocServlet.LAT_PARAMETER, "1.0");
 	request.addParameter(GeolocServlet.LONG_PARAMETER, "2.0");
@@ -709,9 +710,9 @@ public class GeolocTestHelper {
     
     public static MockHttpServletRequest createMockHttpServletRequestForStreetGeoloc() {
 	MockHttpServletRequest request = new MockHttpServletRequest();
-	request.addParameter(GeolocServlet.FROM_PARAMETER, "3");
-	request.addParameter(GeolocServlet.TO_PARAMETER, StreetSearchQuery.MAX_RESULTS+10+"");
-	request.addParameter(GeolocServlet.FORMAT_PARAMETER, "XML");
+	request.addParameter(GisgraphyServlet.FROM_PARAMETER, "3");
+	request.addParameter(GisgraphyServlet.TO_PARAMETER, StreetSearchQuery.MAX_RESULTS+10+"");
+	request.addParameter(GisgraphyServlet.FORMAT_PARAMETER, "XML");
 	request.addParameter(GeolocServlet.PLACETYPE_PARAMETER, "city");
 	request.addParameter(GeolocServlet.LAT_PARAMETER, "1.0");
 	request.addParameter(GeolocServlet.LONG_PARAMETER, "2.0");
