@@ -144,6 +144,11 @@
 				Add how many times all the services has been called on the stats page
 			</action>
 			
+			<action dev="David Masclet" type="update">
+				Remove some unused code and some alert in js API
+			</action>
+			
+			
 		</release>
 	</body>
 </document>
