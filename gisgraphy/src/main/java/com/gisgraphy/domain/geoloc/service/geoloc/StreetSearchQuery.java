@@ -24,13 +24,18 @@ package com.gisgraphy.domain.geoloc.service.geoloc;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.gisgraphy.domain.geoloc.service.fulltextsearch.FullTextSearchException;
+import com.gisgraphy.domain.geoloc.service.fulltextsearch.FulltextQuery;
 import com.gisgraphy.domain.valueobject.Output;
 import com.gisgraphy.domain.valueobject.Pagination;
+import com.gisgraphy.servlet.FulltextServlet;
+import com.gisgraphy.servlet.GisgraphyServlet;
+import com.gisgraphy.servlet.StreetServlet;
 import com.vividsolutions.jts.geom.Point;
 
 public class StreetSearchQuery extends GeolocQuery {
-
-    public static final int MAX_RESULTS = 50;
+    
+    public final static int NAME_PREFIX_MAX_LENGTH = 200;
 
     private String streetType = null;
     
@@ -41,6 +46,19 @@ public class StreetSearchQuery extends GeolocQuery {
 
     public StreetSearchQuery(HttpServletRequest req) {
 	super(req);
+	//streettype
+	withStreetType(req
+	.getParameter(StreetServlet.STREETTYPE_PARAMETER));
+	
+	//OneWay
+	if ("true".equalsIgnoreCase(req
+		.getParameter(StreetServlet.ONEWAY_PARAMETER))
+		|| "on".equalsIgnoreCase(req
+			.getParameter(StreetServlet.ONEWAY_PARAMETER))) {
+	    withOneWay("true");
+	}
+	//namePrefix
+	withNamePrefix(req.getParameter(FulltextServlet.QUERY_PARAMETER));
 
     }
 
@@ -123,10 +141,21 @@ public class StreetSearchQuery extends GeolocQuery {
 
     /**
      * @param namePrefix the string that the street must starts with (aka : 'name%').
-     * Don't prefix with 'Street'
+     * Don't prefix with 'Street' !
+     * not taken into account if empty string or null.
+     * @throws StreetSearchException if length is greater than @see {@link StreetSearchQuery#NAME_PREFIX_MAX_LENGTH}
      * @return The current query to chain methods
      */
     public StreetSearchQuery withNamePrefix(String namePrefix) {
+	if (namePrefix == null || "".equals(namePrefix.trim())){
+	    return this;
+	}
+	
+	if (namePrefix.length() > StreetSearchQuery.NAME_PREFIX_MAX_LENGTH) {
+	    throw new StreetSearchException("namePrefix is limited to "
+		    + StreetSearchQuery.NAME_PREFIX_MAX_LENGTH + "characters");
+	}
+	
 	this.namePrefix = namePrefix;
 	return this;
     }
@@ -142,8 +171,7 @@ public class StreetSearchQuery extends GeolocQuery {
 
     @Override
     public int getMaxLimitResult() {
-	//TODO OSM
-	return MAX_RESULTS;
+	return StreetServlet.DEFAULT_MAX_RESULTS;
     }
 
     /**

@@ -190,7 +190,7 @@ public class GeolocQueryTest extends TestCase {
 	    // test indentation
 	    // with no value specified
 	    request = GeolocTestHelper.createMockHttpServletRequestForGeoloc();
-	    request.removeParameter(GeolocServlet.INDENT_PARAMETER);
+	    request.removeParameter(GisgraphyServlet.INDENT_PARAMETER);
 	    query = new GeolocQuery(request);
 	    assertFalse("When no " + GeolocServlet.INDENT_PARAMETER
 		    + " is specified, the  parameter should be set to false",
@@ -204,16 +204,16 @@ public class GeolocQueryTest extends TestCase {
 		    query.isOutputIndented());
 	    // test case sensitive
 	    request = GeolocTestHelper.createMockHttpServletRequestForGeoloc();
-	    request.setParameter(GeolocServlet.INDENT_PARAMETER, "true");
+	    request.setParameter(GeolocServlet.INDENT_PARAMETER, "tRue");
 	    query = new GeolocQuery(request);
 	    assertTrue(GeolocServlet.INDENT_PARAMETER
 		    + " should be case insensitive  ", query.isOutputIndented());
 	    // test 'on' value
 	    request = GeolocTestHelper.createMockHttpServletRequestForGeoloc();
-	    request.setParameter(FulltextServlet.INDENT_PARAMETER, "oN");
+	    request.setParameter(GisgraphyServlet.INDENT_PARAMETER, "oN");
 	    query = new GeolocQuery(request);
 	    assertTrue(
-		    FulltextServlet.INDENT_PARAMETER
+		    GisgraphyServlet.INDENT_PARAMETER
 			    + " should be true for 'on' value (case insensitive and on value)  ",
 		    query.isOutputIndented());
 

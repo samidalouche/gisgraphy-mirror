@@ -44,7 +44,7 @@ import com.gisgraphy.domain.valueobject.Output.OutputFormat;
 import com.gisgraphy.helper.HTMLHelper;
 
 /**
- * Provides a servlet Wrapper around The Gisgraphy geoloc Service, Map web
+ * Provides a servlet Wrapper around The Gisgraphy geoloc Service, it Maps web
  * parameters to create a {@linkplain GeolocQuery}
  * 
  * @author <a href="mailto:david.masclet@gisgraphy.com">David Masclet</a>
@@ -56,7 +56,6 @@ public class GeolocServlet extends GisgraphyServlet {
     public static final String LONG_PARAMETER = "lng";
     public static final String RADIUS_PARAMETER = "radius";
     public static final int DEFAULT_MAX_RESULTS = 10;
-    public static final String INDENT_PARAMETER = "indent";
 
     private boolean debugMode = false;
 

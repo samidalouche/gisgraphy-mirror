@@ -46,6 +46,7 @@ import com.gisgraphy.domain.valueobject.Pagination;
 import com.gisgraphy.domain.valueobject.Output.OutputFormat;
 import com.gisgraphy.domain.valueobject.Output.OutputStyle;
 import com.gisgraphy.servlet.FulltextServlet;
+import com.gisgraphy.servlet.GisgraphyServlet;
 import com.gisgraphy.test.GeolocTestHelper;
 
 public class FulltextQueryTest extends AbstractIntegrationHttpSolrTestCase {
@@ -255,30 +256,30 @@ public class FulltextQueryTest extends AbstractIntegrationHttpSolrTestCase {
 	// test indentation
 	// with no value specified
 	request = GeolocTestHelper.createMockHttpServletRequestForFullText();
-	request.removeParameter(FulltextServlet.INDENT_PARAMETER);
+	request.removeParameter(GisgraphyServlet.INDENT_PARAMETER);
 	query = new FulltextQuery(request);
-	assertFalse("When no " + FulltextServlet.INDENT_PARAMETER
+	assertFalse("When no " + GisgraphyServlet.INDENT_PARAMETER
 		+ " is specified, the  parameter should be set to false", query
 		.isOutputIndented());
 	// with wrong value
 	request = GeolocTestHelper.createMockHttpServletRequestForFullText();
-	request.setParameter(FulltextServlet.INDENT_PARAMETER, "UNK");
+	request.setParameter(GisgraphyServlet.INDENT_PARAMETER, "UNK");
 	query = new FulltextQuery(request);
-	assertFalse("When wrong " + FulltextServlet.INDENT_PARAMETER
+	assertFalse("When wrong " + GisgraphyServlet.INDENT_PARAMETER
 		+ " is specified, the  parameter should be set to false", query
 		.isOutputIndented());
 	// test case sensitive
 	request = GeolocTestHelper.createMockHttpServletRequestForFullText();
-	request.setParameter(FulltextServlet.INDENT_PARAMETER, "True");
+	request.setParameter(GisgraphyServlet.INDENT_PARAMETER, "True");
 	query = new FulltextQuery(request);
-	assertTrue(FulltextServlet.INDENT_PARAMETER
+	assertTrue(GisgraphyServlet.INDENT_PARAMETER
 		+ " should be case insensitive  ", query.isOutputIndented());
 	// test with on value
 	request = GeolocTestHelper.createMockHttpServletRequestForFullText();
-	request.setParameter(FulltextServlet.INDENT_PARAMETER, "oN");
+	request.setParameter(GisgraphyServlet.INDENT_PARAMETER, "oN");
 	query = new FulltextQuery(request);
 	assertTrue(
-		FulltextServlet.INDENT_PARAMETER
+		GisgraphyServlet.INDENT_PARAMETER
 			+ " should be true for 'on' value (case insensitive and on value)  ",
 		query.isOutputIndented());
 	
@@ -325,6 +326,12 @@ public class FulltextQueryTest extends AbstractIntegrationHttpSolrTestCase {
 	
 
 	// test query
+	//test with good value
+	request = GeolocTestHelper.createMockHttpServletRequestForFullText();
+	query = new FulltextQuery(request);
+	assertEquals("query should be set when specified",request.getParameter(FulltextServlet.QUERY_PARAMETER), query.getQuery());
+	
+	
 	// With no value specified
 	request = GeolocTestHelper.createMockHttpServletRequestForFullText();
 	request.removeParameter(FulltextServlet.QUERY_PARAMETER);

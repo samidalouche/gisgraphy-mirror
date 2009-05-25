@@ -23,7 +23,6 @@
 package com.gisgraphy.servlet;
 
 import java.io.IOException;
-import java.io.Writer;
 import java.util.ResourceBundle;
 
 import javax.servlet.ServletException;
@@ -36,32 +35,36 @@ import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
 import com.gisgraphy.domain.geoloc.service.errors.IoutputFormatVisitor;
-import com.gisgraphy.domain.geoloc.service.fulltextsearch.FulltextErrorVisitor;
-import com.gisgraphy.domain.geoloc.service.fulltextsearch.FulltextQuery;
-import com.gisgraphy.domain.geoloc.service.fulltextsearch.IFullTextSearchEngine;
+import com.gisgraphy.domain.geoloc.service.geoloc.GeolocErrorVisitor;
+import com.gisgraphy.domain.geoloc.service.geoloc.GeolocQuery;
+import com.gisgraphy.domain.geoloc.service.geoloc.IGeolocSearchEngine;
+import com.gisgraphy.domain.geoloc.service.geoloc.StreetSearchQuery;
 import com.gisgraphy.domain.valueobject.Constants;
 import com.gisgraphy.domain.valueobject.GisgraphyServiceType;
 import com.gisgraphy.domain.valueobject.Output.OutputFormat;
-import com.gisgraphy.helper.EncodingHelper;
 import com.gisgraphy.helper.HTMLHelper;
 
 /**
- * Provides a servlet Wrapper around The Gisgraphy fulltext Service
+ * Provides a servlet Wrapper around The Gisgraphy street Service, it Maps web
+ * parameters to create a {@linkplain StreetSearchQuery}
  * 
  * @author <a href="mailto:david.masclet@gisgraphy.com">David Masclet</a>
- * @see GeolocServlet
  */
-public class FulltextServlet extends GisgraphyServlet {
+public class StreetServlet extends GisgraphyServlet {
 
+    /**
+     * Default serialVersionUID
+     */
+    private static final long serialVersionUID = 8544156407519263142L;
     
-    public static final String COUNTRY_PARAMETER = "country";
-    public static final String LANG_PARAMETER = "lang";
-    public static final String STYLE_PARAMETER = "style";
-    public static final String PLACETYPE_PARAMETER = "placetype";
-    public static final String QUERY_PARAMETER = "q";
-    public static final int DEFAULT_MAX_RESULTS = 10;
-    public static final String SPELLCHECKING_PARAMETER = "spellchecking";
-
+    public static final String STREETTYPE_PARAMETER = "streettype";
+    public static final String LAT_PARAMETER = "lat";
+    public static final String LONG_PARAMETER = "lng";
+    public static final String RADIUS_PARAMETER = "radius";
+    public static final String ONEWAY_PARAMETER = "oneway";
+    public static final String NAME_PREFIX_PARAMETER = "nameprefix";
+    public static final int DEFAULT_MAX_RESULTS = 50;
+    private boolean debugMode = false;
 
     /*
      * (non-Javadoc)
@@ -73,31 +76,27 @@ public class FulltextServlet extends GisgraphyServlet {
 	try {
 	    WebApplicationContext springContext = WebApplicationContextUtils
 		    .getWebApplicationContext(getServletContext());
-	    fullTextSearchEngine = (IFullTextSearchEngine) springContext
-		    .getBean("fullTextSearchEngine");
-	    logger.info("fullTextSearchEngine is injected :"
-		    + fullTextSearchEngine);
+	    geolocSearchEngine = (IGeolocSearchEngine) springContext
+		    .getBean("streetSearchEngine");
+	    logger
+		    .info("streetSearchEngine is injected :"
+			    + geolocSearchEngine);
 	    this.debugMode = Boolean.valueOf(getInitParameter("debugMode"));
-	    logger.info("GeolocServlet debugmode = " + this.debugMode);
-	    EncodingHelper.setJVMEncodingToUTF8();
+	    logger.info("StreetServlet debugmode = " + this.debugMode);
 	} catch (Exception e) {
-	    logger.error("Can not start fulltextServlet : " + e.getMessage());
+	    logger.error("Can not start StreetServlet : " + e.getMessage());
 	    e.printStackTrace();
 	}
     }
 
-    /**
-     * Default serialVersionUID
-     */
-    private static final long serialVersionUID = -9054548241743095743L;
 
     /**
      * The logger
      */
-    protected static Logger logger = LoggerFactory
-	    .getLogger(FulltextServlet.class);
+    protected static final Logger logger = LoggerFactory
+	    .getLogger(StreetServlet.class);
 
-    private IFullTextSearchEngine fullTextSearchEngine;
+    private IGeolocSearchEngine geolocSearchEngine;
 
     /*
      * (non-Javadoc)
@@ -112,27 +111,28 @@ public class FulltextServlet extends GisgraphyServlet {
 	try {
 	    format = setResponseContentType(req, resp);
 	    // check empty query
-	    if (HTMLHelper.isParametersEmpty(req, QUERY_PARAMETER)) {
+	    if (HTMLHelper
+		    .isParametersEmpty(req, LAT_PARAMETER, LONG_PARAMETER)) {
 		sendCustomError(ResourceBundle.getBundle(
 			Constants.BUNDLE_ERROR_KEY).getString(
-			"error.emptyQuery"), format, resp,req);
+			"error.emptyLatLong"), format, resp,req);
 		return;
 	    }
-	    FulltextQuery query = new FulltextQuery(req);
+	    GeolocQuery query = new GeolocQuery(req);
 	    if (logger.isDebugEnabled()){
-		logger.debug("query=" + query);
-		logger.debug("fulltext engine=" + fullTextSearchEngine);
+	    logger.debug("query=" + query);
+	    logger.debug("fulltext engine=" + geolocSearchEngine);
 	    }
-	    String UA = req.getHeader(Constants.HTTP_USER_AGENT_HEADER_NAME);
-	    String referer = req.getHeader(Constants.HTTP_REFERER_HEADER_NAME);
+	    String UA = req.getHeader("User-Agent");
+	    String referer = req.getHeader("Referer");
 	    if (logger.isInfoEnabled()){
-		logger.info("A fulltext request from "+req.getRemoteHost()+" / "+req.getRemoteAddr()+" was received , Referer : "+referer+" , UA : "+UA);
+		logger.info("A geoloc request from "+req.getRemoteHost()+" / "+req.getRemoteAddr()+" was received , Referer : "+referer+" , UA : "+UA);
 	    }
-	    
-	    fullTextSearchEngine.executeAndSerialize(query, resp
+
+	    geolocSearchEngine.executeAndSerialize(query, resp
 		    .getOutputStream());
 	} catch (RuntimeException e) {
-	    logger.error("error while creating full text query : " + e);
+	    logger.error("error while creating geoloc query : " + e);
 	    e.printStackTrace();
 	    String errorMessage = this.debugMode ? " : " + e.getMessage() : "";
 	    sendCustomError(ResourceBundle
@@ -143,31 +143,36 @@ public class FulltextServlet extends GisgraphyServlet {
 	}
 
     }
-    
+
+
+ 
+
    
     /**
-     * @param fullTextSearchEngine
-     *                the fullTextSearchEngine to set
+     * @param geolocSearchEngine
+     *                the geolocSearchEngine to set
      */
-    public void setFullTextSearchEngine(
-	    IFullTextSearchEngine fullTextSearchEngine) {
-	this.fullTextSearchEngine = fullTextSearchEngine;
+    public void setGeolocSearchEngine(IGeolocSearchEngine geolocSearchEngine) {
+	this.geolocSearchEngine = geolocSearchEngine;
     }
+
+   
 
     /* (non-Javadoc)
      * @see com.gisgraphy.servlet.GisgraphyServlet#getGisgraphyServiceType()
      */
     @Override
     public GisgraphyServiceType getGisgraphyServiceType() {
-	return GisgraphyServiceType.FULLTEXT;
+	return GisgraphyServiceType.GEOLOC;
     }
-    
+
+
     /* (non-Javadoc)
      * @see com.gisgraphy.servlet.GisgraphyServlet#getErrorVisitor(java.lang.String)
      */
     @Override
     public IoutputFormatVisitor getErrorVisitor(String errorMessage) {
-	return new FulltextErrorVisitor(errorMessage);
+	return new GeolocErrorVisitor(errorMessage);
     }
 
 }

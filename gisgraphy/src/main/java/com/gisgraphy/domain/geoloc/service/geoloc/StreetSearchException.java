@@ -32,7 +32,7 @@ import com.gisgraphy.domain.geoloc.service.ServiceException;
  * 
  * @author <a href="mailto:david.masclet@gisgraphy.com">David Masclet</a>
  */
-public class GeolocServiceException extends ServiceException {
+public class StreetSearchException extends ServiceException {
 
     /**
      * Default serial id
@@ -42,7 +42,7 @@ public class GeolocServiceException extends ServiceException {
     /**
      * Default Constructor
      */
-    public GeolocServiceException() {
+    public StreetSearchException() {
 	super();
     }
 
@@ -52,7 +52,7 @@ public class GeolocServiceException extends ServiceException {
      * @param cause
      *                The cause
      */
-    public GeolocServiceException(String message, Throwable cause) {
+    public StreetSearchException(String message, Throwable cause) {
 	super(message, cause);
     }
 
@@ -60,7 +60,7 @@ public class GeolocServiceException extends ServiceException {
      * @param message
      *                The message
      */
-    public GeolocServiceException(String message) {
+    public StreetSearchException(String message) {
 	super(message);
     }
 
@@ -68,7 +68,7 @@ public class GeolocServiceException extends ServiceException {
      * @param cause
      *                The cause
      */
-    public GeolocServiceException(Throwable cause) {
+    public StreetSearchException(Throwable cause) {
 	super(cause);
     }
 

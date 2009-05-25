@@ -152,6 +152,10 @@
 				Servlet send an 500 status code when an error occurred instead of 200
 			</action>
 			
+			<action dev="David Masclet" type="update">
+				GeolocServiceException has been renamed to GeolocSearchException
+			</action>
+			
 			
 		</release>
 	</body>

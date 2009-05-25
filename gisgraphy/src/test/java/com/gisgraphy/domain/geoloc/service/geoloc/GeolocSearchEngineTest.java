@@ -277,7 +277,7 @@ public class GeolocSearchEngineTest extends AbstractIntegrationHttpSolrTestCase 
 	    fail("executeQuery does not accept null query");
 	} catch (IllegalArgumentException e) {
 
-	} catch (GeolocServiceException e) {
+	} catch (GeolocSearchException e) {
 	    fail("executequery does not accept null query and must throws an IllegalArgumentException, not GeolocServiceException");
 	}
     }
@@ -288,7 +288,7 @@ public class GeolocSearchEngineTest extends AbstractIntegrationHttpSolrTestCase 
 	    fail("executeQueryToString does not accept null query");
 	} catch (IllegalArgumentException e) {
 
-	} catch (GeolocServiceException e) {
+	} catch (GeolocSearchException e) {
 	    fail("executequeryToString does not accept null query and must throws an IllegalArgumentException, not GeolocServiceException");
 	}
     }
@@ -300,7 +300,7 @@ public class GeolocSearchEngineTest extends AbstractIntegrationHttpSolrTestCase 
 	    fail("executeAndSerialize does not accept null query");
 	} catch (IllegalArgumentException e) {
 
-	} catch (GeolocServiceException e) {
+	} catch (GeolocSearchException e) {
 	    fail("executeAndSerialize does not accept null query and must throws an IllegalArgumentException, not GeolocServiceException");
 	}
     }
@@ -312,7 +312,7 @@ public class GeolocSearchEngineTest extends AbstractIntegrationHttpSolrTestCase 
 	    fail("executeAndSerialize does not accept null query");
 	} catch (IllegalArgumentException e) {
 
-	} catch (GeolocServiceException e) {
+	} catch (GeolocSearchException e) {
 	    fail("executeAndSerialize does not accept null outputStream and must throws an IllegalArgumentException, not GeolocServiceException");
 	}
     }

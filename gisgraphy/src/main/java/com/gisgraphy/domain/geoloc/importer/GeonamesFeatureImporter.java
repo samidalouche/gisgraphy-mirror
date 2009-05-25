@@ -70,7 +70,8 @@ public class GeonamesFeatureImporter extends AbstractGeonamesProcessor {
 
     private ICountryDao countryDao;
 
-    private List<Pattern> acceptedPatterns;
+    private List<Pattern> acceptedPatterns ;
+    
 
     private ISolRSynchroniser solRSynchroniser;
 

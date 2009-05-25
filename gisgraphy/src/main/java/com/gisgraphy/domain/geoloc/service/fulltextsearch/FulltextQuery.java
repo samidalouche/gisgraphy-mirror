@@ -50,6 +50,7 @@ import com.gisgraphy.domain.valueobject.Output.OutputFormat;
 import com.gisgraphy.domain.valueobject.Output.OutputStyle;
 import com.gisgraphy.helper.GeolocHelper;
 import com.gisgraphy.servlet.FulltextServlet;
+import com.gisgraphy.servlet.GisgraphyServlet;
 
 /**
  * A fulltext Query
@@ -151,9 +152,9 @@ public class FulltextQuery extends AbstractGisQuery {
 
 	//indentation
 	if ("true".equalsIgnoreCase(req
-		.getParameter(FulltextServlet.INDENT_PARAMETER))
+		.getParameter(GisgraphyServlet.INDENT_PARAMETER))
 		|| "on".equalsIgnoreCase(req
-			.getParameter(FulltextServlet.INDENT_PARAMETER))) {
+			.getParameter(GisgraphyServlet.INDENT_PARAMETER))) {
 	    output.withIndentation();
 	}
 	//spellchecking

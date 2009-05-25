@@ -82,31 +82,31 @@ public class GeolocQuery extends AbstractGisQuery {
 	    latitude = GeolocHelper.parseInternationalDouble(req
 		    .getParameter(GeolocServlet.LAT_PARAMETER));
 	} catch (Exception e) {
-	    throw new GeolocServiceException("latitude is not correct or empty");
+	    throw new GeolocSearchException("latitude is not correct or empty");
 	}
 	if (latitude == null) {
-	    throw new GeolocServiceException("latitude is not correct or empty");
+	    throw new GeolocSearchException("latitude is not correct or empty");
 	}
 	// long
 	try {
 	    longitude = GeolocHelper.parseInternationalDouble(req
 		    .getParameter(GeolocServlet.LONG_PARAMETER));
 	} catch (Exception e) {
-	    throw new GeolocServiceException(
+	    throw new GeolocSearchException(
 		    "longitude is not correct or empty");
 	}
 	if (longitude == null) {
-	    throw new GeolocServiceException(
+	    throw new GeolocSearchException(
 		    "longitude is not correct or empty");
 	}
 	// point
 	try {
 	    this.point = GeolocHelper.createPoint(longitude, latitude);
 	} catch (RuntimeException e1) {
-	    throw new GeolocServiceException(e1.getMessage());
+	    throw new GeolocSearchException(e1.getMessage());
 	}
 	if (point == null) {
-	    throw new GeolocServiceException("can not determine Point");
+	    throw new GeolocSearchException("can not determine Point");
 	}
 	// radius
 	try {
@@ -144,12 +144,13 @@ public class GeolocQuery extends AbstractGisQuery {
 
 	// indent
 	if ("true".equalsIgnoreCase(req
-		.getParameter(GeolocServlet.INDENT_PARAMETER))
+		.getParameter(GisgraphyServlet.INDENT_PARAMETER))
 		|| "on".equalsIgnoreCase(req
-			.getParameter(GeolocServlet.INDENT_PARAMETER))) {
+			.getParameter(GisgraphyServlet.INDENT_PARAMETER))) {
 	    output.withIndentation();
 	}
 
+	//placetype
 	Class<? extends GisFeature> clazz = GeolocHelper
 		.getClassEntityFromString(req
 			.getParameter(GeolocServlet.PLACETYPE_PARAMETER));

@@ -41,7 +41,7 @@ import com.gisgraphy.domain.valueobject.GisgraphyServiceType;
 import com.gisgraphy.domain.valueobject.Output.OutputFormat;
 import com.gisgraphy.test.FeedChecker;
 
-public class GeolocServletTest extends AbstractIntegrationHttpSolrTestCase {
+public class StreetServletTest extends AbstractIntegrationHttpSolrTestCase {
 
     private static ServletTester servletTester;
     private static String geolocServletUrl;
@@ -49,9 +49,9 @@ public class GeolocServletTest extends AbstractIntegrationHttpSolrTestCase {
     @Autowired
     private IGeolocSearchEngine geolocSearchEngine;
 
-    public static final String GEOLOC_SERVLET_CONTEXT = "/geoloc";
+    public static final String STREET_SERVLET_CONTEXT = "/street";
 
-    private static boolean geolocServletStarted = false;
+    private static boolean streetServletStarted = false;
 
     /*
      * (non-Javadoc)
@@ -62,17 +62,17 @@ public class GeolocServletTest extends AbstractIntegrationHttpSolrTestCase {
     public void onSetUp() throws Exception {
 	super.onSetUp();
 
-	if (!geolocServletStarted) {
-	    // we only launch geoloc servlet once
+	if (!streetServletStarted) {
+	    // we only launch street servlet once
 	    servletTester = new ServletTester();
 	    servletTester.setContextPath("/");
 	    ServletHolder holder = servletTester.addServlet(
-		    GeolocServlet.class, GEOLOC_SERVLET_CONTEXT + "/*");
+		    GeolocServlet.class, STREET_SERVLET_CONTEXT + "/*");
 	    geolocServletUrl = servletTester.createSocketConnector(true);
 	    servletTester.start();
 	    GeolocServlet geolocServlet = (GeolocServlet) holder.getServlet();
 	    geolocServlet.setGeolocSearchEngine(geolocSearchEngine);
-	    geolocServletStarted = true;
+	    streetServletStarted = true;
 	}
     }
 
@@ -88,7 +88,7 @@ public class GeolocServletTest extends AbstractIntegrationHttpSolrTestCase {
     }
 
     public void testGeolocServletShouldReturnCorrectContentTypeForSupportedFormat() {
-	String url = geolocServletUrl + GEOLOC_SERVLET_CONTEXT
+	String url = geolocServletUrl + STREET_SERVLET_CONTEXT
 		+ "/geolocsearch";
 
 	String queryString;
@@ -120,7 +120,7 @@ public class GeolocServletTest extends AbstractIntegrationHttpSolrTestCase {
     }
     
     public void testGeolocServletShouldReturnCorrectContentTypeForSupportedFormatWhenErrorOccured() {
-	String url = geolocServletUrl + GEOLOC_SERVLET_CONTEXT
+	String url = geolocServletUrl + STREET_SERVLET_CONTEXT
 		+ "/geolocsearch";
 
 	String queryStringWithMissingLat;
@@ -151,7 +151,7 @@ public class GeolocServletTest extends AbstractIntegrationHttpSolrTestCase {
     }
     
     public void testGeolocServletShouldReturnCorrectStatusCode() {
-	String url = geolocServletUrl + GEOLOC_SERVLET_CONTEXT
+	String url = geolocServletUrl + STREET_SERVLET_CONTEXT
 		+ "/geolocsearch";
 
 	String queryStringWithMissingLat;
@@ -180,7 +180,7 @@ public class GeolocServletTest extends AbstractIntegrationHttpSolrTestCase {
     public void testFulltextServletShouldReturnCorrectJSONError() {
 
 	JsTester jsTester = null;
-	String url = geolocServletUrl + GEOLOC_SERVLET_CONTEXT
+	String url = geolocServletUrl + STREET_SERVLET_CONTEXT
 		+ "/fulltextsearch";
 
 	String result;
@@ -221,7 +221,7 @@ public class GeolocServletTest extends AbstractIntegrationHttpSolrTestCase {
 
     public void testFulltextServletShouldReturnCorrectXMLError() {
 
-	String url = geolocServletUrl + GEOLOC_SERVLET_CONTEXT
+	String url = geolocServletUrl + STREET_SERVLET_CONTEXT
 		+ "/fulltextsearch";
 
 	String result;

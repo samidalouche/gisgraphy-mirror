@@ -93,7 +93,7 @@ public class GeolocResultsDtoSerializer implements
 		}
 	    });
 	} catch (JAXBException e) {
-	    throw new GeolocServiceException(e.getMessage(), e.getCause());
+	    throw new GeolocSearchException(e.getMessage(), e.getCause());
 	}
     }
 
@@ -156,7 +156,7 @@ public class GeolocResultsDtoSerializer implements
     try {
 	writer = new OutputStreamWriter(outputStream, Constants.CHARSET);
     } catch (Exception e) {
-	throw new GeolocServiceException("unknow encoding "
+	throw new GeolocSearchException("unknow encoding "
 		+ Constants.CHARSET, e);
     }
 
@@ -164,7 +164,7 @@ public class GeolocResultsDtoSerializer implements
     try {
 	writer.flush();
     } catch (IOException e) {
-	throw new GeolocServiceException("error during flush", e);
+	throw new GeolocSearchException("error during flush", e);
     }
 }
 

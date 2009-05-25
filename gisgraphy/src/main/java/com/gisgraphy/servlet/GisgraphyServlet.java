@@ -50,6 +50,7 @@ public abstract class  GisgraphyServlet extends HttpServlet {
     protected boolean debugMode = false;
 
 
+    public static final String INDENT_PARAMETER = "indent";
     public static final String TO_PARAMETER = "to";
     public static final String FROM_PARAMETER = "from";
     public static final String FORMAT_PARAMETER = "format";

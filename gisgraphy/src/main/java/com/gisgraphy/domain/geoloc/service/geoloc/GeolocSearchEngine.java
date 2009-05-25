@@ -88,7 +88,7 @@ public class GeolocSearchEngine implements IGeolocSearchEngine {
 	    dao = repositoryStrategy.getDao(placetype);
 	}
 	if (dao == null) {
-	    throw new GeolocServiceException(
+	    throw new GeolocSearchException(
 		    "No gisFeatureDao or no placetype can be found for "
 			    + placetype + " can be found.");
 	}
