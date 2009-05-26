@@ -35,11 +35,13 @@ import com.gisgraphy.domain.valueobject.Output.OutputFormat;
  * @author <a href="mailto:david.masclet@gisgraphy.com">David Masclet</a>
  * 
  */
-public class GeolocErrorVisitor implements IoutputFormatVisitor {
+public class StreetSearchErrorVisitor implements IoutputFormatVisitor {
 
+   
+    
     private String errorMessage = IoutputFormatVisitor.DEFAULT_ERROR_MESSAGE;
 
-    public GeolocErrorVisitor() {
+    public StreetSearchErrorVisitor() {
 	super();
     }
 
@@ -47,7 +49,7 @@ public class GeolocErrorVisitor implements IoutputFormatVisitor {
      * @param errorMessage
      *                The error Message
      */
-    public GeolocErrorVisitor(String errorMessage) {
+    public StreetSearchErrorVisitor(String errorMessage) {
 	super();
 	this.errorMessage = errorMessage;
     }
@@ -118,7 +120,7 @@ public class GeolocErrorVisitor implements IoutputFormatVisitor {
     public String visitGEORSS(OutputFormat outputFormat) {
 	return visitXML(outputFormat);
     }
-
+    
 
     /* (non-Javadoc)
      * @see com.gisgraphy.domain.geoloc.service.errors.IoutputFormatVisitor#getErrorMessage()

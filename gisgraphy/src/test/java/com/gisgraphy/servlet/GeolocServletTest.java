@@ -237,7 +237,6 @@ public class GeolocServletTest extends AbstractIntegrationHttpSolrTestCase {
 	    client.executeMethod(get);
 	    result = get.getResponseBodyAsString().trim();
 
-	    // JsTester
 	    String expected = ResourceBundle.getBundle(
 		    Constants.BUNDLE_ERROR_KEY).getString("error.emptyLatLong");
 	    FeedChecker.assertQ("The XML error is not correct", result, "//error[.='"

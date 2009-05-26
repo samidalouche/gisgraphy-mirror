@@ -420,6 +420,12 @@ public class FeedChecker {
            throw new RuntimeException("an error has occured during checkStreetSearchResultsDtoJAXBMapping : "+e);
         }
     }
+    
+    public static void checkFulltextErrorXML(String result,String errorMessage) {
+	FeedChecker.assertQ("The XML error is not correct", result,
+	    "//*[@name='status'][.='-1']", "//*[@name='error'][.='"
+		    + errorMessage + "']");
+    }
 
     
 }

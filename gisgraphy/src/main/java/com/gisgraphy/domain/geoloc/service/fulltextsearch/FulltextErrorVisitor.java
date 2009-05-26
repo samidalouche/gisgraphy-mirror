@@ -37,7 +37,7 @@ import com.gisgraphy.domain.valueobject.Output.OutputFormat;
  */
 public class FulltextErrorVisitor implements IoutputFormatVisitor {
 
-    private String errorMessage = "Internal Error";
+    private String errorMessage = IoutputFormatVisitor.DEFAULT_ERROR_MESSAGE;
 
     public FulltextErrorVisitor() {
 	super();
@@ -128,6 +128,14 @@ public class FulltextErrorVisitor implements IoutputFormatVisitor {
      */
     public String visitGEORSS(OutputFormat outputFormat) {
 	return visitXML(outputFormat);
+    }
+    
+
+    /* (non-Javadoc)
+     * @see com.gisgraphy.domain.geoloc.service.errors.IoutputFormatVisitor#getErrorMessage()
+     */
+    public String getErrorMessage() {
+        return errorMessage;
     }
 
 }

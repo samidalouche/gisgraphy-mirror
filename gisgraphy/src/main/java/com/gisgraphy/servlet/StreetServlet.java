@@ -38,6 +38,8 @@ import com.gisgraphy.domain.geoloc.service.errors.IoutputFormatVisitor;
 import com.gisgraphy.domain.geoloc.service.geoloc.GeolocErrorVisitor;
 import com.gisgraphy.domain.geoloc.service.geoloc.GeolocQuery;
 import com.gisgraphy.domain.geoloc.service.geoloc.IGeolocSearchEngine;
+import com.gisgraphy.domain.geoloc.service.geoloc.IStreetSearchEngine;
+import com.gisgraphy.domain.geoloc.service.geoloc.StreetSearchErrorVisitor;
 import com.gisgraphy.domain.geoloc.service.geoloc.StreetSearchQuery;
 import com.gisgraphy.domain.valueobject.Constants;
 import com.gisgraphy.domain.valueobject.GisgraphyServiceType;
@@ -76,16 +78,15 @@ public class StreetServlet extends GisgraphyServlet {
 	try {
 	    WebApplicationContext springContext = WebApplicationContextUtils
 		    .getWebApplicationContext(getServletContext());
-	    geolocSearchEngine = (IGeolocSearchEngine) springContext
+	    streetSearchEngine = (IStreetSearchEngine) springContext
 		    .getBean("streetSearchEngine");
 	    logger
 		    .info("streetSearchEngine is injected :"
-			    + geolocSearchEngine);
+			    + streetSearchEngine);
 	    this.debugMode = Boolean.valueOf(getInitParameter("debugMode"));
 	    logger.info("StreetServlet debugmode = " + this.debugMode);
 	} catch (Exception e) {
 	    logger.error("Can not start StreetServlet : " + e.getMessage());
-	    e.printStackTrace();
 	}
     }
 
@@ -96,7 +97,7 @@ public class StreetServlet extends GisgraphyServlet {
     protected static final Logger logger = LoggerFactory
 	    .getLogger(StreetServlet.class);
 
-    private IGeolocSearchEngine geolocSearchEngine;
+    private IStreetSearchEngine streetSearchEngine;
 
     /*
      * (non-Javadoc)
@@ -118,22 +119,20 @@ public class StreetServlet extends GisgraphyServlet {
 			"error.emptyLatLong"), format, resp,req);
 		return;
 	    }
-	    GeolocQuery query = new GeolocQuery(req);
+	    StreetSearchQuery query = new StreetSearchQuery(req);
 	    if (logger.isDebugEnabled()){
 	    logger.debug("query=" + query);
-	    logger.debug("fulltext engine=" + geolocSearchEngine);
 	    }
 	    String UA = req.getHeader("User-Agent");
 	    String referer = req.getHeader("Referer");
 	    if (logger.isInfoEnabled()){
-		logger.info("A geoloc request from "+req.getRemoteHost()+" / "+req.getRemoteAddr()+" was received , Referer : "+referer+" , UA : "+UA);
+		logger.info("A street requestfrom "+req.getRemoteHost()+" / "+req.getRemoteAddr()+" was received , Referer : "+referer+" , UA : "+UA);
 	    }
 
-	    geolocSearchEngine.executeAndSerialize(query, resp
+	    streetSearchEngine.executeAndSerialize(query, resp
 		    .getOutputStream());
 	} catch (RuntimeException e) {
 	    logger.error("error while creating geoloc query : " + e);
-	    e.printStackTrace();
 	    String errorMessage = this.debugMode ? " : " + e.getMessage() : "";
 	    sendCustomError(ResourceBundle
 		    .getBundle(Constants.BUNDLE_ERROR_KEY).getString(
@@ -149,11 +148,11 @@ public class StreetServlet extends GisgraphyServlet {
 
    
     /**
-     * @param geolocSearchEngine
-     *                the geolocSearchEngine to set
+     * @param streetSearchEngine
+     *                the streetSearchEngine to set
      */
-    public void setGeolocSearchEngine(IGeolocSearchEngine geolocSearchEngine) {
-	this.geolocSearchEngine = geolocSearchEngine;
+    public void setGeolocSearchEngine(IStreetSearchEngine streetSearchEngine) {
+	this.streetSearchEngine = streetSearchEngine;
     }
 
    
@@ -163,7 +162,7 @@ public class StreetServlet extends GisgraphyServlet {
      */
     @Override
     public GisgraphyServiceType getGisgraphyServiceType() {
-	return GisgraphyServiceType.GEOLOC;
+	return GisgraphyServiceType.STREET;
     }
 
 
@@ -172,7 +171,7 @@ public class StreetServlet extends GisgraphyServlet {
      */
     @Override
     public IoutputFormatVisitor getErrorVisitor(String errorMessage) {
-	return new GeolocErrorVisitor(errorMessage);
+	return new StreetSearchErrorVisitor(errorMessage);
     }
 
 }

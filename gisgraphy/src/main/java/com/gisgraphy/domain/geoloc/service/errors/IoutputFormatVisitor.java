@@ -31,6 +31,11 @@ import com.gisgraphy.domain.valueobject.Output.OutputFormat;
  * 
  */
 public interface IoutputFormatVisitor {
+    
+    /**
+     * The default error message when no message is given
+     */
+    public static final String DEFAULT_ERROR_MESSAGE = "Internal Error";
 
     /**
      * @param format
@@ -80,5 +85,10 @@ public interface IoutputFormatVisitor {
      * @return the String in the RSS format
      */
     String visitGEORSS(OutputFormat format);
+    
+    /**
+     * @return the errorMessage
+     */
+    public String getErrorMessage();
 
 }

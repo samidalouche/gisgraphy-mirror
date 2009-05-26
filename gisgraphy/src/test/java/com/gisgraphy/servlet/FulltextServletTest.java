@@ -225,9 +225,7 @@ public class FulltextServletTest extends AbstractIntegrationHttpSolrTestCase {
 	    // JsTester
 	    String expected = ResourceBundle.getBundle(
 		    Constants.BUNDLE_ERROR_KEY).getString("error.emptyQuery");
-	    FeedChecker.assertQ("The XML error is not correct", result,
-		    "//*[@name='status'][.='-1']", "//*[@name='error'][.='"
-			    + expected + "']");
+	    FeedChecker.checkFulltextErrorXML(result,expected);
 	} catch (IOException e) {
 	    fail("An exception has occured " + e.getMessage());
 	} finally {
