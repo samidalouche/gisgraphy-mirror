@@ -120,7 +120,7 @@ To suggest a change or a correction to any part of the documentation, please sen
 <a name="version"></a>
 <div align="right"><a href="#top">[top]</a></div>
 <h3>version</h3>
-This documentation is for the last version of gisgraphy (snapshots, nightly builds, and "not-released yet" versions included), you can find documentation and api docs for older versions <a href="http://www.gisgraphy.com/documentation/oldVersions/">here</a>
+This documentation is for the last version of gisgraphy (snapshots, nightly builds, and "not-released yet" versions included), you can find documentation and api docs for older versions <a href="http://www.gisgraphy.com/documentation/oldversions/">here</a>
 <a name="about"></a>
 <div align="right"><a href="#top">[top]</a></div>
 <h3>About</h3>
@@ -261,7 +261,7 @@ Gisgraphy is licensed under the terms of the <a href="http://www.gnu.org/license
 <a name="importdata"></a>
 <div align="right"><a href="#top">[top]</a></div>
 <h2>Import Data</h2>
-You must use the admin interface. see the <a href="#admininterface">admin interface section</a> for more informations
+To import data, you must use the admin interface. see the <a href="#admininterface">admin interface section</a> for more informations
 
 
 <a name="debugMode"></a>
@@ -543,6 +543,70 @@ This name of the class should not ends with '.class' but is case sensitive.
 </div>
 <br/><br/>
 
+<div align="right"><a href="#top">[top]</a></div>
+<a name="spellcheckerenabled"></a>
+<h4>spellchecker.enabled</h4>
+Enable or disable the spellchecker for the fulltext search engine. 'true' or 'false' are possible values. this option is case sensitive.
+<div class="code">
+Examples : <br/>
+spellchecker.enabled=true<br/>
+spellchecker.enabled=false
+</div>
+<div class="tip green tip">
+Spellchecking is only available from gisgraphy 1.1.
+</div>
+<br/><br/>
+
+<div align="right"><a href="#top">[top]</a></div>
+<a name="spellcheckeractiveByDefault"></a>
+<h4>spellchecker.activeByDefault=true</h4>
+Define the default value if the <a href="#spellchecking">spellchecking parameter</a> is not set. 'true' or 'false' are possible values. this option is case sensitive.
+<div class="code">
+Examples : <br/>
+spellchecker.activeByDefault=true<br/>
+spellchecker.activeByDefault=false
+</div>
+<div class="tip yellowtip">
+The spellchecker is only enabled if the <a href="#spellchecking">spellchecking parameter</a> <u>AND</u> the <a href="#spellcheckerenabled">spellchecker.enabled</a> are equals to 'true'
+</div>
+<br/><br/>
+
+<div align="right"><a href="#top">[top]</a></div>
+<h4>spellchecker.spellcheckerDictionaryName</h4>
+The name of the SolR spellChecker to use. it must match the name in the solrconfig.xml file. This option is case sensitive and you must set the name in the solrconfig.xml file and in the env.properties in lower case. by default two spellchecker are define : 'levenstein' and 'jarowinkler'. In practice jarowinkler give better results. 
+<div class="code">
+Examples : <br/>
+spellchecker.spellcheckerDictionaryName=jarowinkler<br/>
+spellchecker.spellcheckerDictionaryName=levenstein
+</div>
+<br/><br/>
+
+
+<div align="right"><a href="#top">[top]</a></div>
+<h4>spellchecker.collateResults</h4>
+For a request with several word, return a string with the best suggestion for each word. for instance for 'pariss frence' => 'Paris France' will be suggest. This option is case sensitive. 'true' and 'false' are possible values  
+<div class="code">
+Examples : <br/>
+spellchecker.collateResults=true<br/>
+spellchecker.collateResults=false
+</div>
+<br/><br/>
+
+
+<div align="right"><a href="#top">[top]</a></div>
+<h4>spellchecker.numberOfSuggestion</h4>
+Tells how many suggestion per word should pe suggested. For example, for a request with 3 word and a spellchecker.numberOfSuggestion=2, 6 words will be suggested. This option is a number.  
+<div class="code">
+Examples : <br/>
+spellchecker.numberOfSuggestion=2<br/>
+spellchecker.numberOfSuggestion=3
+</div>
+<div class="tip yellowtip">
+Note that it is a maximmum. If less suggestions can be calculated (or no suggestion), the number of suggestion could be lesser than the numberOfSuggestion value.
+</div>
+<br/><br/>
+
+
 <a name="importfailure"></a>
 <div align="right"><a href="#top">[top]</a></div>
 <h3>Import failure</h3>
@@ -668,7 +732,12 @@ See a full list and explanation of placetype : <a href="http://www.gisgraphy.com
 
 <br/>
 <a name="indent"></a>
-<li>The indentation (optional) : indents the results. Default to false. the possible values are true|false (or "on" when used with the rest service <a href="#indentonfulltext">see</a></li>) Georss and Atom won't be indented for performance reason
+<li>The indentation (optional) : indents the results. Default to false. the possible values are true|false (or "on" when used with the rest service <a href="#indentonfulltext">see more</a></li>) Georss and Atom won't be indented for performance reason
+<br/><br/>
+
+<br/>
+<a name="spellchecking"></a>
+<li> The spellchecking (optional) : whether some suggestions should be provided if no results are found. default value is the value of the spellchecker.activeByDefault option (<a href="#spellcheckeractiveByDefault">see more</a>) .</li>
 <br/><br/>
 
 
@@ -698,6 +767,7 @@ Here is a summary of the Web parameters mapping : <br/>
 <tr><td>placetype</td><td>placetype</td></tr>
 <tr><td>country code</td><td>country</td></tr>
 <tr><td>indent</td><td>indent</td></tr>
+<tr><td>spellchecking</td><td>spellchecking</td></tr>
 </table>
 <br/>
 
@@ -1013,6 +1083,10 @@ Here is a description of all the output fields, some fields are specific to cert
 <tr><td>postalCodeMask</td><td>The mask that all postal code of the country matches</td><td>Country</td></tr>
 </table>
 <br/><br/>
+
+<div class="tip greentip">
+Some fields were not available in older version of gisgraphy. please see <a href="http://www.gisgraphy.com/documentation/oldversions/">old versions</a>
+</div>
 
 <a name="geolocservicejavaapi"></a>
 <div align="right"><a href="#top">[top]</a></div>
