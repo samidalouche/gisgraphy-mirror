@@ -87,7 +87,7 @@ public class GeolocServletTest extends AbstractIntegrationHttpSolrTestCase {
 	// servletTester.stop();
     }
 
-    public void testGeolocServletShouldReturnCorrectContentTypeForSupportedFormat() {
+    public void testShouldReturnCorrectContentTypeForSupportedFormat() {
 	String url = geolocServletUrl + GEOLOC_SERVLET_CONTEXT
 		+ "/geolocsearch";
 
@@ -119,7 +119,7 @@ public class GeolocServletTest extends AbstractIntegrationHttpSolrTestCase {
 
     }
     
-    public void testGeolocServletShouldReturnCorrectContentTypeForSupportedFormatWhenErrorOccured() {
+    public void testShouldReturnCorrectContentTypeForSupportedFormatWhenErrorOccured() {
 	String url = geolocServletUrl + GEOLOC_SERVLET_CONTEXT
 		+ "/geolocsearch";
 
@@ -150,7 +150,7 @@ public class GeolocServletTest extends AbstractIntegrationHttpSolrTestCase {
 
     }
     
-    public void testGeolocServletShouldReturnCorrectStatusCode() {
+    public void testShouldReturnCorrectStatusCode() {
 	String url = geolocServletUrl + GEOLOC_SERVLET_CONTEXT
 		+ "/geolocsearch";
 
@@ -177,7 +177,7 @@ public class GeolocServletTest extends AbstractIntegrationHttpSolrTestCase {
 
     }
 
-    public void testFulltextServletShouldReturnCorrectJSONError() {
+    public void testShouldReturnCorrectJSONError() {
 
 	JsTester jsTester = null;
 	String url = geolocServletUrl + GEOLOC_SERVLET_CONTEXT
@@ -219,7 +219,7 @@ public class GeolocServletTest extends AbstractIntegrationHttpSolrTestCase {
 
     }
 
-    public void testFulltextServletShouldReturnCorrectXMLError() {
+    public void testShouldReturnCorrectXMLError() {
 
 	String url = geolocServletUrl + GEOLOC_SERVLET_CONTEXT
 		+ "/fulltextsearch";

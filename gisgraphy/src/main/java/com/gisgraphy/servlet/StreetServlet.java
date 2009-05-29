@@ -151,7 +151,7 @@ public class StreetServlet extends GisgraphyServlet {
      * @param streetSearchEngine
      *                the streetSearchEngine to set
      */
-    public void setGeolocSearchEngine(IStreetSearchEngine streetSearchEngine) {
+    public void setStreetSearchEngine(IStreetSearchEngine streetSearchEngine) {
 	this.streetSearchEngine = streetSearchEngine;
     }
 
