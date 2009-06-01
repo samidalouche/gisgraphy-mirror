@@ -157,7 +157,7 @@
 			</action>
 			
 			<action dev="David Masclet" type="update">
-				AlternateNameSource is @Enumerated(EnumType.STRING) 
+				AlternateNameSource is @Enumerated(EnumType.STRING) in AlternateName 
 				so, it is character varying(255) in the database
 			</action>
 			
