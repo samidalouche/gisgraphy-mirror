@@ -156,6 +156,12 @@
 				GeolocServiceException has been renamed to GeolocSearchException
 			</action>
 			
+			<action dev="David Masclet" type="update">
+				AlternateNameSource is @Enumerated(EnumType.STRING) 
+				so, it is character varying(255) in the database
+			</action>
+			
+			AlternateNameSource
 			
 		</release>
 	</body>
