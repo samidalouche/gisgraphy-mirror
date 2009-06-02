@@ -37,6 +37,7 @@ import com.gisgraphy.domain.geoloc.entity.City;
 import com.gisgraphy.domain.geoloc.entity.GisFeature;
 import com.gisgraphy.domain.geoloc.entity.OpenStreetMap;
 import com.gisgraphy.domain.geoloc.service.fulltextsearch.AbstractIntegrationHttpSolrTestCase;
+import com.gisgraphy.domain.geoloc.service.geoloc.street.StreetType;
 import com.gisgraphy.domain.repository.ICityDao;
 import com.gisgraphy.domain.repository.IOpenStreetMapDao;
 import com.gisgraphy.domain.valueobject.Constants;
@@ -62,11 +63,6 @@ public class StreetSearchEngineTest extends AbstractIntegrationHttpSolrTestCase 
     @Resource
     IStatsUsageService statsUsageService;
     
-  /*  public void testExecuteAndSerializeShouldSerialize() {
-	//TODO OSM
-    
-    }
-*/
     @Test
     public void testExecuteAndSerializeShouldSerialize() {
 	OpenStreetMap street = GeolocTestHelper.createOpenStreetMap();
@@ -81,7 +77,7 @@ public class StreetSearchEngineTest extends AbstractIntegrationHttpSolrTestCase 
 
 	Pagination pagination = paginate().from(1).to(15);
 	Output output = Output.withFormat(OutputFormat.XML).withIndentation();
-	StreetSearchQuery query = new StreetSearchQuery(street.getLocation(),10000,pagination,output,street.getStreetType(),street.getOneWay(),null);
+	StreetSearchQuery query = new StreetSearchQuery(street.getLocation(),10000,pagination,output,StreetType.motorway,street.getOneWay(),null);
 	FileOutputStream outputStream = null;
 	try {
 	    outputStream = new FileOutputStream(file);

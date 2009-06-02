@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Required;
 
 import com.gisgraphy.domain.geoloc.entity.OpenStreetMap;
 import com.gisgraphy.domain.geoloc.service.fulltextsearch.AbstractIntegrationHttpSolrTestCase;
+import com.gisgraphy.domain.geoloc.service.geoloc.street.StreetType;
 import com.gisgraphy.domain.valueobject.StreetDistance;
 import com.gisgraphy.helper.GeolocHelper;
 import com.vividsolutions.jts.geom.MultiLineString;
@@ -35,7 +36,7 @@ public class OpenStreetMapDaoTest extends AbstractIntegrationHttpSolrTestCase{
 	//Simulate middle point
 	streetOSM2.setLocation(GeolocHelper.createPoint(30.11F, 30.11F));
 	streetOSM2.setOneWay("oneWay");
-	streetOSM2.setStreetType("streetType2");
+	streetOSM2.setStreetType(StreetType.footway);
 	streetOSM2.setName("John Kenedy");
 	openStreetMapDao.save(streetOSM2);
 	assertNotNull(openStreetMapDao.get(streetOSM2.getId()));
@@ -49,8 +50,8 @@ public class OpenStreetMapDaoTest extends AbstractIntegrationHttpSolrTestCase{
 	Assert.assertEquals(GeolocHelper.distance(searchPoint, nearestStreet.get(0).getLocation()), nearestStreet.get(0).getDistance().longValue(),5);
 	
 	//test streettype
-	assertEquals(0,openStreetMapDao.getNearestAndDistanceFrom(searchPoint, 10000, 1, 1, "unknowstreetType",null, null).size());
-	nearestStreet = openStreetMapDao.getNearestAndDistanceFrom(searchPoint, 10000, 1, 1, "streetType2",null, null);
+	assertEquals(0,openStreetMapDao.getNearestAndDistanceFrom(searchPoint, 10000, 1, 1, StreetType.unclassified,null, null).size());
+	nearestStreet = openStreetMapDao.getNearestAndDistanceFrom(searchPoint, 10000, 1, 1, StreetType.footway,null, null);
 	assertEquals(1,nearestStreet.size());
 	assertEquals(streetOSM2.getGid(),nearestStreet.get(0).getGid());
 	
@@ -96,7 +97,7 @@ public class OpenStreetMapDaoTest extends AbstractIntegrationHttpSolrTestCase{
 	streetOSM.setShape(shape);
 	streetOSM.setGid(1L);
 	streetOSM.setOneWay("oneWay");
-	streetOSM.setStreetType("streetType");
+	streetOSM.setStreetType(StreetType.footway);
 	streetOSM.setName("peter martin");
 	streetOSM.setLocation(GeolocHelper.createPoint(30.001F, 40F));
 	

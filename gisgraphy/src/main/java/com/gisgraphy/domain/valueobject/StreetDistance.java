@@ -31,6 +31,7 @@ import javax.xml.bind.annotation.XmlTransient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.gisgraphy.domain.geoloc.service.geoloc.street.StreetType;
 import com.vividsolutions.jts.geom.Point;
 
 /**
@@ -81,7 +82,7 @@ public class StreetDistance {
 	    return this;
 	}
 
-	public StreetDistanceBuilder withStreetType(String streetType) {
+	public StreetDistanceBuilder withStreetType(StreetType streetType) {
 	    streetDistance.streetType = streetType;
 	    return this;
 	}
@@ -120,7 +121,7 @@ public class StreetDistance {
 
     private Long gid;
 
-    private String streetType;
+    private StreetType streetType;
 
     private String oneWay;
 
@@ -174,7 +175,7 @@ public class StreetDistance {
     /**
      * @return the streetType
      */
-    public String getStreetType() {
+    public StreetType getStreetType() {
 	return streetType;
     }
 

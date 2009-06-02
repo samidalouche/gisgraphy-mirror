@@ -347,7 +347,7 @@ public class FeedChecker {
         	    .eval("evalresult.result[0]['lng']"));
             Assert.assertEquals(streetDistance.getOneWay(), jsTester
         	    .eval("evalresult.result[0]['oneWay']"));
-            Assert.assertEquals(streetDistance.getStreetType(), jsTester
+            Assert.assertEquals(streetDistance.getStreetType().toString(), jsTester
         	    .eval("evalresult.result[0]['streetType']"));
             Assert.assertEquals(streetDistance.getDistance(), jsTester
         	    .eval("evalresult.result[0]['distance']"));

@@ -24,12 +24,10 @@ package com.gisgraphy.domain.geoloc.service.geoloc;
 
 import javax.servlet.http.HttpServletRequest;
 
-import com.gisgraphy.domain.geoloc.service.fulltextsearch.FullTextSearchException;
-import com.gisgraphy.domain.geoloc.service.fulltextsearch.FulltextQuery;
+import com.gisgraphy.domain.geoloc.service.geoloc.street.StreetType;
 import com.gisgraphy.domain.valueobject.Output;
 import com.gisgraphy.domain.valueobject.Pagination;
 import com.gisgraphy.servlet.FulltextServlet;
-import com.gisgraphy.servlet.GisgraphyServlet;
 import com.gisgraphy.servlet.StreetServlet;
 import com.vividsolutions.jts.geom.Point;
 
@@ -37,7 +35,7 @@ public class StreetSearchQuery extends GeolocQuery {
     
     public final static int NAME_PREFIX_MAX_LENGTH = 200;
 
-    private String streetType = null;
+    private StreetType streetType = null;
     
     private String namePrefix = null;
 
@@ -46,9 +44,10 @@ public class StreetSearchQuery extends GeolocQuery {
 
     public StreetSearchQuery(HttpServletRequest req) {
 	super(req);
+	//todo osm tests
 	//streettype
-	withStreetType(req
-	.getParameter(StreetServlet.STREETTYPE_PARAMETER));
+	withStreetType(StreetType.getFromString(req
+	.getParameter(StreetServlet.STREETTYPE_PARAMETER)));
 	
 	//OneWay
 	if ("true".equalsIgnoreCase(req
@@ -81,7 +80,7 @@ public class StreetSearchQuery extends GeolocQuery {
      *                 {@link IllegalArgumentException} if the point is null
      */
     public StreetSearchQuery(Point point, double radius, Pagination pagination,
-	    Output output, String streetType,String oneWay,String namePrefix) {
+	    Output output, StreetType streetType,String oneWay,String namePrefix) {
 	super(point, radius, pagination, output, null);
 	withStreetType(streetType).
 	withNamePrefix(namePrefix).withOneWay(oneWay);
@@ -99,7 +98,7 @@ public class StreetSearchQuery extends GeolocQuery {
      * @throws An
      *                 {@link IllegalArgumentException} if the point is null
      */
-    public StreetSearchQuery(Point point, double radius, String streetType) {
+    public StreetSearchQuery(Point point, double radius, StreetType streetType) {
 	super(point, radius);
 	withStreetType(streetType);
     }
@@ -111,7 +110,7 @@ public class StreetSearchQuery extends GeolocQuery {
      *                the type of street to search , if null : search for all street
      *                type.
      */
-    public StreetSearchQuery(Point point, String streetType) {
+    public StreetSearchQuery(Point point, StreetType streetType) {
 	super(point);
 	withStreetType(streetType);
     }
@@ -119,15 +118,15 @@ public class StreetSearchQuery extends GeolocQuery {
     /**
      * @return the type of street we'd like to query
      */
-    public String getStreetType() {
+    public StreetType getStreetType() {
 	return this.streetType;
     }
 
     /**
-     * @param streetType the type of street we'd like to query
+     * @param streetType the StreetType of street we'd like to query
      * @return The current query to chain methods
      */
-    public StreetSearchQuery withStreetType(String streetType) {
+    public StreetSearchQuery withStreetType(StreetType streetType) {
 	this.streetType = streetType;
 	return this;
     }

@@ -34,9 +34,9 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.Index;
 import org.hibernate.annotations.Type;
 
+import com.gisgraphy.domain.geoloc.service.geoloc.street.StreetType;
 import com.gisgraphy.domain.valueobject.SRID;
 import com.gisgraphy.helper.IntrospectionIgnoredField;
-import com.vividsolutions.jts.geom.LineSegment;
 import com.vividsolutions.jts.geom.MultiLineString;
 import com.vividsolutions.jts.geom.Point;
 
@@ -66,7 +66,7 @@ public class OpenStreetMap  {
 
     private String name;
     
-    private String streetType;
+    private StreetType streetType;
     
     private String oneWay;
     
@@ -131,17 +131,15 @@ public class OpenStreetMap  {
     /**
      * @return the type of the street
      */
-    //TODO OSM ENUM?
     @Index(name = "streetosmtypeIndex")
-    @Column(length = 50)
-    public String getStreetType() {
+    public StreetType getStreetType() {
         return streetType;
     }
 
     /**
-     * @param type the type to set
+     * @param type the streettype to set
      */
-    public void setStreetType(String streetType) {
+    public void setStreetType(StreetType streetType) {
         this.streetType = streetType;
     }
 
