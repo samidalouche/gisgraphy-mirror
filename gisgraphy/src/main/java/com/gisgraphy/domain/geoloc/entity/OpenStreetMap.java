@@ -116,7 +116,7 @@ public class OpenStreetMap  {
      * @return the name
      */
     @Index(name = "streetosmnameIndex")
-    @Column(length = 200)
+    @Column(length = 255)
     public String getName() {
         return name;
     }
