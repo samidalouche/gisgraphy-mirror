@@ -87,7 +87,7 @@ public class StreetDistance {
 	    return this;
 	}
 
-	public StreetDistanceBuilder withOneWay(String oneWay) {
+	public StreetDistanceBuilder withOneWay(Boolean oneWay) {
 	    streetDistance.oneWay = oneWay;
 	    return this;
 	}
@@ -123,7 +123,7 @@ public class StreetDistance {
 
     private StreetType streetType;
 
-    private String oneWay;
+    private Boolean oneWay;
 
     private String countryCode;
 
@@ -182,7 +182,7 @@ public class StreetDistance {
     /**
      * @return the oneWay
      */
-    public String getOneWay() {
+    public Boolean getOneWay() {
 	return oneWay;
     }
 

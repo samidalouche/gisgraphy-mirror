@@ -27,6 +27,7 @@ import java.util.Collections;
 import java.util.List;
 
 import org.hibernate.FlushMode;
+import org.junit.Ignore;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

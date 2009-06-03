@@ -63,7 +63,7 @@ public class StreetSearchQueryTest extends TestCase {
 	Output output = Output.withFormat(OutputFormat.JSON).withLanguageCode(
 		"FR").withStyle(OutputStyle.FULL).withIndentation();
 	StreetSearchQuery query = new StreetSearchQuery(GENERIC_POINT, 3D, pagination,
-		output, StreetType.UNCLASSIFIED,"oneWay","namePrefix");
+		output, StreetType.UNCLASSIFIED,true,"namePrefix");
 	assertEquals(pagination, query.getPagination());
 	assertEquals(output, query.getOutput());
 	assertEquals(null, query.getPlaceType());
@@ -71,7 +71,7 @@ public class StreetSearchQueryTest extends TestCase {
 	assertTrue(query.isOutputIndented());
 	assertEquals(3D, query.getRadius());
 	assertEquals(StreetType.UNCLASSIFIED, query.getStreetType());
-	assertEquals("oneWay", query.getOneWay());
+	assertEquals(Boolean.TRUE, query.getOneWay());
 	assertEquals("namePrefix", query.getNamePrefix());
     }
 
@@ -273,19 +273,19 @@ public class StreetSearchQueryTest extends TestCase {
 			    .getStreetType());
 	    
 	    // test oneWay
-	   /* //TODO OSM oneWay => boolean
+	    //TODO OSM oneWay => boolean
 	    // with no value specified
 	    request = GeolocTestHelper.createMockHttpServletRequestForStreetGeoloc();
 	    request.removeParameter(StreetServlet.ONEWAY_PARAMETER);
 	    query = new StreetSearchQuery(request);
-	    assertFalse("When no " + StreetServlet.ONEWAY_PARAMETER
-		    + " is specified, the  parameter should be set to false",
+	    assertNull("When no " + StreetServlet.ONEWAY_PARAMETER
+		    + " is specified, the  parameter should be set to null",
 		    query.getOneWay());
 	    // with wrong value
 	    request = GeolocTestHelper.createMockHttpServletRequestForStreetGeoloc();
 	    request.setParameter(StreetServlet.ONEWAY_PARAMETER, "UNK");
 	    query = new StreetSearchQuery(request);
-	    assertFalse("When wrong " + StreetServlet.ONEWAY_PARAMETER
+	    assertNull("When wrong " + StreetServlet.ONEWAY_PARAMETER
 		    + " is specified, the  parameter should be set to false",
 		    query.getOneWay());
 	    // test case sensitive
@@ -293,7 +293,14 @@ public class StreetSearchQueryTest extends TestCase {
 	    request.setParameter(StreetServlet.ONEWAY_PARAMETER, "True");
 	    query = new StreetSearchQuery(request);
 	    assertTrue(StreetServlet.ONEWAY_PARAMETER
-		    + " should be case insensitive  ", query.getOneWay());
+		    + " should be case insensitive for true ", query.getOneWay());
+	    
+	 // test With false
+	    request = GeolocTestHelper.createMockHttpServletRequestForStreetGeoloc();
+	    request.setParameter(StreetServlet.ONEWAY_PARAMETER, "FaLse");
+	    query = new StreetSearchQuery(request);
+	    assertFalse(StreetServlet.ONEWAY_PARAMETER
+		    + " should be case insensitive for false  ", query.getOneWay());
 	    // test 'on' value
 	    request = GeolocTestHelper.createMockHttpServletRequestForStreetGeoloc();
 	    request.setParameter(StreetServlet.ONEWAY_PARAMETER, "oN");
@@ -302,7 +309,7 @@ public class StreetSearchQueryTest extends TestCase {
 		    StreetServlet.ONEWAY_PARAMETER
 			    + " should be true for 'on' value (case insensitive and on value)  ",
 			    query.getOneWay());
-	    */
+	    
 	    
 	    //namePrefix
 	    //test With good value
@@ -525,12 +532,12 @@ public class StreetSearchQueryTest extends TestCase {
 		"FR").withStyle(OutputStyle.FULL);
 	// with negative value
 	StreetSearchQuery query = new StreetSearchQuery(GENERIC_POINT, -1, pagination,
-		output, StreetType.UNCLASSIFIED,"oneWay","namePrefix");
+		output, StreetType.UNCLASSIFIED,true,"namePrefix");
 	assertEquals(GeolocQuery.DEFAULT_RADIUS, query.getRadius());
 
 	// with 0
 	 query = new StreetSearchQuery(GENERIC_POINT, 0, pagination,
-		output, StreetType.UNCLASSIFIED,"oneWay","namePrefix");
+		output, StreetType.UNCLASSIFIED,true,"namePrefix");
 	assertEquals(GeolocQuery.DEFAULT_RADIUS, query.getRadius());
 
     }
@@ -581,8 +588,9 @@ public class StreetSearchQueryTest extends TestCase {
     @Test
     public void testWithOneWayShouldSetTheOneWay() {
 	StreetSearchQuery query = new StreetSearchQuery(GENERIC_POINT,StreetType.UNCLASSIFIED);
-	query.withOneWay("oneWay");
-	assertEquals("oneWay", query.getOneWay());
+	assertNull("Default value of oneway should be null", query.getOneWay());
+	query.withOneWay(true);
+	assertEquals(Boolean.TRUE, query.getOneWay());
     }
     
     @Test

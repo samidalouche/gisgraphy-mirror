@@ -53,7 +53,7 @@ public class OpenStreetMapDaoTest extends AbstractIntegrationHttpSolrTestCase{
 	streetOSM2.setGid(2L);
 	//Simulate middle point
 	streetOSM2.setLocation(GeolocHelper.createPoint(30.11F, 30.11F));
-	streetOSM2.setOneWay("oneWay");
+	streetOSM2.setOneWay(false);
 	streetOSM2.setStreetType(StreetType.FOOTWAY);
 	streetOSM2.setName("John Kenedy");
 	openStreetMapDao.save(streetOSM2);
@@ -87,8 +87,8 @@ public class OpenStreetMapDaoTest extends AbstractIntegrationHttpSolrTestCase{
 	assertEquals("only the beginning of the street name should match",0,nearestStreet.size());
 	
 	//test OneWay
-	assertEquals(0,openStreetMapDao.getNearestAndDistanceFrom(searchPoint, 10000, 1, 1, null,"twoWay", null).size());
-	nearestStreet = openStreetMapDao.getNearestAndDistanceFrom(searchPoint, 10000, 1, 1, null,"oneWay",null);
+	assertEquals(0,openStreetMapDao.getNearestAndDistanceFrom(searchPoint, 10000, 1, 1, null,true, null).size());
+	nearestStreet = openStreetMapDao.getNearestAndDistanceFrom(searchPoint, 10000, 1, 1, null,false,null);
 	assertEquals(1,nearestStreet.size());
 	assertEquals(streetOSM2.getGid(),nearestStreet.get(0).getGid());
 	
@@ -114,7 +114,7 @@ public class OpenStreetMapDaoTest extends AbstractIntegrationHttpSolrTestCase{
 	MultiLineString shape = GeolocHelper.createMultiLineString(wktLineStrings);
 	streetOSM.setShape(shape);
 	streetOSM.setGid(1L);
-	streetOSM.setOneWay("oneWay");
+	streetOSM.setOneWay(false);
 	streetOSM.setStreetType(StreetType.FOOTWAY);
 	streetOSM.setName("peter martin");
 	streetOSM.setLocation(GeolocHelper.createPoint(30.001F, 40F));

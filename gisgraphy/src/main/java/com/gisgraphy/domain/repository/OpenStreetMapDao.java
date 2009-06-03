@@ -31,7 +31,6 @@ import org.apache.commons.lang.ArrayUtils;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.criterion.Projection;
-import org.hibernate.criterion.Property;
 import org.hibernate.criterion.Restrictions;
 import org.hibernatespatial.criterion.SpatialRestrictions;
 import org.springframework.orm.hibernate3.HibernateCallback;
@@ -41,11 +40,9 @@ import org.springframework.util.Assert;
 import com.gisgraphy.domain.geoloc.entity.OpenStreetMap;
 import com.gisgraphy.domain.geoloc.entity.Street;
 import com.gisgraphy.domain.geoloc.service.geoloc.street.StreetType;
-import com.gisgraphy.domain.valueobject.GisFeatureDistance;
 import com.gisgraphy.domain.valueobject.StreetDistance;
 import com.gisgraphy.helper.GeolocHelper;
 import com.gisgraphy.helper.IntrospectionHelper;
-import com.gisgraphy.hibernate.criterion.DistanceRestriction;
 import com.gisgraphy.hibernate.criterion.ProjectionOrder;
 import com.gisgraphy.hibernate.criterion.ResultTransformerUtil;
 import com.gisgraphy.hibernate.projection.ProjectionBean;
@@ -77,7 +74,7 @@ public class OpenStreetMapDao extends GenericDao<OpenStreetMap, Long> implements
     public List<StreetDistance> getNearestAndDistanceFrom(
 	    final Point point, final double distance,
 	    final int firstResult, final int maxResults,
-	    final StreetType streetType, final String oneWay ,final String namePrefix) {
+	    final StreetType streetType, final Boolean oneWay ,final String namePrefix) {
 	
 	Assert.notNull(point);
 	return (List<StreetDistance>) this.getHibernateTemplate().execute(

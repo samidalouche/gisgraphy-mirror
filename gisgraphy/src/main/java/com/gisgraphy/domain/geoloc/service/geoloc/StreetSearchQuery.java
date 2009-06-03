@@ -39,7 +39,7 @@ public class StreetSearchQuery extends GeolocQuery {
     
     private String namePrefix = null;
 
-    private String oneWay;
+    private Boolean oneWay= null;
     
 
     public StreetSearchQuery(HttpServletRequest req) {
@@ -49,11 +49,14 @@ public class StreetSearchQuery extends GeolocQuery {
 	.getParameter(StreetServlet.STREETTYPE_PARAMETER)));
 	
 	//OneWay
-	if ("true".equalsIgnoreCase(req
-		.getParameter(StreetServlet.ONEWAY_PARAMETER))
-		|| "on".equalsIgnoreCase(req
-			.getParameter(StreetServlet.ONEWAY_PARAMETER))) {
-	    withOneWay("true");
+	String oneWayParameter = req
+		.getParameter(StreetServlet.ONEWAY_PARAMETER);
+	if ("true".equalsIgnoreCase(oneWayParameter)
+		|| "on".equalsIgnoreCase(oneWayParameter)) {
+	    withOneWay(Boolean.TRUE);
+	}
+	else if ("false".equalsIgnoreCase(oneWayParameter)){
+	    withOneWay(Boolean.FALSE);
 	}
 	//namePrefix
 	withNamePrefix(req.getParameter(FulltextServlet.QUERY_PARAMETER));
@@ -79,7 +82,7 @@ public class StreetSearchQuery extends GeolocQuery {
      *                 {@link IllegalArgumentException} if the point is null
      */
     public StreetSearchQuery(Point point, double radius, Pagination pagination,
-	    Output output, StreetType streetType,String oneWay,String namePrefix) {
+	    Output output, StreetType streetType,Boolean oneWay,String namePrefix) {
 	super(point, radius, pagination, output, null);
 	withStreetType(streetType).
 	withNamePrefix(namePrefix).withOneWay(oneWay);
@@ -162,7 +165,7 @@ public class StreetSearchQuery extends GeolocQuery {
      * @param oneWay The oneWay type criteria of the street
      * @return  The current query to chain methods
      */
-    public StreetSearchQuery withOneWay(String oneWay){
+    public StreetSearchQuery withOneWay(Boolean oneWay){
 	this.oneWay = oneWay;
 	return this;
     }
@@ -175,7 +178,7 @@ public class StreetSearchQuery extends GeolocQuery {
     /**
      * @return the oneWay criteria
      */
-    public String getOneWay() {
+    public Boolean getOneWay() {
 	return this.oneWay;
     }
     

@@ -68,7 +68,8 @@ public class OpenStreetMap  {
     
     private StreetType streetType;
     
-    private String oneWay;
+    //todo osm test default value
+    private boolean oneWay = false;
     
     private Point location;
     
@@ -149,7 +150,7 @@ public class OpenStreetMap  {
     //TODO OSM Enum? boolean 
     @Index(name = "streetosmonewayIndex")
     @Column(length = 9)
-    public String getOneWay() {
+    public boolean getOneWay() {
         return oneWay;
     }
 
@@ -157,7 +158,7 @@ public class OpenStreetMap  {
     /**
      * @param oneWay the oneWay to set
      */
-    public void setOneWay(String oneWay) {
+    public void setOneWay(boolean oneWay) {
         this.oneWay = oneWay;
     }
     

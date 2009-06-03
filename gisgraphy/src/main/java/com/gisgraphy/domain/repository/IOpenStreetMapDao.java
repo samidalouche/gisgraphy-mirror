@@ -36,7 +36,7 @@ public interface IOpenStreetMapDao extends IDao<OpenStreetMap, java.lang.Long> {
     public List<StreetDistance> getNearestAndDistanceFrom(
 	    final Point point, final double distance,
 	    final int firstResult, final int maxResults,
-	    final StreetType streetType,String oneWay, final String namePrefix) ;
+	    final StreetType streetType,Boolean oneWay, final String namePrefix) ;
     
     
     
