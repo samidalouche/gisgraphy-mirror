@@ -9,7 +9,6 @@ import com.vividsolutions.jts.geom.Point;
 
 public interface IOpenStreetMapDao extends IDao<OpenStreetMap, java.lang.Long> {
 
-    //TODO OSM doc
     /**
      * base method for all findNearest
      * 
@@ -26,7 +25,7 @@ public interface IOpenStreetMapDao extends IDao<OpenStreetMap, java.lang.Long> {
      * @param streetType
      *                The type of street
      * @param oneWay
-     *                wether the street should be oneway or not
+     *                whether the street should be oneway or not
      * @param namePrefix
      *                the name the street name must starts
      * 
@@ -38,5 +37,7 @@ public interface IOpenStreetMapDao extends IDao<OpenStreetMap, java.lang.Long> {
 	    final Point point, final double distance,
 	    final int firstResult, final int maxResults,
 	    final StreetType streetType,String oneWay, final String namePrefix) ;
+    
+    
     
 }

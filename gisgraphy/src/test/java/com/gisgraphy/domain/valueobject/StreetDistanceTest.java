@@ -23,14 +23,14 @@ public class StreetDistanceTest {
 	.withLocation(point)
 	.withName("name")
 	.withOneWay("OneWay")
-	.withStreetType(StreetType.footway).build();
+	.withStreetType(StreetType.FOOTWAY).build();
 	Assert.assertEquals("countryCode Should be upperCased","FR",streetDistance.getCountryCode());
 	Assert.assertEquals(3D,streetDistance.getDistance());
 	Assert.assertEquals(123L,streetDistance.getGid().longValue());
 	Assert.assertEquals(point,streetDistance.getLocation());
 	Assert.assertEquals("name",streetDistance.getName());
 	Assert.assertEquals("OneWay",streetDistance.getOneWay());
-	Assert.assertEquals(StreetType.footway,streetDistance.getStreetType());
+	Assert.assertEquals(StreetType.FOOTWAY,streetDistance.getStreetType());
 	Assert.assertEquals("calculated fields should be process",45F,streetDistance.getLng().floatValue());
 	Assert.assertEquals("calculated fields should be process",56F,streetDistance.getLat().floatValue());
     }

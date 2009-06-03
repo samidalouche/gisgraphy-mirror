@@ -44,7 +44,6 @@ public class StreetSearchQuery extends GeolocQuery {
 
     public StreetSearchQuery(HttpServletRequest req) {
 	super(req);
-	//todo osm tests
 	//streettype
 	withStreetType(StreetType.getFromString(req
 	.getParameter(StreetServlet.STREETTYPE_PARAMETER)));

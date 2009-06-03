@@ -19,7 +19,22 @@ public class OpenStreetMapDaoTest extends AbstractIntegrationHttpSolrTestCase{
 
  IOpenStreetMapDao openStreetMapDao;
     
- //TODO OSM unique Gid
+ @Test
+ public void testCouldNotSaveNonUniqueGID(){
+     OpenStreetMap streetOSM = createOpenStreetMap();
+	openStreetMapDao.save(streetOSM);
+	assertNotNull(openStreetMapDao.get(streetOSM.getId()));
+	
+	OpenStreetMap streetOSM2 = createOpenStreetMap();
+	try {
+	    openStreetMapDao.save(streetOSM2);
+	    fail("we should not save street with non unique GID");
+	} catch (Exception e) {
+	    //ok
+	}
+	
+	
+ }
 
     @Test
     public void testGetNearestAndDistanceFromShouldReturnValidDTO() {
@@ -36,7 +51,7 @@ public class OpenStreetMapDaoTest extends AbstractIntegrationHttpSolrTestCase{
 	//Simulate middle point
 	streetOSM2.setLocation(GeolocHelper.createPoint(30.11F, 30.11F));
 	streetOSM2.setOneWay("oneWay");
-	streetOSM2.setStreetType(StreetType.footway);
+	streetOSM2.setStreetType(StreetType.FOOTWAY);
 	streetOSM2.setName("John Kenedy");
 	openStreetMapDao.save(streetOSM2);
 	assertNotNull(openStreetMapDao.get(streetOSM2.getId()));
@@ -50,8 +65,8 @@ public class OpenStreetMapDaoTest extends AbstractIntegrationHttpSolrTestCase{
 	Assert.assertEquals(GeolocHelper.distance(searchPoint, nearestStreet.get(0).getLocation()), nearestStreet.get(0).getDistance().longValue(),5);
 	
 	//test streettype
-	assertEquals(0,openStreetMapDao.getNearestAndDistanceFrom(searchPoint, 10000, 1, 1, StreetType.unclassified,null, null).size());
-	nearestStreet = openStreetMapDao.getNearestAndDistanceFrom(searchPoint, 10000, 1, 1, StreetType.footway,null, null);
+	assertEquals(0,openStreetMapDao.getNearestAndDistanceFrom(searchPoint, 10000, 1, 1, StreetType.UNCLASSIFIED,null, null).size());
+	nearestStreet = openStreetMapDao.getNearestAndDistanceFrom(searchPoint, 10000, 1, 1, StreetType.FOOTWAY,null, null);
 	assertEquals(1,nearestStreet.size());
 	assertEquals(streetOSM2.getGid(),nearestStreet.get(0).getGid());
 	
@@ -97,7 +112,7 @@ public class OpenStreetMapDaoTest extends AbstractIntegrationHttpSolrTestCase{
 	streetOSM.setShape(shape);
 	streetOSM.setGid(1L);
 	streetOSM.setOneWay("oneWay");
-	streetOSM.setStreetType(StreetType.footway);
+	streetOSM.setStreetType(StreetType.FOOTWAY);
 	streetOSM.setName("peter martin");
 	streetOSM.setLocation(GeolocHelper.createPoint(30.001F, 40F));
 	

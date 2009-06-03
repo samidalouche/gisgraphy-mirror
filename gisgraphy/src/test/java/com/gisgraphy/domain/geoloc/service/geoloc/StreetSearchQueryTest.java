@@ -63,34 +63,34 @@ public class StreetSearchQueryTest extends TestCase {
 	Output output = Output.withFormat(OutputFormat.JSON).withLanguageCode(
 		"FR").withStyle(OutputStyle.FULL).withIndentation();
 	StreetSearchQuery query = new StreetSearchQuery(GENERIC_POINT, 3D, pagination,
-		output, StreetType.unclassified,"oneWay","namePrefix");
+		output, StreetType.UNCLASSIFIED,"oneWay","namePrefix");
 	assertEquals(pagination, query.getPagination());
 	assertEquals(output, query.getOutput());
 	assertEquals(null, query.getPlaceType());
 	assertEquals(GENERIC_POINT, query.getPoint());
 	assertTrue(query.isOutputIndented());
 	assertEquals(3D, query.getRadius());
-	assertEquals(StreetType.unclassified, query.getStreetType());
+	assertEquals(StreetType.UNCLASSIFIED, query.getStreetType());
 	assertEquals("oneWay", query.getOneWay());
 	assertEquals("namePrefix", query.getNamePrefix());
     }
 
     public void testStreetSearchQueryPointRadius() {
-	    StreetSearchQuery query = new StreetSearchQuery(GENERIC_POINT, 3D,StreetType.unclassified);
+	    StreetSearchQuery query = new StreetSearchQuery(GENERIC_POINT, 3D,StreetType.UNCLASSIFIED);
 	    assertEquals(Pagination.DEFAULT_PAGINATION, query.getPagination());
 	    assertEquals(Output.DEFAULT_OUTPUT, query.getOutput());
 	    assertEquals(GENERIC_POINT, query.getPoint());
 	    assertEquals(3D, query.getRadius());
-	    assertEquals(StreetType.unclassified, query.getStreetType());
+	    assertEquals(StreetType.UNCLASSIFIED, query.getStreetType());
     }
 
     public void testStreetSearchQueryPoint() {
-	    StreetSearchQuery query = new StreetSearchQuery(GENERIC_POINT,StreetType.unclassified);
+	    StreetSearchQuery query = new StreetSearchQuery(GENERIC_POINT,StreetType.UNCLASSIFIED);
 	    assertEquals(Pagination.DEFAULT_PAGINATION, query.getPagination());
 	    assertEquals(Output.DEFAULT_OUTPUT, query.getOutput());
 	    assertEquals(GENERIC_POINT, query.getPoint());
 	    assertEquals(GeolocQuery.DEFAULT_RADIUS, query.getRadius());
-	    assertEquals(StreetType.unclassified, query.getStreetType());
+	    assertEquals(StreetType.UNCLASSIFIED, query.getStreetType());
     }
 
     @Test
@@ -232,7 +232,7 @@ public class StreetSearchQueryTest extends TestCase {
 	    assertEquals(GisgraphyServlet.FORMAT_PARAMETER
 		    + " should be case insensitive  ", OutputFormat.JSON, query
 		    .getOutputFormat());
-	    // test placetype
+	    // test streettype
 	    // with no value specified
 	    request = GeolocTestHelper.createMockHttpServletRequestForStreetGeoloc();
 	    request.removeParameter(StreetServlet.STREETTYPE_PARAMETER);
@@ -242,8 +242,7 @@ public class StreetSearchQueryTest extends TestCase {
 			    + StreetServlet.STREETTYPE_PARAMETER
 			    + " is specified, the  parameter should be set to null", query
 			    .getStreetType());
-	    //TODO OSM STREETTYPE en ENUM
-	   /* // with wrong value
+	   // with wrong value
 	    request = GeolocTestHelper.createMockHttpServletRequestForStreetGeoloc();
 	    request.setParameter(StreetServlet.STREETTYPE_PARAMETER, "unk");
 	    query = new StreetSearchQuery(request);
@@ -253,7 +252,25 @@ public class StreetSearchQueryTest extends TestCase {
 			    + " is specified, the  parameter should be set to null ",
 		    query
 			    .getStreetType());
-			  */
+	    //test with good value 
+	    request = GeolocTestHelper.createMockHttpServletRequestForStreetGeoloc();
+	    request.setParameter(StreetServlet.STREETTYPE_PARAMETER, StreetType.BRIDLEWAY.toString());
+	    query = new StreetSearchQuery(request);
+	    assertEquals(
+		    "When good "
+			    + StreetServlet.STREETTYPE_PARAMETER
+			    + " is specified, the  parameter should be set to the Equivalent streettype ",StreetType.BRIDLEWAY,
+		    query
+			    .getStreetType());
+	  //test case sensitivity
+	    request = GeolocTestHelper.createMockHttpServletRequestForStreetGeoloc();
+	    request.setParameter(StreetServlet.STREETTYPE_PARAMETER, StreetType.BRIDLEWAY.toString().toLowerCase());
+	    query = new StreetSearchQuery(request);
+	    assertEquals(
+			     StreetServlet.STREETTYPE_PARAMETER
+			    + " should be case sensitive ",StreetType.BRIDLEWAY,
+		    query
+			    .getStreetType());
 	    
 	    // test oneWay
 	   /* //TODO OSM oneWay => boolean
@@ -508,12 +525,12 @@ public class StreetSearchQueryTest extends TestCase {
 		"FR").withStyle(OutputStyle.FULL);
 	// with negative value
 	StreetSearchQuery query = new StreetSearchQuery(GENERIC_POINT, -1, pagination,
-		output, StreetType.unclassified,"oneWay","namePrefix");
+		output, StreetType.UNCLASSIFIED,"oneWay","namePrefix");
 	assertEquals(GeolocQuery.DEFAULT_RADIUS, query.getRadius());
 
 	// with 0
 	 query = new StreetSearchQuery(GENERIC_POINT, 0, pagination,
-		output, StreetType.unclassified,"oneWay","namePrefix");
+		output, StreetType.UNCLASSIFIED,"oneWay","namePrefix");
 	assertEquals(GeolocQuery.DEFAULT_RADIUS, query.getRadius());
 
     }
@@ -523,14 +540,14 @@ public class StreetSearchQueryTest extends TestCase {
     @Test
     public void testStreetWithPaginationShouldBeSetToDefaultPaginationIfNull() {
 	assertEquals(Pagination.DEFAULT_PAGINATION, new StreetSearchQuery(
-		GENERIC_POINT,StreetType.unclassified).withPagination(null).getPagination());
+		GENERIC_POINT,StreetType.UNCLASSIFIED).withPagination(null).getPagination());
     }
 
     @Test
     public void testWithPaginationShouldSetThePagination() {
-	assertEquals(5, new StreetSearchQuery(GENERIC_POINT,StreetType.unclassified).withPagination(
+	assertEquals(5, new StreetSearchQuery(GENERIC_POINT,StreetType.UNCLASSIFIED).withPagination(
 		paginate().from(5).to(23)).getPagination().getFrom());
-	assertEquals(23, new StreetSearchQuery(GENERIC_POINT,StreetType.unclassified).withPagination(
+	assertEquals(23, new StreetSearchQuery(GENERIC_POINT,StreetType.UNCLASSIFIED).withPagination(
 		paginate().from(5).to(23)).getPagination().getTo());
     }
 
@@ -542,7 +559,7 @@ public class StreetSearchQueryTest extends TestCase {
 
     @Test
     public void testWithOutputShouldSetTheOutput() {
-	StreetSearchQuery query = new StreetSearchQuery(GENERIC_POINT,StreetType.unclassified);
+	StreetSearchQuery query = new StreetSearchQuery(GENERIC_POINT,StreetType.UNCLASSIFIED);
 	Pagination pagination = paginate().from(2).to(7);
 	query.withPagination(pagination);
 	assertEquals(pagination, query.getPagination());
@@ -550,20 +567,20 @@ public class StreetSearchQueryTest extends TestCase {
 
     @Test
     public void testWithStreetTypeShouldBeSetToNullIfNull() {
-	assertNull(new StreetSearchQuery(GENERIC_POINT,StreetType.unclassified).withStreetType(null)
+	assertNull(new StreetSearchQuery(GENERIC_POINT,StreetType.UNCLASSIFIED).withStreetType(null)
 		.getStreetType());
     }
 
     @Test
     public void testWithStreetTypeShouldSetTheStreetType() {
-	StreetSearchQuery query = new StreetSearchQuery(GENERIC_POINT,StreetType.unclassified);
-	query.withStreetType(StreetType.construction);
-	assertEquals(StreetType.construction, query.getStreetType());
+	StreetSearchQuery query = new StreetSearchQuery(GENERIC_POINT,StreetType.UNCLASSIFIED);
+	query.withStreetType(StreetType.CONSTRUCTION);
+	assertEquals(StreetType.CONSTRUCTION, query.getStreetType());
     }
 
     @Test
     public void testWithOneWayShouldSetTheOneWay() {
-	StreetSearchQuery query = new StreetSearchQuery(GENERIC_POINT,StreetType.unclassified);
+	StreetSearchQuery query = new StreetSearchQuery(GENERIC_POINT,StreetType.UNCLASSIFIED);
 	query.withOneWay("oneWay");
 	assertEquals("oneWay", query.getOneWay());
     }
@@ -571,13 +588,13 @@ public class StreetSearchQueryTest extends TestCase {
     @Test
     public void testWithNamePrefix() {
 	//good Value
-	StreetSearchQuery query = new StreetSearchQuery(GENERIC_POINT,StreetType.unclassified);
+	StreetSearchQuery query = new StreetSearchQuery(GENERIC_POINT,StreetType.UNCLASSIFIED);
 	query.withNamePrefix("namePrefixValue");
 	assertEquals("namePrefixValue", query.getNamePrefix());
 	
 	//too long String
 	try {
-	    query = new StreetSearchQuery(GENERIC_POINT,StreetType.unclassified);
+	    query = new StreetSearchQuery(GENERIC_POINT,StreetType.UNCLASSIFIED);
 	    query.withNamePrefix(RandomStringUtils
 	    .random(StreetSearchQuery.NAME_PREFIX_MAX_LENGTH) + 1);
 	    fail("Name Prefix must have a maximmum length of "
@@ -586,7 +603,7 @@ public class StreetSearchQueryTest extends TestCase {
 	}
 	
 	//Empty String
-	query = new StreetSearchQuery(GENERIC_POINT,StreetType.unclassified);
+	query = new StreetSearchQuery(GENERIC_POINT,StreetType.UNCLASSIFIED);
 	query.withNamePrefix(" ");
 	assertNull("NamePrefix ShouldNot Be considered for Empty String", query.getNamePrefix());
 	
@@ -598,7 +615,7 @@ public class StreetSearchQueryTest extends TestCase {
 
    @Test
    public void testToString(){
-       StreetSearchQuery query = new StreetSearchQuery(GENERIC_POINT,StreetType.unclassified);
+       StreetSearchQuery query = new StreetSearchQuery(GENERIC_POINT,StreetType.UNCLASSIFIED);
        assertFalse("ToString should not contains GeolocQuery and should be overide",query.toString().contains("GeolocQuery"));
        
        
