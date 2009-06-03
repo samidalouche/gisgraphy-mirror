@@ -2,9 +2,11 @@ package com.gisgraphy.domain.repository;
 
 import java.util.List;
 
+import org.hibernate.exception.ConstraintViolationException;
 import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Required;
+import org.springframework.dao.DataIntegrityViolationException;
 
 import com.gisgraphy.domain.geoloc.entity.OpenStreetMap;
 import com.gisgraphy.domain.geoloc.service.fulltextsearch.AbstractIntegrationHttpSolrTestCase;
@@ -28,9 +30,10 @@ public class OpenStreetMapDaoTest extends AbstractIntegrationHttpSolrTestCase{
 	OpenStreetMap streetOSM2 = createOpenStreetMap();
 	try {
 	    openStreetMapDao.save(streetOSM2);
+	    openStreetMapDao.flushAndClear();
 	    fail("we should not save street with non unique GID");
-	} catch (Exception e) {
-	    //ok
+	} catch (DataIntegrityViolationException e) {
+	  assertTrue("a ConstraintViolationException should be throw when saving an openstreetmap with a non unique gid ",e.getCause() instanceof ConstraintViolationException);
 	}
 	
 	
