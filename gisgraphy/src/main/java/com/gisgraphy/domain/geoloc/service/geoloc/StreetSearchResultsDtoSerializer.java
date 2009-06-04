@@ -98,11 +98,11 @@ public class StreetSearchResultsDtoSerializer implements
 	}
     }
 
+   
 
     public void serialize(OutputStream outputStream, OutputFormat outputFormat,
 	    StreetSearchResultsDto streetSearchResultsDto, boolean indent,int startPaginationIndex) {
 	if (!outputFormat.isSupported(GisgraphyServiceType.STREET)) {
-	    //TODO osm test if isSupported is called with street an not geoloc
 	    throw new UnsupportedFormatException(outputFormat
 		    + " is not applicable for street search");
 	} 
