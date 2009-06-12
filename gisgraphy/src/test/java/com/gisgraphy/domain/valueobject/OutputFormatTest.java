@@ -82,24 +82,24 @@ public class OutputFormatTest  {
 
     @Test
     public void getDefaultForServiceIfNotSupportedShouldReturnsCorrectValues() {
-	Assert.assertEquals(OutputFormat.XML, OutputFormat
-		.getDefaultForServiceIfNotSupported(OutputFormat.XML,
-			GisgraphyServiceType.GEOLOC));
-	Assert.assertEquals(OutputFormat.JSON, OutputFormat
-		.getDefaultForServiceIfNotSupported(OutputFormat.JSON,
-			GisgraphyServiceType.GEOLOC));
-	Assert.assertEquals(OutputFormat.getDefault(), OutputFormat
-		.getDefaultForServiceIfNotSupported(OutputFormat.RUBY,
-			GisgraphyServiceType.GEOLOC));
-	Assert.assertEquals(OutputFormat.getDefault(), OutputFormat
-		.getDefaultForServiceIfNotSupported(OutputFormat.PYTHON,
-			GisgraphyServiceType.GEOLOC));
-
 	// fulltext service allows all formats
 	for (OutputFormat format : OutputFormat.values()) {
 	    Assert.assertEquals(format, OutputFormat
 		    .getDefaultForServiceIfNotSupported(format,
 			    GisgraphyServiceType.FULLTEXT));
+	}
+	//street
+	for (GisgraphyServiceType serviceType : GisgraphyServiceType.values()){
+	for (OutputFormat format : OutputFormat.values()) {
+	   if (format.isSupported(serviceType)){
+	    Assert.assertEquals(format, OutputFormat
+		    .getDefaultForServiceIfNotSupported(format,
+			    serviceType));
+	   }
+	   else {
+	       Assert.assertEquals(OutputFormat.getDefault(), OutputFormat.getDefaultForServiceIfNotSupported(format, serviceType));
+	   }
+	}
 	}
     }
 
