@@ -5,7 +5,7 @@
 for i in *.zip
 do
 	countrycode=`echo ${i}| cut -d "." -f1`
-	db=gisgraphy
+	db=gisgraphystreet
 	table=openstreetmap
 	echo "countrycode =$countrycode"
     	`unzip ${i} -d $countrycode`

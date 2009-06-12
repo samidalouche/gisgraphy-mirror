@@ -8,7 +8,7 @@ CREATE TABLE openstreetmap
   length double precision,
   countrycode character varying(3),
   gid bigint,
-  "type" character varying(50),
+  "type" character varying(255),
   oneway character varying(255),
   shape geometry NOT NULL,
   CONSTRAINT openstreetmap_gid_key UNIQUE (gid)
