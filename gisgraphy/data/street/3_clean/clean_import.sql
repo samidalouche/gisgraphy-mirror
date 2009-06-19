@@ -14,3 +14,6 @@ update openstreetmap set oneway='false' where oneway is null;
 
 #update MidPoint (location) 
 update openstreetmap set location=line_interpolate_point(LineMerge(shape),0.5)
+
+#update length
+update openstreetmap set length= distance(startpoint(shape),endpoint(shape));
