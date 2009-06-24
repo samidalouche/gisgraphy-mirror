@@ -6,51 +6,51 @@ select pu.username,pu.user_ip from  phpbb_users pu order by pu.user_regdate desc
 select phpbb_topics pt,phpbb_posts pp,phpbb_users pu,from phpbb_topics_posted ptp
 
 #suppression des users ayant la meme ip
-select  pu2.username,pu2.user_ip,pu2.user_id from phpbb_users pu2 where pu2.user_ip in ( select pu.user_ip from  phpbb_users pu, phpbb_topics_posted ptp where ptp.topic_id = 58 and ptp.user_id=pu.user_id) ;
+select  pu2.username,pu2.user_ip,pu2.user_id from phpbb_users pu2 where pu2.user_ip in ( select pu.user_ip from  phpbb_users pu, phpbb_topics_posted ptp where ptp.topic_id = 60 and ptp.user_id=pu.user_id) ;
 
 #suppression des users;
-delete  from phpbb_users pu2 where pu2.user_ip in ( select pu.user_ip from  phpbb_users pu, phpbb_topics_posted ptp where ptp.topic_id = 58 and ptp.user_id=pu.user_id) ;
+delete  from phpbb_users pu2 where pu2.user_ip in ( select pu.user_ip from  phpbb_users pu, phpbb_topics_posted ptp where ptp.topic_id = 60 and ptp.user_id=pu.user_id) ;
 
 topicid a supprimer pour tout les utilisateur ayant le meme ip que le topic donné :
-select ptp2.topic_id from phpbb_topics_posted ptp2 where ptp2.user_id in (select pu2.user_id from phpbb_users pu2 where pu2.user_ip in ( select pu.user_ip from  phpbb_users pu, phpbb_topics_posted ptp where ptp.topic_id = 58 and ptp.user_id=pu.user_id)) ;
+select ptp2.topic_id from phpbb_topics_posted ptp2 where ptp2.user_id in (select pu2.user_id from phpbb_users pu2 where pu2.user_ip in ( select pu.user_ip from  phpbb_users pu, phpbb_topics_posted ptp where ptp.topic_id = 60 and ptp.user_id=pu.user_id)) ;
 
 ##############################Posts
 
 #quels posts vont etre supprimer (registered ip)
-select post.post_subject from phpbb_posts post where post.topic_id in (select ptp2.topic_id from phpbb_topics_posted ptp2 where ptp2.user_id in (select pu2.user_id from phpbb_users pu2 where pu2.user_ip in ( select pu.user_ip from  phpbb_users pu, phpbb_topics_posted ptp where ptp.topic_id = 58 and ptp.user_id=pu.user_id))) ;
+select post.post_subject from phpbb_posts post where post.topic_id in (select ptp2.topic_id from phpbb_topics_posted ptp2 where ptp2.user_id in (select pu2.user_id from phpbb_users pu2 where pu2.user_ip in ( select pu.user_ip from  phpbb_users pu, phpbb_topics_posted ptp where ptp.topic_id = 60 and ptp.user_id=pu.user_id))) ;
 
 #quels posts vont etre supprimer (post ip):
-select post.post_subject from phpbb_posts post where post.poster_ip in ( select pu.user_ip from  phpbb_users pu, phpbb_topics_posted ptp where ptp.topic_id = 58 and ptp.user_id=pu.user_id) ;
+select post.post_subject from phpbb_posts post where post.poster_ip in ( select pu.user_ip from  phpbb_users pu, phpbb_topics_posted ptp where ptp.topic_id = 60 and ptp.user_id=pu.user_id) ;
 
 #quels posts vont etre supprimer (post ip + registered ip):
-select post.post_subject from phpbb_posts post where post.topic_id in (select ptp2.topic_id from phpbb_topics_posted ptp2 where ptp2.user_id in (select pu2.user_id from phpbb_users pu2 where pu2.user_ip in ( select pu.user_ip from  phpbb_users pu, phpbb_topics_posted ptp where ptp.topic_id = 58 and ptp.user_id=pu.user_id))) union select post.post_subject from phpbb_posts post where post.poster_ip in ( select pu.user_ip from  phpbb_users pu, phpbb_topics_posted ptp where ptp.topic_id = 58 and ptp.user_id=pu.user_id) ;
+select post.post_subject from phpbb_posts post where post.topic_id in (select ptp2.topic_id from phpbb_topics_posted ptp2 where ptp2.user_id in (select pu2.user_id from phpbb_users pu2 where pu2.user_ip in ( select pu.user_ip from  phpbb_users pu, phpbb_topics_posted ptp where ptp.topic_id = 60 and ptp.user_id=pu.user_id))) union select post.post_subject from phpbb_posts post where post.poster_ip in ( select pu.user_ip from  phpbb_users pu, phpbb_topics_posted ptp where ptp.topic_id = 60 and ptp.user_id=pu.user_id) ;
 
 #suppression des post des user ayant la meme ip que l id specifié
 
 
 #suppression des posts (registered ip)
-delete from phpbb_posts post where post.topic_id in (select ptp2.topic_id from phpbb_topics_posted ptp2 where ptp2.user_id in (select pu2.user_id from phpbb_users pu2 where pu2.user_ip in ( select pu.user_ip from  phpbb_users pu, phpbb_topics_posted ptp where ptp.topic_id = 58 and ptp.user_id=pu.user_id))) ;
+delete from phpbb_posts post where post.topic_id in (select ptp2.topic_id from phpbb_topics_posted ptp2 where ptp2.user_id in (select pu2.user_id from phpbb_users pu2 where pu2.user_ip in ( select pu.user_ip from  phpbb_users pu, phpbb_topics_posted ptp where ptp.topic_id = 60 and ptp.user_id=pu.user_id))) ;
 
 #suppression des posts (post ip)
-delete from phpbb_posts post where post.poster_ip in ( select pu.user_ip from  phpbb_users pu, phpbb_topics_posted ptp where ptp.topic_id = 58 and ptp.user_id=pu.user_id) ;
+delete from phpbb_posts post where post.poster_ip in ( select pu.user_ip from  phpbb_users pu, phpbb_topics_posted ptp where ptp.topic_id = 60 and ptp.user_id=pu.user_id) ;
 
 #suppression des posts (post ip+registered ip)
-delete  from phpbb_posts post where post.poster_ip in (select post.post_subject from phpbb_posts post where post.topic_id in (select ptp2.topic_id from phpbb_topics_posted ptp2 where ptp2.user_id in (select pu2.user_id from phpbb_users pu2 where pu2.user_ip in ( select pu.user_ip from  phpbb_users pu, phpbb_topics_posted ptp where ptp.topic_id = 58 and ptp.user_id=pu.user_id))) union select post.post_subject from phpbb_posts post where post.poster_ip in ( select pu.user_ip from  phpbb_users pu, phpbb_topics_posted ptp where ptp.topic_id = 58 and ptp.user_id=pu.user_id)) ;
+delete  from phpbb_posts post where post.poster_ip in (select post.post_subject from phpbb_posts post where post.topic_id in (select ptp2.topic_id from phpbb_topics_posted ptp2 where ptp2.user_id in (select pu2.user_id from phpbb_users pu2 where pu2.user_ip in ( select pu.user_ip from  phpbb_users pu, phpbb_topics_posted ptp where ptp.topic_id = 60 and ptp.user_id=pu.user_id))) union select post.post_subject from phpbb_posts post where post.poster_ip in ( select pu.user_ip from  phpbb_users pu, phpbb_topics_posted ptp where ptp.topic_id = 60 and ptp.user_id=pu.user_id)) ;
 
 
 ##################################Topics
 
 Quel topic vont etre supprimer 
-select t1.topic_id  from phpbb_topics t1 where t1.topic_id in (select ptp2.topic_id from phpbb_topics_posted ptp2 where ptp2.user_id in (select pu2.user_id from phpbb_users pu2 where pu2.user_ip in ( select pu.user_ip from  phpbb_users pu, phpbb_topics_posted ptp where ptp.topic_id = 58 and ptp.user_id=pu.user_id))) union select post.topic_id  from phpbb_posts post where post.poster_ip in ( select pu.user_ip from  phpbb_users pu, phpbb_topics_posted ptp where ptp.topic_id = 58 and ptp.user_id=pu.user_id) ;
+select t1.topic_id  from phpbb_topics t1 where t1.topic_id in (select ptp2.topic_id from phpbb_topics_posted ptp2 where ptp2.user_id in (select pu2.user_id from phpbb_users pu2 where pu2.user_ip in ( select pu.user_ip from  phpbb_users pu, phpbb_topics_posted ptp where ptp.topic_id = 60 and ptp.user_id=pu.user_id))) union select post.topic_id  from phpbb_posts post where post.poster_ip in ( select pu.user_ip from  phpbb_users pu, phpbb_topics_posted ptp where ptp.topic_id = 60 and ptp.user_id=pu.user_id) ;
 
 #quel est l'ip de l'utilisateur :
-select pu.user_ip,pu.username from  phpbb_users pu, phpbb_topics_posted ptp where ptp.topic_id = 58 and ptp.user_id=pu.user_id;
+select pu.user_ip,pu.username from  phpbb_users pu, phpbb_topics_posted ptp where ptp.topic_id = 60 and ptp.user_id=pu.user_id;
 
 #quels user vont etre supprimer
-select  pu2.username,pu2.user_ip,pu2.user_id from phpbb_users pu2 where pu2.user_ip in ( select pu.user_ip from  phpbb_users pu, phpbb_topics_posted ptp where ptp.topic_id = 58 and ptp.user_id=pu.user_id) ;
+select  pu2.username,pu2.user_ip,pu2.user_id from phpbb_users pu2 where pu2.user_ip in ( select pu.user_ip from  phpbb_users pu, phpbb_topics_posted ptp where ptp.topic_id = 60 and ptp.user_id=pu.user_id) ;
 
 #suppression des topics (OK) :
-delete from phpbb_topics  where topic_id in (select ptp2.topic_id from phpbb_topics_posted ptp2 where ptp2.user_id in (select pu2.user_id from phpbb_users pu2 where pu2.user_ip in ( select pu.user_ip from  phpbb_users pu, phpbb_topics_posted ptp where ptp.topic_id = 58 and ptp.user_id=pu.user_id)) union select post.topic_id  from phpbb_posts post where post.poster_ip in ( select pu.user_ip from  phpbb_users pu, phpbb_topics_posted ptp where ptp.topic_id = 58 and ptp.user_id=pu.user_id)) ;
+delete from phpbb_topics  where topic_id in (select ptp2.topic_id from phpbb_topics_posted ptp2 where ptp2.user_id in (select pu2.user_id from phpbb_users pu2 where pu2.user_ip in ( select pu.user_ip from  phpbb_users pu, phpbb_topics_posted ptp where ptp.topic_id = 60 and ptp.user_id=pu.user_id)) union select post.topic_id  from phpbb_posts post where post.poster_ip in ( select pu.user_ip from  phpbb_users pu, phpbb_topics_posted ptp where ptp.topic_id = 60 and ptp.user_id=pu.user_id)) ;
 
 
 #suppression des topic posted en fonction du user_id (ok)
