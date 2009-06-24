@@ -30,6 +30,8 @@ COPYTEST
 	                ((offset= offset + limit ));
 	        done
 us_treated=1;
+for usfile in `ls US.*.csv` ; do cat $usfile >> concatUS.csv; done
+mv  concatUS.csv US.csv;
 	else
 			psql -U postgres  -d gisgraphy -h 127.0.0.1 <<COPYTEST
 \f '	'
