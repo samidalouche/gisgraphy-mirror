@@ -124,6 +124,8 @@ public class ImporterConfig {
     private boolean importGisFeatureEmbededAlternateNames = false;
 
     private String geonamesDir;
+    
+    private String openStreetMapDir;
 
     private String geonamesDownloadURL;
 
@@ -449,6 +451,33 @@ public class ImporterConfig {
 	this.importGisFeatureEmbededAlternateNames = importGisFeatureEmbededAlternateNames;
     }
 
+    /**
+     * @return The option
+     * @see #setOpenstreetmapDir(String)
+     */
+    public String getOpenStreetMapDir() {
+	return this.openStreetMapDir;
+    }
+
+    /**
+     * The directory where the openStreetMap files will be retrieved and processed.
+     * It must ends with / or \ according to the System
+     * 
+     * @param importerGeonamesDir
+     *                the option
+     */
+    @Required
+    public void setOpenStreetMapDir(String importeropenStreetMapDir) {
+	if (!importeropenStreetMapDir.endsWith(File.separator)) {
+	    logger.debug(openStreetMapDir + " does not end with "
+		    + File.separator);
+	    this.openStreetMapDir = importeropenStreetMapDir + File.separator;
+	} else {
+	    this.openStreetMapDir = importeropenStreetMapDir;
+	}
+	logger.debug("set openStreetMapDir to " + this.openStreetMapDir);
+    }
+    
     /**
      * @return The option
      * @see #setGeonamesDir(String)

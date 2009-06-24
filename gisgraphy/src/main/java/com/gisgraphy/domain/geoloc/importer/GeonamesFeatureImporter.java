@@ -230,37 +230,6 @@ public class GeonamesFeatureImporter extends AbstractGeonamesProcessor {
 		    gisFeature));
 	}
 
-	// some country can have featurecode=TERR or ADMD
-	/*if (gisFeature.isCountry()
-		|| gisFeature.getFeatureCode().equals("TERR")
-		|| gisFeature.getFeatureCode().equals("ADMD")
-		|| gisFeature.getFeatureCode().startsWith("ISL")
-		|| gisFeature.getFeatureCode().equals("PCLIX")) {
-	    // Rem : country must not have admcode so we don't set admcodes
-	    // rem : country must not have admnames so we don't set admnames
-	    Country country = this.countryDao
-		    .getByFeatureId(new Long(fields[0]));
-	    if (country == null) {
-		if (gisFeature.isCountry()) {
-		    logger.warn("[wrongCountryCode] Country " + fields[8]
-			    + " have no entry in "
-			    + importerConfig.getCountriesFileName()
-			    + " or has not been imported. It will be ignored");
-		    return;
-		}
-		// else it is a real ADMD or TERR, ISL OR PCLIX
-	    } else {
-		String countryName = country.getName();
-		country.populate(gisFeature);
-		// we preffer keep the original name (example : we prefer
-		// France,
-		// instead of Republic Of France
-		country.setName(countryName);
-		this.countryDao.save(country);
-		return;
-	    }
-	}*/
-
 	Country country = this.countryDao.getByFeatureId(new Long(fields[0]));
 
 	if (country != null) {

@@ -198,5 +198,58 @@ public class ImporterHelperTest extends TestCase {
 		+ ImporterHelper.formatSeconds(1), ImporterHelper
 		.formatSeconds(2).contains(" seconds"));
     }
+    
+    @Test
+    public void testListCountryFilesToImport() throws IOException{
+	
+	// create a temporary directory to download files
+	File tempDir = GeolocTestHelper.createTempDir(this.getClass()
+		.getSimpleName());
+
+	try {
+	    String tempDirectoryPath = tempDir.getAbsolutePath();
+	    
+	    File goodFilePattern1 = new File(tempDirectoryPath+File.separator+"FR.txt");
+	    goodFilePattern1.createNewFile();
+	    
+	    File goodFilePattern2 = new File(tempDirectoryPath+File.separator+"OK.txt");
+	    goodFilePattern2.createNewFile();
+	    
+	    File badFilePatternWithLowerCase = new File(tempDirectoryPath+File.separator+"Ko.txt");
+	    badFilePatternWithLowerCase.createNewFile();
+	    
+	    File badFilePatternWithLowerCase2 = new File(tempDirectoryPath+File.separator+"kO.txt");
+	    badFilePatternWithLowerCase2.createNewFile();
+	    
+	    File badFilePatternWithExcludedName = new File(tempDirectoryPath+File.separator+ImporterHelper.EXCLUDED_README_FILENAME);
+	    badFilePatternWithExcludedName.createNewFile();
+	    
+	    File badFilePatternWithALLCountriesPattern = new File(tempDirectoryPath+File.separator+ImporterHelper.ALLCOUTRY_FILENAME);
+	    badFilePatternWithALLCountriesPattern.createNewFile();
+	    
+	    assertEquals("6 files must be created ",6,tempDir.listFiles().length);
+
+	    
+	    File [] fileToBeImported = ImporterHelper.listCountryFilesToImport(tempDirectoryPath);
+	    assertEquals(1, fileToBeImported.length);
+	    assertEquals("When "+ImporterHelper.ALLCOUTRY_FILENAME+ "is present, only this file should be return",  ImporterHelper.ALLCOUTRY_FILENAME, fileToBeImported[0].getName());
+
+	    assertTrue(" the ImporterHelper.ALLCOUTRY_FILENAME can not be deleted ",badFilePatternWithALLCountriesPattern.delete());
+	    
+	    fileToBeImported = ImporterHelper.listCountryFilesToImport(tempDirectoryPath);
+	    assertEquals("Only UppercaseFile with two letters should be listed ",2, fileToBeImported.length);
+	} catch (Exception e) {
+	    // TODO Auto-generated catch block
+	    e.printStackTrace();
+	} finally {
+	    assertTrue("the tempDir has not been deleted", GeolocTestHelper
+			.DeleteNonEmptyDirectory(tempDir));
+	}
+	
+
+	
+	
+    }
+    
 
 }

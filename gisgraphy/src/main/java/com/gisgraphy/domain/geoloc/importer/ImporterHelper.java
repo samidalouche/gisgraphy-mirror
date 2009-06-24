@@ -73,7 +73,7 @@ public class ImporterHelper {
     protected static final Logger logger = LoggerFactory
 	    .getLogger(ImporterHelper.class);
 
-    private static FileFilter countryFileFilterFilter = new FileFilter() {
+    public static FileFilter countryFileFilter = new FileFilter() {
 	public boolean accept(File file) {
 	    Pattern pattern = Pattern.compile(COUNTRY_FILE_ACCEPT_REGEX_STRING);
 
@@ -104,7 +104,7 @@ public class ImporterHelper {
 
 	File dir = new File(directoryPath);
 
-	File[] files = dir.listFiles(countryFileFilterFilter);
+	File[] files = dir.listFiles(countryFileFilter);
 
 	for (File file : files) {
 	    if (ALLCOUTRY_FILENAME.equals(file.getName())) {
