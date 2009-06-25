@@ -78,14 +78,19 @@
 		<property name="solRSynchroniser" ref="solRSynchroniser"/>
 	</bean>
 	
-		<bean id="admExtracter"
+	<bean id="admExtracter"
 		class="com.gisgraphy.domain.geoloc.importer.AdmExtracter"
 		parent="abstractGeonamesProcessor">
 	</bean>
 
+
+	<bean id="abstractFileRetriever"  
+	class="com.gisgraphy.domain.geoloc.importer.AbstractFileRetriever" abstract="true">
+		<property name="importerConfig" ref="importerConfig"/>
+	</bean>
+	
 	<bean id="geonamesFileRetriever"
-		class="com.gisgraphy.domain.geoloc.importer.GeonamesFileRetriever">
-		<property name="importerConfig" ref="importerConfig"></property>
+		class="com.gisgraphy.domain.geoloc.importer.GeonamesFileRetriever" parent="abstractFileRetriever" >
 	</bean>
 
 	<bean id="geonamesLanguageImporter"
@@ -135,6 +140,12 @@
 		<property name="solRSynchroniser" ref="solRSynchroniser"/>
 		<property name="spellCheckerIndexer" ref="spellCheckerIndexer"/>
 	</bean>
+	
+	<bean id="openStreetMapImporter" class="com.gisgraphy.domain.geoloc.importer.OpenStreetMapImporter"
+	parent="abstractGeonamesProcessor">
+		<property name="openStreetMapDao" ref= "openStreetMapDao" />
+	</bean>
+	
 	
 
 	<bean id="importerManager"

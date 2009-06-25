@@ -25,165 +25,31 @@
  */
 package com.gisgraphy.domain.geoloc.importer;
 
-import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Required;
-
-import com.gisgraphy.domain.valueobject.ImporterStatus;
-import com.gisgraphy.domain.valueobject.NameValueDTO;
 
 /**
  * Retrieve The Geonames files from a server
  * 
  * @author <a href="mailto:david.masclet@gisgraphy.com">David Masclet</a>
  */
-public class GeonamesFileRetriever implements IGeonamesProcessor {
+public class GeonamesFileRetriever extends AbstractFileRetriever {
 
-    private ImporterConfig importerConfig;
+  
 
-    private String currentFileName;
-
-    private ImporterStatus status = ImporterStatus.UNPROCESSED;
-
-    private int fileIndex = 0;
-
-    private int numberOfFileToDownload = 0;
-
-    private String statusMessage = "";
-
-    /**
-     * The logger
+    /* (non-Javadoc)
+     * @see com.gisgraphy.domain.geoloc.importer.AbstractFileRetriever#getDownloadDirectory()
      */
-    protected static final Logger logger = LoggerFactory
-	    .getLogger(GeonamesFileRetriever.class);
+    public String getDownloadDirectory() {
+	return importerConfig.getGeonamesDir();
+    }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see com.gisgraphy.domain.geoloc.importer.IGeonamesProcessor#process()
+    /* (non-Javadoc)
+     * @see com.gisgraphy.domain.geoloc.importer.AbstractFileRetriever#getDownloadBaseUrl()
      */
-    public void process() throws GeonamesProcessorException {
-	status = ImporterStatus.PROCESSING;
-	try {
-	    if (importerConfig.isRetrieveFiles()) {
-		logger
-			.info("DownloadFiles option is set to true, we will download and unzip files");
-		List<String> downloadFileList = importerConfig
-			.getDownloadFilesListFromOption();
-		this.numberOfFileToDownload = downloadFileList.size();
-		for (String file : downloadFileList) {
-		    this.fileIndex++;
-		    this.currentFileName = file;
-		    ImporterHelper.download(importerConfig
-			    .getGeonamesDownloadURL()
-			    + file, importerConfig.getGeonamesDir() + file);
-		}
-
-		File[] filesToUnZip = ImporterHelper
-			.listZipFiles(importerConfig.getGeonamesDir());
-		for (int i = 0; i < filesToUnZip.length; i++) {
-		    ImporterHelper.unzipFile(filesToUnZip[i]);
-		}
-
-		// for log purpose
-		File[] filesToImport = ImporterHelper
-			.listCountryFilesToImport(importerConfig
-				.getGeonamesDir());
-
-		for (int i = 0; i < filesToImport.length; i++) {
-		    logger.info("the files " + filesToImport[i].getName()
-			    + " will be imported");
-		}
-	    } else {
-		logger
-			.info("DownloadFiles option is set to false, we will not download and unzip files");
-	    }
-
-	} catch (RuntimeException e) {
-	    this.statusMessage = "error retrieving file : " + e.getMessage();
-	    logger.error(statusMessage);
-	    status = ImporterStatus.ERROR;
-	    throw new GeonamesProcessorException(statusMessage, e);
-	} finally {
-	    if (this.status != ImporterStatus.ERROR) {
-		this.status = ImporterStatus.PROCESSED;
-	    }
-	}
-
+    public String getDownloadBaseUrl() {
+	return importerConfig
+	    .getGeonamesDownloadURL();
     }
 
-    /**
-     * @param importerConfig
-     *                The importerConfig to set
-     */
-    @Required
-    public void setImporterConfig(ImporterConfig importerConfig) {
-	this.importerConfig = importerConfig;
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see com.gisgraphy.domain.geoloc.importer.IGeonamesProcessor#getReadFileLine()
-     */
-    public int getReadFileLine() {
-	return 0;
-    }
-
-    public int getTotalReadLine() {
-	return this.fileIndex;
-    }
-
-    public String getCurrentFileName() {
-	return this.currentFileName;
-    }
-
-    public int getNumberOfLinesToProcess() {
-	return this.numberOfFileToDownload;
-    }
-
-    public ImporterStatus getStatus() {
-	return this.status;
-    }
-
-    public String getStatusMessage() {
-	return this.statusMessage;
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see com.gisgraphy.domain.geoloc.importer.IGeonamesProcessor#rollback()
-     */
-    public List<NameValueDTO<Integer>> rollback() {
-	List<NameValueDTO<Integer>> deletedObjectInfo = new ArrayList<NameValueDTO<Integer>>();
-	List<String> filesToImport = importerConfig
-		.getDownloadFilesListFromOption();
-	int deleted = 0;
-	for (String fileName : filesToImport) {
-	    File file = new File(importerConfig.getGeonamesDir() + fileName);
-	    if (file.delete()) {
-		logger
-			.info("the files " + file.getName()
-				+ " has been deleted");
-		deleted++;
-	    } else {
-		logger.info("the files " + file.getName()
-			+ " hasn't been deleted");
-	    }
-	}
-	deletedObjectInfo.add(new NameValueDTO<Integer>("Downloaded files",
-		deleted));
-	currentFileName = null;
-	status = ImporterStatus.UNPROCESSED;
-	fileIndex = 0;
-	numberOfFileToDownload = 0;
-	statusMessage = "";
-	return deletedObjectInfo;
-    }
+   
 
 }

@@ -100,6 +100,7 @@ public class OpenStreetMap  {
      */
     @Index(name = "streetosmgidindex")
     @Column(unique = true, nullable = false)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "streetosmsequence")
     public Long getGid() {
         return gid;
     }
