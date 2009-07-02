@@ -18,7 +18,7 @@ do
 \f '	' 
 \a
 \t
-\o $countrycode.$iter.csv
+\o $countrycode.$iter.txt
 select * from openstreetmap where countrycode='$countrycode' offset $offset limit $limit ;
 \q
 COPYTEST
@@ -30,15 +30,15 @@ COPYTEST
 	                ((offset= offset + limit ));
 	        done
 		us_treated=1;
-		#for usfile in `ls US.*.csv` ; do cat $usfile >> concatUS.csv; done
-		#rm US.*.csv;
-		#mv  concatUS.csv US.csv;
+		#for usfile in `ls US.*.txt` ; do cat $usfile >> concatUS.txt; done
+		#rm US.*.txt;
+		#mv  concatUS.txt US.txt;
 	else
 			psql -U postgres  -d gisgraphystreet -h 127.0.0.1 <<COPYTEST
 \f '	'
 \a
 \t
-\o $countrycode.csv
+\o $countrycode.txt
 select * from openstreetmap where countrycode='$countrycode' ;
 \q
 COPYTEST
@@ -48,7 +48,7 @@ done
 
 #zip all
 mkdir csv;
-mv *.csv csv/
+mv *.txt csv/
 cd csv
-for csvfile in `ls *.csv` ; do countrycode=`echo ${csvfile}| cut -d "." -f1`;  zip  $countrycode.zip $countrycode.csv ; done
+for csvfile in `ls *.txt` ; do countrycode=`echo ${csvfile}| cut -d "." -f1`;  zip  $countrycode.zip $countrycode.txt ; done
 

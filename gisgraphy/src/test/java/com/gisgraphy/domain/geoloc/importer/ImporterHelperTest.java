@@ -215,6 +215,15 @@ public class ImporterHelperTest extends TestCase {
 	    File goodFilePattern2 = new File(tempDirectoryPath+File.separator+"OK.txt");
 	    goodFilePattern2.createNewFile();
 	    
+	    File goodFilePatternUS = new File(tempDirectoryPath+File.separator+"US.1.txt");
+	    goodFilePatternUS.createNewFile();
+	    
+	    File goodFilePatternUSForGeonames = new File(tempDirectoryPath+File.separator+"US.txt");
+	    goodFilePatternUSForGeonames.createNewFile();
+	    
+	    File goodFilePatternUS2 = new File(tempDirectoryPath+File.separator+"US.12.txt");
+	    goodFilePatternUS2.createNewFile();
+	    
 	    File badFilePatternWithLowerCase = new File(tempDirectoryPath+File.separator+"Ko.txt");
 	    badFilePatternWithLowerCase.createNewFile();
 	    
@@ -227,7 +236,7 @@ public class ImporterHelperTest extends TestCase {
 	    File badFilePatternWithALLCountriesPattern = new File(tempDirectoryPath+File.separator+ImporterHelper.ALLCOUTRY_FILENAME);
 	    badFilePatternWithALLCountriesPattern.createNewFile();
 	    
-	    assertEquals("6 files must be created ",6,tempDir.listFiles().length);
+	    assertEquals("9 files must be created ",9,tempDir.listFiles().length);
 
 	    
 	    File [] fileToBeImported = ImporterHelper.listCountryFilesToImport(tempDirectoryPath);
@@ -237,11 +246,8 @@ public class ImporterHelperTest extends TestCase {
 	    assertTrue(" the ImporterHelper.ALLCOUTRY_FILENAME can not be deleted ",badFilePatternWithALLCountriesPattern.delete());
 	    
 	    fileToBeImported = ImporterHelper.listCountryFilesToImport(tempDirectoryPath);
-	    assertEquals("Only UppercaseFile with two letters should be listed ",2, fileToBeImported.length);
-	} catch (Exception e) {
-	    // TODO Auto-generated catch block
-	    e.printStackTrace();
-	} finally {
+	    assertEquals("Only UppercaseFile with two letters and US.NUMBER.txt should be listed ",5, fileToBeImported.length);
+	}finally {
 	    assertTrue("the tempDir has not been deleted", GeolocTestHelper
 			.DeleteNonEmptyDirectory(tempDir));
 	}

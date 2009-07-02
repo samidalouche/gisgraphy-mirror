@@ -64,7 +64,9 @@ public class ImporterHelper {
     /**
      * The regexp that every country file dump matches
      */
-    public static final String COUNTRY_FILE_ACCEPT_REGEX_STRING = "[A-Z][A-Z](.txt)";
+    public static final String GEONAMES_COUNTRY_FILE_ACCEPT_REGEX_STRING = "[A-Z][A-Z](.txt)";
+    
+    public static final String OPENSTREETMAP_US_FILE_ACCEPT_REGEX_STRING = "(US.)[0-9]+(.txt)";
     /**
      * The regexp that every zipped country file dump matches
      */
@@ -75,12 +77,13 @@ public class ImporterHelper {
 
     public static FileFilter countryFileFilter = new FileFilter() {
 	public boolean accept(File file) {
-	    Pattern pattern = Pattern.compile(COUNTRY_FILE_ACCEPT_REGEX_STRING);
+	    Pattern patternGeonames = Pattern.compile(GEONAMES_COUNTRY_FILE_ACCEPT_REGEX_STRING);
+	    Pattern patternOpenStreetMapUS = Pattern.compile(OPENSTREETMAP_US_FILE_ACCEPT_REGEX_STRING);
 
 	    return (file.isFile() && file.exists())
 		    && !EXCLUDED_README_FILENAME.equals(file.getName())
-		    && (pattern.matcher(file.getName()).matches() || ALLCOUTRY_FILENAME
-			    .equals(file.getName()));
+		    && (patternGeonames.matcher(file.getName()).matches() || ALLCOUTRY_FILENAME
+			    .equals(file.getName()) || patternOpenStreetMapUS.matcher(file.getName()).matches());
 	}
     };
 
@@ -96,7 +99,7 @@ public class ImporterHelper {
     /**
      * @param directoryPath
      *                The directory where Geonames files are
-     * @see #COUNTRY_FILE_ACCEPT_REGEX_STRING
+     * @see #GEONAMES_COUNTRY_FILE_ACCEPT_REGEX_STRING
      * @return the allcountries.txt (@see {@linkplain #ALLCOUTRY_FILENAME} file
      *         if present or the list of country file to Import
      */
