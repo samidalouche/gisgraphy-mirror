@@ -14,12 +14,12 @@ do
 	        for iter  in `seq 1 290`;
 	        do
 		      echo "extraction de US $iter / 290"
-	              psql -U postgres  -d gisgraphy -h 127.0.0.1 <<COPYTEST
+	              psql -U postgres  -d gisgraphystreet -h 127.0.0.1 <<COPYTEST
 \f '	' 
 \a
 \t
 \o $countrycode.$iter.csv
-select * from openstreetmap where countrycode='$countrycode' offset 1 limit 1 ;
+select * from openstreetmap where countrycode='$countrycode' offset $offset limit $limit ;
 \q
 COPYTEST
  
@@ -29,18 +29,26 @@ COPYTEST
 	                fi
 	                ((offset= offset + limit ));
 	        done
-us_treated=1;
-for usfile in `ls US.*.csv` ; do cat $usfile >> concatUS.csv; done
-mv  concatUS.csv US.csv;
+		us_treated=1;
+		#for usfile in `ls US.*.csv` ; do cat $usfile >> concatUS.csv; done
+		#rm US.*.csv;
+		#mv  concatUS.csv US.csv;
 	else
-			psql -U postgres  -d gisgraphy -h 127.0.0.1 <<COPYTEST
+			psql -U postgres  -d gisgraphystreet -h 127.0.0.1 <<COPYTEST
 \f '	'
 \a
 \t
 \o $countrycode.csv
-select * from openstreetmap where countrycode='$countrycode' limit 1;
+select * from openstreetmap where countrycode='$countrycode' ;
 \q
 COPYTEST
 	
 	fi
 done
+
+#zip all
+mkdir csv;
+mv *.csv csv/
+cd csv
+for csvfile in `ls *.csv` ; do countrycode=`echo ${csvfile}| cut -d "." -f1`;  zip  $countrycode.zip $countrycode.csv ; done
+
