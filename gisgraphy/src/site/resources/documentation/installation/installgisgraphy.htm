@@ -82,7 +82,7 @@ Where YOURUSER is a postgresql user with admin rights,YOURIP is the ip adress of
 <br/>
 Then insert users (...for the admin interface,... you don't have to log to use gisgraphy webservices) in the database. A script called insert-users.sql is provided with two default users: one with admin rights and one with simple rights.
 <div class="code">
-psql -U<i>YOURPOSTGRESQLUSER</i> -f /path/to/file/insert_users.sql <br/>
+psql -U<i>YOURPOSTGRESQLUSER</i> -d gisgraphy -f /path/to/file/insert_users.sql <br/>
 </div>
 <br/>
 <div class="tip greentip">
