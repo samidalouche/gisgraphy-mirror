@@ -34,6 +34,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URL;
 import java.net.URLConnection;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
@@ -167,6 +168,12 @@ public class ImporterHelper {
 		numWritten += numRead;
 	    }
 	    logger.info(localFileName + "\t" + numWritten);
+	}catch (UnknownHostException e) {
+	    String errorMessage = "can not download " + address + " to " + localFileName
+		    + " : " + e.getMessage()+". if the host exists and is reachable," +
+		    		" maybe this links can help : http://www.gisgraphy.com/forum/viewtopic.php?f=3&t=64 ";
+	    logger.warn(errorMessage);
+	    throw new GeonamesProcessorException(errorMessage,e);
 	} catch (Exception e) {
 	    logger.warn("can not download " + address + " to " + localFileName
 		    + " : " + e.getMessage());
