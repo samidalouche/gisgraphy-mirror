@@ -50,10 +50,18 @@ done
 mkdir csv;
 mv *.csv csv/
 cd csv
-for csvfile in `ls *.csv` ; do countrycode=`echo ${csvfile}| cut -d "." -f1`; 
+rm US.csv
+echo "tar country file"
+for csvfile in `ls *.csv` ;
+do countrycode=`echo ${csvfile}| cut -d "." -f1`; 
 	if [[ $countrycode == 'US' ]]
-		then 
-			indexUS=`echo ${csvfile}| cut -d "." -f2`;
-			countrycode=$countrycode.$indexUS;
-	fi 
-zip  $countrycode.zip $countrycode.csv ; done
+	then 
+        	 tar -jcf US.tar.bz2 US.*.csv
+	else 
+	         tar -jcf  $countrycode.tar.bz2 $countrycode.csv ;
+	fi
+ done
+
+echo "tar allcountries.tar.bz2"
+tar -jcf  allcountries.tar.bz2 *.csv ;
+	 
