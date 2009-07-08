@@ -54,14 +54,14 @@ public class Untar {
 	this.dest = dest;
     }
 
-    public static void main(String args[]) {
+   /* public static void main(String args[]) {
 	try {
 	    Untar untar = new Untar("/home/dmasclet/street/done/csv/files.tar.bz2", new File("/home/dmasclet/decompress"));
 	    untar.untar();
 	} catch (Exception e) {
 	}
 
-    }
+    }*/
 
     private InputStream getDecompressedInputStream(final String name, final InputStream istream) throws IOException {
 	if (name == null) {
