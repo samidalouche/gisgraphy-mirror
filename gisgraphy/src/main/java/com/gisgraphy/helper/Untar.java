@@ -35,9 +35,9 @@ import org.apache.tools.tar.TarEntry;
 import org.apache.tools.tar.TarInputStream;
 
 /**
- * Utility calss to untar files, file con be gziped or Bzip2
+ * Utility class to untar files, file can be gziped or Bzip2
  * 
- * @author dmasclet
+ *  @author <a href="mailto:david.masclet@gisgraphy.com">David Masclet</a>
  * 
  */
 public class Untar {
@@ -67,10 +67,9 @@ public class Untar {
 	if (name == null) {
 	    throw new RuntimeException("fileName to decompress can not be null");
 	}
-	if (name.endsWith("gzip")) {
+	if (name.toLowerCase().endsWith("gzip")|| name.toLowerCase().endsWith("gz")) {
 	    return new BufferedInputStream(new GZIPInputStream(istream));
-	} else {
-	    if (name.toLowerCase().endsWith("bz2") || name.toLowerCase().endsWith("bzip2")) {
+	} else  if (name.toLowerCase().endsWith("bz2") || name.toLowerCase().endsWith("bzip2")) {
 		final char[] magic = new char[] { 'B', 'Z' };
 		for (int i = 0; i < magic.length; i++) {
 		    if (istream.read() != magic[i]) {
@@ -79,8 +78,10 @@ public class Untar {
 		}
 		return new BufferedInputStream(new CBZip2InputStream(istream));
 	    }
+	else if (name.toLowerCase().endsWith("tar")){
+	    return istream;
 	}
-	throw new RuntimeException("can only detect compression for extension gzip, bz2, or bzip2");
+	throw new RuntimeException("can only detect compression for extension tar, gzip, gz, bz2, or bzip2");
     }
 
     /**
