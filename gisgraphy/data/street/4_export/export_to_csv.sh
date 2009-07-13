@@ -18,7 +18,7 @@ do
 \f '	' 
 \a
 \t
-\o $countrycode.$iter.csv
+\o $countrycode.$iter.txt
 select * from openstreetmap where countrycode='$countrycode' offset $offset limit $limit ;
 \q
 COPYTEST
@@ -30,15 +30,12 @@ COPYTEST
 	                ((offset= offset + limit ));
 	        done
 		us_treated=1;
-		#for usfile in `ls US.*.csv` ; do cat $usfile >> concatUS.csv; done
-		#rm US.*.csv;
-		#mv  concatUS.csv US.csv;
 	else
 			psql -U postgres  -d gisgraphystreet -h 127.0.0.1 <<COPYTEST
 \f '	'
 \a
 \t
-\o $countrycode.csv
+\o $countrycode.txt
 select * from openstreetmap where countrycode='$countrycode' ;
 \q
 COPYTEST
@@ -46,22 +43,29 @@ COPYTEST
 	fi
 done
 
-#zip all
-mkdir csv;
-mv *.csv csv/
-cd csv
-rm US.csv
+#tar all
+echo "extract is finish, now taring"
+mkdir tar;
+rm US.txt
+mv *.txt tar/
+cd tar
+mkdir done
 echo "tar country file"
-for csvfile in `ls *.csv` ;
+for csvfile in `ls *.txt` ;
 do countrycode=`echo ${csvfile}| cut -d "." -f1`; 
 	if [[ $countrycode == 'US' ]]
 	then 
-        	 tar -jcf US.tar.bz2 US.*.csv
+        	 echo "found an US file that must be process after"
 	else 
-	         tar -jcf  $countrycode.tar.bz2 $countrycode.csv ;
+	         tar -jcf  $countrycode.tar.bz2 $countrycode.txt ;
+	         mv $countrycode.txt done/
 	fi
  done
 
-echo "tar allcountries.tar.bz2"
-tar -jcf  allcountries.tar.bz2 *.csv ;
+echo "tar US file" 
+tar -jcf US.tar.bz2 US.*.csv
+mv US.*.txt done/
+
+#echo "tar allcountries.tar.bz2"
+#tar -jcf  allcountries.tar.bz2 *.txt ;
 	 
