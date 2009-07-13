@@ -26,6 +26,7 @@
 package com.gisgraphy.domain.geoloc.importer;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -82,27 +83,14 @@ public abstract class AbstractFileRetriever implements IGeonamesProcessor {
 			    + file, getDownloadDirectory() + file);
 		}
 
-		File[] filesToUnZip = ImporterHelper
-			.listZipFiles(getDownloadDirectory());
-		for (int i = 0; i < filesToUnZip.length; i++) {
-		    ImporterHelper.unzipFile(filesToUnZip[i]);
-		}
-
-		// for log purpose
-		File[] filesToImport = ImporterHelper
-			.listCountryFilesToImport(getDownloadDirectory());
-
-		for (int i = 0; i < filesToImport.length; i++) {
-		    logger.info("the files " + filesToImport[i].getName()
-			    + " will be imported");
-		}
+		decompressFiles();
 	    } else {
 		logger
 			.info("DownloadFiles option is set to false, we will not download and unzip files");
 	    }
 
-	} catch (RuntimeException e) {
-	    this.statusMessage = "error retrieving file : " + e.getMessage();
+	} catch (Exception e) {
+	    this.statusMessage = "error retrieving or decompres file : " + e.getMessage();
 	    logger.error(statusMessage);
 	    status = ImporterStatus.ERROR;
 	    throw new GeonamesProcessorException(statusMessage, e);
@@ -113,6 +101,12 @@ public abstract class AbstractFileRetriever implements IGeonamesProcessor {
 	}
 
     }
+
+    /**
+     * Method to call if files must be decompress (untar or unzip)
+     * @throws IOException
+     */
+    public abstract void decompressFiles() throws IOException ;
 
     /** 
      * @return The directory where the file should be downloaded

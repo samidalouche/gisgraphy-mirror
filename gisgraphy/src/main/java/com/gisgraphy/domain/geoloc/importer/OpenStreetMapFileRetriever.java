@@ -26,6 +26,9 @@
 package com.gisgraphy.domain.geoloc.importer;
 
 import java.io.File;
+import java.io.IOException;
+
+import com.gisgraphy.helper.Untar;
 
 
 /**
@@ -33,7 +36,7 @@ import java.io.File;
  * 
  * @author <a href="mailto:david.masclet@gisgraphy.com">David Masclet</a>
  */
-public class GeonamesFileRetriever extends AbstractFileRetriever {
+public class OpenStreetMapFileRetriever extends AbstractFileRetriever {
 
   
 
@@ -41,7 +44,7 @@ public class GeonamesFileRetriever extends AbstractFileRetriever {
      * @see com.gisgraphy.domain.geoloc.importer.AbstractFileRetriever#getDownloadDirectory()
      */
     public String getDownloadDirectory() {
-	return importerConfig.getGeonamesDir();
+	return importerConfig.getOpenStreetMapDir();
     }
 
     /* (non-Javadoc)
@@ -49,17 +52,18 @@ public class GeonamesFileRetriever extends AbstractFileRetriever {
      */
     public String getDownloadBaseUrl() {
 	return importerConfig
-	    .getGeonamesDownloadURL();
+	    .getOpenstreetMapDownloadURL();
     }
-
+    
     /* (non-Javadoc)
      * @see com.gisgraphy.domain.geoloc.importer.AbstractFileRetriever#decompressFiles()
      */
-    public void decompressFiles() {
-	File[] filesToUnZip = ImporterHelper
-		.listZipFiles(getDownloadDirectory());
-	for (int i = 0; i < filesToUnZip.length; i++) {
-	    ImporterHelper.unzipFile(filesToUnZip[i]);
+    public void decompressFiles() throws IOException {
+	File[] filesToUntar = ImporterHelper
+		.listTarFiles(getDownloadDirectory());
+	for (int i = 0; i < filesToUntar.length; i++) {
+	    Untar untar = new Untar(filesToUntar[i].getAbsolutePath(),new File(getDownloadDirectory()));
+	    untar.untar();
 	}
 
 	// for log purpose
@@ -68,9 +72,10 @@ public class GeonamesFileRetriever extends AbstractFileRetriever {
 
 	for (int i = 0; i < filesToImport.length; i++) {
 	    logger.info("the files " + filesToImport[i].getName()
-		    + " will be imported");
+		    + " will be imported for openstreetMap");
 	}
     }
+
    
 
 }

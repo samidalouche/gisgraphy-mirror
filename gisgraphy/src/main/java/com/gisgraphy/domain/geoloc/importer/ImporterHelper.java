@@ -72,6 +72,8 @@ public class ImporterHelper {
      * The regexp that every zipped country file dump matches
      */
     public static final String ZIP_FILE_ACCEPT_REGEX_STRING = ".*(.zip)";
+    
+    public static final String TAR_BZ2_FILE_ACCEPT_REGEX_STRING = ".*(.tar.bz2)";
 
     protected static final Logger logger = LoggerFactory
 	    .getLogger(ImporterHelper.class);
@@ -88,9 +90,18 @@ public class ImporterHelper {
 	}
     };
 
-    private static FileFilter ZipFileFilterFilter = new FileFilter() {
+    private static FileFilter ZipFileFilter = new FileFilter() {
 	public boolean accept(File file) {
 	    Pattern pattern = Pattern.compile(ZIP_FILE_ACCEPT_REGEX_STRING);
+
+	    return (file.isFile() && file.exists())
+		    && pattern.matcher(file.getName()).matches();
+	}
+    };
+    
+    private static FileFilter tarBZ2FileFilter = new FileFilter() {
+	public boolean accept(File file) {
+	    Pattern pattern = Pattern.compile(TAR_BZ2_FILE_ACCEPT_REGEX_STRING);
 
 	    return (file.isFile() && file.exists())
 		    && pattern.matcher(file.getName()).matches();
@@ -140,7 +151,22 @@ public class ImporterHelper {
 
 	File dir = new File(directoryPath);
 
-	File[] files = dir.listFiles(ZipFileFilterFilter);
+	File[] files = dir.listFiles(ZipFileFilter);
+	return files;
+    }
+    
+    /**
+     * @param directoryPath
+     *                The directory where openstreetmap files are to be downloaded in
+     *                order to be processed
+     * @see #TAR_BZ2_FILE_ACCEPT_REGEX_STRING
+     * @return all the zip files present in the specified directory
+     */
+    public static File[] listTarFiles(String directoryPath) {
+
+	File dir = new File(directoryPath);
+
+	File[] files = dir.listFiles(tarBZ2FileFilter);
 	return files;
     }
 

@@ -2047,9 +2047,6 @@ public class ImporterManagerTest extends AbstractIntegrationHttpSolrTestCase {
 		"Bois-Colombes");
     }
 
-    /**
-     * 
-     */
     private void processAndCheckGeonamesFileRetriever() {
 
 	// create a temporary directory to download files

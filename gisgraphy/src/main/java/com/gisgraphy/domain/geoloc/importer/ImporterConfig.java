@@ -126,6 +126,8 @@ public class ImporterConfig {
     private String geonamesDir;
     
     private String openStreetMapDir;
+    
+    private String openstreetMapDownloadURL;
 
     private String geonamesDownloadURL;
 
@@ -507,6 +509,30 @@ public class ImporterConfig {
 
     /**
      * @return The option
+     * @see #setOpDownloadURL(String)
+     */
+    public String getOpenstreetMapDownloadURL() {
+	return openstreetMapDownloadURL;
+    }
+
+    /**
+     * The HTTP URL of the directory Where openstreetmap files are to be download from
+     * 
+     * @param openstreetMapDownloadURL
+     *                The option
+     */
+    @Required
+    public void setOpenstreetMapDownloadURL(String openstreetMapDownloadURL) {
+	if (!openstreetMapDownloadURL.endsWith("/")) {
+	    this.openstreetMapDownloadURL = openstreetMapDownloadURL + "/";
+	} else {
+	    this.openstreetMapDownloadURL = openstreetMapDownloadURL;
+	}
+	logger.debug("set openstreetMapDownloadURL to " + this.openstreetMapDownloadURL);
+    }
+    
+    /**
+     * @return The option
      * @see #setGeonamesDownloadURL(String)
      */
     public String getGeonamesDownloadURL() {
@@ -514,7 +540,7 @@ public class ImporterConfig {
     }
 
     /**
-     * The HTTP URL of the directory Where Geonames file are to be download from
+     * The HTTP URL of the directory Where Geonames files are to be download from
      * 
      * @param importerGeonamesDownloadURL
      *                The option
