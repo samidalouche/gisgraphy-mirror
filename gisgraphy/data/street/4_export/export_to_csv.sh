@@ -43,30 +43,36 @@ COPYTEST
 	fi
 done
 
+
 #tar all
 echo "extract is finish, now taring"
 mkdir tar;
-mv readme.txt tar/
 rm US.txt
 mv *.txt tar/
 cd tar
 mkdir done
 echo "tar country file"
 for csvfile in `ls *.txt` ;
-do countrycode=`echo ${csvfile}| cut -d "." -f1`; 
+do 
+	if [[ $csvfile == 'readme.txt' ]]
+	then 
+		echo "readme should not be processed"
+	        continue
+	fi
+	countrycode=`echo ${csvfile}| cut -d "." -f1`; 
 	if [[ $countrycode == 'US' ]]
 	then 
-        	 echo "found an US file that must be process after"
+        	 echo "found a US file that must not be processed now: $countrycode"
 	else 
+		 echo "taring $countrycode.txt"
 	         tar -jcf  $countrycode.tar.bz2 $countrycode.txt readme.txt;
 	         mv $countrycode.txt done/
 	fi
  done
 
 echo "tar US file" 
-tar -jcf US.tar.bz2 US.*.csv readme.txt
+tar -jcf US.tar.bz2 US.*.txt readme.txt
 mv US.*.txt done/
 
 #echo "tar allcountries.tar.bz2"
 #tar -jcf  allcountries.tar.bz2 *.txt ;
-	 
