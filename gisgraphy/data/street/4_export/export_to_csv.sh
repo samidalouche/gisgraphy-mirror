@@ -46,6 +46,7 @@ done
 #tar all
 echo "extract is finish, now taring"
 mkdir tar;
+mv readme.txt tar/
 rm US.txt
 mv *.txt tar/
 cd tar
@@ -57,13 +58,13 @@ do countrycode=`echo ${csvfile}| cut -d "." -f1`;
 	then 
         	 echo "found an US file that must be process after"
 	else 
-	         tar -jcf  $countrycode.tar.bz2 $countrycode.txt ;
+	         tar -jcf  $countrycode.tar.bz2 $countrycode.txt readme.txt;
 	         mv $countrycode.txt done/
 	fi
  done
 
 echo "tar US file" 
-tar -jcf US.tar.bz2 US.*.csv
+tar -jcf US.tar.bz2 US.*.csv readme.txt
 mv US.*.txt done/
 
 #echo "tar allcountries.tar.bz2"
