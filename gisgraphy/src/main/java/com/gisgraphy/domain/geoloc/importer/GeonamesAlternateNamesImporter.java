@@ -307,21 +307,15 @@ public class GeonamesAlternateNamesImporter extends AbstractGeonamesProcessor {
     }
 
     
-    /* (non-Javadoc)
-     * @see com.gisgraphy.domain.geoloc.importer.AbstractGeonamesProcessor#setStatus()
-     */
+
     @Override
-    protected void updateStatus() {
-	if (this.status != ImporterStatus.ERROR) {
-	    this.status = ImporterStatus.PROCESSED;
-	}
-	else {
-	    return;
-	}
-	if (importerConfig.isImportGisFeatureEmbededAlternateNames()){
-	    this.status = ImporterStatus.SKIPED;
-	}
+    protected boolean shouldBeSkiped() {
+        if (importerConfig.isImportGisFeatureEmbededAlternateNames()){
+            return true ;
+        }
+        return false;
     }
+    
     /*
      * (non-Javadoc)
      * 

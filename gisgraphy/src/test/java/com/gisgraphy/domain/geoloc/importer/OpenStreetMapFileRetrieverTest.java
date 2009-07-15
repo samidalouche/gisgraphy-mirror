@@ -9,8 +9,6 @@ import junit.framework.Assert;
 import org.easymock.classextension.EasyMock;
 import org.junit.Test;
 
-import com.gisgraphy.domain.geoloc.service.fulltextsearch.spell.ISpellCheckerIndexer;
-import com.gisgraphy.domain.repository.SolRSynchroniser;
 import com.gisgraphy.domain.valueobject.ImporterStatus;
 import com.gisgraphy.domain.valueobject.ImporterStatusDto;
 import com.gisgraphy.test.GeolocTestHelper;
@@ -109,8 +107,26 @@ public class OpenStreetMapFileRetrieverTest {
 	openStreetMapFileRetriever.process();
 	Assert.assertEquals(ImporterStatus.SKIPED, openStreetMapFileRetriever.getStatus());
 	ImporterStatusDto statusDto = new ImporterStatusDto(openStreetMapFileRetriever);
-	Assert.assertEquals(0, statusDto.getPercent());
+	Assert.assertEquals(100, statusDto.getPercent());
     }
+    
+    @Test
+    public void StatusShouldBeEqualsToPROCESSEDIfNoERROR(){
+	OpenStreetMapFileRetriever openStreetMapFileRetriever = new OpenStreetMapFileRetriever();
+	ImporterConfig importerConfig = EasyMock.createMock(ImporterConfig.class);
+	EasyMock.expect(importerConfig.isRetrieveFiles()).andReturn(true);
+	EasyMock.expect(importerConfig.getDownloadFilesListFromOption()).andStubReturn(new ArrayList<String>());
+	EasyMock.expect(importerConfig.getOpenStreetMapDir()).andStubReturn("");
+	EasyMock.expect(importerConfig.getOpenstreetMapDownloadURL()).andStubReturn("");
+	
+	EasyMock.replay(importerConfig);
+	openStreetMapFileRetriever.setImporterConfig(importerConfig);
+	openStreetMapFileRetriever.process();
+	Assert.assertEquals(ImporterStatus.PROCESSED, openStreetMapFileRetriever.getStatus());
+	ImporterStatusDto statusDto = new ImporterStatusDto(openStreetMapFileRetriever);
+	Assert.assertEquals(100, statusDto.getPercent());
+    }
+    
     
    
 

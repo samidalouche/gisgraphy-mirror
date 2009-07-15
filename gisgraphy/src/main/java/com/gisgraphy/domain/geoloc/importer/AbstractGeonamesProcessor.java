@@ -279,9 +279,13 @@ public abstract class AbstractGeonamesProcessor implements IGeonamesProcessor {
      * Manage the transaction, flush Daos, and process all files to be processed
      */
     public void process() {
-	this.status = ImporterStatus.PROCESSING;
-	setup();
 	try {
+	    if (shouldBeSkiped()){
+		this.status = ImporterStatus.SKIPED;
+		return;
+	    }
+	    this.status = ImporterStatus.PROCESSING;
+	    setup();
 	    this.filesToProcess = getFiles();
 	    if (this.filesToProcess.length == 0) {
 		logger.info("there is 0 file to process for "
@@ -296,7 +300,8 @@ public abstract class AbstractGeonamesProcessor implements IGeonamesProcessor {
 		closeBufferReader();
 
 	    }
-
+	    
+	this.status = ImporterStatus.PROCESSED;
 	} catch (Exception e) {
 	    e.printStackTrace();
 	    this.status = ImporterStatus.ERROR;
@@ -311,15 +316,21 @@ public abstract class AbstractGeonamesProcessor implements IGeonamesProcessor {
 	    logger.error(statusMessage);
 	    throw new GeonamesProcessorException(statusMessage, e.getCause());
 	} finally {
-	    updateStatus();
-	    tearDown();
+	    try {
+		tearDown();
+	    } catch (Exception e) {
+		this.status = ImporterStatus.ERROR;
+		logger.error("An error occured on teardown :"+e);
+	    }
 	}
     }
 
-    protected void updateStatus() {
-	if (this.status != ImporterStatus.ERROR) {
-	    this.status = ImporterStatus.PROCESSED;
-	}
+
+    /**
+     * @return true if the processor should Not be executed
+     */
+    protected boolean shouldBeSkiped() {
+	return false;
     }
 
     private void getBufferReader(File file) {

@@ -142,7 +142,7 @@ public class GeonamesAlternateNamesImporterTest extends AbstractIntegrationHttpS
 	geonamesAlternateNamesImporter.process();
 	Assert.assertEquals(ImporterStatus.SKIPED, geonamesAlternateNamesImporter.getStatus());
 	ImporterStatusDto statusDto = new ImporterStatusDto(geonamesAlternateNamesImporter);
-	Assert.assertEquals(0, statusDto.getPercent());
+	Assert.assertEquals(100, statusDto.getPercent());
     }
     
      

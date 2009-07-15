@@ -84,9 +84,11 @@ public abstract class AbstractFileRetriever implements IGeonamesProcessor {
 		}
 
 		decompressFiles();
+		this.status = ImporterStatus.PROCESSED ;
 	    } else {
+		this.status = ImporterStatus.SKIPED;
 		logger
-			.info("DownloadFiles option is set to false, we will not download and unzip files");
+			.info("DownloadFiles option is set to false, we will not download and decompress files");
 		return;
 	    }
 
@@ -95,18 +97,7 @@ public abstract class AbstractFileRetriever implements IGeonamesProcessor {
 	    logger.error(statusMessage);
 	    status = ImporterStatus.ERROR;
 	    throw new GeonamesProcessorException(statusMessage, e);
-	} finally {
-	    if (this.status != ImporterStatus.ERROR) {
-		this.status = ImporterStatus.PROCESSED;
-	    }
-	    else {
-		//error is stronger than skip
-		return;
-		}
-	    if (!importerConfig.isRetrieveFiles()){
-		this.status = ImporterStatus.SKIPED;
-	    }
-	}
+	} 
 
     }
 

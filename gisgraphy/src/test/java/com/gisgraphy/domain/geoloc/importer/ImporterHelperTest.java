@@ -28,6 +28,7 @@ import java.util.List;
 import java.util.Random;
 import java.util.regex.Pattern;
 
+import junit.framework.Assert;
 import junit.framework.TestCase;
 
 import org.junit.Test;
@@ -252,10 +253,25 @@ public class ImporterHelperTest extends TestCase {
 			.DeleteNonEmptyDirectory(tempDir));
 	}
 	
-
+	
 	
 	
     }
     
-
+    @Test
+    public void testListCountryFilesToImportShouldNotReturnNullIfThereIsNoFile(){
+	Assert.assertNotNull(ImporterHelper.listCountryFilesToImport(""));
+    }
+    
+    @Test
+    public void testListZipFilesShouldNotReturnNullIfThereIsNoFile(){
+	Assert.assertNotNull(ImporterHelper.listZipFiles(""));
+    }
+    
+    @Test
+    public void testListTarFilesShouldNotReturnNullIfThereIsNoFile(){
+	Assert.assertNotNull(ImporterHelper.listZipFiles(""));
+    }
+    
+    
 }

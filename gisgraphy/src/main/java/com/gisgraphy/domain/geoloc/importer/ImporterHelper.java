@@ -113,13 +113,17 @@ public class ImporterHelper {
      *                The directory where Geonames files are
      * @see #GEONAMES_COUNTRY_FILE_ACCEPT_REGEX_STRING
      * @return the allcountries.txt (@see {@linkplain #ALLCOUTRY_FILENAME} file
-     *         if present or the list of country file to Import
+     *         if present or the list of country file to Import or an empty array if there is no file
      */
     public static File[] listCountryFilesToImport(String directoryPath) {
 
 	File dir = new File(directoryPath);
 
 	File[] files = dir.listFiles(countryFileFilter);
+	
+	if (files == null){
+	    return new File[0];
+	}
 
 	for (File file : files) {
 	    if (ALLCOUTRY_FILENAME.equals(file.getName())) {
@@ -145,14 +149,14 @@ public class ImporterHelper {
      *                The directory where Geonames files are to be downloaded in
      *                order to be processed
      * @see #ZIP_FILE_ACCEPT_REGEX_STRING
-     * @return all the zip files present in the specified directory
+     * @return all the zip files present in the specified directory or an empty array if there is no file
      */
     public static File[] listZipFiles(String directoryPath) {
 
 	File dir = new File(directoryPath);
 
 	File[] files = dir.listFiles(ZipFileFilter);
-	return files;
+	return files == null ? new File[0]: files;
     }
     
     /**
@@ -160,14 +164,14 @@ public class ImporterHelper {
      *                The directory where openstreetmap files are to be downloaded in
      *                order to be processed
      * @see #TAR_BZ2_FILE_ACCEPT_REGEX_STRING
-     * @return all the zip files present in the specified directory
+     * @return all the zip files present in the specified directory or an empty array if there is no file
      */
     public static File[] listTarFiles(String directoryPath) {
 
 	File dir = new File(directoryPath);
 
 	File[] files = dir.listFiles(tarBZ2FileFilter);
-	return files;
+	return files == null? new File[0] : files;
     }
 
     /**

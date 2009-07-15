@@ -139,6 +139,9 @@ public class ImporterStatusDto {
 	    this.percent = (numberOfLineProcessed * 100)
 		    / numberOfLineToProcess;
 	}
+	else if (numberOfLineProcessed==0){
+	    percent = 100;
+	}
     }
 
     /**
