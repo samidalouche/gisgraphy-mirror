@@ -6,8 +6,13 @@ import java.util.List;
 
 import junit.framework.Assert;
 
+import org.easymock.classextension.EasyMock;
 import org.junit.Test;
 
+import com.gisgraphy.domain.geoloc.service.fulltextsearch.spell.ISpellCheckerIndexer;
+import com.gisgraphy.domain.repository.SolRSynchroniser;
+import com.gisgraphy.domain.valueobject.ImporterStatus;
+import com.gisgraphy.domain.valueobject.ImporterStatusDto;
 import com.gisgraphy.test.GeolocTestHelper;
 
 
@@ -94,5 +99,19 @@ public class OpenStreetMapFileRetrieverTest {
 	
 
     }
+    
+    @Test
+    public void StatusShouldBeEqualsToSkipedIfRetrieveFileIsFalse(){
+	OpenStreetMapFileRetriever openStreetMapFileRetriever = new OpenStreetMapFileRetriever();
+	ImporterConfig importerConfig = new ImporterConfig();
+	importerConfig.setRetrieveFiles(false);
+	openStreetMapFileRetriever.setImporterConfig(importerConfig);
+	openStreetMapFileRetriever.process();
+	Assert.assertEquals(ImporterStatus.SKIPED, openStreetMapFileRetriever.getStatus());
+	ImporterStatusDto statusDto = new ImporterStatusDto(openStreetMapFileRetriever);
+	Assert.assertEquals(0, statusDto.getPercent());
+    }
+    
+   
 
 }

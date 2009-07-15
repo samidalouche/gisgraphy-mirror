@@ -52,6 +52,16 @@ public class ImporterStatusDto {
      * the default value of the currentFile if it is null
      */
     public static final String DEFAULT_CURRENT_FILE = " any file ";
+    
+    private String processorName = "";
+    private String currentFileName = DEFAULT_CURRENT_FILE;
+    private int currentLine = 0;
+    private int numberOfLinelefts = 0;
+    private int numberOfLineToProcess = 0;
+    private int numberOfLineProcessed = 0;
+    private int percent = 0;
+    private String statusMessage = "";
+    private ImporterStatus status = ImporterStatus.UNKNOW;
 
     /**
      * @param processorName
@@ -83,15 +93,6 @@ public class ImporterStatusDto {
 	calculateFields();
     }
 
-    private String processorName = "";
-    private String currentFileName = DEFAULT_CURRENT_FILE;
-    private int currentLine = 0;
-    private int numberOfLinelefts = 0;
-    private int numberOfLineToProcess = 0;
-    private int numberOfLineProcessed = 0;
-    private int percent = 0;
-    private String statusMessage = "";
-    private ImporterStatus status = ImporterStatus.UNKNOW;
 
     public ImporterStatusDto(IGeonamesProcessor processor) {
 	this.processorName = processor.getClass().getSimpleName();

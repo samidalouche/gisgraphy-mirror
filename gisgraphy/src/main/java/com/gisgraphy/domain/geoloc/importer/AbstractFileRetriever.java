@@ -46,7 +46,7 @@ public abstract class AbstractFileRetriever implements IGeonamesProcessor {
 
     protected ImporterConfig importerConfig;
 
-    protected String currentFileName;
+    protected String currentFileName = null;
 
     protected ImporterStatus status = ImporterStatus.UNPROCESSED;
 
@@ -87,6 +87,7 @@ public abstract class AbstractFileRetriever implements IGeonamesProcessor {
 	    } else {
 		logger
 			.info("DownloadFiles option is set to false, we will not download and unzip files");
+		return;
 	    }
 
 	} catch (Exception e) {
@@ -97,6 +98,13 @@ public abstract class AbstractFileRetriever implements IGeonamesProcessor {
 	} finally {
 	    if (this.status != ImporterStatus.ERROR) {
 		this.status = ImporterStatus.PROCESSED;
+	    }
+	    else {
+		//error is stronger than skip
+		return;
+		}
+	    if (!importerConfig.isRetrieveFiles()){
+		this.status = ImporterStatus.SKIPED;
 	    }
 	}
 
@@ -133,8 +141,17 @@ public abstract class AbstractFileRetriever implements IGeonamesProcessor {
 	return this.fileIndex;
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see com.gisgraphy.domain.geoloc.importer.IGeonamesProcessor#getCurrentFile()
+     */
     public String getCurrentFileName() {
-	return this.currentFileName;
+
+	if (this.currentFileName != null) {
+	    return this.currentFileName;
+	}
+	return "?";
     }
 
     public int getNumberOfLinesToProcess() {

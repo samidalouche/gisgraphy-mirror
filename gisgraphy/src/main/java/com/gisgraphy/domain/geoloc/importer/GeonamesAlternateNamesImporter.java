@@ -38,6 +38,7 @@ import com.gisgraphy.domain.repository.ICityDao;
 import com.gisgraphy.domain.repository.IGisFeatureDao;
 import com.gisgraphy.domain.repository.ISolRSynchroniser;
 import com.gisgraphy.domain.valueobject.AlternateNameSource;
+import com.gisgraphy.domain.valueobject.ImporterStatus;
 import com.gisgraphy.domain.valueobject.NameValueDTO;
 
 /**
@@ -305,6 +306,22 @@ public class GeonamesAlternateNamesImporter extends AbstractGeonamesProcessor {
 	this.cityDao = cityDao;
     }
 
+    
+    /* (non-Javadoc)
+     * @see com.gisgraphy.domain.geoloc.importer.AbstractGeonamesProcessor#setStatus()
+     */
+    @Override
+    protected void updateStatus() {
+	if (this.status != ImporterStatus.ERROR) {
+	    this.status = ImporterStatus.PROCESSED;
+	}
+	else {
+	    return;
+	}
+	if (importerConfig.isImportGisFeatureEmbededAlternateNames()){
+	    this.status = ImporterStatus.SKIPED;
+	}
+    }
     /*
      * (non-Javadoc)
      * 

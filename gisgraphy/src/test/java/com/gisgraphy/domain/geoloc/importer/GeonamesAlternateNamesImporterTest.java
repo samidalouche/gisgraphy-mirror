@@ -22,8 +22,11 @@
  *******************************************************************************/
 package com.gisgraphy.domain.geoloc.importer;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.List;
+
+import junit.framework.Assert;
 
 import org.easymock.classextension.EasyMock;
 import org.junit.Test;
@@ -33,6 +36,9 @@ import com.gisgraphy.domain.geoloc.service.fulltextsearch.AbstractIntegrationHtt
 import com.gisgraphy.domain.geoloc.service.fulltextsearch.spell.ISpellCheckerIndexer;
 import com.gisgraphy.domain.repository.IAlternateNameDao;
 import com.gisgraphy.domain.repository.ISolRSynchroniser;
+import com.gisgraphy.domain.repository.SolRSynchroniser;
+import com.gisgraphy.domain.valueobject.ImporterStatus;
+import com.gisgraphy.domain.valueobject.ImporterStatusDto;
 import com.gisgraphy.domain.valueobject.NameValueDTO;
 
 public class GeonamesAlternateNamesImporterTest extends AbstractIntegrationHttpSolrTestCase {
@@ -121,6 +127,26 @@ public class GeonamesAlternateNamesImporterTest extends AbstractIntegrationHttpS
 	    geonamesAlternateNamesImporter.setSpellCheckerIndexer(spellCheckerIndexer);
 	}
     }
+    
+    @Test
+    public void StatusShouldBeEqualsToSkipedIfisImportGisFeatureEmbededAlternateNamesIsTrue(){
+	SolRSynchroniser solRSynchroniser = EasyMock.createNiceMock(SolRSynchroniser.class);
+	ISpellCheckerIndexer spellChecker = EasyMock.createNiceMock(ISpellCheckerIndexer.class);
+	
+	GeonamesAlternateNamesImporter geonamesAlternateNamesImporter = new GeonamesAlternateNamesImporter();
+	ImporterConfig importerConfig = new ImporterConfig();
+	importerConfig.setImportGisFeatureEmbededAlternateNames(true);
+	geonamesAlternateNamesImporter.setImporterConfig(importerConfig);
+	geonamesAlternateNamesImporter.setSolRSynchroniser(solRSynchroniser);
+	geonamesAlternateNamesImporter.setSpellCheckerIndexer(spellChecker);
+	geonamesAlternateNamesImporter.process();
+	Assert.assertEquals(ImporterStatus.SKIPED, geonamesAlternateNamesImporter.getStatus());
+	ImporterStatusDto statusDto = new ImporterStatusDto(geonamesAlternateNamesImporter);
+	Assert.assertEquals(0, statusDto.getPercent());
+    }
+    
+     
+    
     
     /**
      * @param importerConfig the importerConfig to set

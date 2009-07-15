@@ -58,7 +58,7 @@ public abstract class AbstractGeonamesProcessor implements IGeonamesProcessor {
     protected int readFileLine = 0;
     protected String statusMessage = "";
 
-    private ImporterStatus status = ImporterStatus.UNPROCESSED;
+    protected ImporterStatus status = ImporterStatus.UNPROCESSED;
 
     /**
      * @see IGeonamesProcessor#getNumberOfLinesToProcess()
@@ -300,17 +300,25 @@ public abstract class AbstractGeonamesProcessor implements IGeonamesProcessor {
 	} catch (Exception e) {
 	    e.printStackTrace();
 	    this.status = ImporterStatus.ERROR;
+	    String fileName = "Unknow";
+	    if (currentFile != null){
+		currentFile.getName();
+	    }
 	    this.statusMessage = "An error occurred when processing "
 		    + this.getClass().getSimpleName() + " on file "
-		    + currentFile.getName() + " on line " + getReadFileLine()
+		    + fileName + " on line " + getReadFileLine()
 		    + " : " + e.getCause();
 	    logger.error(statusMessage);
 	    throw new GeonamesProcessorException(statusMessage, e.getCause());
 	} finally {
-	    if (this.status != ImporterStatus.ERROR) {
-		this.status = ImporterStatus.PROCESSED;
-	    }
+	    updateStatus();
 	    tearDown();
+	}
+    }
+
+    protected void updateStatus() {
+	if (this.status != ImporterStatus.ERROR) {
+	    this.status = ImporterStatus.PROCESSED;
 	}
     }
 
