@@ -56,6 +56,6 @@ public enum ImporterStatus {
     /**
      * Process is skiped and not executed
      */
-    SKIPED;
+    SKIPPED;
 
 }

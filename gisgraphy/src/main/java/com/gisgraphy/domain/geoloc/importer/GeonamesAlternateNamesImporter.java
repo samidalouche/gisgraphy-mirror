@@ -38,7 +38,6 @@ import com.gisgraphy.domain.repository.ICityDao;
 import com.gisgraphy.domain.repository.IGisFeatureDao;
 import com.gisgraphy.domain.repository.ISolRSynchroniser;
 import com.gisgraphy.domain.valueobject.AlternateNameSource;
-import com.gisgraphy.domain.valueobject.ImporterStatus;
 import com.gisgraphy.domain.valueobject.NameValueDTO;
 
 /**
@@ -309,8 +308,8 @@ public class GeonamesAlternateNamesImporter extends AbstractGeonamesProcessor {
     
 
     @Override
-    protected boolean shouldBeSkiped() {
-        if (importerConfig.isImportGisFeatureEmbededAlternateNames()){
+    protected boolean shouldBeSkipped() {
+        if (importerConfig.isImportGisFeatureEmbededAlternateNames() || !importerConfig.isGeonamesImporterEnabled()){
             return true ;
         }
         return false;

@@ -26,6 +26,9 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
+import org.junit.Test;
+
+import junit.framework.Assert;
 import junit.framework.TestCase;
 
 import com.gisgraphy.domain.valueobject.NameValueDTO;
@@ -68,6 +71,20 @@ public class AdmExtracterTest extends TestCase {
 	// delete temp dir
 	assertTrue("The tempDir has not been deleted", GeolocTestHelper
 		.DeleteNonEmptyDirectory(tempDir));
+    }
+    
+    @Test
+    public void testShouldBeSkipShouldReturnCorrectValue(){
+	ImporterConfig importerConfig = new ImporterConfig();
+	AdmExtracter extracter = new AdmExtracter();
+	extracter.setImporterConfig(importerConfig);
+	
+	importerConfig.setGeonamesImporterEnabled(false);
+	Assert.assertTrue(extracter.shouldBeSkipped());
+	
+	importerConfig.setGeonamesImporterEnabled(true);
+	Assert.assertFalse(extracter.shouldBeSkipped());
+		
     }
 
 }

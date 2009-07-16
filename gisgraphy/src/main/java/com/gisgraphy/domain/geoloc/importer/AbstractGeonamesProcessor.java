@@ -280,8 +280,8 @@ public abstract class AbstractGeonamesProcessor implements IGeonamesProcessor {
      */
     public void process() {
 	try {
-	    if (shouldBeSkiped()){
-		this.status = ImporterStatus.SKIPED;
+	    if (shouldBeSkipped()){
+		this.status = ImporterStatus.SKIPPED;
 		return;
 	    }
 	    this.status = ImporterStatus.PROCESSING;
@@ -329,7 +329,7 @@ public abstract class AbstractGeonamesProcessor implements IGeonamesProcessor {
     /**
      * @return true if the processor should Not be executed
      */
-    protected boolean shouldBeSkiped() {
+    protected boolean shouldBeSkipped() {
 	return false;
     }
 

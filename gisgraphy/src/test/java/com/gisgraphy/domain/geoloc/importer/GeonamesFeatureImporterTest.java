@@ -24,9 +24,11 @@ package com.gisgraphy.domain.geoloc.importer;
 
 import java.util.List;
 
+import junit.framework.Assert;
 import junit.framework.TestCase;
 
 import org.easymock.classextension.EasyMock;
+import org.junit.Test;
 
 import com.gisgraphy.domain.geoloc.entity.City;
 import com.gisgraphy.domain.geoloc.entity.GisFeature;
@@ -66,6 +68,20 @@ public class GeonamesFeatureImporterTest extends TestCase {
 	assertEquals(
 		"if zero elements are deleted(lake), it should not have an entry",
 		2, deleted.size());
+    }
+    
+    @Test
+    public void testShouldBeSkipShouldReturnCorrectValue(){
+	ImporterConfig importerConfig = new ImporterConfig();
+	GeonamesFeatureImporter geonamesFeatureImporter = new GeonamesFeatureImporter();
+	geonamesFeatureImporter.setImporterConfig(importerConfig);
+	
+	importerConfig.setGeonamesImporterEnabled(false);
+	Assert.assertTrue(geonamesFeatureImporter.shouldBeSkipped());
+	
+	importerConfig.setGeonamesImporterEnabled(true);
+	Assert.assertFalse(geonamesFeatureImporter.shouldBeSkipped());
+		
     }
 
 }

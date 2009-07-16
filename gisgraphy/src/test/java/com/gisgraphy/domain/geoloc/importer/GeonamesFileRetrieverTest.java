@@ -26,6 +26,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
+import junit.framework.Assert;
 import junit.framework.TestCase;
 
 import org.junit.Test;
@@ -61,6 +62,32 @@ public class GeonamesFileRetrieverTest extends TestCase {
 	assertTrue("The tempDir has not been deleted", GeolocTestHelper
 		.DeleteNonEmptyDirectory(tempDir));
 
+    }
+    
+    @Test
+    public void testShouldBeSkipShouldReturnCorrectValue(){
+	ImporterConfig importerConfig = new ImporterConfig();
+	GeonamesFileRetriever geonamesFileRetriever = new GeonamesFileRetriever();
+	geonamesFileRetriever.setImporterConfig(importerConfig);
+	
+	importerConfig.setGeonamesImporterEnabled(false);
+	importerConfig.setRetrieveFiles(false);
+	Assert.assertTrue(geonamesFileRetriever.shouldBeSkipped());
+	
+	importerConfig.setGeonamesImporterEnabled(false);
+	importerConfig.setRetrieveFiles(true);
+	Assert.assertTrue(geonamesFileRetriever.shouldBeSkipped());
+	
+	importerConfig.setGeonamesImporterEnabled(true);
+	importerConfig.setRetrieveFiles(false);
+	Assert.assertTrue(geonamesFileRetriever.shouldBeSkipped());
+	
+	importerConfig.setGeonamesImporterEnabled(true);
+	importerConfig.setRetrieveFiles(true);
+	Assert.assertFalse(geonamesFileRetriever.shouldBeSkipped());
+	
+	
+	
     }
 
 }

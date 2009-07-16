@@ -24,6 +24,7 @@ package com.gisgraphy.domain.geoloc.importer;
 
 import java.util.List;
 
+import junit.framework.Assert;
 import junit.framework.TestCase;
 
 import org.easymock.classextension.EasyMock;
@@ -44,6 +45,20 @@ public class GeonamesAdm3ImporterTest extends TestCase {
 	List<NameValueDTO<Integer>> deleted = geonamesAdm3Importer.rollback();
 	assertEquals(1, deleted.size());
 	assertEquals(4, deleted.get(0).getValue().intValue());
+    }
+    
+    @Test
+    public void testShouldBeSkipShouldReturnCorrectValue(){
+	ImporterConfig importerConfig = new ImporterConfig();
+	GeonamesAdm3Importer geonamesAdm3Importer = new GeonamesAdm3Importer();
+	geonamesAdm3Importer.setImporterConfig(importerConfig);
+	
+	importerConfig.setGeonamesImporterEnabled(false);
+	Assert.assertTrue(geonamesAdm3Importer.shouldBeSkipped());
+	
+	importerConfig.setGeonamesImporterEnabled(true);
+	Assert.assertFalse(geonamesAdm3Importer.shouldBeSkipped());
+		
     }
 
 }

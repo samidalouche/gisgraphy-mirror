@@ -11,7 +11,25 @@
 <br><br/>Now, you must shutdown Gisgraphy and restart it from the correct directory to run the importer. 
 </div>
 </#if>
+
+<#if !openStreetMapDownloadDirectoryAccessible>
+<div class="tip redtip">
+<u>IMPORTANT</u> : The openstreetmap download directory '${importerConfig.getOpenStreetMapDir()}' is not accessible, you ve probably not started Gisgraphy in the correct directory or this directory is not 'writable'.<br/><br/>
+<u>Example</u> : If you've specified a relative path : It is relative from the directory you were when you launch Gisgraphy.
+<br/><br/>If the download directory is './data/import/', you must cd to the directory where the 'data' directory is (not the import one !) and then launch Gisgraphy.<a href="http://www.gisgraphy.com/documentation/index.htm#installation"> more</a>
+<br><br/>Now, you must shutdown Gisgraphy and restart it from the correct directory to run the importer. 
+</div>
+</#if>
+
 <@s.text name="import.config.sentence"/> :<br/>
+
+The Geonames importer is :<@s.if test="geonamesImporterEnabled">&nbsp;<span style="color:#00FF00">ENABLED</span><br/><blockquote>  <input type="button" value="Disable Geonames importer" size="24"/></blockquote>  </@s.if><@s.else><span style="color:#FF0000">Disabled</span><br/><blockquote>  <input type="action" value="Enable Geonames importer"/></blockquote></@s.else>
+<br/><br/><br/>
+
+The OpenStreetMap importer is :<@s.if test="OpenStreetMapImporterEnabled">&nbsp;<span style="color:#00FF00">ENABLED</span><br/><blockquote> <input type="button" value="Disable OpenStreetMap importer" size="24"/></blockquote></@s.if>
+<@s.else>&nbsp;<span style="color:#FF0000">Disabled</span><br/><blockquote><input type="action" value="Enable OpenStreetMap importer"/></blockquote> </@s.else>
+<br/><br/>
+
 <ul>
 <br/>
 <li> geonamesDir : ${importerConfig.getGeonamesDir()}</li>

@@ -6,13 +6,10 @@ package com.gisgraphy.domain.geoloc.importer;
 import java.io.File;
 import java.util.List;
 
-import org.postgis.binary.BinaryParser;
-
 import com.gisgraphy.domain.geoloc.entity.OpenStreetMap;
 import com.gisgraphy.domain.geoloc.service.geoloc.street.StreetType;
 import com.gisgraphy.domain.repository.OpenStreetMapDao;
 import com.gisgraphy.domain.valueobject.NameValueDTO;
-import com.vividsolutions.jts.geom.Geometry;
 import com.vividsolutions.jts.geom.MultiLineString;
 import com.vividsolutions.jts.geom.Point;
 import com.vividsolutions.jts.io.ParseException;
@@ -126,14 +123,17 @@ public class OpenStreetMapImporter extends AbstractGeonamesProcessor {
 	    }
 	    
 	}
-	
-	
-	
-	
-	
-	System.out.println(line);
+		
 	openStreetMapDao.save(street);
 
+    }
+    
+    /* (non-Javadoc)
+     * @see com.gisgraphy.domain.geoloc.importer.AbstractGeonamesProcessor#shouldBeSkiped()
+     */
+    @Override
+    protected boolean shouldBeSkipped() {
+	return !importerConfig.isOpenstreetmapImporterEnabled();
     }
     
     private byte[] hexToBytes(String wkb) {

@@ -26,6 +26,8 @@ import static org.junit.Assert.assertEquals;
 
 import java.util.List;
 
+import junit.framework.Assert;
+
 import org.easymock.classextension.EasyMock;
 import org.junit.Test;
 
@@ -44,6 +46,20 @@ public class GeonamesAdm1ImporterTest {
 	List<NameValueDTO<Integer>> deleted = geonamesAdm1Importer.rollback();
 	assertEquals(1, deleted.size());
 	assertEquals(4, deleted.get(0).getValue().intValue());
+    }
+    
+    @Test
+    public void testShouldBeSkipShouldReturnCorrectValue(){
+	ImporterConfig importerConfig = new ImporterConfig();
+	GeonamesAdm1Importer geonamesAdm1Importer = new GeonamesAdm1Importer();
+	geonamesAdm1Importer.setImporterConfig(importerConfig);
+	
+	importerConfig.setGeonamesImporterEnabled(false);
+	Assert.assertTrue(geonamesAdm1Importer.shouldBeSkipped());
+	
+	importerConfig.setGeonamesImporterEnabled(true);
+	Assert.assertFalse(geonamesAdm1Importer.shouldBeSkipped());
+		
     }
 
 }

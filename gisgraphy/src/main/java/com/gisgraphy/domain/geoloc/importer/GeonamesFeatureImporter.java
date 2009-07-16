@@ -399,6 +399,14 @@ public class GeonamesFeatureImporter extends AbstractGeonamesProcessor {
 	// }
 
     }
+    
+    /* (non-Javadoc)
+     * @see com.gisgraphy.domain.geoloc.importer.AbstractGeonamesProcessor#shouldBeSkiped()
+     */
+    @Override
+    protected boolean shouldBeSkipped() {
+	return !importerConfig.isGeonamesImporterEnabled();
+    }
 
     private boolean isAlreadyUpdated(GisFeature feature) {
 	if (feature.getModificationDate() != null) {

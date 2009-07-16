@@ -25,5 +25,17 @@ public class ImporterConfigTest {
 	Assert.assertTrue("setGeonamesDir should add File separator",importerConfig.getGeonamesDir().endsWith(File.separator));
 	Assert.assertEquals(geonamesDir+File.separator,importerConfig.getGeonamesDir());
     }
+    
+    @Test
+    public void testIsGeonamesImporterShouldBeTrueByDefault(){
+	ImporterConfig importerConfig = new ImporterConfig();
+	Assert.assertTrue("Geonames importer should be enabled by default ",importerConfig.isGeonamesImporterEnabled());
+    }
+    
+    @Test
+    public void testIsOpenstreetmapImporterShouldBeTrueByDefault(){
+	ImporterConfig importerConfig = new ImporterConfig();
+	Assert.assertTrue("OpenStreetMap importer should be enabled by default ",importerConfig.isOpenstreetmapImporterEnabled());
+    }
 
 }

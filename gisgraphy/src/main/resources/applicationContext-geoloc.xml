@@ -222,6 +222,8 @@
 		<property name="countriesFileName" value="${importerConfig.countriesFileName}"/>
 		<property name="alternateNamesFileName" value="${importerConfig.alternateNamesFileName}"/>
 		<property name="openstreetMapDownloadURL" value="${importer.openstreetmap.downloadURL}"/>
+		<property name="geonamesImporterEnabled" value="${importer.geonames.enabled}"/>
+		<property name="openstreetmapImporterEnabled" value="${importer.openstreetmap.enabled}"/>
 	</bean>
 	
 	 

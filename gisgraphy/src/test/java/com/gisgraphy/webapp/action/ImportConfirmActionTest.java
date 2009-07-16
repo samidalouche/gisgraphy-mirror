@@ -27,6 +27,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import com.gisgraphy.domain.geoloc.importer.IImporterManager;
+import com.gisgraphy.domain.geoloc.importer.ImporterConfig;
 
 public class ImportConfirmActionTest {
 
@@ -85,6 +86,82 @@ public class ImportConfirmActionTest {
 	ImportConfirmAction action = new ImportConfirmAction();
 	action.setImporterManager(mockImporterManager);
 	Assert.assertEquals(ImportConfirmAction.STATUS, action.execute());
+    }
+    
+    @Test
+    public void TestIsGeonamesImporterEnabled(){
+	ImporterConfig importerConfig = new ImporterConfig();
+	Assert.assertTrue(importerConfig.isGeonamesImporterEnabled());
+	ImportConfirmAction action = new ImportConfirmAction();
+	action.setImporterConfig(importerConfig);
+	Assert.assertTrue("isGeonamesImporterEnabled should return the same value as the importerConfig One ",action.isGeonamesImporterEnabled());
+	importerConfig.setGeonamesImporterEnabled(false);
+	Assert.assertFalse("isGeonamesImporterEnabled should return the same value as the importerConfig One ",action.isGeonamesImporterEnabled());
+    }
+    
+    @Test
+    public void TestDisableGeonamesImporter(){
+	ImporterConfig importerConfig = new ImporterConfig();
+	Assert.assertTrue(importerConfig.isGeonamesImporterEnabled());
+	
+	ImportConfirmAction action = new ImportConfirmAction();
+	action.setImporterConfig(importerConfig);
+	
+	Assert.assertTrue("isGeonamesImporterEnabled should return the same value as the importerConfig One ",action.isGeonamesImporterEnabled());
+	action.disableGeonamesImporter();
+	Assert.assertFalse("isGeonamesImporterEnabled should return the same value as the importerConfig One ",action.isGeonamesImporterEnabled());
+    }
+    
+    @Test
+    public void TestEnableGeonamesImporter(){
+	ImporterConfig importerConfig = new ImporterConfig();
+	Assert.assertTrue(importerConfig.isGeonamesImporterEnabled());
+	
+	ImportConfirmAction action = new ImportConfirmAction();
+	action.setImporterConfig(importerConfig);
+	importerConfig.setGeonamesImporterEnabled(false);
+	Assert.assertFalse("isGeonamesImporterEnabled should return the same value as the importerConfig One ",action.isGeonamesImporterEnabled());
+	
+	action.enableGeonamesImporter();
+	Assert.assertTrue("isGeonamesImporterEnabled should return the same value as the importerConfig One ",action.isGeonamesImporterEnabled());
+    }
+    
+    @Test
+    public void TestIsOpenStreetMapImporterEnabled(){
+	ImporterConfig importerConfig = new ImporterConfig();
+	Assert.assertTrue(importerConfig.isOpenstreetmapImporterEnabled());
+	ImportConfirmAction action = new ImportConfirmAction();
+	action.setImporterConfig(importerConfig);
+	Assert.assertTrue("isOpenStreetMapImporterEnabled should return the same value as the importerConfig One ",action.isOpenStreetMapImporterEnabled());
+	importerConfig.setOpenstreetmapImporterEnabled(false);
+	Assert.assertFalse("isOpenStreetMapImporterEnabled should return the same value as the importerConfig One ",action.isOpenStreetMapImporterEnabled());
+    }
+    
+    @Test
+    public void TestDisableOpenStreetMapImporter(){
+	ImporterConfig importerConfig = new ImporterConfig();
+	Assert.assertTrue(importerConfig.isOpenstreetmapImporterEnabled());
+	
+	ImportConfirmAction action = new ImportConfirmAction();
+	action.setImporterConfig(importerConfig);
+	
+	Assert.assertTrue("isOpenStreetMapImporterEnabled should return the same value as the importerConfig One ",action.isOpenStreetMapImporterEnabled());
+	action.disableOpenStreetMapImporter();
+	Assert.assertFalse("isOpenStreetMapImporterEnabled should return the same value as the importerConfig One ",action.isOpenStreetMapImporterEnabled());
+    }
+    
+    @Test
+    public void TestEnableOpenStreetMapImporter(){
+	ImporterConfig importerConfig = new ImporterConfig();
+	Assert.assertTrue(importerConfig.isGeonamesImporterEnabled());
+	
+	ImportConfirmAction action = new ImportConfirmAction();
+	action.setImporterConfig(importerConfig);
+	importerConfig.setOpenstreetmapImporterEnabled(false);
+	Assert.assertFalse("isOpenStreetMapImporterEnabled should return the same value as the importerConfig One ",action.isOpenStreetMapImporterEnabled());
+	
+	action.enableOpenStreetMapImporter();
+	Assert.assertTrue("isOpenStreetMapImporterEnabled should return the same value as the importerConfig One ",action.isOpenStreetMapImporterEnabled());
     }
 
 }

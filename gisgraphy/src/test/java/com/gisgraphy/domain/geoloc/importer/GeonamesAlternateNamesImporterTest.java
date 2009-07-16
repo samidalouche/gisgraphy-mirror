@@ -22,7 +22,6 @@
  *******************************************************************************/
 package com.gisgraphy.domain.geoloc.importer;
 
-import java.io.File;
 import java.util.HashMap;
 import java.util.List;
 
@@ -140,12 +139,36 @@ public class GeonamesAlternateNamesImporterTest extends AbstractIntegrationHttpS
 	geonamesAlternateNamesImporter.setSolRSynchroniser(solRSynchroniser);
 	geonamesAlternateNamesImporter.setSpellCheckerIndexer(spellChecker);
 	geonamesAlternateNamesImporter.process();
-	Assert.assertEquals(ImporterStatus.SKIPED, geonamesAlternateNamesImporter.getStatus());
+	Assert.assertEquals(ImporterStatus.SKIPPED, geonamesAlternateNamesImporter.getStatus());
 	ImporterStatusDto statusDto = new ImporterStatusDto(geonamesAlternateNamesImporter);
 	Assert.assertEquals(100, statusDto.getPercent());
     }
     
-     
+    @Test
+    public void testShouldBeSkipShouldReturnCorrectValue(){
+	ImporterConfig importerConfig = new ImporterConfig();
+	GeonamesAlternateNamesImporter alternateNameImporter = new GeonamesAlternateNamesImporter();
+	alternateNameImporter.setImporterConfig(importerConfig);
+	
+	importerConfig.setGeonamesImporterEnabled(false);
+	importerConfig.setImportGisFeatureEmbededAlternateNames(false);
+	Assert.assertTrue(alternateNameImporter.shouldBeSkipped());
+	
+	importerConfig.setGeonamesImporterEnabled(false);
+	importerConfig.setImportGisFeatureEmbededAlternateNames(true);
+	Assert.assertTrue(alternateNameImporter.shouldBeSkipped());
+	
+	importerConfig.setGeonamesImporterEnabled(true);
+	importerConfig.setImportGisFeatureEmbededAlternateNames(false);
+	Assert.assertFalse(alternateNameImporter.shouldBeSkipped());
+	
+	importerConfig.setGeonamesImporterEnabled(true);
+	importerConfig.setImportGisFeatureEmbededAlternateNames(true);
+	Assert.assertTrue(alternateNameImporter.shouldBeSkipped());
+	
+	
+	
+    }
     
     
     /**

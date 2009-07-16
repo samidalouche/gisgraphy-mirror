@@ -102,6 +102,14 @@ public class GeonamesAdm1Importer extends AbstractGeonamesProcessor {
 	}
 
     }
+    
+    /* (non-Javadoc)
+     * @see com.gisgraphy.domain.geoloc.importer.AbstractGeonamesProcessor#shouldBeSkiped()
+     */
+    @Override
+    protected boolean shouldBeSkipped() {
+	return !importerConfig.isGeonamesImporterEnabled();
+    }
 
     /*
      * (non-Javadoc)

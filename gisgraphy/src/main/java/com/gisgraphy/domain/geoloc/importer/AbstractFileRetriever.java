@@ -70,7 +70,7 @@ public abstract class AbstractFileRetriever implements IGeonamesProcessor {
     public void process() throws GeonamesProcessorException {
 	status = ImporterStatus.PROCESSING;
 	try {
-	    if (importerConfig.isRetrieveFiles()) {
+	    if (!shouldBeSkipped()) {
 		logger
 			.info("DownloadFiles option is set to true, we will download and unzip files");
 		List<String> downloadFileList = importerConfig
@@ -86,7 +86,7 @@ public abstract class AbstractFileRetriever implements IGeonamesProcessor {
 		decompressFiles();
 		this.status = ImporterStatus.PROCESSED ;
 	    } else {
-		this.status = ImporterStatus.SKIPED;
+		this.status = ImporterStatus.SKIPPED;
 		logger
 			.info("DownloadFiles option is set to false, we will not download and decompress files");
 		return;
@@ -99,6 +99,13 @@ public abstract class AbstractFileRetriever implements IGeonamesProcessor {
 	    throw new GeonamesProcessorException(statusMessage, e);
 	} 
 
+    }
+
+    /**
+     * @return true if the processor should Not be executed
+     */
+    protected boolean shouldBeSkipped() {
+	return importerConfig.isRetrieveFiles();
     }
 
     /**

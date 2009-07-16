@@ -24,9 +24,11 @@ package com.gisgraphy.domain.geoloc.importer;
 
 import java.util.List;
 
+import junit.framework.Assert;
 import junit.framework.TestCase;
 
 import org.easymock.classextension.EasyMock;
+import org.junit.Test;
 
 import com.gisgraphy.domain.repository.ILanguageDao;
 import com.gisgraphy.domain.valueobject.NameValueDTO;
@@ -43,6 +45,20 @@ public class GeonamesLanguageImporterTest extends TestCase {
 		.rollback();
 	assertEquals(1, deleted.size());
 	assertEquals(4, deleted.get(0).getValue().intValue());
+    }
+    
+    @Test
+    public void testShouldBeSkipShouldReturnCorrectValue(){
+	ImporterConfig importerConfig = new ImporterConfig();
+	GeonamesLanguageImporter geonamesLanguageImporter = new GeonamesLanguageImporter();
+	geonamesLanguageImporter.setImporterConfig(importerConfig);
+	
+	importerConfig.setGeonamesImporterEnabled(false);
+	Assert.assertTrue(geonamesLanguageImporter.shouldBeSkipped());
+	
+	importerConfig.setGeonamesImporterEnabled(true);
+	Assert.assertFalse(geonamesLanguageImporter.shouldBeSkipped());
+		
     }
 
 }

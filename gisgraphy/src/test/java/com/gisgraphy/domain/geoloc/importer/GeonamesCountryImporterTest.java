@@ -26,6 +26,8 @@ import static org.junit.Assert.assertEquals;
 
 import java.util.List;
 
+import junit.framework.Assert;
+
 import org.easymock.classextension.EasyMock;
 import org.junit.Test;
 
@@ -45,6 +47,20 @@ public class GeonamesCountryImporterTest {
 		.rollback();
 	assertEquals(1, deleted.size());
 	assertEquals(5, deleted.get(0).getValue().intValue());
+    }
+    
+    @Test
+    public void testShouldBeSkipShouldReturnCorrectValue(){
+	ImporterConfig importerConfig = new ImporterConfig();
+	GeonamesCountryImporter geonamesCountryImporter = new GeonamesCountryImporter();
+	geonamesCountryImporter.setImporterConfig(importerConfig);
+	
+	importerConfig.setGeonamesImporterEnabled(false);
+	Assert.assertTrue(geonamesCountryImporter.shouldBeSkipped());
+	
+	importerConfig.setGeonamesImporterEnabled(true);
+	Assert.assertFalse(geonamesCountryImporter.shouldBeSkipped());
+		
     }
 
 }

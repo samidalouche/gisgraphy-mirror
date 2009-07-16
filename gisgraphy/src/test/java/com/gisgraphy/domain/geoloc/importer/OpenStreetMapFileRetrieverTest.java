@@ -105,7 +105,7 @@ public class OpenStreetMapFileRetrieverTest {
 	importerConfig.setRetrieveFiles(false);
 	openStreetMapFileRetriever.setImporterConfig(importerConfig);
 	openStreetMapFileRetriever.process();
-	Assert.assertEquals(ImporterStatus.SKIPED, openStreetMapFileRetriever.getStatus());
+	Assert.assertEquals(ImporterStatus.SKIPPED, openStreetMapFileRetriever.getStatus());
 	ImporterStatusDto statusDto = new ImporterStatusDto(openStreetMapFileRetriever);
 	Assert.assertEquals(100, statusDto.getPercent());
     }
@@ -115,6 +115,7 @@ public class OpenStreetMapFileRetrieverTest {
 	OpenStreetMapFileRetriever openStreetMapFileRetriever = new OpenStreetMapFileRetriever();
 	ImporterConfig importerConfig = EasyMock.createMock(ImporterConfig.class);
 	EasyMock.expect(importerConfig.isRetrieveFiles()).andReturn(true);
+	EasyMock.expect(importerConfig.isOpenstreetmapImporterEnabled()).andReturn(true);
 	EasyMock.expect(importerConfig.getDownloadFilesListFromOption()).andStubReturn(new ArrayList<String>());
 	EasyMock.expect(importerConfig.getOpenStreetMapDir()).andStubReturn("");
 	EasyMock.expect(importerConfig.getOpenstreetMapDownloadURL()).andStubReturn("");
@@ -125,6 +126,32 @@ public class OpenStreetMapFileRetrieverTest {
 	Assert.assertEquals(ImporterStatus.PROCESSED, openStreetMapFileRetriever.getStatus());
 	ImporterStatusDto statusDto = new ImporterStatusDto(openStreetMapFileRetriever);
 	Assert.assertEquals(100, statusDto.getPercent());
+    }
+    
+    @Test
+    public void shouldBeSkipShouldReturnCorrectValue(){
+	ImporterConfig importerConfig = new ImporterConfig();
+	OpenStreetMapFileRetriever openStreetMapFileRetriever = new OpenStreetMapFileRetriever();
+	openStreetMapFileRetriever.setImporterConfig(importerConfig);
+	
+	importerConfig.setOpenstreetmapImporterEnabled(false);
+	importerConfig.setRetrieveFiles(false);
+	Assert.assertTrue(openStreetMapFileRetriever.shouldBeSkipped());
+	
+	importerConfig.setOpenstreetmapImporterEnabled(false);
+	importerConfig.setRetrieveFiles(true);
+	Assert.assertTrue(openStreetMapFileRetriever.shouldBeSkipped());
+	
+	importerConfig.setOpenstreetmapImporterEnabled(true);
+	importerConfig.setRetrieveFiles(false);
+	Assert.assertTrue(openStreetMapFileRetriever.shouldBeSkipped());
+	
+	importerConfig.setOpenstreetmapImporterEnabled(true);
+	importerConfig.setRetrieveFiles(true);
+	Assert.assertFalse(openStreetMapFileRetriever.shouldBeSkipped());
+	
+	
+	
     }
     
     

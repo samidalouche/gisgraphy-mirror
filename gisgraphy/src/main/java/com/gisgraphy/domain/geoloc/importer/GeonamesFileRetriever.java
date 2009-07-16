@@ -71,6 +71,14 @@ public class GeonamesFileRetriever extends AbstractFileRetriever {
 		    + " will be imported");
 	}
     }
+    
+    /* (non-Javadoc)
+     * @see com.gisgraphy.domain.geoloc.importer.AbstractFileRetriever#shouldBeSkipped()
+     */
+    @Override
+    protected boolean shouldBeSkipped() {
+	return !(importerConfig.isRetrieveFiles()  && importerConfig.isGeonamesImporterEnabled());
+    }
    
 
 }

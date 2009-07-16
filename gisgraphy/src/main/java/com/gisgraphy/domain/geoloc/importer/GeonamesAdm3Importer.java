@@ -142,6 +142,14 @@ public class GeonamesAdm3Importer extends AbstractGeonamesProcessor {
 
 	this.admDao.save(adm3);
     }
+    
+    /* (non-Javadoc)
+     * @see com.gisgraphy.domain.geoloc.importer.AbstractGeonamesProcessor#shouldBeSkiped()
+     */
+    @Override
+    protected boolean shouldBeSkipped() {
+	return !importerConfig.isGeonamesImporterEnabled();
+    }
 
     /*
      * (non-Javadoc)

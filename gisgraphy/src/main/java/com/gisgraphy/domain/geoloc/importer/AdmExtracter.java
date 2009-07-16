@@ -128,6 +128,15 @@ public class AdmExtracter extends AbstractGeonamesProcessor {
 		    + " has featurecode or featureclass with a null value");
 	}
     }
+    
+   
+    /* (non-Javadoc)
+     * @see com.gisgraphy.domain.geoloc.importer.AbstractGeonamesProcessor#shouldBeSkiped()
+     */
+    @Override
+    protected boolean shouldBeSkipped() {
+	return !importerConfig.isGeonamesImporterEnabled();
+    }
 
     /*
      * (non-Javadoc)

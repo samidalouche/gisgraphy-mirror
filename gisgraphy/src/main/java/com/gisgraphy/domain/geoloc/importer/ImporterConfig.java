@@ -134,6 +134,41 @@ public class ImporterConfig {
     private boolean retrieveFiles = false;
 
     private String filesToDownload = "";
+    
+    private boolean geonamesImporterEnabled = true;
+    
+    private boolean openstreetmapImporterEnabled = true;
+
+    /**
+     * @return true if the importer should process the import of Geonames data
+     */
+    public boolean isGeonamesImporterEnabled() {
+        return geonamesImporterEnabled;
+    }
+
+    /**
+     * @param geonamesImporterEnabled enable or disable Geonames importer
+     * @see ImporterConfig#isGeonamesImporterEnabled()
+     */
+    public void setGeonamesImporterEnabled(boolean geonamesImporterEnabled) {
+        this.geonamesImporterEnabled = geonamesImporterEnabled;
+    }
+
+    /**
+     * @return true if the importer should process the import of Openstreetmap data
+     * @see ImporterConfig#isGeonamesImporterEnabled()
+     */
+    public boolean isOpenstreetmapImporterEnabled() {
+        return openstreetmapImporterEnabled;
+    }
+
+    /**
+     * @param openstreetmapImporterEnabled enable or disable Openstreetmap importer
+     * @see ImporterConfig#isOpenstreetmapImporterEnabled()
+     */
+    public void setOpenstreetmapImporterEnabled(boolean openstreetmapImporterEnabled) {
+        this.openstreetmapImporterEnabled = openstreetmapImporterEnabled;
+    }
 
     /**
      * @return A list of string with the files to be download, processed from

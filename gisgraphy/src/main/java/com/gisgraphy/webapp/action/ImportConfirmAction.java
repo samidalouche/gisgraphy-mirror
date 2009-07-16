@@ -88,6 +88,15 @@ public class ImportConfirmAction extends ActionSupport {
 	return ImporterHelper.isDirectoryAccessible(importerConfig
 		.getGeonamesDir());
     }
+    
+    /**
+     * @return true if the directory with the file to import exists and is
+     *         accessible
+     */
+    public boolean isOpenStreetMapDownloadDirectoryAccessible() {
+	return ImporterHelper.isDirectoryAccessible(importerConfig
+		.getOpenStreetMapDir());
+    }
 
     /**
      * @return true if the regexp of the feature class/ code are correct
@@ -109,6 +118,50 @@ public class ImportConfirmAction extends ActionSupport {
      */
     public String getFulltextSearchEngineURL() {
 	return fullTextSearchEngine.getURL();
+    }
+    
+    /**
+     * @return true if he Geonames importer is enabled
+     */
+    public boolean isGeonamesImporterEnabled() {
+	return importerConfig.isGeonamesImporterEnabled();
+    }
+    
+   
+    /**
+     * Disable Geonames importer
+     */
+    public void disableGeonamesImporter() {
+	importerConfig.setGeonamesImporterEnabled(false);
+    }
+    
+    /**
+     * Enable Geonames importer
+     */
+    public void enableGeonamesImporter() {
+	importerConfig.setGeonamesImporterEnabled(true);
+    }
+    
+    /**
+     * @return true if he openStreetMap importer is enabled
+     */
+    public boolean isOpenStreetMapImporterEnabled() {
+	return importerConfig.isOpenstreetmapImporterEnabled();
+    }
+    
+   
+    /**
+     * Disable OpenStreetMap importer
+     */
+    public void disableOpenStreetMapImporter() {
+	importerConfig.setOpenstreetmapImporterEnabled(false);
+    }
+    
+    /**
+     * Enable OpenStreetMap importer
+     */
+    public void enableOpenStreetMapImporter() {
+	importerConfig.setOpenstreetmapImporterEnabled(true);
     }
 
     /**
