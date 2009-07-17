@@ -23,11 +23,11 @@
 
 <@s.text name="import.config.sentence"/> :<br/>
 
-The Geonames importer is :<@s.if test="geonamesImporterEnabled">&nbsp;<span style="color:#00FF00">ENABLED</span><br/><blockquote>  <input type="button" value="Disable Geonames importer" size="24"/></blockquote>  </@s.if><@s.else><span style="color:#FF0000">Disabled</span><br/><blockquote>  <input type="action" value="Enable Geonames importer"/></blockquote></@s.else>
+The Geonames importer is :&nbsp;<@s.if test="geonamesImporterEnabled"><span style="color:#00FF00">ENABLED</span><br/><blockquote><@s.form action="importconfirm!disableGeonamesImporter.html" method="get" id="disableGeonames"><@s.submit title="Disable Geonames" value="Disable Geonames" theme="simple" /></@s.form></blockquote>  </@s.if><@s.else><span style="color:#FF0000">DISABLED</span><br/><blockquote>  <@s.form action="importconfirm!enableGeonamesImporter.html" method="get" id="enableGeonames"><@s.submit title="Enable Geonames" value="Enable Geonames" theme="simple" /></@s.form></blockquote></@s.else>
 <br/><br/><br/>
 
-The OpenStreetMap importer is :<@s.if test="OpenStreetMapImporterEnabled">&nbsp;<span style="color:#00FF00">ENABLED</span><br/><blockquote> <input type="button" value="Disable OpenStreetMap importer" size="24"/></blockquote></@s.if>
-<@s.else>&nbsp;<span style="color:#FF0000">Disabled</span><br/><blockquote><input type="action" value="Enable OpenStreetMap importer"/></blockquote> </@s.else>
+The OpenStreetMap importer is :&nbsp;<@s.if test="OpenStreetMapImporterEnabled"><span style="color:#00FF00">ENABLED</span><br/><blockquote> <@s.form action="importconfirm!disableOpenStreetMapImporter.html" method="get" id="disableopenstreetmap"><@s.submit title="Disable OpenStreetMap" value="Disable OpenStreetMap" theme="simple" /></@s.form></blockquote></@s.if>
+<@s.else><span style="color:#FF0000">DISABLED</span><br/><blockquote><@s.form action="importconfirm!enableOpenStreetMapImporter.html" method="get" id="enableopenstreetmap"><@s.submit title="Enable OpenStreetMap" value="Enable OpenStreetMap" theme="simple" /></@s.form></blockquote> </@s.else>
 <br/><br/>
 
 <ul>

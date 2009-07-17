@@ -3,7 +3,7 @@
 	<@s.url id="ajaxFulltextSearchUrl" action="ajaxfulltextsearch" includeParams="all" namespace="" />
 	<@s.url id="simpleGeolocSearchUrl" action="geolocsearch" includeParams="all" namespace="" />
 	<@s.url id="ajaxGeolocSearchUrl" action="ajaxgeolocsearch" includeParams="all"  namespace=""  />
-	<@s.url id="streetSearchUrl" action="public/streetSearch" includeParams="none" namespace="" />
+	<@s.url id="streetSearchUrl" action="streetSearch" includeParams="none" namespace="/public" />
 	
 	<span id="searchlinks">
 	<a href="${simpleFulltextSearchUrl}"  <#if request.getRequestURI().startsWith("/fulltextsearch")>style="color:#cc0000"</#if>  ><@s.text name="search.fulltext.breadcrumbs"/></a>

@@ -29,6 +29,7 @@ import com.gisgraphy.domain.geoloc.importer.ImporterConfig;
 import com.gisgraphy.domain.geoloc.importer.ImporterHelper;
 import com.gisgraphy.domain.geoloc.importer.ImporterManager;
 import com.gisgraphy.domain.geoloc.service.fulltextsearch.IFullTextSearchEngine;
+import com.opensymphony.xwork2.Action;
 import com.opensymphony.xwork2.ActionSupport;
 
 /**
@@ -131,15 +132,17 @@ public class ImportConfirmAction extends ActionSupport {
     /**
      * Disable Geonames importer
      */
-    public void disableGeonamesImporter() {
+    public String disableGeonamesImporter() {
 	importerConfig.setGeonamesImporterEnabled(false);
+	return Action.SUCCESS;
     }
     
     /**
      * Enable Geonames importer
      */
-    public void enableGeonamesImporter() {
+    public String enableGeonamesImporter() {
 	importerConfig.setGeonamesImporterEnabled(true);
+	return Action.SUCCESS;
     }
     
     /**
@@ -153,15 +156,17 @@ public class ImportConfirmAction extends ActionSupport {
     /**
      * Disable OpenStreetMap importer
      */
-    public void disableOpenStreetMapImporter() {
+    public String disableOpenStreetMapImporter() {
 	importerConfig.setOpenstreetmapImporterEnabled(false);
+	return Action.SUCCESS;
     }
     
     /**
      * Enable OpenStreetMap importer
      */
-    public void enableOpenStreetMapImporter() {
+    public String enableOpenStreetMapImporter() {
 	importerConfig.setOpenstreetmapImporterEnabled(true);
+	return Action.SUCCESS;
     }
 
     /**
