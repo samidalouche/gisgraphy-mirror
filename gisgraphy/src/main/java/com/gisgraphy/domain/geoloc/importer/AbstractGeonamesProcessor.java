@@ -320,7 +320,8 @@ public abstract class AbstractGeonamesProcessor implements IGeonamesProcessor {
 		tearDown();
 	    } catch (Exception e) {
 		this.status = ImporterStatus.ERROR;
-		logger.error("An error occured on teardown :"+e);
+		this.statusMessage = "An error occured on teardown :"+e;
+		logger.error(statusMessage);
 	    }
 	}
     }

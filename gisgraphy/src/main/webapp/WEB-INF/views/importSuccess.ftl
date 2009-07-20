@@ -1,6 +1,7 @@
 <html>
 <head>
 <title><@s.text name="import.success"/></title>
+<meta name="heading" content="<@s.text name="import.success"/>"/>
 </head>
 <body>
 <br/>

@@ -139,7 +139,7 @@ public class ImporterStatusDto {
 	    this.percent = (numberOfLineProcessed * 100)
 		    / numberOfLineToProcess;
 	}
-	else if (numberOfLineProcessed==0){
+	else if (numberOfLineProcessed==0 && (status == ImporterStatus.PROCESSED || status == ImporterStatus.PROCESSING )){
 	    percent = 100;
 	}
     }

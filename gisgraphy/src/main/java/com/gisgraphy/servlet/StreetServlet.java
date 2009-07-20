@@ -35,9 +35,6 @@ import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
 import com.gisgraphy.domain.geoloc.service.errors.IoutputFormatVisitor;
-import com.gisgraphy.domain.geoloc.service.geoloc.GeolocErrorVisitor;
-import com.gisgraphy.domain.geoloc.service.geoloc.GeolocQuery;
-import com.gisgraphy.domain.geoloc.service.geoloc.IGeolocSearchEngine;
 import com.gisgraphy.domain.geoloc.service.geoloc.IStreetSearchEngine;
 import com.gisgraphy.domain.geoloc.service.geoloc.StreetSearchErrorVisitor;
 import com.gisgraphy.domain.geoloc.service.geoloc.StreetSearchQuery;

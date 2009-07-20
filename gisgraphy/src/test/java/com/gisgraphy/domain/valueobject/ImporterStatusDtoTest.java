@@ -165,6 +165,31 @@ public class ImporterStatusDtoTest extends TestCase {
 		0, 0, STATUS_MESSAGE,
 		ImporterStatus.PROCESSING);
 	assertEquals(100, importerStatusDto.getPercent());
+	
+	importerStatusDto = new ImporterStatusDto(
+		PROCESSOR_NAME, CURRENT_FILE_NAME, CURRENT_LINE,
+		0, 0, STATUS_MESSAGE,
+		ImporterStatus.PROCESSED);
+	assertEquals(100, importerStatusDto.getPercent());
+	
+	importerStatusDto = new ImporterStatusDto(
+		PROCESSOR_NAME, CURRENT_FILE_NAME, CURRENT_LINE,
+		0, 0, STATUS_MESSAGE,
+		ImporterStatus.SKIPPED);
+	assertEquals(0, importerStatusDto.getPercent());
+	
+	importerStatusDto = new ImporterStatusDto(
+		PROCESSOR_NAME, CURRENT_FILE_NAME, CURRENT_LINE,
+		0, 0, STATUS_MESSAGE,
+		ImporterStatus.ERROR);
+	assertEquals(0, importerStatusDto.getPercent());
+    
+	importerStatusDto = new ImporterStatusDto(
+		PROCESSOR_NAME, CURRENT_FILE_NAME, CURRENT_LINE,
+		0, 0, STATUS_MESSAGE,
+		ImporterStatus.UNPROCESSED);
+	assertEquals(0, importerStatusDto.getPercent());
+    
     }
     
    

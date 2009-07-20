@@ -33,6 +33,10 @@ import java.util.zip.GZIPInputStream;
 import org.apache.tools.bzip2.CBZip2InputStream;
 import org.apache.tools.tar.TarEntry;
 import org.apache.tools.tar.TarInputStream;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.gisgraphy.domain.geoloc.importer.AbstractGeonamesProcessor;
 
 /**
  * Utility class to untar files, file can be gziped or Bzip2
@@ -43,6 +47,12 @@ import org.apache.tools.tar.TarInputStream;
 public class Untar {
     private String tarFileName;
     private File dest;
+    
+    /**
+     * The logger
+     */
+    private static final Logger logger = LoggerFactory
+	    .getLogger(Untar.class);
 
   
     /**
@@ -64,6 +74,7 @@ public class Untar {
     }*/
 
     private InputStream getDecompressedInputStream(final String name, final InputStream istream) throws IOException {
+	logger.info("untar: decompress "+name+" to "+ dest);
 	if (name == null) {
 	    throw new RuntimeException("fileName to decompress can not be null");
 	}
@@ -89,7 +100,7 @@ public class Untar {
      * @throws IOException
      */
     public void untar() throws IOException {
-
+	logger.info("untar: untar "+tarFileName+" to "+ dest);
 	TarInputStream tin = null;
 	try {
 	    if (!dest.exists()) {
@@ -102,9 +113,11 @@ public class Untar {
 
 	    while (tarEntry != null) {
 		File destPath = new File(dest.toString() + File.separatorChar + tarEntry.getName());
+		
 		if (tarEntry.isDirectory()) {
 		    destPath.mkdir();
 		} else {
+		    logger.info("untar: untar "+tarEntry.getName()+" to "+ destPath);
 		    FileOutputStream fout = new FileOutputStream(destPath);
 		    try {
 			tin.copyEntryContents(fout);

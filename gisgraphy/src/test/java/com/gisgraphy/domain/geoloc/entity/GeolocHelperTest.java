@@ -208,6 +208,22 @@ public class GeolocHelperTest {
 		Assert.assertEquals(2*distance,GeolocHelper.distance(poitnTopLeft, pointBottomLeft),1);
 	
     }
+    
+    @Test
+    public void testconvertFromHEXEWKBToGeometryForPoint(){
+	Point point = (Point) GeolocHelper.convertFromHEXEWKBToGeometry("010100000006C82291A0521E4054CC39B16BC64740");
+	Coordinate coordinate = point.getCoordinate();
+	Assert.assertEquals("invalid long",7.580690639255414,coordinate.x,0.1);
+	Assert.assertEquals("invalid lat",47.5,coordinate.y,0.1);
+	Assert.assertEquals("invalid SRID",SRID.WGS84_SRID.getSRID() ,point.getSRID());
+   }
+    
+    @Test
+    public void testconvertFromHEXEWKBToGeometryForMultilineString(){
+	MultiLineString line = (MultiLineString) GeolocHelper.convertFromHEXEWKBToGeometry("010500000001000000010200000005000000591EFF603B531E40F88667AE78C64740446ADAC534531E40348BAB2578C647405BB164332C531E407033CB5477C64740754A51781A521E403A56CE8360C64740CD63833B06521E409A081B9E5EC64740");
+	Assert.assertEquals("invalid length",0.001422,line.getLength(),0.001);
+	Assert.assertEquals("invalid SRID",SRID.WGS84_SRID.getSRID() ,line.getSRID());
+   }
 
     
 }

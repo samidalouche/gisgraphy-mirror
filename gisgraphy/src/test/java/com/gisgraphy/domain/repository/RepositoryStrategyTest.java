@@ -35,10 +35,7 @@ import com.gisgraphy.domain.geoloc.entity.City;
 import com.gisgraphy.domain.geoloc.entity.GisFeature;
 import com.gisgraphy.domain.valueobject.FeatureCode;
 
-/**
- * @author dmasclet
- * 
- */
+
 public class RepositoryStrategyTest extends AbstractTransactionalTestCase {
 
     @Resource

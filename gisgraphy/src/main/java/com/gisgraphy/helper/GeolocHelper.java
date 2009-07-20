@@ -29,19 +29,24 @@ import java.util.Locale;
 import org.geotools.geometry.jts.JTS;
 import org.geotools.referencing.crs.DefaultGeographicCRS;
 import org.opengis.referencing.operation.TransformException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.util.Assert;
 
 import com.gisgraphy.domain.geoloc.entity.GisFeature;
+import com.gisgraphy.domain.geoloc.importer.AbstractGeonamesProcessor;
 import com.gisgraphy.domain.valueobject.Constants;
 import com.gisgraphy.domain.valueobject.FeatureCode;
 import com.gisgraphy.domain.valueobject.SRID;
 import com.vividsolutions.jts.geom.Coordinate;
+import com.vividsolutions.jts.geom.Geometry;
 import com.vividsolutions.jts.geom.GeometryFactory;
 import com.vividsolutions.jts.geom.LineString;
 import com.vividsolutions.jts.geom.MultiLineString;
 import com.vividsolutions.jts.geom.Point;
 import com.vividsolutions.jts.geom.Polygon;
 import com.vividsolutions.jts.geom.PrecisionModel;
+import com.vividsolutions.jts.io.WKBReader;
 import com.vividsolutions.jts.io.WKTReader;
 
 /**
@@ -53,6 +58,12 @@ public class GeolocHelper {
 
     private static final double COS0 = Math.cos(0);
     private static final double SIN90 = Math.sin(90);
+    
+    /**
+     * The logger
+     */
+    protected static final Logger logger = LoggerFactory
+	    .getLogger(GeolocHelper.class);
 
     /**
      * Create a JTS point from the specified longitude and latitude for the SRID
@@ -250,4 +261,53 @@ public class GeolocHelper {
 		    + " long=" + lng + " and distance=" + distance + " : " + e);
 	}
     }
+    
+    /**
+     * @param hewewkbt the string in hexa well know text
+     * @return the geometry type, or throw an exception if the string can not be convert
+     */
+    public static Geometry convertFromHEXEWKBToGeometry(String hewewkbt){
+	try {
+	    WKBReader wkReader = new WKBReader();
+	   Geometry geometry =  wkReader.read(hexToBytes(hewewkbt.trim()));
+	   geometry.setSRID(SRID.WGS84_SRID.getSRID());
+	   return geometry;
+	} catch (com.vividsolutions.jts.io.ParseException e) {
+	    logger.error(e.toString());
+		   throw new RuntimeException("error when convert HEXEWKB to Geometry",e);
+	}
+	
+    }
+    
+    private static byte[] hexToBytes(String wkb) {
+	      // convert the String of hex values to a byte[]
+	      byte[] wkbBytes = new byte[wkb.length() / 2];
+
+	      for (int i = 0; i < wkbBytes.length; i++) {
+	          byte b1 = getFromChar(wkb.charAt(i * 2));
+	          byte b2 = getFromChar(wkb.charAt((i * 2) + 1));
+	          wkbBytes[i] = (byte) ((b1 << 4) | b2);
+	      }
+
+	      return wkbBytes;
+	    }
+
+
+
+/**
+* Turns a char that encodes four bits in hexadecimal notation into a byte
+*
+* @param c the char to convert
+*
+*/
+public static byte getFromChar(char c) {
+  if (c <= '9') {
+      return (byte) (c - '0');
+  } else if (c <= 'F') {
+      return (byte) (c - 'A' + 10);
+  } else {
+      return (byte) (c - 'a' + 10);
+  }
+}
+
 }

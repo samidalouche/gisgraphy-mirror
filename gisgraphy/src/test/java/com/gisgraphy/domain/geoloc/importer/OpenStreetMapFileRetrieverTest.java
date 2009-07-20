@@ -107,7 +107,7 @@ public class OpenStreetMapFileRetrieverTest {
 	openStreetMapFileRetriever.process();
 	Assert.assertEquals(ImporterStatus.SKIPPED, openStreetMapFileRetriever.getStatus());
 	ImporterStatusDto statusDto = new ImporterStatusDto(openStreetMapFileRetriever);
-	Assert.assertEquals(100, statusDto.getPercent());
+	Assert.assertEquals(0, statusDto.getPercent());
     }
     
     @Test

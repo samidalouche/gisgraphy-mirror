@@ -10,6 +10,8 @@ import com.gisgraphy.domain.geoloc.entity.OpenStreetMap;
 import com.gisgraphy.domain.geoloc.service.geoloc.street.StreetType;
 import com.gisgraphy.domain.repository.OpenStreetMapDao;
 import com.gisgraphy.domain.valueobject.NameValueDTO;
+import com.gisgraphy.helper.GeolocHelper;
+import com.vividsolutions.jts.geom.Geometry;
 import com.vividsolutions.jts.geom.MultiLineString;
 import com.vividsolutions.jts.geom.Point;
 import com.vividsolutions.jts.io.ParseException;
@@ -72,12 +74,11 @@ public class OpenStreetMapImporter extends AbstractGeonamesProcessor {
 	    street.setName(fields[1].trim());
 	}
 
-	WKBReader wkReader = new WKBReader();
 	if (!isEmptyField(fields, 2, false)) {
 	    try {
-		Point location = (Point) wkReader.read(hexToBytes(fields[2].trim()));
+		Point location = (Point) GeolocHelper.convertFromHEXEWKBToGeometry(fields[2]);
 		street.setLocation(location);
-	    } catch (ParseException e) {
+	    } catch (RuntimeException e) {
 		logger.warn("can not parse location for "+fields[1]+" : "+e);
 	    }
 	}
@@ -117,8 +118,8 @@ public class OpenStreetMapImporter extends AbstractGeonamesProcessor {
 	
 	if (!isEmptyField(fields, 8, true)) {
 	    try {
-		street.setShape((MultiLineString)wkReader.read(hexToBytes(fields[8])));
-	    } catch (ParseException e) {
+		street.setShape((MultiLineString)GeolocHelper.convertFromHEXEWKBToGeometry(fields[8]));
+	    } catch (RuntimeException e) {
 		logger.warn("can not parse shape for "+fields[1] +" : "+e);
 	    }
 	    
@@ -128,6 +129,8 @@ public class OpenStreetMapImporter extends AbstractGeonamesProcessor {
 
     }
     
+   
+    
     /* (non-Javadoc)
      * @see com.gisgraphy.domain.geoloc.importer.AbstractGeonamesProcessor#shouldBeSkiped()
      */
@@ -136,37 +139,7 @@ public class OpenStreetMapImporter extends AbstractGeonamesProcessor {
 	return !importerConfig.isOpenstreetmapImporterEnabled();
     }
     
-    private byte[] hexToBytes(String wkb) {
-	      // convert the String of hex values to a byte[]
-	      byte[] wkbBytes = new byte[wkb.length() / 2];
-
-	      for (int i = 0; i < wkbBytes.length; i++) {
-	          byte b1 = getFromChar(wkb.charAt(i * 2));
-	          byte b2 = getFromChar(wkb.charAt((i * 2) + 1));
-	          wkbBytes[i] = (byte) ((b1 << 4) | b2);
-	      }
-
-	      return wkbBytes;
-	    }
-
-
-    
-    /**
-     * Turns a char that encodes four bits in hexadecimal notation into a byte
-     *
-     * @param c
-     *
-     */
-    public static byte getFromChar(char c) {
-        if (c <= '9') {
-            return (byte) (c - '0');
-        } else if (c <= 'F') {
-            return (byte) (c - 'A' + 10);
-        } else {
-            return (byte) (c - 'a' + 10);
-        }
-    }
-
+   
 
 
     /* (non-Javadoc)
