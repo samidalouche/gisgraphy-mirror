@@ -1,6 +1,8 @@
 You can download this data for free.
 The data are preprocess from Openstreetmap (http://www.openstreetmap.org/) dump in order to be inject with gisgraphy (http://www.gisgraphy.com), but you can you use it for anything else
 
+This work is licensed under a Creative Commons Attribution 3.0 License,
+see http://creativecommons.org/licenses/by/3.0/
 The Data is provided "as is" without warranty or any representation of accuracy, timeliness or completeness.
 
 The data format is tab-delimited text in utf8 encoding and compress with tar and bzip2
