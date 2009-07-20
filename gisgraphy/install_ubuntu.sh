@@ -1,72 +1,3 @@
-Here is the step to install Gisgraphy to get the best performances.
-
-
-
-<h2>Introduction</h2>
-Gisgraphy is composed of two webapp : 
-<ul>
-<li>The Gisgraphy webapp that contains the geoloc server and the two servlets (fulltext engine that talk to solR and geoloc search engine that is linked with postgis)</li>
-<li>The fulltext search engine (Solr)</li>
-</ul>
-
-that's why gisgraphy is scalable. you can install it on several machines / webapps that are load balanced. the goal of this tutorial is to explain how to install it on one machine (you can easilly find some other tutorials that explain how to load balance some servers). we will use tomcat for the gisgraphy webapp and Jetty for the solR server. you may wonder why we use two separates servlets containers, the reason is that solr come with an easy way to launch solr and the second is to show too differents installations 
-
-To get the best performances possible, Gisgraphy must be separate in to separate JVM (aka : Java Virtual machine)
-<ul>
-	<li>The first one for the solR intance (fulltext search engine)</li>
-	<li>The second for the Gisgraphy</li>
-</ul>
-
-<h2>The postgres + postgis</h2>
-	<h3>Install the debian / ubuntu package</h3>
-open a shell and type :
-<code>sudo apt-get install postgresql-8.3 postgresql-8.3-postgis </code>
-
-<h3> Configure the user / password</h3>
-By default the postgres user can connect to postgres with the same password as the Unix one, but we'd like to postgres to ask for a password and not use the UNIX one
-1=>change postgres (unix) user
-
-<code>sudo passwd postgres</code>
-
-2=>log to unix with user postgres
-
-<code>su - postgres </code>
-
-and give the new password you've type
-
-3=>check postgresql conf :
-
-vi /etc/postgresql/8.3/main/pg_hba.conf
-
-and edit it in order to have at least those 2 lines (if it is not the case)
-
-local  all     all                                        ident sameuser
-host   all     all    127.0.0.1         255.255.255.255   ident sameuser
-
-4=> connect to postgres to change the postgresql password
-
-<code>psql -d template1 -c "alter user postgres with password 'YOURPASSWORD'"</code>
-
-5=>check postgres conf : type
-
- vi /etc/postgresql/8.3/main/pg_hba.conf
-and edit in order to have
-
-local  all     all                                        password
-host   all     all    127.0.0.1         255.255.255.255   password
-host    all         all         YOURHOST/32    password
-
-
-
-restart db :
-sudo service postgresql-8.3 restart
-
-
-
-<h2>The Gisgraphy webapp</h2>
-
-
-
 
 #POSTGRES
 
@@ -157,6 +88,9 @@ Is the information correct? [y/N] y
   OPTIONAL : cd conf; chmod g+w server.xml
   cd /usr/share/tomcat-5.5.25/bin/; chmod 755 shutdown.sh startup.sh
   
+  add host in server.xml :
+   
+  
   
   cd /usr/local/tomcat/bin/; chmod 755 shutdown.sh startup.sh
   
@@ -217,14 +151,6 @@ JkWorkersFile /etc/apache2/workers.properties
                 allow from all
         </Directory>
 
-        ScriptAlias /cgi-bin/ /usr/lib/cgi-bin/
-        <Directory "/usr/lib/cgi-bin">
-                AllowOverride None
-                Options +ExecCGI -MultiViews +SymLinksIfOwnerMatch
-                Order allow,deny
-                Allow from all
-        </Directory>
-
         ErrorLog /var/log/apache2/error.log
 
         # Possible values include: debug, info, notice, warn, error, crit,
@@ -261,11 +187,55 @@ JkMount /* default
 DirectoryIndex index.jsp index.html
 # Globally deny access to the WEB-INF directory
 <LocationMatch ‘.*WEB-INF.*’>
-AllowOverride None
 Order allow,deny
 allow from all
 </LocationMatch>
 </VirtualHost>
+
+vim /etc/apache2/sites-available/download
+
+<VirtualHost *:80 >
+        ServerAdmin davidmasclet@gisgraphy.com
+        ServerName download.gisgraphy.com
+        DocumentRoot /var/www-download/
+
+      BandWidthModule On
+      BandWidth all 2000000
+      AddOutputFilterByType MOD_BW application/x-gzip  application/zip application/x-bzip2
+      ErrorDocument 509 "Sorry, there is too many users connected, this site has limmited resources, please try again later."
+      BandWidthError 509
+      MaxConnection all 5
+      ReadmeName readme.txt
+
+        <Directory />
+                AllowOverride None
+                Options FollowSymLinks
+                Order allow,deny
+                Allow from all
+        </Directory>
+
+        <Directory /var/www-download/>
+                Options Indexes FollowSymLinks MultiViews
+                Order allow,deny
+                allow from all
+        </Directory>
+
+
+
+     
+
+        ErrorLog /var/log/apache2/error-download.log
+
+        # Possible values include: debug, info, notice, warn, error, crit,
+        # alert, emerg.
+        LogLevel warn
+
+        CustomLog /var/log/apache2/access-download.log combined
+        ServerSignature Off
+
+
+</VirtualHost>
+
 
 ###########################
 mod bandwith (need GCC)
