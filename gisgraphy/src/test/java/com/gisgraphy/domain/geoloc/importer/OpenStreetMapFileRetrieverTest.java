@@ -74,7 +74,7 @@ public class OpenStreetMapFileRetrieverTest {
 	for (String fileToDownload : filesToDownload) {
 	    String fileNameWithCSVExtension = fileToDownload.substring(0,
 		    (fileToDownload.length()) - 8)
-		    + ".csv";
+		    + ".txt";
 	    file = new File(importerConfig.getOpenStreetMapDir()
 		    + fileNameWithCSVExtension);
 	    if (importerConfig.isRetrieveFiles()) {

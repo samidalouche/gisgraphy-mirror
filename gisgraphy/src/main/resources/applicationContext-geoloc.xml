@@ -92,6 +92,10 @@
 	<bean id="geonamesFileRetriever"
 		class="com.gisgraphy.domain.geoloc.importer.GeonamesFileRetriever" parent="abstractFileRetriever" >
 	</bean>
+	
+	<bean id="openstreetmapFileRetriever"
+		class="com.gisgraphy.domain.geoloc.importer.OpenStreetMapFileRetriever" parent="abstractFileRetriever" >
+	</bean>
 
 	<bean id="geonamesLanguageImporter"
 		class="com.gisgraphy.domain.geoloc.importer.GeonamesLanguageImporter"
@@ -167,6 +171,8 @@
 				<ref bean="geonamesAdm4Importer" />
 				<ref bean="geonamesFeatureImporter" />
 				<ref bean="geonamesAlternateNamesImporter" />
+				<ref bean="openstreetmapFileRetriever" />
+				<ref bean="openStreetMapImporter"/>
 			</list>
 		</constructor-arg>
 	</bean>
