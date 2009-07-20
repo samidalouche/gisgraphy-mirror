@@ -24,6 +24,7 @@ package com.gisgraphy.domain.geoloc.importer;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import junit.framework.Assert;
@@ -51,7 +52,7 @@ public class GeonamesFileRetrieverTest extends TestCase {
 	}
 
 	importerConfig.setGeonamesDir(tempDir.getAbsolutePath());
-	importerConfig.setFilesToDownload("FR.zip");
+	importerConfig.setGeonamesFilesToDownload("FR.zip");
 	geonamesFileRetriever.setImporterConfig(importerConfig);
 	List<NameValueDTO<Integer>> list = geonamesFileRetriever.rollback();
 	assertEquals(1, list.size());
@@ -86,6 +87,18 @@ public class GeonamesFileRetrieverTest extends TestCase {
 	importerConfig.setRetrieveFiles(true);
 	Assert.assertFalse(geonamesFileRetriever.shouldBeSkipped());
 	
+    }
+    
+    @Test
+    public void getFilesToDownloadShouldReturnTheImporterConfigOption(){
+	ImporterConfig importerConfig = new ImporterConfig();
+	String fileTobeDownload = "ZW.zip";
+	List<String> filesToDownload =new ArrayList<String>();
+	filesToDownload.add(fileTobeDownload);
+	importerConfig.setGeonamesFilesToDownload(fileTobeDownload);
+	GeonamesFileRetriever geonamesFileRetriever = new GeonamesFileRetriever();
+	geonamesFileRetriever.setImporterConfig(importerConfig);
+	Assert.assertEquals("getFilesToDownload should return the importerConfig Option",filesToDownload, geonamesFileRetriever.getFilesToDownload());
 	
 	
     }

@@ -133,7 +133,9 @@ public class ImporterConfig {
 
     private boolean retrieveFiles = false;
 
-    private String filesToDownload = "";
+    private String geonamesFilesToDownload = "";
+    
+    private String openStreetMapFilesToDownload= "";
     
     private boolean geonamesImporterEnabled = true;
     
@@ -174,15 +176,27 @@ public class ImporterConfig {
      * @return A list of string with the files to be download, processed from
      *         {@link #filesToDownload}
      */
-    public List<String> getDownloadFilesListFromOption() {
+    public List<String> getGeonamesDownloadFilesListFromOption() {
+	return splitsemiColmunStringToList(geonamesFilesToDownload);
+    }
+
+    private List<String> splitsemiColmunStringToList(String stringToSplit) {
 	List<String> list = new ArrayList<String>();
-	if (filesToDownload != null && filesToDownload.length() != 0) {
-	    String[] splited = filesToDownload.split(OPTION_SEPARATOR);
+	if (stringToSplit != null && stringToSplit.length() != 0) {
+	    String[] splited = stringToSplit.split(OPTION_SEPARATOR);
 	    for (int i = 0; i < splited.length; i++) {
 		list.add(splited[i]);
 	    }
 	}
 	return list;
+    }
+    
+    /**
+     * @return A list of string with the files to be download, processed from
+     *         {@link #filesToDownload}
+     */
+    public List<String> getOpenStreetMapDownloadFilesListFromOption() {
+	return splitsemiColmunStringToList(openStreetMapFilesToDownload);
     }
 
     private String adm1FileName;
@@ -611,23 +625,44 @@ public class ImporterConfig {
 
     /**
      * @return The option
-     * @see #setFilesToDownload(String)
+     * @see #setOpenStreetMapFilesToDownload(String)
      */
-    public String getFilesToDownload() {
-	return this.filesToDownload;
+    public String getOpenStreetMapFilesToDownload() {
+	return this.openStreetMapFilesToDownload;
     }
 
     /**
-     * The list of the files to be downloaded from the
+     * The list of the Openstreetmap to be download from the
      * {@link #geonamesDownloadURL}. the several files will be separated by
      * {@link #OPTION_SEPARATOR}
      * 
-     * @param filesToDownload
+     * @param openStreetMapFilesToDownload
+     *                The openstreetmap filesToDownload to set
+     */
+    @Required
+    public void setOpenStreetMapFilesToDownload(String openStreetMapFilesToDownload) {
+	this.openStreetMapFilesToDownload = openStreetMapFilesToDownload;
+    }
+    
+    /**
+     * @return The option
+     * @see #setGeonamesFilesToDownload(String)
+     */
+    public String getGeonamesFilesToDownload() {
+	return this.geonamesFilesToDownload;
+    }
+
+    /**
+     * The list of the Geonames files to be download from the
+     * {@link #geonamesDownloadURL}. the several files will be separated by
+     * {@link #OPTION_SEPARATOR}
+     * 
+     * @param geonamesFilesToDownload
      *                the filesToDownload to set
      */
     @Required
-    public void setFilesToDownload(String filesToDownload) {
-	this.filesToDownload = filesToDownload;
+    public void setGeonamesFilesToDownload(String geonamesFilesToDownload) {
+	this.geonamesFilesToDownload = geonamesFilesToDownload;
     }
 
     /**

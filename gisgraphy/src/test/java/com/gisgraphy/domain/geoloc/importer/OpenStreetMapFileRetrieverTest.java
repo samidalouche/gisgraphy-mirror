@@ -34,7 +34,7 @@ public class OpenStreetMapFileRetrieverTest {
 	List<String> filesToDownload =new ArrayList<String>();
 	String fileTobeDownload = "NU.tar.bz2";
 	filesToDownload.add(fileTobeDownload);
-	importerConfig.setFilesToDownload(fileTobeDownload);
+	importerConfig.setOpenStreetMapFilesToDownload(fileTobeDownload);
 	importerConfig.setRetrieveFiles(true);
 
 	importerConfig.setOpenStreetMapDir(tempDir.getAbsolutePath());
@@ -116,9 +116,10 @@ public class OpenStreetMapFileRetrieverTest {
 	ImporterConfig importerConfig = EasyMock.createMock(ImporterConfig.class);
 	EasyMock.expect(importerConfig.isRetrieveFiles()).andReturn(true);
 	EasyMock.expect(importerConfig.isOpenstreetmapImporterEnabled()).andReturn(true);
-	EasyMock.expect(importerConfig.getDownloadFilesListFromOption()).andStubReturn(new ArrayList<String>());
+	EasyMock.expect(importerConfig.getGeonamesDownloadFilesListFromOption()).andStubReturn(new ArrayList<String>());
 	EasyMock.expect(importerConfig.getOpenStreetMapDir()).andStubReturn("");
 	EasyMock.expect(importerConfig.getOpenstreetMapDownloadURL()).andStubReturn("");
+	EasyMock.expect(importerConfig.getOpenStreetMapDownloadFilesListFromOption()).andStubReturn(new ArrayList<String>());
 	
 	EasyMock.replay(importerConfig);
 	openStreetMapFileRetriever.setImporterConfig(importerConfig);
@@ -150,9 +151,22 @@ public class OpenStreetMapFileRetrieverTest {
 	importerConfig.setRetrieveFiles(true);
 	Assert.assertFalse(openStreetMapFileRetriever.shouldBeSkipped());
 	
+    }
+    
+    @Test
+    public void getFilesToDownloadShouldReturnTheImporterConfigOption(){
+	ImporterConfig importerConfig = new ImporterConfig();
+	String fileTobeDownload = "AD.tar.bz2";
+	List<String> filesToDownload =new ArrayList<String>();
+	filesToDownload.add(fileTobeDownload);
+	importerConfig.setOpenStreetMapFilesToDownload(fileTobeDownload);
+	OpenStreetMapFileRetriever openStreetMapFileRetriever = new OpenStreetMapFileRetriever();
+	openStreetMapFileRetriever.setImporterConfig(importerConfig);
+	Assert.assertEquals("getFilesToDownload should return the importerConfig Option",filesToDownload, openStreetMapFileRetriever.getFilesToDownload());
 	
 	
     }
+    
     
     
    

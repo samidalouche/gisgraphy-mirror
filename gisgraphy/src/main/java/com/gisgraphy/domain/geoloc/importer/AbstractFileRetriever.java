@@ -55,7 +55,8 @@ public abstract class AbstractFileRetriever implements IGeonamesProcessor {
     protected int numberOfFileToDownload = 0;
 
     protected String statusMessage = "";
-
+    
+    
     /**
      * The logger
      */
@@ -73,8 +74,7 @@ public abstract class AbstractFileRetriever implements IGeonamesProcessor {
 	    if (!shouldBeSkipped()) {
 		logger
 			.info("DownloadFiles option is set to true, we will download and unzip files");
-		List<String> downloadFileList = importerConfig
-			.getDownloadFilesListFromOption();
+		List<String> downloadFileList = getFilesToDownload();
 		this.numberOfFileToDownload = downloadFileList.size();
 		for (String file : downloadFileList) {
 		    this.fileIndex++;
@@ -100,6 +100,11 @@ public abstract class AbstractFileRetriever implements IGeonamesProcessor {
 	} 
 
     }
+
+    /**
+     * @return A list of file to be download
+     */
+    abstract List<String> getFilesToDownload() ;
 
     /**
      * @return true if the processor should Not be executed
@@ -171,8 +176,7 @@ public abstract class AbstractFileRetriever implements IGeonamesProcessor {
      */
     public List<NameValueDTO<Integer>> rollback() {
 	List<NameValueDTO<Integer>> deletedObjectInfo = new ArrayList<NameValueDTO<Integer>>();
-	List<String> filesToImport = importerConfig
-		.getDownloadFilesListFromOption();
+	List<String> filesToImport = getFilesToDownload();
 	int deleted = 0;
 	for (String fileName : filesToImport) {
 	    File file = new File(getDownloadDirectory() + fileName);

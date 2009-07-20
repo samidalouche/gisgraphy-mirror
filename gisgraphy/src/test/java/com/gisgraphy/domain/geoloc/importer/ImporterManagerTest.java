@@ -2058,7 +2058,7 @@ public class ImporterManagerTest extends AbstractIntegrationHttpSolrTestCase {
 
 	// get files to download
 	List<String> filesToDownload = this.importerConfig
-		.getDownloadFilesListFromOption();
+		.getGeonamesDownloadFilesListFromOption();
 
 	this.importerConfig.setGeonamesDir(tempDir.getAbsolutePath());
 

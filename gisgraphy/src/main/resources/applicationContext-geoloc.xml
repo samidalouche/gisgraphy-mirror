@@ -219,7 +219,8 @@
 		<property name="openStreetMapDir" value="${importer.openstreetmap.dir}"/>
 		<property name="geonamesDownloadURL" value="${importer.geonames.downloadURL}"/>
 		<property name="retrieveFiles" value="${importer.retrieveFiles}"/>
-		<property name="filesToDownload" value="${importer.filesToDownload}"/>
+		<property name="geonamesFilesToDownload" value="${importer.geonamesfilesToDownload}"/>
+		<property name="openStreetMapFilesToDownload" value="${importer.openstreetmapfilesToDownload}"/>
 		<property name="adm1FileName" value="${importerConfig.adm1FileName}"/>
 		<property name="adm2FileName" value="${importerConfig.adm2FileName}"/>
 		<property name="adm3FileName" value="${importerConfig.adm3FileName}"/>

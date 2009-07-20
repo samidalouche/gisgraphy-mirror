@@ -27,6 +27,7 @@ package com.gisgraphy.domain.geoloc.importer;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 
 import com.gisgraphy.helper.Untar;
 
@@ -82,6 +83,14 @@ public class OpenStreetMapFileRetriever extends AbstractFileRetriever {
     @Override
     protected boolean shouldBeSkipped() {
 	return !(importerConfig.isRetrieveFiles()  && importerConfig.isOpenstreetmapImporterEnabled());
+    }
+
+    /* (non-Javadoc)
+     * @see com.gisgraphy.domain.geoloc.importer.AbstractFileRetriever#getFilesToDownload()
+     */
+    @Override
+    List<String> getFilesToDownload() {
+	return importerConfig.getOpenStreetMapDownloadFilesListFromOption();
     }
 
 }

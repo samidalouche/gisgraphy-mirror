@@ -26,7 +26,7 @@
 package com.gisgraphy.domain.geoloc.importer;
 
 import java.io.File;
-
+import java.util.List;
 
 /**
  * Retrieve The Geonames files from a server
@@ -35,50 +35,66 @@ import java.io.File;
  */
 public class GeonamesFileRetriever extends AbstractFileRetriever {
 
-  
-
-    /* (non-Javadoc)
-     * @see com.gisgraphy.domain.geoloc.importer.AbstractFileRetriever#getDownloadDirectory()
+    /*
+     * (non-Javadoc)
+     * 
+     * @seecom.gisgraphy.domain.geoloc.importer.AbstractFileRetriever#
+     * getDownloadDirectory()
      */
     public String getDownloadDirectory() {
 	return importerConfig.getGeonamesDir();
     }
 
-    /* (non-Javadoc)
-     * @see com.gisgraphy.domain.geoloc.importer.AbstractFileRetriever#getDownloadBaseUrl()
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * com.gisgraphy.domain.geoloc.importer.AbstractFileRetriever#getDownloadBaseUrl
+     * ()
      */
     public String getDownloadBaseUrl() {
-	return importerConfig
-	    .getGeonamesDownloadURL();
+	return importerConfig.getGeonamesDownloadURL();
     }
 
-    /* (non-Javadoc)
-     * @see com.gisgraphy.domain.geoloc.importer.AbstractFileRetriever#decompressFiles()
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * com.gisgraphy.domain.geoloc.importer.AbstractFileRetriever#decompressFiles
+     * ()
      */
     public void decompressFiles() {
-	File[] filesToUnZip = ImporterHelper
-		.listZipFiles(getDownloadDirectory());
+	File[] filesToUnZip = ImporterHelper.listZipFiles(getDownloadDirectory());
 	for (int i = 0; i < filesToUnZip.length; i++) {
 	    ImporterHelper.unzipFile(filesToUnZip[i]);
 	}
 
 	// for log purpose
-	File[] filesToImport = ImporterHelper
-		.listCountryFilesToImport(getDownloadDirectory());
+	File[] filesToImport = ImporterHelper.listCountryFilesToImport(getDownloadDirectory());
 
 	for (int i = 0; i < filesToImport.length; i++) {
-	    logger.info("the files " + filesToImport[i].getName()
-		    + " will be imported");
+	    logger.info("the files " + filesToImport[i].getName() + " will be imported");
 	}
     }
-    
-    /* (non-Javadoc)
-     * @see com.gisgraphy.domain.geoloc.importer.AbstractFileRetriever#shouldBeSkipped()
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * com.gisgraphy.domain.geoloc.importer.AbstractFileRetriever#shouldBeSkipped
+     * ()
      */
     @Override
     protected boolean shouldBeSkipped() {
-	return !(importerConfig.isRetrieveFiles()  && importerConfig.isGeonamesImporterEnabled());
+	return !(importerConfig.isRetrieveFiles() && importerConfig.isGeonamesImporterEnabled());
     }
-   
+
+    /* (non-Javadoc)
+     * @see com.gisgraphy.domain.geoloc.importer.AbstractFileRetriever#getFilesToDownload()
+     */
+    @Override
+    List<String> getFilesToDownload() {
+	return importerConfig.getGeonamesDownloadFilesListFromOption();
+    }
 
 }
