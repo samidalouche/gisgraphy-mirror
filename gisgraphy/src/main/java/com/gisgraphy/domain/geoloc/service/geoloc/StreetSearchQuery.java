@@ -27,7 +27,6 @@ import javax.servlet.http.HttpServletRequest;
 import com.gisgraphy.domain.geoloc.service.geoloc.street.StreetType;
 import com.gisgraphy.domain.valueobject.Output;
 import com.gisgraphy.domain.valueobject.Pagination;
-import com.gisgraphy.servlet.FulltextServlet;
 import com.gisgraphy.servlet.StreetServlet;
 import com.vividsolutions.jts.geom.Point;
 
@@ -59,7 +58,7 @@ public class StreetSearchQuery extends GeolocQuery {
 	    withOneWay(Boolean.FALSE);
 	}
 	//namePrefix
-	withNamePrefix(req.getParameter(FulltextServlet.QUERY_PARAMETER));
+	withNamePrefix(req.getParameter(StreetServlet.NAME_PREFIX_PARAMETER));
 
     }
 

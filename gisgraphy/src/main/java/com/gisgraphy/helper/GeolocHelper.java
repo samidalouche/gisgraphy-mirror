@@ -264,11 +264,11 @@ public class GeolocHelper {
     
     /**
      * @param hewewkbt the string in hexa well know text
-     * @return the geometry type, or throw an exception if the string can not be convert
+     * @return the geometry type, or throw an exception if the string can not be convert.the SRID will be {@link SRID#WGS84_SRID}
      */
     public static Geometry convertFromHEXEWKBToGeometry(String hewewkbt){
 	try {
-	    WKBReader wkReader = new WKBReader();
+	   WKBReader wkReader = new WKBReader();
 	   Geometry geometry =  wkReader.read(hexToBytes(hewewkbt.trim()));
 	   geometry.setSRID(SRID.WGS84_SRID.getSRID());
 	   return geometry;

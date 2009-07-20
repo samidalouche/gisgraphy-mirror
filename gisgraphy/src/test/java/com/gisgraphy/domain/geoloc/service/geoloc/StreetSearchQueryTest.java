@@ -44,7 +44,6 @@ import com.gisgraphy.domain.valueobject.Pagination;
 import com.gisgraphy.domain.valueobject.Output.OutputFormat;
 import com.gisgraphy.domain.valueobject.Output.OutputStyle;
 import com.gisgraphy.helper.GeolocHelper;
-import com.gisgraphy.servlet.FulltextServlet;
 import com.gisgraphy.servlet.GisgraphyServlet;
 import com.gisgraphy.servlet.StreetServlet;
 import com.gisgraphy.test.GeolocTestHelper;
@@ -148,22 +147,38 @@ public class StreetSearchQueryTest extends TestCase {
 	    request.removeParameter(GisgraphyServlet.TO_PARAMETER);
 	    query = new StreetSearchQuery(request);
 	    // non specify
-	    assertEquals(
+	    int expectedLastPagination = (StreetServlet.DEFAULT_MAX_RESULTS+query.getFirstPaginationIndex()-1);
+	   	    assertEquals(
 		    "When no "
 			    + GisgraphyServlet.TO_PARAMETER
 			    + " is specified, the  parameter should be set to limit results to "
-			    + FulltextServlet.DEFAULT_MAX_RESULTS,
-		    FulltextServlet.DEFAULT_MAX_RESULTS, query
-			    .getMaxNumberOfResults());
+			    + expectedLastPagination,
+			    expectedLastPagination, query
+			    .getLastPaginationIndex());
+	   	    
+	   	 assertEquals("When no "
+			    + GisgraphyServlet.TO_PARAMETER
+			    + " is specified, the maxnumberOfResults should not be > "
+			    + StreetServlet.DEFAULT_MAX_RESULTS,
+			    StreetServlet.DEFAULT_MAX_RESULTS, query
+				    .getMaxNumberOfResults());
 	    // with a wrong value
 	    request = GeolocTestHelper.createMockHttpServletRequestForStreetGeoloc();
 	    request.setParameter(GisgraphyServlet.TO_PARAMETER, "2");// to<from
 	    query = new StreetSearchQuery(request);
+	    expectedLastPagination = (StreetServlet.DEFAULT_MAX_RESULTS+query.getFirstPaginationIndex()-1);
 	    assertEquals("When a wrong " + GisgraphyServlet.TO_PARAMETER
 		    + " is specified, the numberOf results should be "
-		    + Pagination.DEFAULT_MAX_RESULTS,
-		    Pagination.DEFAULT_MAX_RESULTS, query
+		    +expectedLastPagination,
+		    expectedLastPagination, query
+			    .getLastPaginationIndex());
+	    //TODO OSM improvetest for geoloc and fulltext testpaginatewithmaxResults
+	    assertEquals("When a wrong " + GisgraphyServlet.TO_PARAMETER
+		    + " is specified, the maxnumberOfResults should not be > "
+		    + StreetServlet.DEFAULT_MAX_RESULTS,
+		    StreetServlet.DEFAULT_MAX_RESULTS, query
 			    .getMaxNumberOfResults());
+	    
 	    assertEquals("a wrong to does not change the from value", 3, query
 		    .getFirstPaginationIndex());
 	    request = GeolocTestHelper.createMockHttpServletRequestForStreetGeoloc();
@@ -172,10 +187,16 @@ public class StreetSearchQueryTest extends TestCase {
 	    query = new StreetSearchQuery(request);
 	    assertEquals("a wrong to does not change the from value", 3, query
 		    .getFirstPaginationIndex());
+	    expectedLastPagination = (StreetServlet.DEFAULT_MAX_RESULTS+query.getFirstPaginationIndex()-1);
 	    assertEquals("When a wrong " + GisgraphyServlet.TO_PARAMETER
-		    + " is specified, the numberOf results should be "
-		    + Pagination.DEFAULT_MAX_RESULTS,
-		    Pagination.DEFAULT_MAX_RESULTS, query
+		    + " is specified, the lastPagination should be "
+		    + expectedLastPagination,
+		    expectedLastPagination, query
+			    .getLastPaginationIndex());
+	    assertEquals("When a wrong " + GisgraphyServlet.TO_PARAMETER
+		    + " is specified, the maxnumberOfResults should not be > "
+		    + StreetServlet.DEFAULT_MAX_RESULTS,
+		    StreetServlet.DEFAULT_MAX_RESULTS, query
 			    .getMaxNumberOfResults());
 
 	    // test indentation
@@ -273,7 +294,6 @@ public class StreetSearchQueryTest extends TestCase {
 			    .getStreetType());
 	    
 	    // test oneWay
-	    //TODO OSM oneWay => boolean
 	    // with no value specified
 	    request = GeolocTestHelper.createMockHttpServletRequestForStreetGeoloc();
 	    request.removeParameter(StreetServlet.ONEWAY_PARAMETER);
@@ -314,6 +334,7 @@ public class StreetSearchQueryTest extends TestCase {
 	    //namePrefix
 	    //test With good value
 	    request = GeolocTestHelper.createMockHttpServletRequestForStreetGeoloc();
+	    request.setParameter(StreetServlet.NAME_PREFIX_PARAMETER, "prefix");
 	    query = new StreetSearchQuery(request);
 	    assertEquals(StreetServlet.NAME_PREFIX_PARAMETER+" should be set when specified",request.getParameter(StreetServlet.NAME_PREFIX_PARAMETER), query.getNamePrefix());
 		   
@@ -325,7 +346,7 @@ public class StreetSearchQueryTest extends TestCase {
 		
 		// too long string
 		request = GeolocTestHelper.createMockHttpServletRequestForGeoloc();
-		request.setParameter(FulltextServlet.QUERY_PARAMETER, RandomStringUtils
+		request.setParameter(StreetServlet.NAME_PREFIX_PARAMETER, RandomStringUtils
 			.random(StreetSearchQuery.NAME_PREFIX_MAX_LENGTH) + 1);
 		try {
 		    query = new StreetSearchQuery(request);

@@ -46,6 +46,11 @@
     <logger name="net.sf.ehcache">
         <level value="ERROR"/>
     </logger>
+    
+    <logger name="com.gisgraphy.helper.Untar">
+        <level value="INFO"/>
+         <appender-ref ref="RollingFileImporter"/>
+    </logger> 
 
     <!-- Suppress success logging from InteractiveAuthenticationSuccessEvent -->
     <logger name="org.acegisecurity">

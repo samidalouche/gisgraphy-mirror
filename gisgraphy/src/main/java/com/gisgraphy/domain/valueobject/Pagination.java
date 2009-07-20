@@ -41,6 +41,12 @@ public class Pagination {
      * results instead of the from
      */
     public static final int DEFAULT_MAX_RESULTS = 10;
+    
+    
+    /**
+     * max result the pagination should have
+     */
+    public int maxResult = DEFAULT_MAX_RESULTS;
 
     /**
      * the default 'from' parameters if the one specified is missing or
@@ -73,6 +79,7 @@ public class Pagination {
 
 	private int from;
 	private int to;
+	private int maxResults = DEFAULT_MAX_RESULTS;
 
 	private PaginationBuilder() {
 
@@ -80,7 +87,9 @@ public class Pagination {
 
 	// builder is private
 	private Pagination build() {
-	    Pagination pagination = new Pagination().from(this.from)
+	    Pagination pagination = new Pagination();
+	    pagination.maxResult=maxResults;
+	    pagination.from(this.from)
 		    .to(this.to);
 	    return pagination;
 	}
@@ -139,6 +148,24 @@ public class Pagination {
     public static FromSpecification paginate() {
 	return new PaginationBuilder();
     }
+    
+    /**
+     * Static method to be used to create a pagination object and define maxResults. (tip : use Static
+     * import)
+     * 
+     * @param maxResult the max number of results he pagination should have, if max results is incorrect,{@link #DEFAULT_MAX_RESULTS} will be used
+     * @return An instance of {@link FromSpecification} to force the from
+     *         parameter to be set first
+     */
+    public static FromSpecification paginateWithMaxResults(int maxResult) {
+	PaginationBuilder builder = new PaginationBuilder();
+	if (maxResult <= 0){
+	    builder.maxResults = DEFAULT_MAX_RESULTS;
+	}else {
+	    builder.maxResults = maxResult;
+	}
+	return builder;
+    }
 
     /**
      * @param from
@@ -165,7 +192,7 @@ public class Pagination {
      */
     private Pagination to(int to) {
 	this.to = (to > 0 && to >= this.from) ? to : this.from
-		+ DEFAULT_MAX_RESULTS - 1;
+		+ maxResult - 1;
 	return this;
     }
 

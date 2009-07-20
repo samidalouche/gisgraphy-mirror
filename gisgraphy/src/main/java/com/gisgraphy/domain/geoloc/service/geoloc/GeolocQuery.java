@@ -134,8 +134,8 @@ public class GeolocQuery extends AbstractGisQuery {
 	    to = -1;
 	}
 
-	pagination = Pagination.paginate().from(from).to(to)
-		.limitNumberOfResults(getMaxLimitResult());
+	pagination = Pagination.paginateWithMaxResults(this.getMaxLimitResult()).from(from).to(to)
+		.limitNumberOfResults(this.getMaxLimitResult());
 	// output format
 	OutputFormat format = OutputFormat.getFromString(req
 		.getParameter(GisgraphyServlet.FORMAT_PARAMETER));
