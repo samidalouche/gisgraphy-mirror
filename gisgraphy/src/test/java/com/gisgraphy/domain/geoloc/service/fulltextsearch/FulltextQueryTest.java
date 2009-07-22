@@ -119,6 +119,12 @@ public class FulltextQueryTest extends AbstractIntegrationHttpSolrTestCase {
 	request = GeolocTestHelper.createMockHttpServletRequestForFullText();
 	request.removeParameter(FulltextServlet.TO_PARAMETER);
 	query = new FulltextQuery(request);
+	 int expectedLastPagination = (FulltextServlet.DEFAULT_MAX_RESULTS+query.getFirstPaginationIndex()-1);
+	    assertEquals(
+	           GisgraphyServlet.TO_PARAMETER
+		    + " is wrong when no "+GisgraphyServlet.TO_PARAMETER+" is specified ",
+		    expectedLastPagination, query
+		    .getLastPaginationIndex());
 	assertEquals(
 		"When no "
 			+ FulltextServlet.TO_PARAMETER
@@ -130,21 +136,32 @@ public class FulltextQueryTest extends AbstractIntegrationHttpSolrTestCase {
 	request = GeolocTestHelper.createMockHttpServletRequestForFullText();
 	request.setParameter(FulltextServlet.TO_PARAMETER, "2");// to<from
 	query = new FulltextQuery(request);
+	 expectedLastPagination = (FulltextServlet.DEFAULT_MAX_RESULTS+query.getFirstPaginationIndex()-1);
+	    assertEquals( GisgraphyServlet.TO_PARAMETER
+		    + " is wrong when wrong "+GisgraphyServlet.TO_PARAMETER+" is specified ",
+		    expectedLastPagination, query
+			    .getLastPaginationIndex());
 	assertEquals("When a wrong " + FulltextServlet.TO_PARAMETER
-		+ " is specified, the numberOf results should be "
-		+ Pagination.DEFAULT_MAX_RESULTS,
-		Pagination.DEFAULT_MAX_RESULTS, query.getMaxNumberOfResults());
+		+ " is specified, the number of results should be "
+		+ FulltextServlet.DEFAULT_MAX_RESULTS,
+		FulltextServlet.DEFAULT_MAX_RESULTS, query.getMaxNumberOfResults());
 	assertEquals("a wrong to does not change the from value", 3, query
 		.getFirstPaginationIndex());
 	request = GeolocTestHelper.createMockHttpServletRequestForFullText();
-	request.setParameter(FulltextServlet.TO_PARAMETER, "a");// to<from
+	//non numeric
+	request.setParameter(FulltextServlet.TO_PARAMETER, "a");
 	query = new FulltextQuery(request);
+	expectedLastPagination = (FulltextServlet.DEFAULT_MAX_RESULTS+query.getFirstPaginationIndex()-1);
+	assertEquals( GisgraphyServlet.TO_PARAMETER
+		    + " is wrong when non numeric "+GisgraphyServlet.TO_PARAMETER+" is specified ",
+		    expectedLastPagination, query
+			    .getLastPaginationIndex());
 	assertEquals("a wrong to does not change the from value", 3, query
 		.getFirstPaginationIndex());
 	assertEquals("When a wrong " + FulltextServlet.TO_PARAMETER
 		+ " is specified, the numberOf results should be "
-		+ Pagination.DEFAULT_MAX_RESULTS,
-		Pagination.DEFAULT_MAX_RESULTS, query.getMaxNumberOfResults());
+		+ FulltextServlet.DEFAULT_MAX_RESULTS,
+		FulltextServlet.DEFAULT_MAX_RESULTS, query.getMaxNumberOfResults());
 
 	// test countrycode
 	// with no value specified

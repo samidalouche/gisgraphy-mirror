@@ -128,7 +128,7 @@ public class FulltextQuery extends AbstractGisQuery {
 	    to = -1;
 	}
 
-	pagination = Pagination.paginate().from(from).to(to)
+	pagination = Pagination.paginateWithMaxResults(this.getMaxLimitResult()).from(from).to(to)
 		.limitNumberOfResults(getMaxLimitResult());
 	// output
 	OutputFormat format = OutputFormat.getFromString(req

@@ -149,10 +149,8 @@ public class StreetSearchQueryTest extends TestCase {
 	    // non specify
 	    int expectedLastPagination = (StreetServlet.DEFAULT_MAX_RESULTS+query.getFirstPaginationIndex()-1);
 	   	    assertEquals(
-		    "When no "
-			    + GisgraphyServlet.TO_PARAMETER
-			    + " is specified, the  parameter should be set to limit results to "
-			    + expectedLastPagination,
+		           GisgraphyServlet.TO_PARAMETER
+			    + " is wrong when no "+GisgraphyServlet.TO_PARAMETER+" is specified ",
 			    expectedLastPagination, query
 			    .getLastPaginationIndex());
 	   	    
@@ -167,12 +165,10 @@ public class StreetSearchQueryTest extends TestCase {
 	    request.setParameter(GisgraphyServlet.TO_PARAMETER, "2");// to<from
 	    query = new StreetSearchQuery(request);
 	    expectedLastPagination = (StreetServlet.DEFAULT_MAX_RESULTS+query.getFirstPaginationIndex()-1);
-	    assertEquals("When a wrong " + GisgraphyServlet.TO_PARAMETER
-		    + " is specified, the numberOf results should be "
-		    +expectedLastPagination,
+	    assertEquals( GisgraphyServlet.TO_PARAMETER
+		    + " is wrong when wrong "+GisgraphyServlet.TO_PARAMETER+" is specified ",
 		    expectedLastPagination, query
 			    .getLastPaginationIndex());
-	    //TODO OSM improvetest for geoloc and fulltext testpaginatewithmaxResults
 	    assertEquals("When a wrong " + GisgraphyServlet.TO_PARAMETER
 		    + " is specified, the maxnumberOfResults should not be > "
 		    + StreetServlet.DEFAULT_MAX_RESULTS,
@@ -188,9 +184,8 @@ public class StreetSearchQueryTest extends TestCase {
 	    assertEquals("a wrong to does not change the from value", 3, query
 		    .getFirstPaginationIndex());
 	    expectedLastPagination = (StreetServlet.DEFAULT_MAX_RESULTS+query.getFirstPaginationIndex()-1);
-	    assertEquals("When a wrong " + GisgraphyServlet.TO_PARAMETER
-		    + " is specified, the lastPagination should be "
-		    + expectedLastPagination,
+	    assertEquals( GisgraphyServlet.TO_PARAMETER
+		    + " is wrong when non numeric "+GisgraphyServlet.TO_PARAMETER+" is specified ",
 		    expectedLastPagination, query
 			    .getLastPaginationIndex());
 	    assertEquals("When a wrong " + GisgraphyServlet.TO_PARAMETER

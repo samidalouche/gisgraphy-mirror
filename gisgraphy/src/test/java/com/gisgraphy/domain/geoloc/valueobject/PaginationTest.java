@@ -147,5 +147,26 @@ public class PaginationTest extends TestCase {
 	assertEquals(5, Pagination.paginate().from(5).to(9)
 		.getMaxNumberOfResults());
     }
+    
+    @Test
+    public void testPaginateWithMaxResults(){
+	Pagination pagination = Pagination.paginateWithMaxResults(32).from(1).to(-1);
+	assertEquals(1, pagination.getFrom());
+	assertEquals(32, pagination.getTo());
+	
+	pagination = Pagination.paginateWithMaxResults(32).from(5).to(-1);
+	assertEquals(5, pagination.getFrom());
+	assertEquals(36, pagination.getTo());
+	
+	pagination = Pagination.paginateWithMaxResults(3).from(5).to(-1);
+	assertEquals(5, pagination.getFrom());
+	assertEquals(7, pagination.getTo());
+	
+	pagination = Pagination.paginateWithMaxResults(3).from(5).to(2);
+	assertEquals(5, pagination.getFrom());
+	assertEquals(7, pagination.getTo());
+	
+	
+    }
 
 }

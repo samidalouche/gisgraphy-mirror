@@ -151,7 +151,7 @@ public class Pagination {
     
     /**
      * Static method to be used to create a pagination object and define maxResults. (tip : use Static
-     * import)
+     * import). because The to parameter is calculated with the masResultValue, you need to use this method befor set the to and the from.
      * 
      * @param maxResult the max number of results he pagination should have, if max results is incorrect,{@link #DEFAULT_MAX_RESULTS} will be used
      * @return An instance of {@link FromSpecification} to force the from
