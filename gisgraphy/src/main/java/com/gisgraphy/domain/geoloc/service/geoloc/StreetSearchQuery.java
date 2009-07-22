@@ -30,6 +30,12 @@ import com.gisgraphy.domain.valueobject.Pagination;
 import com.gisgraphy.servlet.StreetServlet;
 import com.vividsolutions.jts.geom.Point;
 
+/**
+ *  a query to be execute by the @link {@link StreetSearchEngine}
+ * 
+ * @author <a href="mailto:david.masclet@gisgraphy.com">David Masclet</a>
+ *
+ */
 public class StreetSearchQuery extends GeolocQuery {
     
     public final static int NAME_PREFIX_MAX_LENGTH = 200;
