@@ -324,6 +324,46 @@ importer.geonames.dir=.\\data\\prod\\
 </div>
 <br/><br/>
 
+
+
+<div align="right"><a href="#top">[top]</a></div>
+<h4>importer.openstreetmap.dir</h4>
+This option determines the directory where the openStreetMap files are located. It must ends with / or \ according to the system path separator. it is also the directory where the openStreetMap files will be downloaded from the <code>importer.openstreetmap.downloadURL</code> URL
+. On Windows The '\' character must be escaped as in the example bellow . The path can be absolute or relative (from the directory where you've launch Gisgraphy). It is not recommended to put space in the path.<br/>. This option is case sensitive if the underlaying file system is case sensitive (e.g : Linux / Unix).
+<div class="code">
+Examples on Linux :<br/>
+importer.openstreetmap.dir=./data/prod/<br/>
+importer.openstreetmap.dir=/home/user/data/prod/<br/>
+<br/>
+Example on Windows<br/>
+importer.openstreetmap.dir=.\\data\\prod\\
+<!-- TODO v1 examples with space and c:\-->
+</div>
+<br/><br/>
+
+
+<div align="right"><a href="#top">[top]</a></div>
+<h4>importer.geonames.enabled</h4>
+Wether the importers related to Geonames will be processed. If 'true' the importer will be done. This option should be in lower case
+<br/>
+<div class="code">
+Examples : <br/>
+importer.geonames.enabled=true<br/>
+importer.geonames.enabled=false
+</div>
+<br/><br/>
+
+<div align="right"><a href="#top">[top]</a></div>
+<h4>importer.openstreetmap.enabled</h4>
+Wether the importers related to Openstreetmap will be processed. If 'true' the importer will be done. This option should be in lower case
+<br/>
+<div class="code">
+Examples : <br/>
+importer.openstreetmap.enabled=true<br/>
+importer.openstreetmap.enabled=false
+</div>
+<br/><br/>
+
 <div class="tip yellowtip">
 Don't forget the ending slash (or backslash if you use windows) !
 </div>
@@ -341,23 +381,40 @@ Don't forget the ending slash for the URL !
 </div>
 <br/><br/>
 <div align="right"><a href="#top">[top]</a></div>
-<h4>importer.filesToDownload</h4>
+<h4>importer.geonamesfilesToDownload</h4>
 This option determines the files to be download from the <code>importer.geonames.downloadURL</code> URL. The files must be ';' separated. You can specify any files, but if you download from the Geonames server, you should specify country ZIP files (or allcountries.zip) and alternateNames.zip . This option is case sensitive.
 <br/>
 <div class="code">
 Examples : <br/>
-importer.filesToDownload=AD.zip;CY.zip<br/>
-importer.filesToDownload=allCountries.zip<br/>
+importer.importer.geonamesfilesToDownload=AD.zip;CY.zip<br/>
+importer.importer.geonamesfilesToDownload=allCountries.zip<br/>
 <br/>
 </div>
 <br/>
 <div class="tip yellowtip">If you run an import and the change the option and re-run an import : you must delete the old downloaded file before re-run the import. If you don't : the files you've downloaded will be processed. 
 </div>
 <br/>
+<div class="tip greentip">
+ this option has been renamed from importer.filesToDownload to importer.geonamesfilesToDownload in order to specify a different url for openstreet map (importer.openstreetmapfilesToDownload)
+</div>
+<br/>
 <div class="tip greentip">It is not necessary To download Countries.txt,iso-languagecodes.txt, because there are already in the Gisgraphy distrib. Just focus on the country you want to process and alternatenames.zip if you want to import alternate names.
 <br><br/>If allCountries.txt file is in the <code>importer.geonames.dir</code> Directory, the other countries files will be logically ignored.
 </div>
 <br/><br/>
+
+<div align="right"><a href="#top">[top]</a></div>
+<h4>importer.openstreetmapfilesToDownload</h4>
+This option determines the files to be download from the <code>importer.openStreetMap.downloadURL</code> URL. The files must be ';' separated. You can specify any files, but if you download from the Gisgraphy server, you should specify country ZIP files (or allcountries.zip) and alternateNames.zip . This option is case sensitive.
+<br/>
+<div class="code">
+Examples : <br/>
+importer.openstreetmapfilesToDownload=AD.zip;CY.zip<br/>
+importer.openstreetmapfilesToDownload=allCountries.zip<br/>
+<br/>
+</div>
+<br/><br/>
+
 <div align="right"><a href="#top">[top]</a></div>
 <h4>importer.retrieveFiles</h4>
 Wether the files defined by the <code>importer.filesToDownload</code> option should be downloaded. If 'true' the importer will download the files according to the <code>importer.filesToDownload</code> option. If 'false', it will use the files already presents in <code>importer.geonames.dir</code>. This option should be in lower case
