@@ -200,7 +200,7 @@ vim /etc/apache2/sites-available/download
         DocumentRoot /var/www-download/
 
       BandWidthModule On
-      BandWidth all 2000000
+      BandWidth all 8000000
       AddOutputFilterByType MOD_BW application/x-gzip  application/zip application/x-bzip2
       ErrorDocument 509 "Sorry, there is too many users connected, this site has limmited resources, please try again later."
       BandWidthError 509
