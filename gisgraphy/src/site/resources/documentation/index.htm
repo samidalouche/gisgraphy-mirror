@@ -84,6 +84,12 @@ To suggest a change or a correction to any part of the documentation, please sen
 <div class="indexlevel2"><a href="#importdata" />Import Data</a></div>
 <div class="indexlevel3"><a href="#options" />Options and environement specific settings</a></div>
 <div class="indexlevel3"><a href="#importfailure" />Import failure</a></div>
+<div class="indexlevel2"><a href="#streetservice" />Street geocoding service</a></div>
+<div class="indexlevel3"><a href="#streetservicedescription" />Description</a></div>
+<div class="indexlevel3"><a href="#streetserviceparameters" />Parameters</a></div>
+<div class="indexlevel3"><a href="#streetwebservice" />Web service</a></div>
+<div class="indexlevel3"><a href="#streetserviceoutputfieldsdescription" />Output fields description</a></div>
+<div class="indexlevel3"><a href="#streetservicejavaapi" />Java API</a></div>
 <div class="indexlevel2"><a href="#fulltextservice" />Full text service</a></div>
 <div class="indexlevel3"><a href="#fulltextservicedescription" />Description</a></div>
 <div class="indexlevel3"><a href="#fulltextserviceparameters" />Parameters</a></div>
@@ -693,6 +699,288 @@ Never re-run an import before cleaning the database and restart the web applicat
 </div>
 <br/>
 
+
+
+
+
+
+<!-- Street-->
+<a name="streetservice"></a>
+<div align="right"><a href="#top">[top]</a></div>
+<h2>street / geocoding service</h2>
+<a name="streetservicedescription"></a>
+<div align="right"><a href="#top">[top]</a></div>
+<h3>Description</h3>
+<br/>
+The street / geocoding service allows to search for street around earth location.<br/>
+you can
+<ul>
+	<li> Specify GPS position</li>
+	<li> Give the begining of the name of the street</li>
+	<li> Limit the results to a specific type (e.g : Pedestrian, highway, residential, ... 25 type availables)</li>
+	<li> Limit the results to a specified radius</li>
+	<li> Limit the results to one way street</li>
+	<li> Paginate the results</li>
+	<li> Tells if you want the output to be indented (currently, apply only for XML, not json for performance reasons. may change in next version) </li> 
+</ul>
+
+<a name="streetserviceparameters"></a>
+<div align="right"><a href="#top">[top]</a></div>
+<h3>Parameters</h3>
+<ul>
+<a name="latitudestreet"></a>
+<li>The latitude (required) (north-south) for the location point to search around. The value is a float and can be negative. It use GPS coordinates.
+<br/> Examples : 
+<ul>
+<li>-4.2</li>
+<li>-4,2</li>
+</ul>
+</li>
+<br/>
+
+
+<a name="longitudestreet"></a>
+<li>The longitude (required) (east-West) for the location point to search around. The value is a float and can be negative. It use GPS coordinates.
+<br/> Examples : 
+<ul>
+<li>3.6</li>
+<li>3,6</li>
+</ul>
+</li>
+<br/>
+<a name="nameprefixstreet"></a>
+<li>The begining of the name of the street (optional) : limit the search to the street that starts with the specified name. You must put the name and the type. example : 'Boulevard Paul'.the search is case insensitive. default : search for all street</li>
+<br/>
+
+<a name="radiusstreet"></a>
+<li>The radius (optional) : distance from the location point in meters we'd like to search around. The value is a number > 0 if it is not specify or incorrect : The default value will be used (10 km).
+<br/> Examples : 
+<ul>
+<li>50000</li>
+</ul>
+</li>
+<br/>
+<a name="onewaystreet"></a>
+<li>whether the street should be a oneWay street (optional) : limit the search to the street that are one way street</li>
+<br/>
+
+<a name="startindexstreet"></a>
+<li>Start pagination index (optional) : The first pagination index. Numbered from 1. If the number is < 1 or not specified, it will be set to the default value : 1.</li>
+<br/>
+<a name="endindexgeoloc"></a>
+<li>End pagination Index (optional) : The last pagination index. if < 1 or not specified, it will be set to startindex + 50.</li>
+<br/>
+<a name="outputformatgeoloc"></a>
+<li>The output format (optional) : The formats available are :<br/>
+<ul>
+<li>XML (Default) : <a href="./examples/geolocsearch.xml">Example</a></li>
+<li>JSON  : <a href="./examples/geolocsearch.json">Example</a></li>
+<li>ATOM : <a href="./examples/geolocsearch_atom.xml">Example</a></li>
+<li>GEORSS : <a href="./examples/geolocsearch_georss.xml">Example</a></li>
+</ul>
+</li>
+<br>
+
+
+<br/>
+<a name="indentgeoloc"></a>
+<li>The indentation (optional) : indents the results. Default to false. the possible values are true|false (or "on" when used with the rest service <a href="#indentongeoloc">see</a></li>
+<br/>
+
+<div class="tip greentip" name="indentongeoloc">
+If you use a checkbox in a form to indent the results, the value will be "on" or "off", so for a simple use : the value of indent, for the geoloc web service can be "true" or "on".
+</div>
+
+
+<div class="tip yellowtip">
+ Actually, only XML can be indented. It is not a bug :  Indent JSON is possible but decrease performance. If it is a critical need you can see an example of how indent json in source code of streetSearchEngine.
+</div>
+<br/><br/>
+</ul>
+<a name="geolocwebservice"></a>
+<div align="right"><a href="#top">[top]</a></div>
+<h3>Web service</h3>
+
+The street/ geocoding web service use a servlet to wrap the Java API. It links web parameters to a street query and output the results via HTTP.
+<br/>
+All the parameters should be case insensitive. if you've got some problems with case, please <a href="/issue-tracking.html">notify a bug</a>.
+
+<div class="tip yellowtip">
+ All the parameters should be encoded in <a href="http://fr.wikipedia.org/wiki/UTF-8">UTF-8</a> and the URL MUST be <a href="http://www.w3schools.com/TAGS/ref_urlencode.asp">encoded</a>.
+</div>
+<br/><br/>
+Here is a summary of the Web parameters mapping : <br/>
+<table class="smallsizetable smartborder">
+<th>Parameter name</th><th>Web parameter name</th>
+<tr><td>Latitude</td><td>lat</td></tr>
+<tr><td>Longitude<td>lng</td></tr>
+<tr><td>Beginning of the name of the street</td><td>nameprefix</td></tr>
+<tr><td>one way street</td><td>oneway</td></tr>
+<tr><td>Type of the street</td><td>streettype</td></tr>
+<tr><td>Radius</td><td>radius</td></tr>
+<tr><td>Start pagination index</td><td>from</td></tr>
+<tr><td>End pagination index</td><td>to</td></tr>
+<tr><td>Output format</td><td>format</td></tr>
+<tr><td>Indent</td><td>indent</td></tr>
+</table>
+<br/>
+<div class="code">
+Examples : <br/>
+<!--TODO OSM -->
+http://localhost:8080/street/streetsearch?lat=4.5&lng=5.7&radius=5000&from=1&to=10&format=xml&placetype=city&indent=true<br/><br/>
+http://localhost:8080/street/streetsearch?lat=4.5&lng=5.7<br/><br/>
+</div>
+<br/>
+
+<br/>
+<div class="tip yellowtip">
+Actually, the webservice limits the number of results to 50.
+</div>
+<br/>
+
+<div class="tip greentip">
+By default the geolocalisation service is mapped to <code>/street</code> pattern but you can change it in the WEB-INF/web.xml<br/><br/>
+</div>
+<br/><br/>
+
+<div align="right"><a href="#top">[top]</a></div>
+<a name="streettype"/>
+<h3>street type</h3>
+type are group by type. here is a list of type a street can have :
+<ul>
+<li>BYWAY</li>
+<li>MINOR</li>
+<li>SECONDARY_LINK</li>
+<li>CONSTRUCTION</li>
+<li>UNSURFACED</li>
+<li>BRIDLEWAY</li>
+<li>PRIMARY_LINK</li>
+<li>LIVING_STREET</li>
+<li>TRUNK_LINK</li>
+<li>STEPS</li>
+<li>PATH</li>
+<li>ROAD</li>
+<li>PEDESTRIAN</li>
+<li>TRUNK</li>
+<li>MOTROWAY</li>
+<li>CYCLEWAY</li>
+<li>MOTORWAY_LINK</li>
+<li>PRIMARY</li>
+<li>FOOTWAY</li>
+<li>TERTIARY</li>
+<li>SECONDARY</li>
+<li>TRACK</li>
+<li>UNCLASSIFIED</li>
+<li>SERVICE</li>
+<li>RESIDENTIAL</li>
+</ul>
+
+
+<a name="sreetserviceoutputfieldsdescription"></a>
+<div align="right"><a href="#top">[top]</a></div>
+<h3>Output fields description</h3>
+Here is a description of all the output fields,  :<br/>
+<table class="mediumsizetable smartborder">
+<th>Field</th><th>Description</th><th>Applicable for</th>
+<tr><td><span color="red">error</span></td><td>A String only present if an error occured (e.g : empty Latitude or longitude)</td><td>When error occured</td></tr>
+<tr><td>numFound</td><td>The number of results display with this query (it takes the pagination into account)</td><td></td></tr>
+<tr><td>QTime</td><td>The execution time of the query in ms</td><td></td></tr>
+<tr><td>Query</td><td>The name of the street that has been search (aka : nameprefix)</td><td></td></tr>
+<tr><td>distance</td><td>The distance beetween the point and the middle point of the street (half distance) in meters</td><td></td></tr>
+<tr><td>Name</td><td>The name of the feature</td><td></td></tr>
+<tr><td>gid</td><td>Unique id of the street</td><td></td></tr>
+<tr><td>streetType</td><td>The type of the street</td><td></td></tr>
+<tr><td>oneWay</td><td>Whether the street is a one way street or not</td><td></td></tr>
+<tr><td>lat</td><td>The latitude (north-south)</td><td></td></tr>
+<tr><td>lng</td><td>The longitude (east-west)</td><td></td></tr>
+<tr><td>countryCode</td><td>The <a href="http://en.wikipedia.org/wiki/ISO_3166"> ISO 3166 </a> country code</td><td></td></tr>
+</table>
+<br/><br/>
+
+<div class="tip greentip">
+Some fields were not available in older version of gisgraphy. please see <a href="http://www.gisgraphy.com/documentation/oldversions/">old versions</a>
+</div>
+
+<a name="geolocservicejavaapi"></a>
+<div align="right"><a href="#top">[top]</a></div>
+<h3>Java API</h3>
+
+The geoloc API looks like this
+<div class="code">
+<pre>
+			Point point = GeolocHelper.createPoint(<a href="#longitudestreet">LONGITUDE</a>, <a href="#latitudestreet">LATITUDE</a>);
+			Pagination pagination = paginate().from(<a href="#startindexstreet">STARTINDEX</a>).to(<a href="#endindexstreet">ENDINDEX</a>);
+			Output output = Output.withFormat(<a href="#outputformatstreet">OUTPUTFORMAT</a>)
+								  .<a href="#indentstreet">WithIndentation</a>();
+			StreetSearchQuery query = new StreetSearchQuery(point,<a href="#radiusgeoloc">RADIUS</a>,pagination,output,<a href="#streettype">STREETTYPE</a>,<a href="#onewaystreet">ONEWAY</a>,<a href="#nameprefixstreet">NAMEPREFIX</a>);
+			String results = streetSearchEngine.executeQueryToString(query);
+</pre>
+</div>
+
+<div class="tip greentip">
+Click on the UPPERCASE parameters above to see the description of the parameter.
+</div>
+
+
+Here is an example :
+
+<div class="code">
+<pre>
+			Point point = GeolocHelper.createPoint(-3.5F, 45F);
+			Pagination pagination = paginate().from(1).to(10);
+			Output output = Output.withFormat(OutputFormat.XML)
+								  .WithIndentation();	
+			StreetSearchQuery streetQuery = new StreetSearchQuery((point,100000
+					pagination, output, StreetType.PEDESTRIAN,false,"Avenue des c");
+			String result = geolocSearchEngine.executeQueryToString(streetQuery);
+</pre>
+</div>
+<br/>
+<div class="tip greentip">
+The methods are  Designed with <a href="http://www.infoq.com/articles/internal-dsls-java">DSL</a> (Domain Specific Language), and can be chained as in the example above.
+</div>
+<br/>
+
+<br/>
+You can output results to an OutputStream (useful for servlet use) or a String.
+<br/> The API is thread safe.
+<br/> It is possible to create a query directly from a HTTP servlet request
+<br/>
+<!-- end street-->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 <a name="fulltextservice"></a>
 <div align="right"><a href="#top">[top]</a></div>
 <h2>Full text service</h2>
@@ -959,6 +1247,7 @@ You can output results to an OutputStream (useful for servlet use) or a String.
 The methods are  Designed with <a href="http://www.infoq.com/articles/internal-dsls-java">DSL</a> (Domain Specific Language), and can be chained as in the example above.
 </div>
 <br/>
+<!-- geoloc-->
 <a name="geolocservice"></a>
 <div align="right"><a href="#top">[top]</a></div>
 <h2>Geolocalisation service</h2>
@@ -1203,7 +1492,7 @@ You can output results to an OutputStream (useful for servlet use) or a String.
 <br/> The API is thread safe.
 <br/> It is possible to create a query directly from a HTTP servlet request
 <br/>
-
+<!-- end geoloc-->
 <a name="clientLibraries"></a>
 <div align="right"><a href="#top">[top]</a></div>
 
