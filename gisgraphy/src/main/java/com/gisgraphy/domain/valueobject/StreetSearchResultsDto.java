@@ -41,13 +41,14 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class StreetSearchResultsDto {
 
-    private List<StreetDistance> result;
 
     private int numFound = 0;
 
     private Long QTime = null;
     
     private String query = null;
+
+    private List<StreetDistance> result;
 
     /**
      * @param result
@@ -57,10 +58,10 @@ public class StreetSearchResultsDto {
      */
     public StreetSearchResultsDto(List<StreetDistance> result, Long QTime,String query) {
 	super();
-	this.result = result;
 	this.numFound = result == null ? 0 : result.size();
 	this.QTime = QTime;
 	this.query = query;
+	this.result = result;
     }
 
     /**
