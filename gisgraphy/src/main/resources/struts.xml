@@ -156,8 +156,9 @@
          <action name="servicesdescription" >
              <result name="success" type="freemarker">/WEB-INF/views/servicesdescription.ftl</result>
         </action>
-         <action name="streetSearch" >
-             <result name="success" type="freemarker">/WEB-INF/views/streetSearch.ftl</result>
+         <action name="streetSearch" class="com.gisgraphy.webapp.action.StreetSearchAction">
+             <result name="input" type="freemarker">/WEB-INF/views/streetSearch.ftl</result>
+               <result name="success" type="freemarker">/WEB-INF/views/streetSearch.ftl</result>
         </action>
         <action name="donateCancel" >
              <result name="success" type="freemarker">/WEB-INF/views/donatecancel.ftl</result>
