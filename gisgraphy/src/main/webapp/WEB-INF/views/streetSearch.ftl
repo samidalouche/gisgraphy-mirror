@@ -72,7 +72,11 @@ ${message}
 			<br/>
 <script type="text/javascript">
 
- streetnameAutocomplete = new Autocomplete('streetname', { serviceUrl: '/street/streetsearch?format=json"&from=1&to=10"', width: 340, minChars:4, });
+ streetnameAutocomplete = new Autocomplete('streetname', { serviceUrl: '/street/streetsearch?format=json"&from=1&to=10"', width: 340, minChars:4, onSelect: function(value, data){
+        alert('You selected: ' + value + ', ' + data);
+      }
+
+});
   
 </script>
 

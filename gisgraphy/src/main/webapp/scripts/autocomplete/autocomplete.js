@@ -227,14 +227,21 @@ Autocomplete.prototype = {
       response = xhr.responseText.evalJSON();
       if (!Object.isArray(response.data)) { response.data = []; }
     } catch (err) { return; }
-    this.suggestions = response.result;
-/*Gisgraphy modification*/
+   /*Gisgraphy modification*/
+    //this.suggestions = response.result;
     var suggestionNames= [] ;
-    this.suggestions.each(function(value, i) {
+    response.result.each(function(value, i) {
 	suggestionNames.push(value.name);
     } .bind(this));
    this.suggestions = suggestionNames;
-    this.data = response.data;
+    //this.data = response.data;
+   dataWithId= []
+   response.result.each(function(value, i) {
+        dataWithId.push(value.gid);
+    } .bind(this));
+   this.data = dataWithId;
+
+
     this.cachedResponse[response.query] = response;
     if (response.result.length === 0) { this.badQueries.push(response.query); }
     if (response.query === this.currentValue) { this.suggest(); }
