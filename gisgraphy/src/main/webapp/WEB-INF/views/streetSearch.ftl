@@ -45,10 +45,12 @@ ${message}
 					$('streetname').disable();
 					return
 				}
-			$('lat').value = latlngArray[indexDropDown-1].lat;
-			$('lng').value = latlngArray[indexDropDown-1].lng;
+			$('lat').value=48.853
+			$('lng').value=2.349
+			//$('lat').value = latlngArray[indexDropDown-1].lat;
+			//$('lng').value = latlngArray[indexDropDown-1].lng;
 			$('streetname').enable();
-			streetnameAutocomplete.serviceUrl="/static/feed.txt?lat"+$('lat').value+"&lng="+$('lng').value
+			streetnameAutocomplete.serviceUrl="/street/streetsearch?format=json&lat="+$('lat').value+"&lng="+$('lng').value+"&from=1&to=10"
                         }
 			</script>
 			<br/>
@@ -66,11 +68,11 @@ ${message}
 		</span>
 <div class="clear"></div>
 		<span class="searchfield">
-			<span class="searchfieldlabel">streetname : </span><@s.textfield size="50" name="streetname" required="false" id="streetname"  theme="simple"/>
+			<span class="searchfieldlabel"><@s.text name="search.street.streetname"/> : </span><@s.textfield size="40" name="streetname" required="false" id="streetname"  theme="simple"/>
 			<br/>
 <script type="text/javascript">
 
- streetnameAutocomplete = new Autocomplete('streetname', { serviceUrl: '/static/feed.txt', width: 500 });
+ streetnameAutocomplete = new Autocomplete('streetname', { serviceUrl: '/street/streetsearch?format=json"&from=1&to=10"', width: 340, minChars:4, });
   
 </script>
 
