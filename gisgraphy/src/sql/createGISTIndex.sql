@@ -105,5 +105,8 @@ CREATE INDEX locationIndexVineyard ON vineyard USING GIST (location);
 CREATE INDEX locationIndexVolcano ON volcano USING GIST (location);
 CREATE INDEX locationIndexWaterBody ON waterBody USING GIST (location);
 CREATE INDEX locationIndexZoo ON zoo USING GIST (location);
+CREATE INDEX locationindexopenstreetmap ON openstreetmap USING GIST (location);
+CREATE INDEX shapeindexopenstreetmap ON openstreetmap USING GIST (shape);
+CREATE INDEX nameindexopenstreetmap ON openstreetmap  (name varchar_pattern_ops);
 
 VACUUM FULL ANALYZE;
