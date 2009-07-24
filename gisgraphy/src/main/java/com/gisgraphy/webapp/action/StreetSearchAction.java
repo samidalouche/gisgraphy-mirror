@@ -27,7 +27,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.collections.map.HashedMap;
 import org.apache.struts2.components.ActionMessage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -38,12 +37,10 @@ import com.gisgraphy.domain.geoloc.entity.Country;
 import com.gisgraphy.domain.geoloc.service.fulltextsearch.FulltextQuery;
 import com.gisgraphy.domain.geoloc.service.fulltextsearch.IFullTextSearchEngine;
 import com.gisgraphy.domain.repository.CountryDao;
-import com.gisgraphy.domain.valueobject.FulltextResultsDto;
 import com.gisgraphy.domain.valueobject.GisgraphyConfig;
 import com.gisgraphy.domain.valueobject.Output;
 import com.gisgraphy.domain.valueobject.Pagination;
 import com.gisgraphy.domain.valueobject.Output.OutputStyle;
-import com.gisgraphy.helper.GeolocHelper;
 import com.opensymphony.xwork2.Action;
 import com.opensymphony.xwork2.ActionSupport;
 
@@ -100,16 +97,15 @@ public class StreetSearchAction extends ActionSupport {
 	      
 	    if (city != null){
 		 if (countryCode==null || "".equals(countryCode)){
-		     System.err.println("countrycode is null and city is"+city );
 		        //TODO localized
 		        errorMessage="You must select a country before enter a city";
 		       // addActionError("You must select the country first");
 		        return Action.INPUT;
 		    }
 		Output output = Output.withDefaultFormat().withStyle(OutputStyle.SHORT);
-	      // FulltextQuery fulltextQuery = new FulltextQuery(city,Pagination.DEFAULT_PAGINATION,Output.DEFAULT_OUTPUT,City.class,getCountryCode());
-	      // ambiguousCities = (List<City>)fullTextSearchEngine.executeQueryToDatabaseObjects(fulltextQuery);
-	       ambiguousCities = new ArrayList<City>();
+	       FulltextQuery fulltextQuery = new FulltextQuery(city,Pagination.DEFAULT_PAGINATION,Output.DEFAULT_OUTPUT,City.class,getCountryCode());
+	       ambiguousCities = (List<City>)fullTextSearchEngine.executeQueryToDatabaseObjects(fulltextQuery);
+	      /* ambiguousCities = new ArrayList<City>();
 	       City city1 = new City();
 	       city1.setFeatureId(3L);
 	       city1.setLocation(GeolocHelper.createPoint(1.5F,2.5F));
@@ -121,7 +117,7 @@ public class StreetSearchAction extends ActionSupport {
 	       city2.setName("city2");
 	       ambiguousCities.add(city1);
 	       ambiguousCities.add(city2);
-	       
+	       */
 	       int numberOfPossibleCitiesThatMatches = ambiguousCities.size();
 	       if (numberOfPossibleCitiesThatMatches == 0){
 	           errorMessage="No city con be found for "+city;
@@ -166,7 +162,6 @@ public class StreetSearchAction extends ActionSupport {
 	StringBuffer sb = new StringBuffer("[");
 	int index = 1;
 	for (City city : ambiguousCities){
-	    //featureIdLatLongMap.put(city.getFeatureId(), city.getLatitude()+";"+city.getLongitude());
 	    sb.append("{\"lat\":");
 	    sb.append(city.getLatitude());
 	    sb.append(",");
@@ -204,15 +199,15 @@ public class StreetSearchAction extends ActionSupport {
      * @return the available countries
      */
     public List<Country> getCountries() {
-	List<Country> countries = new ArrayList<Country>();
+	/*List<Country> countries = new ArrayList<Country>();
 	Country country1 = new Country("FR","FRA",33);
 	country1.setName("france");
 	Country country2 = new Country("US","USA",1);
 	country2.setName("etats unis");
 	countries.add(country1);
 	countries.add(country2);
-	return countries;
-	//return countryDao.getAllSortedByName();
+	return countries;*/
+	return countryDao.getAllSortedByName();
     }
 
     
