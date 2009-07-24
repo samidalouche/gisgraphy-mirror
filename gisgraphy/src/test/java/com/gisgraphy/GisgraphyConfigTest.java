@@ -25,9 +25,12 @@
  */
 package com.gisgraphy;
 
+import junit.framework.Assert;
 import junit.framework.TestCase;
 
+import org.easymock.classextension.EasyMock;
 import org.junit.Test;
+import org.slf4j.Logger;
 
 import com.gisgraphy.domain.geoloc.entity.City;
 import com.gisgraphy.domain.valueobject.GisgraphyConfig;
@@ -76,6 +79,57 @@ public class GisgraphyConfigTest extends TestCase {
 	gisgraphyConfig.setDefaultGeolocSearchPlaceType("city");
 	assertNull(GisgraphyConfig.defaultGeolocSearchPlaceTypeClass);
 
+    }
+    
+    @Test
+    public void testEmptyGoogleMapAPIKeyShouldLog(){
+	GisgraphyConfig gisgraphyConfig = new GisgraphyConfig();
+	Logger saveLogger = GisgraphyConfig.logger;
+	try {
+	    Logger logger = EasyMock.createMock(Logger.class);
+	    logger.warn((String) EasyMock.anyObject());
+	    EasyMock.replay(logger);
+	    GisgraphyConfig.logger= logger;
+	    gisgraphyConfig.setGoogleMapAPIKey(" ");
+	    EasyMock.verify(logger);
+	} finally {
+	    GisgraphyConfig.logger = saveLogger;
+	}
+    }
+    
+    @Test
+    public void testNullGoogleMapAPIKeyShouldLog(){
+	GisgraphyConfig gisgraphyConfig = new GisgraphyConfig();
+	Logger saveLogger = GisgraphyConfig.logger;
+	try {
+	    Logger logger = EasyMock.createMock(Logger.class);
+	    logger.warn((String) EasyMock.anyObject());
+	    EasyMock.replay(logger);
+	    GisgraphyConfig.logger= logger;
+	    gisgraphyConfig.setGoogleMapAPIKey(null);
+	    EasyMock.verify(logger);
+	    Assert.assertEquals(null, gisgraphyConfig.getGoogleMapAPIKey());
+	} finally {
+	    GisgraphyConfig.logger = saveLogger;
+	}
+    }
+    
+    @Test
+    public void testSetGoogleMapAPIKeyShouldLog(){
+	GisgraphyConfig gisgraphyConfig = new GisgraphyConfig();
+	Logger saveLogger = GisgraphyConfig.logger;
+	try {
+	    Logger logger = EasyMock.createMock(Logger.class);
+	    logger.info((String) EasyMock.anyObject());
+	    EasyMock.replay(logger);
+	    GisgraphyConfig.logger= logger;
+	    String googleMapAPIKey = "key";
+	    gisgraphyConfig.setGoogleMapAPIKey(googleMapAPIKey);
+	    Assert.assertEquals(googleMapAPIKey, gisgraphyConfig.getGoogleMapAPIKey());
+	    EasyMock.verify(logger);
+	} finally  {
+	    GisgraphyConfig.logger = saveLogger;
+	}
     }
 
 }

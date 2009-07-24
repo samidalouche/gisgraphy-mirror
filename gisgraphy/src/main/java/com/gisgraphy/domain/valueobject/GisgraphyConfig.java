@@ -41,13 +41,16 @@ public class GisgraphyConfig {
     /**
      * The logger
      */
-    public static final Logger logger = LoggerFactory
+    public static  Logger logger = LoggerFactory
 	    .getLogger(GisgraphyConfig.class);
 
     /**
      * 
      */
     public static Class<? extends GisFeature> defaultGeolocSearchPlaceTypeClass = null;
+    
+    
+    private String googleMapAPIKey ;
 
     /**
      * @param defaultGeolocSearchPlaceType
@@ -72,4 +75,26 @@ public class GisgraphyConfig {
 	    GisgraphyConfig.defaultGeolocSearchPlaceTypeClass = null;
 	}
     }
+
+    /**
+     * @return the googleMapAPIKey
+     */
+    public String getGoogleMapAPIKey() {
+        return googleMapAPIKey;
+    }
+
+    /**
+     * @param googleMapAPIKey the googleMapAPIKey to set
+     */
+    public void setGoogleMapAPIKey(String googleMapAPIKey) {
+	if (googleMapAPIKey==null || "".equals(googleMapAPIKey.trim())){
+	    logger.warn("googleMapAPIKey is not set, please set it in env.properties file if you want to use google maps functionnalities");
+	}
+	else {
+	    logger.info("set googleMapAPIKey to "+googleMapAPIKey);
+	}
+        this.googleMapAPIKey = googleMapAPIKey;
+    }
+    
+    
 }

@@ -122,6 +122,14 @@
         <level value="INFO"/>
         <appender-ref ref="RollingFileService"/>
     </logger>
+    
+    
+    <logger name="com.gisgraphy.domain.valueobject.GisgraphyConfig">
+        <level value="INFO"/>
+        <appender-ref ref="RollingFileService"/>
+    </logger>
+    
+    
 
     <!-- logger name="com.gisgraphy.webapp.filter.StaticFilter">
         <level value="INFO"/>
