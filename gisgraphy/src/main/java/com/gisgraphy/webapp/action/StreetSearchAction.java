@@ -41,6 +41,7 @@ import com.gisgraphy.domain.repository.CountryDao;
 import com.gisgraphy.domain.valueobject.FulltextResultsDto;
 import com.gisgraphy.domain.valueobject.Output;
 import com.gisgraphy.domain.valueobject.Pagination;
+import com.gisgraphy.domain.valueobject.Output.OutputStyle;
 import com.gisgraphy.helper.GeolocHelper;
 import com.opensymphony.xwork2.Action;
 import com.opensymphony.xwork2.ActionSupport;
@@ -104,6 +105,7 @@ public class StreetSearchAction extends ActionSupport {
 		       // addActionError("You must select the country first");
 		        return Action.INPUT;
 		    }
+		Output output = Output.withDefaultFormat().withStyle(OutputStyle.SHORT);
 	      // FulltextQuery fulltextQuery = new FulltextQuery(city,Pagination.DEFAULT_PAGINATION,Output.DEFAULT_OUTPUT,City.class,getCountryCode());
 	      // ambiguousCities = (List<City>)fullTextSearchEngine.executeQueryToDatabaseObjects(fulltextQuery);
 	       ambiguousCities = new ArrayList<City>();

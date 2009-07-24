@@ -3,11 +3,11 @@
 <head>
 <title><@s.text name="termsAndConditions"/></title>
 <meta name="Description" content="terms and conditions for Gisgraphy"/>
+<meta name="heading" content="<@s.text name="termsAndConditions"/>"/>
 <meta name="keywords" content="terms conditions license Gisgraphy rights"/>
 </head>
 <body>
 <div>
-<h2 class="header"><@s.text name="termsAndConditions"/></h2>
 <ul>
 <li class="biggertext">
 Gisgraphy is composed of two web sites :

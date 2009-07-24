@@ -2,6 +2,7 @@
 <html>
 <head>
 <title><@s.text name="donate.cancel.title"/></title>
+<meta name="heading" content="Free Geolocalisation Services"/>
 </head>
 <body>
 <br/>

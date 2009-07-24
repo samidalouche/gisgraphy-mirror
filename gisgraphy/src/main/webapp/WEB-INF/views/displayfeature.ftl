@@ -2,6 +2,7 @@
 <head>
 <title>${preferedName}</title>
 <meta name="Description" content="${preferedName}"/>
+<meta name="heading" content="Free Geolocalisation Services"/>
 <meta name="keywords" content="${preferedName} GPS information population elevation"/>
 </head>
 <body>

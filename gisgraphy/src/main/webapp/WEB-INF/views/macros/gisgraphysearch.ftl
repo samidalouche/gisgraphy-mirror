@@ -141,3 +141,74 @@
 		</#if>
 		</div>
 </#macro>
+
+<#macro googleStreetPanorama width heigth googleMapAPIKey CSSClass >
+<script src="http://maps.google.com/maps?file=api&amp;v=2.x&amp;key=${googleMapAPIKey} "
+            type="text/javascript"></script>
+ 			<div name="streetview" id="streetview" style="width: ${width}px; height: ${heigth}px" class="${CSSClass}"></div>
+			<script type="text/javascript">
+		  
+		    var pano;
+		    
+		    function viewStreet(lat, lng) {
+		      var latlong = new GLatLng(lat,lng);
+		      panoramaOptions = { latlng:latlong };
+		      pano = new GStreetviewPanorama(document.getElementById("streetview"), panoramaOptions);
+		      GEvent.addListener(pano, "error", handleNoFlash);
+		    }
+		    
+		    function handleNoFlash(errorCode) {
+		      if (errorCode == FLASH_UNAVAILABLE) {
+			alert("Error: Flash doesn't appear to be supported by your browser");
+			return;
+		      }
+		    }  
+		</script>
+
+</#macro>
+
+
+<#macro citySelector onChangeCityAmbiguous>
+<#if (ambiguousCities?? &&  ambiguousCities.size() > 1 )>
+		<span class="searchfield">
+			<span class="searchfieldlabel"><@s.text name="search.city.ambiguous"/> : </span><@s.select listKey="featureId" listValue="name" name="ambiguouscity" list="ambiguousCities" headerValue="--select a City--" headerKey="" multiple="false" required="true" labelposition="top" theme="simple" onchange="${onChangeCityAmbiguous}();" id="ambiguouscity" /> 
+			
+			<br/>
+		</span>
+		
+		<#else>
+		<span class="searchfield">
+			<span class="searchfieldlabel">city : </span><@s.textfield size="5" name="city" required="false"  theme="simple"/>
+			<br/>
+		</span>
+		</#if>
+
+
+</#macro>
+
+
+<#macro streetNameAutoCompleter>
+<link href="/scripts/autocomplete/styles.css" rel="stylesheet" type="text/css" />
+<script src="/scripts/prototype.js" type="text/javascript"></script>
+<script src="/scripts/autocomplete/autocomplete.js"></script>
+<@s.hidden size="5" name="lat" required="false" id="lat"  theme="simple"/><@s.hidden size="5" name="lng" required="false" id="lng" theme="simple"/>
+<span class="searchfield">
+			<span class="searchfieldlabel"><@s.text name="search.street.streetname"/> : </span><@s.textfield size="40" name="streetname" required="false" id="streetname"  theme="simple"/>
+			<br/>
+</span>
+<script type="text/javascript">
+
+streetNameAutocompleter = new Autocomplete('streetname', { serviceUrl: '/street/streetsearch?format=json"&from=1&to=10"', width: 340, minChars:1, onSelect: 
+function(value, data){
+	streetNameAutocompleter.streetResults.each(
+		function(value, i) {
+			if (value.gid == data){
+				viewStreet(value.lat,value.lng);
+				return false
+			}
+	       }.bind(this));
+      }
+});
+  
+</script>
+</#macro>

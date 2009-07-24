@@ -1,6 +1,7 @@
 <html>
 <head>
 <title><@s.text name="displayfeature.errortitle"/></title>
+<meta name="heading" content="<@s.text name="displayfeature.errortitle"/>"/>
 </head>
 <body>
 <br/>

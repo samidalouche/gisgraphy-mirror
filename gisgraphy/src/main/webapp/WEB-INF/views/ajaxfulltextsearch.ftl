@@ -4,6 +4,7 @@
 <head>
 <title><@s.text name="search.ajaxfulltext.title"/></title>
 <meta name="Description" content="Free fulltext webservices demo for Geonames Data. Results are shown in an human readable way. Pagination, indentation, several languages are supported"/>
+<meta name="heading" content="<@s.text name="search.ajaxfulltext.title"/>"/>
 <meta name="keywords" content="fulltext java geonames ajax webservices lucene solr hibernate toponyms gazeteers"/>
 </head>
 <body>

@@ -1,41 +1,35 @@
 <#import "macros/breadcrumbs.ftl" as breadcrumbs>
+<#import "macros/gisgraphysearch.ftl" as gisgraphysearch>
 <html>
 <head>
 <title><@s.text name="search.street.title"/></title>
 <meta name="Description" content="free webservices for street search for openstreetmap. Pagination, indentation, several languages are supported"/>
+<meta name="heading" content="<@s.text name="search.street.title"/>"/>
 <meta name="keywords" content="street search java openstreetmap webservices postgis hibernate toponyms gazeteers"/>
 <script src="/scripts/prototype.js" type="text/javascript"></script>
-<script src="/scripts/autocomplete/autocomplete.js"></script>
-<link href="/scripts/autocomplete/styles.css" rel="stylesheet" type="text/css" />
-
 </head>
-<body>
+<body onunload="GUnload()">
 <br/>
 <noscript>
 	<div class="tip yellowtip">
-<@s.text name="global.noscript"/>
+		<@s.text name="global.noscript"/>
 	</div>
 	<br/>
 </noscript>
+<br/>
+<div class="clear"></div><div class="biggertext" style="line-height:1.5em;">The street webservice is Free and offer the possibility to search for street name all over the world. The data come from <span class="imgAlign"><a href="http://openstreetmap.org">openstreetMap <img src="/images/openstreetmap.png" alt="openstreetmap" class="imgAlign" style="width:30px"/></a> and are imported into a local database in order to be used by the gisgraphy webService. Here is an example of use of the street webservice</span>. You can find documentation on how to use the webservice <a href="http://www.gisgraphy.com/documentation/index.htm#streetservice">here</a> and see how to download and install gisgraphy : <a href="http://www.gisgraphy.com/documentation/installation/index.htm" alt="install gisgraphy">here</a> </div><br/><br/>
 <div class="clear"></div>
-<h2 class="header"><@s.text name="search.street.title"/></h2>
-<div class="clear"></div>
-<#if errorMessage!= ''>
-${errorMessage}
-</#if>
-<#if message!= ''>
-${message}
-</#if>
-<@s.form action="" id="streetsearch">
+<#if errorMessage!= ''>${errorMessage}</#if>
+<#if message!= ''>${message}</#if>
 <@breadcrumbs.searchNavBar/>
-        <span class="searchfield">
+	<div class="center">
+	<@s.form action="" id="streetsearch">
+         <span class="searchfield">
 			<span class="searchfieldlabel"><@s.text name="global.country"/> : </span><@s.select label="country " listKey="iso3166Alpha2Code" listValue="name" name="countryCode" list="countries" headerValue="--select your country--" headerKey="" multiple="false" required="true" labelposition="top" theme="simple" id="city"/> 
-			<br/>
-		</span>
-		<#if (ambiguousCities?? &&  ambiguousCities.size() > 1 )>
-		<span class="searchfield">
-			<span class="searchfieldlabel"><@s.text name="search.city.ambiguous"/> : </span><@s.select listKey="featureId" listValue="name" name="ambiguouscity" list="ambiguousCities" headerValue="--select a city--" headerKey="" multiple="false" required="true" labelposition="top" theme="simple" onchange="updateLatLng();" id="ambiguouscity" /> 
-			<script type="text/javascript">
+	<br/>
+	</span>
+	<@gisgraphysearch.citySelector  onChangeCityAmbiguous="updateLatLng" />
+		<script type="text/javascript">
 			latlngArray = eval('${latLongJson}')
 			updateLatLng = function(){
 			var indexDropDown = ($('ambiguouscity').selectedIndex);
@@ -47,47 +41,34 @@ ${message}
 				}
 			$('lat').value=48.853
 			$('lng').value=2.349
+//			$('lat').value=50.8
+//			$('lng').value=2.2	
+
 			//$('lat').value = latlngArray[indexDropDown-1].lat;
 			//$('lng').value = latlngArray[indexDropDown-1].lng;
 			$('streetname').enable();
-			streetnameAutocomplete.serviceUrl="/street/streetsearch?format=json&lat="+$('lat').value+"&lng="+$('lng').value+"&from=1&to=10"
+			streetNameAutocompleter.serviceUrl="/street/streetsearch?format=json&lat="+$('lat').value+"&lng="+$('lng').value+"&from=1&to=10"
                         }
 			</script>
-			<br/>
-		</span>
-		
-		<#else>
-		<span class="searchfield">
-			<span class="searchfieldlabel">city : </span><@s.textfield size="5" name="city" required="false"  theme="simple"/>
-			<br/>
-		</span>
-		</#if>
 		<div class="clear"></div>
-		<@s.hidden size="5" name="lat" required="false" id="lat"  theme="simple"/><@s.hidden size="5" name="lng" required="false" id="lng" theme="simple"/>
-			<br/>
+		<br/>
 		</span>
-<div class="clear"></div>
-		<span class="searchfield">
-			<span class="searchfieldlabel"><@s.text name="search.street.streetname"/> : </span><@s.textfield size="40" name="streetname" required="false" id="streetname"  theme="simple"/>
-			<br/>
-<script type="text/javascript">
-
- streetnameAutocomplete = new Autocomplete('streetname', { serviceUrl: '/street/streetsearch?format=json"&from=1&to=10"', width: 340, minChars:4, onSelect: function(value, data){
-        alert('You selected: ' + value + ', ' + data);
-      }
-
-});
-  
-</script>
-
-		</span>
-
+                <div class="clear"></div>
+		<@gisgraphysearch.streetNameAutoCompleter/>
 <@s.submit title="Search" value="Search" theme="simple"/>
+</div>
 </@s.form>
 <div>
 <div class="clear"></div>
-<div class="biggertext">The street search will offer the possibility to search for street name all over the world. It is currently in developpement in the <a href="http://www.gisgraphy.com">Gisgraphy Project</a> it should be available in the second quarter of 2009</div>
+<br/><br/>
+<div class="clear"></div>
+<@gisgraphysearch.googleStreetPanorama width="500" heigth="300" 
+	googleMapAPIKey="ABQIAAAAC0kUg2SfDYBO-AEagcTgvhQ5aXWj7Kef4ih_G0qG0UGxHdxLpxQ2J8a7sGMwTJIN1g7C45waZ5ybiQ" CSSClass="center" />
+
+<br/><br/>
+
 <br/><br/><br/>
+
 </div>
 
 </body>

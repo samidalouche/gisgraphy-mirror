@@ -17,6 +17,8 @@ var Autocomplete = function(el, options){
   this.suggestions = [];
   this.data = [];
   this.badQueries = [];
+  /* Gisgraphy modification*/
+  this.streetResults= []
   this.selectedIndex = -1;
   this.currentValue = this.el.value;
   this.intervalId = 0;
@@ -228,7 +230,8 @@ Autocomplete.prototype = {
       if (!Object.isArray(response.data)) { response.data = []; }
     } catch (err) { return; }
    /*Gisgraphy modification*/
-    //this.suggestions = response.result;
+   
+    this.streetResults = response.result;
     var suggestionNames= [] ;
     response.result.each(function(value, i) {
 	suggestionNames.push(value.name);
