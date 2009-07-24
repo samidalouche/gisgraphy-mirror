@@ -960,6 +960,16 @@ public class GisFeature {
 
 	return completeCityName.toString();
     }
+    
+    /**
+     * @return a name with the Administrative division (but without Country)
+     * wrap {@link #getFullyQualifiedName(boolean)}
+     * @see #getFullyQualifiedName(boolean)
+     */
+    @Transient
+    public String getFullyQualifiedName() {
+	return getFullyQualifiedName(false);
+    }
 
     /*
      * (non-Javadoc)
