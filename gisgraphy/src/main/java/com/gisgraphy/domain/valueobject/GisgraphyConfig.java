@@ -50,7 +50,7 @@ public class GisgraphyConfig {
     public static Class<? extends GisFeature> defaultGeolocSearchPlaceTypeClass = null;
     
     
-    private String googleMapAPIKey ;
+    public static  String googleMapAPIKey ;
 
     /**
      * @param defaultGeolocSearchPlaceType
@@ -76,12 +76,7 @@ public class GisgraphyConfig {
 	}
     }
 
-    /**
-     * @return the googleMapAPIKey
-     */
-    public String getGoogleMapAPIKey() {
-        return googleMapAPIKey;
-    }
+
 
     /**
      * @param googleMapAPIKey the googleMapAPIKey to set

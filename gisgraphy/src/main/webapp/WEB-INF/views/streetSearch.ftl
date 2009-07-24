@@ -63,7 +63,7 @@
 <br/><br/>
 <div class="clear"></div>
 <@gisgraphysearch.googleStreetPanorama width="500" heigth="300" 
-	googleMapAPIKey="ABQIAAAAC0kUg2SfDYBO-AEagcTgvhQ5aXWj7Kef4ih_G0qG0UGxHdxLpxQ2J8a7sGMwTJIN1g7C45waZ5ybiQ" CSSClass="center" />
+	googleMapAPIKey=googleMapAPIKey CSSClass="center" />
 
 <br/><br/>
 

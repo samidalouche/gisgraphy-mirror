@@ -108,7 +108,7 @@ public class GisgraphyConfigTest extends TestCase {
 	    GisgraphyConfig.logger= logger;
 	    gisgraphyConfig.setGoogleMapAPIKey(null);
 	    EasyMock.verify(logger);
-	    Assert.assertEquals(null, gisgraphyConfig.getGoogleMapAPIKey());
+	    Assert.assertEquals(null, GisgraphyConfig.googleMapAPIKey);
 	} finally {
 	    GisgraphyConfig.logger = saveLogger;
 	}
@@ -125,7 +125,7 @@ public class GisgraphyConfigTest extends TestCase {
 	    GisgraphyConfig.logger= logger;
 	    String googleMapAPIKey = "key";
 	    gisgraphyConfig.setGoogleMapAPIKey(googleMapAPIKey);
-	    Assert.assertEquals(googleMapAPIKey, gisgraphyConfig.getGoogleMapAPIKey());
+	    Assert.assertEquals(googleMapAPIKey,GisgraphyConfig.googleMapAPIKey);
 	    EasyMock.verify(logger);
 	} finally  {
 	    GisgraphyConfig.logger = saveLogger;

@@ -39,6 +39,7 @@ import com.gisgraphy.domain.geoloc.service.fulltextsearch.FulltextQuery;
 import com.gisgraphy.domain.geoloc.service.fulltextsearch.IFullTextSearchEngine;
 import com.gisgraphy.domain.repository.CountryDao;
 import com.gisgraphy.domain.valueobject.FulltextResultsDto;
+import com.gisgraphy.domain.valueobject.GisgraphyConfig;
 import com.gisgraphy.domain.valueobject.Output;
 import com.gisgraphy.domain.valueobject.Pagination;
 import com.gisgraphy.domain.valueobject.Output.OutputStyle;
@@ -84,9 +85,9 @@ public class StreetSearchAction extends ActionSupport {
     private String message = "";
     
     private String errorMessage = "";
-
-
+    
     private CountryDao countryDao;
+    
     private String countryCode;
 
 
@@ -313,6 +314,13 @@ public class StreetSearchAction extends ActionSupport {
      */
     public void setLat(String lat) {
         this.lat = lat;
+    }
+    
+    /**
+     * @return the googleMapAPIKey
+     */
+    public String getGoogleMapAPIKey() {
+        return GisgraphyConfig.googleMapAPIKey == null ? "" : GisgraphyConfig.googleMapAPIKey;
     }
 
 }
