@@ -171,7 +171,7 @@
 <#macro citySelector onChangeCityAmbiguous>
 <#if (ambiguousCities?? &&  ambiguousCities.size() > 1 )>
 		<span class="searchfield">
-			<span class="searchfieldlabel"><@s.text name="search.city.ambiguous"/> : </span><@s.select listKey="featureId" listValue="name" name="ambiguouscity" list="ambiguousCities" headerValue="--select a City--" headerKey="" multiple="false" required="true" labelposition="top" theme="simple" onchange="${onChangeCityAmbiguous}();" id="ambiguouscity" /> 
+			<span class="searchfieldlabel"><@s.text name="search.city.ambiguous"/> : </span><@s.select listKey="featureId" listValue="FullyQualifiedName" name="ambiguouscity" list="ambiguousCities" headerValue="--select a City--" headerKey="" multiple="false" required="true" labelposition="top" theme="simple" onchange="${onChangeCityAmbiguous}();" id="ambiguouscity" /> 
 			
 			<br/>
 		</span>
@@ -179,6 +179,11 @@
 		<#else>
 		<span class="searchfield">
 			<span class="searchfieldlabel">city : </span><@s.textfield size="5" name="city" required="false"  theme="simple"/>
+			<script type="text/javascript">
+			if ($('city') != ''){
+				${onChangeCityAmbiguous}();
+			}
+			</script>
 			<br/>
 		</span>
 		</#if>

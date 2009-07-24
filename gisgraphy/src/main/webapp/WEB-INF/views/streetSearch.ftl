@@ -39,13 +39,9 @@
 					$('streetname').disable();
 					return
 				}
-			$('lat').value=48.853
-			$('lng').value=2.349
-//			$('lat').value=50.8
-//			$('lng').value=2.2	
 
-			//$('lat').value = latlngArray[indexDropDown-1].lat;
-			//$('lng').value = latlngArray[indexDropDown-1].lng;
+			$('lat').value = latlngArray[indexDropDown-1].lat;
+			$('lng').value = latlngArray[indexDropDown-1].lng;
 			$('streetname').enable();
 			streetNameAutocompleter.serviceUrl="/street/streetsearch?format=json&lat="+$('lat').value+"&lng="+$('lng').value+"&from=1&to=10"
                         }
