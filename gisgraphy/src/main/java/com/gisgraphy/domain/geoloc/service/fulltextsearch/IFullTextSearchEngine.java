@@ -39,7 +39,8 @@ import com.gisgraphy.domain.valueobject.FulltextResultsDto;
 public interface IFullTextSearchEngine extends IQueryProcessor<FulltextQuery> {
 
     /**
-     * Execute the query and returns the Java Objects
+     * Execute the query and returns the Java Objects.
+     * The results are nor sorted by relevance
      * 
      * @param query
      *                The FulltextQuery to execute
