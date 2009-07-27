@@ -180,7 +180,7 @@
 		<span class="searchfield">
 			<span class="searchfieldlabel">city : </span><@s.textfield size="5" name="city" required="false"  theme="simple"/>
 			<script type="text/javascript">
-			if ($('city') != ''){
+			if ($('city').value != ''){
 				${onChangeCityAmbiguous}();
 			}
 			</script>
@@ -203,7 +203,7 @@
 </span>
 <script type="text/javascript">
 
-streetNameAutocompleter = new Autocomplete('streetname', { serviceUrl: '/street/streetsearch?format=json"&from=1&to=10"', width: 340, minChars:1, onSelect: 
+streetNameAutocompleter = new Autocomplete('streetname', { serviceUrl: '/street/streetsearch?format=json"&from=1&to=10"', width: 340, deferRequestBy:400, minChars:1, onSelect: 
 function(value, data){
 	streetNameAutocompleter.streetResults.each(
 		function(value, i) {
