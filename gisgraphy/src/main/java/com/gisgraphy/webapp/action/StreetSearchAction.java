@@ -143,6 +143,7 @@ public class StreetSearchAction extends ActionSupport {
 	    }
 	    else if (ambiguouscity != null) {
 		   message = "city found "+ambiguouscity;
+		   //todo osm bug should use name instead
 		   city=ambiguouscity;
 		   
 		
