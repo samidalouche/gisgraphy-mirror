@@ -1,1 +1,1 @@
- java -Dfile.encoding=UTF-8 -Xmx512m -Xms256m -jar start.jar
+java -Dfile.encoding=UTF-8 -Xmx1024m -Xms512m -jar start.jar
