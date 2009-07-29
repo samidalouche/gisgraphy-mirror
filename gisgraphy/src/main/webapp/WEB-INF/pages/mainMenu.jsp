@@ -21,12 +21,14 @@ com.gisgraphy.domain.geoloc.service.fulltextsearch.FullTextSearchEngine fulltext
 <div class="tip greentip"> <fmt:message key="import.fulltextEngineReachable"/> ! </div>
 <%  }%>
 <br/>
+<% if (com.gisgraphy.domain.valueobject.GisgraphyConfig.googleMapAPIKey == null || "".equals(com.gisgraphy.domain.valueobject.GisgraphyConfig.googleMapAPIKey.trim())) { %>
+   <div class="tip yellowtip"> <fmt:message key="config.googlemapapikey.empty" /></div>
+<% } %>
 <ul class="glassList">
     <li>
-        <a href="<c:url value='/editProfile.html'/>"><fmt:message key="menu.user"/></a>
+        <a href="<c:url value='/admin/importconfirm.html'/>"><fmt:message key="menu.admin.import"/></a>
     </li>
-    <li>
-        <a href="<c:url value='/uploadFile.html' />"><fmt:message key="menu.selectFile"/></a>
+  <li>
+        <fmt:message key="global.gohome"/>
     </li>
-
 </ul>

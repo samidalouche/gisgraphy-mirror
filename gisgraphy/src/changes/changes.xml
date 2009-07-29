@@ -13,8 +13,12 @@
 			</action>
 		</release>
 
-		<release version="1.01" date="2008-09-02"
+		<release version="2.0" date="2008-09-02"
 			description="second release">
+			<action dev="David Masclet" type="update">
+				Add the ability to import openstreetmap database and use them in a web services
+			</action>
+			
 			<action dev="David Masclet" type="add">
 				Python client
 			</action>
@@ -160,6 +164,12 @@
 				AlternateNameSource is @Enumerated(EnumType.STRING) in AlternateName 
 				so, it is character varying(255) in the database
 			</action>
+			
+			<action dev="David Masclet" type="update">
+				Add the ability to specify a google map api key
+			</action>
+			
+			
 			
 			AlternateNameSource
 			

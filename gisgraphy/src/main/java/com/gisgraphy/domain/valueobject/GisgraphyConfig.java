@@ -83,12 +83,12 @@ public class GisgraphyConfig {
      */
     public void setGoogleMapAPIKey(String googleMapAPIKey) {
 	if (googleMapAPIKey==null || "".equals(googleMapAPIKey.trim())){
-	    logger.warn("googleMapAPIKey is not set, please set it in env.properties file if you want to use google maps functionnalities");
+	    logger.warn("googleMapAPIKey is not set, please set it in env.properties file if you want to use google maps functionnalities, please set it and re-launch Gisgraphy");
 	}
 	else {
 	    logger.info("set googleMapAPIKey to "+googleMapAPIKey);
 	}
-        this.googleMapAPIKey = googleMapAPIKey;
+        GisgraphyConfig.googleMapAPIKey = googleMapAPIKey;
     }
     
     
