@@ -21,9 +21,9 @@
 <div class="clear"></div>
 <#if errorMessage!= ''>${errorMessage}</#if>
 <#if message!= ''>${message}</#if>
-<@breadcrumbs.searchNavBar/>
 	<div class="center">
 	<@s.form action="" id="streetsearch">
+		 <@breadcrumbs.searchNavBar/>
          <span class="searchfield">
 			<span class="searchfieldlabel"><@s.text name="global.country"/> : </span><@s.select label="country " listKey="iso3166Alpha2Code" listValue="name" name="countryCode" list="countries" headerValue="--select your country--" headerKey="" multiple="false" required="true" labelposition="top" theme="simple" id="city"/> 
 	<br/>

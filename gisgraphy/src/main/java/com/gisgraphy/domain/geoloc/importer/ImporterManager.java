@@ -49,7 +49,7 @@ import com.gisgraphy.domain.valueobject.NameValueDTO;
  */
 public class ImporterManager implements IImporterManager {
 
-    private List<IGeonamesProcessor> importers = null;
+    private List<IImporterProcessor> importers = null;
 
     private ImporterConfig importerConfig;
 
@@ -94,7 +94,7 @@ public class ImporterManager implements IImporterManager {
 	importerStatusListDao.delete();
 	try {
 	    this.inProgress = true;
-	    for (IGeonamesProcessor importer : importers) {
+	    for (IImporterProcessor importer : importers) {
 		logger.info("will now process "
 			+ importer.getClass().getSimpleName());
 		importer.process();
@@ -133,7 +133,7 @@ public class ImporterManager implements IImporterManager {
 
     private List<ImporterStatusDto> ComputeStatusDtoList() {
 	List<ImporterStatusDto> list = new ArrayList<ImporterStatusDto>();
-	for (IGeonamesProcessor processor : importers) {
+	for (IImporterProcessor processor : importers) {
 	    list.add(new ImporterStatusDto(processor));
 	}
 	return list;
@@ -144,7 +144,7 @@ public class ImporterManager implements IImporterManager {
      * 
      * @see com.gisgraphy.domain.geoloc.importer.IImporterManager#getImporters()
      */
-    public List<IGeonamesProcessor> getImporters() {
+    public List<IImporterProcessor> getImporters() {
 	return importers;
     }
 
@@ -209,10 +209,10 @@ public class ImporterManager implements IImporterManager {
     public List<NameValueDTO<Integer>> resetImport() {
 	List<NameValueDTO<Integer>> deletedObjectInfo = new ArrayList<NameValueDTO<Integer>>();
 
-	List<IGeonamesProcessor> reverseImporters = importers;
+	List<IImporterProcessor> reverseImporters = importers;
 	Collections.reverse(reverseImporters);
 	setCommitFlushModeForAllDaos();
-	for (IGeonamesProcessor importer : reverseImporters) {
+	for (IImporterProcessor importer : reverseImporters) {
 	    logger.info("will reset " + importer.getClass().getSimpleName());
 	    rollbackInTransaction(deletedObjectInfo, importer);
 	}
@@ -230,7 +230,7 @@ public class ImporterManager implements IImporterManager {
     @Transactional(propagation = Propagation.REQUIRES_NEW)
     private void rollbackInTransaction(
 	    List<NameValueDTO<Integer>> deletedObjectInfo,
-	    IGeonamesProcessor importer) {
+	    IImporterProcessor importer) {
 	deletedObjectInfo.addAll(importer.rollback());
     }
 
@@ -273,7 +273,7 @@ public class ImporterManager implements IImporterManager {
      *                The importers to process
      */
     @Required
-    public void setImporters(List<IGeonamesProcessor> importers) {
+    public void setImporters(List<IImporterProcessor> importers) {
 	this.importers = importers;
     }
 

@@ -32,7 +32,7 @@ import com.gisgraphy.domain.valueobject.NameValueDTO;
  * 
  * @author <a href="mailto:david.masclet@gisgraphy.com">David Masclet</a>
  */
-public interface IGeonamesProcessor {
+public interface IImporterProcessor {
 
     /**
      * Do the stuff...

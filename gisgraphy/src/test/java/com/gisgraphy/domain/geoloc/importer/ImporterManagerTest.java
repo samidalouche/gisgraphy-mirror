@@ -93,25 +93,25 @@ public class ImporterManagerTest extends AbstractIntegrationHttpSolrTestCase {
 
     private static final String ADM2_FILENAME_WITH_BAD_FORMAT_GISFEATUREID = "admin2CodesWithBadFormatGisFeatureID.txt";
 
-    private IGeonamesProcessor geonamesFileRetriever;
+    private IImporterProcessor geonamesFileRetriever;
 
-    private IGeonamesProcessor admExtracter;
+    private IImporterProcessor admExtracter;
 
-    private IGeonamesProcessor geonamesAdm1Importer;
+    private IImporterProcessor geonamesAdm1Importer;
 
-    private IGeonamesProcessor geonamesAdm2Importer;
+    private IImporterProcessor geonamesAdm2Importer;
 
-    private IGeonamesProcessor geonamesAdm3Importer;
+    private IImporterProcessor geonamesAdm3Importer;
 
-    private IGeonamesProcessor geonamesAdm4Importer;
+    private IImporterProcessor geonamesAdm4Importer;
 
-    private IGeonamesProcessor geonamesFeatureImporter;
+    private IImporterProcessor geonamesFeatureImporter;
 
-    private IGeonamesProcessor geonamesLanguageImporter;
+    private IImporterProcessor geonamesLanguageImporter;
 
-    private IGeonamesProcessor geonamesCountryImporter;
+    private IImporterProcessor geonamesCountryImporter;
 
-    private IGeonamesProcessor geonamesAlternateNamesImporter;
+    private IImporterProcessor geonamesAlternateNamesImporter;
 
     private ImporterConfig importerConfig;
 
@@ -169,8 +169,8 @@ public class ImporterManagerTest extends AbstractIntegrationHttpSolrTestCase {
 
 	ImporterConfig mockImporterConfig = EasyMock
 		.createMock(ImporterConfig.class);
-	IGeonamesProcessor processor1 = EasyMock
-		.createMock(IGeonamesProcessor.class);
+	IImporterProcessor processor1 = EasyMock
+		.createMock(IImporterProcessor.class);
 	ISolRSynchroniser mockSolRSynchroniser = EasyMock
 		.createMock(ISolRSynchroniser.class);
 	mockSolRSynchroniser.deleteAll();
@@ -188,7 +188,7 @@ public class ImporterManagerTest extends AbstractIntegrationHttpSolrTestCase {
 	EasyMock.expect(processor1.getReadFileLine()).andReturn(1);
 	EasyMock.expect(processor1.getNumberOfLinesToProcess()).andReturn(5);
 	EasyMock.replay(processor1);
-	List<IGeonamesProcessor> processors = new ArrayList<IGeonamesProcessor>();
+	List<IImporterProcessor> processors = new ArrayList<IImporterProcessor>();
 	processors.add(processor1);
 	fakeimporterManager.setImporterStatusListDao(fakeimporterStatusListDao);
 	fakeimporterManager.setImporters(processors);
@@ -2249,45 +2249,45 @@ public class ImporterManagerTest extends AbstractIntegrationHttpSolrTestCase {
     }
 
     @Required
-    public void setGeonamesAdm1Importer(IGeonamesProcessor geonamesAdm1Importer) {
+    public void setGeonamesAdm1Importer(IImporterProcessor geonamesAdm1Importer) {
 	this.geonamesAdm1Importer = geonamesAdm1Importer;
     }
 
     @Required
-    public void setGeonamesAdm2Importer(IGeonamesProcessor geonamesAdm2Importer) {
+    public void setGeonamesAdm2Importer(IImporterProcessor geonamesAdm2Importer) {
 	this.geonamesAdm2Importer = geonamesAdm2Importer;
     }
 
     @Required
-    public void setAdmExtracter(IGeonamesProcessor admExtracter) {
+    public void setAdmExtracter(IImporterProcessor admExtracter) {
 	this.admExtracter = admExtracter;
     }
 
     @Required
-    public void setGeonamesAdm3Importer(IGeonamesProcessor geonamesAdm3Importer) {
+    public void setGeonamesAdm3Importer(IImporterProcessor geonamesAdm3Importer) {
 	this.geonamesAdm3Importer = geonamesAdm3Importer;
     }
 
     @Required
-    public void setGeonamesAdm4Importer(IGeonamesProcessor geonamesAdm4Importer) {
+    public void setGeonamesAdm4Importer(IImporterProcessor geonamesAdm4Importer) {
 	this.geonamesAdm4Importer = geonamesAdm4Importer;
     }
 
     @Required
     public void setGeonamesCountryImporter(
-	    IGeonamesProcessor geonamesCountryImporter) {
+	    IImporterProcessor geonamesCountryImporter) {
 	this.geonamesCountryImporter = geonamesCountryImporter;
     }
 
     @Required
     public void setGeonamesFeatureImporter(
-	    IGeonamesProcessor geonamesFeatureImporter) {
+	    IImporterProcessor geonamesFeatureImporter) {
 	this.geonamesFeatureImporter = geonamesFeatureImporter;
     }
 
     @Required
     public void setGeonamesLanguageImporter(
-	    IGeonamesProcessor geonamesLanguageImporter) {
+	    IImporterProcessor geonamesLanguageImporter) {
 	this.geonamesLanguageImporter = geonamesLanguageImporter;
     }
 
@@ -2297,7 +2297,7 @@ public class ImporterManagerTest extends AbstractIntegrationHttpSolrTestCase {
      */
     @Required
     public void setGeonamesAlternateNamesImporter(
-	    IGeonamesProcessor geonamesAlternateNamesImporter) {
+	    IImporterProcessor geonamesAlternateNamesImporter) {
 	this.geonamesAlternateNamesImporter = geonamesAlternateNamesImporter;
     }
 
@@ -2316,7 +2316,7 @@ public class ImporterManagerTest extends AbstractIntegrationHttpSolrTestCase {
      */
     @Required
     public void setGeonamesFileRetriever(
-	    IGeonamesProcessor geonamesFileRetriever) {
+	    IImporterProcessor geonamesFileRetriever) {
 	this.geonamesFileRetriever = geonamesFileRetriever;
     }
 

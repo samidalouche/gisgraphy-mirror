@@ -25,7 +25,7 @@
  */
 package com.gisgraphy.domain.valueobject;
 
-import com.gisgraphy.domain.geoloc.importer.IGeonamesProcessor;
+import com.gisgraphy.domain.geoloc.importer.IImporterProcessor;
 
 /**
  * Represents a status of an IgeonamesProcessor
@@ -94,7 +94,7 @@ public class ImporterStatusDto {
     }
 
 
-    public ImporterStatusDto(IGeonamesProcessor processor) {
+    public ImporterStatusDto(IImporterProcessor processor) {
 	this.processorName = processor.getClass().getSimpleName();
 	setCurrentFileName(processor.getCurrentFileName());
 

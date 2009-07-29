@@ -53,7 +53,7 @@ import com.gisgraphy.domain.valueobject.ImporterStatus;
  * 
  * @author <a href="mailto:david.masclet@gisgraphy.com">David Masclet</a>
  */
-public abstract class AbstractGeonamesProcessor implements IGeonamesProcessor {
+public abstract class AbstractGeonamesProcessor implements IImporterProcessor {
     protected int totalReadLine = 0;
     protected int readFileLine = 0;
     protected String statusMessage = "";
@@ -61,7 +61,7 @@ public abstract class AbstractGeonamesProcessor implements IGeonamesProcessor {
     protected ImporterStatus status = ImporterStatus.UNPROCESSED;
 
     /**
-     * @see IGeonamesProcessor#getNumberOfLinesToProcess()
+     * @see IImporterProcessor#getNumberOfLinesToProcess()
      */
     int numberOfLinesToProcess = 0;
 

@@ -10,7 +10,7 @@ import com.gisgraphy.domain.geoloc.service.fulltextsearch.AbstractIntegrationHtt
 
 public class OpenStreetMapImporterTest extends AbstractIntegrationHttpSolrTestCase {
     
-    private IGeonamesProcessor openStreetMapImporter;
+    private IImporterProcessor openStreetMapImporter;
     
     public void testImporterShouldImport(){
 	openStreetMapImporter.process();
@@ -33,7 +33,7 @@ public class OpenStreetMapImporterTest extends AbstractIntegrationHttpSolrTestCa
 		
     }
     
-    public void setOpenStreetMapImporter(IGeonamesProcessor openStreetMapImporter) {
+    public void setOpenStreetMapImporter(IImporterProcessor openStreetMapImporter) {
         this.openStreetMapImporter = openStreetMapImporter;
     }
 

@@ -44,7 +44,7 @@ public interface IImporterManager {
     /**
      * @return the importers
      */
-    public List<IGeonamesProcessor> getImporters();
+    public List<IImporterProcessor> getImporters();
 
     /**
      * @return Wether an import is in Progress

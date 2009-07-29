@@ -28,7 +28,7 @@ import org.easymock.classextension.EasyMock;
 import org.junit.Test;
 
 import com.gisgraphy.domain.geoloc.importer.GeonamesFeatureImporter;
-import com.gisgraphy.domain.geoloc.importer.IGeonamesProcessor;
+import com.gisgraphy.domain.geoloc.importer.IImporterProcessor;
 
 public class ImporterStatusDtoTest extends TestCase {
 
@@ -105,7 +105,7 @@ public class ImporterStatusDtoTest extends TestCase {
 
     @Test
     public void testConstructorFromImporter() {
-	IGeonamesProcessor processor = EasyMock
+	IImporterProcessor processor = EasyMock
 		.createMock(GeonamesFeatureImporter.class);
 	EasyMock.expect(processor.getCurrentFileName()).andReturn(
 		CURRENT_FILE_NAME);
@@ -130,7 +130,7 @@ public class ImporterStatusDtoTest extends TestCase {
 	assertEquals(ImporterStatus.PROCESSING, importerStatusDto.getStatus());
 	assertEquals(30, importerStatusDto.getPercent());
 
-	IGeonamesProcessor processor2 = EasyMock
+	IImporterProcessor processor2 = EasyMock
 		.createMock(GeonamesFeatureImporter.class);
 	EasyMock.expect(processor2.getCurrentFileName()).andReturn(null);
 	EasyMock.expect(processor2.getNumberOfLinesToProcess()).andReturn(

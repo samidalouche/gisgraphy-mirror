@@ -42,7 +42,7 @@ import com.gisgraphy.domain.valueobject.NameValueDTO;
  * 
  * @author <a href="mailto:david.masclet@gisgraphy.com">David Masclet</a>
  */
-public abstract class AbstractFileRetriever implements IGeonamesProcessor {
+public abstract class AbstractFileRetriever implements IImporterProcessor {
 
     protected ImporterConfig importerConfig;
 
