@@ -48,6 +48,7 @@ import com.gisgraphy.hibernate.criterion.ResultTransformerUtil;
 import com.gisgraphy.hibernate.projection.ProjectionBean;
 import com.gisgraphy.hibernate.projection.SpatialProjection;
 import com.vividsolutions.jts.geom.Point;
+import com.vividsolutions.jts.geom.Polygon;
 
 /**
  * A data access object for {@link Street} Object
@@ -101,9 +102,10 @@ public class OpenStreetMapDao extends GenericDao<OpenStreetMap, Long> implements
 			    criteria = criteria.setFirstResult(firstResult - 1);
 			}
 			
+			Polygon polygonBox = GeolocHelper.createPolygonBox(point.getX(), point.getY(), distance);
 			criteria = criteria.add(SpatialRestrictions.
-				intersects(OpenStreetMap.SHAPE_COLUMN_NAME, null, 
-					GeolocHelper.createPolygonBox(point.getX(), point.getY(), distance)));
+				intersects(OpenStreetMap.SHAPE_COLUMN_NAME, polygonBox, 
+					polygonBox));
 			if (name != null) {
 			    criteria = criteria.add(Restrictions.ilike("name", "%"+name+"%"));
 			}
