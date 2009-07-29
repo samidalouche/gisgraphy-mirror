@@ -84,7 +84,7 @@ public class OpenStreetMapDaoTest extends AbstractIntegrationHttpSolrTestCase{
 	assertEquals(streetOSM2.getGid(),nearestStreet.get(0).getGid());
 	
 	nearestStreet = openStreetMapDao.getNearestAndDistanceFrom(searchPoint, 10000, 1, 1, null, null,"keN");
-	assertEquals("only the beginning of the street name should match",0,nearestStreet.size());
+	assertEquals("the street name should match if a part of the name is given",1,nearestStreet.size());
 	
 	//test OneWay
 	assertEquals(0,openStreetMapDao.getNearestAndDistanceFrom(searchPoint, 10000, 1, 1, null,true, null).size());

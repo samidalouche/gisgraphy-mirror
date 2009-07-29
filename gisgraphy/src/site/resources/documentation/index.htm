@@ -748,7 +748,7 @@ you can
 </ul>
 </li>
 <br/>
-<a name="nameprefixstreet"></a>
+<a name="namestreet"></a>
 <li>The begining of the name of the street (optional) : limit the search to the street that starts with the specified name. You must put the name and the type. example : 'Boulevard Paul'.the search is case insensitive. default : search for all street</li>
 <br/>
 
@@ -814,7 +814,7 @@ Here is a summary of the Web parameters mapping : <br/>
 <th>Parameter name</th><th>Web parameter name</th>
 <tr><td>Latitude</td><td>lat</td></tr>
 <tr><td>Longitude<td>lng</td></tr>
-<tr><td>Beginning of the name of the street</td><td>nameprefix</td></tr>
+<tr><td>Part of the name of the street</td><td>name</td></tr>
 <tr><td>one way street</td><td>oneway</td></tr>
 <tr><td>Type of the street</td><td>streettype</td></tr>
 <tr><td>Radius</td><td>radius</td></tr>
@@ -885,7 +885,7 @@ Here is a description of all the output fields,  :<br/>
 <tr><td><span color="red">error</span></td><td>A String only present if an error occured (e.g : empty Latitude or longitude)</td><td>When error occured</td></tr>
 <tr><td>numFound</td><td>The number of results display with this query (it takes the pagination into account)</td><td></td></tr>
 <tr><td>QTime</td><td>The execution time of the query in ms</td><td></td></tr>
-<tr><td>Query</td><td>The name of the street that has been search (aka : nameprefix)</td><td></td></tr>
+<tr><td>Query</td><td>The name of the street that has been search (aka : name)</td><td></td></tr>
 <tr><td>distance</td><td>The distance beetween the point and the middle point of the street (half distance) in meters</td><td></td></tr>
 <tr><td>Name</td><td>The name of the feature</td><td></td></tr>
 <tr><td>gid</td><td>Unique id of the street</td><td></td></tr>
@@ -901,7 +901,7 @@ Here is a description of all the output fields,  :<br/>
 Some fields were not available in older version of gisgraphy. please see <a href="http://www.gisgraphy.com/documentation/oldversions/">old versions</a>
 </div>
 
-<a name="geolocservicejavaapi"></a>
+<a name="streetservicejavaapi"></a>
 <div align="right"><a href="#top">[top]</a></div>
 <h3>Java API</h3>
 
@@ -912,7 +912,7 @@ The geoloc API looks like this
 			Pagination pagination = paginate().from(<a href="#startindexstreet">STARTINDEX</a>).to(<a href="#endindexstreet">ENDINDEX</a>);
 			Output output = Output.withFormat(<a href="#outputformatstreet">OUTPUTFORMAT</a>)
 								  .<a href="#indentstreet">WithIndentation</a>();
-			StreetSearchQuery query = new StreetSearchQuery(point,<a href="#radiusgeoloc">RADIUS</a>,pagination,output,<a href="#streettype">STREETTYPE</a>,<a href="#onewaystreet">ONEWAY</a>,<a href="#nameprefixstreet">NAMEPREFIX</a>);
+			StreetSearchQuery query = new StreetSearchQuery(point,<a href="#radiusgeoloc">RADIUS</a>,pagination,output,<a href="#streettype">STREETTYPE</a>,<a href="#onewaystreet">ONEWAY</a>,<a href="#namestreet">NAME</a>);
 			String results = streetSearchEngine.executeQueryToString(query);
 </pre>
 </div>

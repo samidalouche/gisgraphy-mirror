@@ -38,11 +38,11 @@ import com.vividsolutions.jts.geom.Point;
  */
 public class StreetSearchQuery extends GeolocQuery {
     
-    public final static int NAME_PREFIX_MAX_LENGTH = 200;
+    public final static int NAME_MAX_LENGTH = 200;
 
     private StreetType streetType = null;
     
-    private String namePrefix = null;
+    private String name = null;
 
     private Boolean oneWay= null;
     
@@ -63,8 +63,8 @@ public class StreetSearchQuery extends GeolocQuery {
 	else if ("false".equalsIgnoreCase(oneWayParameter)){
 	    withOneWay(Boolean.FALSE);
 	}
-	//namePrefix
-	withNamePrefix(req.getParameter(StreetServlet.NAME_PREFIX_PARAMETER));
+	//name
+	withName(req.getParameter(StreetServlet.NAME_PARAMETER));
 
     }
 
@@ -83,14 +83,15 @@ public class StreetSearchQuery extends GeolocQuery {
      *                the type of street to search , if null : search for all street
      *                type.
      * @param oneWay the oneWay type criteria of the street
+     * @param name the name the street must contains
      * @throws An
      *                 {@link IllegalArgumentException} if the point is null
      */
     public StreetSearchQuery(Point point, double radius, Pagination pagination,
-	    Output output, StreetType streetType,Boolean oneWay,String namePrefix) {
+	    Output output, StreetType streetType,Boolean oneWay,String name) {
 	super(point, radius, pagination, output, null);
 	withStreetType(streetType).
-	withNamePrefix(namePrefix).withOneWay(oneWay);
+	withName(name).withOneWay(oneWay);
     }
 
     /**
@@ -139,30 +140,29 @@ public class StreetSearchQuery extends GeolocQuery {
     }
     
     /**
-     * @return the string that the street must starts with (aka : 'name%'). 
+     * @return the string the street must contains (aka : '%name%'). 
      */
-    public String getNamePrefix() {
-	return this.namePrefix;
+    public String getName() {
+	return this.name;
     }
 
     /**
-     * @param namePrefix the string that the street must starts with (aka : 'name%').
-     * Don't prefix with 'Street' !
+     * @param name the string that the street must  contains (aka : '%name%').
      * not taken into account if empty string or null.
-     * @throws StreetSearchException if length is greater than @see {@link StreetSearchQuery#NAME_PREFIX_MAX_LENGTH}
+     * @throws StreetSearchException if length is greater than @see {@link StreetSearchQuery#NAME_MAX_LENGTH}
      * @return The current query to chain methods
      */
-    public StreetSearchQuery withNamePrefix(String namePrefix) {
-	if (namePrefix == null || "".equals(namePrefix.trim())){
+    public StreetSearchQuery withName(String name) {
+	if (name == null || "".equals(name.trim())){
 	    return this;
 	}
 	
-	if (namePrefix.length() > StreetSearchQuery.NAME_PREFIX_MAX_LENGTH) {
-	    throw new StreetSearchException("namePrefix is limited to "
-		    + StreetSearchQuery.NAME_PREFIX_MAX_LENGTH + "characters");
+	if (name.length() > StreetSearchQuery.NAME_MAX_LENGTH) {
+	    throw new StreetSearchException("name is limited to "
+		    + StreetSearchQuery.NAME_MAX_LENGTH + "characters");
 	}
 	
-	this.namePrefix = namePrefix;
+	this.name = name;
 	return this;
     }
     
@@ -195,7 +195,7 @@ public class StreetSearchQuery extends GeolocQuery {
     @Override
     public String toString() {
 	String asString = "StreetSearchQuery (lat='"
-		+ getPoint().getY() + "',long='" + getPoint().getX() + "') and namePrefix="+this.namePrefix+" and radius="
+		+ getPoint().getY() + "',long='" + getPoint().getX() + "') and name="+this.name+" and radius="
 		+ getRadius() + " for streetType="+streetType+" and oneWay="+this.oneWay;
 	asString += " with " + getOutput() + " and " + pagination;
 	return asString;

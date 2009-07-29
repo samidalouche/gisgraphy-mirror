@@ -61,7 +61,7 @@ public class StreetServlet extends GisgraphyServlet {
     public static final String LONG_PARAMETER = "lng";
     public static final String RADIUS_PARAMETER = "radius";
     public static final String ONEWAY_PARAMETER = "oneway";
-    public static final String NAME_PREFIX_PARAMETER = "nameprefix";
+    public static final String NAME_PARAMETER = "name";
     public static final int DEFAULT_MAX_RESULTS = 50;
     private boolean debugMode = false;
 

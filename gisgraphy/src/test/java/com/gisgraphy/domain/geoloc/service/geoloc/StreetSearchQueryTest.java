@@ -62,7 +62,7 @@ public class StreetSearchQueryTest extends TestCase {
 	Output output = Output.withFormat(OutputFormat.JSON).withLanguageCode(
 		"FR").withStyle(OutputStyle.FULL).withIndentation();
 	StreetSearchQuery query = new StreetSearchQuery(GENERIC_POINT, 3D, pagination,
-		output, StreetType.UNCLASSIFIED,true,"namePrefix");
+		output, StreetType.UNCLASSIFIED,true,"name");
 	assertEquals(pagination, query.getPagination());
 	assertEquals(output, query.getOutput());
 	assertEquals(null, query.getPlaceType());
@@ -71,7 +71,7 @@ public class StreetSearchQueryTest extends TestCase {
 	assertEquals(3D, query.getRadius());
 	assertEquals(StreetType.UNCLASSIFIED, query.getStreetType());
 	assertEquals(Boolean.TRUE, query.getOneWay());
-	assertEquals("namePrefix", query.getNamePrefix());
+	assertEquals("name", query.getName());
     }
 
     public void testStreetSearchQueryPointRadius() {
@@ -326,27 +326,27 @@ public class StreetSearchQueryTest extends TestCase {
 			    query.getOneWay());
 	    
 	    
-	    //namePrefix
+	    //name
 	    //test With good value
 	    request = GeolocTestHelper.createMockHttpServletRequestForStreetGeoloc();
-	    request.setParameter(StreetServlet.NAME_PREFIX_PARAMETER, "prefix");
+	    request.setParameter(StreetServlet.NAME_PARAMETER, "prefix");
 	    query = new StreetSearchQuery(request);
-	    assertEquals(StreetServlet.NAME_PREFIX_PARAMETER+" should be set when specified",request.getParameter(StreetServlet.NAME_PREFIX_PARAMETER), query.getNamePrefix());
+	    assertEquals(StreetServlet.NAME_PARAMETER+" should be set when specified",request.getParameter(StreetServlet.NAME_PARAMETER), query.getName());
 		   
 		// empty string
 		request = GeolocTestHelper.createMockHttpServletRequestForStreetGeoloc();
-		request.setParameter(StreetServlet.NAME_PREFIX_PARAMETER, " ");
+		request.setParameter(StreetServlet.NAME_PARAMETER, " ");
 		query = new StreetSearchQuery(request);
-		assertNull(StreetServlet.NAME_PREFIX_PARAMETER+" should be null when an empty String is specified", query.getNamePrefix());
+		assertNull(StreetServlet.NAME_PARAMETER+" should be null when an empty String is specified", query.getName());
 		
 		// too long string
 		request = GeolocTestHelper.createMockHttpServletRequestForGeoloc();
-		request.setParameter(StreetServlet.NAME_PREFIX_PARAMETER, RandomStringUtils
-			.random(StreetSearchQuery.NAME_PREFIX_MAX_LENGTH) + 1);
+		request.setParameter(StreetServlet.NAME_PARAMETER, RandomStringUtils
+			.random(StreetSearchQuery.NAME_MAX_LENGTH) + 1);
 		try {
 		    query = new StreetSearchQuery(request);
 		    fail("Name Prefix must have a maximmum length of "
-			    + StreetSearchQuery.NAME_PREFIX_MAX_LENGTH);
+			    + StreetSearchQuery.NAME_MAX_LENGTH);
 		} catch (StreetSearchException e) {
 		}
 	    
@@ -548,12 +548,12 @@ public class StreetSearchQueryTest extends TestCase {
 		"FR").withStyle(OutputStyle.FULL);
 	// with negative value
 	StreetSearchQuery query = new StreetSearchQuery(GENERIC_POINT, -1, pagination,
-		output, StreetType.UNCLASSIFIED,true,"namePrefix");
+		output, StreetType.UNCLASSIFIED,true,"name");
 	assertEquals(GeolocQuery.DEFAULT_RADIUS, query.getRadius());
 
 	// with 0
 	 query = new StreetSearchQuery(GENERIC_POINT, 0, pagination,
-		output, StreetType.UNCLASSIFIED,true,"namePrefix");
+		output, StreetType.UNCLASSIFIED,true,"name");
 	assertEquals(GeolocQuery.DEFAULT_RADIUS, query.getRadius());
 
     }
@@ -610,32 +610,32 @@ public class StreetSearchQueryTest extends TestCase {
     }
     
     @Test
-    public void testWithNamePrefix() {
-	//good Value
-	StreetSearchQuery query = new StreetSearchQuery(GENERIC_POINT,StreetType.UNCLASSIFIED);
-	query.withNamePrefix("namePrefixValue");
-	assertEquals("namePrefixValue", query.getNamePrefix());
-	
-	//too long String
-	try {
-	    query = new StreetSearchQuery(GENERIC_POINT,StreetType.UNCLASSIFIED);
-	    query.withNamePrefix(RandomStringUtils
-	    .random(StreetSearchQuery.NAME_PREFIX_MAX_LENGTH) + 1);
-	    fail("Name Prefix must have a maximmum length of "
-		    + StreetSearchQuery.NAME_PREFIX_MAX_LENGTH);
-	} catch (StreetSearchException e) {
-	}
-	
-	//Empty String
-	query = new StreetSearchQuery(GENERIC_POINT,StreetType.UNCLASSIFIED);
-	query.withNamePrefix(" ");
-	assertNull("NamePrefix ShouldNot Be considered for Empty String", query.getNamePrefix());
-	
-	
-	
-	
-	
-    }
+        public void testWithName() {
+    	//good Value
+    	StreetSearchQuery query = new StreetSearchQuery(GENERIC_POINT,StreetType.UNCLASSIFIED);
+    	query.withName("nameValue");
+    	assertEquals("nameValue", query.getName());
+    	
+    	//too long String
+    	try {
+    	    query = new StreetSearchQuery(GENERIC_POINT,StreetType.UNCLASSIFIED);
+    	    query.withName(RandomStringUtils
+    	    .random(StreetSearchQuery.NAME_MAX_LENGTH) + 1);
+    	    fail("Name Prefix must have a maximmum length of "
+    		    + StreetSearchQuery.NAME_MAX_LENGTH);
+    	} catch (StreetSearchException e) {
+    	}
+    	
+    	//Empty String
+    	query = new StreetSearchQuery(GENERIC_POINT,StreetType.UNCLASSIFIED);
+    	query.withName(" ");
+    	assertNull("Name ShouldNot Be considered for Empty String", query.getName());
+    	
+    	
+    	
+    	
+    	
+        }
 
    @Test
    public void testToString(){

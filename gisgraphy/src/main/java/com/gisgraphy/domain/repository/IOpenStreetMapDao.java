@@ -26,8 +26,8 @@ public interface IOpenStreetMapDao extends IDao<OpenStreetMap, java.lang.Long> {
      *                The type of street
      * @param oneWay
      *                whether the street should be oneway or not
-     * @param namePrefix
-     *                the name the street name must starts
+     * @param name
+     *                the name the street name must contains
      * 
      * @return A List of StreetDistance with the nearest elements or an
      *         empty list (never return null), ordered by distance.
@@ -36,7 +36,7 @@ public interface IOpenStreetMapDao extends IDao<OpenStreetMap, java.lang.Long> {
     public List<StreetDistance> getNearestAndDistanceFrom(
 	    final Point point, final double distance,
 	    final int firstResult, final int maxResults,
-	    final StreetType streetType,Boolean oneWay, final String namePrefix) ;
+	    final StreetType streetType,Boolean oneWay, final String name) ;
     
     
     

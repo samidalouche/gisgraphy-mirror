@@ -188,7 +188,7 @@ Autocomplete.prototype = {
       this.suggest();
     } else if (!this.isBadQuery(this.currentValue)) {
       new Ajax.Request(this.serviceUrl, {
-        parameters: { nameprefix: this.currentValue },
+        parameters: { name: this.currentValue },
         onComplete: this.processResponse.bind(this),
         method: 'get'
       });
