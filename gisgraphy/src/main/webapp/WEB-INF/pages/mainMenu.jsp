@@ -11,6 +11,9 @@
 
 <%
 com.gisgraphy.domain.geoloc.service.fulltextsearch.FullTextSearchEngine fulltextSearchEngine = (com.gisgraphy.domain.geoloc.service.fulltextsearch.FullTextSearchEngine) org.springframework.web.context.support.WebApplicationContextUtils.getWebApplicationContext(session.getServletContext()).getBean("fullTextSearchEngine");
+
+com.gisgraphy.domain.geoloc.importer.ImporterManager importerManager = (com.gisgraphy.domain.geoloc.importer.ImporterManager) org.springframework.web.context.support.WebApplicationContextUtils.getWebApplicationContext(session.getServletContext()).getBean("importerManager");
+
 %>
 
 <div class="separator"></div>
@@ -25,9 +28,15 @@ com.gisgraphy.domain.geoloc.service.fulltextsearch.FullTextSearchEngine fulltext
    <div class="tip yellowtip"> <fmt:message key="config.googlemapapikey.empty" /></div>
 <% } %>
 <ul class="glassList">
-    <li>
+	<% if (!importerManager.isAlreadyDone()) { %>
+   <li>
         <a href="<c:url value='/admin/importconfirm.html'/>"><fmt:message key="menu.admin.import"/></a>
     </li>
+<% } else {%>
+ <li>
+         <fmt:message key="import.already.done"/> 
+    </li>
+<%  }%>
   <li>
         <fmt:message key="global.gohome"/>
     </li>

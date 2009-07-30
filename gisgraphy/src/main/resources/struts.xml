@@ -178,7 +178,7 @@
    		<action name="importconfirm" class="com.gisgraphy.webapp.action.ImportConfirmAction">
             <interceptor-ref name="adminCheck"/>
             <result name="success" type="freemarker">/WEB-INF/views/import.ftl</result>
-             <result name="status" type="redirect">importstatus!status.html</result>
+             <result name="status" type="redirect">importstatus.html</result>
         </action>
         
         <action name="resetimport" class="com.gisgraphy.webapp.action.ResetImportAction">

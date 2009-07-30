@@ -28,7 +28,7 @@
 			<span class="searchfieldlabel"><@s.text name="global.country"/> : </span><@s.select label="country " listKey="iso3166Alpha2Code" listValue="name" name="countryCode" list="countries" headerValue="--select your country--" headerKey="" multiple="false" required="true" labelposition="top" theme="simple" id="city"/> 
 	<br/>
 	</span>
-	<@gisgraphysearch.citySelector  onChangeCityAmbiguous="updateLatLng" />
+	<@gisgraphysearch.citySelector  onCityFound="updateLatLng" />
 		<script type="text/javascript">
 			latlngArray = eval('${latLongJson}')
 			updateLatLng = function(){

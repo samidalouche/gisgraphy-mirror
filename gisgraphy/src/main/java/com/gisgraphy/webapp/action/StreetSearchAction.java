@@ -40,6 +40,7 @@ import com.gisgraphy.domain.repository.CountryDao;
 import com.gisgraphy.domain.valueobject.GisgraphyConfig;
 import com.gisgraphy.domain.valueobject.Output;
 import com.gisgraphy.domain.valueobject.Pagination;
+import com.gisgraphy.domain.valueobject.SolrResponseDto;
 import com.gisgraphy.domain.valueobject.Output.OutputStyle;
 import com.opensymphony.xwork2.Action;
 import com.opensymphony.xwork2.ActionSupport;
@@ -58,7 +59,7 @@ public class StreetSearchAction extends ActionSupport {
      */
     private static final long serialVersionUID = -9018894533914543310L;
     
-    private List<City> ambiguousCities;
+    private List<SolrResponseDto> ambiguousCities;
     
     private String ambiguouscity;
     
@@ -103,8 +104,8 @@ public class StreetSearchAction extends ActionSupport {
 		        return Action.INPUT;
 		    }
 		Output output = Output.withDefaultFormat().withStyle(OutputStyle.SHORT);
-	       FulltextQuery fulltextQuery = new FulltextQuery(city,Pagination.DEFAULT_PAGINATION,Output.DEFAULT_OUTPUT,City.class,getCountryCode());
-	       ambiguousCities = (List<City>)fullTextSearchEngine.executeQueryToDatabaseObjects(fulltextQuery);
+	       FulltextQuery fulltextQuery = new FulltextQuery(city,Pagination.DEFAULT_PAGINATION,output,City.class,getCountryCode());
+	       ambiguousCities = fullTextSearchEngine.executeQuery(fulltextQuery).getResults();
 	      /* ambiguousCities = new ArrayList<City>();
 	       City city1 = new City();
 	       city1.setFeatureId(3L);
@@ -125,10 +126,10 @@ public class StreetSearchAction extends ActionSupport {
 	           return Action.INPUT;
 	       }
 	       else if (numberOfPossibleCitiesThatMatches==1){
-	           message = "city found "+ambiguousCities.get(0).getName();
-	           City cityfound =  ambiguousCities.get(0);
-	           lat=cityfound.getLatitude().toString();
-	           lng = cityfound.getLongitude().toString();
+	           SolrResponseDto cityfound =  ambiguousCities.get(0);
+	           message = "city found "+cityfound.getName();
+	           lat=cityfound.getLat().toString();
+	           lng = cityfound.getLng().toString();
 	           //search street
 	       // addActionMessage(string);
 	           return Action.INPUT;
@@ -162,12 +163,12 @@ public class StreetSearchAction extends ActionSupport {
 	}
 	StringBuffer sb = new StringBuffer("[");
 	int index = 1;
-	for (City city : ambiguousCities){
+	for (SolrResponseDto city : ambiguousCities){
 	    sb.append("{\"lat\":");
-	    sb.append(city.getLatitude());
+	    sb.append(city.getLat());
 	    sb.append(",");
 	    sb.append("\"lng\":");
-	    sb.append(city.getLongitude());
+	    sb.append(city.getLng());
 	    sb.append("}");
 	    if (index != ambiguousCities.size()){
 		 sb.append(",");
@@ -184,7 +185,7 @@ public class StreetSearchAction extends ActionSupport {
     /**
      * @return the ambiguousCities
      */
-    public List<City> getAmbiguousCities() {
+    public List<SolrResponseDto> getAmbiguousCities() {
         return ambiguousCities;
     }
     
