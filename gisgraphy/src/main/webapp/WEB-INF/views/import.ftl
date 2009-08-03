@@ -68,9 +68,12 @@ The OpenStreetMap importer is :&nbsp;<@s.if test="OpenStreetMapImporterEnabled">
 <@s.text name="import.option.moreinfos" />
 <br/><br/>
 <@s.text name="import.confirm.sentence"/><br/><br/>                                                                                                                        
-<@s.url id="importUrl" action="import" includeParams="all" />   
-<a href="${importUrl}"><@s.text name="menu.admin.import"/></a>
-<br/><br/><a href="mainMenu.html" onclick="history.back();return false">&#171; <@s.text name="menu.admin.dontImport"/></a>
+<@s.url id="importUrl" action="import" includeParams="all" /> 
+
+<@s.form action="${importUrl}" method="get" id="runImport"><@s.submit  value="%{getText('menu.admin.import')} >>" theme="simple" /></@s.form>
+<br/><br/>
+ <@s.form action="mainMenu.html" method="get" id="dontRunImport"><@s.submit  value="<< %{getText('menu.admin.dontImport')}" theme="simple"  onclick="history.back();return false" /></@s.form>
+<br/><br/>
 </br>
 </body>
 </html>
