@@ -1,9 +1,10 @@
 
--- usage : psql -UYOURUSER -f /path/to/file/createGISTIndex.sql
+-- usage : psql -UYOURUSER -h 127.0.0.1 -d gisgraphy -f /path/to/file/createGISTIndex.sql
 
 
 \connect gisgraphy
-
+\echo will create all the index needed by gisgraphy to improve performance, this make take a while depends on how many data are in database
+\echo will create Geonames Index
 CREATE INDEX locationIndexAdm ON adm USING GIST (location);
 CREATE INDEX locationIndexAirport ON airport USING GIST (location);
 CREATE INDEX locationIndexAmusePark ON amusePark USING GIST (location);
@@ -105,6 +106,9 @@ CREATE INDEX locationIndexVineyard ON vineyard USING GIST (location);
 CREATE INDEX locationIndexVolcano ON volcano USING GIST (location);
 CREATE INDEX locationIndexWaterBody ON waterBody USING GIST (location);
 CREATE INDEX locationIndexZoo ON zoo USING GIST (location);
+
+\echo will create Openstreetmap index
+
 CREATE INDEX locationindexopenstreetmap ON openstreetmap USING GIST (location);
 CREATE INDEX shapeindexopenstreetmap ON openstreetmap USING GIST (shape);
 CREATE INDEX nameindexopenstreetmap ON openstreetmap  (name varchar_pattern_ops);
