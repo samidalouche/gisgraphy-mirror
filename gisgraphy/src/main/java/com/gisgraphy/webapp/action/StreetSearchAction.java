@@ -103,8 +103,7 @@ public class StreetSearchAction extends ActionSupport {
 		       // addActionError("You must select the country first");
 		        return Action.INPUT;
 		    }
-		Output output = Output.withDefaultFormat().withStyle(OutputStyle.SHORT);
-	       FulltextQuery fulltextQuery = new FulltextQuery(city,Pagination.DEFAULT_PAGINATION,output,City.class,getCountryCode());
+	       FulltextQuery fulltextQuery = new FulltextQuery(city,Pagination.DEFAULT_PAGINATION,Output.DEFAULT_OUTPUT,City.class,getCountryCode());
 	       ambiguousCities = fullTextSearchEngine.executeQuery(fulltextQuery).getResults();
 	      /* ambiguousCities = new ArrayList<City>();
 	       City city1 = new City();
