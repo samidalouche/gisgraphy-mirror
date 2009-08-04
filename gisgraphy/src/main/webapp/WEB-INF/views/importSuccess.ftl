@@ -13,7 +13,6 @@ You can see the status of the Import <a href="/admin/import!status.html">Here</a
 <b>IMPORTANT</b> : you MUST run the SQL script createGISTIndex.sql provided in the SQL directory to create spatial index and have good performance !!
 </div> 
 <br/><br/>
-click here to use the service
 <@s.text name="global.gohome" />
 <br/><br/>
 </br>
