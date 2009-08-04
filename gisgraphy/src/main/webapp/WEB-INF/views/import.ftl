@@ -33,7 +33,8 @@ The OpenStreetMap importer is :&nbsp;<@s.if test="OpenStreetMapImporterEnabled">
 </fieldset>
 
 <br/><br/>
-
+<fieldset>
+<legend><@s.text name="import.options"/></legend>
 <ul>
 <br/>
 <li> geonamesDir : ${importerConfig.getGeonamesDir()}</li>
@@ -68,6 +69,7 @@ The OpenStreetMap importer is :&nbsp;<@s.if test="OpenStreetMapImporterEnabled">
 <li> languageFileName : ${importerConfig.getLanguageFileName()}</li>
 <li> alternateNamesFileName : ${importerConfig.getAlternateNamesFileName()}</li>
 </ul>
+</fieldset>
 <br/>
 <@s.text name="import.option.moreinfos" />
 <br/><br/>
