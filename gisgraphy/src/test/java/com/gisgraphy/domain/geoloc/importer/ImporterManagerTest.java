@@ -157,7 +157,8 @@ public class ImporterManagerTest extends AbstractIntegrationHttpSolrTestCase {
 	EasyMock.replay(mockGisDao);
 	IImporterStatusListDao fakeimporterStatusListDao = EasyMock
 		.createMock(IImporterStatusListDao.class);
-	EasyMock.expect(fakeimporterStatusListDao.delete()).andReturn(true);
+	EasyMock.expect(fakeimporterStatusListDao.delete()).andStubReturn(true);
+	EasyMock.expect(fakeimporterStatusListDao.get()).andStubReturn(new ArrayList<ImporterStatusDto>());
 	EasyMock.expect(
 		fakeimporterStatusListDao
 			.saveOrUpdate((List<ImporterStatusDto>) EasyMock
