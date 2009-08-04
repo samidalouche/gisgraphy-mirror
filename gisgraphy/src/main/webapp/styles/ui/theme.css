@@ -206,14 +206,14 @@ div.hr {
 
 div#content {
 	position: relative;
-	width: 701px;
+	width: 900px;
 	margin: 0 auto 20px auto;
 	padding: 0;
 	text-align: left;
 }
 
 div#page {
-	width: 780px;
+	width: 1000px;
 	margin: 0 auto;
 	padding: 0;
 	text-align: center;
