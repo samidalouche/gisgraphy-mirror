@@ -35,7 +35,7 @@
 <script type="text/javascript" src="http://pagead2.googlesyndication.com/pagead/show_ads.js"></script>
 </span><div class="clear"><br/></div>
 <div class="tip bluetip">
-<strong>About</strong> : Gisgraphy is a TOTALLY FREE open source framework that provides importers, fulltext and find nearby (web)services. Data <a href="http://www.geonames.org/about.html" target="_blank">Geonames</a> and <a href="http://openstreetmap.org/" target="_blank">OpenStreetMap</a> (34 million entries) are also free. Results can be output in XML, Atom, RSS, JSON, PHP, Ruby, and Python. See<a href="http://www.gisgraphy.com/"> project 's home page</a>. <span style="color:#FF0000">IMPORTANT</span> : DON'T use this site to bench or download data. if we do this, your IP address will be list <a href="http://www.gisgraphy.com/abuse.txt">here</a> first, and she will be <span style="color:#ff0000">BLACKLISTED</span> if necessary.
+<strong>About</strong> : Gisgraphy is a TOTALLY FREE open source framework that provides importers, fulltext and find nearby (web)services. Data <a href="http://www.geonames.org/about.html" target="_blank">Geonames</a> and <a href="http://openstreetmap.org/" target="_blank">OpenStreetMap</a> (34 million entries) are also free. Results can be output in XML, Atom, RSS, JSON, PHP, Ruby, and Python. See<a href="http://www.gisgraphy.com/"> project 's home page</a>. <span style="color:#FF0000">IMPORTANT</span> : DON'T use this site to bench or download data. if we do this, your IP address will be list <a href="http://www.gisgraphy.com/abuse.txt">here</a> first, and it will be <span style="color:#ff0000">BLACKLISTED</span> if necessary.
 </a>
 </div>
                 <decorator:body/>
