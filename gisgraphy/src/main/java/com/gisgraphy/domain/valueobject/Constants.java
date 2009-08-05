@@ -142,6 +142,11 @@ public class Constants {
      */
     public static final String SPELLCHECKER_DICTIONARY_NAME_PARAMETER = "spellcheck.dictionary";
     
+    /**
+     * The parameter name to define the query to use for the spellchecker (Solr parameter name)
+     */
+    public static final String SPELLCHECKER_QUERY_PARAMETER = "spellcheck.q";
+    
 
     /**
      * A string that is used to load a class from a string with class.forName()

@@ -126,7 +126,7 @@ public class StreetSearchAction extends ActionSupport {
 	       }
 	       else if (numberOfPossibleCitiesThatMatches==1){
 	           SolrResponseDto cityfound =  ambiguousCities.get(0);
-	           message = "city found "+cityfound.getName();
+	           message = "city found "+cityfound.getFully_qualified_name();
 	           lat=cityfound.getLat().toString();
 	           lng = cityfound.getLng().toString();
 	           //search street
