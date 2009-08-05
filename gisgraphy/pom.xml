@@ -653,22 +653,28 @@
 			<version>${jetty.version}</version>
 			<scope>test</scope>
 		</dependency>
+		<dependency>
+			<groupId>org.mortbay.jetty</groupId>
+			<artifactId>jetty</artifactId>
+			<version>${jetty.version}</version>
+			<scope>test</scope>
+		</dependency>
 		<!-- solr -->
-		<!-- <dependency>
+		 <dependency>
 			<groupId>org.apache.solr</groupId>
 			<artifactId>solr-core</artifactId>
 			<version>1.3.0</version>
 			  <type>jar</type>
-		</dependency>-->
+		</dependency>
 		<!-- Solr-Client for Java -->
-		 <!-- <dependency>
+		  <dependency>
                <groupId>org.apache.solr</groupId>
                <artifactId>solr-solrj</artifactId>
                <version>1.3.0</version>
                <type>jar</type>
-        </dependency>-->
+        </dependency>
 		<!-- solr from solr.war -->
-		<dependency>
+	<!-- 	<dependency>
 			<groupId>com.gisgraphy.test-solr</groupId>
 			<artifactId>apache-solr-common</artifactId>
 			<version>1.3.0</version>
@@ -789,7 +795,7 @@
                <type>jar</type>
         </dependency>
 		
-		
+		-->
 		<!-- XML Pull Parser for Solr-->
 		<dependency>
 			<groupId>xpp3</groupId>
