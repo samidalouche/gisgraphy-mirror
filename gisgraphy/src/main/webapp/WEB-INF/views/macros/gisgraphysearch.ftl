@@ -154,14 +154,21 @@
 		      var latlong = new GLatLng(lat,lng);
 		      panoramaOptions = { latlng:latlong };
 		      pano = new GStreetviewPanorama(document.getElementById("streetpanorama"), panoramaOptions);
-		      GEvent.addListener(pano, "error", handleNoFlash);
+		      GEvent.addListener(pano, "error", handleStreetPanoramaError);
 		    }
 		    
-		    function handleNoFlash(errorCode) {
+		    function handleStreetPanoramaError(errorCode) {
 		      if (errorCode == GStreetviewPanorama.ErrorValues.FLASH_UNAVAILABLE) {
 			alert("Error: Flash doesn't appear to be supported by your browser");
 			return;
 		      }
+		      if (errorCode == GStreetviewPanorama.ErrorValues.NO_NEARBY_PANO) {
+			$('streetpanorama').innerHtml="todo localize No pano available";
+			return;
+		      }
+		else {
+			alert ('an unknow error has occured on viewStreetPanorama : '+errorCode);		
+		}
 		    }  
 		</script>
 
@@ -198,14 +205,22 @@
 
 
 
-		      GEvent.addListener(map, "error", handleNoFlash);
+		      GEvent.addListener(map, "error", handleStreetViewError);
 		    }
 		    
-		    function handleNoFlash(errorCode) {
+		    function handleStreetViewError(errorCode) {
 		      if (errorCode == GStreetviewPanorama.ErrorValues.FLASH_UNAVAILABLE) {
 			alert("Error: Flash doesn't appear to be supported by your browser");
 			return;
 		      }
+		     if (errorCode == GStreetviewPanorama.ErrorValues.NO_NEARBY_PANO) {
+			$('streetpanorama').innerHtml="todo localize No pano available";
+			alert ('no panoavailable');
+			return;
+		      }
+		else {
+			alert ('an unknow error has occured on viewStreetPanorama : '+errorCode);		
+		}
 		    }  
 		</script>
 
