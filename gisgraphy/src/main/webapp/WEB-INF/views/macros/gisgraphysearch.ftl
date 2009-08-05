@@ -145,20 +145,20 @@
 <#macro googleStreetPanorama width heigth googleMapAPIKey CSSClass >
 <script src="http://maps.google.com/maps?file=api&amp;v=2.x&amp;key=${googleMapAPIKey} "
             type="text/javascript"></script>
- 			<div name="streetview" id="streetview" style="width: ${width}px; height: ${heigth}px" class="${CSSClass}"></div>
+ 			<div name="streetpanorama" id="streetpanorama" style="width: ${width}px; height: ${heigth}px" class="${CSSClass}"></div>
 			<script type="text/javascript">
 		  
 		    var pano;
 		    
-		    function viewStreet(lat, lng) {
+		    function viewStreetPanorama(lat, lng) {
 		      var latlong = new GLatLng(lat,lng);
 		      panoramaOptions = { latlng:latlong };
-		      pano = new GStreetviewPanorama(document.getElementById("streetview"), panoramaOptions);
+		      pano = new GStreetviewPanorama(document.getElementById("streetpanorama"), panoramaOptions);
 		      GEvent.addListener(pano, "error", handleNoFlash);
 		    }
 		    
 		    function handleNoFlash(errorCode) {
-		      if (errorCode == FLASH_UNAVAILABLE) {
+		      if (errorCode == GStreetviewPanorama.ErrorValues.FLASH_UNAVAILABLE) {
 			alert("Error: Flash doesn't appear to be supported by your browser");
 			return;
 		      }
@@ -166,6 +166,51 @@
 		</script>
 
 </#macro>
+
+<#macro googleStreetView width heigth googleMapAPIKey CSSClass >
+<script src="http://maps.google.com/maps?file=api&amp;v=2.x&amp;key=${googleMapAPIKey} "
+            type="text/javascript"></script>
+ 			<div name="streetview" id="streetview" style="width: ${width}px; height: ${heigth}px" class="${CSSClass}"></div>
+			<script type="text/javascript">
+		  
+		    var map;
+		    
+		    function viewStreet(lat, lng) {
+		     var map = new GMap2(document.getElementById("streetview"));
+			var latlong = new GLatLng(lat, lng);
+			map.setCenter(latlong, 15);
+			svOverlay = new GStreetviewOverlay();
+			map.addOverlay(svOverlay);
+			 var baseIcone = new google.maps.Icon();
+			 baseIcone.iconSize=new google.maps.Size(12,20);
+			 baseIcone.shadowSize=new google.maps.Size(20,22);
+			 baseIcone.iconAnchor=new google.maps.Point(6,20);
+			 baseIcone.infoWindowAnchor=new google.maps.Point(5,1);			
+			iconeRouge = new google.maps.Icon(baseIcone, 'http://labs.google.com/ridefinder/images/mm_20_red.png', null, 'http://labs.google.com/ridefinder/images/mm_20_shadow.png');
+			var marqueur = new google.maps.Marker(latlong, {icon: iconeRouge, title: "todo localized"});
+			google.maps.Event.addListener(marqueur, 'click', function() {
+			var html = '<div id="EmplacementStreetView" style="width: 500px; height: 250px; text-align:center">Street View en cours de chargement ...</div>';
+			marqueur.openInfoWindowHtml(html);
+			  setTimeout("viewStreetPanorama("+lat+","+lng+");",3000);
+			}); 
+			map.addOverlay(marqueur);
+
+
+
+
+		      GEvent.addListener(map, "error", handleNoFlash);
+		    }
+		    
+		    function handleNoFlash(errorCode) {
+		      if (errorCode == GStreetviewPanorama.ErrorValues.FLASH_UNAVAILABLE) {
+			alert("Error: Flash doesn't appear to be supported by your browser");
+			return;
+		      }
+		    }  
+		</script>
+
+</#macro>
+
 
 
 <#macro citySelector onCityFound>
@@ -181,8 +226,13 @@
 			<span class="searchfieldlabel">city : </span><@s.textfield size="5" name="city" required="false"  theme="simple"/>
 			<script type="text/javascript">
 			if ($('city').value != ''){
-				${onCityFound}();
+				Event.observe(window, "load", ${onCityFound});
 			}
+
+			
+
+
+
 			</script>
 			<br/>
 		</span>
@@ -196,7 +246,7 @@
 <link href="/scripts/autocomplete/styles.css" rel="stylesheet" type="text/css" />
 <script src="/scripts/prototype.js" type="text/javascript"></script>
 <script src="/scripts/autocomplete/autocomplete.js"></script>
-<@s.hidden size="5" name="lat" required="false" id="lat"  theme="simple"/><@s.hidden size="5" name="lng" required="false" id="lng" theme="simple"/>
+<@s.hidden size="5" name="lat" required="false" id="lat"  theme="simple" /><@s.hidden size="5" name="lng" required="false" id="lng" theme="simple"/>
 <span class="searchfield">
 			<span class="searchfieldlabel"><@s.text name="search.street.streetname"/> : </span><@s.textfield size="40" name="streetname" required="false" id="streetname"  theme="simple"/>
 			<br/>
@@ -209,11 +259,13 @@ function(value, data){
 		function(value, i) {
 			if (value.gid == data){
 				viewStreet(value.lat,value.lng);
-				return false
+				return false;
 			}
 	       }.bind(this));
       }
 });
   
 </script>
+
+
 </#macro>
