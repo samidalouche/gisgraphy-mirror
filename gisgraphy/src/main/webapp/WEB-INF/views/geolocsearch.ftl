@@ -16,8 +16,8 @@
 	<br/>
 </noscript>
 	
-	<@s.form action="/geoloc/geolocsearch" method="get" id="geolocsearch">
 			<@breadcrumbs.searchNavBar/>
+	<@s.form action="/geoloc/geolocsearch" method="get" id="geolocsearch">
 		<div id="simplesearch">
 			<div id="searchleftblock">
 				Lat (&#x2195;) : <@s.textfield maxlength="10" name="lat" required="true" size="6" theme="simple" />

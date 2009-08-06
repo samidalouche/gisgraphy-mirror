@@ -16,8 +16,8 @@
 <br/>
 </noscript>
 	
-	<@s.form action="/fulltext/fulltextsearch" method="get" id="fulltextsearch">
 			<@breadcrumbs.searchNavBar/>
+	<@s.form action="/fulltext/fulltextsearch" method="get" id="fulltextsearch">
 		<div id="simplesearch">
 			<div id="searchleftblock">
 				<@s.textfield name="q" required="true" size="30" theme="simple" maxlength="200" />

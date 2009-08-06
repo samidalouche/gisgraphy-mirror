@@ -262,8 +262,8 @@ div#main form ul li {
 
 #searchlinks {
 	display: block;
-	font-size: 1.6em;
-	margin: 5px 5px 5px 5px;
+	font-size: 1.5em;
+	margin: 5px 5px 30px 5px;
 	text-align: center;
 }
 
@@ -310,13 +310,13 @@ div#main form ul li {
 	margin-top: 15px;
 	margin: 10px;
 	display: block;
-	float: left;
+ 	float: left;
 }
 
 .searchfieldlabel {
-	width: 100px;
 	display: inline;
 	float: left;
+	width: 100px;
 }
 
 .advancedsearchcat {
@@ -540,4 +540,19 @@ width:100%;
 .donateBtn {
 vertical-align:middle;
 width:55px
+}
+
+.forminstructions{
+clear:left;
+font-size: 1.2em;
+margin : auto auto;
+text-align: left;
+}
+
+.error{
+font-weight: bold;
+font-size: 1.4em;
+color:#CC0000;
+display: inline;
+float: left;
 }

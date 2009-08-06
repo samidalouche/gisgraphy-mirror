@@ -145,12 +145,16 @@
 <#macro googleStreetPanorama width heigth googleMapAPIKey CSSClass >
 <script src="http://maps.google.com/maps?file=api&amp;v=2.x&amp;key=${googleMapAPIKey} "
             type="text/javascript"></script>
- 			<div name="streetpanorama" id="streetpanorama" style="width: ${width}px; height: ${heigth}px" class="${CSSClass}"></div>
+ 			<div name="streetpanorama" id="streetpanorama" class="${CSSClass}"></div>
 			<script type="text/javascript">
 		  
 		    var pano;
 		    
 		    function viewStreetPanorama(lat, lng) {
+			$('streetpanorama').setStyle({ 
+				width: '${width}px',
+				height: '${heigth}px'
+			});
 		      var latlong = new GLatLng(lat,lng);
 		      panoramaOptions = { latlng:latlong };
 		      pano = new GStreetviewPanorama(document.getElementById("streetpanorama"), panoramaOptions);
@@ -177,12 +181,20 @@
 <#macro googleStreetView width heigth googleMapAPIKey CSSClass >
 <script src="http://maps.google.com/maps?file=api&amp;v=2.x&amp;key=${googleMapAPIKey} "
             type="text/javascript"></script>
- 			<div name="streetview" id="streetview" style="width: ${width}px; height: ${heigth}px" class="${CSSClass}"></div>
+ 			<div name="streetview" id="streetview" class="${CSSClass}"></div>
 			<script type="text/javascript">
 		  
 		    var map;
 		    
 		    function viewStreet(lat, lng) {
+			// try {
+       
+     
+
+			$('streetview').setStyle({ 
+				width: '${width}px',
+				height: '${heigth}px'
+			});
 		     var map = new GMap2(document.getElementById("streetview"));
 			var latlong = new GLatLng(lat, lng);
 			map.setCenter(latlong, 15);
@@ -196,7 +208,9 @@
 			iconeRouge = new google.maps.Icon(baseIcone, 'http://labs.google.com/ridefinder/images/mm_20_red.png', null, 'http://labs.google.com/ridefinder/images/mm_20_shadow.png');
 			var marqueur = new google.maps.Marker(latlong, {icon: iconeRouge, title: "todo localized"});
 			google.maps.Event.addListener(marqueur, 'click', function() {
-			var html = '<div id="EmplacementStreetView" style="width: 500px; height: 250px; text-align:center">Street View en cours de chargement ...</div>';
+			var html = '<div id="EmplacementStreetView" style="width: 200px; height: 250px; text-align:center"><span  class="biggertext">'+selectedStreetInformation.name+'</span><br/><br/>';
+ if (selectedStreetInformation.oneWay==true){html = html+ '<@s.text name="street.oneway" />'; } else { html = html +'<@s.text name="street.twoway" />';}
+html= html +'<br/><br/> latitude : '+selectedStreetInformation.lat+'<br/><br/>longitude : '+selectedStreetInformation.lng+'<br/><br/> longueur : '+(selectedStreetInformation.length*1000)+'</div>';
 			marqueur.openInfoWindowHtml(html);
 			  setTimeout("viewStreetPanorama("+lat+","+lng+");",3000);
 			}); 
@@ -204,8 +218,8 @@
 
 
 
-
 		      GEvent.addListener(map, "error", handleStreetViewError);
+		//	 } catch (e) {alert('error during viewStreet : ' +e }
 		    }
 		    
 		    function handleStreetViewError(errorCode) {
@@ -231,24 +245,15 @@
 <#macro citySelector onCityFound>
 <#if (ambiguousCities?? &&  ambiguousCities.size() > 1 )>
 		<span class="searchfield">
-			<span class="searchfieldlabel"><@s.text name="search.city.ambiguous"/> : </span><@s.select listKey="Feature_id" listValue="Fully_qualified_name" name="ambiguouscity" list="ambiguousCities" headerValue="--select a City--" headerKey="" multiple="false" required="true" labelposition="top" theme="simple" onchange="${onCityFound}();" id="ambiguouscity" /> 
-			
+			<span class="error">! <@s.text name="search.city.ambiguous"/> ! </span>
+<br/><br/><@s.select listKey="Feature_id" listValue="Fully_qualified_name" name="ambiguouscity" list="ambiguousCities" headerValue="-- %{getText('search.select.city')} --" headerKey="" multiple="false" required="true" labelposition="top" theme="simple" onchange="${onCityFound}();" id="ambiguouscity" /> 
 			<br/>
 		</span>
 		
 		<#else>
 		<span class="searchfield">
-			<span class="searchfieldlabel">city : </span><@s.textfield size="5" name="city" required="false"  theme="simple"/>
-			<script type="text/javascript">
-			if ($('city').value != ''){
-				Event.observe(window, "load", ${onCityFound});
-			}
-
-			
-
-
-
-			</script>
+			<span class="searchfieldlabel"><@s.text name="user.address.city" /> : </span><@s.textfield size="40" name="city" id="city" required="false"  theme="simple"/>
+			<@s.submit title="Search" value="%{getText('search.city.validate.choice')}" theme="simple" id="streetsearchsubmitbutton"/>
 			<br/>
 		</span>
 		</#if>
@@ -267,12 +272,13 @@
 			<br/>
 </span>
 <script type="text/javascript">
-
+selectedStreetInformation = null;
 streetNameAutocompleter = new Autocomplete('streetname', { serviceUrl: '/street/streetsearch?format=json"&from=1&to=10"', width: 340, deferRequestBy:400, minChars:1, onSelect: 
 function(value, data){
 	streetNameAutocompleter.streetResults.each(
 		function(value, i) {
 			if (value.gid == data){
+				selectedStreetInformation = value;
 				viewStreet(value.lat,value.lng);
 				return false;
 			}
