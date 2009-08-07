@@ -81,7 +81,7 @@ h1 {
 }
 
 div#branding h1 {
-	font-size: 4em;
+	font-size: 3em;
 	letter-spacing: -1px;
 	margin: 0;
 	line-height: 1.5em;
@@ -132,7 +132,7 @@ h6 {
 	color: black;
 }
 .header{
-	font-size: 4em;
+	font-size: 2em;
 	letter-spacing: -1px;
 	line-height: 1.3em;
 	margin: 0 0 0.5em 0;
@@ -224,7 +224,7 @@ div#header {
 	margin: 0 0 5em 0;
 	padding: 6px 0 2px 10px;
 	text-align: left;
-	height: 79px; /* needed by IE 7 */
+	height: 50px; /* needed by IE 7 */
 }
 
 div#branding {
@@ -555,4 +555,8 @@ font-size: 1.4em;
 color:#CC0000;
 display: inline;
 float: left;
+}
+
+.underline {
+text-decoration: underline ;
 }

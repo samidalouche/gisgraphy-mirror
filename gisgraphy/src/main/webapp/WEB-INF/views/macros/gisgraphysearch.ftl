@@ -245,18 +245,40 @@ html= html +'<br/><br/> latitude : '+selectedStreetInformation.lat+'<br/><br/>lo
 <#macro citySelector onCityFound>
 <#if (ambiguousCities?? &&  ambiguousCities.size() > 1 )>
 		<span class="searchfield">
-			<span class="error">! <@s.text name="search.city.ambiguous"/> ! </span>
-<br/><br/><@s.select listKey="Feature_id" listValue="Fully_qualified_name" name="ambiguouscity" list="ambiguousCities" headerValue="-- %{getText('search.select.city')} --" headerKey="" multiple="false" required="true" labelposition="top" theme="simple" onchange="${onCityFound}();" id="ambiguouscity" /> 
-			<br/>
+		<span class="error"><@s.text name="search.city.ambiguous"/> ! </span>
+		<br/><br/>
+		<@s.select listKey="Feature_id" listValue="Fully_qualified_name" name="ambiguouscity" list="ambiguousCities" headerValue="-- %{getText('search.select.city')} --" headerKey="" multiple="false" required="true" labelposition="top" theme="simple" onchange="${onCityFound}();" id="ambiguouscity" />&nbsp;
+		<@s.url id="chooseOtherCityUrl" action="streetSearch" includeParams="none" />
+		<a href="${chooseOtherCityUrl}"><@s.text name="search.city.chooseOther" /></a>
+		<br/>
 		</span>
-		
-		<#else>
+<#else>
 		<span class="searchfield">
+		<#if cityFound>
+			<br/>
+			<div class="forminstructions"><@s.text name="search.selectedcity" /> : </div><br/>			
+			<span class="searchfieldlabel"> </span> <@s.textfield size="40" name="city" id="city"  value="${city}" theme="simple" disabled="true"/>&nbsp
+			<@s.url id="chooseOtherCityUrl" action="streetSearch" includeParams="none" />
+		<a href="${chooseOtherCityUrl}"><@s.text name="search.city.chooseOther" /></a>
+		<#else>
+			<div class="forminstructions"><@s.text name="search.choose.city"/> : </div><br/>
+			<#if (city?? && !countryCode??) ><span class="error"><@s.text name="search.nocityfound"/> '${city}' ! </span><br/><br/></#if>
+			<script type="text/javascript">
+				validateNonEmptyQuery= function(){
+					if ($('city').value == ''){
+						alert("<@s.text name="search.city.empty"/>");
+						 return false;
+					} else {
+						 return true;
+					}
+				 }
+		</script>
 			<span class="searchfieldlabel"><@s.text name="user.address.city" /> : </span><@s.textfield size="40" name="city" id="city" required="false"  theme="simple"/>
-			<@s.submit title="Search" value="%{getText('search.city.validate.choice')}" theme="simple" id="streetsearchsubmitbutton"/>
+			<@s.submit title="Search" value="%{getText('search.city.validate.choice')}" theme="simple" id="streetsearchsubmitbutton" onclick="return validateNonEmptyQuery();"/>
 			<br/>
 		</span>
 		</#if>
+</#if>
 
 
 </#macro>

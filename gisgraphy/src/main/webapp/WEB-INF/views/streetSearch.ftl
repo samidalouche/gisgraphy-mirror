@@ -32,7 +32,6 @@
 						} else {
 							$('lat').value = latlngArray[indexDropDown-1].lat;
 							$('lng').value = latlngArray[indexDropDown-1].lng;
-							streetNameAutocompleter.serviceUrl="/street/streetsearch?format=json&lat="+$('lat').value+"&lng="+$('lng').value+"&from=1&to=10";
 						}
 				}
 					setStreetNameCorrectState();
@@ -40,24 +39,17 @@
 
 			setStreetNameCorrectState = function(){
 				if ($('lat').value !='' && $('lng').value != '' ){
+					streetNameAutocompleter.serviceUrl="/street/streetsearch?format=json&lat="+$('lat').value+"&lng="+$('lng').value+"&from=1&to=10";
 					$('streetname').enable();
+					$('viewAllStreetLink').visible();
 				} else {
 					$('streetname').disable();
+					$('viewAllStreetLink').hide();
 				}
 			}
 
-		setCityCorrectState = function(){
-				if ($('city') != null){
-					if  ($('country') != null && $('country').value == '' ){
-						$('city').disable();
-					} else {
-						$('city').enable();
-					}
-				}
-			}
 	Event.observe(window, "load", function(){
 			updateLatLng();
-			setCityCorrectState();
 			setStreetNameCorrectState();
 			});
 			</script>
@@ -69,22 +61,22 @@
 <div class="forminstructions"><@s.text name="search.select.country"/> : </div>
 <br/>
          <span class="searchfield">
-			<span class="searchfieldlabel"><@s.text name="global.country"/> : </span><@s.select label="country " listKey="iso3166Alpha2Code" listValue="name" name="countryCode" list="countries" headerValue="-- %{getText('search.select.country')} --" headerKey="" multiple="false" required="true" labelposition="top" theme="simple" id="country" onchange="setCityCorrectState();"/> 
+			<span class="searchfieldlabel"><@s.text name="global.country"/> : </span><@s.select label="country " listKey="iso3166Alpha2Code" listValue="name" name="countryCode" list="countries" headerValue="-- %{getText('search.select.country')} --" headerKey="" multiple="false" required="true" labelposition="top" theme="simple" id="country"/> 
 	<br/><br/>
 	</span>
 	<div>
 <br/><br/>
-<div class="forminstructions"><@s.text name="search.choose.city"/> : </div>
-<br/>
+
 	<@gisgraphysearch.citySelector  onCityFound="updateLatLng" />
 	</div>
 		<div class="clear"></div>
 		<br/>
 		</span>
                 <div class="clear"></div>
-<div class="forminstructions"><@s.text name="search.street.search"/> : </div><br/>
+<div id="viewAllStreetLink" class="forminstructions"><a href=""><@s.text name="search.displaycity.streets"/></a>&nbsp;&nbsp;<span class="underline"><@s.text name="global.or"/></span>&nbsp;&nbsp;</div><br/><br/>
+<div class="forminstructions"><@s.text name="search.street.search"/>&nbsp;(<@s.text name="global.autocomplete"/>) : </div><br/>
 		<@gisgraphysearch.streetNameAutoCompleter/>
-<#--<@s.submit title="Search" value="Search" theme="simple" id="streetsearchsubmitbutton"/>-->
+<br/>
 </div>
 </@s.form>
 <div>
@@ -96,10 +88,6 @@
 <br/><br/>
 <@gisgraphysearch.googleStreetPanorama width="700" heigth="300" 
 	googleMapAPIKey=googleMapAPIKey CSSClass="center" />
-
-<br/><br/>
-
-<br/><br/><br/>
 
 </div>
 
