@@ -560,3 +560,9 @@ float: left;
 .underline {
 text-decoration: underline ;
 }
+
+.imagenumberlist {
+vertical-align:middle;
+width:25px;
+margin : 5px;
+}

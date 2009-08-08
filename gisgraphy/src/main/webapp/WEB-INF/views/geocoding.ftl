@@ -2,9 +2,9 @@
 <#import "macros/gisgraphysearch.ftl" as gisgraphysearch>
 <html>
 <head>
-<title><@s.text name="search.street.title"/></title>
+<title><@s.text name="search.geocoding.title"/></title>
 <meta name="Description" content="free webservices for street search for openstreetmap. Pagination, indentation, several languages are supported"/>
-<meta name="heading" content="<@s.text name="search.street.title"/>"/>
+<meta name="heading" content="<@s.text name="search.geocoding.title"/>"/>
 <meta name="keywords" content="street search java openstreetmap webservices postgis hibernate toponyms gazeteers"/>
 <script src="/scripts/prototype.js" type="text/javascript"></script>
 </head>
@@ -17,7 +17,7 @@
 	<br/>
 </noscript>
 		 <@breadcrumbs.searchNavBar/>
-<div class="clear"></div><div class="biggertext" style="line-height:1.5em;">The street webservice is Free and offer the possibility to search for street name all over the world. The data come from <span class="imgAlign"><a href="http://openstreetmap.org">openstreetMap <img src="/images/openstreetmap.png" alt="openstreetmap" class="imgAlign" style="width:30px"/></a> and are imported into a local database in order to be used by the gisgraphy webService. Here is an example of use of the street webservice</span>. You can find documentation on how to use the webservice <a href="http://www.gisgraphy.com/documentation/index.htm#streetservice">here</a> and see how to download and install gisgraphy : <a href="http://www.gisgraphy.com/documentation/installation/index.htm" alt="install gisgraphy">here</a> </div><br/><br/>
+<div class="clear"></div><div class="biggertext" style="line-height:1.5em;">The worldwide geocoding webservice is totally FREE and allow to find Lat/lng pair from an adress or a street. it uses (free) data from <span class="imgAlign"><a href="http://openstreetmap.org">openstreetMap <img src="/images/openstreetmap.png" alt="openstreetmap" class="imgAlign" style="width:30px"/></a> that are imported into a local database. you can see an example of use bellow</span>. You can find documentation on <a href="http://www.gisgraphy.com/documentation/index.htm#streetservice">how to use the webservice</a> and see how to <a href="http://www.gisgraphy.com/documentation/installation/index.htm" alt="install gisgraphy">download and install</a>gisgraphy</div><br/><br/>
 <div class="clear"></div>
 
 
@@ -38,13 +38,17 @@
                         }
 
 			setStreetNameCorrectState = function(){
-				if ($('lat').value !='' && $('lng').value != '' ){
+				if ($('lat').value != '' && $('lng').value != '' ){
 					streetNameAutocompleter.serviceUrl="/street/streetsearch?format=json&lat="+$('lat').value+"&lng="+$('lng').value+"&from=1&to=10";
+					$('viewAllStreetLink').show();
+
 					$('streetname').enable();
-					$('viewAllStreetLink').visible();
+
 				} else {
-					$('streetname').disable();
 					$('viewAllStreetLink').hide();
+
+					$('streetname').disable();
+
 				}
 			}
 
@@ -58,10 +62,9 @@
 <br/>
 <#if errorMessage!= ''><div class="error">${errorMessage}</div><br/><br/></#if>
 <#if message!= ''><span class="biggertext">${message}</span><br/></#if>
-<div class="forminstructions"><@s.text name="search.select.country"/> : </div>
-<br/>
+<div class="forminstructions"><img src="/images/puce_1.gif" class="imagenumberlist" alt="puce_1"/><@s.text name="search.select.country"/> : </div>
          <span class="searchfield">
-			<span class="searchfieldlabel"><@s.text name="global.country"/> : </span><@s.select label="country " listKey="iso3166Alpha2Code" listValue="name" name="countryCode" list="countries" headerValue="-- %{getText('search.select.country')} --" headerKey="" multiple="false" required="true" labelposition="top" theme="simple" id="country"/> 
+			<span class="searchfieldlabel">&nbsp;</span><@s.select label="country " listKey="iso3166Alpha2Code" listValue="name" name="countryCode" list="countries" headerValue="-- %{getText('search.select.country')} --" headerKey="" multiple="false" required="true" labelposition="top" theme="simple" id="country"/> 
 	<br/><br/>
 	</span>
 	<div>
@@ -73,8 +76,8 @@
 		<br/>
 		</span>
                 <div class="clear"></div>
-<div id="viewAllStreetLink" class="forminstructions"><a href=""><@s.text name="search.displaycity.streets"/></a>&nbsp;&nbsp;<span class="underline"><@s.text name="global.or"/></span>&nbsp;&nbsp;</div><br/><br/>
-<div class="forminstructions"><@s.text name="search.street.search"/>&nbsp;(<@s.text name="global.autocomplete"/>) : </div><br/>
+
+<div class="forminstructions"><img src="/images/puce_3.gif" class="imagenumberlist" alt="puce_3"/><span id="viewAllStreetLink" class="forminstructions"><a href=""><@s.text name="search.displaycity.streets"/></a>&nbsp;&nbsp;<span class="underline"><@s.text name="global.or"/></span>&nbsp;&nbsp;</span><@s.text name="search.street.search"/>&nbsp;(<@s.text name="global.autocomplete"/>) : </div>
 		<@gisgraphysearch.streetNameAutoCompleter/>
 <br/>
 </div>

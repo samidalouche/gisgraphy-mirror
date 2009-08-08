@@ -50,9 +50,9 @@ import com.opensymphony.xwork2.ActionSupport;
  * 
  * @author <a href="mailto:david.masclet@gisgraphy.com">David Masclet</a>
  */
-public class StreetSearchAction extends ActionSupport {
+public class GeocodingAction extends ActionSupport {
     
-    private static Logger logger = LoggerFactory.getLogger(StreetSearchAction.class);
+    private static Logger logger = LoggerFactory.getLogger(GeocodingAction.class);
     
     /**
      * 
@@ -71,6 +71,7 @@ public class StreetSearchAction extends ActionSupport {
     
     public String jsonFeed;
     
+    private boolean cityFound = false;
     
     private IFullTextSearchEngine fullTextSearchEngine;
     
@@ -98,10 +99,8 @@ public class StreetSearchAction extends ActionSupport {
 	      
 	    if (city != null){
 		 if (countryCode==null || "".equals(countryCode)){
-		        //TODO localized
-		        errorMessage="You must select a country before enter a city";
-		       // addActionError("You must select the country first");
-		        return Action.INPUT;
+		        errorMessage=getText("search.country.required");
+		        return Action.SUCCESS;
 		    }
 	       FulltextQuery fulltextQuery = new FulltextQuery(city,Pagination.DEFAULT_PAGINATION,Output.DEFAULT_OUTPUT,City.class,getCountryCode());
 	       ambiguousCities = fullTextSearchEngine.executeQuery(fulltextQuery).getResults();
@@ -120,40 +119,36 @@ public class StreetSearchAction extends ActionSupport {
 	       */
 	       int numberOfPossibleCitiesThatMatches = ambiguousCities.size();
 	       if (numberOfPossibleCitiesThatMatches == 0){
-	           errorMessage="No city con be found for "+city;
-	           //addActionError();
-	           return Action.INPUT;
+	           return Action.SUCCESS;
 	       }
 	       else if (numberOfPossibleCitiesThatMatches==1){
 	           SolrResponseDto cityfound =  ambiguousCities.get(0);
-	           message = "city found "+cityfound.getFully_qualified_name();
 	           lat=cityfound.getLat().toString();
 	           lng = cityfound.getLng().toString();
-	           //search street
-	       // addActionMessage(string);
-	           return Action.INPUT;
+	           city=cityfound.getName();
+	           if (cityfound.getZipcode()!= null){
+	               city=city+" ("+cityfound.getZipcode()+")";
+	           }
+	           cityFound=true;
+	           return Action.SUCCESS;
 	       }
 	       else {
 	           //more than one city suits
-		  getLatLongJson();
+		   return Action.SUCCESS;
 	       }
 	       
 	        
 	        
 	    }
 	    else if (ambiguouscity != null) {
-		   message = "city found "+ambiguouscity;
-		   //todo osm bug should use name instead
-		   city=ambiguouscity;
-		   
-		
+		return Action.SUCCESS;
 	    }
 	    
 	} catch (Exception e) {
-	   errorMessage= e.getMessage();
+	   errorMessage= getText("search.error",e.getMessage()) ;
 	}
 	
-	return Action.INPUT;
+	return Action.SUCCESS;
     }
 
     public String getLatLongJson() {
@@ -317,6 +312,13 @@ public class StreetSearchAction extends ActionSupport {
      */
     public String getGoogleMapAPIKey() {
         return GisgraphyConfig.googleMapAPIKey == null ? "" : GisgraphyConfig.googleMapAPIKey;
+    }
+
+    /**
+     * @return the cityFound
+     */
+    public boolean isCityFound() {
+        return cityFound;
     }
 
 }

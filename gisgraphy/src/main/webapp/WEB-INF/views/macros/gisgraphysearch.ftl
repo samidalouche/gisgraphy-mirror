@@ -171,7 +171,7 @@
 			return;
 		      }
 		else {
-			alert ('an unknow error has occured on viewStreetPanorama : '+errorCode);		
+			alert ('An unknow error has occured on viewStreetPanorama : '+errorCode);		
 		}
 		    }  
 		</script>
@@ -207,13 +207,13 @@
 			 baseIcone.infoWindowAnchor=new google.maps.Point(5,1);			
 			iconeRouge = new google.maps.Icon(baseIcone, 'http://labs.google.com/ridefinder/images/mm_20_red.png', null, 'http://labs.google.com/ridefinder/images/mm_20_shadow.png');
 			var marqueur = new google.maps.Marker(latlong, {icon: iconeRouge, title: "todo localized"});
-			google.maps.Event.addListener(marqueur, 'click', function() {
-			var html = '<div id="EmplacementStreetView" style="width: 200px; height: 250px; text-align:center"><span  class="biggertext">'+selectedStreetInformation.name+'</span><br/><br/>';
+			//google.maps.Event.addListener(marqueur, 'load', function() {
+			var html = '<div id="EmplacementStreetView" style="width: 250px; height: 150px; text-align:center"><span  class="biggertext">'+selectedStreetInformation.name+'</span><br/><br/>';
+if (selectedStreetInformation.streetType != null){html= html + "<@s.text name="search.type.of.street"/> : "+selectedStreetInformation.streetType;}
  if (selectedStreetInformation.oneWay==true){html = html+ '<@s.text name="street.oneway" />'; } else { html = html +'<@s.text name="street.twoway" />';}
-html= html +'<br/><br/> latitude : '+selectedStreetInformation.lat+'<br/><br/>longitude : '+selectedStreetInformation.lng+'<br/><br/> longueur : '+(selectedStreetInformation.length*1000)+'</div>';
+html= html +'<br/><br/> <@s.text name="global.latitude" /> : '+selectedStreetInformation.lat+'<br/><br/><@s.text name="global.longitude" /> : '+selectedStreetInformation.lng+'<br/><br/> <@s.text name="global.length" /> : '+(selectedStreetInformation.length*100000)+' m</div>';
 			marqueur.openInfoWindowHtml(html);
-			  setTimeout("viewStreetPanorama("+lat+","+lng+");",3000);
-			}); 
+			//}); 
 			map.addOverlay(marqueur);
 
 
@@ -233,7 +233,7 @@ html= html +'<br/><br/> latitude : '+selectedStreetInformation.lat+'<br/><br/>lo
 			return;
 		      }
 		else {
-			alert ('an unknow error has occured on viewStreetPanorama : '+errorCode);		
+			alert ('An unknow error has occured on viewStreetPanorama : '+errorCode);		
 		}
 		    }  
 		</script>
@@ -244,24 +244,25 @@ html= html +'<br/><br/> latitude : '+selectedStreetInformation.lat+'<br/><br/>lo
 
 <#macro citySelector onCityFound>
 <#if (ambiguousCities?? &&  ambiguousCities.size() > 1 )>
+		<div class="forminstructions"><img src="/images/puce_2.gif" class="imagenumberlist" alt="puce_2"/><@s.text name="search.choose.city"/> : </div><br/>
 		<span class="searchfield">
 		<span class="error"><@s.text name="search.city.ambiguous"/> ! </span>
 		<br/><br/>
 		<@s.select listKey="Feature_id" listValue="Fully_qualified_name" name="ambiguouscity" list="ambiguousCities" headerValue="-- %{getText('search.select.city')} --" headerKey="" multiple="false" required="true" labelposition="top" theme="simple" onchange="${onCityFound}();" id="ambiguouscity" />&nbsp;
-		<@s.url id="chooseOtherCityUrl" action="streetSearch" includeParams="none" />
+		<@s.url id="chooseOtherCityUrl" action="worldwide_geocoding" includeParams="none" />
 		<a href="${chooseOtherCityUrl}"><@s.text name="search.city.chooseOther" /></a>
 		<br/>
 		</span>
 <#else>
-		<span class="searchfield">
+		
 		<#if cityFound>
 			<br/>
-			<div class="forminstructions"><@s.text name="search.selectedcity" /> : </div><br/>			
-			<span class="searchfieldlabel"> </span> <@s.textfield size="40" name="city" id="city"  value="${city}" theme="simple" disabled="true"/>&nbsp
-			<@s.url id="chooseOtherCityUrl" action="streetSearch" includeParams="none" />
+			<div class="forminstructions"><img src="/images/puce_2.gif" class="imagenumberlist" alt="puce_2"/><@s.text name="search.selectedcity" /> : </div>			<span class="searchfield">
+			<span class="searchfieldlabel">&nbsp; </span> <@s.textfield size="40" name="city" id="city"  value="${city}" theme="simple" disabled="true"/>&nbsp
+			<@s.url id="chooseOtherCityUrl" action="worldwide_geocoding" includeParams="none" />
 		<a href="${chooseOtherCityUrl}"><@s.text name="search.city.chooseOther" /></a>
 		<#else>
-			<div class="forminstructions"><@s.text name="search.choose.city"/> : </div><br/>
+			<div class="forminstructions"><img src="/images/puce_2.gif" class="imagenumberlist" alt="puce_2"/><@s.text name="search.choose.city"/> : </div>
 			<#if (city?? && !countryCode??) ><span class="error"><@s.text name="search.nocityfound"/> '${city}' ! </span><br/><br/></#if>
 			<script type="text/javascript">
 				validateNonEmptyQuery= function(){
@@ -273,9 +274,9 @@ html= html +'<br/><br/> latitude : '+selectedStreetInformation.lat+'<br/><br/>lo
 					}
 				 }
 		</script>
-			<span class="searchfieldlabel"><@s.text name="user.address.city" /> : </span><@s.textfield size="40" name="city" id="city" required="false"  theme="simple"/>
+			<span class="searchfield">
+			<span class="searchfieldlabel">&nbsp;</span><@s.textfield size="40" name="city" id="city" required="false"  theme="simple"/>
 			<@s.submit title="Search" value="%{getText('search.city.validate.choice')}" theme="simple" id="streetsearchsubmitbutton" onclick="return validateNonEmptyQuery();"/>
-			<br/>
 		</span>
 		</#if>
 </#if>
@@ -288,9 +289,8 @@ html= html +'<br/><br/> latitude : '+selectedStreetInformation.lat+'<br/><br/>lo
 <link href="/scripts/autocomplete/styles.css" rel="stylesheet" type="text/css" />
 <script src="/scripts/prototype.js" type="text/javascript"></script>
 <script src="/scripts/autocomplete/autocomplete.js"></script>
-<@s.hidden size="5" name="lat" required="false" id="lat"  theme="simple" /><@s.hidden size="5" name="lng" required="false" id="lng" theme="simple"/>
 <span class="searchfield">
-			<span class="searchfieldlabel"><@s.text name="search.street.streetname"/> : </span><@s.textfield size="40" name="streetname" required="false" id="streetname"  theme="simple"/>
+			<span class="searchfieldlabel">&nbsp;</span><@s.textfield size="40" name="streetname" required="false" id="streetname"  theme="simple"/>
 			<br/>
 </span>
 <script type="text/javascript">
@@ -302,6 +302,7 @@ function(value, data){
 			if (value.gid == data){
 				selectedStreetInformation = value;
 				viewStreet(value.lat,value.lng);
+				viewStreetPanorama(value.lat,value.lng);
 				return false;
 			}
 	       }.bind(this));
@@ -309,6 +310,5 @@ function(value, data){
 });
   
 </script>
-
-
+<@s.hidden size="5" name="lat" required="false" id="lat"  theme="simple" /><@s.hidden size="5" name="lng" required="false" id="lng" theme="simple"/>
 </#macro>
