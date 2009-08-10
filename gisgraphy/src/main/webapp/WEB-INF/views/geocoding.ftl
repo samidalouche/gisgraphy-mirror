@@ -78,7 +78,8 @@
                 <div class="clear"></div>
 
 <div class="forminstructions"><img src="/images/puce_3.gif" class="imagenumberlist" alt="puce_3"/><span id="viewAllStreetLink" class="forminstructions"><a href=""><@s.text name="search.displaycity.streets"/></a>&nbsp;&nbsp;<span class="underline"><@s.text name="global.or"/></span>&nbsp;&nbsp;</span><@s.text name="search.street.search"/>&nbsp;(<@s.text name="global.autocomplete"/>) : </div>
-		<@gisgraphysearch.streetNameAutoCompleter/>
+		<@gisgraphysearch.streetNameAutoCompleter javascriptNameObject="streetNameAutocompleter"/>
+		
 <br/>
 </div>
 </@s.form>

@@ -285,19 +285,21 @@ html= html +'<br/><br/> <@s.text name="global.latitude" /> : '+selectedStreetInf
 </#macro>
 
 
-<#macro streetNameAutoCompleter>
+<#macro streetNameAutoCompleter javascriptNameObject >
 <link href="/scripts/autocomplete/styles.css" rel="stylesheet" type="text/css" />
 <script src="/scripts/prototype.js" type="text/javascript"></script>
 <script src="/scripts/autocomplete/autocomplete.js"></script>
+<@s.hidden size="5" name="lat" required="false" id="lat"  theme="simple" /><@s.hidden size="5" name="lng" required="false" id="lng" theme="simple"/>
 <span class="searchfield">
-			<span class="searchfieldlabel">&nbsp;</span><@s.textfield size="40" name="streetname" required="false" id="streetname"  theme="simple"/>
-			<br/>
+	<span class="searchfieldlabel">&nbsp;</span><div class="error streetautocompleteerror" id="streetNameAutocompletererror" >&nbsp;</div><br/>
+	<span class="searchfieldlabel">&nbsp;</span><@s.textfield size="40" name="streetname" required="false" id="streetname"  theme="simple"/><span style="display:none;" id=loadingImg"><img src="/images/loading.gif" alt="loading" class="imgAlign" style="width:25px;"></span>
 </span>
+<br/>
 <script type="text/javascript">
 selectedStreetInformation = null;
-streetNameAutocompleter = new Autocomplete('streetname', { serviceUrl: '/street/streetsearch?format=json"&from=1&to=10"', width: 340, deferRequestBy:400, minChars:1, onSelect: 
+${javascriptNameObject} = new Autocomplete('streetname', { serviceUrl: '/street/streetsearch?format=json"&from=1&to=10"', width: 340, deferRequestBy:400, minChars:1, onSelect: 
 function(value, data){
-	streetNameAutocompleter.streetResults.each(
+	${javascriptNameObject}.streetResults.each(
 		function(value, i) {
 			if (value.gid == data){
 				selectedStreetInformation = value;
@@ -307,12 +309,11 @@ function(value, data){
 			}
 	       }.bind(this));
       },
-onSearching: function(){alert('searching');},
-onEndSearching: function(){alert('end searching');},
-onNoResultsFound: function(){alert('no results found');},
-onFailToRetrieve: function(){alert('error');}
+onSearching: function(){$('loadingImg').show();$('streetNameAutocompletererror').innerHTML="&nbsp;"},
+onEndSearching: function(){$('loadingImg').hide()},
+onNoResultsFound: function(){$('streetNameAutocompletererror').innerHTML="<@s.text name="search.noResult"/>&nbsp; !"},
+onFailToRetrieve: function(){$('streetNameAutocompletererror').innerHTML="<@s.text name="search.error"><@s.param> </@s.param></@s.text>";}
 });
   
 </script>
-<@s.hidden size="5" name="lat" required="false" id="lat"  theme="simple" /><@s.hidden size="5" name="lng" required="false" id="lng" theme="simple"/>
 </#macro>
