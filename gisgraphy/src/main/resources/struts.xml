@@ -102,6 +102,8 @@
            <result name="popup" type="freemarker">/WEB-INF/views/geolocsearchpopup.ftl</result>
         </action>
         
+
+        
          <action name="displayfeature" class="com.gisgraphy.webapp.action.DisplayFeatureAction">
            <result name="success" type="freemarker">/WEB-INF/views/displayfeature.ftl</result>
            <result name="error" type="freemarker">/WEB-INF/views/displayfeatureerror.ftl</result>
@@ -158,6 +160,10 @@
         </action>
          <action name="worldwide_geocoding" class="com.gisgraphy.webapp.action.GeocodingAction">
              <result name="success" type="freemarker">/WEB-INF/views/geocoding.ftl</result>
+        </action>
+        <action name="reverse_geocoding_worldwide" class="com.gisgraphy.webapp.action.GeolocSearchAction">
+           <result name="success" type="freemarker">/WEB-INF/views/ajaxreversegeocoding.ftl</result>
+           <result name="popup" type="freemarker">/WEB-INF/views/ajaxreversegeocoding.ftl</result>
         </action>
         <action name="donateCancel" >
              <result name="success" type="freemarker">/WEB-INF/views/donatecancel.ftl</result>
