@@ -38,50 +38,6 @@
 	
 		
 		 <div class="clear"><br/></div>
-	 <@s.if test="advancedSearch">
-			<div id="advancedsearch" >
-		</@s.if>
-		<@s.else>
-    		<div id="advancedsearch" style="display:none;" >
-		</@s.else>
-	<fieldset >
-		<legend>&nbsp; <@s.text name="search.advanced"/> &nbsp; </legend>
-		<span class="advancedsearchcat"><@s.text name="search.moreCriteria"/></span>
-		<hr/>
-		<span class="searchfield">
-			<span class="searchfieldlabel"><@s.text name="global.radius"/> (<@s.text name="global.unit"/>) : </span>
-			<@s.textfield name="radius" required="true" size="10" theme="simple" />
-			<br/>
-		</span>
-		<div class="clear"></div>
-		<span class="searchfield">
-			<span class="searchfieldlabel"><@s.text name="global.placetype"/> : </span>
-			<@s.select headerKey="" headerValue="--Default--"  name="placetype" list="placetypes"  multiple="false" required="false"  labelposition="left" theme="simple"/>
-			<br/>
-		</span>
-		<br/>
-		<div class="clear"></div>
-		<span class="advancedsearchcat"><@s.text name="search.paginationSpecs"/></span>
-		<hr/>
-		<span class="searchfield">
-			<span class="searchfieldlabel"><@s.text name="search.pagination.from"/> : </span><@s.textfield size="5" maxlength="3" name="from" required="false"  theme="simple"/> 
-		</span>
-		<span class="searchfield">
-			<span class="searchfieldlabel"><@s.text name="search.pagination.to"/> : </span><@s.textfield size="5"  name="to" maxlength="3" required="false"  theme="simple"/> 
-		</span>
-		<br/>
-		<div class="clear"></div>
-		<span class="advancedsearchcat"><@s.text name="search.outputSpecs"/></span>
-		<hr/>
-		<div class="clear"></div>
-		<span class="searchfield">
-			<@s.url id="geolocSearchServiceUrl" action="geolocsearch" includeParams="all" namespace="">
-			 <@s.param name="advancedSearch" value="true" />
-			</@s.url>
-			<@s.text name="search.MoreOutputSpecsGeoloc"><@s.param>${geolocSearchServiceUrl}</@s.param><@s.param><@s.text name="search.geolocsearch.title"/></@s.param></@s.text>
-		</span>
-		
-	</fieldset>
 	</div>
 	</@s.form>
 </div>
@@ -94,18 +50,7 @@
 
 	DEFAULT_NUMBER_OF_RESULTS_PER_PAGE=${defaultNumberOfResultsPerPage?c};
 
- 	updatePaginationNext= function(){
-    $('geolocsearch')['from'].value=parseInt($('geolocsearch')['from'].value)+DEFAULT_NUMBER_OF_RESULTS_PER_PAGE;
-    $('geolocsearch')['to'].value=parseInt($('geolocsearch')['to'].value)+DEFAULT_NUMBER_OF_RESULTS_PER_PAGE;
-    return updatePopupResults();
-    }
-    
-     updatePaginationPrevious = function(){
-    $('geolocsearch')['from'].value=parseInt($('geolocsearch')['from'].value)-DEFAULT_NUMBER_OF_RESULTS_PER_PAGE;
-    $('geolocsearch')['to'].value=parseInt($('geolocsearch')['to'].value)-DEFAULT_NUMBER_OF_RESULTS_PER_PAGE;
-    return updatePopupResults();
-    }
-
+ 	
  	 	displayPopupResults = function(transport){
 	 	 	 if (transport.responseText){
 	 	 	 	$('nonAjaxDisplayResults').update("");
@@ -144,15 +89,15 @@
      {
  	    return false;
      }
-    var savedAction = $('geolocsearch').action;
-    $('geolocsearch').action='/ajaxgeolocsearch!searchpopup.html';
+    var savedAction = $('reverse_geocoding').action;
+    $('geolocsearch').action='/reverse_geocoding_worldwide!searchpopup.html';
     $('geolocsearch').request(
     { onComplete: displayPopupResults ,onFailure : function(transport){
 	  	alert("an error has occured");
 	  } }
     );
     //restore overiden parameters
-    $('geolocsearch').action=savedAction;
+    $('reverse_geocoding').action=savedAction;
     return false;
     }catch(e){
     alert("an error occured : " +e);
