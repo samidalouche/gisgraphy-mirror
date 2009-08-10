@@ -19,6 +19,7 @@ var Autocomplete = function(el, options){
   this.badQueries = [];
   /* Gisgraphy modification*/
   this.streetResults= []
+  
   this.selectedIndex = -1;
   this.currentValue = this.el.value;
   this.intervalId = 0;
@@ -190,6 +191,9 @@ Autocomplete.prototype = {
       new Ajax.Request(this.serviceUrl, {
         parameters: { name: this.currentValue },
         onComplete: this.processResponse.bind(this),
+	onLoaded: this.onSearching.bind(this),
+	onInteractive: this.onEndSearching.bind(this),
+	onFailure: this.onFailToRetrieve.bind(this),
         method: 'get'
       });
     }
@@ -232,8 +236,13 @@ Autocomplete.prototype = {
    /*Gisgraphy modification*/
    
     this.streetResults = response.result;
+    if (streetResults.length == 0){
+    	var onNoResultsFoundBind = this.onNoResultsFound.bind(this);
+	onNoResultsFoundBind();
+	return;
+    }
     var suggestionNames= [] ;
-    response.result.each(function(value, i) {
+    streetResults.each(function(value, i) {
 	suggestionNames.push(value.name);
     } .bind(this));
    this.suggestions = suggestionNames;
@@ -315,6 +324,22 @@ Autocomplete.prototype = {
 
   onSelect: function(i) {
     (this.options.onSelect || Prototype.emptyFunction)(this.suggestions[i], this.data[i]);
+  },
+
+ onSearching: function() {
+    (this.options.onSearching || Prototype.emptyFunction)();
+  },
+
+ onEndSearching: function() {
+    (this.options.onEndSearching || Prototype.emptyFunction)();
+  },
+
+ onNoResultsFound: function() {
+    (this.options.onNoResultsFound || Prototype.emptyFunction)();
+  },
+
+  onFailToRetrieve: function() {
+    (this.options.onFailToRetrieve || Prototype.emptyFunction)();
   }
 
 };

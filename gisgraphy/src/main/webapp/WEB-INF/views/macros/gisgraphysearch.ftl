@@ -306,7 +306,11 @@ function(value, data){
 				return false;
 			}
 	       }.bind(this));
-      }
+      },
+onSearching: function(){alert('searching');},
+onEndSearching: function(){alert('end searching');},
+onNoResultsFound: function(){alert('no results found');},
+onFailToRetrieve: function(){alert('error');}
 });
   
 </script>
