@@ -3,16 +3,16 @@
 <html>
 <head>
 <title><@s.text name="search.geocoding.title"/></title>
-<meta name="Description" content="free webservices for street search for openstreetmap. Pagination, indentation, several languages are supported"/>
+<meta name="Description" content="Worldwide geocoding free webservices and street search for openstreetmap. Pagination, indentation, several languages are supported"/>
 <meta name="heading" content="<@s.text name="search.geocoding.title"/>"/>
-<meta name="keywords" content="street search java openstreetmap webservices postgis hibernate toponyms gazeteers"/>
+<meta name="keywords" content="geocoding world worldwide street search java openstreetmap webservices postgis hibernate toponyms gazeteers"/>
 <script src="/scripts/prototype.js" type="text/javascript"></script>
 </head>
 <body onunload="GUnload()">
 <br/>
 <noscript>
 	<div class="tip yellowtip">
-		<@s.text name="global.noscript"/>
+		<@s.text name="global.noscript.required"/>
 	</div>
 	<br/>
 </noscript>

@@ -2,10 +2,10 @@
 <#import "macros/gisgraphysearch.ftl" as gisgraphysearch>
 <html>
 <head>
-<title><@s.text name="search.ajaxgeolocsearch.title"/></title>
-<meta name="Description" content="free geoloc webservices demo for Geonames Data. Results are shown in an human readable way. Pagination, indentation, several languages are supported"/>
-<meta name="heading" content="<@s.text name="search.ajaxgeolocsearch.title"/>"/>
-<meta name="keywords" content="geoloc find nearby GPS java geonames ajax webservices postgis hibernate toponyms gazeteers"/>
+<title><@s.text name="search.geocoding.reverse.title"/></title>
+<meta name="Description" content="Worldwide Reverse geocoding free webservices and street search for openstreetmap. Pagination, indentation, several languages are supported"/>
+<meta name="heading" content="<@s.text name="search.geocoding.reverse.title"/>"/>
+<meta name="keywords" content=" reverse geocoding world worldwide street search free java openstreetmap webservices "/>
 </head>
 <body>
 <br/>
@@ -18,14 +18,12 @@
 </noscript>
 	
 			<@breadcrumbs.searchNavBar/>
-	<@s.form action="ajaxgeolocsearch!search.html" method="get" id="geolocsearch">
+	<@s.form action="reversegeocodingsearch!search.html" method="get" id="reversegeocoding">
 		<div id="simplesearch">
 			<@gisgraphysearch.latlongsearchbox/>
 			<@breadcrumbs.geolocSearchTooltip advancedSearchURLParam="ajaxgeolocsearch"/>
 	</div>
 	<div class="clear"><br/></div>
-	<div class="biggertext"><@s.text name="search.geoloc.defaultPlaceType.part1"/></div>
-	<div class="biggertext"><@s.text name="search.geoloc.defaultPlaceType.part2"/></div>
 	<div id="nonAjaxDisplayResults">
 			<#if errorMessage!= ''>
 			<div class="clear"><br/><br/></div>

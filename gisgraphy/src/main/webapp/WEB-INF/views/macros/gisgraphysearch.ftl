@@ -142,6 +142,17 @@
 		</div>
 </#macro>
 
+<#macro latlongsearchbox >
+<div id="searchleftblock">
+				Lat (&#x2195;) : <@s.textfield name="lat" maxlength="15" required="true" size="6" theme="simple" id="lat"/>
+				<span class="spacer">Long (&#x2194;) : </span><@s.textfield name="lng" maxlength="15" required="true" size="6" theme="simple" />
+				<div id="searchbuttonbar">
+					<span id="searchexample">e.g. '3.5', '45.2', ... </span>
+					<@s.submit title="Search" value="Search" theme="simple"  onclick="return updatePopupResults()"/>
+				</div>
+			</div>
+</#macro>
+
 <#macro googleStreetPanorama width heigth googleMapAPIKey CSSClass >
 <script src="http://maps.google.com/maps?file=api&amp;v=2.x&amp;key=${googleMapAPIKey} "
             type="text/javascript"></script>
