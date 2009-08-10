@@ -236,7 +236,7 @@ Autocomplete.prototype = {
    /*Gisgraphy modification*/
    
     this.streetResults = response.result;
-    if (streetResults.length == 0){
+    if (this.streetResults.length == 0){
     	var onNoResultsFoundBind = this.onNoResultsFound.bind(this);
 	onNoResultsFoundBind();
 	return;
