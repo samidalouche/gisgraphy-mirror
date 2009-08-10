@@ -167,7 +167,6 @@
 			return;
 		      }
 		      if (errorCode == GStreetviewPanorama.ErrorValues.NO_NEARBY_PANO) {
-			$('streetpanorama').innerHtml="todo localize No pano available";
 			return;
 		      }
 		else {
@@ -206,7 +205,7 @@
 			 baseIcone.iconAnchor=new google.maps.Point(6,20);
 			 baseIcone.infoWindowAnchor=new google.maps.Point(5,1);			
 			iconeRouge = new google.maps.Icon(baseIcone, 'http://labs.google.com/ridefinder/images/mm_20_red.png', null, 'http://labs.google.com/ridefinder/images/mm_20_shadow.png');
-			var marqueur = new google.maps.Marker(latlong, {icon: iconeRouge, title: "todo localized"});
+			var marqueur = new google.maps.Marker(latlong, {icon: iconeRouge, title: "gisgraphy geocoding"});
 			//google.maps.Event.addListener(marqueur, 'load', function() {
 			var html = '<div id="EmplacementStreetView" style="width: 250px; height: 150px; text-align:center"><span  class="biggertext">'+selectedStreetInformation.name+'</span><br/><br/>';
 if (selectedStreetInformation.streetType != null){html= html + "<@s.text name="search.type.of.street"/> : "+selectedStreetInformation.streetType;}
@@ -228,7 +227,7 @@ html= html +'<br/><br/> <@s.text name="global.latitude" /> : '+selectedStreetInf
 			return;
 		      }
 		     if (errorCode == GStreetviewPanorama.ErrorValues.NO_NEARBY_PANO) {
-			$('streetpanorama').innerHtml="todo localize No pano available";
+			$('streetpanorama').innerHtml="<@s.text name="search.nostreetpanoramaavailable" />";
 			alert ('no panoavailable');
 			return;
 		      }
@@ -291,8 +290,8 @@ html= html +'<br/><br/> <@s.text name="global.latitude" /> : '+selectedStreetInf
 <script src="/scripts/autocomplete/autocomplete.js"></script>
 <@s.hidden size="5" name="lat" required="false" id="lat"  theme="simple" /><@s.hidden size="5" name="lng" required="false" id="lng" theme="simple"/>
 <span class="searchfield">
-	<span class="searchfieldlabel">&nbsp;</span><div class="error streetautocompleteerror" id="streetNameAutocompletererror" >&nbsp;</div><br/>
-	<span class="searchfieldlabel">&nbsp;</span><@s.textfield size="40" name="streetname" required="false" id="streetname"  theme="simple"/><span style="display:none;" id=loadingImg"><img src="/images/loading.gif" alt="loading" class="imgAlign" style="width:25px;"></span>
+	<span class="searchfieldlabel">&nbsp;</span><div class="error streetautocompleteerror" id="streetNameAutocompletererror" >&nbsp;rr</div><br/>
+	<span class="searchfieldlabel">&nbsp;</span><@s.textfield size="40" name="streetname" required="false" id="streetname"  theme="simple"/><span style="display:none;" id="loadingImg"><img src="/images/loading.gif" alt="loading" class="imgAlign" style="width:25px;"></span>
 </span>
 <br/>
 <script type="text/javascript">
@@ -309,10 +308,19 @@ function(value, data){
 			}
 	       }.bind(this));
       },
-onSearching: function(){$('loadingImg').show();$('streetNameAutocompletererror').innerHTML="&nbsp;"},
-onEndSearching: function(){$('loadingImg').hide()},
-onNoResultsFound: function(){$('streetNameAutocompletererror').innerHTML="<@s.text name="search.noResult"/>&nbsp; !"},
-onFailToRetrieve: function(){$('streetNameAutocompletererror').innerHTML="<@s.text name="search.error"><@s.param> </@s.param></@s.text>";}
+onSearching: function(){
+		$('loadingImg').show();
+		$('streetNameAutocompletererror').innerHTML="&nbsp;"
+	},
+onEndSearching: function(){
+		$('loadingImg').hide()
+	},
+onNoResultsFound: function(){
+		$('streetNameAutocompletererror').innerHTML="<@s.text name="search.noResult"/>&nbsp; !"
+	},
+onFailToRetrieve: function(){
+		$('streetNameAutocompletererror').innerHTML="<@s.text name="search.error"><@s.param>( </@s.param></@s.text>"+${javascriptNameObject}.errorMessage;
+	}
 });
   
 </script>

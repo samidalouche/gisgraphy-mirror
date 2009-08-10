@@ -28,6 +28,7 @@ var Autocomplete = function(el, options){
   this.onChangeInterval = null;
   this.ignoreValueChange = false;
   this.serviceUrl = options.serviceUrl;
+  this.errorMessage="";
   this.options = {
     autoSubmit:false,
     minChars:1,
@@ -191,7 +192,7 @@ Autocomplete.prototype = {
       new Ajax.Request(this.serviceUrl, {
         parameters: { name: this.currentValue },
         onComplete: this.processResponse.bind(this),
-	onLoaded: this.onSearching.bind(this),
+	onLoading: this.onSearching.bind(this),
 	onInteractive: this.onEndSearching.bind(this),
 	onFailure: this.onFailToRetrieve.bind(this),
         method: 'get'
@@ -242,7 +243,7 @@ Autocomplete.prototype = {
 	return;
     }
     var suggestionNames= [] ;
-    streetResults.each(function(value, i) {
+    this.streetResults.each(function(value, i) {
 	suggestionNames.push(value.name);
     } .bind(this));
    this.suggestions = suggestionNames;

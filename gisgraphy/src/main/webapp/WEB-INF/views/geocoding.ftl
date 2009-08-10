@@ -22,7 +22,7 @@
 
 
 		<script type="text/javascript">
-			latlngArray = eval('${latLongJson}')
+			latlngArray = eval('${latLongJson}');
 			updateLatLng = function(){
 				if ($('ambiguouscity') != null){
 					var indexDropDown = ($('ambiguouscity').selectedIndex);
@@ -41,12 +41,10 @@
 				if ($('lat').value != '' && $('lng').value != '' ){
 					streetNameAutocompleter.serviceUrl="/street/streetsearch?format=json&lat="+$('lat').value+"&lng="+$('lng').value+"&from=1&to=10";
 					$('viewAllStreetLink').show();
-
 					$('streetname').enable();
 
 				} else {
 					$('viewAllStreetLink').hide();
-
 					$('streetname').disable();
 
 				}
