@@ -32,21 +32,6 @@
 <@s.hidden size="1" name="name" id="name"  value="%" theme="simple" />
 	</div>
 	<div class="clear"><br/></div>
-	<div id="nonAjaxDisplayResults">
-			<#if errorMessage!= ''>
-			<div class="clear"><br/><br/></div>
-				<div class="tip redtip">
-					<div class="importantMessage">Error : ${errorMessage}</div>
-				</div>
-			<#elseif displayResults>
-			<div class="clear"><br/><br/></div>
-		 		<@gisgraphysearch.displayGeolocResults geolocResponseDTO=responseDTO/>
-		 	</#if>
-		 </div>
-	
-		
-		 <div class="clear"><br/></div>
-	</div>
 	</@s.form>
 </div>
 <div id="popupResults"></div>
