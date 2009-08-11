@@ -12,16 +12,24 @@
 <div id="gissearch">
 <noscript>
 	<div class="tip yellowtip">
-	<@s.text name="global.noscript"/>
+	<@s.text name="global.noscript.required"/>
 	</div>
 	<br/>
 </noscript>
 	
 			<@breadcrumbs.searchNavBar/>
-	<@s.form action="reversegeocodingsearch!search.html" method="get" id="reversegeocoding">
+
+<div class="clear"></div><div class="biggertext" style="line-height:1.5em;">The worldwide reverse geocoding webservice is totally FREE and allow to find a street from a Lat/lng pair. it uses (free) data from <span class="imgAlign"><a href="http://openstreetmap.org">openstreetMap <img src="/images/openstreetmap.png" alt="openstreetmap" class="imgAlign" style="width:30px"/></a> that are imported into a local database. you can see an example of use bellow</span>. You can find documentation on <a href="http://www.gisgraphy.com/documentation/index.htm#streetservice">how to use the webservice</a> and see how to <a href="http://www.gisgraphy.com/documentation/installation/index.htm" alt="install gisgraphy">download and install</a> Gisgraphy</div><br/><br/>
+<div class="clear"></div>
+
+
+	<@s.form action="/street/search" method="get" id="reversegeocoding">
 		<div id="simplesearch">
 			<@gisgraphysearch.latlongsearchbox/>
 			<@breadcrumbs.geolocSearchTooltip advancedSearchURLParam="ajaxgeolocsearch"/>
+<@s.hidden size="1" name="from" id="from"  value="1" theme="simple" />
+<@s.hidden size="1" name="to"  id="to" value="1" theme="simple"/>
+<@s.hidden size="1" name="name" id="name"  value="%" theme="simple" />
 	</div>
 	<div class="clear"><br/></div>
 	<div id="nonAjaxDisplayResults">
@@ -48,63 +56,34 @@
 
 <script type="text/javascript" >
 
-	DEFAULT_NUMBER_OF_RESULTS_PER_PAGE=${defaultNumberOfResultsPerPage?c};
-
- 	
- 	 	displayPopupResults = function(transport){
-	 	 	 if (transport.responseText){
-	 	 	 	$('nonAjaxDisplayResults').update("");
-		     	$('popupResults').update(transport.responseText);
-		     	$('popupResults').show();
-		     	 Event.observe('closePopupResultsPopupButton','click',closePopupResults);
-		     	 Event.observe(document,'keydown',function(e){
-		     	 	var code;
-					if (!e) var e = window.event;
-					if (e.keyCode) code = e.keyCode;
-					else if (e.which) code = e.which;
-					if (code=27) {
-						closePopupResults();
-					}
-		     	 }
-		     	 );
-		     	 return false;
-		   	 } else {
-		      alert("No response from the server");
-		      return true;
-		     }
-        }
-        
-        closePopupResults = function(){
-        	$('popupResults').hide();
-        	$('popupResults').update("");
-        	$('geolocsearch')['from'].value=1;
-        	$('geolocsearch')['to'].value=DEFAULT_NUMBER_OF_RESULTS_PER_PAGE
-        }
-        
- 	
- 	
-    updatePopupResults = function(){
-    try {
-     if (!checkParameters('geolocsearch'))
-     {
- 	    return false;
-     }
-    var savedAction = $('reverse_geocoding').action;
-    $('geolocsearch').action='/reverse_geocoding_worldwide!searchpopup.html';
-    $('geolocsearch').request(
-    { onComplete: displayPopupResults ,onFailure : function(transport){
-	  	alert("an error has occured");
-	  } }
-    );
-    //restore overiden parameters
-    $('reverse_geocoding').action=savedAction;
-    return false;
-    }catch(e){
-    alert("an error occured : " +e);
-    return true;
-    }
+doSearch = function(){
+	if (checkParameters("reversegeocoding")== false){
+		return false;
 	}
+	query = new GisgraphyQuery("reversegeocoding",function(response){
+		var data = response.evalJSON(true);
+		var results = data.result
+		var resultsSize = results.length
+		if (resultsSize == 0){
+			alert('no result found');
+		} else if (resultsSize == 1){
+			selectedStreetInformation = results[0];
+			viewStreet(selectedStreetInformation.lat,selectedStreetInformation.lng);
+			viewStreetPanorama(selectedStreetInformation.lat,selectedStreetInformation.lng);
+		}
+	}
+);
+query.execute();
+return false;
+}
 
 </script>
+
+<@gisgraphysearch.googleStreetView width="700" heigth="400" 
+	googleMapAPIKey=googleMapAPIKey CSSClass="center" />
+<br/><br/>
+<@gisgraphysearch.googleStreetPanorama width="700" heigth="300" 
+	googleMapAPIKey=googleMapAPIKey CSSClass="center" />
+
 </body>
 </html>

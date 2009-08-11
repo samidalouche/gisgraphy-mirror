@@ -22,69 +22,16 @@
  *******************************************************************************/
 package com.gisgraphy.webapp.action;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import com.gisgraphy.domain.valueobject.GisgraphyConfig;
-
 /**
- * Reverse geocoding Action
+ * Interface to be implemented when Google map api key is required
  * 
  * @author <a href="mailto:david.masclet@gisgraphy.com">David Masclet</a>
  */
-public class ReverseGeocodingAction extends SearchAction implements GoogleMapApiKeyAware{
-
-   
-    /**
-     * 
-     */
-    private static final long serialVersionUID = 1L;
-
-    private static Logger logger = LoggerFactory
-	    .getLogger(ReverseGeocodingAction.class);
-
-
-    public String lat;
-
-    public String lng;
-
-
-    /**
-     * @return the lat
-     */
-    public String getLat() {
-	return lat;
-    }
-
-    /**
-     * @param lat
-     *                the lat to set
-     */
-    public void setLat(String lat) {
-	this.lat = lat;
-    }
-
-    /**
-     * @return the lng
-     */
-    public String getLng() {
-	return lng;
-    }
-
-    /**
-     * @param lng
-     *                the lng to set
-     */
-    public void setLng(String lng) {
-	this.lng = lng;
-    }
-
+public interface GoogleMapApiKeyAware {
     
     /**
      * @return the googleMapAPIKey
      */
-    public String getGoogleMapAPIKey() {
-        return GisgraphyConfig.googleMapAPIKey == null ? "" : GisgraphyConfig.googleMapAPIKey;
-    }
+    public String getGoogleMapAPIKey();
 
 }

@@ -1,3 +1,5 @@
+
+
 /*
  * Utility method that eval a json feed into a variable
  * the json feed and the variableName are required, if one of the parameters is missing : an exception is thrown
@@ -21,7 +23,7 @@ defaultCallback= function(jsonFeed){
 
 /*
  * Check parameters from a form
- * formName the name of the formulaire to check
+ * formName the HTML id of the form to check
  * return true if parameters are corrects
  */
  checkParameters = function(formName){
@@ -65,58 +67,52 @@ defaultCallback= function(jsonFeed){
  }
 
 /*
+ * Class to execute query from a form
+ */
+ GisgraphyQuery = Class.create({
+
+/*
  * Default Constructor 
  */
-GisgraphyQuery = function(formName, callbackParam){
-
-	GisgraphyQuery.prototype.formName = formName;
-	GisgraphyQuery.prototype.form = $(formName);
-	GisgraphyQuery.prototype.URL= this.form.action
-	GisgraphyQuery.prototype.callback = callbackParam || defaultCallback ;
+  initialize: function(formName, callbackParam){
+	this.formName = formName;
+	this.form = $(formName);
+	this.URL= this.form.action
+	this.callback = callbackParam || defaultCallback ;
 	if (this.form == 'undefined'){
-	GisgraphyQuery.prototype.parameters = {} ;
+		this.parameters = {} ;
 	}
 	else {
-	GisgraphyQuery.prototype.parameters = this.form.serialize(true) ;
+		this.parameters = this.form.serialize(true) ;
 	}
-
+  },
 /*
  * Set a parameter for the Ajax query"
  * The parameter value and the parameter name are both required.
  * The parameters are to be a string
  */
-	GisgraphyQuery.prototype.setParameter = function(parameterName,parameterValue){
+  setParameter : function(parameterName,parameterValue){
 		if ((typeof parameterName == 'undefined') ||(typeof parameterValue == 'undefined')) {
 			throw "parameterName and parameterValue are both required parameters";
 		}
 		eval("this.parameters."+parameterName+"='"+parameterValue+"'");
-	};
-
+  },
 /*
  * Set the URL for the Ajax query"
  * The parameter value and the parameter name are both required.
  * The parameter value is to be a string
  */
-	GisgraphyQuery.prototype.setURL = function(URLValue){
+  setURL : function(URLValue){
 		if (typeof URLValue == 'undefined') {
 			throw "URLValue is mandatory";
 		}
 		this.URL = URLValue;
-	};
-
-}
-
-//Constants
-GisgraphyQuery.JSON_FORMAT="JSON";
-GisgraphyQuery.FULLTEXTQUERY_MAXLENGTH = 200;
-
-
+  },
 /*
- * Execute a FulltextQuery
- * If no callback function 
+ * Execute the query
  */
-GisgraphyQuery.prototype.execute = function(){
-	request= this;
+  execute : function(){
+	request = this;
 	//overide format
 	this.parameters.format=GisgraphyQuery.JSON_FORMAT;
 	checkParameters(this.formName);
@@ -136,4 +132,10 @@ GisgraphyQuery.prototype.execute = function(){
 	  encoding : "UTF-8",
 	  parameters : this.parameters
 	});
-}
+ }
+});
+
+//Constants
+GisgraphyQuery.JSON_FORMAT="JSON";
+GisgraphyQuery.FULLTEXTQUERY_MAXLENGTH = 200;
+

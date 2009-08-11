@@ -41,16 +41,15 @@ import com.gisgraphy.domain.valueobject.GisgraphyConfig;
 import com.gisgraphy.domain.valueobject.Output;
 import com.gisgraphy.domain.valueobject.Pagination;
 import com.gisgraphy.domain.valueobject.SolrResponseDto;
-import com.gisgraphy.domain.valueobject.Output.OutputStyle;
 import com.opensymphony.xwork2.Action;
 import com.opensymphony.xwork2.ActionSupport;
 
 /**
- * street search Action
+ * Ggeocoding Action
  * 
  * @author <a href="mailto:david.masclet@gisgraphy.com">David Masclet</a>
  */
-public class GeocodingAction extends ActionSupport {
+public class GeocodingAction extends ActionSupport implements GoogleMapApiKeyAware {
     
     private static Logger logger = LoggerFactory.getLogger(GeocodingAction.class);
     

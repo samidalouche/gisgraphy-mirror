@@ -57,6 +57,21 @@
     </div>
     <script src="http://www.google-analytics.com/urchin.js" type="text/javascript">
 </script>
+<div id="otherlang" class="clearfix">
+<br/><br/>
+Other languages : <span><a href="/?locale=en"><img src="/images/languages/EN_US.png"  alt="Gisgraphy in english"></a></span> |
+<span><a href="/?locale=fr"><img src="/images/languages/FR.png"  alt="Gisgraphy en francais"></a></span> |
+<span><a href="/?locale=es"><img src="/images/languages/ES.png"  alt="Gisgraphy in spanish"></a></span> |
+<span><a href="/?locale=de"><img src="/images/languages/DE.png"  alt="Gisgraphy in German"></a></span> |
+<span><a href="/?locale=it"><img src="/images/languages/IT.png"  alt="Gisgraphy in Italian"></a></span> |
+<span><a href="/?locale=cn"><img src="/images/languages/CN.png"  alt="Gisgraphy in Chinese"></a></span> |
+<span><a href="/?locale=JP"><img src="/images/languages/JP.png"  alt="Gisgraphy in Japanese"></a></span>
+<span><a href="/?locale=nl"><img src="/images/languages/NL.png"  alt="Gisgraphy in Deutsh"></a></span> |
+<span><a href="/?locale=pt"><img src="/images/languages/PT.png"  alt="Gisgraphy in portuguese"></a></span> |
+<span><a href="/?locale=no"><img src="/images/languages/NO.png"  alt="Gisgraphy in Norwegian"></a></span> |
+<span><a href="/?locale=tr"><img src="/images/languages/TR.png"  alt="Gisgraphy in Turkish"></a></span> |
+<span><a href="/?locale=kr"><img src="/images/languages/KR.png"  alt="Gisgraphy in Korean"></a></span>
+</div>
 <script type="text/javascript">
 _uacct = "<fmt:message key="googleanalytics._uacctcode"/>";
 urchinTracker();
