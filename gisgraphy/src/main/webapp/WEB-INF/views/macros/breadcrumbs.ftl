@@ -3,14 +3,17 @@
 	<@s.url id="ajaxFulltextSearchUrl" action="ajaxfulltextsearch" includeParams="all" namespace="" />
 	<@s.url id="simpleGeolocSearchUrl" action="geolocsearch" includeParams="all" namespace="" />
 	<@s.url id="ajaxGeolocSearchUrl" action="ajaxgeolocsearch" includeParams="all"  namespace=""  />
-	<@s.url id="streetSearchUrl" action="worldwide_geocoding" includeParams="none" namespace="/public" />
+	<@s.url id="geocodingSearchUrl" action="geocoding_worldwide" includeParams="none" namespace="/public" />
+	<@s.url id="reverseGeocodingSearchUrl" action="reverse_geocoding_worldwide" includeParams="none" namespace="/public" />
 	
 	<span id="searchlinks">
 	<a href="${simpleFulltextSearchUrl}"  <#if request.getRequestURI().startsWith("/fulltextsearch")>style="color:#cc0000"</#if>  ><@s.text name="search.fulltext.breadcrumbs"/></a>
 	 | <a href="${ajaxFulltextSearchUrl}" <#if request.getRequestURI().startsWith("/ajaxfulltextsearch")>style="color:#cc0000"</#if> ><@s.text name="search.fulltextDemo.breadcrumbs"/></a>
 	 | <a href="${simpleGeolocSearchUrl}" <#if request.getRequestURI().startsWith("/geolocsearch")>style="color:#cc0000"</#if> ><@s.text name="search.geoloc.breadcrumbs"/></a> 
 	 | <a href="${ajaxGeolocSearchUrl}" <#if request.getRequestURI().startsWith("/ajaxgeolocsearch")>style="color:#cc0000"</#if> ><@s.text name="search.geolocDemo.breadcrumbs"/></a>
-	 |  <a href="${streetSearchUrl}" <#if request.getRequestURI().startsWith(streetSearchUrl)>style="color:#cc0000"</#if> ><@s.text name="search.geocoding.title"/></a></span><br/>
+	 |  <a href="${geocodingSearchUrl}" <#if request.getRequestURI().startsWith(geocodingSearchUrl)>style="color:#cc0000"</#if> ><@s.text name="search.geocoding.breadcrumbs"/></a>
+	  | <a href="${reverseGeocodingSearchUrl}" <#if request.getRequestURI().startsWith(reverseGeocodingSearchUrl)>style="color:#cc0000"</#if> ><@s.text name="search.geocoding.reverse.breadcrumbs"/></a>
+	 </span><br/>
 </#macro>
 
 <#macro paypalDonation>

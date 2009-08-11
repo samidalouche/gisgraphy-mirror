@@ -1,4 +1,5 @@
 <#import "macros/breadcrumbs.ftl" as breadcrumbs>
+<#import "macros/gisgraphysearch.ftl" as gisgraphysearch>
 <html>
 <head>
 <title><@s.text name="search.geolocsearch.title"/></title>
@@ -19,14 +20,7 @@
 			<@breadcrumbs.searchNavBar/>
 	<@s.form action="/geoloc/geolocsearch" method="get" id="geolocsearch">
 		<div id="simplesearch">
-			<div id="searchleftblock">
-				Lat (&#x2195;) : <@s.textfield maxlength="10" name="lat" required="true" size="6" theme="simple" />
-				 <span class="spacer">Long (&#x2194;) : </span><@s.textfield name="lng" maxlength="10" required="true" size="6" theme="simple" />
-				<div id="searchbuttonbar">
-					<span id="searchexample">e.g. '3.5', '45.2', ... </span>
-					<@s.submit title="Search" value="Search" theme="simple"/>
-				</div>
-			</div>
+			<@gisgraphysearch.latlongsearchbox/>
 			<@breadcrumbs.geolocSearchTooltip advancedSearchURLParam="geolocsearch"/>
 	</div>
 	<div class="clear"><br/></div>
@@ -79,6 +73,11 @@
 	</div>
 	</@s.form>
 	<script src="/scripts/prototype.js" type="text/javascript"></script>
+	<script type="text/javascript" >
+	doSearch = function(){
+ 		return true;
+ 	}
+	</script>
 </div>
 </body>
 </html>

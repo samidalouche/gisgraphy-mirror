@@ -138,7 +138,9 @@
         	$('geolocsearch')['to'].value=DEFAULT_NUMBER_OF_RESULTS_PER_PAGE
         }
         
- 	
+ 	doSearch = function(){
+ 		return updatePopupResults();
+ 	}
  	
     updatePopupResults = function(){
     try {

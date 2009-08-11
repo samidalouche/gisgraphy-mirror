@@ -158,12 +158,12 @@
          <action name="servicesdescription" >
              <result name="success" type="freemarker">/WEB-INF/views/servicesdescription.ftl</result>
         </action>
-         <action name="worldwide_geocoding" class="com.gisgraphy.webapp.action.GeocodingAction">
+         <action name="geocoding_worldwide" class="com.gisgraphy.webapp.action.GeocodingAction">
              <result name="success" type="freemarker">/WEB-INF/views/geocoding.ftl</result>
         </action>
-        <action name="reverse_geocoding_worldwide" class="com.gisgraphy.webapp.action.GeolocSearchAction">
-           <result name="success" type="freemarker">/WEB-INF/views/ajaxreversegeocoding.ftl</result>
-           <result name="popup" type="freemarker">/WEB-INF/views/ajaxreversegeocoding.ftl</result>
+        <action name="reverse_geocoding_worldwide" class="com.gisgraphy.webapp.action.ReverseGeocodingAction">
+           <result name="success" type="freemarker">/WEB-INF/views/reversegeocoding.ftl</result>
+           <result name="popup" type="freemarker">/WEB-INF/views/reversegeocoding.ftl</result>
         </action>
         <action name="donateCancel" >
              <result name="success" type="freemarker">/WEB-INF/views/donatecancel.ftl</result>

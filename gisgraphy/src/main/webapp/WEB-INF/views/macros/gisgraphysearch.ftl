@@ -148,7 +148,7 @@
 				<span class="spacer">Long (&#x2194;) : </span><@s.textfield name="lng" maxlength="15" required="true" size="6" theme="simple" />
 				<div id="searchbuttonbar">
 					<span id="searchexample">e.g. '3.5', '45.2', ... </span>
-					<@s.submit title="Search" value="Search" theme="simple"  onclick="return updatePopupResults()"/>
+					<@s.submit title="Search" value="Search" theme="simple"  onclick="return doSearch()"/>
 				</div>
 			</div>
 </#macro>
@@ -259,7 +259,7 @@ html= html +'<br/><br/> <@s.text name="global.latitude" /> : '+selectedStreetInf
 		<span class="error"><@s.text name="search.city.ambiguous"/> ! </span>
 		<br/><br/>
 		<@s.select listKey="Feature_id" listValue="Fully_qualified_name" name="ambiguouscity" list="ambiguousCities" headerValue="-- %{getText('search.select.city')} --" headerKey="" multiple="false" required="true" labelposition="top" theme="simple" onchange="${onCityFound}();" id="ambiguouscity" />&nbsp;
-		<@s.url id="chooseOtherCityUrl" action="worldwide_geocoding" includeParams="none" />
+		<@s.url id="chooseOtherCityUrl" action="geocoding_worldwide" includeParams="none" />
 		<a href="${chooseOtherCityUrl}"><@s.text name="search.city.chooseOther" /></a>
 		<br/>
 		</span>
@@ -269,7 +269,7 @@ html= html +'<br/><br/> <@s.text name="global.latitude" /> : '+selectedStreetInf
 			<br/>
 			<div class="forminstructions"><img src="/images/puce_2.gif" class="imagenumberlist" alt="puce_2"/><@s.text name="search.selectedcity" /> : </div>			<span class="searchfield">
 			<span class="searchfieldlabel">&nbsp; </span> <@s.textfield size="40" name="city" id="city"  value="${city}" theme="simple" disabled="true"/>&nbsp
-			<@s.url id="chooseOtherCityUrl" action="worldwide_geocoding" includeParams="none" />
+			<@s.url id="chooseOtherCityUrl" action="geocoding_worldwide" includeParams="none" />
 		<a href="${chooseOtherCityUrl}"><@s.text name="search.city.chooseOther" /></a>
 		<#else>
 			<div class="forminstructions"><img src="/images/puce_2.gif" class="imagenumberlist" alt="puce_2"/><@s.text name="search.choose.city"/> : </div>
