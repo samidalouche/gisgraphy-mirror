@@ -30,6 +30,7 @@ import org.springframework.beans.factory.annotation.Required;
 
 import com.gisgraphy.domain.geoloc.importer.IImporterManager;
 import com.gisgraphy.domain.geoloc.importer.ImporterManager;
+import com.gisgraphy.domain.valueobject.ImporterStatus;
 import com.gisgraphy.domain.valueobject.ImporterStatusDto;
 import com.opensymphony.xwork2.Action;
 import com.opensymphony.xwork2.ActionSupport;
@@ -96,6 +97,10 @@ public class ImportAction extends ActionSupport {
     @Override
     public String execute() throws Exception {
 	return this.doImport();
+    }
+    
+    public  ImporterStatus[] getStatusEnumList(){
+	return ImporterStatus.values();
     }
 
     /**

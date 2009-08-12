@@ -48,6 +48,12 @@
 
     
 	</p>
+	<@s.text name="global.legend"/> :<br/>
+	<blockquote><@s.iterator value="statusEnumList" var="statusEnumValue">
+		<img src="/images/<@s.property />.png" alt="<@s.property/>" title="<@s.property />"/> : <@s.property/>&nbsp;&nbsp;;<br/>
+	</@s.iterator>
+	</blockquote>
+	<br/><br/>
     <p/>
     <@s.url id="thisUrl" action="import" includeParams="all" />
     <@s.text name="import.refreshText"/> <a href="${thisUrl}"><@s.text name="global.refresh"/></a>.

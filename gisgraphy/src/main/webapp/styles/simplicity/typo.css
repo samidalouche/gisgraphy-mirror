@@ -126,8 +126,7 @@
         }
 
         blockquote {
-            border-left: 10px solid #ddd;
-            margin-left: 10px;
+            margin-left: 20px;
         }
 
         pre {
