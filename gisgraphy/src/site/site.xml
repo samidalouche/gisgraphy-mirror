@@ -33,7 +33,10 @@
 
     <menu name="Gisgraphy project" collapse="false">
      <item name="Home" href="/index.htm"/>
-     <item name="Download" href="/download/index.htm"/>
+     <item name="Download Gisgraphy" href="/download/index.htm"/>
+     <item name="Download Data" href="/download/index.htm"/>
+     
+     <item name="Installation" href="/documentation/installation/index.htm"/>
      <item name="Features plan / status" href="/features.htm"/>
      <item name="Dump" href="/dump.htm"/>
      <item name="Donations - Benefactors" href="/benefactors.htm"/>
