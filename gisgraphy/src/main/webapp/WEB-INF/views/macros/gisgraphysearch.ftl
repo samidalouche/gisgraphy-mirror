@@ -301,7 +301,7 @@ html= html +'<br/><br/> <@s.text name="global.latitude" /> : '+selectedStreetInf
 <script src="/scripts/autocomplete/autocomplete.js"></script>
 <@s.hidden size="5" name="lat" required="false" id="lat"  theme="simple" /><@s.hidden size="5" name="lng" required="false" id="lng" theme="simple"/>
 <span class="searchfield">
-	<span class="searchfieldlabel">&nbsp;</span><div class="error streetautocompleteerror" id="streetNameAutocompletererror" >&nbsp;rr</div><br/>
+	<span class="searchfieldlabel">&nbsp;</span><div class="error streetautocompleteerror" id="streetNameAutocompletererror" >&nbsp;</div><br/>
 	<span class="searchfieldlabel">&nbsp;</span><@s.textfield size="40" name="streetname" required="false" id="streetname"  theme="simple"/><span style="display:none;" id="loadingImg"><img src="/images/loading.gif" alt="loading" class="imgAlign" style="width:25px;"></span>
 </span>
 <br/>
