@@ -59,8 +59,8 @@
 </script>
 <div id="otherlang" class="clearfix">
 <br/><br/>
-Other languages : <span><a href="/?locale=en"><img src="/images/languages/EN_US.png"  alt="Gisgraphy in english"></a></span> |
-<span><a href="/?locale=fr"><img src="/images/languages/FR.png"  alt="Gisgraphy en francais"></a></span> |
+<fmt:message key="global.availablelang"/> : <span><a href="/?locale=en"><img src="/images/languages/EN_US.png"  alt="Gisgraphy in english"></a></span> |
+<span><a href="/?locale=fr"><img src="/images/languages/FR_fr.png"  alt="Gisgraphy en francais"></a></span> |
 <span><a href="/?locale=es"><img src="/images/languages/ES.png"  alt="Gisgraphy in spanish"></a></span> |
 <span><a href="/?locale=de"><img src="/images/languages/DE.png"  alt="Gisgraphy in German"></a></span> |
 <span><a href="/?locale=it"><img src="/images/languages/IT.png"  alt="Gisgraphy in Italian"></a></span> |
@@ -73,7 +73,7 @@ Other languages : <span><a href="/?locale=en"><img src="/images/languages/EN_US.
 <span><a href="/?locale=kr"><img src="/images/languages/KR.png"  alt="Gisgraphy in Korean"></a></span>
 </div>
 <script type="text/javascript">
-_uacct = "<fmt:message key="googleanalytics._uacctcode"/>";
+_uacct = "<%= com.gisgraphy.domain.valueobject.GisgraphyConfig.googleanalytics_uacctcode %>";
 urchinTracker();
 </script>
 </body>

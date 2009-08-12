@@ -29,6 +29,7 @@ import javax.persistence.PersistenceException;
 
 import org.apache.commons.lang.ArrayUtils;
 import org.hibernate.Criteria;
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.criterion.Projection;
 import org.hibernate.criterion.Restrictions;
@@ -37,6 +38,7 @@ import org.springframework.orm.hibernate3.HibernateCallback;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.Assert;
 
+import com.gisgraphy.domain.geoloc.entity.City;
 import com.gisgraphy.domain.geoloc.entity.OpenStreetMap;
 import com.gisgraphy.domain.geoloc.entity.Street;
 import com.gisgraphy.domain.geoloc.service.geoloc.street.StreetType;
@@ -133,6 +135,32 @@ public class OpenStreetMapDao extends GenericDao<OpenStreetMap, Long> implements
 			    return new ArrayList<StreetDistance>();
 			}
 			
+		    }
+		});
+    }
+    
+
+    /* (non-Javadoc)
+     * @see com.gisgraphy.domain.repository.IOpenStreetMapDao#getByGid(java.lang.Long)
+     */
+    public OpenStreetMap getByGid(final Long gid) {
+	Assert.notNull(gid);
+	return (OpenStreetMap) this.getHibernateTemplate().execute(
+		new HibernateCallback() {
+
+		    public Object doInHibernate(Session session)
+			    throws PersistenceException {
+			String queryString = "from "
+				+ OpenStreetMap.class.getSimpleName()
+				+ " as c where c.gid= ?";
+
+			Query qry = session.createQuery(queryString);
+			qry.setCacheable(true);
+
+			qry.setParameter(0, gid);
+
+			OpenStreetMap result = (OpenStreetMap) qry.uniqueResult();
+			return result;
 		    }
 		});
     }

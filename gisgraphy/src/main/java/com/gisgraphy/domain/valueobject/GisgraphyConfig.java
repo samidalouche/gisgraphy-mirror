@@ -51,6 +51,8 @@ public class GisgraphyConfig {
     
     
     public static  String googleMapAPIKey ;
+    
+    public static  String googleanalytics_uacctcode ;
 
     /**
      * @param defaultGeolocSearchPlaceType
@@ -83,7 +85,7 @@ public class GisgraphyConfig {
      */
     public void setGoogleMapAPIKey(String googleMapAPIKey) {
 	if (googleMapAPIKey==null || "".equals(googleMapAPIKey.trim())){
-	    logger.warn("googleMapAPIKey is not set, please set it in env.properties file if you want to use google maps functionnalities, please set it and re-launch Gisgraphy");
+	    logger.warn("googleMapAPIKey is not set, please set it in env.properties file and re-launch Gisgraphy, if you want to use google maps functionnalities, ");
 	}
 	else {
 	    logger.info("set googleMapAPIKey to "+googleMapAPIKey);
@@ -91,5 +93,18 @@ public class GisgraphyConfig {
         GisgraphyConfig.googleMapAPIKey = googleMapAPIKey;
     }
     
+    /**
+     * @param code the Google analytics uacctcode to set
+     */
+    public void setGoogleanalytics_uacctcode(String code) {
+	if (code==null || "".equals(code.trim())){
+	    logger.warn("googleanalytics_uacctcode is not set, please set it in env.properties file and re-launch Gisgraphy, if you want to use google analytics functionnalities, ");
+	}
+	else {
+	    logger.info("set googleanalytics_uacctcode to "+code);
+	}
+        GisgraphyConfig.googleanalytics_uacctcode = code;
+    }
+
     
 }

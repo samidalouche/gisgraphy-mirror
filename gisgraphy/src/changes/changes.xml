@@ -165,13 +165,14 @@
 				so, it is character varying(255) in the database
 			</action>
 			
-			<action dev="David Masclet" type="update">
+			<action dev="David Masclet" type="add">
 				Add the ability to specify a google map api key
 			</action>
 			
+			<action dev="David Masclet" type="add">
+				Add the ability to specify a google analytics code
+			</action>
 			
-			
-			AlternateNameSource
 			
 		</release>
 	</body>

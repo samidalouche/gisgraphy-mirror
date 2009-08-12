@@ -130,6 +130,36 @@ public class OpenStreetMapDaoTest extends AbstractIntegrationHttpSolrTestCase{
     public void setOpenStreetMapDao(IOpenStreetMapDao openStreetMapDao) {
         this.openStreetMapDao = openStreetMapDao;
     }
+    
+    @Test
+    public void testGetByGidShouldRetrieveIfEntityExists(){
+	OpenStreetMap streetOSM = createOpenStreetMap();
+	openStreetMapDao.save(streetOSM);
+	assertNotNull(openStreetMapDao.get(streetOSM.getId()));
+	
+	OpenStreetMap retrieveOSM = openStreetMapDao.getByGid(streetOSM.getGid());
+	assertNotNull("getByGid should not return null if the entity exists",retrieveOSM);
+	assertEquals("getByGid should return the entity if the entity exists",streetOSM, retrieveOSM);
+	
+    }
+    
+    @Test
+    public void testGetByGidShouldReturnNullIfEntityDoesnTExist(){
+	OpenStreetMap retrieveOSM = openStreetMapDao.getByGid(1L);
+	assertNull("getByGid should return null if the entity doesn't exist",retrieveOSM);
+	
+    }
+    
+    @Test
+    public void testGetByGidShouldThrowsIfGidIsNull(){
+	try {
+	    openStreetMapDao.getByGid(null);
+	    fail("getByGid should throws if gid is null");
+	} catch (RuntimeException e) {
+	    	//ok
+	}
+	
+    }
 
 
     

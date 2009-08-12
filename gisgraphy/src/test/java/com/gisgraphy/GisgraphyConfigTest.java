@@ -115,7 +115,7 @@ public class GisgraphyConfigTest extends TestCase {
     }
     
     @Test
-    public void testSetGoogleMapAPIKeyShouldLog(){
+    public void testSetGoogleMapAPIKeyShouldLogAndSet(){
 	GisgraphyConfig gisgraphyConfig = new GisgraphyConfig();
 	Logger saveLogger = GisgraphyConfig.logger;
 	try {
@@ -131,5 +131,57 @@ public class GisgraphyConfigTest extends TestCase {
 	    GisgraphyConfig.logger = saveLogger;
 	}
     }
+    
+    @Test
+    public void testEmptyGoogleAnalyticsCodeShouldLog(){
+	GisgraphyConfig gisgraphyConfig = new GisgraphyConfig();
+	Logger saveLogger = GisgraphyConfig.logger;
+	try {
+	    Logger logger = EasyMock.createMock(Logger.class);
+	    logger.warn((String) EasyMock.anyObject());
+	    EasyMock.replay(logger);
+	    GisgraphyConfig.logger= logger;
+	    gisgraphyConfig.setGoogleanalytics_uacctcode(" ");
+	    EasyMock.verify(logger);
+	} finally {
+	    GisgraphyConfig.logger = saveLogger;
+	}
+    }
+    
+    @Test
+    public void testNullGoogleAnalyticsCodeShouldLog(){
+	GisgraphyConfig gisgraphyConfig = new GisgraphyConfig();
+	Logger saveLogger = GisgraphyConfig.logger;
+	try {
+	    Logger logger = EasyMock.createMock(Logger.class);
+	    logger.warn((String) EasyMock.anyObject());
+	    EasyMock.replay(logger);
+	    GisgraphyConfig.logger= logger;
+	    gisgraphyConfig.setGoogleanalytics_uacctcode(null);
+	    EasyMock.verify(logger);
+	    Assert.assertEquals(null, GisgraphyConfig.googleanalytics_uacctcode);
+	} finally {
+	    GisgraphyConfig.logger = saveLogger;
+	}
+    }
+    
+    @Test
+    public void testSetGoogleAnalyticsCodeShouldLogAndSet(){
+	GisgraphyConfig gisgraphyConfig = new GisgraphyConfig();
+	Logger saveLogger = GisgraphyConfig.logger;
+	try {
+	    Logger logger = EasyMock.createMock(Logger.class);
+	    logger.info((String) EasyMock.anyObject());
+	    EasyMock.replay(logger);
+	    GisgraphyConfig.logger= logger;
+	    String code = "code";
+	    gisgraphyConfig.setGoogleanalytics_uacctcode(code);
+	    Assert.assertEquals(code,GisgraphyConfig.googleanalytics_uacctcode);
+	    EasyMock.verify(logger);
+	} finally  {
+	    GisgraphyConfig.logger = saveLogger;
+	}
+    }
+    
 
 }

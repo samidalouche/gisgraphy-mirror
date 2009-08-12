@@ -38,6 +38,10 @@ public interface IOpenStreetMapDao extends IDao<OpenStreetMap, java.lang.Long> {
 	    final int firstResult, final int maxResults,
 	    final StreetType streetType,Boolean oneWay, final String name) ;
     
-    
+    /**
+     * @param gid the gid of the openstreetmap entity we want to retrieve
+     * @return the OpenstreetMap entity or null if not found
+     */
+    public OpenStreetMap getByGid(final Long gid) ;
     
 }

@@ -256,6 +256,7 @@
 	<bean name="gisgraphyConfig" class="com.gisgraphy.domain.valueobject.GisgraphyConfig">
 		<property name="defaultGeolocSearchPlaceType" value="${geolocsearch.defaultGeolocSearchPlaceType}"/>
 		<property name="googleMapAPIKey" value="${googleMapAPIKey}"/>
+		<property name="googleanalytics_uacctcode" value="${googleanalytics.uacctcode}"/>
 	</bean>
 	
 	
