@@ -571,3 +571,16 @@ margin : 5px;
 	margin-left: 10px;
 	margin-bottom : 10px;
 }
+
+.googlemapInfoWindowHtml {
+width: 250px; 
+height: 150px;
+text-align:center;background:white url(images/background.gif) repeat-x scroll left top;
+color:#444444;
+font-family:verdana,arial,helvetica,sans-serif;
+line-height:1em;
+margin:0;
+padding:0;
+text-align:center;
+padding-top:5px;
+}
