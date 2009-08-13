@@ -23,7 +23,7 @@
 				<@s.textfield name="q" required="true" size="30" theme="simple" maxlength="200" />
 				<div id="searchbuttonbar">
 						<span id="searchexample">e.g. Paris, الرباط ,75000,  ... </span>
-					<@s.submit title="Search" value="Search" theme="simple"/>
+					<@s.submit title="%{getText('global.search')}" value="%{getText('global.search')}" theme="simple"/>
 				</div>
 			</div>
 			<@breadcrumbs.fulltextSearchTooltip advancedSearchURLParam="fulltextsearch"/>
