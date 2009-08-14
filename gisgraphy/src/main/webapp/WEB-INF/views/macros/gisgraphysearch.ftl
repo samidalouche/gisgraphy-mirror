@@ -173,7 +173,10 @@
 						<div class="summary">
 						<@s.text name="global.latitude"/> : ${result.lat}; 
 						<br/>
-						<@s.text name="global.longitude"/> : ${result.lng}<br/> 
+						<@s.text name="global.longitude"/> : ${result.lng}
+						<br/>
+						<@s.text name="global.length"/> : ${result.length} km(s); 
+						<br/>
 						<#if result.oneWay??>
 						<img src="/images/twoway.png" class="imgAlign" alt="<@s.text name="global.street.way"/>"/>
 							<#if result.oneWay==true>
