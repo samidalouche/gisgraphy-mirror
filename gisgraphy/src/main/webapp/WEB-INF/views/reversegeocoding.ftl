@@ -20,6 +20,8 @@
 			<@breadcrumbs.searchNavBar/>
 
 <div class="clear"></div><div class="biggertext" style="line-height:1.5em;">The worldwide reverse geocoding webservice is totally FREE and allow to find a street from a Lat/lng pair. it uses (free) data from <span class="imgAlign"><a href="http://openstreetmap.org">openstreetMap <img src="/images/openstreetmap.png" alt="openstreetmap" class="imgAlign" style="width:30px"/></a> that are imported into a local database. you can see an example of use bellow</span>. You can find documentation on <a href="http://www.gisgraphy.com/documentation/index.htm#streetservice">how to use the webservice</a> and see how to <a href="http://www.gisgraphy.com/documentation/installation/index.htm" alt="install gisgraphy">download and install</a> Gisgraphy</div><br/><br/>
+ <span class="importantred"><@s.text name="search.geocoding.notUsinggooglemap"/></span>
+<br/><br/>
 <div class="clear"></div>
 
 

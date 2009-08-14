@@ -556,6 +556,12 @@ display: inline;
 float: left;
 }
 
+.importantred{
+font-size: 1.4em;
+color:#CC0000;
+display: inline;
+}
+
 .underline {
 text-decoration: underline ;
 }
