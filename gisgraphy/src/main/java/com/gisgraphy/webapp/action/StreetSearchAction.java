@@ -22,6 +22,10 @@
  *******************************************************************************/
 package com.gisgraphy.webapp.action;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.apache.struts2.ServletActionContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,17 +33,21 @@ import org.springframework.beans.factory.annotation.Required;
 
 import com.gisgraphy.domain.geoloc.service.geoloc.GeolocQuery;
 import com.gisgraphy.domain.geoloc.service.geoloc.IGeolocSearchEngine;
+import com.gisgraphy.domain.geoloc.service.geoloc.IStreetSearchEngine;
+import com.gisgraphy.domain.geoloc.service.geoloc.StreetSearchQuery;
+import com.gisgraphy.domain.geoloc.service.geoloc.street.StreetType;
 import com.gisgraphy.domain.valueobject.GeolocResultsDto;
 import com.gisgraphy.domain.valueobject.GisgraphyConfig;
 import com.gisgraphy.domain.valueobject.GisgraphyServiceType;
+import com.gisgraphy.domain.valueobject.StreetSearchResultsDto;
 import com.gisgraphy.domain.valueobject.Output.OutputFormat;
 
 /**
- * Geolocalisation search Action
+ * Street search Action
  * 
  * @author <a href="mailto:david.masclet@gisgraphy.com">David Masclet</a>
  */
-public class GeolocSearchAction extends SearchAction {
+public class StreetSearchAction extends SearchAction {
 
     /**
      * 
@@ -47,11 +55,11 @@ public class GeolocSearchAction extends SearchAction {
     private static final long serialVersionUID = -9018894533914543310L;
 
     private static Logger logger = LoggerFactory
-	    .getLogger(GeolocSearchAction.class);
+	    .getLogger(StreetSearchAction.class);
 
-    private IGeolocSearchEngine geolocSearchEngine;
+    private IStreetSearchEngine streetSearchEngine;
 
-    private GeolocResultsDto responseDTO;
+    private StreetSearchResultsDto streetSearchResultsDto = null;
 
     public String lat;
 
@@ -59,23 +67,23 @@ public class GeolocSearchAction extends SearchAction {
 
     public String radius;
 
-    private String placetype;
+    private String streettype;
 
     /**
      * @return Wether the search has been done and the results should be
      *         displayed
      */
     public boolean isDisplayResults() {
-	return getResponseDTO() != null;
+	return getStreetSearchResultsDto() != null;
     }
 
     private void executeQuery() {
 	try {
-	    GeolocQuery geolocQuery = new GeolocQuery(ServletActionContext
+	    StreetSearchQuery streetSearchQuery = new StreetSearchQuery(ServletActionContext
 		    .getRequest());
-	    this.responseDTO = geolocSearchEngine.executeQuery(geolocQuery);
-	    setFrom(geolocQuery.getFirstPaginationIndex());
-	    setTo(geolocQuery.getLastPaginationIndex());
+	    this.streetSearchResultsDto = streetSearchEngine.executeQuery(streetSearchQuery);
+	    setFrom(streetSearchQuery.getFirstPaginationIndex());
+	    setTo(streetSearchQuery.getLastPaginationIndex());
 	} catch (RuntimeException e) {
 	    if (e.getCause() != null) {
 		logger.error("An error occured during search : "
@@ -89,7 +97,7 @@ public class GeolocSearchAction extends SearchAction {
     }
 
     /**
-     * Execute a GeolocSearch from the request parameters
+     * Execute a StreetSearch from the request parameters
      * 
      * @return SUCCESS if the search is successfull
      * @throws Exception
@@ -100,8 +108,12 @@ public class GeolocSearchAction extends SearchAction {
 	return SUCCESS;
     }
 
+    public StreetType[] getStreetTypes(){
+	return StreetType.values();
+    }
+    
     /**
-     * Execute a geolocSearch from the request parameters
+     * Execute a streetSearch from the request parameters
      * 
      * @return POPUPVIEW if the search is successfull The view will not be
      *         decorated by sitemesh (see decorators.xml)
@@ -117,16 +129,23 @@ public class GeolocSearchAction extends SearchAction {
      * @return the available formats for fulltext
      */
     public OutputFormat[] getFormats() {
-	return OutputFormat.listByService(GisgraphyServiceType.GEOLOC);
+	return OutputFormat.listByService(GisgraphyServiceType.STREET);
     }
 
+   public Map<String, String> getNameOptions(){
+       HashMap<String, String> nameOptions = new HashMap<String, String>();
+       nameOptions.put("", getText("search.street.includeNoNameStreet"));
+       nameOptions.put("%", getText("search.street.dont.includeNoNameStreet"));
+       return nameOptions;
+   }
+
+
+
     /**
-     * @param geolocSearchEngine
-     *                the geolocSearchEngine to set
+     * @param streetSearchEngine the streetSearchEngine to set
      */
-    @Required
-    public void setGeolocSearchEngine(IGeolocSearchEngine geolocSearchEngine) {
-	this.geolocSearchEngine = geolocSearchEngine;
+    public void setStreetSearchEngine(IStreetSearchEngine streetSearchEngine) {
+        this.streetSearchEngine = streetSearchEngine;
     }
 
     /**
@@ -175,31 +194,25 @@ public class GeolocSearchAction extends SearchAction {
     }
 
     /**
-     * @param placetype
-     *                the placetype to set
+     * @param streetType
+     *                the streettype to set
      */
-    public void setPlacetype(String placetype) {
-	this.placetype = placetype;
+    public void setStreettype(String streettype) {
+	this.streettype = streettype;
     }
 
     /**
      * @return the placetype
      */
-    public String getPlacetype() {
-	if (placetype == null
-		&& GisgraphyConfig.defaultGeolocSearchPlaceTypeClass != null) {
-	    return GisgraphyConfig.defaultGeolocSearchPlaceTypeClass
-		    .getSimpleName().toLowerCase();
-	} else {
-	    return placetype;
+    public String getStreettype() {
+	  return streettype;
 	}
-    }
 
     /**
      * @return the response
      */
-    public GeolocResultsDto getResponseDTO() {
-	return this.responseDTO;
+    public StreetSearchResultsDto getStreetSearchResultsDto() {
+	return this.streetSearchResultsDto;
     }
 
 }

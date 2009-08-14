@@ -101,7 +101,7 @@ public class FulltextSearchAction extends SearchAction {
 		logger.error("An error occured during search : "
 			+ e.getMessage());
 	    }
-	    this.errorMessage = exceptionMessage;
+	    this.errorMessage = exceptionMessage == null? getText("errorPage.heading"):exceptionMessage;
 	}
     }
 
