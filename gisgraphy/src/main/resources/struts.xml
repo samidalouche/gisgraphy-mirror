@@ -161,6 +161,13 @@
          <action name="geocoding_worldwide" class="com.gisgraphy.webapp.action.GeocodingAction">
              <result name="success" type="freemarker">/WEB-INF/views/geocoding.ftl</result>
         </action>
+        <action name="streetSearch" class="com.gisgraphy.webapp.action.StreetSearchAction">
+             <result name="success" type="freemarker">/WEB-INF/views/ajaxstreetsearch.ftl</result>
+           <result name="popup" type="freemarker">/WEB-INF/views/streetsearchpopup.ftl</result>
+        </action>
+        <action name="postal_codes" class="com.gisgraphy.webapp.action.GeocodingAction">
+             <result name="success" type="freemarker">/WEB-INF/views/geocoding.ftl</result>
+        </action>
         <action name="reverse_geocoding_worldwide" class="com.gisgraphy.webapp.action.ReverseGeocodingAction">
            <result name="success" type="freemarker">/WEB-INF/views/reversegeocoding.ftl</result>
            <result name="popup" type="freemarker">/WEB-INF/views/reversegeocoding.ftl</result>

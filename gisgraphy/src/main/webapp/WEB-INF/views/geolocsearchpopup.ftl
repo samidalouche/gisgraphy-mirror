@@ -6,4 +6,3 @@
 			<#elseif displayResults>
 		 		<@gisgraphysearch.displayGeolocResults geolocResponseDTO=responseDTO/>
 		 	</#if>
-</div>

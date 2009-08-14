@@ -4,5 +4,5 @@
 					<div class="importantMessage">Error : ${errorMessage}</div>
 				</div>
 			<#elseif displayResults>
-		 		<@gisgraphysearch.displayFulltextResults fulltextResponseDTO=responseDTO/>
+		 		<@gisgraphysearch.displaystreetResults streetResponseDTO=streetSearchResultsDto />
 		 	</#if>

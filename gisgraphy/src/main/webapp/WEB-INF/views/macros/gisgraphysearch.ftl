@@ -33,7 +33,7 @@
 					<@s.text name="global.latitude"/> : ${result.lat}; <@s.text name="global.longitude"/> : ${result.lng}<br/>
 					<#if result.population??><@s.text name="global.population"/> : ${result.population};<br/></#if>
 					<#if result.elevation??><@s.text name="global.elevation"/> : ${result.elevation} m<br/></#if>
-					<img src="images/world_link.png" alt="Maps links " />&nbsp;<a href="${result.google_map_url}" class="greenlink" target="gisgraphyMap"><@s.text name="global.viewOnGoogleMap"/></a> | <a href="${result.yahoo_map_url}" class="greenlink" target="gisgraphyMap"><@s.text name="global.viewOnYahooMap"/></a>
+					<img src="images/world_link.png" alt="Maps links" />&nbsp;<a href="${result.google_map_url}" class="greenlink" target="gisgraphyMap"><@s.text name="global.viewOnGoogleMap"/></a> | <a href="${result.yahoo_map_url}" class="greenlink" target="gisgraphyMap"><@s.text name="global.viewOnYahooMap"/></a>
 					 <@s.url id="proximitySearchUrl" action="ajaxgeolocsearch" forceAddSchemeHostAndPort="true" method="search" includeParams="none" >
 			  			<@s.param name="lat" value="${result.lat?c}" />
 			  			<@s.param name="lng" value="${result.lng?c}" />
@@ -108,14 +108,14 @@
 						<div class="separator"><hr/></div>
 					
 						<div class="summary">
-						Type description: <@s.text name="${result.featureClass}_${result.featureCode}"/><br/>
-						FeatureClass/Code : ${result.featureClass}.${result.featureCode}<br/>
-						Latitude : ${result.lat}; 
+						<@s.text name="global.typeDescription"/> : <@s.text name="${result.featureClass}_${result.featureCode}"/><br/>
+						<@s.text name="global.featureClassCode"/> : ${result.featureClass}.${result.featureCode}<br/>
+						<@s.text name="global.latitude"/> : ${result.lat}; 
 						<br/>
-						Longitude : ${result.lng}<br/>
-						<#if result.population??>Population: ${result.population};<br/></#if>
-						<#if result.elevation??>Elevation : ${result.elevation} m<br/></#if>
-						<img src="images/world_link.png" alt="Maps links " />&nbsp;<a href="${result.google_map_url}" class="greenlink" target="gisgraphyMap"><@s.text name="global.viewOnGoogleMap"/></a> | <a href="${result.yahoo_map_url}" class="greenlink" target="gisgraphyMap"><@s.text name="global.viewOnYahooMap"/></a>
+						<@s.text name="global.longitude"/> : ${result.lng}<br/>
+						<#if result.population??><@s.text name="global.population"/> : ${result.population};<br/></#if>
+						<#if result.elevation??><@s.text name="global.elevation"/> : ${result.elevation} m<br/></#if>
+						<img src="/images/world_link.png" alt="Maps links" />&nbsp;<a href="${result.google_map_url}" class="greenlink" target="gisgraphyMap"><@s.text name="global.viewOnGoogleMap"/></a> | <a href="${result.yahoo_map_url}" class="greenlink" target="gisgraphyMap"><@s.text name="global.viewOnYahooMap"/></a>
 						</div>
 					</div>
 					<div class="clear"></div>
@@ -141,6 +141,77 @@
 		</#if>
 		</div>
 </#macro>
+
+
+<#macro displaystreetResults streetResponseDTO>
+	
+<div id="searchResults">
+				<div class="clear"><br/></div>
+				<div class="bigText indented">${streetResponseDTO.numFound} <@s.text name="search.resultFound"/>. (<@s.text name="search.resultPaginateFromTo"><@s.param>${from}</@s.param><@s.param>${to}</@s.param></@s.text>).
+				 <@s.text name="search.requestTime"/> ${streetResponseDTO.QTime/1000}  <@s.text name="search.secondUnit"/>. </div>
+				<#if streetResponseDTO.result.size()!=0>
+				<br/>
+				<@s.url id="showAllOnMapsURL" value="street/streetsearch" includeParams="all" forceAddSchemeHostAndPort="true" escapeAmp="false" />			
+			&nbsp;&nbsp;<a href="http://maps.google.fr/maps?q=${showAllOnMapsURL?url('UTF-8')}%26format%3DATOM" target="_blank"><img src="/images/map_go.png" alt="map"/> <@s.text name="search.viewResultsOnMap"/></a>
+					<#list streetResponseDTO.result as result>
+	 				<div class="bodyResults">
+						
+
+						<div class="flag" >
+							<img src="/images/flags/${result.countryCode}.png" alt=" country flag"/>
+						</div>
+						<div class="resultblock">
+							<@s.url id="streetURL" action="displayfeature" includeParams="none" >
+				  					<@s.param name="gid" value="${result.gid?c}" />
+				 				</@s.url>
+								<div class="resultheaderleft"><a href="${streetURL}"><#if result.name??>${result.name}<#else><@s.text name="global.street.noname" /></#if> </a> <@s.text name="global.at"/> ${result.distance} <@s.text name="search.unit.meter"/></div>
+								<div class="resultheaderright"><#if result.streetType??>${result.streetType}</#if></div>
+						</div>
+					
+						<div class="separator"><hr/></div>
+					
+						<div class="summary">
+						<@s.text name="global.latitude"/> : ${result.lat}; 
+						<br/>
+						<@s.text name="global.longitude"/> : ${result.lng}<br/> 
+						<#if result.oneWay??>
+						<img src="/images/twoway.png" class="imgAlign" alt="<@s.text name="global.street.way"/>"/>
+							<#if result.oneWay==true>
+								<@s.text name="street.oneway"/>
+							<#else>
+								<@s.text name="street.twoway"/>
+							</#if>
+						<br/>
+						</#if>
+						<img src="/images/world_link.png" alt="Maps links" />&nbsp;<a href="${streetURL}" class="greenlink" target="gisgraphyMap"><@s.text name="global.viewStreet"/></a>
+						</div>
+					</div>
+					<div class="clear"></div>
+					<br/><br/>
+				</#list>
+				<#if (from > 1)>
+				<span style="float:left;padding-left:15px;"><@s.url id="previousURL" action="ajaxstreetsearch" method="search" includeParams="all" >
+			  			<@s.param name="from" value="${from?c}-${defaultNumberOfResultsPerPage?c}" />
+			  			<@s.param name="to" value="${to?c}-${defaultNumberOfResultsPerPage?c}" />
+			 		</@s.url><a href="${previousURL}" class="bigText strong" onclick="return updatePaginationPrevious();" alt="previous">&lt;&lt;<@s.text name="global.previous"/></a></span>
+			 	</#if>
+			 	<#if defaultNumberOfResultsPerPage==streetResponseDTO.numFound>
+				<span style="float:right;padding-right:15px;"><@s.url id="nextURL" action="ajaxstreetsearch" method="search" includeParams="all" >
+			  			<@s.param name="from" value="${from?c}+${defaultNumberOfResultsPerPage?c}" />
+			  			<@s.param name="to" value="${to?c}+${defaultNumberOfResultsPerPage?c}" />
+			 		</@s.url><a href="${nextURL}" class="bigText strong" onclick="return updatePaginationNext();" alt="next"><@s.text name="global.next"/>&gt;&gt;</a></span>
+			 	</#if>
+			<#else>
+			
+			<br/><br/><br/>
+			  <div class="importantMessage indented"><@s.text name="search.noResult"/>!!<br/><br/><br/><br/></div>
+			 <div class="bigText indented"> <@s.text name="search.noresultMessage.part1"/><a href="http://www.geonames.org" target="geonames">Geonames page</a><@s.text name="search.noresultMessage.part2"/></div>
+		</#if>
+		</div>
+</#macro>
+
+
+
 
 <#macro latlongsearchbox >
 <div id="searchleftblock">
