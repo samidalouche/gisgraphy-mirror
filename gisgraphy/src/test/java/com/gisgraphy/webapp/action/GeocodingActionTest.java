@@ -37,18 +37,24 @@ public class GeocodingActionTest {
 	action.setAmbiguousCities(ambiguousCities);
 	String feed = action.getLatLongJson();
 
-	JsTester jsTester = new JsTester();
-	jsTester.onSetUp();
+	JsTester jsTester = null;
+	try {
+	    jsTester = new JsTester();
+	    jsTester.onSetUp();
 
-	// JsTester
-	jsTester.eval("evalresult= eval(" + feed + ");");
-	Assert.assertNotNull(jsTester.eval("evalresult"));
-	Assert.assertEquals(ambiguousCities.get(0).getLat().toString(), (jsTester.eval("evalresult[0]['lat']")).toString());
-	Assert.assertEquals(ambiguousCities.get(0).getLng(), jsTester.eval("evalresult[0]['lng']"));
-	Assert.assertEquals(ambiguousCities.get(1).getLat().toString(), (jsTester.eval("evalresult[1]['lat']")).toString());
-	Assert.assertEquals(ambiguousCities.get(1).getLng(), jsTester.eval("evalresult[1]['lng']"));
+	    // JsTester
+	    jsTester.eval("evalresult= eval(" + feed + ");");
+	    Assert.assertNotNull(jsTester.eval("evalresult"));
+	    Assert.assertEquals(ambiguousCities.get(0).getLat().toString(), (jsTester.eval("evalresult[0]['lat']")).toString());
+	    Assert.assertEquals(ambiguousCities.get(0).getLng(), jsTester.eval("evalresult[0]['lng']"));
+	    Assert.assertEquals(ambiguousCities.get(1).getLat().toString(), (jsTester.eval("evalresult[1]['lat']")).toString());
+	    Assert.assertEquals(ambiguousCities.get(1).getLng(), jsTester.eval("evalresult[1]['lng']"));
+	}finally {
+	    if (jsTester != null){
+		jsTester.onTearDown();
+	    }
+	}
 
-	jsTester.onTearDown();
     }
 
     private List<SolrResponseDto> createAmbiguousCities() {
