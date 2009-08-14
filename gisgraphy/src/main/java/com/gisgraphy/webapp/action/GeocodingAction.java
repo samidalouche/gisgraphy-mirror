@@ -37,6 +37,7 @@ import com.gisgraphy.domain.geoloc.entity.Country;
 import com.gisgraphy.domain.geoloc.service.fulltextsearch.FulltextQuery;
 import com.gisgraphy.domain.geoloc.service.fulltextsearch.IFullTextSearchEngine;
 import com.gisgraphy.domain.repository.CountryDao;
+import com.gisgraphy.domain.repository.ICountryDao;
 import com.gisgraphy.domain.valueobject.GisgraphyConfig;
 import com.gisgraphy.domain.valueobject.Output;
 import com.gisgraphy.domain.valueobject.Pagination;
@@ -84,7 +85,7 @@ public class GeocodingAction extends ActionSupport implements GoogleMapApiKeyAwa
     
     private String errorMessage = "";
     
-    private CountryDao countryDao;
+    private ICountryDao countryDao;
     
     private String countryCode;
 
@@ -103,19 +104,6 @@ public class GeocodingAction extends ActionSupport implements GoogleMapApiKeyAwa
 		    }
 	       FulltextQuery fulltextQuery = new FulltextQuery(city,Pagination.DEFAULT_PAGINATION,Output.DEFAULT_OUTPUT,City.class,getCountryCode());
 	       ambiguousCities = fullTextSearchEngine.executeQuery(fulltextQuery).getResults();
-	      /* ambiguousCities = new ArrayList<City>();
-	       City city1 = new City();
-	       city1.setFeatureId(3L);
-	       city1.setLocation(GeolocHelper.createPoint(1.5F,2.5F));
-	       city1.setName("city1");
-	       
-	       City city2 = new City();
-	       city2.setFeatureId(4L);
-	       city2.setLocation(GeolocHelper.createPoint(3.5F,4.5F));
-	       city2.setName("city2");
-	       ambiguousCities.add(city1);
-	       ambiguousCities.add(city2);
-	       */
 	       int numberOfPossibleCitiesThatMatches = ambiguousCities.size();
 	       if (numberOfPossibleCitiesThatMatches == 0){
 	           return Action.SUCCESS;
@@ -182,6 +170,10 @@ public class GeocodingAction extends ActionSupport implements GoogleMapApiKeyAwa
         return ambiguousCities;
     }
     
+    public void setAmbiguousCities(List<SolrResponseDto> ambiguousCities) {
+        this.ambiguousCities = ambiguousCities;
+    }
+
     /**
      * @return the ambiguousCity
      */
@@ -194,22 +186,11 @@ public class GeocodingAction extends ActionSupport implements GoogleMapApiKeyAwa
      * @return the available countries
      */
     public List<Country> getCountries() {
-	/*List<Country> countries = new ArrayList<Country>();
-	Country country1 = new Country("FR","FRA",33);
-	country1.setName("france");
-	Country country2 = new Country("US","USA",1);
-	country2.setName("etats unis");
-	countries.add(country1);
-	countries.add(country2);
-	return countries;*/
 	return countryDao.getAllSortedByName();
     }
 
     
-    public boolean isCityAmbiguous(){
-	return (ambiguouscity != null && ambiguousCities.size() > 1);
-    }
-
+   
     /**
      * @param ambiguousCity the ambiguousCity to set
      */
@@ -225,7 +206,7 @@ public class GeocodingAction extends ActionSupport implements GoogleMapApiKeyAwa
      *                the countryDao to set
      */
     @Required
-    public void setCountryDao(CountryDao countryDao) {
+    public void setCountryDao(ICountryDao countryDao) {
 	this.countryDao = countryDao;
     }
 
