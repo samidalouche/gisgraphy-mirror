@@ -104,7 +104,7 @@
         
 
         
-         <action name="displayfeature" class="com.gisgraphy.webapp.action.DisplayFeatureAction">
+        <action name="displayfeature" class="com.gisgraphy.webapp.action.DisplayFeatureAction">
            <result name="success" type="freemarker">/WEB-INF/views/displayfeature.ftl</result>
            <result name="error" type="freemarker">/WEB-INF/views/displayfeatureerror.ftl</result>
         </action>
@@ -158,8 +158,12 @@
          <action name="servicesdescription" >
              <result name="success" type="freemarker">/WEB-INF/views/servicesdescription.ftl</result>
         </action>
-         <action name="geocoding_worldwide" class="com.gisgraphy.webapp.action.GeocodingAction">
+        <action name="geocoding_worldwide" class="com.gisgraphy.webapp.action.GeocodingAction">
              <result name="success" type="freemarker">/WEB-INF/views/geocoding.ftl</result>
+        </action>
+        <action name="displaystreet" class="com.gisgraphy.webapp.action.DisplayStreetAction">
+           <result name="success" type="freemarker">/WEB-INF/views/displaystreet.ftl</result>
+           <result name="error" type="freemarker">/WEB-INF/views/displaystreeterror.ftl</result>
         </action>
         <action name="streetSearch" class="com.gisgraphy.webapp.action.StreetSearchAction">
              <result name="success" type="freemarker">/WEB-INF/views/ajaxstreetsearch.ftl</result>

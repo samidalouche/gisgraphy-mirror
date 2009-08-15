@@ -22,51 +22,45 @@
  *******************************************************************************/
 package com.gisgraphy.webapp.action;
 
-import java.util.List;
-
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Required;
 
-import com.gisgraphy.domain.geoloc.service.fulltextsearch.FulltextQuery;
-import com.gisgraphy.domain.geoloc.service.fulltextsearch.IFullTextSearchEngine;
-import com.gisgraphy.domain.valueobject.FulltextResultsDto;
-import com.gisgraphy.domain.valueobject.Output;
-import com.gisgraphy.domain.valueobject.SolrResponseDto;
-import com.gisgraphy.domain.valueobject.Output.OutputStyle;
+import com.gisgraphy.domain.geoloc.entity.OpenStreetMap;
+import com.gisgraphy.domain.repository.IOpenStreetMapDao;
+import com.gisgraphy.domain.valueobject.GisgraphyConfig;
 import com.opensymphony.xwork2.ActionSupport;
 
 /**
- * DisplayFeature Action
+ * DisplayStreet Action
  * 
  * @author <a href="mailto:david.masclet@gisgraphy.com">David Masclet</a>
  */
-public class DisplayFeatureAction extends ActionSupport {
+public class DisplayStreetAction extends ActionSupport implements GoogleMapApiKeyAware{
+    
+    /**
+     * The reference in the localized file for  the fact that the street has no name
+     */
+    public static final String GLOBAL_STREET_NONAME = "global.street.noname";
 
     /**
-     * The reference in the localized file for the error for the fact featureId
+     * The reference in the localized file for the error for the fact gid
      * is required
      */
-    public static final String ERROR_REF_REQUIRED_FEATURE_ID = "required.featureId";
+    public static final String ERROR_REF_REQUIRED_FEATURE_ID = "required.gid";
 
     /**
      * The reference in the localized file for the error for the fact that the
-     * specified featureId is not a numeric value
+     * specified gid is not a numeric value
      */
-    public static final String ERROR_REF_NON_NUMERIC_FEATUREID = "displayfeature.featureid.numeric";
+    public static final String ERROR_REF_NON_NUMERIC_FEATUREID = "displayfeature.gid.numeric";
 
-    /**
-     * The reference in the localized file for the error for the fact that more
-     * than one features were founds for the specified featureId
-     */
-    public static final String ERROR_REF_NON_UNIQUE_RESULT = "result.nouniqueresult";
 
     /**
      * The reference in the localized file for the error for the fact that no
-     * gid were found for the specified featureId
+     * features were found for the specified gid
      */
-    public static final String ERROR_REF_NORESULT = "result.feature.noresult";
+    public static final String ERROR_REF_NORESULT = "result.street.noresult";
 
     /**
      * The reference in the localized file for general error
@@ -76,22 +70,20 @@ public class DisplayFeatureAction extends ActionSupport {
     /**
      * Default Generated serial Id
      */
-    private static final long serialVersionUID = 2940477008022016677L;
+    private static final long serialVersionUID = 2940477476216677L;
 
-    private static final Output FULL_OUTPUT = Output.withDefaultFormat().withLanguageCode(Output.DEFAULT_LANGUAGE_CODE)
-	    .withStyle(OutputStyle.FULL);
 
     private static Logger logger = LoggerFactory
-	    .getLogger(DisplayFeatureAction.class);
+	    .getLogger(DisplayStreetAction.class);
 
-    private IFullTextSearchEngine fullTextSearchEngine;
+    private IOpenStreetMapDao openStreetMapDao;
 
-    private String featureId;
+    private String gid;
 
-    private SolrResponseDto result = null;
+    private OpenStreetMap result = null;
 
     public static final String ERROR = "error";
-
+    
     /**
      * @return the fullyqualified name if exists, or the name
      */
@@ -99,12 +91,12 @@ public class DisplayFeatureAction extends ActionSupport {
 	if (result == null) {
 	    return "";
 	} else {
-	    String fully_qualified_name = result.getFully_qualified_name();
-	    return !StringUtils.isEmpty(fully_qualified_name) ? fully_qualified_name
-		    : result.getName();
+	    return !StringUtils.isEmpty(result.getName()) ? result.getName()
+		    :getText(GLOBAL_STREET_NONAME);
 	}
     }
 
+   
     private boolean isNumeric(String number) {
 	try {
 	    Integer.parseInt(number);
@@ -129,30 +121,19 @@ public class DisplayFeatureAction extends ActionSupport {
     @Override
     public String execute() throws Exception {
 	try {
-	    if (StringUtils.isEmpty(featureId)) {
+	    if (StringUtils.isEmpty(gid)) {
 		errorRef = ERROR_REF_REQUIRED_FEATURE_ID;
 		return ERROR;
 	    }
-	    if (!isNumeric(featureId)) {
+	    if (!isNumeric(gid)) {
 		errorRef = ERROR_REF_NON_NUMERIC_FEATUREID;
 		return ERROR;
 	    }
-	    FulltextQuery fulltextQuery = (FulltextQuery) new FulltextQuery(
-		    featureId).withOutput(FULL_OUTPUT);
-	    FulltextResultsDto responseDTO = fullTextSearchEngine
-		    .executeQuery(fulltextQuery);
-
-	    List<SolrResponseDto> results = responseDTO.getResults();
-	    int resultSize = results.size();
-	    if (resultSize == 0) {
+	    result = openStreetMapDao.getByGid(Long.valueOf(gid));
+	    if (result == null) {
 		errorRef = ERROR_REF_NORESULT;
 		return ERROR;
-	    } else if (resultSize > 1) {
-		errorRef = ERROR_REF_NON_UNIQUE_RESULT;
-		return ERROR;
-	    } else {
-		result = results.get(0);
-	    }
+	    } 
 	} catch (RuntimeException e) {
 	    if (e.getCause() != null) {
 		logger.warn("An error occured during search : "
@@ -168,23 +149,35 @@ public class DisplayFeatureAction extends ActionSupport {
 	return SUCCESS;
     }
 
-    /**
-     * @param fullTextSearchEngine
-     *                the fullTextSearchEngine to set
-     */
-    @Required
-    public void setFullTextSearchEngine(
-	    IFullTextSearchEngine fullTextSearchEngine) {
-	this.fullTextSearchEngine = fullTextSearchEngine;
-    }
+
 
     /**
-     * @param featureId
-     *                the featureId to set
+     * @return the gid
      */
-    public void setFeatureId(String featureId) {
-	this.featureId = featureId;
+    public String getGid() {
+        return gid;
     }
+
+
+
+    /**
+     * @param gid the gid to set
+     */
+    public void setGid(String gid) {
+        this.gid = gid;
+    }
+
+
+    /**
+     * @param openStreetMapDao the openStreetMapDao to set
+     */
+    public void setOpenStreetMapDao(IOpenStreetMapDao openStreetMapDao) {
+        this.openStreetMapDao = openStreetMapDao;
+    }
+
+
+
+
 
     /**
      * @return the errorRef
@@ -196,7 +189,7 @@ public class DisplayFeatureAction extends ActionSupport {
     /**
      * @return the result
      */
-    public SolrResponseDto getResult() {
+    public OpenStreetMap getResult() {
 	return result;
     }
 
@@ -206,5 +199,13 @@ public class DisplayFeatureAction extends ActionSupport {
     public String getErrorMessage() {
 	return errorMessage;
     }
+    
+    /**
+     * @return the googleMapAPIKey
+     */
+    public String getGoogleMapAPIKey() {
+        return GisgraphyConfig.googleMapAPIKey == null ? "" : GisgraphyConfig.googleMapAPIKey;
+    }
+
 
 }

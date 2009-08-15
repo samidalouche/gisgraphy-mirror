@@ -95,7 +95,7 @@
 					<#list geolocResponseDTO.result as result>
 	 				<div class="bodyResults">
 						<div class="flag" >
-							<img src="${result.country_flag_url}" alt=" country flag"/>
+							<img src="${result.country_flag_url}" alt="country flag"/>
 						</div>
 						<div class="resultblock">
 							<@s.url id="featureURL" action="displayfeature" includeParams="none" >
@@ -155,13 +155,11 @@
 			&nbsp;&nbsp;<a href="http://maps.google.fr/maps?q=${showAllOnMapsURL?url('UTF-8')}%26format%3DATOM" target="_blank"><img src="/images/map_go.png" alt="map"/> <@s.text name="search.viewResultsOnMap"/></a>
 					<#list streetResponseDTO.result as result>
 	 				<div class="bodyResults">
-						
-
 						<div class="flag" >
 							<img src="/images/flags/${result.countryCode}.png" alt=" country flag"/>
 						</div>
 						<div class="resultblock">
-							<@s.url id="streetURL" action="displayfeature" includeParams="none" >
+							<@s.url id="streetURL" action="displaystreet" includeParams="none" namespace="/public" >
 				  					<@s.param name="gid" value="${result.gid?c}" />
 				 				</@s.url>
 								<div class="resultheaderleft"><a href="${streetURL}"><#if result.name??>${result.name}<#else><@s.text name="global.street.noname" /></#if> </a> <@s.text name="global.at"/> ${result.distance} <@s.text name="search.unit.meter"/></div>
@@ -265,12 +263,13 @@
 <#macro googleStreetView width heigth googleMapAPIKey CSSClass >
 <script src="http://maps.google.com/maps?file=api&amp;v=2.x&amp;key=${googleMapAPIKey} "
             type="text/javascript"></script>
+<script src="/scripts/prototype.js" type="text/javascript"></script>
  			<div name="streetview" id="streetview" class="${CSSClass}"></div>
 			<script type="text/javascript">
 		  
 		    var map;
 		    
-		    function viewStreet(lat, lng) {
+		    function viewStreet(lat, lng, htmlToDisplayParam) {
 			// try {
        
      
@@ -293,17 +292,15 @@
 			var marqueur = new google.maps.Marker(latlong, {icon: iconeRouge, title: "gisgraphy geocoding"});
 			
 			displayInfoWindowHTML = function() {
-			var html = '<div id="EmplacementStreetView" class="googlemapInfoWindowHtml"><img src="/images/logos/logo_32.png" alt="free geocoding services" class="imgAlign"/><span  class="biggertext"><@s.text name="search.geocoding.services"/></span><hr/><span  class="biggertext">'+selectedStreetInformation.name+'</span><br/><br/>';
-if (selectedStreetInformation.streetType != null){html= html + "<@s.text name="search.type.of.street"/> : "+selectedStreetInformation.streetType;}
- if (selectedStreetInformation.oneWay==true){html = html+ '<@s.text name="street.oneway" />'; } else { html = html +'<@s.text name="street.twoway" />';}
-html= html +'<br/><br/> <@s.text name="global.latitude" /> : '+selectedStreetInformation.lat+'<br/><br/><@s.text name="global.longitude" /> : '+selectedStreetInformation.lng+'<br/><br/> <@s.text name="global.length" /> : '+(selectedStreetInformation.length*100000)+' m</div>';
-			marqueur.openInfoWindowHtml(html);
+			if (typeof htmlToDisplayParam != 'undefined'){
+				marqueur.openInfoWindowHtml(htmlToDisplayParam);
+			} 
 			}
 			
-			
-			google.maps.Event.addListener(marqueur, 'click', displayInfoWindowHTML); 
-			displayInfoWindowHTML();
 			map.addOverlay(marqueur);
+			displayInfoWindowHTML();
+			google.maps.Event.addListener(marqueur, 'click', displayInfoWindowHTML); 
+			
 
 
 
@@ -386,13 +383,21 @@ html= html +'<br/><br/> <@s.text name="global.latitude" /> : '+selectedStreetInf
 <br/>
 <script type="text/javascript">
 selectedStreetInformation = null;
+getHtmlFromSelectedStreet = function(selectedStreetInformation){
+var html = '<div id="EmplacementStreetView" class="googlemapInfoWindowHtml"><img src="/images/logos/logo_32.png" alt="free geocoding services" class="imgAlign"/><span  class="biggertext"><@s.text name="search.geocoding.services"/></span><hr/><span  class="biggertext">'+selectedStreetInformation.name+'</span><br/><br/>';
+if (selectedStreetInformation.streetType != null){html= html + "<@s.text name="search.type.of.street"/> : "+selectedStreetInformation.streetType;}
+ if (selectedStreetInformation.oneWay==true){html = html+ '<@s.text name="street.oneway" />'; } else { html = html +'<@s.text name="street.twoway" />';}
+html= html +'<br/><br/> <@s.text name="global.latitude" /> : '+selectedStreetInformation.lat+'<br/><br/><@s.text name="global.longitude" /> : '+selectedStreetInformation.lng+'<br/><br/> <@s.text name="global.length" /> : '+(selectedStreetInformation.length*100000)+' m</div>';
+return html;
+}
+
 ${javascriptNameObject} = new Autocomplete('streetname', { serviceUrl: '/street/streetsearch?format=json"&from=1&to=10"', width: 340, deferRequestBy:400, minChars:1, onSelect: 
 function(value, data){
 	${javascriptNameObject}.streetResults.each(
 		function(value, i) {
 			if (value.gid == data){
 				selectedStreetInformation = value;
-				viewStreet(value.lat,value.lng);
+				viewStreet(value.lat,value.lng,getHtmlFromSelectedStreet(selectedStreetInformation));
 				viewStreetPanorama(value.lat,value.lng);
 				return false;
 			}
