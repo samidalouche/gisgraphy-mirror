@@ -1,3 +1,3 @@
 <%@ include file="/common/taglibs.jsp"%>
 <%@ page session="false" %>
-<c:redirect url="/ajaxfulltextsearch.html"/>
+<c:redirect url="/public/geocoding_worldwide.html"/>

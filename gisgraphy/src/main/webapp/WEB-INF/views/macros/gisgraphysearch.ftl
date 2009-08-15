@@ -238,7 +238,7 @@
 				<span class="spacer">Long (&#x2194;) : </span><@s.textfield name="lng" maxlength="15" required="true" size="6" theme="simple" />
 				<div id="searchbuttonbar">
 					<span id="searchexample">e.g. '3.5', '45.2', ... </span>
-					<@s.submit title="Search" value="Search" theme="simple"  onclick="return doSearch()"/>
+					<@s.submit title="Search" value="%{getText('global.search')}" theme="simple"  onclick="return doSearch()"/>
 				</div>
 			</div>
 </#macro>
