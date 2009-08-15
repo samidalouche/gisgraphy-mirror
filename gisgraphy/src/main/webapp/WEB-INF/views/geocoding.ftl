@@ -24,6 +24,8 @@
 
 
 		<script type="text/javascript">
+			<@s.url id="streetsearchurl" action="streetSearch" includeParams="none" namespace="/public" ></@s.url>
+			streetSearchBaseUrl = "${streetsearchurl}";
 			latlngArray = eval('${latLongJson}');
 			updateLatLng = function(){
 				if ($('ambiguouscity') != null){
@@ -42,6 +44,7 @@
 			setStreetNameCorrectState = function(){
 				if ($('lat').value != '' && $('lng').value != '' ){
 					streetNameAutocompleter.serviceUrl="/street/streetsearch?format=json&lat="+$('lat').value+"&lng="+$('lng').value+"&from=1&to=10";
+					$('streetSearchLnk').href=streetSearchBaseUrl+"?lat="+$('lat').value+"&lng="+$('lng').value+"&autosubmit=true";
 					$('viewAllStreetLink').show();
 					$('streetname').enable();
 
@@ -77,7 +80,8 @@
 		</span>
                 <div class="clear"></div>
 
-<div class="forminstructions"><img src="/images/puce_3.gif" class="imagenumberlist" alt="puce_3"/><span id="viewAllStreetLink" class="forminstructions"><a href=""><@s.text name="search.displaycity.streets"/></a>&nbsp;&nbsp;<span class="underline"><@s.text name="global.or"/></span>&nbsp;&nbsp;</span><@s.text name="search.street.search"/>&nbsp;(<@s.text name="global.autocomplete"/>) : </div>
+
+<div class="forminstructions"><img src="/images/puce_3.gif" class="imagenumberlist" alt="puce_3"/><span id="viewAllStreetLink" class="forminstructions"><a href="${streetsearchurl}" id="streetSearchLnk"><@s.text name="search.displaycity.streets"/></a>&nbsp;&nbsp;<span class="underline"><@s.text name="global.or"/></span>&nbsp;&nbsp;</span><@s.text name="search.street.search"/>&nbsp;(<@s.text name="global.autocomplete"/>) : </div>
 		<@gisgraphysearch.streetNameAutoCompleter javascriptNameObject="streetNameAutocompleter"/>
 		
 <br/>

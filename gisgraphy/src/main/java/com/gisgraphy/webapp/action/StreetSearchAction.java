@@ -23,21 +23,15 @@
 package com.gisgraphy.webapp.action;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import org.apache.struts2.ServletActionContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Required;
 
-import com.gisgraphy.domain.geoloc.service.geoloc.GeolocQuery;
-import com.gisgraphy.domain.geoloc.service.geoloc.IGeolocSearchEngine;
 import com.gisgraphy.domain.geoloc.service.geoloc.IStreetSearchEngine;
 import com.gisgraphy.domain.geoloc.service.geoloc.StreetSearchQuery;
 import com.gisgraphy.domain.geoloc.service.geoloc.street.StreetType;
-import com.gisgraphy.domain.valueobject.GeolocResultsDto;
-import com.gisgraphy.domain.valueobject.GisgraphyConfig;
 import com.gisgraphy.domain.valueobject.GisgraphyServiceType;
 import com.gisgraphy.domain.valueobject.StreetSearchResultsDto;
 import com.gisgraphy.domain.valueobject.Output.OutputFormat;
@@ -48,6 +42,8 @@ import com.gisgraphy.domain.valueobject.Output.OutputFormat;
  * @author <a href="mailto:david.masclet@gisgraphy.com">David Masclet</a>
  */
 public class StreetSearchAction extends SearchAction {
+    
+    private boolean autosubmit = false;
 
     /**
      * 
@@ -213,6 +209,20 @@ public class StreetSearchAction extends SearchAction {
      */
     public StreetSearchResultsDto getStreetSearchResultsDto() {
 	return this.streetSearchResultsDto;
+    }
+
+    /**
+     * @return the autosubmit
+     */
+    public boolean isAutosubmit() {
+        return autosubmit;
+    }
+
+    /**
+     * @param autosubmit the autosubmit to set
+     */
+    public void setAutosubmit(boolean autosubmit) {
+        this.autosubmit = autosubmit;
     }
 
 }

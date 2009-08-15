@@ -167,6 +167,9 @@
     return true;
     }
 	}
+	<#if autosubmit>
+		doSearch();
+	</#if>
 
 </script>
 </body>
