@@ -64,6 +64,8 @@ public class StreetSearchAction extends SearchAction {
     public String radius;
 
     private String streettype;
+    
+    private String name;
 
     /**
      * @return Wether the search has been done and the results should be
@@ -223,6 +225,20 @@ public class StreetSearchAction extends SearchAction {
      */
     public void setAutosubmit(boolean autosubmit) {
         this.autosubmit = autosubmit;
+    }
+
+    /**
+     * @return the name
+     */
+    public String getName() {
+        return name;
+    }
+
+    /**
+     * @param name the name to set
+     */
+    public void setName(String name) {
+        this.name = name;
     }
 
 }

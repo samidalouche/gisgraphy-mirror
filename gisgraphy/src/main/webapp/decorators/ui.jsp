@@ -43,7 +43,7 @@
         </div>
 	        <div id="footer" class="clearfix">
              <div class="divider"><div></div></div>
-    <span class="left"><fmt:message key="webapp.version"/> |
+    <span class="left"><fmt:message key="webapp.version"/> |<span><a href="mailto:davidmasclet@gisgraphy.com?subject=feedback" class="underline red">We Love feedback</a> | </span>
         <span id="validators">
             <a href="http://validator.w3.org/check?uri=referer">XHTML Valid</a> |
             <a href="http://jigsaw.w3.org/css-validator/validator-uri.html">CSS Valid</a>
@@ -70,7 +70,8 @@
 <span><a href="/?locale=pt"><img src="/images/languages/PT.png"  alt="Gisgraphy in portuguese"></a></span> |
 <span><a href="/?locale=no"><img src="/images/languages/NO.png"  alt="Gisgraphy in Norwegian"></a></span> |
 <span><a href="/?locale=tr"><img src="/images/languages/TR.png"  alt="Gisgraphy in Turkish"></a></span> |
-<span><a href="/?locale=kr"><img src="/images/languages/KR.png"  alt="Gisgraphy in Korean"></a></span>
+<span><a href="/?locale=kr"><img src="/images/languages/KR.png"  alt="Gisgraphy in Korean"></a></span> |
+<br/> <a href="mailto:davidmasclet@gisgraphy.com?subject=help for translation">We need help for translation</a>
 </div>
 <script type="text/javascript">
 _uacct = "<%= com.gisgraphy.domain.valueobject.GisgraphyConfig.googleanalytics_uacctcode %>";

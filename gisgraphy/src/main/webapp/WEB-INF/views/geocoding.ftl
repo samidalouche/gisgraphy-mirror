@@ -17,9 +17,7 @@
 	<br/>
 </noscript>
 		 <@breadcrumbs.searchNavBar/>
-<div class="clear"></div><div class="biggertext" style="line-height:1.5em;">The worldwide geocoding webservice is totally FREE and allow to find Lat/lng pair from an adress or a street. it uses (free) data from <span class="imgAlign"><a href="http://openstreetmap.org">openstreetMap <img src="/images/openstreetmap.png" alt="openstreetmap" class="imgAlign" style="width:30px"/></a> that are imported into a local database. you can see an example of use bellow</span>. You can find documentation on <a href="http://www.gisgraphy.com/documentation/index.htm#streetservice">how to use the webservice</a> and see how to <a href="http://www.gisgraphy.com/documentation/installation/index.htm" alt="install gisgraphy">download and install</a> Gisgraphy.</div><br/><br/>
- <span class="importantred"><@s.text name="search.geocoding.notUsinggooglemap"/></span>
-<br/><br/>
+<div class="clear"></div><div class="biggertext" style="line-height:1.5em;">The worldwide geocoding webservice is totally FREE and allow to find Lat/lng pair from an adress or a street via a REST interface . it uses (free) data from <span class="imgAlign"><a href="http://openstreetmap.org">OpenstreetMap <img src="/images/openstreetmap.png" alt="openstreetmap" class="imgAlign" style="width:30px"/></a> that are imported into a local database. <@s.text name="search.geocoding.notUsinggooglemap"/>. You can see an example of use bellow</span>. You can find documentation on <a href="http://www.gisgraphy.com/documentation/index.htm#streetservice" target="_blank">how to use the webservice</a> and see how to <a href="http://www.gisgraphy.com/documentation/installation/index.htm" target="_blank">download and install</a> Gisgraphy.</div><br/><br/>
 <div class="clear"></div>
 
 
@@ -67,7 +65,7 @@
 <#if message!= ''><span class="biggertext">${message}</span><br/></#if>
 <div class="forminstructions"><img src="/images/puce_1.gif" class="imagenumberlist" alt="puce_1"/><@s.text name="search.select.country"/> : </div>
          <span class="searchfield">
-			<span class="searchfieldlabel">&nbsp;</span><@s.select label="country " listKey="iso3166Alpha2Code" listValue="name" name="countryCode" list="countries" headerValue="-- %{getText('search.select.country')} --" headerKey="" multiple="false" required="true" labelposition="top" theme="simple" id="country"/> 
+			<@s.select label="country " listKey="iso3166Alpha2Code" listValue="name" name="countryCode" list="countries" headerValue="-- %{getText('search.select.country')} --" headerKey="" multiple="false" required="true" labelposition="top" theme="simple" id="country"/> 
 	<br/><br/>
 	</span>
 	<div>
@@ -81,8 +79,9 @@
                 <div class="clear"></div>
 
 
-<div class="forminstructions"><img src="/images/puce_3.gif" class="imagenumberlist" alt="puce_3"/><span id="viewAllStreetLink" class="forminstructions"><a href="${streetsearchurl}" id="streetSearchLnk" target="displaystreetofcity"><@s.text name="search.displaycity.streets"/></a>&nbsp;&nbsp;<span class="underline"><@s.text name="global.or"/></span>&nbsp;&nbsp;</span><@s.text name="search.street.search"/>&nbsp;(<@s.text name="global.autocomplete"/>) : </div>
+<div class="forminstructions"><img src="/images/puce_3.gif" class="imagenumberlist" alt="puce_3"/><@s.text name="search.street.search"/>&nbsp;(<@s.text name="global.autocomplete"/>) : </div>
 		<@gisgraphysearch.streetNameAutoCompleter javascriptNameObject="streetNameAutocompleter"/>
+<div id="viewAllStreetLink" class="forminstructions indented "><a href="${streetsearchurl}" id="streetSearchLnk" target="displaystreetofcity"><@s.text name="search.displaycity.streets"/></a></div>
 		
 <br/>
 </div>

@@ -26,6 +26,10 @@
 			<action dev="David Masclet" type="update">
 				Some L10N improvement
 			</action>
+			
+			<action dev="David Masclet" type="add">
+				Add the ability to change the locale
+			</action>
 
 			<action dev="David Masclet" type="update">
 				Improve XHTML on pages

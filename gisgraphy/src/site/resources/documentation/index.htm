@@ -670,17 +670,36 @@ spellchecker.collateResults=false
 
 
 <div align="right"><a href="#top">[top]</a></div>
-<h4>spellchecker.numberOfSuggestion</h4>
-Tells how many suggestion per word should pe suggested. For example, for a request with 3 word and a spellchecker.numberOfSuggestion=2, 6 words will be suggested. This option is a number.  
+<h4>googleMapAPIKey</h4>
+The google maps api key. it is required if you want to use Google maps features (see the result of a geocoding search for example). see more on the <a href="http://code.google.com/apis/maps/signup.html">Google Maps page</a> to sign up)
 <div class="code">
 Examples : <br/>
-spellchecker.numberOfSuggestion=2<br/>
-spellchecker.numberOfSuggestion=3
-</div>
-<div class="tip yellowtip">
-Note that it is a maximmum. If less suggestions can be calculated (or no suggestion), the number of suggestion could be lesser than the numberOfSuggestion value.
+googleMapAPIKey=ABQIAAAAC0kUg2SfDYBO-AEagcTgvhQ5aXWj7Kef4ih_G0qG0UGxHdmrpFrmSD7sGMwTJIN1g7C45waZ5ybiQ<br/>
 </div>
 <br/><br/>
+
+
+
+<div align="right"><a href="#top">[top]</a></div>
+<h4>googleanalytics.uacctcode</h4>
+The google analytics code to have statistics (see more on the <a href="http://www.google.com/analytics/">Google analytics page</a>)   
+<div class="code">
+Examples : <br/>
+googleMapAPIKey=ABQIAAAAC0kUg2SfDYBO-AEagcTgvhQ5aXWj7Kef4ih_G0qG0UGxHdmrpFrmSD7sGMwTJIN1g7C45waZ5ybiQ<br/>
+</div>
+<br/><br/>
+
+
+<div align="right"><a href="#top">[top]</a></div>
+<h4>spellchecker.collateResults</h4>
+For a request with several word, return a string with the best suggestion for each word. for instance for 'pariss frence' => 'Paris France' will be suggest. This option is case sensitive. 'true' and 'false' are possible values  
+<div class="code">
+Examples : <br/>
+spellchecker.collateResults=true<br/>
+spellchecker.collateResults=false
+</div>
+<br/><br/>
+
 
 
 <a name="importfailure"></a>
@@ -770,13 +789,13 @@ you can
 <a name="endindexgeoloc"></a>
 <li>End pagination Index (optional) : The last pagination index. if < 1 or not specified, it will be set to startindex + 50.</li>
 <br/>
-<a name="outputformatgeoloc"></a>
+<a name="outputformatstreet"></a>
 <li>The output format (optional) : The formats available are :<br/>
 <ul>
-<li>XML (Default) : <a href="./examples/geolocsearch.xml">Example</a></li>
-<li>JSON  : <a href="./examples/geolocsearch.json">Example</a></li>
-<li>ATOM : <a href="./examples/geolocsearch_atom.xml">Example</a></li>
-<li>GEORSS : <a href="./examples/geolocsearch_georss.xml">Example</a></li>
+<li>XML (Default) : <a href="./examples/streetsearch.xml">Example</a></li>
+<li>JSON  : <a href="./examples/streetsearch.json">Example</a></li>
+<li>ATOM : <a href="./examples/streetsearch_atom.xml">Example</a></li>
+<li>GEORSS : <a href="./examples/streetsearch_georss.xml">Example</a></li>
 </ul>
 </li>
 <br>

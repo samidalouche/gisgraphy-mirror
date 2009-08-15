@@ -16,8 +16,10 @@
 	</div>
 	<br/>
 </noscript>
-	
+	<@s.url id="simpleGeolocSearchUrl" action="geolocsearch" includeParams="none" namespace="" />
 			<@breadcrumbs.searchNavBar/>
+<div class="clear"></div><div class="biggertext" style="line-height:1.5em;">The GEOLOC webservice is totally FREE and allow to find place afrom a Lat/lng pair via a REST interface. it uses (free) data from <span class="imgAlign"><a href="http://geonames.org">Geonames</a> that are imported into a local database. You can see an example of use bellow</span>. You can find documentation on <a href="http://www.gisgraphy.com/documentation/index.htm#geolocservice" target="_blank">how to use the webservice</a> and see how to <a href="http://www.gisgraphy.com/documentation/installation/index.htm" target="_blank">download and install</a> Gisgraphy. You can use <a href="${simpleGeolocSearchUrl}" target="_blank">this interface</a> to call the webservice and see the output</div><br/><br/>
+<div class="clear"></div>
 	<@s.form action="ajaxgeolocsearch!search.html" method="get" id="geolocsearch">
 		<div id="simplesearch">
 			<@gisgraphysearch.latlongsearchbox/>

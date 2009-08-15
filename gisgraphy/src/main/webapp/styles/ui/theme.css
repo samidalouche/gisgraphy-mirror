@@ -409,7 +409,7 @@ legend {
 	left : 150px;
 	position: absolute;
 	top: -50px;
-	width:600px;
+	width:700px;
 	z-index: 500;
 	}
 
@@ -419,7 +419,7 @@ height: 300px;
 margin:0px auto;
 overflow: auto;
 padding:0px;
-width:600px;
+width:700px;
 }
 
 .headerResults{
@@ -431,7 +431,7 @@ height: 20px;
 margin:0px auto;
 padding-left : 5px;
 padding-top: 10px;
-width :593px;
+width :693px;
 }
 
  .headerResultsLabel{
@@ -459,7 +459,7 @@ background-color: #EEEEEE;
 height: auto;
 margin:10px auto;
 padding:5px;
-width:500px;
+width:600px;
 }
 div#searchResults .flag{
 float:left;
@@ -475,7 +475,7 @@ div#searchResults .resultblock{
 float:left;
 margin-left:5px;
 margin-top:5px;
-width:440px;
+width:540px;
 }
 
 div#searchResults .resultheaderleft{
@@ -489,12 +489,12 @@ float:right;
 
 div#searchResults .separator {
 float:left;
-width:440px;
+width:540px;
 }
 
 div#searchResults .summary {
 float:left;
-width:440px;
+width:540px;
 }
 
 a.greenlink {
@@ -560,6 +560,10 @@ float: left;
 font-size: 1.4em;
 color:#CC0000;
 display: inline;
+}
+
+.red{
+color:#CC0000;
 }
 
 .underline {

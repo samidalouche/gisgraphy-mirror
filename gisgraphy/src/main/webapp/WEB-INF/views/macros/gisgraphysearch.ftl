@@ -39,6 +39,15 @@
 			  			<@s.param name="lng" value="${result.lng?c}" />
 			 		</@s.url>
 					 | <a href="${proximitySearchUrl}" class="greenlink"><@s.text name="global.findNearestCity"/></a>
+					<#if result.placetype.equals('City')>
+					<@s.url id="streetsearchurl" action="streetSearch" includeParams="none" namespace="/public" >
+						<@s.param name="lat" value="${result.lat?c}" />
+			  			<@s.param name="lng" value="${result.lng?c}" />
+						<@s.param name="autosubmit" value="true" />
+						<@s.param name="name" value="'%'" />
+					</@s.url>
+					 | <a href="${streetsearchurl}" class="greenlink"><@s.text name="search.view.street.breadcrumbs"/></a>
+					</#if>
 					</div>
 					</div>
 					<div class="clear"></div>
@@ -116,6 +125,15 @@
 						<#if result.population??><@s.text name="global.population"/> : ${result.population};<br/></#if>
 						<#if result.elevation??><@s.text name="global.elevation"/> : ${result.elevation} m<br/></#if>
 						<img src="/images/world_link.png" alt="Maps links" />&nbsp;<a href="${result.google_map_url}" class="greenlink" target="gisgraphyMap"><@s.text name="global.viewOnGoogleMap"/></a> | <a href="${result.yahoo_map_url}" class="greenlink" target="gisgraphyMap"><@s.text name="global.viewOnYahooMap"/></a>
+						<#if result.placeType.equals('City')>
+					<@s.url id="streetsearchurl" action="streetSearch" includeParams="none" namespace="/public" >
+						<@s.param name="lat" value="${result.lat?c}" />
+			  			<@s.param name="lng" value="${result.lng?c}" />
+						<@s.param name="autosubmit" value="true" />
+						<@s.param name="name" value="'%'" />
+					</@s.url>
+					 | <a href="${streetsearchurl}" class="greenlink"><@s.text name="search.view.street.breadcrumbs"/></a>
+					</#if>
 						</div>
 					</div>
 					<div class="clear"></div>
@@ -344,7 +362,7 @@
 		<#if cityFound>
 			<br/>
 			<div class="forminstructions"><img src="/images/puce_2.gif" class="imagenumberlist" alt="puce_2"/><@s.text name="search.selectedcity" /> : </div>			<span class="searchfield">
-			<span class="searchfieldlabel">&nbsp; </span> <@s.textfield size="40" name="city" id="city"  value="${city}" theme="simple" disabled="true"/>&nbsp
+			<@s.textfield size="40" name="city" id="city"  value="${city}" theme="simple" disabled="true"/>&nbsp
 			<@s.url id="chooseOtherCityUrl" action="geocoding_worldwide" includeParams="none" />
 		<a href="${chooseOtherCityUrl}"><@s.text name="search.city.chooseOther" /></a>
 		<#else>
@@ -361,7 +379,7 @@
 				 }
 		</script>
 			<span class="searchfield">
-			<span class="searchfieldlabel">&nbsp;</span><@s.textfield size="40" name="city" id="city" required="false"  theme="simple"/>
+			<@s.textfield size="40" name="city" id="city" required="false"  theme="simple"/>
 			<@s.submit title="Search" value="%{getText('search.city.validate.choice')}" theme="simple" id="streetsearchsubmitbutton" onclick="return validateNonEmptyQuery();"/>
 		</span>
 		</#if>
@@ -375,10 +393,10 @@
 <link href="/scripts/autocomplete/styles.css" rel="stylesheet" type="text/css" />
 <script src="/scripts/prototype.js" type="text/javascript"></script>
 <script src="/scripts/autocomplete/autocomplete.js"></script>
-<@s.hidden size="5" name="lat" required="false" id="lat"  theme="simple" /><@s.hidden size="5" name="lng" required="false" id="lng" theme="simple"/>
+<@s.hidden size="1" name="lat"  id="lat"  theme="simple" /><@s.hidden size="1" name="lng" required="false" id="lng" theme="simple"/>
 <span class="searchfield">
-	<span class="searchfieldlabel">&nbsp;</span><div class="error streetautocompleteerror" id="streetNameAutocompletererror" >&nbsp;</div><br/>
-	<span class="searchfieldlabel">&nbsp;</span><@s.textfield size="40" name="streetname" required="false" id="streetname"  theme="simple"/><span style="display:none;" id="loadingImg"><img src="/images/loading.gif" alt="loading" class="imgAlign" style="width:25px;"></span>
+	
+	<@s.textfield size="40" name="streetname" required="false" id="streetname"  theme="simple"/><span style="display:none;" id="loadingImg"><img src="/images/loading.gif" alt="loading" class="imgAlign" style="width:25px;"></span><div class="error streetautocompleteerror" id="streetNameAutocompletererror" >&nbsp;</div>
 </span>
 <br/>
 <script type="text/javascript">
