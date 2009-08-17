@@ -778,4 +778,51 @@ public class Output {
 	    .withStyle(OutputStyle.MEDIUM).withLanguageCode(
 		    Output.DEFAULT_LANGUAGE_CODE);
 
+    /* (non-Javadoc)
+     * @see java.lang.Object#hashCode()
+     */
+    @Override
+    public int hashCode() {
+	final int prime = 31;
+	int result = 1;
+	result = prime * result + ((format == null) ? 0 : format.hashCode());
+	result = prime * result + (indent ? 1231 : 1237);
+	result = prime * result
+		+ ((languageCode == null) ? 0 : languageCode.hashCode());
+	result = prime * result + ((style == null) ? 0 : style.hashCode());
+	return result;
+    }
+
+    /* (non-Javadoc)
+     * @see java.lang.Object#equals(java.lang.Object)
+     */
+    @Override
+    public boolean equals(Object obj) {
+	if (this == obj)
+	    return true;
+	if (obj == null)
+	    return false;
+	if (getClass() != obj.getClass())
+	    return false;
+	final Output other = (Output) obj;
+	if (format == null) {
+	    if (other.format != null)
+		return false;
+	} else if (!format.equals(other.format))
+	    return false;
+	if (indent != other.indent)
+	    return false;
+	if (languageCode == null) {
+	    if (other.languageCode != null)
+		return false;
+	} else if (!languageCode.equals(other.languageCode))
+	    return false;
+	if (style == null) {
+	    if (other.style != null)
+		return false;
+	} else if (!style.equals(other.style))
+	    return false;
+	return true;
+    }
+
 }

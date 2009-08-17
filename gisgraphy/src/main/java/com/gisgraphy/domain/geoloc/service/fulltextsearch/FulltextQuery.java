@@ -414,4 +414,52 @@ public class FulltextQuery extends AbstractGisQuery {
 	return FulltextServlet.DEFAULT_MAX_RESULTS;
     }
 
+    /* (non-Javadoc)
+     * @see java.lang.Object#hashCode()
+     */
+    @Override
+    public int hashCode() {
+	final int prime = 31;
+	int result = super.hashCode();
+	result = prime * result
+		+ ((countryCode == null) ? 0 : countryCode.hashCode());
+	result = prime * result
+		+ ((placeType == null) ? 0 : placeType.hashCode());
+	result = prime * result + ((query == null) ? 0 : query.hashCode());
+	result = prime * result + (spellchecking ? 1231 : 1237);
+	return result;
+    }
+
+    /* (non-Javadoc)
+     * @see java.lang.Object#equals(java.lang.Object)
+     */
+    @Override
+    public boolean equals(Object obj) {
+	if (this == obj)
+	    return true;
+	if (!super.equals(obj))
+	    return false;
+	if (getClass() != obj.getClass())
+	    return false;
+	final FulltextQuery other = (FulltextQuery) obj;
+	if (countryCode == null) {
+	    if (other.countryCode != null)
+		return false;
+	} else if (!countryCode.equals(other.countryCode))
+	    return false;
+	if (placeType == null) {
+	    if (other.placeType != null)
+		return false;
+	} else if (!placeType.equals(other.placeType))
+	    return false;
+	if (query == null) {
+	    if (other.query != null)
+		return false;
+	} else if (!query.equals(other.query))
+	    return false;
+	if (spellchecking != other.spellchecking)
+	    return false;
+	return true;
+    }
+
 }

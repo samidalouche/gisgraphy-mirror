@@ -1,0 +1,651 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feed xmlns="http://purl.org/atom/ns#" xmlns:slash="http://purl.org/rss/1.0/modules/slash/" xmlns:apple-wallpapers="http://www.apple.com/ilife/wallpapers" xmlns:g-custom="http://base.google.com/cns/1.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:creativeCommons="http://backend.userland.com/creativeCommonsRssModule" xmlns:taxo="http://purl.org/rss/1.0/modules/taxonomy/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:sy="http://purl.org/rss/1.0/modules/syndication/" xmlns:g-core="http://base.google.com/ns/1.0" xmlns:cc="http://web.resource.org/cc/" xmlns:media="http://search.yahoo.com/mrss/" xmlns:opensearch="http://a9.com/-/spec/opensearch/1.1/" xmlns:georss="http://www.georss.org/georss/" xmlns:geo="http://www.w3.org/2003/01/geo/wgs84_pos#" version="0.3">
+  <title>Gisgraphy</title>
+  <link rel="alternate" href="Gisgraphy" />
+  <tagline>Gisgraphy search</tagline>
+  <entry>
+    <link rel="alternate" href="http://services.gisgraphy.com/displayfeature.html?featureId=492689" />
+    <author>
+      <name>davidMasclet@gisgraphy.com</name>
+    </author>
+    <summary type="application/xml" mode="escaped" />
+    <dc:creator>davidMasclet@gisgraphy.com</dc:creator>
+    <opensearch:itemsPerPage>10</opensearch:itemsPerPage>
+    <opensearch:totalResults>50</opensearch:totalResults>
+    <opensearch:startIndex>1</opensearch:startIndex>
+    <georss:point>48.853125279945736 2.3489075432744517</georss:point>
+  </entry>
+  <entry>
+    <link rel="alternate" href="http://services.gisgraphy.com/displayfeature.html?featureId=215781" />
+    <author>
+      <name>davidMasclet@gisgraphy.com</name>
+    </author>
+    <summary type="application/xml" mode="escaped" />
+    <dc:creator>davidMasclet@gisgraphy.com</dc:creator>
+    <opensearch:itemsPerPage>10</opensearch:itemsPerPage>
+    <opensearch:totalResults>50</opensearch:totalResults>
+    <opensearch:startIndex>1</opensearch:startIndex>
+    <georss:point>48.85316426666701 2.3479792942963873</georss:point>
+  </entry>
+  <entry>
+    <title>Place Jean-Paul II</title>
+    <link rel="alternate" href="http://services.gisgraphy.com/displayfeature.html?featureId=70391" />
+    <author>
+      <name>davidMasclet@gisgraphy.com</name>
+    </author>
+    <summary type="application/xml" mode="escaped">Place Jean-Paul II</summary>
+    <dc:creator>davidMasclet@gisgraphy.com</dc:creator>
+    <opensearch:itemsPerPage>10</opensearch:itemsPerPage>
+    <opensearch:totalResults>50</opensearch:totalResults>
+    <opensearch:startIndex>1</opensearch:startIndex>
+    <georss:point>48.85381963598093 2.3481152814607724</georss:point>
+  </entry>
+  <entry>
+    <title>Crypte archéologique</title>
+    <link rel="alternate" href="http://services.gisgraphy.com/displayfeature.html?featureId=492444" />
+    <author>
+      <name>davidMasclet@gisgraphy.com</name>
+    </author>
+    <summary type="application/xml" mode="escaped">Crypte archéologique</summary>
+    <dc:creator>davidMasclet@gisgraphy.com</dc:creator>
+    <opensearch:itemsPerPage>10</opensearch:itemsPerPage>
+    <opensearch:totalResults>50</opensearch:totalResults>
+    <opensearch:startIndex>1</opensearch:startIndex>
+    <georss:point>48.85365365 2.34765485</georss:point>
+  </entry>
+  <entry>
+    <title>Pont au Double</title>
+    <link rel="alternate" href="http://services.gisgraphy.com/displayfeature.html?featureId=492459" />
+    <author>
+      <name>davidMasclet@gisgraphy.com</name>
+    </author>
+    <summary type="application/xml" mode="escaped">Pont au Double</summary>
+    <dc:creator>davidMasclet@gisgraphy.com</dc:creator>
+    <opensearch:itemsPerPage>10</opensearch:itemsPerPage>
+    <opensearch:totalResults>50</opensearch:totalResults>
+    <opensearch:startIndex>1</opensearch:startIndex>
+    <georss:point>48.8525359 2.3484684</georss:point>
+  </entry>
+  <entry>
+    <link rel="alternate" href="http://services.gisgraphy.com/displayfeature.html?featureId=492402" />
+    <author>
+      <name>davidMasclet@gisgraphy.com</name>
+    </author>
+    <summary type="application/xml" mode="escaped" />
+    <dc:creator>davidMasclet@gisgraphy.com</dc:creator>
+    <opensearch:itemsPerPage>10</opensearch:itemsPerPage>
+    <opensearch:totalResults>50</opensearch:totalResults>
+    <opensearch:startIndex>1</opensearch:startIndex>
+    <georss:point>48.85267862147535 2.3477971390005705</georss:point>
+  </entry>
+  <entry>
+    <title>Rue Arcole</title>
+    <link rel="alternate" href="http://services.gisgraphy.com/displayfeature.html?featureId=215861" />
+    <author>
+      <name>davidMasclet@gisgraphy.com</name>
+    </author>
+    <summary type="application/xml" mode="escaped">Rue Arcole</summary>
+    <dc:creator>davidMasclet@gisgraphy.com</dc:creator>
+    <opensearch:itemsPerPage>10</opensearch:itemsPerPage>
+    <opensearch:totalResults>50</opensearch:totalResults>
+    <opensearch:startIndex>1</opensearch:startIndex>
+    <georss:point>48.85422238430066 2.3497145635774226</georss:point>
+  </entry>
+  <entry>
+    <title>Pont au Double</title>
+    <link rel="alternate" href="http://services.gisgraphy.com/displayfeature.html?featureId=492458" />
+    <author>
+      <name>davidMasclet@gisgraphy.com</name>
+    </author>
+    <summary type="application/xml" mode="escaped">Pont au Double</summary>
+    <dc:creator>davidMasclet@gisgraphy.com</dc:creator>
+    <opensearch:itemsPerPage>10</opensearch:itemsPerPage>
+    <opensearch:totalResults>50</opensearch:totalResults>
+    <opensearch:startIndex>1</opensearch:startIndex>
+    <georss:point>48.8523498 2.34835455</georss:point>
+  </entry>
+  <entry>
+    <title>Petit Pont</title>
+    <link rel="alternate" href="http://services.gisgraphy.com/displayfeature.html?featureId=215735" />
+    <author>
+      <name>davidMasclet@gisgraphy.com</name>
+    </author>
+    <summary type="application/xml" mode="escaped">Petit Pont</summary>
+    <dc:creator>davidMasclet@gisgraphy.com</dc:creator>
+    <opensearch:itemsPerPage>10</opensearch:itemsPerPage>
+    <opensearch:totalResults>50</opensearch:totalResults>
+    <opensearch:startIndex>1</opensearch:startIndex>
+    <georss:point>48.8534668 2.3471138</georss:point>
+  </entry>
+  <entry>
+    <title>Petit Pont</title>
+    <link rel="alternate" href="http://services.gisgraphy.com/displayfeature.html?featureId=215730" />
+    <author>
+      <name>davidMasclet@gisgraphy.com</name>
+    </author>
+    <summary type="application/xml" mode="escaped">Petit Pont</summary>
+    <dc:creator>davidMasclet@gisgraphy.com</dc:creator>
+    <opensearch:itemsPerPage>10</opensearch:itemsPerPage>
+    <opensearch:totalResults>50</opensearch:totalResults>
+    <opensearch:startIndex>1</opensearch:startIndex>
+    <georss:point>48.85325025 2.34697405</georss:point>
+  </entry>
+  <entry>
+    <title>Quai de Montebello</title>
+    <link rel="alternate" href="http://services.gisgraphy.com/displayfeature.html?featureId=85032" />
+    <author>
+      <name>davidMasclet@gisgraphy.com</name>
+    </author>
+    <summary type="application/xml" mode="escaped">Quai de Montebello</summary>
+    <dc:creator>davidMasclet@gisgraphy.com</dc:creator>
+    <opensearch:itemsPerPage>10</opensearch:itemsPerPage>
+    <opensearch:totalResults>50</opensearch:totalResults>
+    <opensearch:startIndex>1</opensearch:startIndex>
+    <georss:point>48.852190864686825 2.348610767416063</georss:point>
+  </entry>
+  <entry>
+    <title>Rue du Cloître Notre Dame</title>
+    <link rel="alternate" href="http://services.gisgraphy.com/displayfeature.html?featureId=70404" />
+    <author>
+      <name>davidMasclet@gisgraphy.com</name>
+    </author>
+    <summary type="application/xml" mode="escaped">Rue du Cloître Notre Dame</summary>
+    <dc:creator>davidMasclet@gisgraphy.com</dc:creator>
+    <opensearch:itemsPerPage>10</opensearch:itemsPerPage>
+    <opensearch:totalResults>50</opensearch:totalResults>
+    <opensearch:startIndex>1</opensearch:startIndex>
+    <georss:point>48.85307514229949 2.350698136270378</georss:point>
+  </entry>
+  <entry>
+    <title>Petit Pont</title>
+    <link rel="alternate" href="http://services.gisgraphy.com/displayfeature.html?featureId=215729" />
+    <author>
+      <name>davidMasclet@gisgraphy.com</name>
+    </author>
+    <summary type="application/xml" mode="escaped">Petit Pont</summary>
+    <dc:creator>davidMasclet@gisgraphy.com</dc:creator>
+    <opensearch:itemsPerPage>10</opensearch:itemsPerPage>
+    <opensearch:totalResults>50</opensearch:totalResults>
+    <opensearch:startIndex>1</opensearch:startIndex>
+    <georss:point>48.8530698 2.3468711</georss:point>
+  </entry>
+  <entry>
+    <title>Rue Massillon</title>
+    <link rel="alternate" href="http://services.gisgraphy.com/displayfeature.html?featureId=70424" />
+    <author>
+      <name>davidMasclet@gisgraphy.com</name>
+    </author>
+    <summary type="application/xml" mode="escaped">Rue Massillon</summary>
+    <dc:creator>davidMasclet@gisgraphy.com</dc:creator>
+    <opensearch:itemsPerPage>10</opensearch:itemsPerPage>
+    <opensearch:totalResults>50</opensearch:totalResults>
+    <opensearch:startIndex>1</opensearch:startIndex>
+    <georss:point>48.8533335 2.35080095</georss:point>
+  </entry>
+  <entry>
+    <title>Rue Chanoinesse</title>
+    <link rel="alternate" href="http://services.gisgraphy.com/displayfeature.html?featureId=26189" />
+    <author>
+      <name>davidMasclet@gisgraphy.com</name>
+    </author>
+    <summary type="application/xml" mode="escaped">Rue Chanoinesse</summary>
+    <dc:creator>davidMasclet@gisgraphy.com</dc:creator>
+    <opensearch:itemsPerPage>10</opensearch:itemsPerPage>
+    <opensearch:totalResults>50</opensearch:totalResults>
+    <opensearch:startIndex>1</opensearch:startIndex>
+    <georss:point>48.853748735585285 2.350802112131626</georss:point>
+  </entry>
+  <entry>
+    <title>Rue de la Bûcherie</title>
+    <link rel="alternate" href="http://services.gisgraphy.com/displayfeature.html?featureId=215602" />
+    <author>
+      <name>davidMasclet@gisgraphy.com</name>
+    </author>
+    <summary type="application/xml" mode="escaped">Rue de la Bûcherie</summary>
+    <dc:creator>davidMasclet@gisgraphy.com</dc:creator>
+    <opensearch:itemsPerPage>10</opensearch:itemsPerPage>
+    <opensearch:totalResults>50</opensearch:totalResults>
+    <opensearch:startIndex>1</opensearch:startIndex>
+    <georss:point>48.85262122807489 2.3470936725750686</georss:point>
+  </entry>
+  <entry>
+    <title>Rue de la Cité</title>
+    <link rel="alternate" href="http://services.gisgraphy.com/displayfeature.html?featureId=215752" />
+    <author>
+      <name>davidMasclet@gisgraphy.com</name>
+    </author>
+    <summary type="application/xml" mode="escaped">Rue de la Cité</summary>
+    <dc:creator>davidMasclet@gisgraphy.com</dc:creator>
+    <opensearch:itemsPerPage>10</opensearch:itemsPerPage>
+    <opensearch:totalResults>50</opensearch:totalResults>
+    <opensearch:startIndex>1</opensearch:startIndex>
+    <georss:point>48.854602495337424 2.3477589327465553</georss:point>
+  </entry>
+  <entry>
+    <link rel="alternate" href="http://services.gisgraphy.com/displayfeature.html?featureId=215853" />
+    <author>
+      <name>davidMasclet@gisgraphy.com</name>
+    </author>
+    <summary type="application/xml" mode="escaped" />
+    <dc:creator>davidMasclet@gisgraphy.com</dc:creator>
+    <opensearch:itemsPerPage>10</opensearch:itemsPerPage>
+    <opensearch:totalResults>50</opensearch:totalResults>
+    <opensearch:startIndex>1</opensearch:startIndex>
+    <georss:point>48.85220408963001 2.350183460236183</georss:point>
+  </entry>
+  <entry>
+    <title>Rue Saint Julien Le Pauvre</title>
+    <link rel="alternate" href="http://services.gisgraphy.com/displayfeature.html?featureId=215608" />
+    <author>
+      <name>davidMasclet@gisgraphy.com</name>
+    </author>
+    <summary type="application/xml" mode="escaped">Rue Saint Julien Le Pauvre</summary>
+    <dc:creator>davidMasclet@gisgraphy.com</dc:creator>
+    <opensearch:itemsPerPage>10</opensearch:itemsPerPage>
+    <opensearch:totalResults>50</opensearch:totalResults>
+    <opensearch:startIndex>1</opensearch:startIndex>
+    <georss:point>48.85231491226386 2.3471862615570043</georss:point>
+  </entry>
+  <entry>
+    <title>Rue de la Colombe</title>
+    <link rel="alternate" href="http://services.gisgraphy.com/displayfeature.html?featureId=215995" />
+    <author>
+      <name>davidMasclet@gisgraphy.com</name>
+    </author>
+    <summary type="application/xml" mode="escaped">Rue de la Colombe</summary>
+    <dc:creator>davidMasclet@gisgraphy.com</dc:creator>
+    <opensearch:itemsPerPage>10</opensearch:itemsPerPage>
+    <opensearch:totalResults>50</opensearch:totalResults>
+    <opensearch:startIndex>1</opensearch:startIndex>
+    <georss:point>48.854542006131425 2.350421129981358</georss:point>
+  </entry>
+  <entry>
+    <title>Rue du Petit Pont; Place du Petit Pont</title>
+    <link rel="alternate" href="http://services.gisgraphy.com/displayfeature.html?featureId=215589" />
+    <author>
+      <name>davidMasclet@gisgraphy.com</name>
+    </author>
+    <summary type="application/xml" mode="escaped">Rue du Petit Pont; Place du Petit Pont</summary>
+    <dc:creator>davidMasclet@gisgraphy.com</dc:creator>
+    <opensearch:itemsPerPage>10</opensearch:itemsPerPage>
+    <opensearch:totalResults>50</opensearch:totalResults>
+    <opensearch:startIndex>1</opensearch:startIndex>
+    <georss:point>48.8525784534006 2.346600231740901</georss:point>
+  </entry>
+  <entry>
+    <link rel="alternate" href="http://services.gisgraphy.com/displayfeature.html?featureId=492861" />
+    <author>
+      <name>davidMasclet@gisgraphy.com</name>
+    </author>
+    <summary type="application/xml" mode="escaped" />
+    <dc:creator>davidMasclet@gisgraphy.com</dc:creator>
+    <opensearch:itemsPerPage>10</opensearch:itemsPerPage>
+    <opensearch:totalResults>50</opensearch:totalResults>
+    <opensearch:startIndex>1</opensearch:startIndex>
+    <georss:point>48.85247605 2.35102485</georss:point>
+  </entry>
+  <entry>
+    <title>Rue du Chat qui pêche</title>
+    <link rel="alternate" href="http://services.gisgraphy.com/displayfeature.html?featureId=215577" />
+    <author>
+      <name>davidMasclet@gisgraphy.com</name>
+    </author>
+    <summary type="application/xml" mode="escaped">Rue du Chat qui pêche</summary>
+    <dc:creator>davidMasclet@gisgraphy.com</dc:creator>
+    <opensearch:itemsPerPage>10</opensearch:itemsPerPage>
+    <opensearch:totalResults>50</opensearch:totalResults>
+    <opensearch:startIndex>1</opensearch:startIndex>
+    <georss:point>48.853036900000006 2.34620085</georss:point>
+  </entry>
+  <entry>
+    <title>Rue des Chantres</title>
+    <link rel="alternate" href="http://services.gisgraphy.com/displayfeature.html?featureId=70436" />
+    <author>
+      <name>davidMasclet@gisgraphy.com</name>
+    </author>
+    <summary type="application/xml" mode="escaped">Rue des Chantres</summary>
+    <dc:creator>davidMasclet@gisgraphy.com</dc:creator>
+    <opensearch:itemsPerPage>10</opensearch:itemsPerPage>
+    <opensearch:totalResults>50</opensearch:totalResults>
+    <opensearch:startIndex>1</opensearch:startIndex>
+    <georss:point>48.85363399782291 2.351441623265185</georss:point>
+  </entry>
+  <entry>
+    <title>Rue de la Bûcherie</title>
+    <link rel="alternate" href="http://services.gisgraphy.com/displayfeature.html?featureId=85012" />
+    <author>
+      <name>davidMasclet@gisgraphy.com</name>
+    </author>
+    <summary type="application/xml" mode="escaped">Rue de la Bûcherie</summary>
+    <dc:creator>davidMasclet@gisgraphy.com</dc:creator>
+    <opensearch:itemsPerPage>10</opensearch:itemsPerPage>
+    <opensearch:totalResults>50</opensearch:totalResults>
+    <opensearch:startIndex>1</opensearch:startIndex>
+    <georss:point>48.85165450187776 2.348758217476104</georss:point>
+  </entry>
+  <entry>
+    <title>Rue des Ursins</title>
+    <link rel="alternate" href="http://services.gisgraphy.com/displayfeature.html?featureId=85097" />
+    <author>
+      <name>davidMasclet@gisgraphy.com</name>
+    </author>
+    <summary type="application/xml" mode="escaped">Rue des Ursins</summary>
+    <dc:creator>davidMasclet@gisgraphy.com</dc:creator>
+    <opensearch:itemsPerPage>10</opensearch:itemsPerPage>
+    <opensearch:totalResults>50</opensearch:totalResults>
+    <opensearch:startIndex>1</opensearch:startIndex>
+    <georss:point>48.85424616627559 2.351160375091116</georss:point>
+  </entry>
+  <entry>
+    <title>Place Louis Lépine</title>
+    <link rel="alternate" href="http://services.gisgraphy.com/displayfeature.html?featureId=443696" />
+    <author>
+      <name>davidMasclet@gisgraphy.com</name>
+    </author>
+    <summary type="application/xml" mode="escaped">Place Louis Lépine</summary>
+    <dc:creator>davidMasclet@gisgraphy.com</dc:creator>
+    <opensearch:itemsPerPage>10</opensearch:itemsPerPage>
+    <opensearch:totalResults>50</opensearch:totalResults>
+    <opensearch:startIndex>1</opensearch:startIndex>
+    <georss:point>48.85499046782024 2.347445751358389</georss:point>
+  </entry>
+  <entry>
+    <title>Rue de l'Hôtel Colbert</title>
+    <link rel="alternate" href="http://services.gisgraphy.com/displayfeature.html?featureId=215689" />
+    <author>
+      <name>davidMasclet@gisgraphy.com</name>
+    </author>
+    <summary type="application/xml" mode="escaped">Rue de l'Hôtel Colbert</summary>
+    <dc:creator>davidMasclet@gisgraphy.com</dc:creator>
+    <opensearch:itemsPerPage>10</opensearch:itemsPerPage>
+    <opensearch:totalResults>50</opensearch:totalResults>
+    <opensearch:startIndex>1</opensearch:startIndex>
+    <georss:point>48.85159600151897 2.3486237632882303</georss:point>
+  </entry>
+  <entry>
+    <title>Quai du Marché Neuf</title>
+    <link rel="alternate" href="http://services.gisgraphy.com/displayfeature.html?featureId=492593" />
+    <author>
+      <name>davidMasclet@gisgraphy.com</name>
+    </author>
+    <summary type="application/xml" mode="escaped">Quai du Marché Neuf</summary>
+    <dc:creator>davidMasclet@gisgraphy.com</dc:creator>
+    <opensearch:itemsPerPage>10</opensearch:itemsPerPage>
+    <opensearch:totalResults>50</opensearch:totalResults>
+    <opensearch:startIndex>1</opensearch:startIndex>
+    <georss:point>48.853915799999996 2.3460581</georss:point>
+  </entry>
+  <entry>
+    <title>Pont d'Arcole</title>
+    <link rel="alternate" href="http://services.gisgraphy.com/displayfeature.html?featureId=216022" />
+    <author>
+      <name>davidMasclet@gisgraphy.com</name>
+    </author>
+    <summary type="application/xml" mode="escaped">Pont d'Arcole</summary>
+    <dc:creator>davidMasclet@gisgraphy.com</dc:creator>
+    <opensearch:itemsPerPage>10</opensearch:itemsPerPage>
+    <opensearch:totalResults>50</opensearch:totalResults>
+    <opensearch:startIndex>1</opensearch:startIndex>
+    <georss:point>48.85504635 2.3503472</georss:point>
+  </entry>
+  <entry>
+    <title>Rue du Haut Pavé</title>
+    <link rel="alternate" href="http://services.gisgraphy.com/displayfeature.html?featureId=85076" />
+    <author>
+      <name>davidMasclet@gisgraphy.com</name>
+    </author>
+    <summary type="application/xml" mode="escaped">Rue du Haut Pavé</summary>
+    <dc:creator>davidMasclet@gisgraphy.com</dc:creator>
+    <opensearch:itemsPerPage>10</opensearch:itemsPerPage>
+    <opensearch:totalResults>50</opensearch:totalResults>
+    <opensearch:startIndex>1</opensearch:startIndex>
+    <georss:point>48.8515338 2.34950745</georss:point>
+  </entry>
+  <entry>
+    <title>Rue Xavier Privas</title>
+    <link rel="alternate" href="http://services.gisgraphy.com/displayfeature.html?featureId=215707" />
+    <author>
+      <name>davidMasclet@gisgraphy.com</name>
+    </author>
+    <summary type="application/xml" mode="escaped">Rue Xavier Privas</summary>
+    <dc:creator>davidMasclet@gisgraphy.com</dc:creator>
+    <opensearch:itemsPerPage>10</opensearch:itemsPerPage>
+    <opensearch:totalResults>50</opensearch:totalResults>
+    <opensearch:startIndex>1</opensearch:startIndex>
+    <georss:point>48.8531335 2.3458560999999998</georss:point>
+  </entry>
+  <entry>
+    <title>Quai de la Corse</title>
+    <link rel="alternate" href="http://services.gisgraphy.com/displayfeature.html?featureId=70401" />
+    <author>
+      <name>davidMasclet@gisgraphy.com</name>
+    </author>
+    <summary type="application/xml" mode="escaped">Quai de la Corse</summary>
+    <dc:creator>davidMasclet@gisgraphy.com</dc:creator>
+    <opensearch:itemsPerPage>10</opensearch:itemsPerPage>
+    <opensearch:totalResults>50</opensearch:totalResults>
+    <opensearch:startIndex>1</opensearch:startIndex>
+    <georss:point>48.855361448004054 2.3493695349329067</georss:point>
+  </entry>
+  <entry>
+    <title>Quai aux Fleurs</title>
+    <link rel="alternate" href="http://services.gisgraphy.com/displayfeature.html?featureId=216021" />
+    <author>
+      <name>davidMasclet@gisgraphy.com</name>
+    </author>
+    <summary type="application/xml" mode="escaped">Quai aux Fleurs</summary>
+    <dc:creator>davidMasclet@gisgraphy.com</dc:creator>
+    <opensearch:itemsPerPage>10</opensearch:itemsPerPage>
+    <opensearch:totalResults>50</opensearch:totalResults>
+    <opensearch:startIndex>1</opensearch:startIndex>
+    <georss:point>48.85411586398828 2.3516943063835787</georss:point>
+  </entry>
+  <entry>
+    <title>Rue du Fouarre</title>
+    <link rel="alternate" href="http://services.gisgraphy.com/displayfeature.html?featureId=215766" />
+    <author>
+      <name>davidMasclet@gisgraphy.com</name>
+    </author>
+    <summary type="application/xml" mode="escaped">Rue du Fouarre</summary>
+    <dc:creator>davidMasclet@gisgraphy.com</dc:creator>
+    <opensearch:itemsPerPage>10</opensearch:itemsPerPage>
+    <opensearch:totalResults>50</opensearch:totalResults>
+    <opensearch:startIndex>1</opensearch:startIndex>
+    <georss:point>48.85153915 2.3475619500000002</georss:point>
+  </entry>
+  <entry>
+    <title>Rue Galande</title>
+    <link rel="alternate" href="http://services.gisgraphy.com/displayfeature.html?featureId=215588" />
+    <author>
+      <name>davidMasclet@gisgraphy.com</name>
+    </author>
+    <summary type="application/xml" mode="escaped">Rue Galande</summary>
+    <dc:creator>davidMasclet@gisgraphy.com</dc:creator>
+    <opensearch:itemsPerPage>10</opensearch:itemsPerPage>
+    <opensearch:totalResults>50</opensearch:totalResults>
+    <opensearch:startIndex>1</opensearch:startIndex>
+    <georss:point>48.851815769797774 2.346819041039158</georss:point>
+  </entry>
+  <entry>
+    <title>Rue de Lutèce</title>
+    <link rel="alternate" href="http://services.gisgraphy.com/displayfeature.html?featureId=215133" />
+    <author>
+      <name>davidMasclet@gisgraphy.com</name>
+    </author>
+    <summary type="application/xml" mode="escaped">Rue de Lutèce</summary>
+    <dc:creator>davidMasclet@gisgraphy.com</dc:creator>
+    <opensearch:itemsPerPage>10</opensearch:itemsPerPage>
+    <opensearch:totalResults>50</opensearch:totalResults>
+    <opensearch:startIndex>1</opensearch:startIndex>
+    <georss:point>48.85507893355926 2.3468990860197882</georss:point>
+  </entry>
+  <entry>
+    <title>Quai Saint-Michel</title>
+    <link rel="alternate" href="http://services.gisgraphy.com/displayfeature.html?featureId=84781" />
+    <author>
+      <name>davidMasclet@gisgraphy.com</name>
+    </author>
+    <summary type="application/xml" mode="escaped">Quai Saint-Michel</summary>
+    <dc:creator>davidMasclet@gisgraphy.com</dc:creator>
+    <opensearch:itemsPerPage>10</opensearch:itemsPerPage>
+    <opensearch:totalResults>50</opensearch:totalResults>
+    <opensearch:startIndex>1</opensearch:startIndex>
+    <georss:point>48.85339021898383 2.3456012592023145</georss:point>
+  </entry>
+  <entry>
+    <link rel="alternate" href="http://services.gisgraphy.com/displayfeature.html?featureId=492686" />
+    <author>
+      <name>davidMasclet@gisgraphy.com</name>
+    </author>
+    <summary type="application/xml" mode="escaped" />
+    <dc:creator>davidMasclet@gisgraphy.com</dc:creator>
+    <opensearch:itemsPerPage>10</opensearch:itemsPerPage>
+    <opensearch:totalResults>50</opensearch:totalResults>
+    <opensearch:startIndex>1</opensearch:startIndex>
+    <georss:point>48.85159793328044 2.350463391458285</georss:point>
+  </entry>
+  <entry>
+    <title>Rue Lagrange</title>
+    <link rel="alternate" href="http://services.gisgraphy.com/displayfeature.html?featureId=215816" />
+    <author>
+      <name>davidMasclet@gisgraphy.com</name>
+    </author>
+    <summary type="application/xml" mode="escaped">Rue Lagrange</summary>
+    <dc:creator>davidMasclet@gisgraphy.com</dc:creator>
+    <opensearch:itemsPerPage>10</opensearch:itemsPerPage>
+    <opensearch:totalResults>50</opensearch:totalResults>
+    <opensearch:startIndex>1</opensearch:startIndex>
+    <georss:point>48.851289460653575 2.348023927706153</georss:point>
+  </entry>
+  <entry>
+    <title>Rue des Grands Degrés</title>
+    <link rel="alternate" href="http://services.gisgraphy.com/displayfeature.html?featureId=85075" />
+    <author>
+      <name>davidMasclet@gisgraphy.com</name>
+    </author>
+    <summary type="application/xml" mode="escaped">Rue des Grands Degrés</summary>
+    <dc:creator>davidMasclet@gisgraphy.com</dc:creator>
+    <opensearch:itemsPerPage>10</opensearch:itemsPerPage>
+    <opensearch:totalResults>50</opensearch:totalResults>
+    <opensearch:startIndex>1</opensearch:startIndex>
+    <georss:point>48.851296027172616 2.349827932068222</georss:point>
+  </entry>
+  <entry>
+    <title>Rue de la Huchette</title>
+    <link rel="alternate" href="http://services.gisgraphy.com/displayfeature.html?featureId=492496" />
+    <author>
+      <name>davidMasclet@gisgraphy.com</name>
+    </author>
+    <summary type="application/xml" mode="escaped">Rue de la Huchette</summary>
+    <dc:creator>davidMasclet@gisgraphy.com</dc:creator>
+    <opensearch:itemsPerPage>10</opensearch:itemsPerPage>
+    <opensearch:totalResults>50</opensearch:totalResults>
+    <opensearch:startIndex>1</opensearch:startIndex>
+    <georss:point>48.853038206363046 2.3454312668259925</georss:point>
+  </entry>
+  <entry>
+    <title>Rue Galande</title>
+    <link rel="alternate" href="http://services.gisgraphy.com/displayfeature.html?featureId=215765" />
+    <author>
+      <name>davidMasclet@gisgraphy.com</name>
+    </author>
+    <summary type="application/xml" mode="escaped">Rue Galande</summary>
+    <dc:creator>davidMasclet@gisgraphy.com</dc:creator>
+    <opensearch:itemsPerPage>10</opensearch:itemsPerPage>
+    <opensearch:totalResults>50</opensearch:totalResults>
+    <opensearch:startIndex>1</opensearch:startIndex>
+    <georss:point>48.85126970683082 2.347684396112274</georss:point>
+  </entry>
+  <entry>
+    <title>Pont d'Arcole</title>
+    <link rel="alternate" href="http://services.gisgraphy.com/displayfeature.html?featureId=492852" />
+    <author>
+      <name>davidMasclet@gisgraphy.com</name>
+    </author>
+    <summary type="application/xml" mode="escaped">Pont d'Arcole</summary>
+    <dc:creator>davidMasclet@gisgraphy.com</dc:creator>
+    <opensearch:itemsPerPage>10</opensearch:itemsPerPage>
+    <opensearch:totalResults>50</opensearch:totalResults>
+    <opensearch:startIndex>1</opensearch:startIndex>
+    <georss:point>48.8554017 2.3505851</georss:point>
+  </entry>
+  <entry>
+    <title>Rue Xavier Privas</title>
+    <link rel="alternate" href="http://services.gisgraphy.com/displayfeature.html?featureId=215666" />
+    <author>
+      <name>davidMasclet@gisgraphy.com</name>
+    </author>
+    <summary type="application/xml" mode="escaped">Rue Xavier Privas</summary>
+    <dc:creator>davidMasclet@gisgraphy.com</dc:creator>
+    <opensearch:itemsPerPage>10</opensearch:itemsPerPage>
+    <opensearch:totalResults>50</opensearch:totalResults>
+    <opensearch:startIndex>1</opensearch:startIndex>
+    <georss:point>48.852690490703544 2.3454454018547684</georss:point>
+  </entry>
+  <entry>
+    <title>Rue des Trois Portes</title>
+    <link rel="alternate" href="http://services.gisgraphy.com/displayfeature.html?featureId=85010" />
+    <author>
+      <name>davidMasclet@gisgraphy.com</name>
+    </author>
+    <summary type="application/xml" mode="escaped">Rue des Trois Portes</summary>
+    <dc:creator>davidMasclet@gisgraphy.com</dc:creator>
+    <opensearch:itemsPerPage>10</opensearch:itemsPerPage>
+    <opensearch:totalResults>50</opensearch:totalResults>
+    <opensearch:startIndex>1</opensearch:startIndex>
+    <georss:point>48.851089200000004 2.3486098</georss:point>
+  </entry>
+  <entry>
+    <title>Impasse Maubert</title>
+    <link rel="alternate" href="http://services.gisgraphy.com/displayfeature.html?featureId=492718" />
+    <author>
+      <name>davidMasclet@gisgraphy.com</name>
+    </author>
+    <summary type="application/xml" mode="escaped">Impasse Maubert</summary>
+    <dc:creator>davidMasclet@gisgraphy.com</dc:creator>
+    <opensearch:itemsPerPage>10</opensearch:itemsPerPage>
+    <opensearch:totalResults>50</opensearch:totalResults>
+    <opensearch:startIndex>1</opensearch:startIndex>
+    <georss:point>48.8511143 2.34953235</georss:point>
+  </entry>
+  <entry>
+    <title>Rue Saint Séverin</title>
+    <link rel="alternate" href="http://services.gisgraphy.com/displayfeature.html?featureId=84974" />
+    <author>
+      <name>davidMasclet@gisgraphy.com</name>
+    </author>
+    <summary type="application/xml" mode="escaped">Rue Saint Séverin</summary>
+    <dc:creator>davidMasclet@gisgraphy.com</dc:creator>
+    <opensearch:itemsPerPage>10</opensearch:itemsPerPage>
+    <opensearch:totalResults>50</opensearch:totalResults>
+    <opensearch:startIndex>1</opensearch:startIndex>
+    <georss:point>48.852308242671036 2.3455466765413897</georss:point>
+  </entry>
+  <entry>
+    <title>Pont Saint-Louis</title>
+    <link rel="alternate" href="http://services.gisgraphy.com/displayfeature.html?featureId=492920" />
+    <author>
+      <name>davidMasclet@gisgraphy.com</name>
+    </author>
+    <summary type="application/xml" mode="escaped">Pont Saint-Louis</summary>
+    <dc:creator>davidMasclet@gisgraphy.com</dc:creator>
+    <opensearch:itemsPerPage>10</opensearch:itemsPerPage>
+    <opensearch:totalResults>50</opensearch:totalResults>
+    <opensearch:startIndex>1</opensearch:startIndex>
+    <georss:point>48.8526052 2.35230635</georss:point>
+  </entry>
+  <entry>
+    <title>Quai de l'Archevêché</title>
+    <link rel="alternate" href="http://services.gisgraphy.com/displayfeature.html?featureId=215955" />
+    <author>
+      <name>davidMasclet@gisgraphy.com</name>
+    </author>
+    <summary type="application/xml" mode="escaped">Quai de l'Archevêché</summary>
+    <dc:creator>davidMasclet@gisgraphy.com</dc:creator>
+    <opensearch:itemsPerPage>10</opensearch:itemsPerPage>
+    <opensearch:totalResults>50</opensearch:totalResults>
+    <opensearch:startIndex>1</opensearch:startIndex>
+    <georss:point>48.85216131193203 2.3520047803724426</georss:point>
+  </entry>
+</feed>
+

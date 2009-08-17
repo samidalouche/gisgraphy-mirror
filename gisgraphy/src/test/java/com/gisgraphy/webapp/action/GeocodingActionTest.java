@@ -9,9 +9,17 @@ import org.easymock.classextension.EasyMock;
 import org.junit.Assert;
 import org.junit.Test;
 
+import com.gisgraphy.domain.geoloc.entity.City;
 import com.gisgraphy.domain.geoloc.entity.Country;
+import com.gisgraphy.domain.geoloc.service.fulltextsearch.FulltextQuery;
+import com.gisgraphy.domain.geoloc.service.fulltextsearch.IFullTextSearchEngine;
 import com.gisgraphy.domain.repository.ICountryDao;
+import com.gisgraphy.domain.valueobject.FulltextResultsDto;
+import com.gisgraphy.domain.valueobject.GisgraphyConfig;
+import com.gisgraphy.domain.valueobject.Output;
+import com.gisgraphy.domain.valueobject.Pagination;
 import com.gisgraphy.domain.valueobject.SolrResponseDto;
+import com.opensymphony.xwork2.Action;
 
 public class GeocodingActionTest {
 
@@ -73,5 +81,214 @@ public class GeocodingActionTest {
 	ambiguousCities.add(city2);
 	return ambiguousCities;
     }
+    
+    
+    @Test
+    public void testGetGoogleMapAPIKey(){
+	 String savedGoogleMapAPIKey  = GisgraphyConfig .googleMapAPIKey;
+	try {
+           GeocodingAction action = new GeocodingAction();
+	   GisgraphyConfig.googleMapAPIKey = null;
+	   Assert.assertEquals("getGoogleMapAPIKey should return an empty string if the config value is null ","", action.getGoogleMapAPIKey());
+	   String newKey = "new key";
+	GisgraphyConfig.googleMapAPIKey=newKey;
+	   Assert.assertEquals("getGoogleMapAPIKey should return the config value ",newKey, action.getGoogleMapAPIKey());
+	   
+	} finally {
+	    GisgraphyConfig.googleMapAPIKey = savedGoogleMapAPIKey;
+	}
+    }
+    
+    @Test
+    public void testExecuteWithCityAndNoCountry() throws Exception{
+	GeocodingAction action = new GeocodingAction(){
+
+	    @Override
+	    public String getText(String textName) {
+	       return "search.country.required".equals(textName)?"returnedValue": null;
+	    }
+	};
+	action.setCity("city");
+	action.setCountryCode(null);
+	Assert.assertEquals(Action.SUCCESS,action.execute());
+	Assert.assertEquals("geocoding action should return the getText(search.country.required) value","returnedValue", action.getErrorMessage());
+    
+    }
+    
+    @Test
+    public void testExecuteWithCityAndCountryWithNoCityMatches() throws Exception{
+	GeocodingAction action = new GeocodingAction();
+	
+	IFullTextSearchEngine fullTextSearchEngine = EasyMock.createMock(IFullTextSearchEngine.class);
+	String countryCode = "FR";
+	String cityName = "city";
+	FulltextQuery query = new FulltextQuery(cityName,
+		Pagination.DEFAULT_PAGINATION, Output.DEFAULT_OUTPUT,
+		City.class, countryCode);
+	EasyMock.expect(fullTextSearchEngine.executeQuery(query)).andStubReturn(new FulltextResultsDto());
+	EasyMock.replay(fullTextSearchEngine);
+	action.setFullTextSearchEngine(fullTextSearchEngine);
+	
+	action.setCity(cityName);
+	action.setCountryCode(countryCode);
+	Assert.assertEquals(Action.SUCCESS,action.execute());
+    }
+    
+    @Test
+    public void testExecuteWithCityAndCountryWithOneCityMatches() throws Exception{
+	GeocodingAction action = new GeocodingAction();
+	
+	SolrResponseDto cityFound1 =  EasyMock.createMock(SolrResponseDto.class);
+	EasyMock.expect(cityFound1.getLat()).andStubReturn(23D);
+	EasyMock.expect(cityFound1.getLng()).andStubReturn(30D);
+	EasyMock.expect(cityFound1.getName()).andStubReturn("cityName");
+	EasyMock.expect(cityFound1.getZipcode()).andStubReturn("zip");
+	EasyMock.replay(cityFound1);
+	
+	List<SolrResponseDto> results = new ArrayList<SolrResponseDto>();
+	results.add(cityFound1);
+	
+	FulltextResultsDto fulltextResultsDto = EasyMock.createMock(FulltextResultsDto.class);
+	EasyMock.expect(fulltextResultsDto.getResults()).andStubReturn(results);
+	EasyMock.replay(fulltextResultsDto);
+	
+	IFullTextSearchEngine fullTextSearchEngine = EasyMock.createMock(IFullTextSearchEngine.class);
+	String countryCode = "FR";
+	String cityNameSearched = "city";
+	FulltextQuery query = new FulltextQuery(cityNameSearched,
+		Pagination.DEFAULT_PAGINATION, Output.DEFAULT_OUTPUT,
+		City.class, countryCode);
+	EasyMock.expect(fullTextSearchEngine.executeQuery(query)).andStubReturn(fulltextResultsDto);
+	EasyMock.replay(fullTextSearchEngine);
+	action.setFullTextSearchEngine(fullTextSearchEngine);
+	
+	action.setCity(cityNameSearched);
+	action.setCountryCode(countryCode);
+	Assert.assertEquals(Action.SUCCESS,action.execute());
+	Assert.assertEquals("cityName (zip)",action.getCity());
+	Assert.assertEquals(results,action.getAmbiguousCities());
+	Assert.assertTrue(action.isCityFound());
+    }
+    
+    
+    @Test
+    public void testExecuteWithCityAndCountryWithMoreThanOneCityMatches() throws Exception{
+	GeocodingAction action = new GeocodingAction();
+	
+	SolrResponseDto cityFound1 =  EasyMock.createMock(SolrResponseDto.class);
+	EasyMock.expect(cityFound1.getLat()).andStubReturn(23D);
+	EasyMock.expect(cityFound1.getLng()).andStubReturn(30D);
+	EasyMock.expect(cityFound1.getName()).andStubReturn("cityName");
+	EasyMock.expect(cityFound1.getZipcode()).andStubReturn("zip");
+	EasyMock.replay(cityFound1);
+	
+	SolrResponseDto cityFound2 =  EasyMock.createMock(SolrResponseDto.class);
+	EasyMock.expect(cityFound2.getLat()).andStubReturn(24D);
+	EasyMock.expect(cityFound2.getLng()).andStubReturn(31D);
+	EasyMock.expect(cityFound2.getName()).andStubReturn("cityName2");
+	EasyMock.expect(cityFound2.getZipcode()).andStubReturn("zip2");
+	EasyMock.replay(cityFound2);
+	
+	
+	List<SolrResponseDto> results = new ArrayList<SolrResponseDto>();
+	results.add(cityFound1);
+	results.add(cityFound2);
+	
+	FulltextResultsDto fulltextResultsDto = EasyMock.createMock(FulltextResultsDto.class);
+	EasyMock.expect(fulltextResultsDto.getResults()).andStubReturn(results);
+	EasyMock.replay(fulltextResultsDto);
+	
+	IFullTextSearchEngine fullTextSearchEngine = EasyMock.createMock(IFullTextSearchEngine.class);
+	String countryCode = "FR";
+	String cityNameSearched = "city";
+	FulltextQuery query = new FulltextQuery(cityNameSearched,
+		Pagination.DEFAULT_PAGINATION, Output.DEFAULT_OUTPUT,
+		City.class, countryCode);
+	EasyMock.expect(fullTextSearchEngine.executeQuery(query)).andStubReturn(fulltextResultsDto);
+	EasyMock.replay(fullTextSearchEngine);
+	action.setFullTextSearchEngine(fullTextSearchEngine);
+	
+	action.setCity(cityNameSearched);
+	action.setCountryCode(countryCode);
+	Assert.assertEquals(Action.SUCCESS,action.execute());
+	Assert.assertEquals(cityNameSearched,action.getCity());
+	Assert.assertEquals(results,action.getAmbiguousCities());
+	Assert.assertFalse(action.isCityFound());
+    }
+    
+    @Test
+    public void testExecuteWithAmbiguousCities() throws Exception{
+	GeocodingAction action = new GeocodingAction();
+	
+	SolrResponseDto cityFound1 =  EasyMock.createMock(SolrResponseDto.class);
+	EasyMock.expect(cityFound1.getLat()).andStubReturn(23D);
+	EasyMock.expect(cityFound1.getLng()).andStubReturn(30D);
+	EasyMock.expect(cityFound1.getName()).andStubReturn("cityName");
+	EasyMock.expect(cityFound1.getZipcode()).andStubReturn("zip");
+	EasyMock.replay(cityFound1);
+	
+	SolrResponseDto cityFound2 =  EasyMock.createMock(SolrResponseDto.class);
+	EasyMock.expect(cityFound2.getLat()).andStubReturn(24D);
+	EasyMock.expect(cityFound2.getLng()).andStubReturn(31D);
+	EasyMock.expect(cityFound2.getName()).andStubReturn("cityName2");
+	EasyMock.expect(cityFound2.getZipcode()).andStubReturn("zip2");
+	EasyMock.replay(cityFound2);
+	
+	
+	List<SolrResponseDto> results = new ArrayList<SolrResponseDto>();
+	results.add(cityFound1);
+	results.add(cityFound2);
+	
+	FulltextResultsDto fulltextResultsDto = EasyMock.createMock(FulltextResultsDto.class);
+	EasyMock.expect(fulltextResultsDto.getResults()).andStubReturn(results);
+	EasyMock.replay(fulltextResultsDto);
+	
+	IFullTextSearchEngine fullTextSearchEngine = EasyMock.createMock(IFullTextSearchEngine.class);
+	String countryCode = "FR";
+	String cityNameSearched = "city";
+	FulltextQuery query = new FulltextQuery(cityNameSearched,
+		Pagination.DEFAULT_PAGINATION, Output.DEFAULT_OUTPUT,
+		City.class, countryCode);
+	EasyMock.expect(fullTextSearchEngine.executeQuery(query)).andStubReturn(fulltextResultsDto);
+	EasyMock.replay(fullTextSearchEngine);
+	action.setFullTextSearchEngine(fullTextSearchEngine);
+	
+	action.setCity(null);
+	action.setAmbiguouscity(results.get(0).getName());
+	Assert.assertEquals(Action.SUCCESS,action.execute());
+	Assert.assertEquals(null,action.getCity());
+	Assert.assertEquals(null,action.getAmbiguousCities());
+	Assert.assertFalse(action.isCityFound());
+    }
+    
+    @Test
+    public void testExecuteThrowsException() throws Exception{
+	GeocodingAction action = new GeocodingAction(){
+	    @Override
+	    public String getText(String textName, String defaultValue) {
+	       if ("search.error".equals(textName)){
+		   return "returnedValue";
+	       }
+	       return null;
+	    }
+	};
+	
+
+	
+	IFullTextSearchEngine fullTextSearchEngine = EasyMock.createMock(IFullTextSearchEngine.class);
+	String countryCode = "FR";
+	String cityNameSearched = "city";
+	FulltextQuery query = new FulltextQuery(cityNameSearched,
+		Pagination.DEFAULT_PAGINATION, Output.DEFAULT_OUTPUT,
+		City.class, countryCode);
+	EasyMock.expect(fullTextSearchEngine.executeQuery(query)).andThrow(new RuntimeException());
+	EasyMock.replay(fullTextSearchEngine);
+	action.setFullTextSearchEngine(fullTextSearchEngine);
+	
+	action.setCity(cityNameSearched);
+	Assert.assertEquals(Action.SUCCESS,action.execute());
+	Assert.assertEquals("returnedValue",action.getErrorMessage());
+    }
+    
 
 }

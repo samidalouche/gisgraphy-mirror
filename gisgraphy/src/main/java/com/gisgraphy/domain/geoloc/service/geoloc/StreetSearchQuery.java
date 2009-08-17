@@ -200,5 +200,49 @@ public class StreetSearchQuery extends GeolocQuery {
 	asString += " with " + getOutput() + " and " + pagination;
 	return asString;
     }
+
+    /* (non-Javadoc)
+     * @see java.lang.Object#hashCode()
+     */
+    @Override
+    public int hashCode() {
+	final int prime = 31;
+	int result = super.hashCode();
+	result = prime * result + ((name == null) ? 0 : name.hashCode());
+	result = prime * result + ((oneWay == null) ? 0 : oneWay.hashCode());
+	result = prime * result
+		+ ((streetType == null) ? 0 : streetType.hashCode());
+	return result;
+    }
+
+    /* (non-Javadoc)
+     * @see java.lang.Object#equals(java.lang.Object)
+     */
+    @Override
+    public boolean equals(Object obj) {
+	if (this == obj)
+	    return true;
+	if (!super.equals(obj))
+	    return false;
+	if (getClass() != obj.getClass())
+	    return false;
+	final StreetSearchQuery other = (StreetSearchQuery) obj;
+	if (name == null) {
+	    if (other.name != null)
+		return false;
+	} else if (!name.equals(other.name))
+	    return false;
+	if (oneWay == null) {
+	    if (other.oneWay != null)
+		return false;
+	} else if (!oneWay.equals(other.oneWay))
+	    return false;
+	if (streetType == null) {
+	    if (other.streetType != null)
+		return false;
+	} else if (!streetType.equals(other.streetType))
+	    return false;
+	return true;
+    }
     
 }
