@@ -83,6 +83,8 @@ public class GeonamesCountryImporter extends AbstractGeonamesProcessor {
 	} else {
 	    logger.warn("country " + fields[4] + " requires iso3166 values");
 	}
+	
+	country.setCountryCode(fields[0]);
 
 	if (!isEmptyField(fields, 16, false) && !fields[16].equals("0")) {
 	    country.setFeatureId(new Long(fields[16]));

@@ -108,22 +108,49 @@ public class SolrResponseDto {
 	    this.yahoo_map_url = getFieldAsString(solrDocument,
 		    FullTextFields.YAHOO_MAP_URL.getValue());
 	    this.name_alternates = getFieldsToList(solrDocument,
-		    "name_alternate");
+		    FullTextFields.NAME.getValue()+FullTextFields.ALTERNATE_NAME_SUFFIX.getValue());
 	    this.adm1_names_alternate = getFieldsToList(solrDocument,
-		    "adm1_name_alternate");
+		    FullTextFields.ADM1NAME.getValue()+FullTextFields.ALTERNATE_NAME_SUFFIX.getValue());
 	    this.adm2_names_alternate = getFieldsToList(solrDocument,
-		    "adm2_name_alternate");
+		    FullTextFields.ADM2NAME.getValue()+FullTextFields.ALTERNATE_NAME_SUFFIX.getValue());
 	    this.country_names_alternate = getFieldsToList(solrDocument,
-		    "country_name_alternate");
+		    FullTextFields.COUNTRYNAME.getValue()+FullTextFields.ALTERNATE_NAME_SUFFIX.getValue());
 
 	    this.name_alternates_localized = getFieldsToMap(solrDocument,
-		    "name_alternate_");
+		    FullTextFields.NAME.getValue()+FullTextFields.ALTERNATE_NAME_DYNA_SUFFIX.getValue());
 	    this.adm1_names_alternate_localized = getFieldsToMap(solrDocument,
-		    "adm1_name_alternate_");
+		    FullTextFields.ADM1NAME.getValue()+FullTextFields.ALTERNATE_NAME_DYNA_SUFFIX.getValue());
 	    this.adm2_names_alternate_localized = getFieldsToMap(solrDocument,
-		    "adm2_name_alternate_");
+		    FullTextFields.ADM2NAME.getValue()+FullTextFields.ALTERNATE_NAME_DYNA_SUFFIX.getValue());
 	    this.country_names_alternate_localized = getFieldsToMap(
-		    solrDocument, "country_name_alternate_");
+		    solrDocument,  FullTextFields.COUNTRYNAME.getValue()+FullTextFields.ALTERNATE_NAME_DYNA_SUFFIX.getValue());
+	    //countryspecific
+	    this.continent=getFieldAsString(solrDocument,
+		    FullTextFields.CONTINENT.getValue());
+	    this.currency_code = getFieldAsString(solrDocument,
+		    FullTextFields.COUNTRYCODE.getValue());
+	    this.currency_name= getFieldAsString(solrDocument,
+		    FullTextFields.CURRENCY_NAME.getValue());
+	    this.fips_code= getFieldAsString(solrDocument,
+		    FullTextFields.FIPS_CODE.getValue());
+	    this.isoalpha2_country_code= getFieldAsString(solrDocument,
+		    FullTextFields.ISOALPHA2_COUNTRY_CODE.getValue());
+	    this.isoalpha3_country_code= getFieldAsString(solrDocument,
+		    FullTextFields.ISOALPHA3_COUNTRY_CODE.getValue());
+	    this.postal_code_mask= getFieldAsString(solrDocument,
+		    FullTextFields.POSTAL_CODE_MASK.getValue());
+	    this.postal_code_regex= getFieldAsString(solrDocument,
+		    FullTextFields.POSTAL_CODE_REGEX.getValue());
+	    this.phone_prefix= getFieldAsString(solrDocument,
+		    FullTextFields.PHONE_PREFIX.getValue());
+	    this.spoken_languages=getFieldsToList(solrDocument,
+		    FullTextFields.SPOKEN_LANGUAGES.getValue());
+	    this.tld= getFieldAsString(solrDocument,
+		    FullTextFields.CONTINENT.getValue());
+	    this.capital_name= getFieldAsString(solrDocument,
+		    FullTextFields.CONTINENT.getValue());
+	    this.area= getFieldAsString(solrDocument,
+		    FullTextFields.CONTINENT.getValue());
 	}
     }
 
@@ -250,6 +277,21 @@ public class SolrResponseDto {
     private String adm2_code;
     private String adm3_code;
     private String adm4_code;
+    
+    //country specific fields
+    private String continent;
+    private String currency_code;
+    private String currency_name;
+    private String fips_code;
+    private String isoalpha2_country_code;
+    private String isoalpha3_country_code;
+    private String postal_code_mask;
+    private String postal_code_regex;
+    private String phone_prefix;
+    private List<String> spoken_languages;
+    private String tld;
+    private String capital_name;
+    private String area;
 
     private String adm1_name;
     private List<String> adm1_names_alternate;
@@ -515,6 +557,97 @@ public class SolrResponseDto {
      */
     public String getYahoo_map_url() {
 	return yahoo_map_url;
+    }
+
+    /**
+     * @return the continent
+     */
+    public String getContinent() {
+        return continent;
+    }
+
+    /**
+     * @return the currency_code
+     */
+    public String getCurrency_code() {
+        return currency_code;
+    }
+
+    /**
+     * @return the currency_name
+     */
+    public String getCurrency_name() {
+        return currency_name;
+    }
+
+    /**
+     * @return the fips_code
+     */
+    public String getFips_code() {
+        return fips_code;
+    }
+
+    /**
+     * @return the isoalpha2_country_code
+     */
+    public String getIsoalpha2_country_code() {
+        return isoalpha2_country_code;
+    }
+
+    /**
+     * @return the isoalpha3_country_code
+     */
+    public String getIsoalpha3_country_code() {
+        return isoalpha3_country_code;
+    }
+
+    /**
+     * @return the postal_code_mask
+     */
+    public String getPostal_code_mask() {
+        return postal_code_mask;
+    }
+
+    /**
+     * @return the postal_code_regex
+     */
+    public String getPostal_code_regex() {
+        return postal_code_regex;
+    }
+
+    /**
+     * @return the phone_prefix
+     */
+    public String getPhone_prefix() {
+        return phone_prefix;
+    }
+
+    /**
+     * @return the spoken_languages
+     */
+    public List<String> getSpoken_languages() {
+        return spoken_languages;
+    }
+
+    /**
+     * @return the tld
+     */
+    public String getTld() {
+        return tld;
+    }
+
+    /**
+     * @return the capital_name
+     */
+    public String getCapital_name() {
+        return capital_name;
+    }
+
+    /**
+     * @return the area
+     */
+    public String getArea() {
+        return area;
     }
 
 }

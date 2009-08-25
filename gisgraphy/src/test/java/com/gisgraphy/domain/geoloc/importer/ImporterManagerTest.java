@@ -41,6 +41,7 @@ import java.util.Map;
 
 import org.easymock.classextension.EasyMock;
 import org.hibernate.FlushMode;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -1861,7 +1862,8 @@ public class ImporterManagerTest extends AbstractIntegrationHttpSolrTestCase {
 	this.geonamesCountryImporter.process();
 	long countCountry = this.countryDao.count();
 	assertEquals("Wrong number of countries found ", 243, countCountry);
-	// TODO v1 check country code of gisFeature
+	// TODO v2 check country code of gisFeature
+	//TODO check code and value
 	// check name is trimed
 	Country country = this.countryDao.getByName("France");
 	assertNotNull(

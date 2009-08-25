@@ -33,7 +33,11 @@ import javax.annotation.Resource;
 
 import org.junit.Test;
 
+import com.gisgraphy.domain.geoloc.entity.AlternateName;
 import com.gisgraphy.domain.geoloc.entity.City;
+import com.gisgraphy.domain.geoloc.entity.Country;
+import com.gisgraphy.domain.repository.ICountryDao;
+import com.gisgraphy.domain.valueobject.AlternateNameSource;
 import com.gisgraphy.domain.valueobject.FulltextResultsDto;
 import com.gisgraphy.domain.valueobject.Output;
 import com.gisgraphy.domain.valueobject.Pagination;
@@ -47,6 +51,9 @@ public class SolrUnmarshallerTest extends AbstractIntegrationHttpSolrTestCase {
 
     @Resource
     private GeolocTestHelper geolocTestHelper;
+    
+    @Resource
+    private ICountryDao countryDao;
 
     @Test
     public void testUnmarshallSolrDocumentShouldReallyUnmarshall() {
@@ -135,6 +142,66 @@ public class SolrUnmarshallerTest extends AbstractIntegrationHttpSolrTestCase {
 		.getAdm2_names_alternate_localized().get("FR").get(0));
     }
 
+    @Test
+    public void testUnmarshallSolrDocumentShouldReallyUnmarshallCountry() {
+	Country country = geolocTestHelper
+		.createFullFilledCountry();
+	AlternateName alternateNameLocalized = new AlternateName("alternateFR",AlternateNameSource.ALTERNATENAMES_FILE);
+	alternateNameLocalized.setLanguage("FR");
+	AlternateName alternateName = new AlternateName("alternate",AlternateNameSource.ALTERNATENAMES_FILE);
+	country.addAlternateName(alternateName);
+	country.addAlternateName(alternateNameLocalized);
+	countryDao.save(country);
+	this.solRSynchroniser.commit();
+	Pagination pagination = paginate().from(1).to(10);
+	Output output = Output.withFormat(OutputFormat.XML).withLanguageCode(
+		"FR").withStyle(OutputStyle.FULL).withIndentation();
+	FulltextQuery query = new FulltextQuery(country.getName(), pagination,
+		output, null, null);
+	FulltextResultsDto response = this.fullTextSearchEngine
+		.executeQuery(query);
+	List<SolrResponseDto> results = response.getResults();
+	assertNotNull(
+		"There should have a result for a fulltextSearch for "
+			+ country.getName()
+			+ " and even If no results are return: an empty list should be return,  not null ",
+		results);
+	assertTrue("There should have a result for a fulltextSearch for "
+		+ country.getName(), results.size() == 1);
+	SolrResponseDto result = results.get(0);
+	assertEquals(country.getName(), result.getName());
+	assertEquals(country.getFeatureId(), result.getFeature_id());
+	assertEquals(country.getFeatureClass(), result.getFeature_class());
+	assertEquals(country.getFeatureCode(), result.getFeature_code());
+	assertEquals(country.getAsciiName(), result.getName_ascii());
+	assertEquals(country.getElevation(), result.getElevation());
+	assertEquals(country.getGtopo30(), result.getGtopo30());
+	assertEquals(country.getTimezone(), result.getTimezone());
+	assertEquals(country.getFullyQualifiedName(false), result
+		.getFully_qualified_name());
+	assertEquals(country.getClass().getSimpleName(), result.getPlacetype());
+	assertEquals(country.getPopulation(), result.getPopulation());
+	assertEquals(country.getLatitude(), result.getLat());
+	assertEquals(country.getLongitude(), result.getLng());
+	assertEquals(URLUtils.createGoogleMapUrl(country.getLocation(), country
+		.getName()), result.getGoogle_map_url());
+	assertEquals(URLUtils.createCountryFlagUrl(country.getCountryCode()),
+		result.getCountry_flag_url());
+	assertEquals(URLUtils.createYahooMapUrl(country.getLocation()), result
+		.getYahoo_map_url());
+
+	assertEquals(1, result.getCountry_names_alternate().size());
+	assertEquals(country.getAlternateNames().get(0).getName(),
+		result.getCountry_names_alternate().get(0));
+
+	assertEquals(1, result.getCountry_names_alternate_localized().size());
+	assertEquals(alternateNameLocalized.getName(), result.getCountry_names_alternate_localized()
+		.get(alternateNameLocalized.getLanguage()).get(0));
+
+	//TODO osm testcountryspecific fields
+    }
+
+    
     @Test
     public void testUnmarshallQueryResponseShouldReturnAnEmptyListIfNoResultsAreFound() {
 	FulltextQuery query = new FulltextQuery("fake");

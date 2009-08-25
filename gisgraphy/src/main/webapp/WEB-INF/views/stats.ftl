@@ -13,8 +13,10 @@
  <li><strong><@s.text name="stats.allservices"/> <@s.text name="stats.called"/> ${totalUsage} <@s.text name="stats.times"/></strong></li>
  </ul>
 <br/>
+<@s.text name="stats.flush.every"><@s.param>${FlushFrequency}</@s.param></@s.text>
 <br/> 
-Others :
+<br/>
+<@s.text name="global.other"/> :
 <ul>
 <li><a href="https://www.google.com/analytics/settings/?et=reset&hl=en" target="statsgis">Google analytics</a></li>
 <li><a href="https://www.google.com/adsense/report/overview" target="statsgis">Google adsense</a></li>

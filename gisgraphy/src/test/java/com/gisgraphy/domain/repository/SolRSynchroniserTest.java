@@ -506,7 +506,6 @@ public class SolRSynchroniserTest extends AbstractIntegrationHttpSolrTestCase {
     }
     
     
-    /*
     @Test
     public void testSynchronizeAcountryShouldSynchronizeCountrySpecificFields() {
 	Country country = GeolocTestHelper
@@ -570,7 +569,7 @@ public class SolRSynchroniserTest extends AbstractIntegrationHttpSolrTestCase {
 		"//*[@name='" + FullTextFields.CURRENCY_NAME.getValue()
 			+ "'][.='"+country.getCurrencyName()+"']",
 		"//*[@name='" + FullTextFields.CURRENCY_CODE.getValue()
-			+ "'][.='"+country.getCountryCode()+"']",
+			+ "'][.='"+country.getCurrencyCode()+"']",
 		"//*[@name='" + FullTextFields.FIPS_CODE.getValue()
 			+ "'][.='"+country.getFipsCode()+"']",
 		"//*[@name='" + FullTextFields.ISOALPHA2_COUNTRY_CODE.getValue()
@@ -584,7 +583,7 @@ public class SolRSynchroniserTest extends AbstractIntegrationHttpSolrTestCase {
 		"//*[@name='" + FullTextFields.PHONE_PREFIX.getValue()
 			+ "'][.='"+country.getPhonePrefix()+"']",
 		"//*[@name='" + FullTextFields.SPOKEN_LANGUAGES.getValue()
-			+ "'][./str[1]][.='"+country.getSpokenLanguages().get(0)+"']",
+			+ "'][./str[1]][.='"+country.getSpokenLanguages().get(0).getIso639LanguageName()+"']",
 		"//*[@name='" + FullTextFields.TLD.getValue()
 			+ "'][.='"+country.getTld()+"']",
 		"//*[@name='" + FullTextFields.AREA.getValue()
@@ -598,7 +597,6 @@ public class SolRSynchroniserTest extends AbstractIntegrationHttpSolrTestCase {
 		.DeleteNonEmptyDirectory(tempDir));
 
     }
-    */
 
     private QueryResponse searchInFulltextSearchEngine(String searchWords) {
 	SolrQuery query = new SolrQuery();

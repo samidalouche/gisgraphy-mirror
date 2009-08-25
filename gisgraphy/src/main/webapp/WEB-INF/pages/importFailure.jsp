@@ -11,7 +11,7 @@
     <c:out value="${requestScope.exception.message}"/>
 </p>
 <br/>
-<strong>You can see the status of the Import <a href="/admin/importstatus!status.html">Here</a></strong>
+<strong>You can see the status of the Import and the error message here <a href="/admin/import!status.html">Here</a></strong>
 <br/><br/>
 
 An error occured during import. You have to:

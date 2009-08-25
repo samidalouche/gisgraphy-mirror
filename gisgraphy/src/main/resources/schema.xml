@@ -320,7 +320,7 @@ Full (alternatenames for adm and country): Long + country_alternate_name_, adm1_
  <!-- Medium --><field name="postal_code_mask" type="string" indexed="false" stored="true"/>
  <!-- Medium --><field name="postal_code_regex" type="string" indexed="false" stored="true"/>
  <!-- Medium --><field name="phone_prefix" type="string" indexed="false" stored="true"/>
- <!-- Medium --><field name="spoken_languages" type="string" indexed="false" stored="true"/>
+ <!-- Medium --><field name="spoken_languages" type="string" indexed="false" stored="true" multiValued="true"/>
  <!-- Medium --><field name="tld" type="string" indexed="false" stored="true"/>
  <!-- Medium --><field name="capital_name" type="string" indexed="false" stored="true"/>
   <!-- Medium --><field name="area" type="string" indexed="false" stored="true"/>

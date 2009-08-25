@@ -251,9 +251,9 @@ public class SolRSynchroniser implements ISolRSynchroniser {
 	ex.setField(FullTextFields.TIMEZONE.getValue(), gisFeature
 		.getTimezone());
 	String placetype = ClassNameHelper.stripEnhancerClass(gisFeature
-	.getClass().getSimpleName());
+		.getClass().getSimpleName());
 	ex.setField(FullTextFields.PLACETYPE.getValue(), placetype);
-	ex.setField(FullTextFields.PLACETYPECLASS.getValue(),placetype
+	ex.setField(FullTextFields.PLACETYPECLASS.getValue(), placetype
 		+ FullTextFields.PLACETYPECLASS_SUFFIX.getValue());
 	ex.setField(FullTextFields.POPULATION.getValue(), gisFeature
 		.getPopulation());
@@ -272,11 +272,10 @@ public class SolRSynchroniser implements ISolRSynchroniser {
 	// syncAdmCodesWithLinkedAdmOnes if it is false , the value may not be
 	// the same
 	Adm adm = null;
-	
-	if (gisFeature instanceof Adm){
-	    adm  = (Adm) gisFeature;
-	}
-	else {
+
+	if (gisFeature instanceof Adm) {
+	    adm = (Adm) gisFeature;
+	} else {
 	    adm = gisFeature.getAdm();
 	}
 	// we set admCode once for all
@@ -297,7 +296,7 @@ public class SolRSynchroniser implements ISolRSynchroniser {
 	    }
 	    adm = adm.getParent();
 	}
-	
+
 	if (gisFeature instanceof ZipCodeAware) {
 	    try {
 		ZipCodeAware city = (ZipCodeAware) gisFeature;
@@ -319,23 +318,60 @@ public class SolRSynchroniser implements ISolRSynchroniser {
 		ex);
 
 	// we don't want this fields
-	// populateAlternateNames("adm2_", adm2.getAlternateNames(), ex);
-	// populateAlternateNames("adm1_", adm1.getAlternateNames(), ex);
+	// populateAlternateNames("adm3_", adm2.getAlternateNames(), ex);
+	// populateAlternateNames("adm4_", adm1.getAlternateNames(), ex);
+	if (gisFeature instanceof Country) {
+	    Country country = (Country) gisFeature;
+	    ex.setField(FullTextFields.CONTINENT.getValue(), country
+		    .getContinent());
+	    ex.setField(FullTextFields.CURRENCY_CODE.getValue(), country
+		    .getCurrencyCode());
+	    ex.setField(FullTextFields.CURRENCY_NAME.getValue(), country
+		    .getCurrencyName());
+	    ex.setField(FullTextFields.FIPS_CODE.getValue(), country
+		    .getFipsCode());
+	    ex.setField(FullTextFields.ISOALPHA2_COUNTRY_CODE.getValue(),
+		    country.getIso3166Alpha2Code());
+	    ex.setField(FullTextFields.ISOALPHA3_COUNTRY_CODE.getValue(),
+		    country.getIso3166Alpha3Code());
+	    //todo test 
+	    ex.setField(FullTextFields.COUNTRYCODE.getValue(), country.getCountryCode()
+			.toUpperCase());
+	    ex.setField(FullTextFields.POSTAL_CODE_MASK.getValue(), country
+		    .getPostalCodeMask());
+	    ex.setField(FullTextFields.POSTAL_CODE_REGEX.getValue(), country
+		    .getPostalCodeRegex());
+	    ex.setField(FullTextFields.PHONE_PREFIX.getValue(), country
+		    .getPhonePrefix());
+	    for (Language language : country.getSpokenLanguages()) {
+		ex.setField(FullTextFields.SPOKEN_LANGUAGES.getValue(),
+			language.getIso639LanguageName());
+	    }
+	    ex.setField(FullTextFields.TLD.getValue(), country.getTld());
+	    ex.setField(FullTextFields.CAPITAL_NAME.getValue(), country
+		    .getCapitalName());
+	    ex.setField(FullTextFields.AREA.getValue(), country.getArea());
+	    populateAlternateNames(FullTextFields.COUNTRYNAME
+		    .getValue(), country.getAlternateNames(), ex);
+	    ex.setField(FullTextFields.COUNTRYNAME.getValue(),
+		    EncodingHelper.toUTF8(country.getName()));
+	} else {
 
-	String countryCode = gisFeature.getCountryCode();
-	if (countryCode != null) {
-	    ex.setField(FullTextFields.COUNTRYCODE.getValue(), countryCode
-		    .toUpperCase());
-	    Country country = gisFeature.getCountry();
-	    if (country != null) {
-		populateAlternateNames(FullTextFields.COUNTRYNAME.getValue(),
-			country.getAlternateNames(), ex);
-		ex.setField(FullTextFields.COUNTRYNAME.getValue(),
-			EncodingHelper.toUTF8(country.getName()));
-	    } else {
-	    	logger
-	    	.error("Can not find country with code "
-	    			+gisFeature.getCountryCode()+" for "+gisFeature);
+	    String countryCode = gisFeature.getCountryCode();
+	    if (countryCode != null) {
+		ex.setField(FullTextFields.COUNTRYCODE.getValue(), countryCode
+			.toUpperCase());
+		Country country = gisFeature.getCountry();
+		if (country != null) {
+		    populateAlternateNames(FullTextFields.COUNTRYNAME
+			    .getValue(), country.getAlternateNames(), ex);
+		    ex.setField(FullTextFields.COUNTRYNAME.getValue(),
+			    EncodingHelper.toUTF8(country.getName()));
+		} else {
+		    logger.error("Can not find country with code "
+			    + gisFeature.getCountryCode() + " for "
+			    + gisFeature);
+		}
 	    }
 	}
 

@@ -10,6 +10,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import com.gisgraphy.domain.repository.IStatsUsageDao;
+import com.gisgraphy.service.IStatsUsageService;
 import com.gisgraphy.stats.StatsUsage;
 import com.gisgraphy.stats.StatsUsageType;
 import com.opensymphony.xwork2.Action;
@@ -41,6 +42,12 @@ public class StatsActionTest {
 	returnString = statsAction.execute();
 	Assert.assertEquals("totalusage should not be recursively added for each call to execute", 60L, statsAction.getTotalUsage().longValue());
 	EasyMock.verify(mockStatsUsageDao);
+    }
+    
+    @Test
+    public void testGetFlushFrequency(){
+	StatsAction statsAction = new StatsAction();
+	assertEquals("getFlushFrequecy should return the flush threshold",IStatsUsageService.FLUSH_THRESHOLD, statsAction.getFlushFrequency());
     }
 
    
