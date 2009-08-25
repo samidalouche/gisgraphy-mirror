@@ -69,7 +69,8 @@ public enum FullTextFields {
 	SPELLCHECK_SUGGESTION("suggestion"),
 	//Country only
 	CONTINENT("continent"),
-	CURRENCY("currency"),
+	CURRENCY_CODE("currency_code"),
+	CURRENCY_NAME("currency_name"),
 	FIPS_CODE("fips_code"),
 	ISOALPHA2_COUNTRY_CODE("isoalpha2_country_code"),
 	ISOALPHA3_COUNTRY_CODE("isoalpha3_country_code"),
@@ -79,10 +80,13 @@ public enum FullTextFields {
 	SPOKEN_LANGUAGES("spoken_languages"),
 	TLD("tld"),
 	CAPITAL_NAME("capital_name"),
+	AREA("area"),
+	//end country only
 	
 	
 	//Adm Only
 	LEVEL("level");
+	//end Adm only
 	
 	/** The value of the fulltext field in the schema.xml */
 	private final String value;

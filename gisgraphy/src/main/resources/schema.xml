@@ -289,7 +289,8 @@
 Short (basic informations) : feature_id, name, fully_qualified_name, zipcode (if city), placetype, country_code, country_name
 
 Medium (More informations) : Short + lat, lon, feature_class, feature_code, population
-Medium (if country) continent, currency, fips_code, isoalpha2_country_code, isoalpha3_country_code, postal_code_mask, postal_code_regex, phone_prefix, spoken_languages, tld, capital_name
+Medium (if country) continent, currency_code, currency_name, fips_code, isoalpha2_country_code, isoalpha3_country_code, postal_code_mask, postal_code_regex,
+ phone_prefix, spoken_languages, tld, capital_name, area
 Medium (adm only) level
 
 Long (AlternateNames +adm informations) : Medium + alternateNames, adm1_name, adm2_name, adm3_name, adm4_name, adm1_code, adm2_code, adm3_code, adm4_code
@@ -311,7 +312,8 @@ Full (alternatenames for adm and country): Long + country_alternate_name_, adm1_
  
  <!-- Country specific fields -->
  <!-- Medium --><field name="continent" type="string" indexed="false" stored="true"/>
- <!-- Medium --><field name="currency" type="string" indexed="false" stored="true"/>
+ <!-- Medium --><field name="currency_name" type="string" indexed="false" stored="true"/>
+ <!-- Medium --><field name="currency_code" type="string" indexed="false" stored="true"/>
  <!-- Medium --><field name="fips_code" type="string" indexed="false" stored="true"/>
  <!-- Medium --><field name="isoalpha2_country_code" type="string" indexed="false" stored="true"/>
  <!-- Medium --><field name="isoalpha3_country_code" type="string" indexed="false" stored="true"/>
@@ -321,6 +323,7 @@ Full (alternatenames for adm and country): Long + country_alternate_name_, adm1_
  <!-- Medium --><field name="spoken_languages" type="string" indexed="false" stored="true"/>
  <!-- Medium --><field name="tld" type="string" indexed="false" stored="true"/>
  <!-- Medium --><field name="capital_name" type="string" indexed="false" stored="true"/>
+  <!-- Medium --><field name="area" type="string" indexed="false" stored="true"/>
  
   <!-- Country specific fields -->
   <!--Medium --><field name="level" type="integer" indexed="false" stored="true"/>

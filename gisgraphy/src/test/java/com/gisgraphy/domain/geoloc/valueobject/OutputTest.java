@@ -121,7 +121,7 @@ public class OutputTest extends TestCase {
     @Test
     public void testOutputStyleGetFieldListForMediumShouldBeCorrect() {
 	String list = OutputStyle.MEDIUM.getFieldList(null);
-	assertEquals("The field list has a wrong size for MEDIUM :" + list, 32,
+	assertEquals("The field list has a wrong size for MEDIUM :" + list, 34,
 		list.split(",").length);
 	assertFalse("The field list for MEDIUM must not contains ',,' : "
 		+ list, list.contains(",,"));
@@ -130,7 +130,7 @@ public class OutputTest extends TestCase {
 	list = OutputStyle.MEDIUM.getFieldList("fr");
 	assertEquals(
 		"The field list for MEDIUM should not be different for a specified country : "
-			+ list, 32, list.split(",").length);
+			+ list, 34, list.split(",").length);
 	assertFalse("The field list for MEDIUM must not ends with ',' : "
 		+ list, list.endsWith(","));
 
@@ -139,7 +139,7 @@ public class OutputTest extends TestCase {
     @Test
     public void testOutputStyleGetFieldListForLongShouldBeCorrect() {
 	String list = OutputStyle.LONG.getFieldList(null);
-	assertEquals("The field list has a wrong size for LONG :" + list, 40,
+	assertEquals("The field list has a wrong size for LONG :" + list, 42,
 		list.split(",").length);
 	assertFalse("The field list for LONG must not contains ',,' : " + list,
 		list.contains(",,"));
@@ -148,7 +148,7 @@ public class OutputTest extends TestCase {
 	list = OutputStyle.LONG.getFieldList("fr");
 	assertEquals(
 		"The field list for LONG should not be different for a specified country : "
-			+ list, 40, list.split(",").length);
+			+ list, 42, list.split(",").length);
 	assertFalse("The field list for LONG must not ends with ',' : " + list,
 		list.endsWith(","));
 
@@ -167,7 +167,7 @@ public class OutputTest extends TestCase {
 	list = OutputStyle.FULL.getFieldList("fr");
 	assertEquals(
 		"The field list for medium should be different for a specified country :"
-			+ list, 48, list.split(",").length);
+			+ list, 50, list.split(",").length);
 	assertFalse("The field list for FULL must not ends with ',' : " + list,
 		list.endsWith(","));
 

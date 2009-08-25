@@ -497,7 +497,8 @@ public class Output {
 			
 			//country fields only
 			.append(",").append(FullTextFields.CONTINENT.getValue())
-			.append(",").append(FullTextFields.CURRENCY.getValue())
+			.append(",").append(FullTextFields.CURRENCY_CODE.getValue())
+			.append(",").append(FullTextFields.CURRENCY_NAME.getValue())
 			.append(",").append(FullTextFields.FIPS_CODE.getValue())
 			.append(",").append(FullTextFields.ISOALPHA2_COUNTRY_CODE.getValue())
 			.append(",").append(FullTextFields.ISOALPHA3_COUNTRY_CODE.getValue())
@@ -507,6 +508,7 @@ public class Output {
 			.append(",").append(FullTextFields.SPOKEN_LANGUAGES.getValue())
 			.append(",").append(FullTextFields.TLD.getValue())
 			.append(",").append(FullTextFields.CAPITAL_NAME.getValue())
+			.append(",").append(FullTextFields.AREA.getValue())
 			
 			//adm only
 			.append(",").append(FullTextFields.LEVEL.getValue())
