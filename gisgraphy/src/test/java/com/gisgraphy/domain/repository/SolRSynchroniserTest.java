@@ -42,6 +42,7 @@ import org.junit.Test;
 
 import com.gisgraphy.domain.geoloc.entity.City;
 import com.gisgraphy.domain.geoloc.entity.Country;
+import com.gisgraphy.domain.geoloc.entity.Language;
 import com.gisgraphy.domain.geoloc.entity.ZipCodeAware;
 import com.gisgraphy.domain.geoloc.service.fulltextsearch.AbstractIntegrationHttpSolrTestCase;
 import com.gisgraphy.domain.geoloc.service.fulltextsearch.FullTextFields;
@@ -67,6 +68,9 @@ public class SolRSynchroniserTest extends AbstractIntegrationHttpSolrTestCase {
 
     @Resource
     private GeolocTestHelper geolocTestHelper;
+    
+    @Resource
+    private ILanguageDao languageDao;
     
     @Resource
     private ISpellCheckerIndexer spellCheckerIndexer;
@@ -328,8 +332,6 @@ public class SolRSynchroniserTest extends AbstractIntegrationHttpSolrTestCase {
 	// commit changes
 	this.solRSynchroniser.commit();
 
-	// for (int i = 0; i < 10000; i++) {
-	// }
 
 	// test zipcode
 	List<City> zipResults = this.cityDao.listFromText("50263", false);
@@ -502,6 +504,101 @@ public class SolRSynchroniserTest extends AbstractIntegrationHttpSolrTestCase {
 		.DeleteNonEmptyDirectory(tempDir));
 
     }
+    
+    
+    /*
+    @Test
+    public void testSynchronizeAcountryShouldSynchronizeCountrySpecificFields() {
+	Country country = GeolocTestHelper
+		.createFullFilledCountry();
+	
+	Language lang = new Language("french", "FR", "FRA");
+	Language savedLang = languageDao.save(lang);
+	Language retrievedLang = languageDao.get(savedLang.getId());
+	assertEquals(savedLang, retrievedLang);
+
+	country.addSpokenLanguage(lang);
+	
+	String CountryName = "France";
+	country.setName(CountryName);
+	countryDao.save(country);
+	// commit changes
+	this.solRSynchroniser.commit();
+	File tempDir = GeolocTestHelper.createTempDir(this.getClass()
+		.getSimpleName());
+	File file = new File(tempDir.getAbsolutePath()
+		+ System.getProperty("file.separator") + "serialize.txt");
+
+	OutputStream outputStream = null;
+	try {
+	    outputStream = new FileOutputStream(file);
+	} catch (FileNotFoundException e1) {
+	    fail();
+	}
+
+	try {
+	    Pagination pagination = paginate().from(1).to(10);
+	    Output output = Output.withFormat(OutputFormat.XML)
+		    .withLanguageCode("FR").withStyle(OutputStyle.FULL)
+		    .withIndentation();
+	    FulltextQuery fulltextQuery = new FulltextQuery(CountryName,
+		    pagination, output, Country.class,null).withoutSpellChecking();
+	    fullTextSearchEngine.executeAndSerialize(fulltextQuery,
+		    outputStream);
+	} catch (FullTextSearchException e) {
+	    fail("error during search : " + e.getMessage());
+	}
+
+	String content = "";
+	try {
+	    content = GeolocTestHelper.readFileAsString(file.getAbsolutePath());
+	} catch (IOException e) {
+	    fail("can not get content of file " + file.getAbsolutePath());
+	}
+
+	FeedChecker.assertQ(
+		"The query return incorrect values",
+		content,
+		"//*[@numFound='1']",
+		"//*[@name='status'][.='0']"
+		// name
+		,
+		"//*[@name='" + FullTextFields.CONTINENT.getValue()
+			+ "'][.='"+country.getContinent()+"']",
+		"//*[@name='" + FullTextFields.CURRENCY_CODE.getValue()
+			+ "'][.='"+country.getCurrencyCode()+"']",
+		"//*[@name='" + FullTextFields.CURRENCY_NAME.getValue()
+			+ "'][.='"+country.getCurrencyName()+"']",
+		"//*[@name='" + FullTextFields.CURRENCY_CODE.getValue()
+			+ "'][.='"+country.getCountryCode()+"']",
+		"//*[@name='" + FullTextFields.FIPS_CODE.getValue()
+			+ "'][.='"+country.getFipsCode()+"']",
+		"//*[@name='" + FullTextFields.ISOALPHA2_COUNTRY_CODE.getValue()
+			+ "'][.='"+country.getIso3166Alpha2Code()+"']",
+		"//*[@name='" + FullTextFields.ISOALPHA3_COUNTRY_CODE.getValue()
+			+ "'][.='"+country.getIso3166Alpha3Code()+"']",
+		"//*[@name='" + FullTextFields.POSTAL_CODE_MASK.getValue()
+			+ "'][.='"+country.getPostalCodeMask()+"']",
+		"//*[@name='" + FullTextFields.POSTAL_CODE_REGEX.getValue()
+			+ "'][.='"+country.getPostalCodeRegex()+"']",
+		"//*[@name='" + FullTextFields.PHONE_PREFIX.getValue()
+			+ "'][.='"+country.getPhonePrefix()+"']",
+		"//*[@name='" + FullTextFields.SPOKEN_LANGUAGES.getValue()
+			+ "'][./str[1]][.='"+country.getSpokenLanguages().get(0)+"']",
+		"//*[@name='" + FullTextFields.TLD.getValue()
+			+ "'][.='"+country.getTld()+"']",
+		"//*[@name='" + FullTextFields.AREA.getValue()
+			+ "'][.='"+country.getArea()+"']"
+			
+	
+	);
+
+	// delete temp dir
+	assertTrue("the tempDir has not been deleted", GeolocTestHelper
+		.DeleteNonEmptyDirectory(tempDir));
+
+    }
+    */
 
     private QueryResponse searchInFulltextSearchEngine(String searchWords) {
 	SolrQuery query = new SolrQuery();
