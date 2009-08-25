@@ -54,6 +54,7 @@ public enum FullTextFields {
 	ALL_ADM2_NAME("all_adm2_name"),
 	ADM3NAME("adm3_name"),
 	ADM4NAME("adm4_name"),
+	//City only
 	ZIPCODE("zipcode"),
 	COUNTRYCODE("country_code"),
 	COUNTRYNAME("country_name"),
@@ -65,8 +66,24 @@ public enum FullTextFields {
 	YAHOO_MAP_URL("yahoo_map_url"),
 	SPELLCHECK("spellcheck"),
 	SPELLCHECK_SUGGESTIONS("suggestions"),
-	SPELLCHECK_SUGGESTION("suggestion");
-
+	SPELLCHECK_SUGGESTION("suggestion"),
+	//Country only
+	CONTINENT("continent"),
+	CURRENCY("currency"),
+	FIPS_CODE("fips_code"),
+	ISOALPHA2_COUNTRY_CODE("isoalpha2_country_code"),
+	ISOALPHA3_COUNTRY_CODE("isoalpha3_country_code"),
+	POSTAL_CODE_MASK("postal_code_mask"),
+	POSTAL_CODE_REGEX("postal_code_regex"),
+	PHONE_PREFIX("phone_prefix"),
+	SPOKEN_LANGUAGES("spoken_languages"),
+	TLD("tld"),
+	CAPITAL_NAME("capital_name"),
+	
+	
+	//Adm Only
+	LEVEL("level");
+	
 	/** The value of the fulltext field in the schema.xml */
 	private final String value;
 

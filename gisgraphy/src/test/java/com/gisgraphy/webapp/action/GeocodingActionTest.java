@@ -286,6 +286,7 @@ public class GeocodingActionTest {
 	action.setFullTextSearchEngine(fullTextSearchEngine);
 	
 	action.setCity(cityNameSearched);
+	action.setCountryCode(countryCode);
 	Assert.assertEquals(Action.SUCCESS,action.execute());
 	Assert.assertEquals("returnedValue",action.getErrorMessage());
     }

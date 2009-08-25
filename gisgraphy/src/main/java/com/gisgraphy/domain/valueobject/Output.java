@@ -493,8 +493,24 @@ public class Output {
 				",")
 			.append(FullTextFields.NAMEASCII.getValue())
 			.append(",").append(FullTextFields.TIMEZONE.getValue())
-			.append(",")
-			.append(FullTextFields.ELEVATION.getValue())
+			.append(",").append(FullTextFields.ELEVATION.getValue())
+			
+			//country fields only
+			.append(",").append(FullTextFields.CONTINENT.getValue())
+			.append(",").append(FullTextFields.CURRENCY.getValue())
+			.append(",").append(FullTextFields.FIPS_CODE.getValue())
+			.append(",").append(FullTextFields.ISOALPHA2_COUNTRY_CODE.getValue())
+			.append(",").append(FullTextFields.ISOALPHA3_COUNTRY_CODE.getValue())
+			.append(",").append(FullTextFields.POSTAL_CODE_MASK.getValue())
+			.append(",").append(FullTextFields.POSTAL_CODE_REGEX.getValue())
+			.append(",").append(FullTextFields.PHONE_PREFIX.getValue())
+			.append(",").append(FullTextFields.SPOKEN_LANGUAGES.getValue())
+			.append(",").append(FullTextFields.TLD.getValue())
+			.append(",").append(FullTextFields.CAPITAL_NAME.getValue())
+			
+			//adm only
+			.append(",").append(FullTextFields.LEVEL.getValue())
+			
 			.append(",").append(FullTextFields.GTOPO30.getValue())
 			.append(",").append(
 				FullTextFields.COUNTRY_FLAG_URL.getValue())
