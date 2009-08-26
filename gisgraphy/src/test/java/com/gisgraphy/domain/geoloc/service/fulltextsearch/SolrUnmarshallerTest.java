@@ -33,10 +33,12 @@ import javax.annotation.Resource;
 
 import org.junit.Test;
 
+import com.gisgraphy.domain.geoloc.entity.Adm;
 import com.gisgraphy.domain.geoloc.entity.AlternateName;
 import com.gisgraphy.domain.geoloc.entity.City;
 import com.gisgraphy.domain.geoloc.entity.Country;
 import com.gisgraphy.domain.geoloc.entity.Language;
+import com.gisgraphy.domain.repository.IAdmDao;
 import com.gisgraphy.domain.repository.ICountryDao;
 import com.gisgraphy.domain.repository.ILanguageDao;
 import com.gisgraphy.domain.valueobject.AlternateNameSource;
@@ -59,6 +61,9 @@ public class SolrUnmarshallerTest extends AbstractIntegrationHttpSolrTestCase {
     
     @Resource
     private ILanguageDao languageDao;
+    
+    @Resource
+    private IAdmDao admDao;
 
     @Test
     public void testUnmarshallSolrDocumentShouldReallyUnmarshall() {
@@ -182,50 +187,118 @@ public class SolrUnmarshallerTest extends AbstractIntegrationHttpSolrTestCase {
 	assertTrue("There should have a result for a fulltextSearch for "
 		+ country.getName(), results.size() == 1);
 	SolrResponseDto result = results.get(0);
+	assertNotNull(result.getName());
 	assertEquals(country.getName(), result.getName());
+	assertNotNull(result.getFeature_id());
 	assertEquals(country.getFeatureId(), result.getFeature_id());
+	assertNotNull(result.getFeature_class());
 	assertEquals(country.getFeatureClass(), result.getFeature_class());
+	assertNotNull(result.getFeature_code());
 	assertEquals(country.getFeatureCode(), result.getFeature_code());
+	assertNotNull(result.getName_ascii());
 	assertEquals(country.getAsciiName(), result.getName_ascii());
+	assertNotNull(result.getElevation());
 	assertEquals(country.getElevation(), result.getElevation());
+	assertNotNull(result.getGtopo30());
 	assertEquals(country.getGtopo30(), result.getGtopo30());
+	assertNotNull(result.getTimezone());
 	assertEquals(country.getTimezone(), result.getTimezone());
+	assertNotNull(result.getFully_qualified_name());
 	assertEquals(country.getFullyQualifiedName(false), result
 		.getFully_qualified_name());
+	assertNotNull(result.getPlacetype());
 	assertEquals(country.getClass().getSimpleName(), result.getPlacetype());
+	assertNotNull(result.getPopulation());
 	assertEquals(country.getPopulation(), result.getPopulation());
+	assertNotNull(result.getLat());
 	assertEquals(country.getLatitude(), result.getLat());
+	assertNotNull(result.getLng());
 	assertEquals(country.getLongitude(), result.getLng());
+	assertNotNull(result.getGoogle_map_url());
 	assertEquals(URLUtils.createGoogleMapUrl(country.getLocation(), country
 		.getName()), result.getGoogle_map_url());
+	assertNotNull(result.getCountry_flag_url());
 	assertEquals(URLUtils.createCountryFlagUrl(country.getCountryCode()),
 		result.getCountry_flag_url());
+	assertNotNull(result.getYahoo_map_url());
 	assertEquals(URLUtils.createYahooMapUrl(country.getLocation()), result
 		.getYahoo_map_url());
 
 	assertEquals(1, result.getCountry_names_alternate().size());
+	assertNotNull(result.getCountry_names_alternate().get(0));
 	assertEquals(country.getAlternateNames().get(0).getName(),
 		result.getCountry_names_alternate().get(0));
 
 	assertEquals(1, result.getCountry_names_alternate_localized().size());
+	assertNotNull(result.getCountry_names_alternate_localized()
+		.get(alternateNameLocalized.getLanguage()).get(0));
 	assertEquals(alternateNameLocalized.getName(), result.getCountry_names_alternate_localized()
 		.get(alternateNameLocalized.getLanguage()).get(0));
+	assertNotNull(result.getContinent());
 	assertEquals(country.getContinent(), result.getContinent());
+	assertNotNull(result.getCurrency_code());
 	assertEquals(country.getCurrencyCode(), result.getCurrency_code());
+	assertNotNull(result.getCurrency_name());
 	assertEquals(country.getCurrencyName(), result.getCurrency_name());
+	assertNotNull(result.getFips_code());
 	assertEquals(country.getFipsCode(), result.getFips_code());
+	assertNotNull(result.getIsoalpha3_country_code());
 	assertEquals(country.getIso3166Alpha2Code(), result.getIsoalpha2_country_code());
+	assertNotNull(result.getIsoalpha3_country_code());
 	assertEquals(country.getIso3166Alpha3Code(), result.getIsoalpha3_country_code());
+	assertNotNull(result.getPostal_code_mask());
 	assertEquals(country.getPostalCodeMask(), result.getPostal_code_mask());
+	assertNotNull(result.getPostal_code_regex());
 	assertEquals(country.getPostalCodeRegex(), result.getPostal_code_regex());
+	assertNotNull(result.getPhone_prefix());
 	assertEquals(country.getPhonePrefix(), result.getPhone_prefix());
+	assertNotNull(result.getSpoken_languages().get(0));
 	assertEquals(country.getSpokenLanguages().get(0).getIso639LanguageName(), result.getSpoken_languages().get(0));
+	assertNotNull(result.getTld());
 	assertEquals(country.getTld(), result.getTld());
+	assertNotNull(result.getCapital_name());
 	assertEquals(country.getCapitalName(), result.getCapital_name());
+	assertNotNull(result.getArea());
 	assertEquals(country.getArea(), result.getArea());
 	
     }
 
+    @Test
+    public void testUnmarshallSolrDocumentShouldReallyUnmarshallAdm() {
+	Adm adm = geolocTestHelper
+		.createAdm("AdmName", "FR", "A1", "B2", null, null, null, 2);
+
+	admDao.save(adm);
+	
+	this.solRSynchroniser.commit();
+	Pagination pagination = paginate().from(1).to(10);
+	Output output = Output.withFormat(OutputFormat.XML).withLanguageCode(
+		"FR").withStyle(OutputStyle.FULL).withIndentation();
+	FulltextQuery query = new FulltextQuery(adm.getName(), pagination,
+		output, null, null);
+	FulltextResultsDto response = this.fullTextSearchEngine
+		.executeQuery(query);
+	List<SolrResponseDto> results = response.getResults();
+	assertNotNull(
+		"There should have a result for a fulltextSearch for "
+			+ adm.getName()
+			+ " and even If no results are return: an empty list should be return,  not null ",
+		results);
+	assertTrue("There should have a result for a fulltextSearch for "
+		+ adm.getName(), results.size() == 1);
+	SolrResponseDto result = results.get(0);
+	assertNotNull(result.getName());
+	assertEquals(adm.getName(), result.getName());
+	assertNotNull(result.getAdm1_code());
+	assertEquals(adm.getAdm1Code(), result.getAdm1_code());
+	assertNotNull(result.getAdm2_code());
+	assertEquals(adm.getAdm2Code(), result.getAdm2_code());
+	assertEquals("Level should be fill when an Adm is saved ",adm.getLevel(), result.getLevel());
+	
+	
+    }
+
+    
     
     @Test
     public void testUnmarshallQueryResponseShouldReturnAnEmptyListIfNoResultsAreFound() {

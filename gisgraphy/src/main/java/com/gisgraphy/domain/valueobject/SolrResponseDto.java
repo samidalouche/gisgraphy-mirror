@@ -151,6 +151,8 @@ public class SolrResponseDto {
 		    FullTextFields.CAPITAL_NAME.getValue());
 	    this.area= getFieldAsDouble(solrDocument,
 		    FullTextFields.AREA.getValue());
+	    this.level= getFieldAsInteger(solrDocument,
+		    FullTextFields.LEVEL.getValue());
 	}
     }
 
@@ -285,6 +287,8 @@ public class SolrResponseDto {
     private String fips_code;
     private String isoalpha2_country_code;
     private String isoalpha3_country_code;
+   
+
     private String postal_code_mask;
     private String postal_code_regex;
     private String phone_prefix;
@@ -292,6 +296,9 @@ public class SolrResponseDto {
     private String tld;
     private String capital_name;
     private Double area;
+    
+    //Adm only
+    private Integer level;
 
     private String adm1_name;
     private List<String> adm1_names_alternate;
@@ -648,6 +655,10 @@ public class SolrResponseDto {
      */
     public Double getArea() {
         return area;
+    }
+    
+    public Integer getLevel() {
+        return level;
     }
 
 }

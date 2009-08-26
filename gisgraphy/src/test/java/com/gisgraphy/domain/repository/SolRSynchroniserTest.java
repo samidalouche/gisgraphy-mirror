@@ -40,6 +40,8 @@ import org.apache.solr.client.solrj.SolrServerException;
 import org.apache.solr.client.solrj.response.QueryResponse;
 import org.junit.Test;
 
+import com.gisgraphy.domain.geoloc.entity.Adm;
+import com.gisgraphy.domain.geoloc.entity.AlternateName;
 import com.gisgraphy.domain.geoloc.entity.City;
 import com.gisgraphy.domain.geoloc.entity.Country;
 import com.gisgraphy.domain.geoloc.entity.Language;
@@ -49,9 +51,12 @@ import com.gisgraphy.domain.geoloc.service.fulltextsearch.FullTextFields;
 import com.gisgraphy.domain.geoloc.service.fulltextsearch.FullTextSearchException;
 import com.gisgraphy.domain.geoloc.service.fulltextsearch.FulltextQuery;
 import com.gisgraphy.domain.geoloc.service.fulltextsearch.spell.ISpellCheckerIndexer;
+import com.gisgraphy.domain.valueobject.AlternateNameSource;
 import com.gisgraphy.domain.valueobject.Constants;
+import com.gisgraphy.domain.valueobject.FulltextResultsDto;
 import com.gisgraphy.domain.valueobject.Output;
 import com.gisgraphy.domain.valueobject.Pagination;
+import com.gisgraphy.domain.valueobject.SolrResponseDto;
 import com.gisgraphy.domain.valueobject.Output.OutputFormat;
 import com.gisgraphy.domain.valueobject.Output.OutputStyle;
 import com.gisgraphy.helper.URLUtils;
@@ -65,6 +70,9 @@ public class SolRSynchroniserTest extends AbstractIntegrationHttpSolrTestCase {
 
     @Resource
     private ICountryDao countryDao;
+    
+    @Resource
+    private IAdmDao admDao;
 
     @Resource
     private GeolocTestHelper geolocTestHelper;
@@ -518,6 +526,12 @@ public class SolRSynchroniserTest extends AbstractIntegrationHttpSolrTestCase {
 
 	country.addSpokenLanguage(lang);
 	
+	AlternateName alternateNameLocalized = new AlternateName("alternateFR",AlternateNameSource.ALTERNATENAMES_FILE);
+	alternateNameLocalized.setLanguage("FR");
+	AlternateName alternateName = new AlternateName("alternate",AlternateNameSource.ALTERNATENAMES_FILE);
+	country.addAlternateName(alternateName);
+	country.addAlternateName(alternateNameLocalized);
+	
 	String CountryName = "France";
 	country.setName(CountryName);
 	countryDao.save(country);
@@ -559,9 +573,7 @@ public class SolRSynchroniserTest extends AbstractIntegrationHttpSolrTestCase {
 		"The query return incorrect values",
 		content,
 		"//*[@numFound='1']",
-		"//*[@name='status'][.='0']"
-		// name
-		,
+		"//*[@name='status'][.='0']",
 		"//*[@name='" + FullTextFields.CONTINENT.getValue()
 			+ "'][.='"+country.getContinent()+"']",
 		"//*[@name='" + FullTextFields.CURRENCY_CODE.getValue()
@@ -587,7 +599,13 @@ public class SolRSynchroniserTest extends AbstractIntegrationHttpSolrTestCase {
 		"//*[@name='" + FullTextFields.TLD.getValue()
 			+ "'][.='"+country.getTld()+"']",
 		"//*[@name='" + FullTextFields.AREA.getValue()
-			+ "'][.='"+country.getArea()+"']"
+			+ "'][.='"+country.getArea()+"']",
+		"//*[@name='" + FullTextFields.NAME.getValue()
+			+ FullTextFields.ALTERNATE_NAME_SUFFIX.getValue()
+			+ "'][./str[1]][.='"+alternateName.getName()+"']",
+		"//*[@name='" + FullTextFields.NAME.getValue()
+			+ FullTextFields.ALTERNATE_NAME_DYNA_SUFFIX.getValue()
+			+ "FR'][./str[1]][.='"+alternateNameLocalized.getName()+"']"
 			
 	
 	);
@@ -596,6 +614,63 @@ public class SolRSynchroniserTest extends AbstractIntegrationHttpSolrTestCase {
 	assertTrue("the tempDir has not been deleted", GeolocTestHelper
 		.DeleteNonEmptyDirectory(tempDir));
 
+    }
+    
+    @Test
+    public void testSynchronizeAcountryShouldSynchronizeAdmSpecificFields() {
+    
+    Adm adm = geolocTestHelper
+	.createAdm("AdmName", "FR", "A1", "B2", null, null, null, 2);
+
+        admDao.save(adm);
+
+        this.solRSynchroniser.commit();
+        File tempDir = GeolocTestHelper.createTempDir(this.getClass()
+		.getSimpleName());
+	File file = new File(tempDir.getAbsolutePath()
+		+ System.getProperty("file.separator") + "serialize.txt");
+
+	OutputStream outputStream = null;
+	try {
+	    outputStream = new FileOutputStream(file);
+	} catch (FileNotFoundException e1) {
+	    fail();
+	}
+
+	try {
+	    Pagination pagination = paginate().from(1).to(10);
+	    Output output = Output.withFormat(OutputFormat.XML)
+		    .withLanguageCode("FR").withStyle(OutputStyle.FULL)
+		    .withIndentation();
+	    FulltextQuery fulltextQuery = new FulltextQuery(adm.getName(),
+		    pagination, output, Adm.class,null).withoutSpellChecking();
+	    fullTextSearchEngine.executeAndSerialize(fulltextQuery,
+		    outputStream);
+	} catch (FullTextSearchException e) {
+	    fail("error during search : " + e.getMessage());
+	}
+
+	String content = "";
+	try {
+	    content = GeolocTestHelper.readFileAsString(file.getAbsolutePath());
+	} catch (IOException e) {
+	    fail("can not get content of file " + file.getAbsolutePath());
+	}
+
+	FeedChecker.assertQ("The query return incorrect values",
+		content,
+		"//*[@numFound='1']",
+		"//*[@name='status'][.='0']"
+		// name
+		,
+		"//*[@name='" + FullTextFields.LEVEL.getValue()
+			+ "'][.='"+adm.getLevel()+"']",
+		"//*[@name='" + FullTextFields.ADM1CODE.getValue()
+			+ "'][.='"+adm.getAdm1Code()+"']",
+		"//*[@name='" + FullTextFields.ADM2CODE.getValue()
+			+ "'][.='"+adm.getAdm2Code()+"']"
+		
+	);
     }
 
     private QueryResponse searchInFulltextSearchEngine(String searchWords) {
