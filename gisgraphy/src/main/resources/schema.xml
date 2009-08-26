@@ -323,7 +323,7 @@ Full (alternatenames for adm and country): Long + country_alternate_name_, adm1_
  <!-- Medium --><field name="spoken_languages" type="string" indexed="false" stored="true" multiValued="true"/>
  <!-- Medium --><field name="tld" type="string" indexed="false" stored="true"/>
  <!-- Medium --><field name="capital_name" type="string" indexed="false" stored="true"/>
-  <!-- Medium --><field name="area" type="string" indexed="false" stored="true"/>
+  <!-- Medium --><field name="area" type="double" indexed="false" stored="true"/>
  
   <!-- Country specific fields -->
   <!--Medium --><field name="level" type="integer" indexed="false" stored="true"/>

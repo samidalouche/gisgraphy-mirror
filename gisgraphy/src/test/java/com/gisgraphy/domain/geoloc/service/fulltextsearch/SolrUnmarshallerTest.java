@@ -36,7 +36,9 @@ import org.junit.Test;
 import com.gisgraphy.domain.geoloc.entity.AlternateName;
 import com.gisgraphy.domain.geoloc.entity.City;
 import com.gisgraphy.domain.geoloc.entity.Country;
+import com.gisgraphy.domain.geoloc.entity.Language;
 import com.gisgraphy.domain.repository.ICountryDao;
+import com.gisgraphy.domain.repository.ILanguageDao;
 import com.gisgraphy.domain.valueobject.AlternateNameSource;
 import com.gisgraphy.domain.valueobject.FulltextResultsDto;
 import com.gisgraphy.domain.valueobject.Output;
@@ -54,6 +56,9 @@ public class SolrUnmarshallerTest extends AbstractIntegrationHttpSolrTestCase {
     
     @Resource
     private ICountryDao countryDao;
+    
+    @Resource
+    private ILanguageDao languageDao;
 
     @Test
     public void testUnmarshallSolrDocumentShouldReallyUnmarshall() {
@@ -146,6 +151,14 @@ public class SolrUnmarshallerTest extends AbstractIntegrationHttpSolrTestCase {
     public void testUnmarshallSolrDocumentShouldReallyUnmarshallCountry() {
 	Country country = geolocTestHelper
 		.createFullFilledCountry();
+	
+	Language lang = new Language("french", "FR", "FRA");
+	Language savedLang = languageDao.save(lang);
+	Language retrievedLang = languageDao.get(savedLang.getId());
+	assertEquals(savedLang, retrievedLang);
+
+	country.addSpokenLanguage(lang);
+	
 	AlternateName alternateNameLocalized = new AlternateName("alternateFR",AlternateNameSource.ALTERNATENAMES_FILE);
 	alternateNameLocalized.setLanguage("FR");
 	AlternateName alternateName = new AlternateName("alternate",AlternateNameSource.ALTERNATENAMES_FILE);
@@ -197,8 +210,20 @@ public class SolrUnmarshallerTest extends AbstractIntegrationHttpSolrTestCase {
 	assertEquals(1, result.getCountry_names_alternate_localized().size());
 	assertEquals(alternateNameLocalized.getName(), result.getCountry_names_alternate_localized()
 		.get(alternateNameLocalized.getLanguage()).get(0));
-
-	//TODO osm testcountryspecific fields
+	assertEquals(country.getContinent(), result.getContinent());
+	assertEquals(country.getCurrencyCode(), result.getCurrency_code());
+	assertEquals(country.getCurrencyName(), result.getCurrency_name());
+	assertEquals(country.getFipsCode(), result.getFips_code());
+	assertEquals(country.getIso3166Alpha2Code(), result.getIsoalpha2_country_code());
+	assertEquals(country.getIso3166Alpha3Code(), result.getIsoalpha3_country_code());
+	assertEquals(country.getPostalCodeMask(), result.getPostal_code_mask());
+	assertEquals(country.getPostalCodeRegex(), result.getPostal_code_regex());
+	assertEquals(country.getPhonePrefix(), result.getPhone_prefix());
+	assertEquals(country.getSpokenLanguages().get(0).getIso639LanguageName(), result.getSpoken_languages().get(0));
+	assertEquals(country.getTld(), result.getTld());
+	assertEquals(country.getCapitalName(), result.getCapital_name());
+	assertEquals(country.getArea(), result.getArea());
+	
     }
 
     

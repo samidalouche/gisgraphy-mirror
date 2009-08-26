@@ -128,7 +128,7 @@ public class SolrResponseDto {
 	    this.continent=getFieldAsString(solrDocument,
 		    FullTextFields.CONTINENT.getValue());
 	    this.currency_code = getFieldAsString(solrDocument,
-		    FullTextFields.COUNTRYCODE.getValue());
+		    FullTextFields.CURRENCY_CODE.getValue());
 	    this.currency_name= getFieldAsString(solrDocument,
 		    FullTextFields.CURRENCY_NAME.getValue());
 	    this.fips_code= getFieldAsString(solrDocument,
@@ -146,11 +146,11 @@ public class SolrResponseDto {
 	    this.spoken_languages=getFieldsToList(solrDocument,
 		    FullTextFields.SPOKEN_LANGUAGES.getValue());
 	    this.tld= getFieldAsString(solrDocument,
-		    FullTextFields.CONTINENT.getValue());
+		    FullTextFields.TLD.getValue());
 	    this.capital_name= getFieldAsString(solrDocument,
-		    FullTextFields.CONTINENT.getValue());
-	    this.area= getFieldAsString(solrDocument,
-		    FullTextFields.CONTINENT.getValue());
+		    FullTextFields.CAPITAL_NAME.getValue());
+	    this.area= getFieldAsDouble(solrDocument,
+		    FullTextFields.AREA.getValue());
 	}
     }
 
@@ -291,7 +291,7 @@ public class SolrResponseDto {
     private List<String> spoken_languages;
     private String tld;
     private String capital_name;
-    private String area;
+    private Double area;
 
     private String adm1_name;
     private List<String> adm1_names_alternate;
@@ -646,7 +646,7 @@ public class SolrResponseDto {
     /**
      * @return the area
      */
-    public String getArea() {
+    public Double getArea() {
         return area;
     }
 
