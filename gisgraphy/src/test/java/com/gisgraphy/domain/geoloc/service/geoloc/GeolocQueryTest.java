@@ -492,8 +492,29 @@ public class GeolocQueryTest extends TestCase {
 
     }
 
-    // TODO test withradius
-
+    @Test
+    public void testEquals(){
+	Pagination pagination = paginate().from(2).to(7);
+	Output output = Output.withFormat(OutputFormat.JSON).withLanguageCode(
+		"FR").withStyle(OutputStyle.FULL);
+	GeolocQuery query = new GeolocQuery(GeolocHelper.createPoint(3.2F, 2.5F), 5, pagination,
+		output, Adm.class);
+	GeolocQuery queryWithDifferentLongitude = new GeolocQuery(GeolocHelper.createPoint(3.3F, 2.5F), 5, pagination,
+		output, Adm.class);
+	assertFalse("query should not be considered equals if longitude is not the same",query.equals(queryWithDifferentLongitude));
+	
+	GeolocQuery queryWithDifferentLat = new GeolocQuery(GeolocHelper.createPoint(3.2F, 2.6F), 5, pagination,
+		output, Adm.class);
+	assertFalse("query should not be considered equals if latitude is not the same",query.equals(queryWithDifferentLat));
+	
+	GeolocQuery queryEquals = new GeolocQuery(GeolocHelper.createPoint(3.2F, 2.5F), 5, pagination,
+		output, Adm.class);
+	assertEquals(query, queryEquals);
+	
+	
+    }
+    
+    
     @Test
     public void testWithPaginationShouldBeSetToDefaultPaginationIfNull() {
 	assertEquals(Pagination.DEFAULT_PAGINATION, new GeolocQuery(
