@@ -17,7 +17,7 @@
 	<br/>
 </noscript>
 		 <@breadcrumbs.searchNavBar/>
-<div class="clear"></div><div class="biggertext" style="line-height:1.5em;">The worldwide geocoding webservice is totally FREE and allow to find Lat/lng pair from an adress or a street via a REST interface . it uses (free) data from <span class="imgAlign"><a href="http://openstreetmap.org">OpenstreetMap <img src="/images/openstreetmap.png" alt="openstreetmap" class="imgAlign" style="width:30px"/></a> that are imported into a local database. <@s.text name="search.geocoding.notUsinggooglemap"/>. You can see an example of use bellow</span>. You can find documentation on <a href="http://www.gisgraphy.com/documentation/index.htm#streetservice" target="_blank">how to use the webservice</a> and see how to <a href="http://www.gisgraphy.com/documentation/installation/index.htm" target="_blank">download and install</a> Gisgraphy.</div><br/><br/>
+<div class="clear"></div><div class="biggertext" style="line-height:1.5em;"><@s.text name="search.geocoding.desc"><@s.param>http://openstreetmap.org</@s.param>. <@s.text name="search.geocoding.notUsinggooglemap"/>. <@s.text name="search.docandinstall"><@s.param>http://www.gisgraphy.com/documentation/index.htm#streetservice</@s.param><@s.param>http://www.gisgraphy.com/documentation/installation/index.htm</@s.param></@s.text></div><br/><br/>
 <div class="clear"></div>
 
 
