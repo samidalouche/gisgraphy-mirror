@@ -14,6 +14,10 @@
 <strong>You can see the status of the Import and the error message here <a href="/admin/import!status.html">Here</a></strong>
 <br/><br/>
 
+<div class="tip greentip">
+<fmt:message key="gisgraphy.ask.for.dump"><fmt:param>davidmasclet@gisgraphy.com</fmt:param></fmt:message>
+</div>
+<br/><br/>
 An error occured during import. You have to:
 <ul>
 <li>Find and repair the error</li>
@@ -25,6 +29,7 @@ An error occured during import. You have to:
 </ul>
 <br/>
 <li>delete the downloaded files and the AdmXcodes.txt files.</li>
+<li>delete the file /IMPORTER-METADATA-DO_NOT_REMOVE/importerStatusList</li>
 <li>Restart the web application, in order to flush the cache and to reset the configuration : importers keep informations of what have been imported. So you must restart the web application in order to clear those informations</li>
 <li>Re-run the import</li> 
 </ul>
@@ -36,4 +41,3 @@ if (ex != null){
 }
 %>
 
-<a href="mainMenu.html" onclick="history.back();return false">&#171; Back</a>

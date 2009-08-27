@@ -17,7 +17,15 @@
 	<br/>
 </noscript>
 		 <@breadcrumbs.searchNavBar/>
-<div class="clear"></div><div class="biggertext" style="line-height:1.5em;"><@s.text name="search.geocoding.desc"><@s.param>http://openstreetmap.org</@s.param>. <@s.text name="search.geocoding.notUsinggooglemap"/>. <@s.text name="search.docandinstall"><@s.param>http://www.gisgraphy.com/documentation/index.htm#streetservice</@s.param><@s.param>http://www.gisgraphy.com/documentation/installation/index.htm</@s.param></@s.text></div><br/><br/>
+<div class="clear"></div><div class="biggertext" style="line-height:1.5em;">
+ <@s.text name="search.geocoding.desc"/>.
+ <@s.text name="search.openstreetmap.data"><@s.param>http://openstreetmap.org</@s.param></@s.text>.
+ <@s.text name="search.geocoding.notUsinggooglemap"/>.
+ <@s.text name="search.docandinstall">
+ 	<@s.param>http://www.gisgraphy.com/documentation/index.htm#streetservice</@s.param>
+ 	<@s.param>http://www.gisgraphy.com/documentation/installation/index.htm</@s.param>
+ </@s.text>.
+</div><br/><br/>
 <div class="clear"></div>
 
 

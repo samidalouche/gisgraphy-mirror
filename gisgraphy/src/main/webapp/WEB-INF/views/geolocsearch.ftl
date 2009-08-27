@@ -18,6 +18,21 @@
 </noscript>
 	
 			<@breadcrumbs.searchNavBar/>
+
+<@s.url id="ajaxgeolocSearchUrl" action="ajaxgeolocsearch" includeParams="none" namespace="" />
+<div class="clear"></div><div class="biggertext" style="line-height:1.5em;">
+<@s.text name="search.fulltext.desc"/>.
+ <@s.text name="search.geonames.data"><@s.param>http://geonames.org</@s.param></@s.text>.
+ <@s.text name="search.docandinstall">
+ 	<@s.param>http://www.gisgraphy.com/documentation/index.htm#http://www.gisgraphy.com/documentation/index.htm#geolocservice</@s.param>
+ 	<@s.param>http://www.gisgraphy.com/documentation/installation/index.htm</@s.param>
+ </@s.text>.
+ <@s.text name="search.ws.exampleofuse">
+ 	<@s.param>${ajaxgeolocSearchUrl}</@s.param>
+ </@s.text>.
+</div><br/><br/>
+<div class="clear"></div>
+			
 	<@s.form action="/geoloc/geolocsearch" method="get" id="geolocsearch">
 		<div id="simplesearch">
 			<@gisgraphysearch.latlongsearchbox/>

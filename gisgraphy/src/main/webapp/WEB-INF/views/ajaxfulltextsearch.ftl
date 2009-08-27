@@ -18,7 +18,17 @@
 </noscript>
 	<@s.url id="simpleFulltextSearchUrl" action="fulltextsearch" includeParams="none" namespace="" />
 			<@breadcrumbs.searchNavBar/>
-<div class="clear"></div><div class="biggertext" style="line-height:1.5em;">The FULLTEXT webservice is totally FREE and allow to find place around the world via a REST interface. it uses (free) data from <span class="imgAlign"><a href="http://geonames.org">Geonames</a> that are imported into a local database. You can see an example of use bellow</span>. You can find documentation on <a href="http://www.gisgraphy.com/documentation/index.htm#fulltextservice" target="_blank">how to use the webservice</a> and see how to <a href="http://www.gisgraphy.com/documentation/installation/index.htm" target="_blank">download and install</a> Gisgraphy. You can use <a href="${simpleFulltextSearchUrl}" target="_blank">this interface</a> to call the webservice and see the output</div><br/><br/>
+<div class="clear"></div><div class="biggertext" style="line-height:1.5em;">
+<@s.text name="search.fulltext.desc"/>.
+ <@s.text name="search.geonames.data"><@s.param>http://geonames.org</@s.param></@s.text>.
+ <@s.text name="search.docandinstall">
+ 	<@s.param>http://www.gisgraphy.com/documentation/index.htm#fulltextservice</@s.param>
+ 	<@s.param>http://www.gisgraphy.com/documentation/installation/index.htm</@s.param>
+ </@s.text>.
+ <@s.text name="search.ws.use">
+ 	<@s.param>${simpleFulltextSearchUrl}</@s.param>
+ </@s.text>.
+</div><br/><br/>
 <div class="clear"></div>
 
 	<@s.form action="ajaxfulltextsearch!search.html" method="get" id="fulltextsearch">

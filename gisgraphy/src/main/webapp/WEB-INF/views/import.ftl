@@ -3,6 +3,11 @@
 <title><@s.text name="import.import"/></title>
 </head>
 <body>
+<div class="tip yellowtip">
+<@s.text name="import.free.disk.space">
+	<@s.param>15 GO</@s.param>
+</@s.text>
+</div>
 <#if !DownloadDirectoryAccessible>
 <div class="tip redtip">
 <u>IMPORTANT</u> : The download directory '${importerConfig.getGeonamesDir()}' is not accessible, you ve probably not started Gisgraphy in the correct directory or this directory is not 'writable'.<br/><br/>
@@ -79,6 +84,13 @@ The OpenStreetMap importer is :&nbsp;<@s.if test="OpenStreetMapImporterEnabled">
 <@s.form action="${importUrl}" method="get" id="runImport"><@s.submit  value="%{getText('menu.admin.import')} >>" theme="simple" /></@s.form>
 &nbsp; &nbsp;
  <@s.form action="mainMenu.html" method="get" id="dontRunImport"><@s.submit  value="<< %{getText('menu.admin.dontImport')}" theme="simple"  onclick="history.back();return false" /></@s.form>
+
+<br/>
+<div class="tip greentip">
+<@s.text name="gisgraphy.ask.for.dump">
+	<@s.param>davidmasclet@gisgraphy.com</@s.param>
+</@s.text>
+</div>
 <br/><br/>
 </br>
 </body>
