@@ -1,3 +1,4 @@
+<#import "macros/utils.ftl" as utils>
 <#import "macros/gisgraphysearch.ftl" as gisgraphysearch>
 <html>
 <head>

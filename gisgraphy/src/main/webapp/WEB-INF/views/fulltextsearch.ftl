@@ -1,3 +1,4 @@
+<#import "macros/utils.ftl" as utils>
 <#import "macros/breadcrumbs.ftl" as breadcrumbs>
 <html>
 <head>
@@ -102,7 +103,7 @@
 	</fieldset>
 	</div>
 	</@s.form>
-	<script src="/scripts/prototype.js" type="text/javascript"></script>
+	<@utils.includeJs jsName="/scripts/prototype.js"/>
 </div>
 </body>
 </html>

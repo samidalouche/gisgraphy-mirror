@@ -1,3 +1,4 @@
+<#import "macros/utils.ftl" as utils>
 <#import "macros/breadcrumbs.ftl" as breadcrumbs>
 <#import "macros/gisgraphysearch.ftl" as gisgraphysearch>
 <html>
@@ -6,7 +7,7 @@
 <meta name="Description" content="Worldwide geocoding free webservices and street search for openstreetmap. Pagination, indentation, several languages are supported"/>
 <meta name="heading" content="<@s.text name="search.geocoding.title"/>"/>
 <meta name="keywords" content="geocoding world worldwide street search java openstreetmap webservices postgis hibernate toponyms gazeteers"/>
-<script src="/scripts/prototype.js" type="text/javascript"></script>
+<@utils.includeJs jsName="/scripts/prototype.js"/>
 </head>
 <body onunload="GUnload()">
 <br/>

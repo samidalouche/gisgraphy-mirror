@@ -47,7 +47,7 @@
         </div>
 	        <div id="footer" class="clearfix">
              <div class="divider"><div></div></div>
-    <span class="left"><fmt:message key="webapp.version"/> |<span><a href="mailto:davidmasclet@gisgraphy.com?subject=feedback" class="underline red">We love feedback</a> | </span>
+    <span class="left"><fmt:message key="webapp.version"/> |<span><a href="http://www.gisgraphy.com/feedback/" class="underline red">We love feedback</a> | </span>
         <span id="validators">
             <a href="http://validator.w3.org/check?uri=referer">XHTML Valid</a> |
             <a href="http://jigsaw.w3.org/css-validator/validator-uri.html">CSS Valid</a>

@@ -1,24 +1,61 @@
 <#import "macros/breadcrumbs.ftl" as breadcrumbs>
 <html>
 <head>
-<title><@s.text name="search.servicesdescription.title"/></title>
+<title><@s.text name="search.pages.description"/></title>
 <meta name="Description" content="Description of Gisgraphy services"/>
+<meta name="heading" content="<@s.text name="search.pages.description"/>"/>
 <meta name="keywords" content="description gisgraphy services geoloc fulltext"/>
 </head>
 <body>
 <br/>
 <div>
-<h2 class="header"><@s.text name="search.servicesdescription.title"/></h2>
+<@breadcrumbs.searchNavBar/>
+<h2 class="header"><@s.text name="search.pages.description"/> : </h2>
+<@s.url id="simpleFulltextSearchUrl" action="fulltextsearch" includeParams="none" namespace="" />
+<@s.url id="simpleGeolocSearchUrl" action="geolocsearch" includeParams="none" namespace="" />
+<@s.url id="geocodingSearchUrl" action="geocoding_worldwide" includeParams="none" namespace="/public" />
+<@s.url id="reverseGeocodingSearchUrl" action="reverse_geocoding_worldwide" includeParams="none" namespace="/public" />
+<@s.url id="streetSearchUrl" action="streetSearch" includeParams="none" namespace="/public" />
+<@s.url id="ajaxFulltextSearchUrl" action="ajaxfulltextsearch" includeParams="all" namespace="" />
+<@s.url id="ajaxGeolocSearchUrl" action="ajaxgeolocsearch" includeParams="all"  namespace=""  />
+
 <ul>
-<li><@s.text name="search.fulltext.breadcrumbs"/> : User interface that call the fulltext webservice.
-The output will be displayed in the navigator as it is returned by the webservice, whatever the format. There are more options available than the fulltext human readable service (<@s.text name="search.fulltextDemo.breadcrumbs"/>).</li>
-<li><@s.text name="search.fulltextDemo.breadcrumbs"/> : User interface that call the fulltext service and display the results in an human readable way
- (ajax popup when javascript is activate, or in an html page ). There are less options available than the fulltext webservice interface (<@s.text name="search.fulltext.breadcrumbs"/>) because '<@s.text name="search.language"/>', '<@s.text name="search.verbosity"/>', '<@s.text name="search.format"/>', '<@s.text name="search.indent"/>' and '<@s.text name="search.paginationSpecs"/>' are managed by the HTML interface </li>
-<li><@s.text name="search.geoloc.breadcrumbs"/> : User interface that call the geoloc webservice.
-The output will be displayed in the navigator as it is returned by the service, whatever the format. There are more options available than the geoloc human readable service (<@s.text name="search.geolocDemo.breadcrumbs"/>)</li>
-<li><@s.text name="search.geolocDemo.breadcrumbs"/> : User interface that call the geoloc service and display the results in an human readable way
- (ajax popup when javascript is activate, or in an html page ). There are less options available than the geoloc Webservice interface (<@s.text name="search.geoloc.breadcrumbs"/>) because '<@s.text name="search.format"/>', '<@s.text name="search.indent"/>' and '<@s.text name="search.paginationSpecs"/>' are managed by the HTML interface </li>
-<li><@s.text name="search.street.breadcrumbs"/> : Service / Webservice that will search for street name around a given GPS position, all over the world. This service is currently in developement</li>
+<li><div class="biggertext listspace"><a href="${geocodingSearchUrl}"><@s.text name="search.geocoding.breadcrumbs"/></a> : 
+<@s.text name="search.geocoding.desc"/>.
+ <@s.text name="search.openstreetmap.data"><@s.param>http://openstreetmap.org</@s.param></@s.text>.
+ <br/>
+</li>
+
+<li><div class="biggertext listspace" ><a href="${reverseGeocodingSearchUrl}"><@s.text name="search.geocoding.reverse.breadcrumbs"/></a> : 
+<@s.text name="search.reversegeocoding.desc"/>.
+ <@s.text name="search.openstreetmap.data"><@s.param>http://openstreetmap.org</@s.param></@s.text>.
+ </div>
+</li>
+
+<li><div class="biggertext listspace"><a href="${streetSearchUrl}"><@s.text name="search.street.breadcrumbs"/></a> : 
+<@s.text name="search.streetsearch.desc"/>.
+ <@s.text name="search.openstreetmap.data"><@s.param>http://openstreetmap.org</@s.param></@s.text>.
+ </div>
+</li>
+
+<li><div class="biggertext listspace"><a href="${ajaxGeolocSearchUrl}"><@s.text name="search.geolocDemo.breadcrumbs"/></a> : 
+<@s.text name="search.geoloc.desc"/>.
+ <@s.text name="search.geonames.data"><@s.param>http://geonames.org</@s.param></@s.text>.
+ </div>
+</li>
+
+<li><div class="biggertext listspace"><a href="${ajaxFulltextSearchUrl}"><@s.text name="search.fulltextDemo.breadcrumbs"/></a> : 
+<@s.text name="search.fulltext.desc"/>.
+ <@s.text name="search.geonames.data"><@s.param>http://geonames.org</@s.param></@s.text>.
+ </div>
+</li>
+
+
+<li><div class="biggertext listspace"><a href="${simpleFulltextSearchUrl}"><@s.text name="search.fulltext.breadcrumbs"/></a> : <@s.text name="search.ws.desc"><@s.param>${ajaxFulltextSearchUrl}</@s.param></@s.text>.
+</div>
+</li>
+<li><div class="biggertext listspace"><a href="${simpleGeolocSearchUrl}"><@s.text name="search.geoloc.breadcrumbs"/></a> : <@s.text name="search.ws.desc"><@s.param>${ajaxGeolocSearchUrl}</@s.param></@s.text>.</div>
+</li>
 </ul>
 <br/><br/><br/>
 

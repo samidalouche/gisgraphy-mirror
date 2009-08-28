@@ -110,7 +110,7 @@
         </action>
        
 
-        <action name="signup" class="signupAction">
+     <!--    <action name="signup" class="signupAction">
             <result name="cancel" type="redirect">/</result>
             <result name="input">/WEB-INF/pages/signup.jsp</result>
             <result name="success" type="chain">saveSignup</result>
@@ -120,6 +120,7 @@
             <result name="input">/WEB-INF/pages/signup.jsp</result>
             <result name="success" type="redirect">/mainMenu.html</result>
         </action>
+        -->
 
         <action name="editUser" class="userAction" method="edit">
             <interceptor-ref name="adminCheck"/>
@@ -145,10 +146,12 @@
             <result name="cancel" type="redirect">mainMenu.html</result>
         </action>
 
-        <action name="passwordHint" class="passwordHintAction" >
+     <!--    <action name="passwordHint" class="passwordHintAction" >
             <result name="input">/</result>
             <result name="success">/</result>
         </action>
+        
+        -->
     </package>
     
    <package name="public" extends="default" namespace="/public">

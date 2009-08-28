@@ -1,3 +1,4 @@
+<#import "macros/utils.ftl" as utils>
 <#import "macros/breadcrumbs.ftl" as breadcrumbs>
 <#import "macros/gisgraphysearch.ftl" as gisgraphysearch>
 <html>
@@ -87,7 +88,7 @@
 	</fieldset>
 	</div>
 	</@s.form>
-	<script src="/scripts/prototype.js" type="text/javascript"></script>
+	<@utils.includeJs jsName="/scripts/prototype.js"/>
 	<script type="text/javascript" >
 	doSearch = function(){
  		return true;

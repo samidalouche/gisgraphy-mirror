@@ -2,7 +2,7 @@
 <#--<@s.url id="servicesDescription" action="servicesdescription" includeParams="all" namespace="public" />-->
 	<@s.url id="geocodingSearchUrl" action="geocoding_worldwide" includeParams="none" namespace="/public" />
 	<@s.url id="reverseGeocodingSearchUrl" action="reverse_geocoding_worldwide" includeParams="none" namespace="/public" />
-	<@s.url id="streatSearchUrl" action="streetSearch" includeParams="none" namespace="/public" />
+	<@s.url id="streetSearchUrl" action="streetSearch" includeParams="none" namespace="/public" />
 	<@s.url id="ajaxFulltextSearchUrl" action="ajaxfulltextsearch" includeParams="all" namespace="" />
 	<@s.url id="ajaxGeolocSearchUrl" action="ajaxgeolocsearch" includeParams="all"  namespace=""  />
 	<#--<@s.url id="simpleGeolocSearchUrl" action="geolocsearch" includeParams="all" namespace="" />-->
@@ -12,7 +12,7 @@
 <#--	<a href="${servicesDescription}" <#if request.getRequestURI().startsWith(servicesDescription)>style="color:#cc0000"</#if> ><@s.text name="search.webservices.overview.breadcrumbs"/></a> |-->
 	<a href="${geocodingSearchUrl}" <#if request.getRequestURI().startsWith(geocodingSearchUrl)>style="color:#cc0000"</#if> ><@s.text name="search.geocoding.breadcrumbs"/></a> |
 	 <a href="${reverseGeocodingSearchUrl}" <#if request.getRequestURI().startsWith(reverseGeocodingSearchUrl)>style="color:#cc0000"</#if> ><@s.text name="search.geocoding.reverse.breadcrumbs"/></a> |
-     <a href="${streatSearchUrl}" <#if request.getRequestURI().startsWith(streatSearchUrl)>style="color:#cc0000"</#if> ><@s.text name="search.street.breadcrumbs"/></a> |
+     <a href="${streetSearchUrl}" <#if request.getRequestURI().startsWith(streetSearchUrl)>style="color:#cc0000"</#if> ><@s.text name="search.street.breadcrumbs"/></a> |
 	 <a href="${ajaxGeolocSearchUrl}" <#if request.getRequestURI().startsWith("/ajaxgeolocsearch")>style="color:#cc0000"</#if> ><@s.text name="search.geolocDemo.breadcrumbs"/></a> |   
 	 <a href="${ajaxFulltextSearchUrl}" <#if request.getRequestURI().startsWith("/ajaxfulltextsearch")>style="color:#cc0000"</#if> ><@s.text name="search.fulltextDemo.breadcrumbs"/></a>
 	<#--<a href="${simpleFulltextSearchUrl}"  <#if request.getRequestURI().startsWith("/fulltextsearch")>style="color:#cc0000"</#if>  ><@s.text name="search.fulltext.breadcrumbs"/></a> | -->

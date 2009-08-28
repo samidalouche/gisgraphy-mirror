@@ -1,3 +1,4 @@
+<#import "utils.ftl" as utils>
 <#macro displayFulltextResults fulltextResponseDTO>
 			<div id="searchResults">
 			<div class="clear"><br/></div>
@@ -244,8 +245,8 @@
 </#macro>
 
 <#macro googleStreetPanorama width heigth googleMapAPIKey CSSClass >
-<script src="http://maps.google.com/maps?file=api&amp;v=2.x&amp;key=${googleMapAPIKey} "
-            type="text/javascript"></script>
+<@utils.includeJs jsName="http://maps.google.com/maps?file=api&amp;v=2.x&amp;key=${googleMapAPIKey} "/>
+
  			<div name="streetpanorama" id="streetpanorama" class="${CSSClass}"></div>
 			<script type="text/javascript">
 		  
@@ -279,9 +280,8 @@
 </#macro>
 
 <#macro googleStreetView width heigth googleMapAPIKey CSSClass >
-<script src="http://maps.google.com/maps?file=api&amp;v=2.x&amp;key=${googleMapAPIKey} "
-            type="text/javascript"></script>
-<script src="/scripts/prototype.js" type="text/javascript"></script>
+<@utils.includeJs jsName="http://maps.google.com/maps?file=api&amp;v=2.x&amp;key=${googleMapAPIKey} "/>
+<@utils.includeJs jsName="/scripts/prototype.js"/>
  			<div name="streetview" id="streetview" class="${CSSClass}"></div>
 			<script type="text/javascript">
 		  
@@ -391,8 +391,8 @@
 
 <#macro streetNameAutoCompleter javascriptNameObject >
 <link href="/scripts/autocomplete/styles.css" rel="stylesheet" type="text/css" />
-<script src="/scripts/prototype.js" type="text/javascript"></script>
-<script src="/scripts/autocomplete/autocomplete.js"></script>
+<@utils.includeJs jsName="/scripts/prototype.js"/>
+<@utils.includeJs jsName="/scripts/autocomplete/autocomplete.js"/>
 <@s.hidden size="1" name="lat"  id="lat"  theme="simple" /><@s.hidden size="1" name="lng" required="false" id="lng" theme="simple"/>
 <span class="searchfield">
 	

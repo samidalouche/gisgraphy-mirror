@@ -1,3 +1,4 @@
+<#import "macros/utils.ftl" as utils>
 <#import "macros/breadcrumbs.ftl" as breadcrumbs>
 <#import "macros/gisgraphysearch.ftl" as gisgraphysearch>
 <html>
@@ -92,9 +93,9 @@
 	</@s.form>
 </div>
 <div id="popupResults"></div>
+<@utils.includeJs jsName="/scripts/prototype.js"/>
+<@utils.includeJs jsName="/scripts/gisgraphyapi.js"/>
 
-<script src="/scripts/prototype.js" type="text/javascript"></script>
-<script src="/scripts/gisgraphyapi.js" type="text/javascript"></script>
 
 <script type="text/javascript" >
 	
