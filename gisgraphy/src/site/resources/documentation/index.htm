@@ -1080,7 +1080,10 @@ use the alpha2 code when possible, only use the alpha3 code when no alpha2 code 
 <li>The output style verbosity (optional) : Determines the output verbosity. 4 styles are available :<br/><br/>
 <ul>
 <li>Short : feature_id, name, fully_qualified_name, zipcode (if city), placetype, country_code, country_name</li>
-<li>Medium (default) : Short + lat, lon, feature_class, feature_code, population, fips</li>
+<li>Medium (default) : Short + lat, lon, feature_class, feature_code, population, fips,</li>
+<li>Medium (if country) continent, currency_code, currency_name, fips_code, isoalpha2_country_code, isoalpha3_country_code, postal_code_mask, postal_code_regex,
+ phone_prefix, spoken_languages, tld, capital_name, area</li>
+<li>Medium (adm only) level</li>
 <li>Long  : Medium + adm1_name, adm2_name, adm3_name, Adm4_name, adm1_code, Adm2_code, Adm3_code, Adm4_code</li>
 <li>Full : Long + alternateNames, country_alternate_name, adm1_alternate_name, adm2_alternate_name. If the language parameter is specified : only alternate names with the specified language are retrive, otherwise, all the alternate names for all the languages are retrieve</li>
 </ul>
@@ -1198,6 +1201,22 @@ Here is a description of all the output fields :<br/>
 <tr><td>gtopo30</td><td>Average elevation of 30'x30' (ca 900mx900m) area in meters</td><td>MEDIUM</td></tr>
 <tr><td>lat</td><td>The latitude (north-south)</td><td>MEDIUM</td></tr>
 <tr><td>lng</td><td>The longitude (east-West)</td><td>MEDIUM</td></tr>
+
+
+<tr><td>continent</td><td>The continent the country belongs (only for country placetype)</td><td>MEDIUM</td></tr>
+<tr><td>currency_code</td><td>The ISO 4217 Currency from the curencycode (only for country placetype)</td><td>MEDIUM</td></tr>
+<tr><td>currency_name</td><td>The name of the curency of the country (only for country placetype)</td><td>MEDIUM</td></tr>
+<tr><td>fips_code</td><td>The <a href="http://en.wikipedia.org/wiki/List_of_FIPS_country_codes">FIPS Code </a> of the country (only for country placetype)</td><td>MEDIUM</td></tr>
+<tr><td>isoalpha2_country_code</td><td>The <a href="http://en.wikipedia.org/wiki/ISO_3166"> ISO 3166 </a> alpha 2 code of the country (only for country placetype)</td><td>MEDIUM</td></tr>
+<tr><td>isoalpha3_country_code</td><td>The <a href="http://en.wikipedia.org/wiki/ISO_3166"> ISO 3166 </a> alpha 3 code of the country (only for country placetype)</td><td>MEDIUM</td></tr>
+<tr><td>postal_code_mask</td><td>The mask that postal codes should verify. e.g : ##### (only for country placetype)</td><td>MEDIUM</td></tr>
+<tr><td>postal_code_regex</td><td>The regular expression that postal codes should verify (only for country placetype)</td><td>MEDIUM</td></tr>
+<tr><td>phone_prefix</td><td>The phone prefix of the country. e.g : +33 .(only for country placetype)</td><td>MEDIUM</td></tr>
+<tr><td>spoken_languages</td><td>Liste of languages spoken in the country (only for country placetype)</td><td>MEDIUM</td></tr>
+<tr><td>tld</td><td>Top level domain of the country (only for country placetype)</td><td>MEDIUM</td></tr>
+<tr><td>capital_name</td><td>Name of the capital of the country(only for country placetype)</td><td>MEDIUM</td></tr>
+<tr><td>area</td><td>Area of the country in m² (only for country placetype)</td><td>MEDIUM</td></tr>
+<tr><td>level</td><td>Level of the Adm 1 , 2, 3, or 4(only for Adm placetype)</td><td>MEDIUM</td></tr>
 <tr><td>adm1_code</td><td>The internal code for the administrative division of level 1</td><td>LONG</td></tr>
 <tr><td>adm2_code</td><td>The internal code for the administrative division of level 2</td><td>LONG</td></tr>
 <tr><td>adm3_code</td><td>The internal code for the administrative division of level 3</td><td>LONG</td></tr>
@@ -1220,6 +1239,12 @@ Here is a description of all the output fields :<br/>
 <tr><td>country_name_alternate_<i>languagecode</i></td><td>The alternate names of the country for this <a href="http://en.wikipedia.org/wiki/List_of_languages">language Code</a></td><td>FULL</td></tr>
 </table>
 <br/><br/>
+
+<div class="tip greentip">
+Some fields were not available in older version of gisgraphy. please see <a href="http://www.gisgraphy.com/documentation/oldversions/">old versions</a>
+</div>
+<br/><br/>
+
 
 <a name="fulltextservicejavaapi"></a>
 <div align="right"><a href="#top">[top]</a></div>
