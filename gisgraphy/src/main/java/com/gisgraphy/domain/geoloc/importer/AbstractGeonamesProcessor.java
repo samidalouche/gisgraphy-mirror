@@ -590,7 +590,7 @@ public abstract class AbstractGeonamesProcessor implements IImporterProcessor {
      * @see com.gisgraphy.domain.geoloc.importer.IGeonamesProcessor#getNumberOfLinesToProcess()
      */
     public int getNumberOfLinesToProcess() {
-	if (this.numberOfLinesToProcess == 0) {
+	if (this.numberOfLinesToProcess == 0 && this.status == ImporterStatus.PROCESSING) {
 	    // it may not have been calculated yet
 	    this.numberOfLinesToProcess = countLines();
 	}

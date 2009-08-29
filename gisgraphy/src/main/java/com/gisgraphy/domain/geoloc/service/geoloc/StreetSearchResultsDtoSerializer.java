@@ -189,7 +189,6 @@ public class StreetSearchResultsDtoSerializer implements
 
 		openSearchModule
 			.setItemsPerPage(Pagination.DEFAULT_MAX_RESULTS);
-		//TODO OSM change for StreetSearchQuery.MAX_RESULTS. If yes, change it in GeolocResultsDtoSerializer ?
 		openSearchModule
 			.setTotalResults(streetSearchResultsDto.getNumFound());
 		openSearchModule.setStartIndex(startPaginationIndex);
@@ -198,8 +197,9 @@ public class StreetSearchResultsDtoSerializer implements
 		entry.getModules().add(geoRSSModuleGML);
 		entry.setTitle(gisFeatureDistance.getName());
 		entry.setAuthor(Constants.MAIL_ADDRESS);
+		//TODO OSM link for street +test
 		entry
-			.setLink(Constants.GISFEATURE_BASE_URL+
+			.setLink(Constants.STREET_BASE_URL+
 				+ gisFeatureDistance.getGid());
 		SyndContent description = new SyndContentImpl();
 		description.setType(OutputFormat.ATOM.getContentType());

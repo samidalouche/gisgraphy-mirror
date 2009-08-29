@@ -11,11 +11,8 @@ import com.gisgraphy.domain.geoloc.service.geoloc.street.StreetType;
 import com.gisgraphy.domain.repository.OpenStreetMapDao;
 import com.gisgraphy.domain.valueobject.NameValueDTO;
 import com.gisgraphy.helper.GeolocHelper;
-import com.vividsolutions.jts.geom.Geometry;
 import com.vividsolutions.jts.geom.MultiLineString;
 import com.vividsolutions.jts.geom.Point;
-import com.vividsolutions.jts.io.ParseException;
-import com.vividsolutions.jts.io.WKBReader;
 
 /**
  * Import the street from an (pre-processed) openStreet map data file .
@@ -24,7 +21,7 @@ import com.vividsolutions.jts.io.WKBReader;
  */
 public class OpenStreetMapImporter extends AbstractGeonamesProcessor {
     
-    private static Long fakeId = 0L;
+    public static Long GeneratedId = 0L;
     
     private OpenStreetMapDao openStreetMapDao;
 
@@ -91,13 +88,13 @@ public class OpenStreetMapImporter extends AbstractGeonamesProcessor {
 	    street.setCountryCode(fields[4].trim());
 	}
 	
-		fakeId= fakeId+1;
-	        street.setGid(new Long(fakeId));
+		GeneratedId= GeneratedId+1;
+	        street.setGid(new Long(GeneratedId));
 	
 	if (!isEmptyField(fields, 6, false)) {
 	    StreetType type;
 	    try {
-		type = StreetType.valueOf(fields[6]);
+		type = StreetType.valueOf(fields[6].toUpperCase());
 		street.setStreetType(type);
 	    } catch (Exception e) {
 		logger.warn("can not determine streetType for "+fields[1]+" : "+e);
