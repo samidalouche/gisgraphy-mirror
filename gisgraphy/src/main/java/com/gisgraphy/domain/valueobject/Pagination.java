@@ -238,9 +238,7 @@ public class Pagination {
 	return (to - from) + 1;
     }
 
-    /*
-     * (non-Javadoc)
-     * 
+    /* (non-Javadoc)
      * @see java.lang.Object#hashCode()
      */
     @Override
@@ -252,29 +250,22 @@ public class Pagination {
 	return result;
     }
 
-    /*
-     * (non-Javadoc)
-     * 
+    /* (non-Javadoc)
      * @see java.lang.Object#equals(java.lang.Object)
      */
     @Override
     public boolean equals(Object obj) {
-	if (this == obj) {
+	if (this == obj)
 	    return true;
-	}
-	if (obj == null) {
+	if (obj == null)
 	    return false;
-	}
-	if (getClass() != obj.getClass()) {
+	if (getClass() != obj.getClass())
 	    return false;
-	}
-	final PaginationBuilder other = (PaginationBuilder) obj;
-	if (from != other.from) {
+	final Pagination other = (Pagination) obj;
+	if (from != other.from)
 	    return false;
-	}
-	if (to != other.to) {
+	if (to != other.to)
 	    return false;
-	}
 	return true;
     }
 

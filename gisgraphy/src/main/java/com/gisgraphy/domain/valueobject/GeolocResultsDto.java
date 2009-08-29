@@ -50,7 +50,7 @@ public class GeolocResultsDto {
     /**
      * @param result
      *                The {@link GisFeatureDistance}'s Collection
-     * @param qTime
+     * @param QTime
      *                The execution time
      */
     public GeolocResultsDto(List<GisFeatureDistance> result, Long QTime) {

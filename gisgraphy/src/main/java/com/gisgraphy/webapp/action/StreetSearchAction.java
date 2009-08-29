@@ -25,6 +25,8 @@ package com.gisgraphy.webapp.action;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.apache.struts2.ServletActionContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -63,7 +65,7 @@ public class StreetSearchAction extends SearchAction {
 
     public String radius;
 
-    private String streettype;
+    private String streetType;
     
     private String name;
 
@@ -77,8 +79,7 @@ public class StreetSearchAction extends SearchAction {
 
     private void executeQuery() {
 	try {
-	    StreetSearchQuery streetSearchQuery = new StreetSearchQuery(ServletActionContext
-		    .getRequest());
+	    StreetSearchQuery streetSearchQuery = new StreetSearchQuery(getRequest());
 	    this.streetSearchResultsDto = streetSearchEngine.executeQuery(streetSearchQuery);
 	    setFrom(streetSearchQuery.getFirstPaginationIndex());
 	    setTo(streetSearchQuery.getLastPaginationIndex());
@@ -92,6 +93,14 @@ public class StreetSearchAction extends SearchAction {
 	    }
 	    this.errorMessage = e.getMessage() == null? getText("errorPage.heading"):e.getMessage();
 	}
+    }
+
+    /**
+     * @return
+     */
+    protected HttpServletRequest getRequest() {
+	return ServletActionContext
+	    .getRequest();
     }
 
     /**
@@ -195,15 +204,15 @@ public class StreetSearchAction extends SearchAction {
      * @param streetType
      *                the streettype to set
      */
-    public void setStreettype(String streettype) {
-	this.streettype = streettype;
+    public void setStreetType(String streetType) {
+	this.streetType = streetType;
     }
 
     /**
      * @return the placetype
      */
-    public String getStreettype() {
-	  return streettype;
+    public String getStreetType() {
+	  return streetType;
 	}
 
     /**

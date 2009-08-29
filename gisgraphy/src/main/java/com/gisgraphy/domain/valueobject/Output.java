@@ -681,7 +681,7 @@ public class Output {
 
     /**
      * @return an output specification with default output format
-     * @see Output#DEFAULT_OUTPUT_FORMAT
+     * @see OutputFormat#getDefault()
      */
     public static Output withDefaultFormat() {
 	return new Output(OutputFormat.getDefault());
@@ -697,7 +697,7 @@ public class Output {
     }
 
     /**
-     * @return the format, default is {@link Output#DEFAULT_OUTPUT_FORMAT}
+     * @return the format, default is {@link OutputFormat#getDefault()}
      * @see #withFormat(com.gisgraphy.domain.valueobject.Output.OutputFormat)
      */
     public OutputFormat getFormat() {
@@ -714,7 +714,7 @@ public class Output {
     }
 
     /**
-     * @return the style, default is {@link Output#DEFAULT_OUTPUT_STYLE}
+     * @return the style, default is {@link OutputStyle#getDefault()}
      * @see #withStyle(com.gisgraphy.domain.valueobject.Output.OutputStyle)
      */
     public OutputStyle getStyle() {

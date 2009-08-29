@@ -174,7 +174,7 @@ public class ImporterConfig {
 
     /**
      * @return A list of string with the files to be download, processed from
-     *         {@link #filesToDownload}
+     *         {@link #geonamesFilesToDownload}
      */
     public List<String> getGeonamesDownloadFilesListFromOption() {
 	return splitsemiColmunStringToList(geonamesFilesToDownload);
@@ -193,7 +193,7 @@ public class ImporterConfig {
     
     /**
      * @return A list of string with the files to be download, processed from
-     *         {@link #filesToDownload}
+     *         {@link #openStreetMapFilesToDownload}
      */
     public List<String> getOpenStreetMapDownloadFilesListFromOption() {
 	return splitsemiColmunStringToList(openStreetMapFilesToDownload);
@@ -504,7 +504,7 @@ public class ImporterConfig {
 
     /**
      * @return The option
-     * @see #setOpenstreetmapDir(String)
+     * @see #setOpenStreetMapDir(String)
      */
     public String getOpenStreetMapDir() {
 	return this.openStreetMapDir;
@@ -514,7 +514,7 @@ public class ImporterConfig {
      * The directory where the openStreetMap files will be retrieved and processed.
      * It must ends with / or \ according to the System
      * 
-     * @param importerGeonamesDir
+     * @param importeropenStreetMapDir
      *                the option
      */
     @Required
@@ -558,7 +558,7 @@ public class ImporterConfig {
 
     /**
      * @return The option
-     * @see #setOpDownloadURL(String)
+     * @see #setOpenstreetMapDownloadURL(String)
      */
     public String getOpenstreetMapDownloadURL() {
 	return openstreetMapDownloadURL;

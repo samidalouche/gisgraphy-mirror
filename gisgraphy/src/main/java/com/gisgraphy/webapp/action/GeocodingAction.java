@@ -59,7 +59,7 @@ public class GeocodingAction extends ActionSupport implements
 
     private List<SolrResponseDto> ambiguousCities;
 
-    private String ambiguouscity;
+    private String ambiguousCity;
 
     private String city;
 
@@ -116,7 +116,7 @@ public class GeocodingAction extends ActionSupport implements
 		    return Action.SUCCESS;
 		}
 
-	    } else if (ambiguouscity != null) {
+	    } else if (ambiguousCity != null) {
 		return Action.SUCCESS;
 	    }
 
@@ -164,8 +164,8 @@ public class GeocodingAction extends ActionSupport implements
     /**
      * @return the ambiguousCity
      */
-    public String getAmbiguouscity() {
-	return ambiguouscity;
+    public String getAmbiguousCity() {
+	return ambiguousCity;
     }
 
     /**
@@ -178,8 +178,8 @@ public class GeocodingAction extends ActionSupport implements
     /**
      * @param ambiguousCity the ambiguousCity to set
      */
-    public void setAmbiguouscity(String ambiguouscity) {
-	this.ambiguouscity = ambiguouscity;
+    public void setAmbiguousCity(String ambiguousCity) {
+	this.ambiguousCity = ambiguousCity;
     }
 
     /**

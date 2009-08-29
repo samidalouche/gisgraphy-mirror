@@ -78,7 +78,7 @@ public class ProjectionBean extends ProjectionList {
      *                the class to inspect to retrieve the fields
      * @param ignoreFields
      *                an array of fields that should be ignore
-     * @param autoAliasing
+     * @param autoaliasing
      *                if the fields should be auto-aliased <b>See important note
      *                above</b>
      * @return a new ProjectionList

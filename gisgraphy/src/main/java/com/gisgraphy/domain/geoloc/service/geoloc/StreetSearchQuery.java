@@ -102,7 +102,6 @@ public class StreetSearchQuery extends GeolocQuery {
      * @param streetType
      *                the type of street to search , if null : search for all street
      *                type.
-     * @param oneWay the oneWay type criteria of the street
      * @throws An
      *                 {@link IllegalArgumentException} if the point is null
      */

@@ -254,7 +254,7 @@ public class GeocodingActionTest {
 	action.setFullTextSearchEngine(fullTextSearchEngine);
 	
 	action.setCity(null);
-	action.setAmbiguouscity(results.get(0).getName());
+	action.setAmbiguousCity(results.get(0).getName());
 	Assert.assertEquals(Action.SUCCESS,action.execute());
 	Assert.assertEquals(null,action.getCity());
 	Assert.assertEquals(null,action.getAmbiguousCities());

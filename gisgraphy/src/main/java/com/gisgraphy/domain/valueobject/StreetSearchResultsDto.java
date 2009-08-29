@@ -53,8 +53,9 @@ public class StreetSearchResultsDto {
     /**
      * @param result
      *                The {@link GisFeatureDistance}'s Collection
-     * @param qTime
+     * @param QTime
      *                The execution time
+     * @param query The search term
      */
     public StreetSearchResultsDto(List<StreetDistance> result, Long QTime,String query) {
 	super();

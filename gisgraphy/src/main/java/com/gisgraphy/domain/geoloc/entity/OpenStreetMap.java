@@ -137,7 +137,7 @@ public class OpenStreetMap  {
     }
 
     /**
-     * @param type the streettype to set
+     * @param streetType the streetType to set
      */
     public void setStreetType(StreetType streetType) {
         this.streetType = streetType;
@@ -208,7 +208,7 @@ public class OpenStreetMap  {
     }
 
     /**
-     * @param countrycode the countrycode to set
+     * @param countryCode the countryCode to set
      */
     public void setCountryCode(String countryCode) {
         this.countryCode = countryCode;
