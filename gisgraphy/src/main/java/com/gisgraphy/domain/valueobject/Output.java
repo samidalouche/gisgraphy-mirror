@@ -372,7 +372,6 @@ public class Output {
 	 */
 	public static OutputFormat getDefaultForServiceIfNotSupported(OutputFormat format,
 		GisgraphyServiceType serviceType) {
-	    //TODO remove the static property
 	    switch (serviceType) {
 	    case FULLTEXT:
 		// fulltext accept all formats

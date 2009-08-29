@@ -168,7 +168,7 @@ public class OpenStreetMapImporter extends AbstractGeonamesProcessor {
      * @see com.gisgraphy.domain.geoloc.importer.IGeonamesProcessor#rollback()
      */
     public List<NameValueDTO<Integer>> rollback() {
-	// TODO Auto-generated method stub
+	// TODO osm 
 	return null;
     }
     

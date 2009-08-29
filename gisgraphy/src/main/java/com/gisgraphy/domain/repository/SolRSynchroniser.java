@@ -336,7 +336,6 @@ public class SolRSynchroniser implements ISolRSynchroniser {
 		    country.getIso3166Alpha2Code());
 	    ex.setField(FullTextFields.ISOALPHA3_COUNTRY_CODE.getValue(),
 		    country.getIso3166Alpha3Code());
-	    //todo test 
 	    ex.setField(FullTextFields.COUNTRYCODE.getValue(), country.getCountryCode()
 			.toUpperCase());
 	    ex.setField(FullTextFields.POSTAL_CODE_MASK.getValue(), country

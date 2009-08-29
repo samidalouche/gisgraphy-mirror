@@ -197,7 +197,6 @@ public class StreetSearchResultsDtoSerializer implements
 		entry.getModules().add(geoRSSModuleGML);
 		entry.setTitle(gisFeatureDistance.getName());
 		entry.setAuthor(Constants.MAIL_ADDRESS);
-		//TODO OSM link for street +test
 		entry
 			.setLink(Constants.STREET_BASE_URL+
 				+ gisFeatureDistance.getGid());
