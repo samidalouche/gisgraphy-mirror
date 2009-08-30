@@ -32,6 +32,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
 import java.net.UnknownHostException;
@@ -183,12 +184,13 @@ public class ImporterHelper {
     public static void download(String address, String localFileName) {
 	logger.info("download file " + address + " to " + localFileName);
 	OutputStream out = null;
-	URLConnection conn = null;
+	HttpURLConnection conn = null;
 	InputStream in = null;
 	try {
 	    URL url = new URL(address);
 	    out = new BufferedOutputStream(new FileOutputStream(localFileName));
-	    conn = url.openConnection();
+	    conn = (HttpURLConnection)url.openConnection();
+	  //  conn.getResponseCode());http://mjporg.free.fr/arcades/index.php
 	    in = conn.getInputStream();
 	    byte[] buffer = new byte[1024];
 	    int numRead;
