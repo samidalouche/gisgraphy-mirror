@@ -55,21 +55,10 @@ Before install and launch Gisgraphy, you must setup java, postgres, and  postgis
 </div>
 
 <h2>Initialize The database</h2>
-<div> Here are the command to run to install and init the Gisgraphy database</div> 
+<div> Here are the command to run to and init the Gisgraphy tables</div> 
 
 <div class=code>
 <pre>
-# create the database
-psql -U <i>YOURUSER</i>  -h <i>YOURIP</i> -c  "CREATE DATABASE gisgraphy WITH TEMPLATE = template0 ENCODING = 'UTF8';"
-
-#create language
-createlang -U YOURUSER -h YOURIP plpgsql gisgraphy 
-
-#create postgis function
-psql -U YOURUSER -h YOURIP -d gisgraphy -f /usr/share/postgresql-YOURPOSTGRESVERSION-postgis/lwpostgis.sql
-psql -U YOURUSER -h YOURIP -d gisgraphy -f /usr/share/postgresql-YOURPOSTGRESVERSION-postgis/spatial_ref_sys.sql
-
-
 #create tables;
 psql -U<i>YOURUSER</i> -d gisgraphy -f /path/to/file/create-tables.sql
 
