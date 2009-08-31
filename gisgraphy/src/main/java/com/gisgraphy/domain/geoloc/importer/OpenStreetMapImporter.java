@@ -19,14 +19,14 @@ import com.vividsolutions.jts.geom.Point;
  * 
  * @author <a href="mailto:david.masclet@gisgraphy.com">David Masclet</a>
  */
-public class OpenStreetMapImporter extends AbstractGeonamesProcessor {
+public class OpenStreetMapImporter extends AbstractImporterProcessor {
     
     public static Long GeneratedId = 0L;
     
     private OpenStreetMapDao openStreetMapDao;
 
     /* (non-Javadoc)
-     * @see com.gisgraphy.domain.geoloc.importer.AbstractGeonamesProcessor#flushAndClear()
+     * @see com.gisgraphy.domain.geoloc.importer.AbstractImporterProcessor#flushAndClear()
      */
     @Override
     protected void flushAndClear() {
@@ -35,7 +35,7 @@ public class OpenStreetMapImporter extends AbstractGeonamesProcessor {
     }
 
     /* (non-Javadoc)
-     * @see com.gisgraphy.domain.geoloc.importer.AbstractGeonamesProcessor#getFiles()
+     * @see com.gisgraphy.domain.geoloc.importer.AbstractImporterProcessor#getFiles()
      */
     @Override
     protected File[] getFiles() {
@@ -43,7 +43,7 @@ public class OpenStreetMapImporter extends AbstractGeonamesProcessor {
     }
 
     /* (non-Javadoc)
-     * @see com.gisgraphy.domain.geoloc.importer.AbstractGeonamesProcessor#getNumberOfColumns()
+     * @see com.gisgraphy.domain.geoloc.importer.AbstractImporterProcessor#getNumberOfColumns()
      */
     @Override
     protected int getNumberOfColumns() {
@@ -51,7 +51,7 @@ public class OpenStreetMapImporter extends AbstractGeonamesProcessor {
     }
 
     /* (non-Javadoc)
-     * @see com.gisgraphy.domain.geoloc.importer.AbstractGeonamesProcessor#processData(java.lang.String)
+     * @see com.gisgraphy.domain.geoloc.importer.AbstractImporterProcessor#processData(java.lang.String)
      */
     @Override
     protected void processData(String line) throws GeonamesProcessorException {
@@ -129,7 +129,7 @@ public class OpenStreetMapImporter extends AbstractGeonamesProcessor {
    
     
     /* (non-Javadoc)
-     * @see com.gisgraphy.domain.geoloc.importer.AbstractGeonamesProcessor#shouldBeSkiped()
+     * @see com.gisgraphy.domain.geoloc.importer.AbstractImporterProcessor#shouldBeSkiped()
      */
     @Override
     protected boolean shouldBeSkipped() {
@@ -140,7 +140,7 @@ public class OpenStreetMapImporter extends AbstractGeonamesProcessor {
 
 
     /* (non-Javadoc)
-     * @see com.gisgraphy.domain.geoloc.importer.AbstractGeonamesProcessor#setCommitFlushMode()
+     * @see com.gisgraphy.domain.geoloc.importer.AbstractImporterProcessor#setCommitFlushMode()
      */
     @Override
     protected void setCommitFlushMode() {
@@ -149,7 +149,7 @@ public class OpenStreetMapImporter extends AbstractGeonamesProcessor {
     }
 
     /* (non-Javadoc)
-     * @see com.gisgraphy.domain.geoloc.importer.AbstractGeonamesProcessor#shouldIgnoreComments()
+     * @see com.gisgraphy.domain.geoloc.importer.AbstractImporterProcessor#shouldIgnoreComments()
      */
     @Override
     protected boolean shouldIgnoreComments() {
@@ -157,7 +157,7 @@ public class OpenStreetMapImporter extends AbstractGeonamesProcessor {
     }
 
     /* (non-Javadoc)
-     * @see com.gisgraphy.domain.geoloc.importer.AbstractGeonamesProcessor#shouldIgnoreFirstLine()
+     * @see com.gisgraphy.domain.geoloc.importer.AbstractImporterProcessor#shouldIgnoreFirstLine()
      */
     @Override
     protected boolean shouldIgnoreFirstLine() {

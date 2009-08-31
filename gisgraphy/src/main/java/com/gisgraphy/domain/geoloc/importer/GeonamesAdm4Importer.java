@@ -42,7 +42,7 @@ import com.gisgraphy.helper.GeolocHelper;
  * 
  * @author <a href="mailto:david.masclet@gisgraphy.com">David Masclet</a>
  */
-public class GeonamesAdm4Importer extends AbstractGeonamesProcessor {
+public class GeonamesAdm4Importer extends AbstractImporterProcessor {
 
     private IAdmDao admDao;
 
@@ -56,7 +56,7 @@ public class GeonamesAdm4Importer extends AbstractGeonamesProcessor {
     /*
      * (non-Javadoc)
      * 
-     * @see com.gisgraphy.domain.geoloc.importer.AbstractGeonamesProcessor#processData(java.lang.String)
+     * @see com.gisgraphy.domain.geoloc.importer.AbstractImporterProcessor#processData(java.lang.String)
      */
     @Override
     protected void processData(String line) {
@@ -70,7 +70,7 @@ public class GeonamesAdm4Importer extends AbstractGeonamesProcessor {
 	checkNumberOfColumn(fields);
 	Adm adm4 = new Adm(4);
 	adm4.setLocation(GeolocHelper.createPoint(0F, 0F));
-	adm4.setFeatureId((++AbstractGeonamesProcessor.nbGisInserted) * -1);
+	adm4.setFeatureId((++AbstractImporterProcessor.nbGisInserted) * -1);
 	adm4.setSource(GISSource.GEONAMES);
 
 	// process code
@@ -151,7 +151,7 @@ public class GeonamesAdm4Importer extends AbstractGeonamesProcessor {
     }
     
     /* (non-Javadoc)
-     * @see com.gisgraphy.domain.geoloc.importer.AbstractGeonamesProcessor#shouldBeSkiped()
+     * @see com.gisgraphy.domain.geoloc.importer.AbstractImporterProcessor#shouldBeSkiped()
      */
     @Override
     protected boolean shouldBeSkipped() {
@@ -161,7 +161,7 @@ public class GeonamesAdm4Importer extends AbstractGeonamesProcessor {
     /*
      * (non-Javadoc)
      * 
-     * @see com.gisgraphy.domain.geoloc.importer.AbstractGeonamesProcessor#shouldIgnoreFirstLine()
+     * @see com.gisgraphy.domain.geoloc.importer.AbstractImporterProcessor#shouldIgnoreFirstLine()
      */
     @Override
     protected boolean shouldIgnoreFirstLine() {
@@ -171,7 +171,7 @@ public class GeonamesAdm4Importer extends AbstractGeonamesProcessor {
     /*
      * (non-Javadoc)
      * 
-     * @see com.gisgraphy.domain.geoloc.importer.AbstractGeonamesProcessor#shouldIgnoreComments()
+     * @see com.gisgraphy.domain.geoloc.importer.AbstractImporterProcessor#shouldIgnoreComments()
      */
     @Override
     protected boolean shouldIgnoreComments() {
@@ -181,7 +181,7 @@ public class GeonamesAdm4Importer extends AbstractGeonamesProcessor {
     /*
      * (non-Javadoc)
      * 
-     * @see com.gisgraphy.domain.geoloc.importer.AbstractGeonamesProcessor#setCommitFlushMode()
+     * @see com.gisgraphy.domain.geoloc.importer.AbstractImporterProcessor#setCommitFlushMode()
      */
     @Override
     protected void setCommitFlushMode() {
@@ -191,7 +191,7 @@ public class GeonamesAdm4Importer extends AbstractGeonamesProcessor {
     /*
      * (non-Javadoc)
      * 
-     * @see com.gisgraphy.domain.geoloc.importer.AbstractGeonamesProcessor#flushAndClear()
+     * @see com.gisgraphy.domain.geoloc.importer.AbstractImporterProcessor#flushAndClear()
      */
     @Override
     protected void flushAndClear() {
@@ -201,7 +201,7 @@ public class GeonamesAdm4Importer extends AbstractGeonamesProcessor {
     /*
      * (non-Javadoc)
      * 
-     * @see com.gisgraphy.domain.geoloc.importer.AbstractGeonamesProcessor#getNumberOfColumns()
+     * @see com.gisgraphy.domain.geoloc.importer.AbstractImporterProcessor#getNumberOfColumns()
      */
     @Override
     protected int getNumberOfColumns() {
@@ -220,7 +220,7 @@ public class GeonamesAdm4Importer extends AbstractGeonamesProcessor {
     /*
      * (non-Javadoc)
      * 
-     * @see com.gisgraphy.domain.geoloc.importer.AbstractGeonamesProcessor#getFiles()
+     * @see com.gisgraphy.domain.geoloc.importer.AbstractImporterProcessor#getFiles()
      */
     @Override
     protected File[] getFiles() {
@@ -233,7 +233,7 @@ public class GeonamesAdm4Importer extends AbstractGeonamesProcessor {
     /*
      * (non-Javadoc)
      * 
-     * @see com.gisgraphy.domain.geoloc.importer.AbstractGeonamesProcessor#getMaxInsertsBeforeFlush()
+     * @see com.gisgraphy.domain.geoloc.importer.AbstractImporterProcessor#getMaxInsertsBeforeFlush()
      */
     @Override
     protected int getMaxInsertsBeforeFlush() {

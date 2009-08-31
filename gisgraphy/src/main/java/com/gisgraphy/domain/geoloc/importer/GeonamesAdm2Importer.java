@@ -42,7 +42,7 @@ import com.gisgraphy.helper.GeolocHelper;
  * 
  * @author <a href="mailto:david.masclet@gisgraphy.com">David Masclet</a>
  */
-public class GeonamesAdm2Importer extends AbstractGeonamesProcessor {
+public class GeonamesAdm2Importer extends AbstractImporterProcessor {
 
     private IAdmDao admDao;
 
@@ -56,7 +56,7 @@ public class GeonamesAdm2Importer extends AbstractGeonamesProcessor {
     /*
      * (non-Javadoc)
      * 
-     * @see com.gisgraphy.domain.geoloc.importer.AbstractGeonamesProcessor#processData(java.lang.String)
+     * @see com.gisgraphy.domain.geoloc.importer.AbstractImporterProcessor#processData(java.lang.String)
      */
     @Override
     protected void processData(String line) {
@@ -83,7 +83,7 @@ public class GeonamesAdm2Importer extends AbstractGeonamesProcessor {
 		return;
 	    }
 	} else {
-	    adm2.setFeatureId((++AbstractGeonamesProcessor.nbGisInserted) * -1);
+	    adm2.setFeatureId((++AbstractImporterProcessor.nbGisInserted) * -1);
 	}
 	adm2.setSource(GISSource.GEONAMES);
 
@@ -162,7 +162,7 @@ public class GeonamesAdm2Importer extends AbstractGeonamesProcessor {
     }
     
     /* (non-Javadoc)
-     * @see com.gisgraphy.domain.geoloc.importer.AbstractGeonamesProcessor#shouldBeSkiped()
+     * @see com.gisgraphy.domain.geoloc.importer.AbstractImporterProcessor#shouldBeSkiped()
      */
     @Override
     protected boolean shouldBeSkipped() {
@@ -172,7 +172,7 @@ public class GeonamesAdm2Importer extends AbstractGeonamesProcessor {
     /*
      * (non-Javadoc)
      * 
-     * @see com.gisgraphy.domain.geoloc.importer.AbstractGeonamesProcessor#shouldIgnoreFirstLine()
+     * @see com.gisgraphy.domain.geoloc.importer.AbstractImporterProcessor#shouldIgnoreFirstLine()
      */
     @Override
     protected boolean shouldIgnoreFirstLine() {
@@ -182,7 +182,7 @@ public class GeonamesAdm2Importer extends AbstractGeonamesProcessor {
     /*
      * (non-Javadoc)
      * 
-     * @see com.gisgraphy.domain.geoloc.importer.AbstractGeonamesProcessor#shouldIgnoreComments()
+     * @see com.gisgraphy.domain.geoloc.importer.AbstractImporterProcessor#shouldIgnoreComments()
      */
     @Override
     protected boolean shouldIgnoreComments() {
@@ -192,7 +192,7 @@ public class GeonamesAdm2Importer extends AbstractGeonamesProcessor {
     /*
      * (non-Javadoc)
      * 
-     * @see com.gisgraphy.domain.geoloc.importer.AbstractGeonamesProcessor#setCommitFlushMode()
+     * @see com.gisgraphy.domain.geoloc.importer.AbstractImporterProcessor#setCommitFlushMode()
      */
     @Override
     protected void setCommitFlushMode() {
@@ -202,7 +202,7 @@ public class GeonamesAdm2Importer extends AbstractGeonamesProcessor {
     /*
      * (non-Javadoc)
      * 
-     * @see com.gisgraphy.domain.geoloc.importer.AbstractGeonamesProcessor#flushAndClear()
+     * @see com.gisgraphy.domain.geoloc.importer.AbstractImporterProcessor#flushAndClear()
      */
     @Override
     protected void flushAndClear() {
@@ -212,7 +212,7 @@ public class GeonamesAdm2Importer extends AbstractGeonamesProcessor {
     /*
      * (non-Javadoc)
      * 
-     * @see com.gisgraphy.domain.geoloc.importer.AbstractGeonamesProcessor#getNumberOfColumns()
+     * @see com.gisgraphy.domain.geoloc.importer.AbstractImporterProcessor#getNumberOfColumns()
      */
     @Override
     protected int getNumberOfColumns() {
@@ -231,7 +231,7 @@ public class GeonamesAdm2Importer extends AbstractGeonamesProcessor {
     /*
      * (non-Javadoc)
      * 
-     * @see com.gisgraphy.domain.geoloc.importer.AbstractGeonamesProcessor#getFiles()
+     * @see com.gisgraphy.domain.geoloc.importer.AbstractImporterProcessor#getFiles()
      */
     @Override
     protected File[] getFiles() {
@@ -244,7 +244,7 @@ public class GeonamesAdm2Importer extends AbstractGeonamesProcessor {
     /*
      * (non-Javadoc)
      * 
-     * @see com.gisgraphy.domain.geoloc.importer.AbstractGeonamesProcessor#getMaxInsertsBeforeFlush()
+     * @see com.gisgraphy.domain.geoloc.importer.AbstractImporterProcessor#getMaxInsertsBeforeFlush()
      */
     @Override
     protected int getMaxInsertsBeforeFlush() {

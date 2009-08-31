@@ -34,7 +34,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.util.Assert;
 
 import com.gisgraphy.domain.geoloc.entity.GisFeature;
-import com.gisgraphy.domain.geoloc.importer.AbstractGeonamesProcessor;
+import com.gisgraphy.domain.geoloc.importer.AbstractImporterProcessor;
 import com.gisgraphy.domain.valueobject.Constants;
 import com.gisgraphy.domain.valueobject.FeatureCode;
 import com.gisgraphy.domain.valueobject.SRID;

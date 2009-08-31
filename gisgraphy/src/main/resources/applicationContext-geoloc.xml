@@ -60,7 +60,7 @@
 
 
 	<bean id="abstractGeonamesProcessor"
-		class="com.gisgraphy.domain.geoloc.importer.AbstractGeonamesProcessor"
+		class="com.gisgraphy.domain.geoloc.importer.AbstractImporterProcessor"
 		abstract="true">
 		<property name="transactionManager" ref="transactionManager" />
 		<property name="importerConfig" ref="importerConfig"></property>

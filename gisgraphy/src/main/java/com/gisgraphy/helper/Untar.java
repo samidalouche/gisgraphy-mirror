@@ -36,7 +36,7 @@ import org.apache.tools.tar.TarInputStream;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.gisgraphy.domain.geoloc.importer.AbstractGeonamesProcessor;
+import com.gisgraphy.domain.geoloc.importer.AbstractImporterProcessor;
 
 /**
  * Utility class to untar files, file can be gziped or Bzip2

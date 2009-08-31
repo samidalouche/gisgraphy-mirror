@@ -53,7 +53,7 @@ import com.gisgraphy.domain.valueobject.ImporterStatus;
  * 
  * @author <a href="mailto:david.masclet@gisgraphy.com">David Masclet</a>
  */
-public abstract class AbstractGeonamesProcessor implements IImporterProcessor {
+public abstract class AbstractImporterProcessor implements IImporterProcessor {
     protected int totalReadLine = 0;
     protected int readFileLine = 0;
     protected String statusMessage = "";
@@ -81,7 +81,7 @@ public abstract class AbstractGeonamesProcessor implements IImporterProcessor {
      * The logger
      */
     protected static final Logger logger = LoggerFactory
-	    .getLogger(AbstractGeonamesProcessor.class);
+	    .getLogger(AbstractImporterProcessor.class);
 
     private File[] filesToProcess;
 
@@ -140,7 +140,7 @@ public abstract class AbstractGeonamesProcessor implements IImporterProcessor {
     /**
      * Whether the filter should ignore the comments (i.e. lines starting with #)
      * 
-     * @see AbstractGeonamesProcessor#COMMENT_START
+     * @see AbstractImporterProcessor#COMMENT_START
      */
     protected abstract boolean shouldIgnoreComments();
 
@@ -160,7 +160,7 @@ public abstract class AbstractGeonamesProcessor implements IImporterProcessor {
     /**
      * Default constructor
      */
-    public AbstractGeonamesProcessor() {
+    public AbstractImporterProcessor() {
 	super();
     }
 

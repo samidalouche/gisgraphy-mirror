@@ -313,29 +313,29 @@ public class ImporterHelper {
     }
 
     public static String[] correctLastAdmCodeIfPossible(String[] fields) {
-	if (FeatureClassCodeHelper.is_Adm(fields[6], fields[7]) && !AbstractGeonamesProcessor.isEmptyField(fields, 0, false)) {
+	if (FeatureClassCodeHelper.is_Adm(fields[6], fields[7]) && !AbstractImporterProcessor.isEmptyField(fields, 0, false)) {
 	    int level = Adm.getProcessedLevelFromFeatureClassCode(fields[6], fields[7]);
 	    switch (level) {
 	    case 0:
 		return fields;
 	    case 1:
-		if (AbstractGeonamesProcessor.isEmptyField(fields, 10, false)) {
+		if (AbstractImporterProcessor.isEmptyField(fields, 10, false)) {
 		    fields[10] = fields[0];// asign adm1code with featureid
 		}
 		return fields;
 	    case 2:
-		if (!AbstractGeonamesProcessor.isEmptyField(fields, 10, false) && AbstractGeonamesProcessor.isEmptyField(fields, 11, false)) {
+		if (!AbstractImporterProcessor.isEmptyField(fields, 10, false) && AbstractImporterProcessor.isEmptyField(fields, 11, false)) {
 		    fields[11] = fields[0];// asign adm2code with featureid
 		}
 		return fields;
 	    case 3:
-		if (!AbstractGeonamesProcessor.isEmptyField(fields, 10, false) && !AbstractGeonamesProcessor.isEmptyField(fields, 11, false) && AbstractGeonamesProcessor.isEmptyField(fields, 12, false)) {
+		if (!AbstractImporterProcessor.isEmptyField(fields, 10, false) && !AbstractImporterProcessor.isEmptyField(fields, 11, false) && AbstractImporterProcessor.isEmptyField(fields, 12, false)) {
 		    fields[12] = fields[0];// asign adm3code with featureid
 		}
 		return fields;
 	    case 4:
-		if (!AbstractGeonamesProcessor.isEmptyField(fields, 10, false) && !AbstractGeonamesProcessor.isEmptyField(fields, 11, false) && !AbstractGeonamesProcessor.isEmptyField(fields, 12, false)
-			&& AbstractGeonamesProcessor.isEmptyField(fields, 13, false)) {
+		if (!AbstractImporterProcessor.isEmptyField(fields, 10, false) && !AbstractImporterProcessor.isEmptyField(fields, 11, false) && !AbstractImporterProcessor.isEmptyField(fields, 12, false)
+			&& AbstractImporterProcessor.isEmptyField(fields, 13, false)) {
 		    fields[13] = fields[0];// asign adm4code with featureid
 		}
 		return fields;

@@ -38,7 +38,7 @@ import com.gisgraphy.domain.valueobject.NameValueDTO;
  * 
  * @author <a href="mailto:david.masclet@gisgraphy.com">David Masclet</a>
  */
-public class GeonamesLanguageImporter extends AbstractGeonamesProcessor {
+public class GeonamesLanguageImporter extends AbstractImporterProcessor {
 
     private ILanguageDao languageDao;
 
@@ -52,7 +52,7 @@ public class GeonamesLanguageImporter extends AbstractGeonamesProcessor {
     /*
      * (non-Javadoc)
      * 
-     * @see com.gisgraphy.domain.geoloc.importer.AbstractGeonamesProcessor#processData(java.lang.String)
+     * @see com.gisgraphy.domain.geoloc.importer.AbstractImporterProcessor#processData(java.lang.String)
      */
     @Override
     protected void processData(String line) {
@@ -83,7 +83,7 @@ public class GeonamesLanguageImporter extends AbstractGeonamesProcessor {
     }
 
     /* (non-Javadoc)
-     * @see com.gisgraphy.domain.geoloc.importer.AbstractGeonamesProcessor#shouldBeSkiped()
+     * @see com.gisgraphy.domain.geoloc.importer.AbstractImporterProcessor#shouldBeSkiped()
      */
     @Override
     protected boolean shouldBeSkipped() {
@@ -93,7 +93,7 @@ public class GeonamesLanguageImporter extends AbstractGeonamesProcessor {
     /*
      * (non-Javadoc)
      * 
-     * @see com.gisgraphy.domain.geoloc.importer.AbstractGeonamesProcessor#shouldIgnoreFirstLine()
+     * @see com.gisgraphy.domain.geoloc.importer.AbstractImporterProcessor#shouldIgnoreFirstLine()
      */
     @Override
     protected boolean shouldIgnoreFirstLine() {
@@ -103,7 +103,7 @@ public class GeonamesLanguageImporter extends AbstractGeonamesProcessor {
     /*
      * (non-Javadoc)
      * 
-     * @see com.gisgraphy.domain.geoloc.importer.AbstractGeonamesProcessor#shouldIgnoreComments()
+     * @see com.gisgraphy.domain.geoloc.importer.AbstractImporterProcessor#shouldIgnoreComments()
      */
     @Override
     protected boolean shouldIgnoreComments() {
@@ -113,7 +113,7 @@ public class GeonamesLanguageImporter extends AbstractGeonamesProcessor {
     /*
      * (non-Javadoc)
      * 
-     * @see com.gisgraphy.domain.geoloc.importer.AbstractGeonamesProcessor#setCommitFlushMode()
+     * @see com.gisgraphy.domain.geoloc.importer.AbstractImporterProcessor#setCommitFlushMode()
      */
     @Override
     protected void setCommitFlushMode() {
@@ -124,7 +124,7 @@ public class GeonamesLanguageImporter extends AbstractGeonamesProcessor {
     /*
      * (non-Javadoc)
      * 
-     * @see com.gisgraphy.domain.geoloc.importer.AbstractGeonamesProcessor#flushAndClear()
+     * @see com.gisgraphy.domain.geoloc.importer.AbstractImporterProcessor#flushAndClear()
      */
     @Override
     protected void flushAndClear() {
@@ -134,7 +134,7 @@ public class GeonamesLanguageImporter extends AbstractGeonamesProcessor {
     /*
      * (non-Javadoc)
      * 
-     * @see com.gisgraphy.domain.geoloc.importer.AbstractGeonamesProcessor#getNumberOfColumns()
+     * @see com.gisgraphy.domain.geoloc.importer.AbstractImporterProcessor#getNumberOfColumns()
      */
     @Override
     protected int getNumberOfColumns() {
@@ -153,7 +153,7 @@ public class GeonamesLanguageImporter extends AbstractGeonamesProcessor {
     /*
      * (non-Javadoc)
      * 
-     * @see com.gisgraphy.domain.geoloc.importer.AbstractGeonamesProcessor#getFiles()
+     * @see com.gisgraphy.domain.geoloc.importer.AbstractImporterProcessor#getFiles()
      */
     @Override
     protected File[] getFiles() {
