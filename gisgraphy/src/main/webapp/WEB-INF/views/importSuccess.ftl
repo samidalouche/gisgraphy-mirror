@@ -7,7 +7,7 @@
 <br/>
 <@s.text name="import.success.text"/>
 
-<@s.text name="import.view.status"><@s.param>/admin/import!status.html</@s.param></@text> 
+<@s.text name="import.view.status"><@s.param>/admin/import!status.html</@s.param></@s.text> 
 <br/><br/>
 <div class="tip yellowtip">
 <@s.text name="import.run.indexes"/>
