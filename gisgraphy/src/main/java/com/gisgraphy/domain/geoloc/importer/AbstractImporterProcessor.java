@@ -285,6 +285,7 @@ public abstract class AbstractImporterProcessor implements IImporterProcessor {
 		return;
 	    }
 	    this.status = ImporterStatus.PROCESSING;
+	    this.getNumberOfLinesToProcess();
 	    setup();
 	    this.filesToProcess = getFiles();
 	    if (this.filesToProcess.length == 0) {
