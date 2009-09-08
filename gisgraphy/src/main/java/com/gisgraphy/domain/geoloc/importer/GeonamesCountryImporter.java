@@ -174,7 +174,7 @@ public class GeonamesCountryImporter extends AbstractImporterProcessor {
      */
     @Override
     protected boolean shouldIgnoreFirstLine() {
-	return true;
+	return false;
     }
 
     /*
