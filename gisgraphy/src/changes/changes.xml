@@ -177,6 +177,10 @@
 				Add the ability to specify a google analytics code
 			</action>
 			
+			<action dev="David Masclet" type="fix">
+				Geonames country importer does not ignore the fist line anymore
+			</action>
+			
 			
 		</release>
 	</body>
