@@ -261,8 +261,8 @@
       <meta name="author" content="$author" />
     #end
      	<META NAME="Author" CONTENT="David Masclet"/>
-		<META NAME="Keywords" CONTENT="gisgraphy,geonames,fulltext search,geolocalisation,webservices,gazeteers,postgis,toponyms,lucene,solr,masclet"/>
-		<META NAME="Description" CONTENT="Gisgraphy is a free, open source framework that provides access Geonames and ESRI features. It provides an importer to inject the data into a strongly typed Postgres / Postgis database and use them via 2 webservices or a java API"/>
+		<META NAME="Keywords" CONTENT="gisgraphy,geonames,openstreetmaps, fulltext search,geolocalisation,webservices,gazeteers,postgis,toponyms,lucene,solr,masclet"/>
+		<META NAME="Description" CONTENT="Gisgraphy goal is to provide tools to use free GIS Data on the Web. Actually it manage Geonames and OpenStreetMap (34 million entries). it provides an importer to inject the data into a strongly typed Postgres / Postgis database and use them via webservices : worldwide geocoding, worldwide reverse geocoding, fulltext and find nearby. Results can be output in XML, Atom, RSS, JSON, PHP, Ruby, and Python."/>
     	<META http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <script type="text/javascript">
 	function expand( item ) {

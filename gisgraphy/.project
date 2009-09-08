@@ -1,11 +1,9 @@
 <projectDescription>
   <name>gisgraphy</name>
-  <comment>Gisgraphy is a free, open source framework that provides access
-		to toponyms from several gazeteers on the Web (mainly Geonames,
-		but not only : ESRI for instance). It provides an importer to
-		inject the data into a strongly typed Postgres / Postgis
-		database and use them via 2 webservices or a java API :
-		geolocalisation and fulltext</comment>
+  <comment>Gisgraphy goal is to provide tools to use free GIS Data on the Web. 
+  Actually it manage Geonames and OpenStreetMap (34 million entries).
+   it provides an importer to inject the data into a strongly typed Postgres / Postgis database and use them via webservices : worldwide geocoding, worldwide reverse geocoding, fulltext and find nearby.
+   Results can be output in XML, Atom, RSS, JSON, PHP, Ruby, and Python. </comment>
   <projects/>
   <buildSpec>
     <buildCommand>

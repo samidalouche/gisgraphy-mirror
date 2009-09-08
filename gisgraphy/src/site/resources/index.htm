@@ -11,22 +11,24 @@ Gisgraphy is a free open source project with free <a href="http://services.gisgr
 </div>
 <div>
 <h2>Gisgraphy Framework</h2>
-Gisgraphy is a free and open source framework that provides full-text and find nearby places search services, for places on earth (aka : <a href="http://www.wisegeek.com/what-is-a-toponym.htm">toponyms</a>) 
-	from several databases (aka : gazeteers) on the web (mainly Geonames but also ESRI for instance). It provides an importer to inject the data into a strongly typed PostgreSQL / PostGIS database and use them via 2 web services or a Java API; geolocation and full-text in many formats (XML, JSON, PHP, ruby, Python, Atom, RSS / GeoRSS). Here are the main functions:
+ Gisgraphy is a free and open source framework. Its goal is to provide tools to use free GIS Data on the Web. Actually it manage <a href="http://www.geonames.org/" target="_blank">Geonames</a> and <a href="www.openstreetmap.org" target="_blank">OpenStreetMap</a> (34 million entries). it provides an importer to inject the data into a strongly typed Postgres / Postgis database and use them via webservices : worldwide geocoding, worldwide reverse geocoding, fulltext and find nearby. Results can be output in XML, Atom, RSS, JSON, PHP, Ruby, and Python. Here are the main functionalities  :
 <ul>
-<li> Importers from Geonames CSV files. Just specify the country or countries you wish to import and / or the <a href="/placetype.htm">placetypes</a>, and Gisgraphy will download the files and import them (optionally with the alternateNames), and sync the database with the full-text search engine.</li>
-<li> REST based web service</li>
-<li> Several output formats supported : XML, JSON, PHP, Ruby, Python, Atom, RSS / GeoRSS  </li>
-<li> Full text search (based on <a href="http://lucene.apache.org/java/"/>Lucene</a> / <a href="http://lucene.apache.org/solr/"/>Solr</a>  with default filters optimised for city search (supports case insensitivity, separator characters stripping, ..) via a Java API or a web service.</li>
-<li> Find nearby function (with limits, pagination, restrict to a specific country and / or language and other useful options) via a Java API or a web service.</li>
-<li> An admin / back office with statistics <a href="http://www.gisgraphy.com/screenshots.htm"> interface</a>.</li>
-<li> Fully replicated / scalable / high performance / cached services.</li>
-<li> Search for zipcode, name, IATA, ICAO.</li>
-<li> Internationalised (with support of cyrillique, arabic, chinese,... alphabets).</li>
-<li> Dojo widgets / prototype / AJAX to ease search but can be used even if JavaScript is not enabled on the client side.</li>
-<li> <a href="http://www.gisgraphy.com/documentation/addons.htm#opensearch">Opensearch module</a></li>
-<li> Platform / language independent.</li>
-<li> Provides all the countries flags in SVG and PNG format</li> 
+<li> Importers from geonames CSV files. Just give the country(ies) you wish to import and / or the <a href="/placetype.htm">placetypes</a>, and Gisgraphy download the files  and import them with all the alternateNames (optional), and sync the database with the fulltext search engine</li>
+<li> Importers for Openstreetmap data in csv format (view <a href="http://www.gisgraphy.com/download_data.htm" data</a>)
+<li> WorldWide geocoding / worldWide reverse geocoding / street search WebServices;
+<li> REST WebService</li>
+<li> Several output formats supported : XML, json, PHP, ruby, python, Atom, RSS / GeoRSS  </li>
+<li> Full text search  (based on <a href="http://lucene.apache.org/java/"/>Lucene</a> / <a href="http://lucene.apache.org/solr/"/>Solr</a>  with default filters optimized for city search
+(case insensitivity, separator characters stripping, ..) via an Java API or a webservice</li>
+<li> Findnearby function (with limits, pagination, restrict to a specific country and/or language and other useful options) via a Java API or a Web Service</li>
+<li> An admin / back office whith statistics <a href="http://www.gisgraphy.com/screenshots.htm"> interface</a></li>
+<li> Fully replicated / scalable / high performance / cached services</li>
+<li> Search for zipcode name, IATA, ICAO </li>
+<li> Internationalized (with support of cyrillique, arabic, chinese,... alphabet)</li>
+<li> Dojo widgets / prototype / Ajax to ease search but can be use it even if javascript is not enabled on the client side</li>
+<li><a href="http://www.gisgraphy.com/documentation/addons.htm#opensearch">Opensearch module</a></li>
+<li> Plateform / language independent</li>
+<li> Provides all the countries flags in svg and png format</li> 
 </ul>
 <h2>A little bit of technical detail...</h2>
 <ul>

@@ -1115,7 +1115,7 @@ public class ImporterManagerTest extends AbstractIntegrationHttpSolrTestCase {
 
 	// check number of Countries
 	countCountry = this.countryDao.count();
-	assertEquals("Wrong number of countries found ", 243, countCountry);
+	assertEquals("Wrong number of countries found ", 247, countCountry);
 
 	country = this.countryDao.getByIso3166Alpha2Code("FR");
 	assertNotNull("The country 'FR' have not been imported", country);
@@ -1139,7 +1139,7 @@ public class ImporterManagerTest extends AbstractIntegrationHttpSolrTestCase {
 		country.getIso3166Alpha3Code());
 	assertEquals("wrong iso3166NumericCode for country " + country, 250,
 		country.getIso3166NumericCode());
-	assertEquals("wrong phonePrefix for country " + country, "+33", country
+	assertEquals("wrong phonePrefix for country " + country, "33", country
 		.getPhonePrefix());
 	assertEquals("wrong postalCodeMask " + country, "#####", country
 		.getPostalCodeMask());
@@ -1172,11 +1172,11 @@ public class ImporterManagerTest extends AbstractIntegrationHttpSolrTestCase {
 	} catch (RuntimeException e1) {
 	    fail("country with featureClass ISL should be detected as a country");
 	}
-	try {
-	    assertNotNull(gisFeatureDao.getByFeatureId(2622009L));
-	} catch (RuntimeException e1) {
-	    fail("country with featureClass ISLS should be detected as a country");
-	}
+	assertNotNull("2622320 should be manually replace by  2622009 because Gisgraphy think that the country should not have feature class code 'adm' codes",gisFeatureDao.getByFeatureId(2622009L));
+	
+	assertNotNull("661882 should be manually replace by  661883 because Gisgraphy think that the country should not have feature class code 'adm' codes",gisFeatureDao.getByFeatureId(661883L));
+	
+	
 
 	assertEquals("wrong featureClass for country " + country, "A", country
 		.getFeatureClass());
@@ -1861,7 +1861,7 @@ public class ImporterManagerTest extends AbstractIntegrationHttpSolrTestCase {
 	Language language;
 	this.geonamesCountryImporter.process();
 	long countCountry = this.countryDao.count();
-	assertEquals("Wrong number of countries found ", 243, countCountry);
+	assertEquals("Wrong number of countries found ", 247, countCountry);
 	// TODO v2 check country code of gisFeature
 	//TODO check code and value
 	// check name is trimed
@@ -1871,7 +1871,7 @@ public class ImporterManagerTest extends AbstractIntegrationHttpSolrTestCase {
 		country);
 	assertEquals(
 		"The population haven't been set properly, maybe the comma haven't been replaces",
-		new Integer("60656178"), country.getPopulation());
+		new Integer("64094000"), country.getPopulation());
 	assertEquals(
 		"The area haven't been set properly, maybe the comma haven't been replaces",
 		new Double("547030"), country.getArea());
@@ -1879,17 +1879,19 @@ public class ImporterManagerTest extends AbstractIntegrationHttpSolrTestCase {
 	List<Language> spokenLanguages = country.getSpokenLanguages();
 	assertNotNull("GetSpokenLanguages should not have return a null List",
 		spokenLanguages);
-	assertEquals("Wrong number of spoken Languages", 5, spokenLanguages
+	assertEquals("Wrong number of spoken Languages", 6, spokenLanguages
 		.size());
-	language = this.languageDao.getByIso639Alpha2Code("FR");
+	language = this.languageDao.getByIso639Code("FR");
 	checkSpokenLanguages(spokenLanguages, language);
-	language = this.languageDao.getByIso639Alpha2Code("DE");
+	language = this.languageDao.getByIso639Code("FRP");
 	checkSpokenLanguages(spokenLanguages, language);
-	language = this.languageDao.getByIso639Alpha2Code("BR");
+	language = this.languageDao.getByIso639Code("BR");
 	checkSpokenLanguages(spokenLanguages, language);
-	language = this.languageDao.getByIso639Alpha2Code("CO");
+	language = this.languageDao.getByIso639Code("CO");
 	checkSpokenLanguages(spokenLanguages, language);
-	language = this.languageDao.getByIso639Alpha2Code("OC");
+	language = this.languageDao.getByIso639Code("CA");
+	checkSpokenLanguages(spokenLanguages, language);
+	language = this.languageDao.getByIso639Code("EU");
 	checkSpokenLanguages(spokenLanguages, language);
     }
 
