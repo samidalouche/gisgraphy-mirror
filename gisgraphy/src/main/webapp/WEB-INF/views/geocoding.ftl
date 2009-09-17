@@ -90,7 +90,7 @@
 
 <div class="forminstructions"><img src="/images/puce_3.gif" class="imagenumberlist" alt="puce_3"/><@s.text name="search.street.search"/>&nbsp;(<@s.text name="global.autocomplete"/>) : </div>
 		<@gisgraphysearch.streetNameAutoCompleter javascriptNameObject="streetNameAutocompleter"/>
-<div id="viewAllStreetLink" class="forminstructions indented "><a href="${streetsearchurl}" id="streetSearchLnk" target="displaystreetofcity"><@s.text name="search.displaycity.streets"/></a></div>
+<div id="viewAllStreetLink" class="forminstructions indented ">>> <a href="${streetsearchurl}" id="streetSearchLnk" target="displaystreetofcity"><@s.text name="search.displaycity.streets"/></a></div>
 		
 <br/>
 </div>
