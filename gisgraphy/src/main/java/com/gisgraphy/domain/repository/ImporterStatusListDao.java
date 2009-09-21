@@ -141,7 +141,12 @@ public class ImporterStatusListDao implements IImporterStatusListDao {
 	FileReader fileReader = null;
 	BufferedReader bufferReader = null;
 	try {
-	    fileReader = new FileReader(new File(getSavedFilePath()));
+	    File file = new File(getSavedFilePath());
+	    if (!file.exists()){
+		logger.warn("can not find file for importer metadata : "+file.getAbsolutePath());
+		return new ArrayList<ImporterStatusDto>();
+	    }
+	    fileReader = new FileReader(file);
 	    bufferReader = new BufferedReader(fileReader);
 	    String line = bufferReader.readLine();
 	    ImporterStatusDto importerStatusDto = null;
