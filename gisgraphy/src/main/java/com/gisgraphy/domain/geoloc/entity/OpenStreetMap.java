@@ -201,7 +201,7 @@ public class OpenStreetMap  {
     /**
       * @return The ISO 3166 alpha-2 letter code.
      */
-    @Index(name = "gisFeatureCountryindex")
+    @Index(name = "openstreetmapcountryindex")
     @Column(length = 3)
     public String getCountryCode() {
         return countryCode;
