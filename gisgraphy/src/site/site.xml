@@ -48,6 +48,7 @@
      <item name="Contact" href="mailto:davidmasclet@gisgraphy.com"/>
  
      <item name="About geonames" href="http://www.geonames.org/about.html" />
+     <item name="About openstreetmap" href="http://www.openstreetmap.org/" />
      </menu>
         
     <menu name="Free GIS WebServices" collapse="false"> 
