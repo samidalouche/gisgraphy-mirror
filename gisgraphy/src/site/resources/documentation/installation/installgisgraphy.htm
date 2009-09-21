@@ -60,7 +60,7 @@ Before install and launch Gisgraphy, you must setup java, postgres, and  postgis
 <div class=code>
 <pre>
 #create tables;
-psql -U<i>YOURUSER</i> -d gisgraphy -f /path/to/file/create-tables.sql
+psql -U<i>YOURUSER</i> -d gisgraphy -f /path/to/file/create_tables.sql
 
 #create spatial indexes
  psql -U YOURUSER -h YOURIP -d gisgraphy -f createGISTIndex.sql
