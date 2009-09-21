@@ -192,7 +192,7 @@ public abstract class AbstractImporterProcessor implements IImporterProcessor {
 	if (this.currentFile != null) {
 	    return this.currentFile.getName();
 	}
-	return "?";
+	return "unknow";
     }
 
     /**
@@ -306,13 +306,9 @@ public abstract class AbstractImporterProcessor implements IImporterProcessor {
 	} catch (Exception e) {
 	    e.printStackTrace();
 	    this.status = ImporterStatus.ERROR;
-	    String fileName = "Unknow";
-	    if (currentFile != null){
-		currentFile.getName();
-	    }
 	    this.statusMessage = "An error occurred when processing "
 		    + this.getClass().getSimpleName() + " on file "
-		    + fileName + " on line " + getReadFileLine()
+		    + getCurrentFileName() + " on line " + getReadFileLine()
 		    + " : " + e.getCause();
 	    logger.error(statusMessage);
 	    throw new GeonamesProcessorException(statusMessage, e.getCause());
@@ -356,7 +352,7 @@ public abstract class AbstractImporterProcessor implements IImporterProcessor {
 	try {
 	    hasConsumedFirstLine = false;
 	    readFileLine = 0;
-	    logger.info("will process " + currentFile.getName());
+	    logger.info("will process " + getCurrentFileName());
 	    // Transaction Definition
 	    txDefinition = new DefaultTransactionDefinition();
 	    txDefinition
@@ -386,7 +382,7 @@ public abstract class AbstractImporterProcessor implements IImporterProcessor {
 	    transactionManager.rollback(txStatus);
 	    throw new GeonamesProcessorException(
 		    "An error occurred when processing "
-			    + currentFile.getName() + " on line "
+			    + getCurrentFileName() + " on line "
 			    + readFileLine + " : " + e.getCause(), e.getCause());
 	}
     }
