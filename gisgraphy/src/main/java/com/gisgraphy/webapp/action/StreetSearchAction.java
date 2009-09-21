@@ -96,7 +96,7 @@ public class StreetSearchAction extends SearchAction {
     }
 
     /**
-     * @return
+     * @return the request
      */
     protected HttpServletRequest getRequest() {
 	return ServletActionContext
