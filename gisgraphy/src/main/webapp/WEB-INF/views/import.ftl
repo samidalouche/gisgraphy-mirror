@@ -5,7 +5,7 @@
 <body>
 <div class="tip yellowtip">
 <@s.text name="import.free.disk.space">
-	<@s.param>15 GO</@s.param>
+	<@s.param>30 GO</@s.param>
 </@s.text>
 </div>
 <#if !DownloadDirectoryAccessible>
