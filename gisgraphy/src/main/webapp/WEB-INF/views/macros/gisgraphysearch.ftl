@@ -347,6 +347,7 @@
 
 
 <#macro citySelector onCityFound>
+<a name="cityselector"></a>
 <#if (ambiguousCities?? &&  ambiguousCities.size() > 1 )>
 		<div class="forminstructions"><img src="/images/puce_2.gif" class="imagenumberlist" alt="puce_2"/><@s.text name="search.choose.city"/> : </div><br/>
 		<span class="searchfield">

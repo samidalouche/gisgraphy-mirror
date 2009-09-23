@@ -68,7 +68,7 @@
 			});
 			</script>
 	<div class="center">
-	<@s.form action="" id="streetsearch">
+	<@s.form action="#cityselector" id="streetsearch">
 <br/>
 <#if errorMessage!= ''><div class="error">${errorMessage}</div><br/><br/></#if>
 <#if message!= ''><span class="biggertext">${message}</span><br/></#if>
