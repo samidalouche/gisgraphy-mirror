@@ -34,11 +34,11 @@
 		         </tr>
 		         </table>
 	         <@s.if test="status.toString().equals('PROCESSING')">
-	         <@s.property value="numberOfLineProcessed" /> / <@s.property value="numberOfLineToProcess" /> (<@s.property value="numberOfLinelefts" /> left(s))
+	         <@s.property value="numberOfLineProcessed" /> / <@s.property value="numberOfLineToProcess" /> (<@s.property value="numberOfLinelefts" /> <@s.text name="importer.line.lefts" />)
 	         <br/><@s.text name="import.currently.sentence" /> <@s.property value="currentFileName" /> <@s.text name="import.line.sentence" /> <@s.property value="currentLine" />
 	         </@s.if>
 	         <@s.if test="status.toString().equals('ERROR')">
-	         <@s.property value="numberOfLineProcessed" /> / <@s.property value="numberOfLineToProcess" /> (<@s.property value="numberOfLinelefts" /> left(s))
+	         <@s.property value="numberOfLineProcessed" /> / <@s.property value="numberOfLineToProcess" /> (<@s.property value="numberOfLinelefts" /> <@s.text name="importer.line.lefts" />)
 	         <br/><span style="color:#FF0000">Error : <@s.property value="statusMessage" /></span>
 	         </@s.if>
          </td>
