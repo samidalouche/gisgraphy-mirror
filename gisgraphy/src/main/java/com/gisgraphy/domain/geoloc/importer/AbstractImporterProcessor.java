@@ -317,7 +317,7 @@ public abstract class AbstractImporterProcessor implements IImporterProcessor {
 		tearDown();
 	    } catch (Exception e) {
 		this.status = ImporterStatus.ERROR;
-		this.statusMessage = "An error occured on teardown (but the import is done) :"+e;
+		this.statusMessage = "An error occured on teardown (the import is done but is not being optimzed) :"+e;
 		logger.error(statusMessage);
 	    }
 	}
