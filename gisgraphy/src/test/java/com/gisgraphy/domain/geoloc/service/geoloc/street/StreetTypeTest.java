@@ -20,30 +20,22 @@
  *  
  *  
  *******************************************************************************/
-package com.gisgraphy.webapp.action;
+package com.gisgraphy.domain.geoloc.service.geoloc.street;
 
 import org.junit.Assert;
 import org.junit.Test;
 
-import com.gisgraphy.domain.valueobject.GisgraphyConfig;
+public class StreetTypeTest {
 
-
-public class ReverseGeocodingActionTest {
-    
     @Test
-    public void testGetGoogleMapAPIKey(){
-	 String savedGoogleMapAPIKey  = GisgraphyConfig .googleMapAPIKey;
-	try {
-           GeocodingAction action = new GeocodingAction();
-	   GisgraphyConfig.googleMapAPIKey = null;
-	   Assert.assertEquals("getGoogleMapAPIKey should return an empty string if the config value is null ","", action.getGoogleMapAPIKey());
-	   String newKey = "new key";
-	GisgraphyConfig.googleMapAPIKey=newKey;
-	   Assert.assertEquals("getGoogleMapAPIKey should return the config value ",newKey, action.getGoogleMapAPIKey());
-	   
-	} finally {
-	    GisgraphyConfig.googleMapAPIKey = savedGoogleMapAPIKey;
+    public void testGetFromString() {
+	for (StreetType streetType: StreetType.values()){
+	    Assert.assertEquals("getFromString should return correct values",StreetType.valueOf(streetType.toString()), StreetType.getFromString(streetType.toString()));
+	    Assert.assertEquals("getFromString should be case sensitive",StreetType.valueOf(streetType.toString()), StreetType.getFromString(streetType.toString().toUpperCase()));
+	    Assert.assertEquals("getFromString should be case sensitive",StreetType.valueOf(streetType.toString()), StreetType.getFromString(streetType.toString().toLowerCase()));
 	}
+	Assert.assertEquals("getFromString should be case sensitive",StreetType.valueOf(StreetType.UNCLASSIFIED.toString()), StreetType.getFromString("UNcLAsSIfIED"));
+	Assert.assertNull("null should be return when wrong streettype is given",StreetType.getFromString("unknow"));
     }
 
 }
