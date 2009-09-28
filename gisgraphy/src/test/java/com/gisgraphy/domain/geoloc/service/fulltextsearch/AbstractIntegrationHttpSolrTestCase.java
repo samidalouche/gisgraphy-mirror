@@ -136,19 +136,19 @@ public abstract class AbstractIntegrationHttpSolrTestCase extends
 
 	if (!serverStarted && isMustStartServlet()) {
 	    String separator = System.getProperty("file.separator");
-	    String name = "solr.data.dir";
-	    String value = "./target" + separator + "classes" + separator
+	    String solrDataDirPropertyName = "solr.data.dir";
+	    String solrDataDirValue = "./target" + separator + "classes" + separator
 		    + "data";
-	    if (System.getProperty(name) == null
-		    || !System.getProperty(name).equals(value)) {
+	    if (System.getProperty(solrDataDirPropertyName) == null
+		    || !System.getProperty(solrDataDirPropertyName).equals(solrDataDirValue)) {
 		logger.info("change system property from "
-			+ System.getProperty(name) + " to " + value);
-		System.setProperty(name, value);
+			+ System.getProperty(solrDataDirPropertyName) + " to " + solrDataDirValue);
+		System.setProperty(solrDataDirPropertyName, solrDataDirValue);
 
-		logger.info("System property" + name + " is now : "
-			+ System.getProperty(name));
+		logger.info("System property" + solrDataDirPropertyName + " is now : "
+			+ System.getProperty(solrDataDirPropertyName));
 	    } else {
-		logger.info(name + "=" + System.getProperty("file.encoding"));
+		logger.info(solrDataDirPropertyName + "=" + System.getProperty("file.encoding"));
 	    }
 	    tester = new ServletTester();
 
