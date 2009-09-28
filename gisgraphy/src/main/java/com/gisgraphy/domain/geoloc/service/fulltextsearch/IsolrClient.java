@@ -22,6 +22,8 @@
  *******************************************************************************/
 package com.gisgraphy.domain.geoloc.service.fulltextsearch;
 
+import java.util.logging.Level;
+
 import org.apache.solr.client.solrj.SolrServer;
 
 /**
@@ -54,5 +56,12 @@ public interface IsolrClient {
      *         false;
      */
     public boolean isServerAlive();
+    
+    /**
+     * set the log level of Solr
+     * @param level the level to set
+     */
+    public void setSolRLogLevel(Level level);
+    
 
 }

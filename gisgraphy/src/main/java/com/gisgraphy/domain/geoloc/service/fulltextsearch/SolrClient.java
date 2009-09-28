@@ -24,6 +24,7 @@ package com.gisgraphy.domain.geoloc.service.fulltextsearch;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.logging.Level;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -32,6 +33,7 @@ import javax.xml.xpath.XPathFactory;
 
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.MultiThreadedHttpConnectionManager;
+import org.apache.commons.httpclient.methods.GetMethod;
 import org.apache.solr.client.solrj.SolrServer;
 import org.apache.solr.client.solrj.impl.CommonsHttpSolrServer;
 import org.apache.solr.client.solrj.response.SolrPingResponse;
@@ -53,6 +55,8 @@ public class SolrClient implements IsolrClient {
 	    .getLogger(SolrClient.class);
 
     private SolrServer server;
+    
+    private MultiThreadedHttpConnectionManager multiThreadedHttpConnectionManager;
 
     private String URL;
 
@@ -76,11 +80,11 @@ public class SolrClient implements IsolrClient {
 	    Assert
 		    .notNull(multiThreadedHttpConnectionManager,
 			    "solrClient does not accept null multiThreadedHttpConnectionManager");
-
+	    this.multiThreadedHttpConnectionManager = multiThreadedHttpConnectionManager;
 	    this.server = new CommonsHttpSolrServer(new URL(solrUrl),
 		    new HttpClient(multiThreadedHttpConnectionManager));
-	    this.URL = solrUrl;
-	    logger.info("connecting to solr on " + solrUrl + "...");
+	    this.URL = !solrUrl.endsWith("/") ? solrUrl + "/" : solrUrl ;
+	    logger.info("connecting to solr on " + this.URL + "...");
 	} catch (MalformedURLException e) {
 	    throw new RuntimeException("Error connecting to Solr! : "
 		    + e.getMessage());
@@ -142,6 +146,31 @@ public class SolrClient implements IsolrClient {
 	    return false;
 	}
 
+    }
+
+    /* (non-Javadoc)
+     * @see com.gisgraphy.domain.geoloc.service.fulltextsearch.IsolrClient#setSolRLogLevel(java.util.logging.Level)
+     */
+    public void setSolRLogLevel(Level level) {
+	Assert.notNull(level, "you can not specify a null level");
+	Assert.notNull(multiThreadedHttpConnectionManager,"httpconnectionManager should not be null, can not set log level");
+	Assert.notNull(multiThreadedHttpConnectionManager,"Solr URL should not be null, can not set log level");
+	HttpClient client = new HttpClient(multiThreadedHttpConnectionManager);
+	GetMethod method = new GetMethod(this.URL+"solr/admin/action.jsp?log="+level.toString());
+	 try {
+	            try {
+			client.executeMethod(method);
+			logger.info("Set solr log Level to "+level);
+		    } catch (Exception e) {
+			throw new RuntimeException("Can not set solr log level",e);
+		    }
+	            int statusCode = method.getStatusCode();
+		    if (statusCode != 200){
+	        	throw new RuntimeException("Can not set solr log level because response code is not OK : "+statusCode);
+	            }
+	        } finally {
+	            method.releaseConnection();
+	        }
     }
 
 }

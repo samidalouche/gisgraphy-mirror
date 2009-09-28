@@ -57,7 +57,6 @@ public class SolrClientTest extends TestCase {
 	    tester.addFilter(SolrDispatchFilter.class, "/*", 0);
 	    tester.setContextPath(fulltextContext);
 
-	    // TODO v2 a solrdir for test
 	    // TODO v2 remove deprecated
 	    tester.addServlet(SolrServlet.class, "/select/*");
 	    String separator = System.getProperty("file.separator");
@@ -76,8 +75,6 @@ public class SolrClientTest extends TestCase {
 	    assertFalse(clientAlive.isServerAlive());
 	    clientAlive.bindToUrl(fulltextSearchUrl);
 	    assertTrue(clientAlive.isServerAlive());
-	} catch (Exception e) {
-	    fail(e.getMessage());
 	} finally {
 	    if (tester != null) {
 		try {
