@@ -1167,11 +1167,7 @@ public class ImporterManagerTest extends AbstractIntegrationHttpSolrTestCase {
 	} catch (RuntimeException e1) {
 	    fail("country with featureClass PCLIX should be detected as a country");
 	}
-	try {
-	    assertNotNull(gisFeatureDao.getByFeatureId(661485L));
-	} catch (RuntimeException e1) {
-	    fail("country with featureClass ISL should be detected as a country");
-	}
+	
 	assertNotNull("2622320 should be manually replace by  2622009 because Gisgraphy think that the country should not have feature class code 'adm' codes",gisFeatureDao.getByFeatureId(2622009L));
 	
 	assertNotNull("661882 should be manually replace by  661883 because Gisgraphy think that the country should not have feature class code 'adm' codes",gisFeatureDao.getByFeatureId(661883L));
