@@ -51,6 +51,8 @@ import org.springframework.util.Assert;
  */
 public class SolrClient implements IsolrClient {
 
+    private static final String NEEDED_STRING_TO_CONSIDER_LOG_LEVEL_OK = "Succeeded";
+
     protected static final Logger logger = LoggerFactory
 	    .getLogger(SolrClient.class);
 
@@ -156,18 +158,18 @@ public class SolrClient implements IsolrClient {
 	Assert.notNull(multiThreadedHttpConnectionManager,"httpconnectionManager should not be null, can not set log level");
 	Assert.notNull(multiThreadedHttpConnectionManager,"Solr URL should not be null, can not set log level");
 	HttpClient client = new HttpClient(multiThreadedHttpConnectionManager);
-	GetMethod method = new GetMethod(this.URL+"solr/admin/action.jsp?log="+level.toString());
+	GetMethod method = new GetMethod(this.URL+"solr/admin/action.jsp?log="+level.toString().toUpperCase());
 	 try {
 	            try {
 			client.executeMethod(method);
 			logger.info("Set solr log Level to "+level);
+			String responseBody = method.getResponseBodyAsString();
+			if (!responseBody.contains(NEEDED_STRING_TO_CONSIDER_LOG_LEVEL_OK)){
+			    throw new RuntimeException("Can not set solr log level because response code is not OK : "+responseBody);
+			}
 		    } catch (Exception e) {
 			throw new RuntimeException("Can not set solr log level",e);
 		    }
-	            int statusCode = method.getStatusCode();
-		    if (statusCode != 200){
-	        	throw new RuntimeException("Can not set solr log level because response code is not OK : "+statusCode);
-	            }
 	        } finally {
 	            method.releaseConnection();
 	        }
