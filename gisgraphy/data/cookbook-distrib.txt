@@ -10,3 +10,7 @@ install
 upload doc
 migration guide / changes
 link to dist in download page
+re-process sitemaps
+update gisgraphy sitemap
+save the stats usage
+change password of user and admin
