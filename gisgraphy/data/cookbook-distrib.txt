@@ -1,0 +1,12 @@
+organize import
+license plugin
+format
+tests
+
+site
+dist
+check javadoc
+install
+upload doc
+migration guide / changes
+link to dist in download page
