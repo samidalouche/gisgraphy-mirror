@@ -20,6 +20,7 @@
 			<include>sql/**</include>
 			<include>webapps/**</include>
 			<include>README*</include>
+			<include>launch.command</include>
 			<include>launch.txt</include>
 			<include>launch.bat</include>
 			<include>launch.sh</include>
