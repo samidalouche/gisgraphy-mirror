@@ -28,7 +28,6 @@ import junit.framework.TestCase;
 
 import org.apache.commons.httpclient.MultiThreadedHttpConnectionManager;
 import org.apache.jasper.servlet.JspServlet;
-import org.apache.solr.servlet.LogLevelSelection;
 import org.apache.solr.servlet.SolrDispatchFilter;
 import org.apache.solr.servlet.SolrServlet;
 import org.apache.solr.servlet.SolrUpdateServlet;

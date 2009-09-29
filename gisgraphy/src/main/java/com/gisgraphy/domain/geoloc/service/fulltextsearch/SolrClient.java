@@ -158,7 +158,7 @@ public class SolrClient implements IsolrClient {
 	Assert.notNull(multiThreadedHttpConnectionManager,"httpconnectionManager should not be null, can not set log level");
 	Assert.notNull(multiThreadedHttpConnectionManager,"Solr URL should not be null, can not set log level");
 	HttpClient client = new HttpClient(multiThreadedHttpConnectionManager);
-	GetMethod method = new GetMethod(this.URL+"solr/admin/action.jsp?log="+level.toString().toUpperCase());
+	GetMethod method = new GetMethod(this.URL+"/admin/action.jsp?log="+level.toString().toUpperCase());
 	 try {
 	            try {
 			client.executeMethod(method);

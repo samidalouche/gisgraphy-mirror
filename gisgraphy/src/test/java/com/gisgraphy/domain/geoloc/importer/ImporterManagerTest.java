@@ -38,6 +38,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
 
 import org.easymock.classextension.EasyMock;
 import org.hibernate.FlushMode;
@@ -54,6 +55,7 @@ import com.gisgraphy.domain.geoloc.entity.Forest;
 import com.gisgraphy.domain.geoloc.entity.GisFeature;
 import com.gisgraphy.domain.geoloc.entity.Language;
 import com.gisgraphy.domain.geoloc.service.fulltextsearch.AbstractIntegrationHttpSolrTestCase;
+import com.gisgraphy.domain.geoloc.service.fulltextsearch.IsolrClient;
 import com.gisgraphy.domain.repository.IAdmDao;
 import com.gisgraphy.domain.repository.IAlternateNameDao;
 import com.gisgraphy.domain.repository.ICityDao;
@@ -168,6 +170,13 @@ public class ImporterManagerTest extends AbstractIntegrationHttpSolrTestCase {
 		new ArrayList<ImporterStatusDto>());
 	EasyMock.replay(fakeimporterStatusListDao);
 
+	IsolrClient mockSolRClient = EasyMock
+	.createMock(IsolrClient.class);
+	mockSolRClient.setSolRLogLevel(Level.WARNING);
+	EasyMock.expectLastCall();
+	EasyMock.replay(mockSolRClient);
+	
+	
 	ImporterConfig mockImporterConfig = EasyMock
 		.createMock(ImporterConfig.class);
 	IImporterProcessor processor1 = EasyMock
@@ -195,6 +204,7 @@ public class ImporterManagerTest extends AbstractIntegrationHttpSolrTestCase {
 	fakeimporterManager.setImporters(processors);
 	fakeimporterManager.setImporterConfig(mockImporterConfig);
 	fakeimporterManager.setSolRSynchroniser(mockSolRSynchroniser);
+	fakeimporterManager.setSolrClient(mockSolRClient);
 
 	IGisDao<? extends GisFeature>[] daoList = new IGisDao[2];
 	daoList[0] = mockCityDao;

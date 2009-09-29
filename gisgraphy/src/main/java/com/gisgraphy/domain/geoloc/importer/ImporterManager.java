@@ -25,6 +25,7 @@ package com.gisgraphy.domain.geoloc.importer;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.logging.Level;
 
 import org.hibernate.FlushMode;
 import org.slf4j.Logger;
@@ -35,6 +36,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.gisgraphy.domain.geoloc.entity.GisFeature;
+import com.gisgraphy.domain.geoloc.service.fulltextsearch.IsolrClient;
 import com.gisgraphy.domain.repository.IGisDao;
 import com.gisgraphy.domain.repository.IImporterStatusListDao;
 import com.gisgraphy.domain.repository.ISolRSynchroniser;
@@ -66,6 +68,10 @@ public class ImporterManager implements IImporterManager {
     private ISolRSynchroniser solRSynchroniser;
 
     IImporterStatusListDao importerStatusListDao;
+    
+    @Autowired
+    private IsolrClient solrClient;
+
 
     /**
      * The logger
@@ -92,6 +98,7 @@ public class ImporterManager implements IImporterManager {
 	this.startTime = System.currentTimeMillis();
 	importerStatusListDao.delete();
 	try {
+	    solrClient.setSolRLogLevel(Level.WARNING);
 	    this.inProgress = true;
 	    for (IImporterProcessor importer : importers) {
 		logger.info("will now process "
@@ -294,5 +301,14 @@ public class ImporterManager implements IImporterManager {
 	    IImporterStatusListDao importerStatusListDao) {
 	this.importerStatusListDao = importerStatusListDao;
     }
+
+    /**
+     * @param solrClient the solrClient to set
+     */
+    public void setSolrClient(IsolrClient solrClient) {
+        this.solrClient = solrClient;
+    }
+    
+    
 
 }
