@@ -2,6 +2,7 @@ organize import
 license plugin
 format
 tests
+upload maven repo
 
 site
 dist
