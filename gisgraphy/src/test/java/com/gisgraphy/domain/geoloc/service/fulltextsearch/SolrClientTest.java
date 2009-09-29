@@ -22,10 +22,13 @@
  *******************************************************************************/
 package com.gisgraphy.domain.geoloc.service.fulltextsearch;
 
+import java.util.logging.Level;
+
 import junit.framework.TestCase;
 
 import org.apache.commons.httpclient.MultiThreadedHttpConnectionManager;
 import org.apache.jasper.servlet.JspServlet;
+import org.apache.solr.servlet.LogLevelSelection;
 import org.apache.solr.servlet.SolrDispatchFilter;
 import org.apache.solr.servlet.SolrServlet;
 import org.apache.solr.servlet.SolrUpdateServlet;
@@ -49,7 +52,7 @@ public class SolrClientTest extends TestCase {
     }
 
     @Test
-    public void testIsALive() {
+    public void testIsALive() throws Exception {
 	ServletTester tester = null;
 	try {
 	    tester = new ServletTester();
@@ -85,6 +88,50 @@ public class SolrClientTest extends TestCase {
 	}
 
     }
+    
+    @Test
+    public void testSetSolRLogLevel() throws Exception {
+	ServletTester tester = null;
+	try {
+	    tester = new ServletTester();
+	    String fulltextContext = "/solr";
+	    tester.addFilter(SolrDispatchFilter.class, "/*", 0);
+	    tester.setContextPath(fulltextContext);
+
+	    // TODO v2 remove deprecated
+	    String separator = System.getProperty("file.separator");
+	    tester.setResourceBase("target" + separator + "classes" + separator
+		    + "solradmin");
+	    tester.addServlet("org.mortbay.jetty.servlet.DefaultServlet", "/");
+	    tester.addServlet(JspServlet.class, "*.jsp");
+
+
+	    String fulltextSearchUrl = tester.createSocketConnector(true)
+		    + fulltextContext;
+	    tester.start();
+	    IsolrClient client = new SolrClient(fulltextSearchUrl,
+		    new MultiThreadedHttpConnectionManager());
+	    assertTrue(client.isServerAlive());
+	    client.setSolRLogLevel(Level.OFF);
+	    client.setSolRLogLevel(Level.CONFIG);
+	    client.setSolRLogLevel(Level.FINE);
+	    client.setSolRLogLevel(Level.FINER);
+	    client.setSolRLogLevel(Level.FINEST);
+	    client.setSolRLogLevel(Level.INFO);
+	    client.setSolRLogLevel(Level.SEVERE);
+	    client.setSolRLogLevel(Level.WARNING);
+	    client.setSolRLogLevel(Level.ALL);
+	} finally {
+	    if (tester != null) {
+		try {
+		    tester.stop();
+		} catch (Exception e) {
+		}
+	    }
+	}
+
+    }
+    
 
     @Test
     public void testBindToURL() {
