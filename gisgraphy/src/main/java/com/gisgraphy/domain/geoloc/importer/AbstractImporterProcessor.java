@@ -58,7 +58,7 @@ public abstract class AbstractImporterProcessor implements IImporterProcessor {
     protected int readFileLine = 0;
     protected String statusMessage = "";
 
-    protected ImporterStatus status = ImporterStatus.UNPROCESSED;
+    protected ImporterStatus status = ImporterStatus.WAITING;
 
     /**
      * @see IImporterProcessor#getNumberOfLinesToProcess()
@@ -616,7 +616,7 @@ public abstract class AbstractImporterProcessor implements IImporterProcessor {
 	this.readFileLine = 0;
 	this.totalReadLine = 0;
 	this.numberOfLinesToProcess = 0;
-	this.status = ImporterStatus.UNPROCESSED;
+	this.status = ImporterStatus.WAITING;
 	this.statusMessage = "";
     }
 

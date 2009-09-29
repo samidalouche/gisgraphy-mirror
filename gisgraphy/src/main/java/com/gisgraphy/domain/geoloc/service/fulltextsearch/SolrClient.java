@@ -101,7 +101,7 @@ public class SolrClient implements IsolrClient {
     public void bindToUrl(String solrUrl) {
 	try {
 	    this.server = new CommonsHttpSolrServer(new URL(solrUrl));
-	    this.URL = solrUrl;
+	    this.URL = !solrUrl.endsWith("/") ? solrUrl + "/" : solrUrl ;
 	    logger
 		    .info("fulltextSearchUrl for FullTextSearchEngine is changed to "
 			    + solrUrl);

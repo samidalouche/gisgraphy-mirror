@@ -40,7 +40,7 @@ public enum ImporterStatus {
     /**
      * Process has not been done yet
      */
-    UNPROCESSED,
+    WAITING,
     /**
      * process currently in progress
      */

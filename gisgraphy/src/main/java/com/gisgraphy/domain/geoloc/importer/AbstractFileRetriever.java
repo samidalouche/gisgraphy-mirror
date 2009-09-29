@@ -48,7 +48,7 @@ public abstract class AbstractFileRetriever implements IImporterProcessor {
 
     protected String currentFileName = null;
 
-    protected ImporterStatus status = ImporterStatus.UNPROCESSED;
+    protected ImporterStatus status = ImporterStatus.WAITING;
 
     protected int fileIndex = 0;
 
@@ -193,7 +193,7 @@ public abstract class AbstractFileRetriever implements IImporterProcessor {
 	deletedObjectInfo.add(new NameValueDTO<Integer>("Downloaded files",
 		deleted));
 	currentFileName = null;
-	status = ImporterStatus.UNPROCESSED;
+	status = ImporterStatus.WAITING;
 	fileIndex = 0;
 	numberOfFileToDownload = 0;
 	statusMessage = "";

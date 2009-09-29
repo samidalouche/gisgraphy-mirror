@@ -187,7 +187,7 @@ public class ImporterStatusDtoTest extends TestCase {
 	importerStatusDto = new ImporterStatusDto(
 		PROCESSOR_NAME, CURRENT_FILE_NAME, CURRENT_LINE,
 		0, 0, STATUS_MESSAGE,
-		ImporterStatus.UNPROCESSED);
+		ImporterStatus.WAITING);
 	assertEquals(0, importerStatusDto.getPercent());
     
     }
