@@ -31,13 +31,14 @@ import org.apache.jasper.servlet.JspServlet;
 import org.apache.solr.servlet.SolrDispatchFilter;
 import org.apache.solr.servlet.SolrServlet;
 import org.apache.solr.servlet.SolrUpdateServlet;
+import org.junit.Assert;
 import org.junit.Test;
 import org.mortbay.jetty.testing.ServletTester;
 
 public class SolrClientTest extends TestCase {
 
     @Test
-    public void testSolrClientConstructorShouldNotAcceptNullParameters() {
+    public void testConstructorShouldNotAcceptNullParameters() {
 	try {
 	    new SolrClient(null, new MultiThreadedHttpConnectionManager());
 	    fail("solrClient constructor does not accept null URL");
@@ -48,6 +49,19 @@ public class SolrClientTest extends TestCase {
 	    fail("solrClient constructor does not accept null multiThreadedHttpConnectionManager");
 	} catch (IllegalArgumentException e) {
 	}
+    }
+    
+    @Test
+    public void testConstructorShouldAddEndingSlashIfNotPresent() {
+	    IsolrClient client = new SolrClient("http://127.0.0.1/solr", new MultiThreadedHttpConnectionManager());
+	    Assert.assertTrue("SolrClient should add a '/' if not present ", client.getURL().equals("http://127.0.0.1/solr/"));
+    }
+    
+    @Test
+    public void testBindToUrlShouldAddEndingSlashIfNotPresent() {
+	    IsolrClient client = new SolrClient("http://127.0.0.2/solr", new MultiThreadedHttpConnectionManager());
+	    client.bindToUrl("http://127.0.0.2/solr");
+	    Assert.assertTrue("SolrClient should add a '/' if not present ", client.getURL().equals("http://127.0.0.2/solr/"));
     }
 
     @Test
