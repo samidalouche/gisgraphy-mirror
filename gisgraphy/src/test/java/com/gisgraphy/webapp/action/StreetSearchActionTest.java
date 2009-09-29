@@ -22,7 +22,6 @@
  *******************************************************************************/
 package com.gisgraphy.webapp.action;
 
-import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -33,7 +32,6 @@ import org.junit.Test;
 import org.springframework.mock.web.MockHttpServletRequest;
 
 import com.gisgraphy.domain.geoloc.service.geoloc.IStreetSearchEngine;
-import com.gisgraphy.domain.geoloc.service.geoloc.StreetSearchEngine;
 import com.gisgraphy.domain.geoloc.service.geoloc.StreetSearchQuery;
 import com.gisgraphy.domain.geoloc.service.geoloc.street.StreetType;
 import com.gisgraphy.domain.valueobject.StreetSearchResultsDto;

@@ -32,11 +32,8 @@ import java.io.IOException;
 
 import javax.annotation.Resource;
 
-import net.sf.jstester.JsTester;
-
 import org.junit.Test;
 
-import com.gisgraphy.domain.geoloc.entity.City;
 import com.gisgraphy.domain.geoloc.entity.OpenStreetMap;
 import com.gisgraphy.domain.geoloc.service.fulltextsearch.AbstractIntegrationHttpSolrTestCase;
 import com.gisgraphy.domain.geoloc.service.geoloc.street.StreetType;
@@ -47,7 +44,6 @@ import com.gisgraphy.domain.valueobject.Pagination;
 import com.gisgraphy.domain.valueobject.StreetSearchResultsDto;
 import com.gisgraphy.domain.valueobject.Output.OutputFormat;
 import com.gisgraphy.helper.GeolocHelper;
-import com.gisgraphy.helper.URLUtils;
 import com.gisgraphy.service.IStatsUsageService;
 import com.gisgraphy.stats.StatsUsageType;
 import com.gisgraphy.test.FeedChecker;

@@ -56,8 +56,8 @@ import com.gisgraphy.domain.valueobject.Output.OutputFormat;
 import com.gisgraphy.domain.valueobject.Output.OutputStyle;
 import com.gisgraphy.service.IStatsUsageService;
 import com.gisgraphy.stats.StatsUsageType;
-import com.gisgraphy.test.GeolocTestHelper;
 import com.gisgraphy.test.FeedChecker;
+import com.gisgraphy.test.GeolocTestHelper;
 
 public class FulltextSearchEngineTest extends
 	AbstractIntegrationHttpSolrTestCase {

@@ -39,8 +39,8 @@ import junit.framework.TestCase;
 
 import org.junit.Test;
 
-import com.gisgraphy.test.GeolocTestHelper;
 import com.gisgraphy.test.FeedChecker;
+import com.gisgraphy.test.GeolocTestHelper;
 
 public class GeolocResultsDtoTest extends TestCase {
 

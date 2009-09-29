@@ -44,8 +44,8 @@ import com.gisgraphy.domain.geoloc.entity.GisFeature;
 import com.gisgraphy.domain.geoloc.service.fulltextsearch.AbstractIntegrationHttpSolrTestCase;
 import com.gisgraphy.domain.repository.IGisDao;
 import com.gisgraphy.helper.IntrospectionHelper;
-import com.gisgraphy.test.GeolocTestHelper;
 import com.gisgraphy.test.FeedChecker;
+import com.gisgraphy.test.GeolocTestHelper;
 
 public class GisFeatureDistanceTest extends AbstractIntegrationHttpSolrTestCase {
 

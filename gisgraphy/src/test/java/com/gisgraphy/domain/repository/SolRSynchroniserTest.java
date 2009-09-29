@@ -53,15 +53,13 @@ import com.gisgraphy.domain.geoloc.service.fulltextsearch.FulltextQuery;
 import com.gisgraphy.domain.geoloc.service.fulltextsearch.spell.ISpellCheckerIndexer;
 import com.gisgraphy.domain.valueobject.AlternateNameSource;
 import com.gisgraphy.domain.valueobject.Constants;
-import com.gisgraphy.domain.valueobject.FulltextResultsDto;
 import com.gisgraphy.domain.valueobject.Output;
 import com.gisgraphy.domain.valueobject.Pagination;
-import com.gisgraphy.domain.valueobject.SolrResponseDto;
 import com.gisgraphy.domain.valueobject.Output.OutputFormat;
 import com.gisgraphy.domain.valueobject.Output.OutputStyle;
 import com.gisgraphy.helper.URLUtils;
-import com.gisgraphy.test.GeolocTestHelper;
 import com.gisgraphy.test.FeedChecker;
+import com.gisgraphy.test.GeolocTestHelper;
 
 public class SolRSynchroniserTest extends AbstractIntegrationHttpSolrTestCase {
 

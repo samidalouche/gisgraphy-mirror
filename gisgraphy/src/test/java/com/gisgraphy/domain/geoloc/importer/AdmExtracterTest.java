@@ -26,10 +26,10 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
-import org.junit.Test;
-
 import junit.framework.Assert;
 import junit.framework.TestCase;
+
+import org.junit.Test;
 
 import com.gisgraphy.domain.valueobject.NameValueDTO;
 import com.gisgraphy.test.GeolocTestHelper;

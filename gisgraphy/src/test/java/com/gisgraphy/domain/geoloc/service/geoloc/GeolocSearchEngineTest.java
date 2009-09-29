@@ -47,8 +47,8 @@ import com.gisgraphy.domain.valueobject.Output.OutputFormat;
 import com.gisgraphy.helper.GeolocHelper;
 import com.gisgraphy.service.IStatsUsageService;
 import com.gisgraphy.stats.StatsUsageType;
-import com.gisgraphy.test.GeolocTestHelper;
 import com.gisgraphy.test.FeedChecker;
+import com.gisgraphy.test.GeolocTestHelper;
 
 public class GeolocSearchEngineTest extends AbstractIntegrationHttpSolrTestCase {
 

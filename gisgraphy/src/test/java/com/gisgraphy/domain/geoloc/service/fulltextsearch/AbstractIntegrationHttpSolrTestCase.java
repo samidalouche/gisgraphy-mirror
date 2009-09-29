@@ -14,17 +14,7 @@
 
 package com.gisgraphy.domain.geoloc.service.fulltextsearch;
 
-import java.io.ByteArrayInputStream;
 import java.io.File;
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.xpath.XPath;
-import javax.xml.xpath.XPathConstants;
-import javax.xml.xpath.XPathExpressionException;
-import javax.xml.xpath.XPathFactory;
 
 import org.apache.jasper.servlet.JspServlet;
 import org.apache.solr.servlet.SolrDispatchFilter;
@@ -33,12 +23,9 @@ import org.apache.solr.servlet.SolrUpdateServlet;
 import org.apache.solr.util.TestHarness;
 import org.mortbay.jetty.testing.ServletTester;
 import org.springframework.beans.factory.annotation.Required;
-import org.w3c.dom.Document;
-import org.xml.sax.SAXException;
 
 import com.gisgraphy.domain.repository.AbstractTransactionalTestCase;
 import com.gisgraphy.domain.repository.ISolRSynchroniser;
-import com.gisgraphy.domain.valueobject.Constants;
 
 /**
  * An Abstract base class that makes writing Solr JUnit tests "easier"

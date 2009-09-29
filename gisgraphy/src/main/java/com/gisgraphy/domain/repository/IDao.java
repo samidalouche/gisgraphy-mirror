@@ -35,6 +35,7 @@ import javax.persistence.FlushModeType;
 import org.hibernate.FlushMode;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
+import org.springframework.dao.DataAccessException;
 
 /**
  * Interface of a Generic (java-5 meaning) data access object

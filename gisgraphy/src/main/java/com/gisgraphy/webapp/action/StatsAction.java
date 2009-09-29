@@ -27,7 +27,6 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Required;
 
 import com.gisgraphy.domain.repository.IStatsUsageDao;
-import com.gisgraphy.domain.repository.StatsUsageDao;
 import com.gisgraphy.service.IStatsUsageService;
 import com.gisgraphy.stats.StatsUsage;
 import com.opensymphony.xwork2.Action;

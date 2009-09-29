@@ -35,8 +35,8 @@ import com.gisgraphy.domain.valueobject.Constants;
 import com.gisgraphy.domain.valueobject.GisgraphyServiceType;
 import com.gisgraphy.domain.valueobject.StreetSearchResultsDto;
 import com.gisgraphy.domain.valueobject.Output.OutputFormat;
-import com.gisgraphy.test.GeolocTestHelper;
 import com.gisgraphy.test.FeedChecker;
+import com.gisgraphy.test.GeolocTestHelper;
 
 public class StreetSearchResultsDtoSerializerTest {
 
