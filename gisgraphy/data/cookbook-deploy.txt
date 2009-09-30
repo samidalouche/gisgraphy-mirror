@@ -4,3 +4,7 @@ udpade conf and  data (solr diretory)
 update solr.war if needed
 
 copy sitemaps into ROOT/
+modifier admin et user mdp
+increase stats
+rm nohup
+use script to reload tomcat and jetty
