@@ -1,0 +1,6 @@
+upload webapp ROOT
+upload webapp solr
+udpade conf and  data (solr diretory)
+update solr.war if needed
+
+copy sitemap into ROOT/
