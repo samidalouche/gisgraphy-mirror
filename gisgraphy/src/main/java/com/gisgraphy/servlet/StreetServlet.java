@@ -123,7 +123,7 @@ public class StreetServlet extends GisgraphyServlet {
 	    String UA = req.getHeader("User-Agent");
 	    String referer = req.getHeader("Referer");
 	    if (logger.isInfoEnabled()){
-		logger.info("A street requestfrom "+req.getRemoteHost()+" / "+req.getRemoteAddr()+" was received , Referer : "+referer+" , UA : "+UA);
+		logger.info("A street request from "+req.getRemoteHost()+" / "+req.getRemoteAddr()+" was received , Referer : "+referer+" , UA : "+UA);
 	    }
 
 	    streetSearchEngine.executeAndSerialize(query, resp

@@ -67,7 +67,7 @@ class SitemapGenerator:
 	
 	def generate_sitemap_node(self,featureId,population):
 		"""doc"""
-		return "<url><loc>http://services.gisgraphy.com/displayfeature.html?featureId="+str(featureId)+"</loc><lastmod>2009-03-11</lastmod><changefreq>monthly</changefreq><priority>"+str(self.calculate_priority(population))+"</priority></url>"
+		return "<url><loc>http://services.gisgraphy.com/displayfeature.html?featureId="+str(featureId)+"</loc><lastmod>2009-09-30cd</lastmod><changefreq>monthly</changefreq><priority>"+str(self.calculate_priority(population))+"</priority></url>"
 	
 	def calculate_priority(self,population):
 		#print int(population;
@@ -90,7 +90,7 @@ class SitemapGenerator:
 		
 
 def generate():
-	generator = SitemapGenerator("/home/david/gisgraphy-test/data/import/allCountries.txt");
+	generator = SitemapGenerator("/home/david/Bureau/dist2/data/import/allCountries.txt");
 	generator.generate_sitemap()
 
 generate()

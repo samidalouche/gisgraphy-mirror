@@ -1,5 +1,5 @@
 <#macro searchNavBar>
-<#--<@s.url id="servicesDescription" action="servicesdescription" includeParams="all" namespace="public" />-->
+<#--<@s.url id="servicesDescription" action="servicesdescription" includeParams="all" namespace="/public" />-->
 	<@s.url id="geocodingSearchUrl" action="geocoding_worldwide" includeParams="none" namespace="/public" />
 	<@s.url id="reverseGeocodingSearchUrl" action="reverse_geocoding_worldwide" includeParams="none" namespace="/public" />
 	<@s.url id="streetSearchUrl" action="streetSearch" includeParams="none" namespace="/public" />
@@ -58,7 +58,7 @@
 			 <@s.url id="advancedSearchUrl" action="${advancedSearchURLParam}" includeParams="all" >
 			  <@s.param name="advancedSearch" value="true" />
 			 </@s.url>
-			 <@s.url id="servicesDescription" action="servicesdescription" includeParams="all" namespace="public" />
+			 <@s.url id="servicesDescription" action="servicesdescription" includeParams="all" namespace="/public" />
 				<a href="${advancedSearchUrl}" onclick="$('advancedsearch').toggle();return false;"><@s.text name="search.advanced"/></a>
 				<br/>
 				<a href="http://www.gisgraphy.com/documentation/index.htm#fulltextservice" ><@s.text name="global.help"/></a>
@@ -73,7 +73,7 @@
 			 <@s.url id="advancedSearchUrl" action="${advancedSearchURLParam}" includeParams="all" >
 			  <@s.param name="advancedSearch" value="true" />
 			 </@s.url>
-			  <@s.url id="servicesDescription" action="servicesdescription" includeParams="all" namespace="public" />
+			  <@s.url id="servicesDescription" action="servicesdescription" includeParams="all" namespace="/public" />
 				<a href="${advancedSearchUrl}" onclick="$('advancedsearch').toggle();return false;"><@s.text name="search.advanced"/></a>
 				<br/>
 				<a href="http://www.gisgraphy.com/documentation/index.htm#geolocservice" ><@s.text name="global.help"/></a>
@@ -89,7 +89,7 @@
 			 <@s.url id="advancedSearchUrl" action="${advancedSearchURLParam}" includeParams="all" >
 			  <@s.param name="advancedSearch" value="true" />
 			 </@s.url>
-			  <@s.url id="servicesDescription" action="servicesdescription" includeParams="all" namespace="public" />
+			  <@s.url id="servicesDescription" action="servicesdescription" includeParams="all" namespace="/public" />
 				<a href="${advancedSearchUrl}" onclick="$('advancedsearch').toggle();return false;"><@s.text name="search.advanced"/></a>
 				<br/>
 				<a href="http://www.gisgraphy.com/documentation/index.htm#streetservice" ><@s.text name="global.help"/></a>
@@ -98,4 +98,3 @@
 				<br/>
 			</div>
 </#macro>
-streetsearchTooltip
