@@ -11,6 +11,7 @@
       <@s.text name="import.processingRequest"/>
      <br/><img src="/images/loading.gif" width=20px /> <@s.text name="import.wait.importSince"/> ${importerManager.getFormatedTimeElapsed()}<br/> 
      <br/><@s.text name="import.time.info"/>
+     <br/><@s.text name="import.download.info"/>
        
     </@s.if>
      <@s.if test="importerManager.isAlreadyDone()">
