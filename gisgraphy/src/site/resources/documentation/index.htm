@@ -284,6 +284,20 @@ Each Gisgraphy service (Geoloc and fulltext) is a servlet.
 Each servlet can be run in debug Mode. The error message will be in verbose mode. To do so just declare the servlet init parameter "debugMode" to true (in the web.xml) as shown :  
 <div class ="code">
 <pre>
+	&lt;servlet&gt;
+		&lt;servlet-name&gt;street service&lt;/servlet-name&gt;
+		&lt;servlet-class&gt;
+			com.gisgraphy.servlet.StreetServlet
+		&lt;/servlet-class&gt;
+		 &lt;init-param&gt;
+		 &lt;!-- if true the output field error will contains the exception message. Default to false --&gt;
+			&lt;param-name&gt;debugMode&lt;/param-name&gt;
+			&lt;param-value&gt;true&lt;/param-value&gt;
+		&lt;/init-param&gt;
+		&lt;load-on-startup&gt;1&lt;/load-on-startup&gt;
+	&lt;/servlet&gt;
+
+
 &lt;servlet&gt;
 		&lt;servlet-name&gt;geoloc service&lt;/servlet-name&gt;
 		&lt;servlet-class&gt;
@@ -309,8 +323,7 @@ Each servlet can be run in debug Mode. The error message will be in verbose mode
 			&lt;param-value&gt;true&lt;/param-value&gt;
 		&lt;/init-param&gt;
 		&lt;load-on-startup&gt;2&lt;/load-on-startup&gt;
-&lt;/servlet&gt;
-	
+&lt;/servlet&gt;	
 </pre>
 </div>
 
