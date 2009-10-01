@@ -16,7 +16,7 @@
 <@s.text name="stats.flush.every"><@s.param>${FlushFrequency}</@s.param></@s.text>
 <br/> 
 <br/>
-<@s.text name="global.other"/> :
+<@s.text name="global.others"/> :
 <ul>
 <li><a href="https://www.google.com/analytics/settings/?et=reset&hl=en" target="statsgis">Google analytics</a></li>
 <li><a href="https://www.google.com/adsense/report/overview" target="statsgis">Google adsense</a></li>
