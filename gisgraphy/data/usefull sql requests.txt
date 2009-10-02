@@ -82,28 +82,6 @@ select countrycode||'.zip' from country_work order by id ;
 \q 
 
 <!-- test index fro openstreetmap-->
- select
-        this_.gid as y0_,
-        this_.name as y1_,
-        this_.streetType as y2_,
-        this_.oneWay as y3_,
-        this_.location as y4_,
-        this_.countryCode as y5_,
-        this_.length as y6_,
-        distance_sphere(this_.location,
-        GeometryFromText( 'POINT(2.34879994392395 48.85340881347656)',
-        4326)) as y7_ 
-    from
-        OpenStreetMap this_ 
-    where
-        (
-            this_.shape && GeometryFromText( 'POLYGON((9.999953633258206 29.999955083975237,10.000046366741794 29.999955083975237,10.000046366741794 30.000044916024763,9.999953633258206 30.000044916024763,9.999953633258206 29.999955083975237))',4326)
-            AND intersects(this_.shape, 
-GeometryFromText( 'POLYGON((9.999953633258206 29.999955083975237,10.000046366741794 29.999955083975237,10.000046366741794 30.000044916024763,9.999953633258206 30.000044916024763,9.999953633258206 29.999955083975237))',4326)
-            )
-        ) 
-        and this_.name ilike '%gob%' 
-    order by
-        (y7_) asc limit 10
-
-
+  select this_.gid as y0_, this_.name as y1_, this_.streetType as y2_, this_.oneWay as y3_, this_.location as y4_, this_.countryCode as y5_, this_.length as y6_, distance_sphere(this_.location, GeometryFromText( 'POINT(2.34879994392395 48.85340881347656)', 4326)) as y7_ from  OpenStreetMap this_ where (this_.shape && GeometryFromText( 'POLYGON((2.226746577914182 48.763576763942865,2.470853309933718 48.763576763942865,2.470853309933718 48.94324086301026,2.226746577914182 48.94324086301026,2.226746577914182 48.763576763942865))',4326) AND intersects(this_.shape, GeometryFromText( 'POLYGON((2.226746577914182 48.763576763942865,2.470853309933718 48.763576763942865,2.470853309933718 48.94324086301026,2.226746577914182 48.94324086301026,2.226746577914182 48.763576763942865))',4326)))  and this_.name ilike '%gob%' order by (y7_) asc limit 10
+ 
+ 
