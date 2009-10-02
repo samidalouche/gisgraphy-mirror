@@ -51,6 +51,8 @@ import com.vividsolutions.jts.geom.Point;
 public class OpenStreetMap  {
 
     public static final String SHAPE_COLUMN_NAME = "shape";
+    
+    public static final String FULLTEXT_COLUMN_NAME = "textsearch";
 
     /**
      * Needed by CGLib
@@ -78,6 +80,26 @@ public class OpenStreetMap  {
     private String countryCode;
     
     private Double length;
+    
+    @IntrospectionIgnoredField
+    private String textsearch;
+
+    /**
+     * this field is only use for the text search to improve performance, you should not set a value,
+     * it is declared here, to create the column 
+     * @return the textsearch
+     */
+    @Column(unique = false, nullable = true, insertable=false, columnDefinition="tsvector")
+    public String getTextsearch() {
+        return textsearch;
+    }
+
+    /**
+     * @param textsearch the textsearch to set
+     */
+    public void setTextsearch(String textsearch) {
+        this.textsearch = textsearch;
+    }
 
     /**
      * @return the id

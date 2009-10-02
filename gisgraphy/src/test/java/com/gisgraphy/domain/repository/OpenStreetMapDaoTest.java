@@ -184,5 +184,9 @@ public class OpenStreetMapDaoTest extends AbstractIntegrationHttpSolrTestCase{
     }
 
 
+    @Test
+        public void testBuildFulltextIndex(){
+    		openStreetMapDao.buildFulltextIndex();
+        }
     
 }
