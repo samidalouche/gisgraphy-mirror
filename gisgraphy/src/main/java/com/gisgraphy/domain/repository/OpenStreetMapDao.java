@@ -177,7 +177,7 @@ public class OpenStreetMapDao extends GenericDao<OpenStreetMap, Long> implements
 			    public Object doInHibernate(Session session)
 				    throws PersistenceException {
 				session.saveOrUpdate(o);
-				String updateField = "UPDATE openStreetMap SET "+OpenStreetMap.FULLTEXT_COLUMN_NAME+" = to_tsvector(coalesce(name,'')) where id="+o.getId();  
+				String updateField = "UPDATE openStreetMap SET "+OpenStreetMap.FULLTEXT_COLUMN_NAME+" = to_tsvector('simple',coalesce(name,'')) where id="+o.getId();  
 				Query qryUpdateField = session.createSQLQuery(updateField);
 				qryUpdateField.executeUpdate();
 				return o;

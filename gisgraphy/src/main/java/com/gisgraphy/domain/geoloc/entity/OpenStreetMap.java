@@ -89,7 +89,7 @@ public class OpenStreetMap  {
      * it is declared here, to create the column 
      * @return the textsearch
      */
-    @Column(unique = false, nullable = true, insertable=false, columnDefinition="tsvector")
+    @Column(unique = false, nullable = true, insertable=false, updatable=false, columnDefinition="tsvector")
     public String getTextsearch() {
         return textsearch;
     }
