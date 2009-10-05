@@ -108,6 +108,7 @@ public class OpenStreetMapDao extends GenericDao<OpenStreetMap, Long> implements
 				intersects(OpenStreetMap.SHAPE_COLUMN_NAME, polygonBox, 
 					polygonBox));
 			if (name != null) {
+			    criteria = criteria.add(Restrictions.isNotNull("name"));//optimisation!
 			    criteria = criteria.add(Restrictions.ilike("name", "%"+name+"%"));
 			}
 			if (streetType != null) {
