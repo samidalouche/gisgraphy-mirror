@@ -130,8 +130,8 @@ public class DistanceRestriction implements Criterion {
     }
 
     /**
-     * @param the
-     *                name of the criteria
+     * @param alias the
+     *                sql alias
      * @param lat
      *                the latitude
      * @param lon
@@ -157,7 +157,7 @@ public class DistanceRestriction implements Criterion {
 	StringBuffer sb = new StringBuffer();
 	// {alias}.location && setSRID(BOX3D(...), 4326)
 	sb.append(alias);
-	sb.append(".location");
+	sb.append(".").append(GisFeature.LOCATION_COLUMN_NAME);
 	sb.append(" ");
 	sb.append(INTERSECTION);
 	sb.append(" setSRID(");
