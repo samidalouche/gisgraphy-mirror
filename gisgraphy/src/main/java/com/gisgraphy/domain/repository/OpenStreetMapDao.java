@@ -64,8 +64,7 @@ public class OpenStreetMapDao extends GenericDao<OpenStreetMap, Long> implements
      * Default constructor
      */
     public OpenStreetMapDao() {
-	//super(StreetOSM.class);
-	super(OpenStreetMap.class);
+	    super(OpenStreetMap.class);
     }
     
 
