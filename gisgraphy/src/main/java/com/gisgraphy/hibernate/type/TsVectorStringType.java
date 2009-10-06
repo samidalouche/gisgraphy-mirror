@@ -22,11 +22,7 @@
  *******************************************************************************/
 package com.gisgraphy.hibernate.type;
 
-import java.io.IOException;
-import java.io.Reader;
 import java.io.Serializable;
-import java.io.StringReader;
-import java.sql.Clob;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -42,7 +38,6 @@ import org.hibernate.usertype.UserType;
  */
 public class TsVectorStringType implements UserType{
 	
-	  private static final int READ_BUFFER_SIZE = 4096;
 
 
 	/* (non-Javadoc)
@@ -95,8 +90,7 @@ public class TsVectorStringType implements UserType{
 	 * @see org.hibernate.usertype.UserType#nullSafeGet(java.sql.ResultSet, java.lang.String[], java.lang.Object)
 	 */
 	public Object nullSafeGet(ResultSet rs, String[] names, Object owner) throws HibernateException, SQLException {
-		
-		return rs.getObject(names[0]);
+		return rs.getObject(names[0]).toString();
 
 	}
 
