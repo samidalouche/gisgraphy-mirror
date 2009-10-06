@@ -171,12 +171,13 @@ public class OpenStreetMapDao extends GenericDao<OpenStreetMap, Long> implements
      */
     @Override
     public OpenStreetMap save(final OpenStreetMap o) {
+	super.save(o);
 	return (OpenStreetMap) this.getHibernateTemplate().execute(
 			new HibernateCallback() {
 
 			    public Object doInHibernate(Session session)
 				    throws PersistenceException {
-				session.saveOrUpdate(o);
+				session.flush();
 				String updateField = "UPDATE openStreetMap SET "+OpenStreetMap.FULLTEXT_COLUMN_NAME+" = to_tsvector('simple',coalesce(name,'')) where id="+o.getId();  
 				Query qryUpdateField = session.createSQLQuery(updateField);
 				qryUpdateField.executeUpdate();
