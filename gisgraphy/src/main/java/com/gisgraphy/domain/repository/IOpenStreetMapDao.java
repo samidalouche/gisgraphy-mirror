@@ -25,6 +25,7 @@ package com.gisgraphy.domain.repository;
 import java.util.List;
 
 import com.gisgraphy.domain.geoloc.entity.OpenStreetMap;
+import com.gisgraphy.domain.geoloc.service.fulltextsearch.StreetSearchMode;
 import com.gisgraphy.domain.geoloc.service.geoloc.street.StreetType;
 import com.gisgraphy.domain.valueobject.StreetDistance;
 import com.vividsolutions.jts.geom.Point;
@@ -58,7 +59,7 @@ public interface IOpenStreetMapDao extends IDao<OpenStreetMap, java.lang.Long> {
     public List<StreetDistance> getNearestAndDistanceFrom(
 	    final Point point, final double distance,
 	    final int firstResult, final int maxResults,
-	    final StreetType streetType,Boolean oneWay, final String name) ;
+	    final StreetType streetType,Boolean oneWay, final String name,final StreetSearchMode streetSearchMode) ;
     
     /**
      * @param gid the gid of the openstreetmap entity we want to retrieve

@@ -35,7 +35,7 @@ public enum StreetType {
 
     /**
      * @param type
-     *            the type as String
+     *            the type as String (case insensitive)
      * @return the streetType from the String or null if the StreetType can not
      *         be determine
      */

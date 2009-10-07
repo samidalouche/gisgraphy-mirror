@@ -22,6 +22,7 @@
  *******************************************************************************/
 package com.gisgraphy.domain.geoloc.service.fulltextsearch;
 
+
 /**
  * define the different way to search for street (by name)
  * 
@@ -30,6 +31,25 @@ package com.gisgraphy.domain.geoloc.service.fulltextsearch;
  */
 public enum StreetSearchMode {
     
-    PARTIAL,FULLTEXT;
+    /**
+	 * mode suitable for autocompletion and search of a part of the street name
+	 * (not entire word)
+	 */
+    CONTAINS,
+    
+    /**
+	 * Mode suitable to search for severalentire words with fulltext
+	 * functionality (case insensitive,accent insensitive,...)
+	 */
+    FULLTEXT;
 
+    
+    /**
+     * @return the default streetSearch mode
+     */
+    public static StreetSearchMode getDefault(){
+    	return StreetSearchMode.FULLTEXT;
+    }
+    
+   
 }

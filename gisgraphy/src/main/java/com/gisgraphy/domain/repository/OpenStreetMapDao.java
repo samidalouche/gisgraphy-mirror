@@ -28,6 +28,7 @@ import java.util.List;
 import javax.persistence.PersistenceException;
 
 import org.apache.commons.lang.ArrayUtils;
+import org.apache.commons.lang.NotImplementedException;
 import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.hibernate.Session;
@@ -40,11 +41,13 @@ import org.springframework.util.Assert;
 
 import com.gisgraphy.domain.geoloc.entity.OpenStreetMap;
 import com.gisgraphy.domain.geoloc.entity.Street;
+import com.gisgraphy.domain.geoloc.service.fulltextsearch.StreetSearchMode;
 import com.gisgraphy.domain.geoloc.service.geoloc.street.StreetType;
 import com.gisgraphy.domain.valueobject.StreetDistance;
 import com.gisgraphy.helper.GeolocHelper;
 import com.gisgraphy.helper.IntrospectionHelper;
 import com.gisgraphy.helper.StringHelper;
+import com.gisgraphy.hibernate.criterion.FulltextRestriction;
 import com.gisgraphy.hibernate.criterion.ProjectionOrder;
 import com.gisgraphy.hibernate.criterion.ResultTransformerUtil;
 import com.gisgraphy.hibernate.projection.ProjectionBean;
@@ -76,9 +79,12 @@ public class OpenStreetMapDao extends GenericDao<OpenStreetMap, Long> implements
     public List<StreetDistance> getNearestAndDistanceFrom(
 	    final Point point, final double distance,
 	    final int firstResult, final int maxResults,
-	    final StreetType streetType, final Boolean oneWay ,final String name) {
+	    final StreetType streetType, final Boolean oneWay ,final String name, final StreetSearchMode streetSearchMode) {
 	
 	Assert.notNull(point);
+	if (name != null && streetSearchMode==null){
+		throw new IllegalArgumentException("streetSearchmode can not be null if name is provided");
+	}
 	return (List<StreetDistance>) this.getHibernateTemplate().execute(
 		new HibernateCallback() {
 
@@ -108,8 +114,14 @@ public class OpenStreetMapDao extends GenericDao<OpenStreetMap, Long> implements
 				intersects(OpenStreetMap.SHAPE_COLUMN_NAME, polygonBox, 
 					polygonBox));
 			if (name != null) {
+					if (streetSearchMode==StreetSearchMode.CONTAINS){
 			    criteria = criteria.add(Restrictions.isNotNull("name"));//optimisation!
 			    criteria = criteria.add(Restrictions.ilike("name", "%"+name+"%"));
+					} else if (streetSearchMode == StreetSearchMode.FULLTEXT){
+						  criteria = criteria.add(new FulltextRestriction(OpenStreetMap.FULLTEXT_COLUMN_NAME, name));
+					} else {
+						throw new NotImplementedException(streetSearchMode+" is not implemented for street search");
+					}
 			}
 			if (streetType != null) {
 			    criteria = criteria.add(Restrictions.eq("streetType",streetType));

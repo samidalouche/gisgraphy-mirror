@@ -76,7 +76,7 @@ public class StreetSearchEngineTest extends AbstractIntegrationHttpSolrTestCase 
 
 	Pagination pagination = paginate().from(1).to(15);
 	Output output = Output.withFormat(OutputFormat.XML).withIndentation();
-	StreetSearchQuery query = new StreetSearchQuery(street.getLocation(),10000,pagination,output,StreetType.MOTROWAY,street.getOneWay(),null);
+	StreetSearchQuery query = new StreetSearchQuery(street.getLocation(),10000,pagination,output,StreetType.MOTROWAY,street.getOneWay(),null,null);
 	FileOutputStream outputStream = null;
 	try {
 	    outputStream = new FileOutputStream(file);
@@ -110,7 +110,7 @@ public class StreetSearchEngineTest extends AbstractIntegrationHttpSolrTestCase 
 
 	Pagination pagination = paginate().from(1).to(15);
 	Output output = Output.withFormat(OutputFormat.XML).withIndentation();
-	StreetSearchQuery query = new StreetSearchQuery(street.getLocation(),10000,pagination,output,street.getStreetType(),street.getOneWay(),null);
+	StreetSearchQuery query = new StreetSearchQuery(street.getLocation(),10000,pagination,output,street.getStreetType(),street.getOneWay(),null,null);
 	
 	String content = streetSearchEngine.executeQueryToString(query);
 
@@ -130,7 +130,7 @@ public class StreetSearchEngineTest extends AbstractIntegrationHttpSolrTestCase 
 
 	Pagination pagination = paginate().from(1).to(15);
 	Output output = Output.withFormat(OutputFormat.XML).withIndentation();
-	StreetSearchQuery query = new StreetSearchQuery(street.getLocation(),10000,pagination,output,street.getStreetType(),street.getOneWay(),null);
+	StreetSearchQuery query = new StreetSearchQuery(street.getLocation(),10000,pagination,output,street.getStreetType(),street.getOneWay(),null,null);
 	
 	StreetSearchResultsDto results = streetSearchEngine.executeQuery(query);
 	assertEquals(1, results.getResult().size());
@@ -142,7 +142,7 @@ public class StreetSearchEngineTest extends AbstractIntegrationHttpSolrTestCase 
 
 	Pagination pagination = paginate().from(1).to(15);
 	Output output = Output.withFormat(OutputFormat.XML).withIndentation();
-	StreetSearchQuery query = new StreetSearchQuery(GeolocHelper.createPoint(2F, 3F),10000,pagination,output,null,null,null);
+	StreetSearchQuery query = new StreetSearchQuery(GeolocHelper.createPoint(2F, 3F),10000,pagination,output,null,null,null,null);
 	
 	StreetSearchResultsDto results = streetSearchEngine.executeQuery(query);
 	assertNotNull(

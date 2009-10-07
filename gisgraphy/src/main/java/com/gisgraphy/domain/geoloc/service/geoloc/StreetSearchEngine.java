@@ -76,7 +76,7 @@ public class StreetSearchEngine implements IStreetSearchEngine {
 			query.getFirstPaginationIndex(), query
 				.getMaxNumberOfResults(),
 			query.getStreetType(), query.getOneWay(), query
-				.getName());
+				.getName(),query.getStreetSearchMode());
 
 	long end = System.currentTimeMillis();
 	long qTime = end - start;

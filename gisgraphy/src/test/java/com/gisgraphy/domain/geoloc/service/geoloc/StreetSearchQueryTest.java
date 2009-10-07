@@ -37,6 +37,7 @@ import com.gisgraphy.domain.geoloc.entity.Adm;
 import com.gisgraphy.domain.geoloc.entity.City;
 import com.gisgraphy.domain.geoloc.entity.Country;
 import com.gisgraphy.domain.geoloc.entity.GisFeature;
+import com.gisgraphy.domain.geoloc.service.fulltextsearch.StreetSearchMode;
 import com.gisgraphy.domain.geoloc.service.geoloc.street.StreetType;
 import com.gisgraphy.domain.valueobject.GisgraphyConfig;
 import com.gisgraphy.domain.valueobject.Output;
@@ -62,7 +63,7 @@ public class StreetSearchQueryTest extends TestCase {
 	Output output = Output.withFormat(OutputFormat.JSON).withLanguageCode(
 		"FR").withStyle(OutputStyle.FULL).withIndentation();
 	StreetSearchQuery query = new StreetSearchQuery(GENERIC_POINT, 3D, pagination,
-		output, StreetType.UNCLASSIFIED,true,"name");
+		output, StreetType.UNCLASSIFIED,true,"name",StreetSearchMode.CONTAINS);
 	assertEquals(pagination, query.getPagination());
 	assertEquals(output, query.getOutput());
 	assertEquals(null, query.getPlaceType());
@@ -72,6 +73,23 @@ public class StreetSearchQueryTest extends TestCase {
 	assertEquals(StreetType.UNCLASSIFIED, query.getStreetType());
 	assertEquals(Boolean.TRUE, query.getOneWay());
 	assertEquals("name", query.getName());
+	assertEquals(StreetSearchMode.CONTAINS, query.getStreetSearchMode());
+    }
+    
+    public void testStreetSearchModeShouldBeSetToDefaultIfNameIsNotNullAndStreetSearchModeIsNull(){
+    	Pagination pagination = paginate().from(2).to(7);
+    	Output output = Output.withFormat(OutputFormat.JSON).withLanguageCode(
+    		"FR").withStyle(OutputStyle.FULL).withIndentation();
+    	StreetSearchQuery query = new StreetSearchQuery(GENERIC_POINT, 3D, pagination,
+    		output, StreetType.UNCLASSIFIED,true,"name",null);
+    	assertEquals(StreetSearchMode.getDefault(), query.getStreetSearchMode());
+    	
+    	query = new StreetSearchQuery(GENERIC_POINT, 3D, pagination,
+        		output, StreetType.UNCLASSIFIED,true,null,null);
+    	assertNull("StreetSearchModeCanBeNull if name is null", query.getStreetSearchMode());
+    	
+    	
+    	
     }
 
     public void testStreetSearchQueryPointRadius() {
@@ -248,6 +266,45 @@ public class StreetSearchQueryTest extends TestCase {
 	    assertEquals(GisgraphyServlet.FORMAT_PARAMETER
 		    + " should be case insensitive  ", OutputFormat.JSON, query
 		    .getOutputFormat());
+	    // test streeSearchMode
+	    // with no value specified
+	    request = GeolocTestHelper.createMockHttpServletRequestForStreetGeoloc();
+	    request.removeParameter(StreetServlet.STREET_SEARCH_MODE_PARAMETER);
+	    query = new StreetSearchQuery(request);
+	    assertEquals(
+		    "When no "
+			    + StreetServlet.STREET_SEARCH_MODE_PARAMETER
+			    + " is specified, the  parameter should be set to defaultValue",StreetSearchMode.getDefault(), query
+			    .getStreetSearchMode());
+	   // with wrong value
+	    request = GeolocTestHelper.createMockHttpServletRequestForStreetGeoloc();
+	    request.setParameter(StreetServlet.STREET_SEARCH_MODE_PARAMETER, "unk");
+	    query = new StreetSearchQuery(request);
+	    assertEquals(
+		    "When wrong "
+			    + StreetServlet.STREET_SEARCH_MODE_PARAMETER
+			    + " is specified, the  parameter should be set to the default value ",
+		    StreetSearchMode.getDefault(),query
+			    .getStreetSearchMode());
+	    //test with good value 
+	    request = GeolocTestHelper.createMockHttpServletRequestForStreetGeoloc();
+	    request.setParameter(StreetServlet.STREET_SEARCH_MODE_PARAMETER, StreetSearchMode.CONTAINS.toString());
+	    query = new StreetSearchQuery(request);
+	    assertEquals(
+		    "When good "
+			    + StreetServlet.STREET_SEARCH_MODE_PARAMETER
+			    + " is specified, the  parameter should be set to the Equivalent streetSearchMode ",StreetSearchMode.CONTAINS,
+		    query
+			    .getStreetSearchMode());
+	  //test case sensitivity
+	    request = GeolocTestHelper.createMockHttpServletRequestForStreetGeoloc();
+	    request.setParameter(StreetServlet.STREET_SEARCH_MODE_PARAMETER, StreetSearchMode.CONTAINS.toString().toLowerCase());
+	    query = new StreetSearchQuery(request);
+	    assertEquals(
+			     StreetServlet.STREET_SEARCH_MODE_PARAMETER
+			    + " should be case sensitive ",StreetSearchMode.CONTAINS,
+		    query
+			    .getStreetSearchMode());
 	    // test streettype
 	    // with no value specified
 	    request = GeolocTestHelper.createMockHttpServletRequestForStreetGeoloc();
@@ -548,12 +605,12 @@ public class StreetSearchQueryTest extends TestCase {
 		"FR").withStyle(OutputStyle.FULL);
 	// with negative value
 	StreetSearchQuery query = new StreetSearchQuery(GENERIC_POINT, -1, pagination,
-		output, StreetType.UNCLASSIFIED,true,"name");
+		output, StreetType.UNCLASSIFIED,true,"name",StreetSearchMode.getDefault());
 	assertEquals(GeolocQuery.DEFAULT_RADIUS, query.getRadius());
 
 	// with 0
 	 query = new StreetSearchQuery(GENERIC_POINT, 0, pagination,
-		output, StreetType.UNCLASSIFIED,true,"name");
+		output, StreetType.UNCLASSIFIED,true,"name",StreetSearchMode.getDefault());
 	assertEquals(GeolocQuery.DEFAULT_RADIUS, query.getRadius());
 
     }
@@ -607,6 +664,14 @@ public class StreetSearchQueryTest extends TestCase {
 	assertNull("Default value of oneway should be null", query.getOneWay());
 	query.withOneWay(true);
 	assertEquals(Boolean.TRUE, query.getOneWay());
+    }
+    
+    @Test
+    public void testWithStreetSearchModeShouldSetTheStreetSearchMode() {
+	StreetSearchQuery query = new StreetSearchQuery(GENERIC_POINT,StreetType.UNCLASSIFIED);
+	assertEquals("Default value of Street searchMode should be the StreetSearchMode.getDefault() one",StreetSearchMode.getDefault(), query.getStreetSearchMode());
+	query.withStreetSearchMode(StreetSearchMode.CONTAINS);
+	assertEquals(StreetSearchMode.CONTAINS, query.getStreetSearchMode());
     }
     
     @Test

@@ -24,6 +24,7 @@ package com.gisgraphy.domain.geoloc.service.geoloc;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.gisgraphy.domain.geoloc.service.fulltextsearch.StreetSearchMode;
 import com.gisgraphy.domain.geoloc.service.geoloc.street.StreetType;
 import com.gisgraphy.domain.valueobject.Output;
 import com.gisgraphy.domain.valueobject.Pagination;
@@ -46,7 +47,14 @@ public class StreetSearchQuery extends GeolocQuery {
 
     private Boolean oneWay= null;
     
+    private StreetSearchMode streetSearchMode = StreetSearchMode.getDefault();
+    
 
+    /**
+     * Build a query from an httpRequest based
+     *  on the {@link StreetServlet} parameter names
+     * @param req the httprequest to build the query
+     */
     public StreetSearchQuery(HttpServletRequest req) {
 	super(req);
 	//streettype
@@ -65,8 +73,20 @@ public class StreetSearchQuery extends GeolocQuery {
 	}
 	//name
 	withName(req.getParameter(StreetServlet.NAME_PARAMETER));
+	
+	String StreetSearchModeparameter = req.getParameter(StreetServlet.STREET_SEARCH_MODE_PARAMETER);
+	setStreetSearchModeFromString(StreetSearchModeparameter);
+
 
     }
+
+	private void setStreetSearchModeFromString(String searchModeString) {
+		    try {
+			this.streetSearchMode = StreetSearchMode.valueOf(searchModeString.toUpperCase());
+		    } catch (RuntimeException e) {
+		    	this.streetSearchMode= StreetSearchMode.getDefault();
+		    }
+	}
 
     /**
      * @param point
@@ -84,14 +104,20 @@ public class StreetSearchQuery extends GeolocQuery {
      *                type.
      * @param oneWay the oneWay type criteria of the street
      * @param name the name the street must contains
+     * @param streetSearchMode the streetsearchmode for the specified name
      * @throws An
      *                 {@link IllegalArgumentException} if the point is null
      */
     public StreetSearchQuery(Point point, double radius, Pagination pagination,
-	    Output output, StreetType streetType,Boolean oneWay,String name) {
+	    Output output, StreetType streetType,Boolean oneWay,String name,StreetSearchMode streetSearchMode) {
 	super(point, radius, pagination, output, null);
 	withStreetType(streetType).
 	withName(name).withOneWay(oneWay);
+	if (name != null && streetSearchMode==null){
+		withStreetSearchMode(StreetSearchMode.getDefault());
+	}else {
+		withStreetSearchMode(streetSearchMode);
+	}
     }
 
     /**
@@ -186,6 +212,22 @@ public class StreetSearchQuery extends GeolocQuery {
 	return this.oneWay;
     }
     
+    /**
+	 * @return the street {@link StreetSearchMode}
+	 */
+	public StreetSearchMode getStreetSearchMode() {
+		return streetSearchMode;
+	}
+
+	/**
+	 * @param streetSearchMode the {@link StreetSearchMode}
+	 * @return  The current query to chain methods
+	 */
+	public StreetSearchQuery withStreetSearchMode(StreetSearchMode streetSearchMode) {
+		this.streetSearchMode = streetSearchMode;
+		return this;
+	}
+    
     /*
      * (non-Javadoc)
      * 
@@ -194,7 +236,7 @@ public class StreetSearchQuery extends GeolocQuery {
     @Override
     public String toString() {
 	String asString = "StreetSearchQuery (lat='"
-		+ getPoint().getY() + "',long='" + getPoint().getX() + "') and name="+this.name+" and radius="
+		+ getPoint().getY() + "',long='" + getPoint().getX() + "') and name="+this.name+" and streetsearchmode="+this.streetSearchMode+" and radius="
 		+ getRadius() + " for streetType="+streetType+" and oneWay="+this.oneWay;
 	asString += " with " + getOutput() + " and " + pagination;
 	return asString;
@@ -209,6 +251,7 @@ public class StreetSearchQuery extends GeolocQuery {
 	int result = super.hashCode();
 	result = prime * result + ((name == null) ? 0 : name.hashCode());
 	result = prime * result + ((oneWay == null) ? 0 : oneWay.hashCode());
+	result = prime * result + ((streetSearchMode == null) ? 0 : streetSearchMode.hashCode());
 	result = prime * result
 		+ ((streetType == null) ? 0 : streetType.hashCode());
 	return result;
@@ -236,6 +279,11 @@ public class StreetSearchQuery extends GeolocQuery {
 		return false;
 	} else if (!oneWay.equals(other.oneWay))
 	    return false;
+	if (streetSearchMode == null) {
+	    if (other.streetSearchMode != null)
+		return false;
+	} else if (!streetSearchMode.equals(other.streetSearchMode))
+	    return false;
 	if (streetType == null) {
 	    if (other.streetType != null)
 		return false;
@@ -243,5 +291,7 @@ public class StreetSearchQuery extends GeolocQuery {
 	    return false;
 	return true;
     }
+
+	
     
 }
