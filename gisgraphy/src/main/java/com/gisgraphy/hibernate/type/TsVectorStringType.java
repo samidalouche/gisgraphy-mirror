@@ -60,8 +60,8 @@ public class TsVectorStringType implements UserType{
 	/* (non-Javadoc)
 	 * @see org.hibernate.usertype.UserType#disassemble(java.lang.Object)
 	 */
-	public Serializable disassemble(Object arg0) throws HibernateException {
-		return null;
+	public Serializable disassemble(Object o) throws HibernateException {
+		return o == null? null: o.toString();
 	}
 
 	/* (non-Javadoc)
@@ -90,7 +90,10 @@ public class TsVectorStringType implements UserType{
 	 * @see org.hibernate.usertype.UserType#nullSafeGet(java.sql.ResultSet, java.lang.String[], java.lang.Object)
 	 */
 	public Object nullSafeGet(ResultSet rs, String[] names, Object owner) throws HibernateException, SQLException {
-		return rs.getObject(names[0]).toString();
+		Object value = rs.getObject(names[0]);
+		//the code bellow doens't work because there is no jdbc extension for tsvector object
+		//return value== null? null: value.toString();
+		return null;
 
 	}
 
@@ -100,9 +103,11 @@ public class TsVectorStringType implements UserType{
 	public void nullSafeSet(PreparedStatement st, Object value, int index) throws HibernateException, SQLException {
 		if (value != null) {
 				if (!(value instanceof String)){
-					throw new HibernateException("object must be a string to be converted");
+					throw new HibernateException("object must be a string to be converted but was "+value.getClass().getName());
 				}
-		    st.setString(index,"to_tsvector('"+((String) value)+"')");
+		   //the code bellow doens't work because there is no jdbc extension for tsvector object
+		  //st.setObject(index,"(select to_tsvector('"+((String) value)+"'))",25);
+		    st.setNull(index, sqlTypes()[0]);
 		} else {
 		    st.setNull(index, sqlTypes()[0]);
 		}

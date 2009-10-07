@@ -93,7 +93,7 @@ public class OpenStreetMap  {
      * @return the textsearch
      */
     @Column(unique = false, nullable = true,insertable=true,updatable=true,  columnDefinition="tsvector")
-    @Type(type = "org.hibernatespatial.GeometryUserType")
+    @Type(type = "com.gisgraphy.hibernate.type.TsVectorStringType")
     public String getTextsearch() {
         return null;
     }
@@ -102,7 +102,7 @@ public class OpenStreetMap  {
      * @param textsearch the textsearch to set
      */
     public void setTextsearch(String textsearch) {
-       // this.textsearch = textsearch;
+       //this.textsearch = textsearch;
     }
 
     /**

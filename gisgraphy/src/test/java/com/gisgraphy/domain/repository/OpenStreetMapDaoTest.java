@@ -130,28 +130,10 @@ public class OpenStreetMapDaoTest extends AbstractIntegrationHttpSolrTestCase{
     }
 
 
-    private OpenStreetMap createOpenStreetMap() {
-	OpenStreetMap streetOSM = new OpenStreetMap();
-	String[] wktLineStrings={"LINESTRING (30.001 30.001, 40 40)"};
-	MultiLineString shape = GeolocHelper.createMultiLineString(wktLineStrings);
-	streetOSM.setShape(shape);
-	streetOSM.setGid(1L);
-	streetOSM.setOneWay(false);
-	streetOSM.setStreetType(StreetType.FOOTWAY);
-	streetOSM.setName("peter martin");
-	streetOSM.setLocation(GeolocHelper.createPoint(30.001F, 40F));
-	
-	return streetOSM;
-    }
+   
 
 
-    /**
-     * @param openStreetMapDao the openStreetMapDao to set
-     */
-    @Required
-    public void setOpenStreetMapDao(IOpenStreetMapDao openStreetMapDao) {
-        this.openStreetMapDao = openStreetMapDao;
-    }
+   
     
     @Test
     public void testGetByGidShouldRetrieveIfEntityExists(){
@@ -182,11 +164,30 @@ public class OpenStreetMapDaoTest extends AbstractIntegrationHttpSolrTestCase{
 	}
 	
     }
+    
+    private OpenStreetMap createOpenStreetMap() {
+	OpenStreetMap streetOSM = new OpenStreetMap();
+	String[] wktLineStrings={"LINESTRING (30.001 30.001, 40 40)"};
+	MultiLineString shape = GeolocHelper.createMultiLineString(wktLineStrings);
+	streetOSM.setShape(shape);
+	streetOSM.setGid(1L);
+	streetOSM.setOneWay(false);
+	streetOSM.setStreetType(StreetType.FOOTWAY);
+	streetOSM.setName("peter martin");
+	streetOSM.setLocation(GeolocHelper.createPoint(30.001F, 40F));
+	
+	return streetOSM;
+    }
 
 
     @Test
-        public void testBuildFulltextIndex(){
+    public void testBuildFulltextIndex(){
     		openStreetMapDao.buildFulltextIndex();
-        }
+    }
+    
+    @Required
+    public void setOpenStreetMapDao(IOpenStreetMapDao openStreetMapDao) {
+        this.openStreetMapDao = openStreetMapDao;
+    }
     
 }
