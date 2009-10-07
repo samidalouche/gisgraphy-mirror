@@ -69,11 +69,11 @@ public static final String TransformStringForIlikeIndexation(String originalStri
 			for (int i=0; i< originalString.length();i++){
 				for (int j=i+1; j <= originalString.length();j++){
 						substring = originalString.substring(i,j);
-						if (!substring.endsWith(" ") ){
-							if (substring.startsWith(" ")){
+						if (!substring.endsWith(" ") ){//we have alredy add the entry the last loop
+							if (substring.startsWith(" ")){//need to trim?
 								substring = substring.substring(1);
 							}
-							if (substring.length()>1){
+							if (substring.length()>1){//only index string that have length >=2
 								result = result+substring+"_";
 							}
 						}
