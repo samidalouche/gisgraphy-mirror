@@ -40,10 +40,48 @@ public class StringHelper {
  * 	- lowercase
  * 	- word delimiter ('-', '.'
  * @param originalString the string to process
- * @return the transformed String
+ * @return the transformed String or null if the original String is null
  */
 public static final String TransformStringForFulltextIndexation(String originalString){
-       return originalString== null ? null:EncodingHelper.removeAccents(originalString).toLowerCase().replace("-", " ").replace(".", " ").replace("\"", " ").replace("'", " ");
+       return originalString== null ? null:EncodingHelper.removeAccents(originalString)
+    		   .toLowerCase().replace("-", " ").replace(".", " ")
+    		   .replace("\"", " ").replace("'", " ");
        
+   }
+
+/**
+ * Process a string to in order to be stored in a specific postgres 
+ * field to allow the index usage for ilike (ilike(String%):
+ * e.g : 'it s ok'=> 'it' 'it ' 'it s' 'it s ' 'it s o' 'it s ok' 
+ * 
+ * @param originalString the string to process
+ * @return the transformed String or null if the original String is null
+ */
+public static final String TransformStringForIlikeIndexation(String originalString){
+		if (originalString == null){
+			return null;
+		}
+		//use hashset to remove duplicate
+		String substring = null;
+		String result = "";
+		StringBuffer sb = new StringBuffer();
+		try {
+			for (int i=0; i< originalString.length();i++){
+				for (int j=i+1; j <= originalString.length();j++){
+						substring = originalString.substring(i,j);
+						if (!substring.endsWith(" ") ){
+							if (substring.startsWith(" ")){
+								substring = substring.substring(1);
+							}
+							if (substring.length()>1){
+								result = result+substring+"_";
+							}
+						}
+				}
+			}
+		} catch (RuntimeException e) {
+			return result;
+		}
+			return result;
    }
 }

@@ -13,8 +13,19 @@ public class StringHelperTest {
     }
     
     @Test
-    public void testTransformStringForFulltextIndexationForNullString() {
+    public void TransformStringForFulltextIndexationForNullString() {
 	Assert.assertNull(StringHelper.TransformStringForFulltextIndexation(null));
     }
+    
+    @Test
+    public void TransformStringForIlikeIndexationForNullString(){
+    	Assert.assertNull(StringHelper.TransformStringForIlikeIndexation(null));
+    }
+    
+    @Test
+    public void TransformStringForIlikeIndexation(){
+    	//Assert.assertEquals("it_it s_it s o_it s ok",StringHelper.TransformStringForIlikeIndexation("it s ok"));
+    }
+
 
 }
