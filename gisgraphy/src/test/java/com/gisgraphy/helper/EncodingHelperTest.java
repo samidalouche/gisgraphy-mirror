@@ -99,8 +99,8 @@ public class EncodingHelperTest {
 		Assert.assertEquals("y",EncodingHelper.removeAccents("\u00FD"));
 		Assert.assertEquals("y",EncodingHelper.removeAccents("\u00FF"));
 		
-		Assert.assertEquals("letter without accent should not be modified","Je me souviens de ce zouave qui jouait du xylophone en buvant du whisky",
-				EncodingHelper.removeAccents("Je me souviens de ce zouave qui jouait du xylophone en buvant du whisky"));
+		Assert.assertEquals("letter without accent should not be modified","- Je me souviens de ce zouave qui jouait du xylophone en buvant du whisky.;",
+				EncodingHelper.removeAccents("- Je me souviens de ce zouave qui jouait du xylophone en buvant du whisky.;"));
 		
 	}
 
