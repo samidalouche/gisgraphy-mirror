@@ -66,6 +66,5 @@ public interface IOpenStreetMapDao extends IDao<OpenStreetMap, java.lang.Long> {
      */
     public OpenStreetMap getByGid(final Long gid) ;
     
-    public void buildFulltextIndex();
     
 }

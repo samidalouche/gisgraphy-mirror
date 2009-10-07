@@ -180,10 +180,6 @@ public class OpenStreetMapDaoTest extends AbstractIntegrationHttpSolrTestCase{
     }
 
 
-    @Test
-    public void testBuildFulltextIndex(){
-    		openStreetMapDao.buildFulltextIndex();
-    }
     
     @Required
     public void setOpenStreetMapDao(IOpenStreetMapDao openStreetMapDao) {

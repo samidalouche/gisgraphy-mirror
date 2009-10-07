@@ -192,29 +192,7 @@ public class OpenStreetMapDao extends GenericDao<OpenStreetMap, Long> implements
     
     
 
-
-    public void buildFulltextIndex() {
-	 this.getHibernateTemplate().execute(
-		new HibernateCallback() {
-
-		    public Object doInHibernate(Session session)
-			    throws PersistenceException {
-			String createColumn = "ALTER TABLE openStreetMap ADD COLUMN search_idx_openstreetmap_name tsvector;  ";
-			String updateField = "UPDATE openStreetMap SET search_idx_openstreetmap_name = to_tsvector(coalesce(name,''))";  
-
-			Query qryCreateColumn = session.createSQLQuery(createColumn);
-			qryCreateColumn.executeUpdate();
-			
-			Query qryUpdateField = session.createSQLQuery(updateField);
-			qryUpdateField.executeUpdate();
-			return 1;
-			
-		    }
-		});
-    
-	
-    }
-    
+ 
     
 
 }
