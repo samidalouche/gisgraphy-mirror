@@ -52,7 +52,7 @@ import com.gisgraphy.helper.StringHelper;
  * 
  * @author <a href="mailto:david.masclet@gisgraphy.com">David Masclet</a>
  */
-public class fulltextRestriction implements Criterion {
+public class FulltextRestriction implements Criterion {
 
 
 
@@ -67,7 +67,7 @@ public class fulltextRestriction implements Criterion {
      * @param ts_vectorColumnName The name of the ts_vector column
      * @param searchedText the text to search
      */
-    public fulltextRestriction(String ts_vectorColumnName, String searchedText) {
+    public FulltextRestriction(String ts_vectorColumnName, String searchedText) {
     if (ts_vectorColumnName == null ){
     	throw new IllegalArgumentException("the name of the ts_vector column can not be null");
     }

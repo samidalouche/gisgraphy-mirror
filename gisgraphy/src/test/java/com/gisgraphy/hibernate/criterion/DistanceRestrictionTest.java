@@ -131,7 +131,7 @@ public class DistanceRestrictionTest extends
 	List<_CityDTO> cities = (List<_CityDTO>) testDao
 		.testCallback(hibernateCallback);
 	assertEquals(
-		"According to the distance restriction, it should have zero results",
+		"According to the distance restriction, it should have zero result",
 		0, cities.size());
 
 	hibernateCallback = new HibernateCallback() {
@@ -140,8 +140,6 @@ public class DistanceRestrictionTest extends
 		    throws PersistenceException {
 
 		Criteria testCriteria = session.createCriteria(City.class);
-		List<String> fieldList = new ArrayList<String>();
-		fieldList.add("name");
 		Projection projection = Projections.property("name").as("name");
 		testCriteria.setProjection(projection).add(
 			new DistanceRestriction(p1.getLocation(), 600000D))
