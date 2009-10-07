@@ -20,30 +20,16 @@
  *  
  *  
  *******************************************************************************/
-package com.gisgraphy.helper;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+package com.gisgraphy.domain.geoloc.service.fulltextsearch;
 
 /**
- * Provide some usefull method to copute strinfg for autocompletion and fulltextsearch
+ * define the different way to search for street (by name)
  * 
- * @author <a href="mailto:david.masclet@gisgraphy.com">David Masclet</a>
+ *  @author <a href="mailto:david.masclet@gisgraphy.com">David Masclet</a>
+ *
  */
-public class StringHelper {
+public enum StreetSearchMode {
+    
+    PARTIAL,FULLTEXT;
 
-    protected static final Logger logger = LoggerFactory.getLogger(StringHelper.class);
-
-/**
- * Process a string to apply filter as lucene and solr does :
- * 	- remove accent
- * 	- lowercase
- * 	- word delimiter ('-', '.'
- * @param originalString the string to process
- * @return the transformed String
- */
-public static final String TransformStringForFulltextIndexation(String originalString){
-       return originalString== null ? null:EncodingHelper.removeAccents(originalString).toLowerCase().replace("-", " ").replace(".", " ").replace("\"", " ").replace("'", " ");
-       
-   }
 }

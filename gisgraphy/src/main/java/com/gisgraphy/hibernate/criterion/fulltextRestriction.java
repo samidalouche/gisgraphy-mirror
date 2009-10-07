@@ -44,6 +44,8 @@ import org.hibernate.criterion.CriteriaQuery;
 import org.hibernate.criterion.Criterion;
 import org.hibernate.engine.TypedValue;
 
+import com.gisgraphy.helper.StringHelper;
+
 /**
  * An implementation of the <code>Criterion</code> interface that implements
  * 'ts_query @@ ts_vector' restriction
@@ -85,7 +87,7 @@ public class fulltextRestriction implements Criterion {
      */
     public TypedValue[] getTypedValues(Criteria criteria,
 	    CriteriaQuery criteriaQuery) throws HibernateException {
-	return  new TypedValue[] { new TypedValue( Hibernate.STRING, searchedText, EntityMode.POJO )};
+	return  new TypedValue[] { new TypedValue( Hibernate.STRING, StringHelper.TransformStringForFulltextIndexation(searchedText), EntityMode.POJO )};
 
     }
 
@@ -100,7 +102,7 @@ public class fulltextRestriction implements Criterion {
 	String columnName = criteriaQuery.getColumn(criteria,
 			ts_vectorColumnName);
 	StringBuffer result = new StringBuffer("(").append(columnName).append(
-			"@@ plainto_tsquery(?)").append(")");
+			"@@ plainto_tsquery('simple',?)").append(")");
 			return result.toString();
 
     }

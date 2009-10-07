@@ -44,6 +44,7 @@ import com.gisgraphy.domain.geoloc.service.geoloc.street.StreetType;
 import com.gisgraphy.domain.valueobject.StreetDistance;
 import com.gisgraphy.helper.GeolocHelper;
 import com.gisgraphy.helper.IntrospectionHelper;
+import com.gisgraphy.helper.StringHelper;
 import com.gisgraphy.hibernate.criterion.ProjectionOrder;
 import com.gisgraphy.hibernate.criterion.ResultTransformerUtil;
 import com.gisgraphy.hibernate.projection.ProjectionBean;
@@ -171,19 +172,22 @@ public class OpenStreetMapDao extends GenericDao<OpenStreetMap, Long> implements
     @Override
     public OpenStreetMap save(final OpenStreetMap o) {
 	super.save(o);
+	if (o.getName()!=null){
 	return (OpenStreetMap) this.getHibernateTemplate().execute(
 			new HibernateCallback() {
 
 			    public Object doInHibernate(Session session)
 				    throws PersistenceException {
 				session.flush();
-				String updateField = "UPDATE openStreetMap SET "+OpenStreetMap.FULLTEXT_COLUMN_NAME+" = to_tsvector('simple',coalesce(name,'')) where id="+o.getId();  
+				String updateField = "UPDATE openStreetMap SET "+OpenStreetMap.FULLTEXT_COLUMN_NAME+" = to_tsvector('simple',coalesce('"+StringHelper.TransformStringForFulltextIndexation(o.getName())+"','')) where id="+o.getId();  
 				Query qryUpdateField = session.createSQLQuery(updateField);
 				qryUpdateField.executeUpdate();
 				return o;
 				
 			    }
 			});
+	}
+	return o;
     }
     
     

@@ -22,6 +22,8 @@
  *******************************************************************************/
 package com.gisgraphy.domain.geoloc.entity;
 
+import java.sql.Types;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -83,22 +85,24 @@ public class OpenStreetMap  {
     
     @IntrospectionIgnoredField
     private String textsearch;
+    
 
     /**
      * this field is only use for the text search to improve performance, you should not set a value,
      * it is declared here, to create the column 
      * @return the textsearch
      */
-    @Column(unique = false, nullable = true, insertable=false, updatable=false, columnDefinition="tsvector")
+    @Column(unique = false, nullable = true,insertable=true,updatable=true,  columnDefinition="tsvector")
+    @Type(type = "org.hibernatespatial.GeometryUserType")
     public String getTextsearch() {
-        return textsearch;
+        return null;
     }
 
     /**
      * @param textsearch the textsearch to set
      */
     public void setTextsearch(String textsearch) {
-        this.textsearch = textsearch;
+       // this.textsearch = textsearch;
     }
 
     /**
