@@ -48,7 +48,6 @@ import com.gisgraphy.domain.geoloc.entity.CitySubdivision;
 import com.gisgraphy.domain.geoloc.entity.Country;
 import com.gisgraphy.domain.geoloc.entity.GisFeature;
 import com.gisgraphy.domain.geoloc.entity.OpenStreetMap;
-import com.gisgraphy.domain.geoloc.service.fulltextsearch.StreetSearchMode;
 import com.gisgraphy.domain.geoloc.service.geoloc.street.StreetType;
 import com.gisgraphy.domain.repository.IAdmDao;
 import com.gisgraphy.domain.repository.ICityDao;
@@ -704,6 +703,7 @@ public class GeolocTestHelper {
 	request.addParameter(GisgraphyServlet.FORMAT_PARAMETER, "XML");
 	request.addParameter(GeolocServlet.PLACETYPE_PARAMETER, "city");
 	request.addParameter(GeolocServlet.LAT_PARAMETER, "1.0");
+	request.addParameter(GeolocServlet.LONG_PARAMETER, "2.0");
 	request.addParameter(GeolocServlet.LONG_PARAMETER, "3.0");
 	return request;
     }
@@ -715,8 +715,8 @@ public class GeolocTestHelper {
 	request.addParameter(GisgraphyServlet.FORMAT_PARAMETER, "XML");
 	request.addParameter(GeolocServlet.PLACETYPE_PARAMETER, "city");
 	request.addParameter(GeolocServlet.LAT_PARAMETER, "1.0");
+	request.addParameter(GeolocServlet.LONG_PARAMETER, "2.0");
 	request.addParameter(GeolocServlet.LONG_PARAMETER, "3.0");
-	request.addParameter(StreetServlet.STREET_SEARCH_MODE_PARAMETER, StreetSearchMode.getDefault().toString());
 	return request;
     }
     
