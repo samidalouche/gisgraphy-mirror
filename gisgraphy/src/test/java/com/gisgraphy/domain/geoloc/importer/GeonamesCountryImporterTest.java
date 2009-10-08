@@ -51,15 +51,10 @@ public class GeonamesCountryImporterTest {
     
     @Test
     public void testShouldBeSkipShouldReturnCorrectValue(){
-	ImporterConfig importerConfig = new ImporterConfig();
 	GeonamesCountryImporter geonamesCountryImporter = new GeonamesCountryImporter();
-	geonamesCountryImporter.setImporterConfig(importerConfig);
 	
-	importerConfig.setGeonamesImporterEnabled(false);
-	Assert.assertTrue(geonamesCountryImporter.shouldBeSkipped());
+	Assert.assertFalse("country importer should never be skiped",geonamesCountryImporter.shouldBeSkipped());
 	
-	importerConfig.setGeonamesImporterEnabled(true);
-	Assert.assertFalse(geonamesCountryImporter.shouldBeSkipped());
 		
     }
 

@@ -164,7 +164,8 @@ public class GeonamesCountryImporter extends AbstractImporterProcessor {
      */
     @Override
     protected boolean shouldBeSkipped() {
-	return !importerConfig.isGeonamesImporterEnabled();
+    	//should never be skiped
+    	return false;
     }
 
     /*
