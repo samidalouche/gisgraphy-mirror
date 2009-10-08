@@ -48,13 +48,15 @@ import com.gisgraphy.helper.StringHelper;
 
 /**
  * An implementation of the <code>Criterion</code> interface that implements
- * 'ts_query @@ ts_vector' restriction
+ * Partial word search, it must be coupled with the DAO to have a comon format
+ * =>the DAO store a special string and this criteria search 
+ * for thatstring (the searchterms have to be transform too)
  * 
  * @author <a href="mailto:david.masclet@gisgraphy.com">David Masclet</a>
  */
-public class FulltextRestriction implements Criterion {
+public class PartialWordSearchRestriction implements Criterion {
 
-
+public static final char WHITESPACE_CHAR_DELIMITER= '-';
 
     /**
 	 * generated serial version id
@@ -67,7 +69,7 @@ public class FulltextRestriction implements Criterion {
      * @param ts_vectorColumnName The name of the ts_vector column
      * @param searchedText the text to search
      */
-    public FulltextRestriction(String ts_vectorColumnName, String searchedText) {
+    public PartialWordSearchRestriction(String ts_vectorColumnName, String searchedText) {
     if (ts_vectorColumnName == null ){
     	throw new IllegalArgumentException("the name of the ts_vector column can not be null");
     }
@@ -87,7 +89,7 @@ public class FulltextRestriction implements Criterion {
      */
     public TypedValue[] getTypedValues(Criteria criteria,
 	    CriteriaQuery criteriaQuery) throws HibernateException {
-	return  new TypedValue[] { new TypedValue( Hibernate.STRING, StringHelper.transformStringForFulltextIndexation(searchedText), EntityMode.POJO )};
+	return  new TypedValue[] { new TypedValue( Hibernate.STRING, StringHelper.transformStringForPartialWordSearch(searchedText,WHITESPACE_CHAR_DELIMITER), EntityMode.POJO )};
 
     }
 

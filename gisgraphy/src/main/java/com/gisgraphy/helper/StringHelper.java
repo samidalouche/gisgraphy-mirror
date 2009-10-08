@@ -28,6 +28,8 @@ import java.util.Set;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.gisgraphy.hibernate.criterion.PartialWordSearchRestriction;
+
 /**
  * Provide some usefull method to copute strinfg for autocompletion and fulltextsearch
  * 
@@ -45,7 +47,7 @@ public class StringHelper {
  * @param originalString the string to process
  * @return the transformed String or null if the original String is null
  */
-public static final String TransformStringForFulltextIndexation(String originalString){
+public static final String transformStringForFulltextIndexation(String originalString){
        return originalString== null ? null:EncodingHelper.removeAccents(originalString.trim())
     		   .toLowerCase().replace("-", " ").replace(".", " ")
     		   .replace("\"", " ").replace("'", " ");
@@ -54,16 +56,18 @@ public static final String TransformStringForFulltextIndexation(String originalS
 
 /**
  * Process a string to in order to be stored in a specific postgres 
- * field to allow the index usage for ilike (ilike(String%):
+ * field to allow the index usage for ilike (ilike(%String%):
  * e.g : 'it s ok'=> s ok, s o, it s, t s o, t s, it s ok, ok, it s o, it, t s ok
  * it remove duplicates and don't put single character.
  * 
  * @param originalString the string to process
- * @param delimiter words will be delimited by this char (it should be the same as the one in {@link StringHelper#transformStringForIlikeSearch(String, char)}
+ * @param delimiter words will be delimited by this char
+ *  (it should be the same as the one in {@link StringHelper#transformStringForPartialWordSearch(String, char)}. 
+ *  For gisgraphy the char is {@link PartialWordSearchRestriction#WHITESPACE_CHAR_DELIMITER}
  * @return the transformed String (or null if the original String is null) to be used by the postgres function to_ts_vector
- * @see #transformStringForIlikeSearch(String, char)
+ * @see #transformStringForPartialWordSearch(String, char)
  */
-public static final String transformStringForIlikeIndexation(String originalString,char delimiter){
+public static final String transformStringForPartialWordIndexation(String originalString,char delimiter){
 		if (originalString == null){
 			return null;
 		}
@@ -71,6 +75,7 @@ public static final String transformStringForIlikeIndexation(String originalStri
 		String substring = null;
 		StringBuffer sb = new StringBuffer();
 		Set<String> set = new HashSet<String>();
+		originalString = transformStringForFulltextIndexation(originalString);
 			for (int i=0; i< originalString.length();i++){
 				for (int j=i+1; j <= originalString.length();j++){
 						substring = originalString.substring(i,j);
@@ -96,16 +101,16 @@ public static final String transformStringForIlikeIndexation(String originalStri
  * 
  * @param originalString the string to transform
  * @param delimiter the delimiter 
- * 		(it should be the same as the one use in {@link #transformStringForIlikeIndexation(String, char)})
- * 
+ * 		(it should be the same as the one use in {@link #transformStringForPartialWordIndexation(String, char)})
+ *  For gisgraphy the char is {@link PartialWordSearchRestriction#WHITESPACE_CHAR_DELIMITER}
  * @return the transformed string (or null if the original String is null) to be use by the postgres function plainto_tsquery)
- * @see #transformStringForIlikeIndexation(String, char)
+ * @see #transformStringForPartialWordIndexation(String, char)
  */
-public static final String transformStringForIlikeSearch(String originalString,char delimiter){
+public static final String transformStringForPartialWordSearch(String originalString,char delimiter){
 	if (originalString == null){
 		return null;
 	}
-	return TransformStringForFulltextIndexation(originalString.trim()).replace(" ", String.valueOf(delimiter));
+	return transformStringForFulltextIndexation(originalString.trim()).replace(" ", String.valueOf(delimiter));
 }
 }
 

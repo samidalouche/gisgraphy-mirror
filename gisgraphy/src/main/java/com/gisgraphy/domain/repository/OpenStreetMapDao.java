@@ -48,6 +48,7 @@ import com.gisgraphy.helper.GeolocHelper;
 import com.gisgraphy.helper.IntrospectionHelper;
 import com.gisgraphy.helper.StringHelper;
 import com.gisgraphy.hibernate.criterion.FulltextRestriction;
+import com.gisgraphy.hibernate.criterion.PartialWordSearchRestriction;
 import com.gisgraphy.hibernate.criterion.ProjectionOrder;
 import com.gisgraphy.hibernate.criterion.ResultTransformerUtil;
 import com.gisgraphy.hibernate.projection.ProjectionBean;
@@ -115,8 +116,9 @@ public class OpenStreetMapDao extends GenericDao<OpenStreetMap, Long> implements
 					polygonBox));
 			if (name != null) {
 					if (streetSearchMode==StreetSearchMode.CONTAINS){
-			    criteria = criteria.add(Restrictions.isNotNull("name"));//optimisation!
-			    criteria = criteria.add(Restrictions.ilike("name", "%"+name+"%"));
+					    	criteria = criteria.add(Restrictions.isNotNull("name"));//optimisation!
+					    	//criteria = criteria.add(Restrictions.ilike("name", "%"+name+"%"));
+					    	criteria = criteria.add(new PartialWordSearchRestriction(OpenStreetMap.PARTIALSEARCH_COLUMN_NAME, name));
 					} else if (streetSearchMode == StreetSearchMode.FULLTEXT){
 						  criteria = criteria.add(new FulltextRestriction(OpenStreetMap.FULLTEXTSEARCH_COLUMN_NAME, name));
 					} else {
@@ -191,9 +193,15 @@ public class OpenStreetMapDao extends GenericDao<OpenStreetMap, Long> implements
 			    public Object doInHibernate(Session session)
 				    throws PersistenceException {
 				session.flush();
-				String updateField = "UPDATE openStreetMap SET "+OpenStreetMap.FULLTEXTSEARCH_COLUMN_NAME+" = to_tsvector('simple',coalesce('"+StringHelper.TransformStringForFulltextIndexation(o.getName())+"','')) where id="+o.getId();  
-				Query qryUpdateField = session.createSQLQuery(updateField);
-				qryUpdateField.executeUpdate();
+				String updateFulltextField = "UPDATE openStreetMap SET "+OpenStreetMap.FULLTEXTSEARCH_COLUMN_NAME+" = to_tsvector('simple',coalesce('"+StringHelper.transformStringForFulltextIndexation(o.getName())+"','')) where id="+o.getId();  
+				Query qryUpdateFulltextField = session.createSQLQuery(updateFulltextField);
+				qryUpdateFulltextField.executeUpdate();
+				
+				String transformedStringForPartialWordIndexation = StringHelper.transformStringForPartialWordIndexation(o.getName(),PartialWordSearchRestriction.WHITESPACE_CHAR_DELIMITER);
+				String updatePartialWordField = "UPDATE openStreetMap SET "+OpenStreetMap.PARTIALSEARCH_COLUMN_NAME+" = to_tsvector('simple',coalesce('"+transformedStringForPartialWordIndexation+"','')) where id="+o.getId();
+				Query qryUpdateParialWordField = session.createSQLQuery(updatePartialWordField);
+				qryUpdateParialWordField.executeUpdate();
+				
 				return o;
 				
 			    }
