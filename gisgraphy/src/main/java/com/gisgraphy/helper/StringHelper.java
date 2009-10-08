@@ -22,6 +22,9 @@
  *******************************************************************************/
 package com.gisgraphy.helper;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -52,20 +55,21 @@ public static final String TransformStringForFulltextIndexation(String originalS
 /**
  * Process a string to in order to be stored in a specific postgres 
  * field to allow the index usage for ilike (ilike(String%):
- * e.g : 'it s ok'=> 'it' 'it ' 'it s' 'it s ' 'it s o' 'it s ok' 
+ * e.g : 'it s ok'=> s ok, s o, it s, t s o, t s, it s ok, ok, it s o, it, t s ok
+ * it remove duplicates and don't put single character.
  * 
  * @param originalString the string to process
+ * @param delimiter words will be delimited by this char
  * @return the transformed String or null if the original String is null
  */
-public static final String TransformStringForIlikeIndexation(String originalString){
+public static final String TransformStringForIlikeIndexation(String originalString,char delimiter){
 		if (originalString == null){
 			return null;
 		}
 		//use hashset to remove duplicate
 		String substring = null;
-		String result = "";
 		StringBuffer sb = new StringBuffer();
-		try {
+		Set<String> set = new HashSet<String>();
 			for (int i=0; i< originalString.length();i++){
 				for (int j=i+1; j <= originalString.length();j++){
 						substring = originalString.substring(i,j);
@@ -74,14 +78,15 @@ public static final String TransformStringForIlikeIndexation(String originalStri
 								substring = substring.substring(1);
 							}
 							if (substring.length()>1){//only index string that have length >=2
-								result = result+substring+"_";
+								set.add(substring.replace(" ", "_"));
 							}
 						}
 				}
 			}
-		} catch (RuntimeException e) {
-			return result;
-		}
-			return result;
+		 
+			for (String part : set){
+			    sb.append(part).append(" ");
+			}
+			return sb.toString();
    }
 }

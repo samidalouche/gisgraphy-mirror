@@ -1,5 +1,8 @@
 package com.gisgraphy.helper;
 
+import java.util.Arrays;
+import java.util.List;
+
 import junit.framework.Assert;
 
 import org.junit.Test;
@@ -19,12 +22,27 @@ public class StringHelperTest {
     
     @Test
     public void TransformStringForIlikeIndexationForNullString(){
-    	Assert.assertNull(StringHelper.TransformStringForIlikeIndexation(null));
+    	Assert.assertNull(StringHelper.TransformStringForIlikeIndexation(null,'_'));
     }
     
     @Test
     public void TransformStringForIlikeIndexation(){
-    	//Assert.assertEquals("it_it s_it s o_it s ok",StringHelper.TransformStringForIlikeIndexation("it s ok"));
+	char delimiter ='_';
+	String transformedString = StringHelper.TransformStringForIlikeIndexation("it s ok",delimiter);
+	String[] splited = transformedString.split(String.valueOf(" "));
+	List<String> list =Arrays.asList(splited);
+	//s ok, s o, it s, t s o, t s, it s ok, ok, it s o, it, t s ok
+	Assert.assertEquals("There is not the number of words expected, maybe there is duplicate, or single char are indexed but should not, or ..., here is the tansformed string :"+transformedString,10, list.size());
+    	Assert.assertTrue(list.contains("it_s_ok"));
+    	Assert.assertTrue(list.contains("it"));
+    	Assert.assertTrue(list.contains("it_s"));
+    	Assert.assertTrue(list.contains("it_s_o"));
+    	Assert.assertTrue(list.contains("t_s"));
+    	Assert.assertTrue(list.contains("t_s_o"));
+    	Assert.assertTrue(list.contains("t_s_ok"));
+    	Assert.assertTrue(list.contains("s_o"));
+    	Assert.assertTrue(list.contains("s_ok"));
+    	Assert.assertTrue(list.contains("ok"));
     }
 
 
