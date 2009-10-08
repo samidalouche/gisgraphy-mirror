@@ -46,7 +46,7 @@ public class StringHelper {
  * @return the transformed String or null if the original String is null
  */
 public static final String TransformStringForFulltextIndexation(String originalString){
-       return originalString== null ? null:EncodingHelper.removeAccents(originalString)
+       return originalString== null ? null:EncodingHelper.removeAccents(originalString.trim())
     		   .toLowerCase().replace("-", " ").replace(".", " ")
     		   .replace("\"", " ").replace("'", " ");
        
@@ -59,10 +59,11 @@ public static final String TransformStringForFulltextIndexation(String originalS
  * it remove duplicates and don't put single character.
  * 
  * @param originalString the string to process
- * @param delimiter words will be delimited by this char
- * @return the transformed String or null if the original String is null
+ * @param delimiter words will be delimited by this char (it should be the same as the one in {@link StringHelper#transformStringForIlikeSearch(String, char)}
+ * @return the transformed String (or null if the original String is null) to be used by the postgres function to_ts_vector
+ * @see #transformStringForIlikeSearch(String, char)
  */
-public static final String TransformStringForIlikeIndexation(String originalString,char delimiter){
+public static final String transformStringForIlikeIndexation(String originalString,char delimiter){
 		if (originalString == null){
 			return null;
 		}
@@ -89,4 +90,23 @@ public static final String TransformStringForIlikeIndexation(String originalStri
 			}
 			return sb.toString();
    }
+
+
+/**
+ * 
+ * @param originalString the string to transform
+ * @param delimiter the delimiter 
+ * 		(it should be the same as the one use in {@link #transformStringForIlikeIndexation(String, char)})
+ * 
+ * @return the transformed string (or null if the original String is null) to be use by the postgres function plainto_tsquery)
+ * @see #transformStringForIlikeIndexation(String, char)
+ */
+public static final String transformStringForIlikeSearch(String originalString,char delimiter){
+	if (originalString == null){
+		return null;
+	}
+	return TransformStringForFulltextIndexation(originalString.trim()).replace(" ", String.valueOf(delimiter));
 }
+}
+
+
