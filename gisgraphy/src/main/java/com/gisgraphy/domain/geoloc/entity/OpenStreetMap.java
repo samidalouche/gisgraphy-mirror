@@ -22,8 +22,6 @@
  *******************************************************************************/
 package com.gisgraphy.domain.geoloc.entity;
 
-import java.sql.Types;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -54,7 +52,9 @@ public class OpenStreetMap  {
 
     public static final String SHAPE_COLUMN_NAME = "shape";
     
-    public static final String FULLTEXT_COLUMN_NAME = "textsearch";
+    public static final String FULLTEXTSEARCH_COLUMN_NAME = "textsearch";
+    
+    public static final String PARTIALSEARCH_COLUMN_NAME = "partialsearch";
 
     /**
      * Needed by CGLib
@@ -83,28 +83,48 @@ public class OpenStreetMap  {
     
     private Double length;
     
-    @IntrospectionIgnoredField
-    private String textsearch;
-    
 
     /**
-     * this field is only use for the text search to improve performance, you should not set a value,
+     * IT DOES NOTHING. ONLY USE BY HIBERNATE
+     * This field is only use for the text search to improve performance, you should not set / get a value,
      * it is declared here, to create the column 
-     * @return the textsearch
+     * @return null ALWAYS
      */
     @Column(unique = false, nullable = true,insertable=true,updatable=true,  columnDefinition="tsvector")
     @Type(type = "com.gisgraphy.hibernate.type.TsVectorStringType")
     public String getTextsearch() {
         return null;
     }
-
+    
+  
     /**
+     * IT DOES NOTHING. ONLY USE BY HIBERNATE
      * @param textsearch the textsearch to set
+     * 
      */
     public void setTextsearch(String textsearch) {
-       //this.textsearch = textsearch;
     }
 
+    
+    /**
+     * IT DOES NOTHING. ONLY USE BY HIBERNATE
+     * This field is only use for the autocomplete search to improve performance, you should not set / get a value,
+     * it is declared here, to create the column 
+     * @return null ALWAYS
+     */
+    @Column(columnDefinition="text")
+    public String getPartialsearch() {
+        return null;
+    }
+
+    /**
+     * IT DOES NOTHING. ONLY USE BY HIBERNATE
+     * @param partialSearch the ilikesearch to set
+     */
+    public void setPartialsearch(String partialsearch) {
+    }
+    
+    
     /**
      * @return the id
      */

@@ -70,7 +70,7 @@ public class FulltextRestrictionTest extends AbstractIntegrationHttpSolrTestCase
 		
 		Projection projection = ProjectionBean.fieldList(fieldList, true);
 		testCriteria.setProjection(projection).add(
-			new FulltextRestriction(OpenStreetMap.FULLTEXT_COLUMN_NAME, "Champs elysees"))//case sensitive accent
+			new FulltextRestriction(OpenStreetMap.FULLTEXTSEARCH_COLUMN_NAME, "Champs elysees"))//case sensitive accent
 			.setResultTransformer(
 				Transformers.aliasToBean(_OpenstreetmapDTO.class));
 
@@ -101,7 +101,7 @@ public class FulltextRestrictionTest extends AbstractIntegrationHttpSolrTestCase
 		
 		Projection projection = ProjectionBean.fieldList(fieldList, true);
 		testCriteria.setProjection(projection).add(
-			new FulltextRestriction(OpenStreetMap.FULLTEXT_COLUMN_NAME, "Champs-elysees"))//'-'
+			new FulltextRestriction(OpenStreetMap.FULLTEXTSEARCH_COLUMN_NAME, "Champs-elysees"))//'-'
 			.setResultTransformer(
 				Transformers.aliasToBean(_OpenstreetmapDTO.class));
 
@@ -132,7 +132,7 @@ public class FulltextRestrictionTest extends AbstractIntegrationHttpSolrTestCase
 		
 		Projection projection = ProjectionBean.fieldList(fieldList, true);
 		testCriteria.setProjection(projection).add(
-			new FulltextRestriction(OpenStreetMap.FULLTEXT_COLUMN_NAME, "Champ elysees"))//wrong word
+			new FulltextRestriction(OpenStreetMap.FULLTEXTSEARCH_COLUMN_NAME, "Champ elysees"))//wrong word
 			.setResultTransformer(
 				Transformers.aliasToBean(_OpenstreetmapDTO.class));
 

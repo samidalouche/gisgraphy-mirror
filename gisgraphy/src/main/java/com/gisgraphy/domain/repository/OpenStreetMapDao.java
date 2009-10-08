@@ -118,7 +118,7 @@ public class OpenStreetMapDao extends GenericDao<OpenStreetMap, Long> implements
 			    criteria = criteria.add(Restrictions.isNotNull("name"));//optimisation!
 			    criteria = criteria.add(Restrictions.ilike("name", "%"+name+"%"));
 					} else if (streetSearchMode == StreetSearchMode.FULLTEXT){
-						  criteria = criteria.add(new FulltextRestriction(OpenStreetMap.FULLTEXT_COLUMN_NAME, name));
+						  criteria = criteria.add(new FulltextRestriction(OpenStreetMap.FULLTEXTSEARCH_COLUMN_NAME, name));
 					} else {
 						throw new NotImplementedException(streetSearchMode+" is not implemented for street search");
 					}
@@ -191,7 +191,7 @@ public class OpenStreetMapDao extends GenericDao<OpenStreetMap, Long> implements
 			    public Object doInHibernate(Session session)
 				    throws PersistenceException {
 				session.flush();
-				String updateField = "UPDATE openStreetMap SET "+OpenStreetMap.FULLTEXT_COLUMN_NAME+" = to_tsvector('simple',coalesce('"+StringHelper.TransformStringForFulltextIndexation(o.getName())+"','')) where id="+o.getId();  
+				String updateField = "UPDATE openStreetMap SET "+OpenStreetMap.FULLTEXTSEARCH_COLUMN_NAME+" = to_tsvector('simple',coalesce('"+StringHelper.TransformStringForFulltextIndexation(o.getName())+"','')) where id="+o.getId();  
 				Query qryUpdateField = session.createSQLQuery(updateField);
 				qryUpdateField.executeUpdate();
 				return o;
