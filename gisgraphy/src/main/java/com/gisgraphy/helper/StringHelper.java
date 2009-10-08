@@ -78,7 +78,7 @@ public static final String TransformStringForIlikeIndexation(String originalStri
 								substring = substring.substring(1);
 							}
 							if (substring.length()>1){//only index string that have length >=2
-								set.add(substring.replace(" ", "_"));
+								set.add(substring.replace(" ", String.valueOf(delimiter)));
 							}
 						}
 				}

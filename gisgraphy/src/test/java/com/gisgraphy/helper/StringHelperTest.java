@@ -27,21 +27,21 @@ public class StringHelperTest {
     
     @Test
     public void TransformStringForIlikeIndexation(){
-	char delimiter ='_';
+	char delimiter ='-';
 	String transformedString = StringHelper.TransformStringForIlikeIndexation("it s ok",delimiter);
 	String[] splited = transformedString.split(String.valueOf(" "));
 	List<String> list =Arrays.asList(splited);
 	//s ok, s o, it s, t s o, t s, it s ok, ok, it s o, it, t s ok
 	Assert.assertEquals("There is not the number of words expected, maybe there is duplicate, or single char are indexed but should not, or ..., here is the tansformed string :"+transformedString,10, list.size());
-    	Assert.assertTrue(list.contains("it_s_ok"));
+    	Assert.assertTrue(list.contains("it-s-ok"));
     	Assert.assertTrue(list.contains("it"));
-    	Assert.assertTrue(list.contains("it_s"));
-    	Assert.assertTrue(list.contains("it_s_o"));
-    	Assert.assertTrue(list.contains("t_s"));
-    	Assert.assertTrue(list.contains("t_s_o"));
-    	Assert.assertTrue(list.contains("t_s_ok"));
-    	Assert.assertTrue(list.contains("s_o"));
-    	Assert.assertTrue(list.contains("s_ok"));
+    	Assert.assertTrue(list.contains("it-s"));
+    	Assert.assertTrue(list.contains("it-s-o"));
+    	Assert.assertTrue(list.contains("t-s"));
+    	Assert.assertTrue(list.contains("t-s-o"));
+    	Assert.assertTrue(list.contains("t-s-ok"));
+    	Assert.assertTrue(list.contains("s-o"));
+    	Assert.assertTrue(list.contains("s-ok"));
     	Assert.assertTrue(list.contains("ok"));
     }
 
