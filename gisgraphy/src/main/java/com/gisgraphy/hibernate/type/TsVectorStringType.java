@@ -90,7 +90,7 @@ public class TsVectorStringType implements UserType{
 	 * @see org.hibernate.usertype.UserType#nullSafeGet(java.sql.ResultSet, java.lang.String[], java.lang.Object)
 	 */
 	public Object nullSafeGet(ResultSet rs, String[] names, Object owner) throws HibernateException, SQLException {
-		Object value = rs.getObject(names[0]);
+		//Object value = rs.getObject(names[0]);
 		//the code bellow doens't work because there is no jdbc extension for tsvector object
 		//return value== null? null: value.toString();
 		return null;
@@ -125,6 +125,7 @@ public class TsVectorStringType implements UserType{
 	/* (non-Javadoc)
 	 * @see org.hibernate.usertype.UserType#returnedClass()
 	 */
+	@SuppressWarnings("unchecked")
 	public Class returnedClass() {
 		return String.class;
 	}
