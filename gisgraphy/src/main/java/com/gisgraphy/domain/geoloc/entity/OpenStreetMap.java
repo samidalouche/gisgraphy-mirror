@@ -112,7 +112,8 @@ public class OpenStreetMap  {
      * it is declared here, to create the column 
      * @return null ALWAYS
      */
-    @Column(columnDefinition="text")
+    @Column(unique = false, nullable = true,insertable=true,updatable=true,  columnDefinition="tsvector")
+    @Type(type = "com.gisgraphy.hibernate.type.TsVectorStringType")
     public String getPartialsearch() {
         return null;
     }
