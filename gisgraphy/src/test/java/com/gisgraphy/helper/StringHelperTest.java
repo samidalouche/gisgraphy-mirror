@@ -30,7 +30,7 @@ public class StringHelperTest {
     @Test
     public void TransformStringForIlikeIndexation(){
 	char delimiter ='-';
-	String transformedString = StringHelper.transformStringForPartialWordIndexation("it s ok",delimiter);
+	String transformedString = StringHelper.transformStringForPartialWordIndexation("it s ok;",delimiter);
 	String[] splited = transformedString.split(String.valueOf(" "));
 	List<String> list =Arrays.asList(splited);
 	//s ok, s o, it s, t s o, t s, it s ok, ok, it s o, it, t s ok
