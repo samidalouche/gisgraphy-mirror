@@ -77,6 +77,8 @@ public class StringHelperTest {
     }
     
     
+    
+    
     @Test
     public void transformStringForIlikeSearch(){
 	char delimiter ='-';

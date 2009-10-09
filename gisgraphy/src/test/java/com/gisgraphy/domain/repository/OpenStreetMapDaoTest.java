@@ -24,6 +24,7 @@ package com.gisgraphy.domain.repository;
 
 import java.util.List;
 
+import org.apache.commons.lang.RandomStringUtils;
 import org.hibernate.exception.ConstraintViolationException;
 import org.junit.Assert;
 import org.junit.Test;
@@ -36,6 +37,7 @@ import com.gisgraphy.domain.geoloc.service.fulltextsearch.StreetSearchMode;
 import com.gisgraphy.domain.geoloc.service.geoloc.street.StreetType;
 import com.gisgraphy.domain.valueobject.StreetDistance;
 import com.gisgraphy.helper.GeolocHelper;
+import com.gisgraphy.helper.StringHelper;
 import com.vividsolutions.jts.geom.MultiLineString;
 import com.vividsolutions.jts.geom.Point;
 
@@ -161,6 +163,21 @@ public class OpenStreetMapDaoTest extends AbstractIntegrationHttpSolrTestCase{
     @Test
     public void testGetByGidShouldRetrieveIfEntityExists(){
 	OpenStreetMap streetOSM = createOpenStreetMap();
+	openStreetMapDao.save(streetOSM);
+	assertNotNull(openStreetMapDao.get(streetOSM.getId()));
+	
+	OpenStreetMap retrieveOSM = openStreetMapDao.getByGid(streetOSM.getGid());
+	assertNotNull("getByGid should not return null if the entity exists",retrieveOSM);
+	assertEquals("getByGid should return the entity if the entity exists",streetOSM, retrieveOSM);
+	
+    }
+    
+    @Test
+    public void testSaveShouldsaveLongName(){
+	OpenStreetMap streetOSM = createOpenStreetMap();
+	String longString = RandomStringUtils.random(StringHelper.MAX_STRING_INDEXABLE_LENGTH+1,new char[] {'e'});
+	Assert.assertEquals("the string to test is not of the expected size the test will fail",StringHelper.MAX_STRING_INDEXABLE_LENGTH+1, longString.length());
+	streetOSM.setName(longString);
 	openStreetMapDao.save(streetOSM);
 	assertNotNull(openStreetMapDao.get(streetOSM.getId()));
 	

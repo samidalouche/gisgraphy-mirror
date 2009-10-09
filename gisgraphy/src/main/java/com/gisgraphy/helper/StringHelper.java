@@ -53,7 +53,7 @@ public class StringHelper {
 public static final String transformStringForFulltextIndexation(String originalString){
        return originalString== null ? null:EncodingHelper.removeAccents(originalString.trim())
     		   .toLowerCase().replace("-", " ").replace(".", " ")
-    		   .replace("\"", " ").replace("'", " ");
+    		   .replace("\"", " ").replace("'", " ").replace(';', ' ');
        
    }
 

@@ -194,17 +194,21 @@ public class OpenStreetMapDao extends GenericDao<OpenStreetMap, Long> implements
 				    throws PersistenceException {
 				session.flush();
 				String transformStringForFulltextIndexation = StringHelper.transformStringForFulltextIndexation(o.getName());
+				if (transformStringForFulltextIndexation != null){
 				String updateFulltextField = "UPDATE openStreetMap SET "+OpenStreetMap.FULLTEXTSEARCH_COLUMN_NAME+" = to_tsvector('simple',coalesce(?,'')) where id="+o.getId();  
 				Query qryUpdateFulltextField = session.createSQLQuery(updateFulltextField);
 				qryUpdateFulltextField.setParameter(0, transformStringForFulltextIndexation);
 				qryUpdateFulltextField.executeUpdate();
+				}
 				
 				
 				String transformedStringForPartialWordIndexation = StringHelper.transformStringForPartialWordIndexation(o.getName(),StringHelper.WHITESPACE_CHAR_DELIMITER);
+				if (transformedStringForPartialWordIndexation != null){
 				String updatePartialWordField = "UPDATE openStreetMap SET "+OpenStreetMap.PARTIALSEARCH_COLUMN_NAME+" = to_tsvector('simple',coalesce( ? ,'')) where id="+o.getId();
 				Query qryUpdateParialWordField = session.createSQLQuery(updatePartialWordField);
 				qryUpdateParialWordField.setParameter(0, transformedStringForPartialWordIndexation);
 				qryUpdateParialWordField.executeUpdate();
+				}
 				return o;
 				
 			    }
