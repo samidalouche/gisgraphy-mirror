@@ -56,9 +56,7 @@ import com.gisgraphy.helper.StringHelper;
  */
 public class PartialWordSearchRestriction implements Criterion {
 
-public static final char WHITESPACE_CHAR_DELIMITER= '-';
-
-    /**
+    	/**
 	 * generated serial version id
 	 */
 	private static final long serialVersionUID = -1118549308820955458L;
@@ -89,7 +87,7 @@ public static final char WHITESPACE_CHAR_DELIMITER= '-';
      */
     public TypedValue[] getTypedValues(Criteria criteria,
 	    CriteriaQuery criteriaQuery) throws HibernateException {
-	return  new TypedValue[] { new TypedValue( Hibernate.STRING, StringHelper.transformStringForPartialWordSearch(searchedText,WHITESPACE_CHAR_DELIMITER), EntityMode.POJO )};
+	return  new TypedValue[] { new TypedValue( Hibernate.STRING, StringHelper.transformStringForPartialWordSearch(searchedText,StringHelper.WHITESPACE_CHAR_DELIMITER), EntityMode.POJO )};
 
     }
 

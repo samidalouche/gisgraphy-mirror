@@ -193,15 +193,18 @@ public class OpenStreetMapDao extends GenericDao<OpenStreetMap, Long> implements
 			    public Object doInHibernate(Session session)
 				    throws PersistenceException {
 				session.flush();
-				String updateFulltextField = "UPDATE openStreetMap SET "+OpenStreetMap.FULLTEXTSEARCH_COLUMN_NAME+" = to_tsvector('simple',coalesce('"+StringHelper.transformStringForFulltextIndexation(o.getName())+"','')) where id="+o.getId();  
+				String transformStringForFulltextIndexation = StringHelper.transformStringForFulltextIndexation(o.getName());
+				String updateFulltextField = "UPDATE openStreetMap SET "+OpenStreetMap.FULLTEXTSEARCH_COLUMN_NAME+" = to_tsvector('simple',coalesce(?,'')) where id="+o.getId();  
 				Query qryUpdateFulltextField = session.createSQLQuery(updateFulltextField);
+				qryUpdateFulltextField.setParameter(0, transformStringForFulltextIndexation);
 				qryUpdateFulltextField.executeUpdate();
 				
-				String transformedStringForPartialWordIndexation = StringHelper.transformStringForPartialWordIndexation(o.getName(),PartialWordSearchRestriction.WHITESPACE_CHAR_DELIMITER);
-				String updatePartialWordField = "UPDATE openStreetMap SET "+OpenStreetMap.PARTIALSEARCH_COLUMN_NAME+" = to_tsvector('simple',coalesce('"+transformedStringForPartialWordIndexation+"','')) where id="+o.getId();
-				Query qryUpdateParialWordField = session.createSQLQuery(updatePartialWordField);
-				qryUpdateParialWordField.executeUpdate();
 				
+				String transformedStringForPartialWordIndexation = StringHelper.transformStringForPartialWordIndexation(o.getName(),StringHelper.WHITESPACE_CHAR_DELIMITER);
+				String updatePartialWordField = "UPDATE openStreetMap SET "+OpenStreetMap.PARTIALSEARCH_COLUMN_NAME+" = to_tsvector('simple',coalesce( ? ,'')) where id="+o.getId();
+				Query qryUpdateParialWordField = session.createSQLQuery(updatePartialWordField);
+				qryUpdateParialWordField.setParameter(0, transformedStringForPartialWordIndexation);
+				qryUpdateParialWordField.executeUpdate();
 				return o;
 				
 			    }

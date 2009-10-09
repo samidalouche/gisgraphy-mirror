@@ -5,6 +5,8 @@ import java.util.List;
 
 import junit.framework.Assert;
 
+import org.apache.commons.lang.RandomStringUtils;
+import org.apache.commons.lang.StringUtils;
 import org.junit.Test;
 
 public class StringHelperTest {
@@ -65,7 +67,14 @@ public class StringHelperTest {
     	Assert.assertTrue(list.contains("ok"));
     }
     
-    
+    @Test
+    public void transformStringForPartialWordIndexationWithBigString(){
+	char delimiter ='-';
+	String longString = RandomStringUtils.random(StringHelper.MAX_STRING_INDEXABLE_LENGTH+1,new char[] {'e'});
+	Assert.assertEquals("the string to test is not of the expected size the test will fail",StringHelper.MAX_STRING_INDEXABLE_LENGTH+1, longString.length());
+	String transformedString = StringHelper.transformStringForPartialWordIndexation(longString,delimiter);
+	Assert.assertNull("string that are longer than "+StringHelper.MAX_STRING_INDEXABLE_LENGTH+" should return null",transformedString);
+    }
     
     
     @Test

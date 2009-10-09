@@ -28,7 +28,6 @@ import java.util.Set;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.gisgraphy.hibernate.criterion.PartialWordSearchRestriction;
 
 /**
  * Provide some usefull method to copute strinfg for autocompletion and fulltextsearch
@@ -36,6 +35,10 @@ import com.gisgraphy.hibernate.criterion.PartialWordSearchRestriction;
  * @author <a href="mailto:david.masclet@gisgraphy.com">David Masclet</a>
  */
 public class StringHelper {
+    
+    public static final int MAX_STRING_INDEXABLE_LENGTH = 40;
+
+    public static final char WHITESPACE_CHAR_DELIMITER= '-';
 
     protected static final Logger logger = LoggerFactory.getLogger(StringHelper.class);
 
@@ -63,13 +66,17 @@ public static final String transformStringForFulltextIndexation(String originalS
  * @param originalString the string to process
  * @param delimiter words will be delimited by this char
  *  (it should be the same as the one in {@link StringHelper#transformStringForPartialWordSearch(String, char)}. 
- *  For gisgraphy the char is {@link PartialWordSearchRestriction#WHITESPACE_CHAR_DELIMITER}
+ *  For gisgraphy the char is {@link StringHelper#WHITESPACE_CHAR_DELIMITER}
+ *  IMPORTANT NOTE : if the string is greater than {@link #MAX_STRING_INDEXABLE_LENGTH}, the method will return null;
  * @return the transformed String (or null if the original String is null) to be used by the postgres function to_ts_vector
  * @see #transformStringForPartialWordSearch(String, char)
  */
 public static final String transformStringForPartialWordIndexation(String originalString,char delimiter){
 		if (originalString == null){
 			return null;
+		}
+		if ( originalString.length()> MAX_STRING_INDEXABLE_LENGTH){
+		    return null;
 		}
 		//use hashset to remove duplicate
 		String substring = null;
@@ -102,7 +109,7 @@ public static final String transformStringForPartialWordIndexation(String origin
  * @param originalString the string to transform
  * @param delimiter the delimiter 
  * 		(it should be the same as the one use in {@link #transformStringForPartialWordIndexation(String, char)})
- *  For gisgraphy the char is {@link PartialWordSearchRestriction#WHITESPACE_CHAR_DELIMITER}
+ *  For gisgraphy the char is {@link StringHelper#WHITESPACE_CHAR_DELIMITER}
  * @return the transformed string (or null if the original String is null) to be use by the postgres function plainto_tsquery)
  * @see #transformStringForPartialWordIndexation(String, char)
  */
@@ -112,6 +119,9 @@ public static final String transformStringForPartialWordSearch(String originalSt
 	}
 	return transformStringForFulltextIndexation(originalString.trim()).replace(" ", String.valueOf(delimiter));
 }
+
+
+
 }
 
 
