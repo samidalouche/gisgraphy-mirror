@@ -31,6 +31,7 @@ import com.gisgraphy.domain.geoloc.service.fulltextsearch.AbstractIntegrationHtt
 import com.gisgraphy.domain.geoloc.service.geoloc.street.StreetType;
 import com.gisgraphy.domain.repository.IOpenStreetMapDao;
 import com.gisgraphy.helper.GeolocHelper;
+import com.gisgraphy.helper.StringHelper;
 import com.vividsolutions.jts.geom.Point;
 
 
@@ -55,6 +56,8 @@ public class OpenStreetMapImporterTest extends AbstractIntegrationHttpSolrTestCa
 	assertEquals("The location->X is not correct ",((Point)GeolocHelper.convertFromHEXEWKBToGeometry("010100000006C82291A0521E4054CC39B16BC64740")).getX(), openStreetMap.getLocation().getX());
 	assertEquals("The location->Y is not correct ",((Point)GeolocHelper.convertFromHEXEWKBToGeometry("010100000006C82291A0521E4054CC39B16BC64740")).getY(), openStreetMap.getLocation().getY());
 	assertEquals("The length is not correct",0.00142246604529, openStreetMap.getLength());
+	assertEquals("The partialSearchName is not correct",StringHelper.transformStringForPartialWordIndexation(openStreetMap.getName(), StringHelper.WHITESPACE_CHAR_DELIMITER), openStreetMap.getPartialSearchName());
+	assertEquals("The textSearchName is not correct",StringHelper.transformStringForFulltextIndexation(openStreetMap.getName()), openStreetMap.getTextSearchName());
 	assertEquals("The shape is not correct ",GeolocHelper.convertFromHEXEWKBToGeometry("010500000001000000010200000005000000591EFF603B531E40F88667AE78C64740446ADAC534531E40348BAB2578C647405BB164332C531E407033CB5477C64740754A51781A521E403A56CE8360C64740CD63833B06521E409A081B9E5EC64740").toString(), openStreetMap.getShape().toString());
     }
 

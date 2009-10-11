@@ -87,7 +87,8 @@ public class GeonamesLanguageImporter extends AbstractImporterProcessor {
      */
     @Override
     protected boolean shouldBeSkipped() {
-	return !importerConfig.isGeonamesImporterEnabled();
+    	//should never be skiped
+    	return false;
     }
     
     /*

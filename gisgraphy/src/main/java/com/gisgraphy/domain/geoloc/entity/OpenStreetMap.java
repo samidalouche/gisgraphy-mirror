@@ -34,6 +34,7 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.Index;
 import org.hibernate.annotations.Type;
 
+import com.gisgraphy.domain.geoloc.service.fulltextsearch.StreetSearchMode;
 import com.gisgraphy.domain.geoloc.service.geoloc.street.StreetType;
 import com.gisgraphy.domain.valueobject.SRID;
 import com.gisgraphy.helper.IntrospectionIgnoredField;
@@ -52,9 +53,33 @@ public class OpenStreetMap  {
 
     public static final String SHAPE_COLUMN_NAME = "shape";
     
-    public static final String FULLTEXTSEARCH_COLUMN_NAME = "textsearch";
+    /**
+     * Name of the column that is equals to to_tsvector({@link #FULLTEXTSEARCH_COLUMN_NAME}
+     * It is used to do Fulltext search with the postgres text search module (to use the index)
+     * This value should be change if the getter and the setter of the {@link #textSearchName} change
+     */
+    public static final String FULLTEXTSEARCH_VECTOR_COLUMN_NAME = "textsearchVector";
     
-    public static final String PARTIALSEARCH_COLUMN_NAME = "partialsearch";
+    /**
+     * Name of the column that is equals to to_tsvector({@link #PARTIALSEARCH_COLUMN_NAME}
+     * It is used to do Fulltext search with the postgres text search module (to use the index)
+     * This value should be change if the getter and the setter of the {@link #partialSearchName} change
+     */
+    public static final String PARTIALSEARCH_VECTOR_COLUMN_NAME = "partialsearchVector";
+    
+    /**
+     * Name of the column that is equals to store a string that is used for fulltext search
+     *  This value should be change if the getter and the setter of the {@link #getTextsearchVector()} change
+     *  @see StreetSearchMode#FULLTEXT
+     */
+    public static final String FULLTEXTSEARCH_COLUMN_NAME = "textsearchname";
+    
+    /**
+     * Name of the column that is used to store a string used for partial search
+     *  This value should be change if the getter and the setter of the {@link #getPartialsearchVector()} change
+     *  @see StreetSearchMode#CONTAINS
+     */
+    public static final String PARTIALSEARCH_COLUMN_NAME = "partialsearchname";
 
     /**
      * Needed by CGLib
@@ -83,6 +108,49 @@ public class OpenStreetMap  {
     
     private Double length;
     
+    @IntrospectionIgnoredField
+    private String partialSearchName;
+    
+    @IntrospectionIgnoredField
+    private String textSearchName;
+    
+    /**
+	 * This String is used to search for a part of a street name
+	 * @see StreetSearchMode#CONTAINS
+	 * @return the partialSearchName
+	 */
+    @Column(unique = false, nullable = true, columnDefinition="text")
+	public String getPartialSearchName() {
+		return partialSearchName;
+	}
+
+
+	/**
+	 * @param partialSearchName the partialSearchName to set
+	 */
+	public void setPartialSearchName(String partialSearchName) {
+		this.partialSearchName = partialSearchName;
+	}
+
+
+	/**
+	 * This value is use to do a Fulltext search for a street name with index
+	 * @return the textSearchName
+	 */
+	 @Column(unique = false, nullable = true, columnDefinition="text")
+	public String getTextSearchName() {
+		return textSearchName;
+	}
+
+
+	/**
+	 * @param textSearchName the textSearchName to set
+	 */
+	public void setTextSearchName(String textSearchName) {
+		this.textSearchName = textSearchName;
+	}
+
+    
 
     /**
      * IT DOES NOTHING. ONLY USE BY HIBERNATE
@@ -90,19 +158,19 @@ public class OpenStreetMap  {
      * it is declared here, to create the column 
      * @return null ALWAYS
      */
-    @Column(unique = false, nullable = true,insertable=true,updatable=true,  columnDefinition="tsvector")
+    @Column(unique = false, nullable = true,insertable=false,updatable=true,  columnDefinition="tsvector")
     @Type(type = "com.gisgraphy.hibernate.type.TsVectorStringType")
-    public String getTextsearch() {
+    public String getTextsearchVector() {
         return null;
     }
     
   
     /**
      * IT DOES NOTHING. ONLY USE BY HIBERNATE
-     * @param textsearch the textsearch to set
+     * @param textsearchVector the textsearchVector to set
      * 
      */
-    public void setTextsearch(String textsearch) {
+    public void setTextsearchVector(String textsearchVector) {
     }
 
     
@@ -112,17 +180,17 @@ public class OpenStreetMap  {
      * it is declared here, to create the column 
      * @return null ALWAYS
      */
-    @Column(unique = false, nullable = true,insertable=true,updatable=true,  columnDefinition="tsvector")
+    @Column(unique = false, nullable = true,insertable=false,updatable=true,  columnDefinition="tsvector")
     @Type(type = "com.gisgraphy.hibernate.type.TsVectorStringType")
-    public String getPartialsearch() {
+    public String getPartialsearchVector() {
         return null;
     }
 
     /**
      * IT DOES NOTHING. ONLY USE BY HIBERNATE
-     * @param partialSearch the ilikesearch to set
+     * @param partialSearchVector the ilikesearch to set
      */
-    public void setPartialsearch(String partialsearch) {
+    public void setPartialsearchVector(String partialsearchVector) {
     }
     
     
@@ -275,5 +343,7 @@ public class OpenStreetMap  {
         this.length = length;
     }
 
+
+	
   
 }

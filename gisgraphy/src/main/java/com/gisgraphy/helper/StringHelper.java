@@ -28,6 +28,8 @@ import java.util.Set;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.gisgraphy.domain.geoloc.entity.OpenStreetMap;
+
 
 /**
  * Provide some usefull method to copute strinfg for autocompletion and fulltextsearch
@@ -118,6 +120,14 @@ public static final String transformStringForPartialWordSearch(String originalSt
 		return null;
 	}
 	return transformStringForFulltextIndexation(originalString.trim()).replace(" ", String.valueOf(delimiter));
+}
+
+public static OpenStreetMap updateOpenStreetMapEntityForIndexation(OpenStreetMap openStreetMap){
+	if (openStreetMap.getName()!= null){
+		openStreetMap.setPartialSearchName(StringHelper.transformStringForPartialWordIndexation(openStreetMap.getName(), StringHelper.WHITESPACE_CHAR_DELIMITER));
+		openStreetMap.setTextSearchName(StringHelper.transformStringForFulltextIndexation(openStreetMap.getName()));
+	}
+	return openStreetMap;
 }
 
 

@@ -61,6 +61,7 @@ import com.gisgraphy.domain.valueobject.StreetDistance;
 import com.gisgraphy.domain.valueobject.StreetSearchResultsDto;
 import com.gisgraphy.domain.valueobject.StreetDistance.StreetDistanceBuilder;
 import com.gisgraphy.helper.GeolocHelper;
+import com.gisgraphy.helper.StringHelper;
 import com.gisgraphy.servlet.FulltextServlet;
 import com.gisgraphy.servlet.GeolocServlet;
 import com.gisgraphy.servlet.GisgraphyServlet;
@@ -327,7 +328,7 @@ public class GeolocTestHelper {
 
     }
     
-    public static OpenStreetMap createOpenStreetMap() {
+    public static OpenStreetMap createOpenStreetMapForJohnKenedyStreet() {
 	OpenStreetMap streetOSM = new OpenStreetMap();
 	String[] wktLineStrings2={"LINESTRING (30 30, 40 40)"};
 	
@@ -339,9 +340,23 @@ public class GeolocTestHelper {
 	streetOSM.setOneWay(true);
 	streetOSM.setStreetType(StreetType.MOTROWAY);
 	streetOSM.setName("John Kenedy");
-	return streetOSM;
+	return StringHelper.updateOpenStreetMapEntityForIndexation(streetOSM);
 
     }
+    
+    public static OpenStreetMap createOpenStreetMapForPeterMartinStreet() {
+    	OpenStreetMap streetOSM = new OpenStreetMap();
+    	String[] wktLineStrings={"LINESTRING (30.001 30.001, 40 40)"};
+    	MultiLineString shape = GeolocHelper.createMultiLineString(wktLineStrings);
+    	streetOSM.setShape(shape);
+    	streetOSM.setGid(1L);
+    	streetOSM.setOneWay(false);
+    	streetOSM.setStreetType(StreetType.FOOTWAY);
+    	streetOSM.setName("peter martin");
+    	streetOSM.setLocation(GeolocHelper.createPoint(30.001F, 40F));
+        return StringHelper.updateOpenStreetMapEntityForIndexation(streetOSM);
+    	
+        }
     
     public static StreetDistance createStreetDistance() {
 	return StreetDistanceBuilder.streetDistance().withName("streetName").withCountryCode("FR").withGid(123L).withLength(3.6D).withOneWay(true)
@@ -719,5 +734,7 @@ public class GeolocTestHelper {
 	request.addParameter(GeolocServlet.LONG_PARAMETER, "3.0");
 	return request;
     }
+    
+    
     
 }

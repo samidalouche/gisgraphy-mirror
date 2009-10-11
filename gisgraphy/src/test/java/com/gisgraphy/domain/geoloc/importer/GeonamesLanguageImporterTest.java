@@ -49,14 +49,7 @@ public class GeonamesLanguageImporterTest extends TestCase {
     
     @Test
     public void testShouldBeSkipShouldReturnCorrectValue(){
-	ImporterConfig importerConfig = new ImporterConfig();
 	GeonamesLanguageImporter geonamesLanguageImporter = new GeonamesLanguageImporter();
-	geonamesLanguageImporter.setImporterConfig(importerConfig);
-	
-	importerConfig.setGeonamesImporterEnabled(false);
-	Assert.assertTrue(geonamesLanguageImporter.shouldBeSkipped());
-	
-	importerConfig.setGeonamesImporterEnabled(true);
 	Assert.assertFalse(geonamesLanguageImporter.shouldBeSkipped());
 		
     }

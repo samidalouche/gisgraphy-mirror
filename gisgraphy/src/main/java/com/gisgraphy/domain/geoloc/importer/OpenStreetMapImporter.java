@@ -25,11 +25,14 @@ package com.gisgraphy.domain.geoloc.importer;
 import java.io.File;
 import java.util.List;
 
+import org.hibernate.FlushMode;
+
 import com.gisgraphy.domain.geoloc.entity.OpenStreetMap;
 import com.gisgraphy.domain.geoloc.service.geoloc.street.StreetType;
 import com.gisgraphy.domain.repository.OpenStreetMapDao;
 import com.gisgraphy.domain.valueobject.NameValueDTO;
 import com.gisgraphy.helper.GeolocHelper;
+import com.gisgraphy.helper.StringHelper;
 import com.vividsolutions.jts.geom.MultiLineString;
 import com.vividsolutions.jts.geom.Point;
 
@@ -88,6 +91,7 @@ public class OpenStreetMapImporter extends AbstractImporterProcessor {
 	// set name
 	if (!isEmptyField(fields, 1, false)) {
 	    street.setName(fields[1].trim());
+	    StringHelper.updateOpenStreetMapEntityForIndexation(street);
 	}
 
 	if (!isEmptyField(fields, 2, false)) {
@@ -163,8 +167,7 @@ public class OpenStreetMapImporter extends AbstractImporterProcessor {
      */
     @Override
     protected void setCommitFlushMode() {
-	openStreetMapDao.flushAndClear();
-
+    	this.openStreetMapDao.setFlushMode(FlushMode.COMMIT);
     }
 
     /* (non-Javadoc)
@@ -196,6 +199,17 @@ public class OpenStreetMapImporter extends AbstractImporterProcessor {
      */
     public void setOpenStreetMapDao(OpenStreetMapDao openStreetMapDao) {
         this.openStreetMapDao = openStreetMapDao;
+    }
+    
+    /* (non-Javadoc)
+     * @see com.gisgraphy.domain.geoloc.importer.AbstractImporterProcessor#tearDown()
+     */
+    @Override
+    protected void tearDown() {
+    	super.tearDown();
+    	logger.info("building postgres fulltext fields...");
+    	int numberOfLineupdated = openStreetMapDao.buildIndexForStreetNameSearch();
+    	logger.info(numberOfLineupdated + " fulltext field have been updated");
     }
 
    

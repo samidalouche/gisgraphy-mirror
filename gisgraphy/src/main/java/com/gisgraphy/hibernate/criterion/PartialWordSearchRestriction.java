@@ -102,7 +102,7 @@ public class PartialWordSearchRestriction implements Criterion {
 	String columnName = criteriaQuery.getColumn(criteria,
 			ts_vectorColumnName);
 	StringBuffer result = new StringBuffer("(").append(columnName).append(
-			"@@ plainto_tsquery('simple',?)").append(")");
+			" @@ plainto_tsquery('simple',?)").append(")");
 			return result.toString();
 
     }

@@ -64,7 +64,7 @@ public class StreetSearchEngineTest extends AbstractIntegrationHttpSolrTestCase 
     
     @Test
     public void testExecuteAndSerializeShouldSerialize() {
-	OpenStreetMap street = GeolocTestHelper.createOpenStreetMap();
+	OpenStreetMap street = GeolocTestHelper.createOpenStreetMapForJohnKenedyStreet();
 	
 
 	this.openStreetMapDao.save(street);
@@ -104,7 +104,7 @@ public class StreetSearchEngineTest extends AbstractIntegrationHttpSolrTestCase 
 
     @Test
     public void testExecuteQueryToStringShouldReturnsAValidStringWithResults() {
-	OpenStreetMap street = GeolocTestHelper.createOpenStreetMap();
+	OpenStreetMap street = GeolocTestHelper.createOpenStreetMapForJohnKenedyStreet();
 
 	this.openStreetMapDao.save(street);
 
@@ -124,7 +124,7 @@ public class StreetSearchEngineTest extends AbstractIntegrationHttpSolrTestCase 
 
     @Test
     public void testExecuteQueryShouldReturnsAValidDTOOrderedByDistance() {
-	OpenStreetMap street = GeolocTestHelper.createOpenStreetMap();
+	OpenStreetMap street = GeolocTestHelper.createOpenStreetMapForJohnKenedyStreet();
 
 	this.openStreetMapDao.save(street);
 

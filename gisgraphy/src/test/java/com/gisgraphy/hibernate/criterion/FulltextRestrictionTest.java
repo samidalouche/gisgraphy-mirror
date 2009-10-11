@@ -18,6 +18,7 @@ import com.gisgraphy.domain.geoloc.service.fulltextsearch.AbstractIntegrationHtt
 import com.gisgraphy.domain.geoloc.service.geoloc.street.StreetType;
 import com.gisgraphy.domain.repository.IOpenStreetMapDao;
 import com.gisgraphy.helper.GeolocHelper;
+import com.gisgraphy.helper.StringHelper;
 import com.gisgraphy.hibernate.projection.ProjectionBean;
 import com.gisgraphy.hibernate.projection._OpenstreetmapDTO;
 import com.gisgraphy.test._DaoHelper;
@@ -41,7 +42,7 @@ public class FulltextRestrictionTest extends AbstractIntegrationHttpSolrTestCase
 	streetOSM.setName("Champs-Elysées");
 	streetOSM.setLocation(GeolocHelper.createPoint(30.001F, 40F));
 	
-	return streetOSM;
+	return StringHelper.updateOpenStreetMapEntityForIndexation(streetOSM);
     }
     
     @SuppressWarnings("unchecked")
@@ -51,11 +52,9 @@ public class FulltextRestrictionTest extends AbstractIntegrationHttpSolrTestCase
 	openStreetMapDao.save(streetOSM);
 	assertNotNull(openStreetMapDao.get(streetOSM.getId()));
 	
-	OpenStreetMap streetOSM2 = createOpenStreetMap();
-	streetOSM2.setName("champs");
-	streetOSM2.setGid(2L);
-	openStreetMapDao.save(streetOSM2);
-	assertNotNull(openStreetMapDao.get(streetOSM2.getId()));
+	
+	int numberOfLineUpdated = openStreetMapDao.buildIndexForStreetNameSearch();
+	assertEquals("It should have 2 lines updated : one for partial and one for fulltext",2, numberOfLineUpdated);
 	
 	
 	HibernateCallback hibernateCallback = new HibernateCallback() {
@@ -70,7 +69,7 @@ public class FulltextRestrictionTest extends AbstractIntegrationHttpSolrTestCase
 		
 		Projection projection = ProjectionBean.fieldList(fieldList, true);
 		testCriteria.setProjection(projection).add(
-			new FulltextRestriction(OpenStreetMap.FULLTEXTSEARCH_COLUMN_NAME, "Champs elysees"))//case sensitive accent
+			new FulltextRestriction(OpenStreetMap.FULLTEXTSEARCH_VECTOR_COLUMN_NAME, "Champs elysees"))//case sensitive accent
 			.setResultTransformer(
 				Transformers.aliasToBean(_OpenstreetmapDTO.class));
 
@@ -101,7 +100,7 @@ public class FulltextRestrictionTest extends AbstractIntegrationHttpSolrTestCase
 		
 		Projection projection = ProjectionBean.fieldList(fieldList, true);
 		testCriteria.setProjection(projection).add(
-			new FulltextRestriction(OpenStreetMap.FULLTEXTSEARCH_COLUMN_NAME, "Champs-elysees"))//'-'
+			new FulltextRestriction(OpenStreetMap.FULLTEXTSEARCH_VECTOR_COLUMN_NAME, "Champs-elysees"))//'-'
 			.setResultTransformer(
 				Transformers.aliasToBean(_OpenstreetmapDTO.class));
 
@@ -132,7 +131,7 @@ public class FulltextRestrictionTest extends AbstractIntegrationHttpSolrTestCase
 		
 		Projection projection = ProjectionBean.fieldList(fieldList, true);
 		testCriteria.setProjection(projection).add(
-			new FulltextRestriction(OpenStreetMap.FULLTEXTSEARCH_COLUMN_NAME, "Champ elysees"))//wrong word
+			new FulltextRestriction(OpenStreetMap.FULLTEXTSEARCH_VECTOR_COLUMN_NAME, "Champ elysees"))//wrong word
 			.setResultTransformer(
 				Transformers.aliasToBean(_OpenstreetmapDTO.class));
 

@@ -38,6 +38,7 @@ import com.gisgraphy.domain.geoloc.service.geoloc.street.StreetType;
 import com.gisgraphy.domain.valueobject.StreetDistance;
 import com.gisgraphy.helper.GeolocHelper;
 import com.gisgraphy.helper.StringHelper;
+import com.gisgraphy.test.GeolocTestHelper;
 import com.vividsolutions.jts.geom.MultiLineString;
 import com.vividsolutions.jts.geom.Point;
 
@@ -48,11 +49,11 @@ public class OpenStreetMapDaoTest extends AbstractIntegrationHttpSolrTestCase{
     
  @Test
  public void testCouldNotSaveNonUniqueGID(){
-     OpenStreetMap streetOSM = createOpenStreetMap();
+     OpenStreetMap streetOSM = GeolocTestHelper.createOpenStreetMapForPeterMartinStreet();
 	openStreetMapDao.save(streetOSM);
 	assertNotNull(openStreetMapDao.get(streetOSM.getId()));
 	
-	OpenStreetMap streetOSM2 = createOpenStreetMap();
+	OpenStreetMap streetOSM2 = GeolocTestHelper.createOpenStreetMapForPeterMartinStreet();
 	try {
 	    openStreetMapDao.save(streetOSM2);
 	    openStreetMapDao.flushAndClear();
@@ -64,6 +65,7 @@ public class OpenStreetMapDaoTest extends AbstractIntegrationHttpSolrTestCase{
 	
  }
  
+ 
  @Test
  public void testGetNearestAndDistanceFromShouldNotAcceptNullStreetSearchModeIfNameIsNotNull() {
 	 try {
@@ -73,9 +75,10 @@ public class OpenStreetMapDaoTest extends AbstractIntegrationHttpSolrTestCase{
 		//ok
 	}
  }
+ 
     @Test
     public void testGetNearestAndDistanceFromShouldReturnValidDTO() {
-	OpenStreetMap streetOSM = createOpenStreetMap();
+	OpenStreetMap streetOSM = GeolocTestHelper.createOpenStreetMapForPeterMartinStreet();
 	openStreetMapDao.save(streetOSM);
 	assertNotNull(openStreetMapDao.get(streetOSM.getId()));
 	
@@ -90,8 +93,13 @@ public class OpenStreetMapDaoTest extends AbstractIntegrationHttpSolrTestCase{
 	streetOSM2.setOneWay(false);
 	streetOSM2.setStreetType(StreetType.FOOTWAY);
 	streetOSM2.setName("John Kenedy");
+	StringHelper.updateOpenStreetMapEntityForIndexation(streetOSM2);
 	openStreetMapDao.save(streetOSM2);
 	assertNotNull(openStreetMapDao.get(streetOSM2.getId()));
+	
+	int numberOfLineUpdated = openStreetMapDao.buildIndexForStreetNameSearch();
+	assertEquals("It should have 4 lines updated : (streetosm +streetosm2) for partial + (streetosm +streetosm2) for fulltext",4, numberOfLineUpdated);
+	
 	
 	Point searchPoint = GeolocHelper.createPoint(30.1F, 30.1F);
 	
@@ -107,19 +115,7 @@ public class OpenStreetMapDaoTest extends AbstractIntegrationHttpSolrTestCase{
 	assertEquals(1,nearestStreet.size());
 	assertEquals(streetOSM2.getGid(),nearestStreet.get(0).getGid());
 	
-	//test name
-	assertEquals(0,openStreetMapDao.getNearestAndDistanceFrom(searchPoint, 10000, 1, 1, null,null, "unknow name",StreetSearchMode.CONTAINS).size());
-	nearestStreet = openStreetMapDao.getNearestAndDistanceFrom(searchPoint, 10000, 1, 1, null, null,"John",StreetSearchMode.CONTAINS);
-	assertEquals(1,nearestStreet.size());
-	assertEquals(streetOSM2.getGid(),nearestStreet.get(0).getGid());
-	
-	nearestStreet = openStreetMapDao.getNearestAndDistanceFrom(searchPoint, 10000, 1, 1, null, null,"john keN",StreetSearchMode.CONTAINS);
-	assertEquals("the name should be case insensitive",1,nearestStreet.size());
-	assertEquals(streetOSM2.getGid(),nearestStreet.get(0).getGid());
-	
-	nearestStreet = openStreetMapDao.getNearestAndDistanceFrom(searchPoint, 10000, 1, 1, null, null,"keN",StreetSearchMode.CONTAINS);
-	assertEquals("the street name should match if a part of the name is given and street search mode is "+StreetSearchMode.CONTAINS,1,nearestStreet.size());
-	
+	//test name in full text
 	nearestStreet = openStreetMapDao.getNearestAndDistanceFrom(searchPoint, 10000, 1, 1, null, null,"keN",StreetSearchMode.FULLTEXT);
 	assertEquals("the street name should not match if a part of the name is given and street search mode is "+StreetSearchMode.FULLTEXT,0,nearestStreet.size());
 	
@@ -132,6 +128,21 @@ public class OpenStreetMapDaoTest extends AbstractIntegrationHttpSolrTestCase{
 	
 	nearestStreet = openStreetMapDao.getNearestAndDistanceFrom(searchPoint, 10000, 1, 1, null, null,"Kenedy smith",StreetSearchMode.FULLTEXT);
 	assertEquals("the street name should not match if only one word is given and street search mode is "+StreetSearchMode.FULLTEXT,0,nearestStreet.size());
+	
+	
+	//test name with contains
+	assertEquals(0,openStreetMapDao.getNearestAndDistanceFrom(searchPoint, 10000, 1, 1, null,null, "unknow name",StreetSearchMode.CONTAINS).size());
+	nearestStreet = openStreetMapDao.getNearestAndDistanceFrom(searchPoint, 10000, 1, 1, null, null,"John",StreetSearchMode.CONTAINS);
+	assertEquals(1,nearestStreet.size());
+	assertEquals(streetOSM2.getGid(),nearestStreet.get(0).getGid());
+	
+	nearestStreet = openStreetMapDao.getNearestAndDistanceFrom(searchPoint, 10000, 1, 1, null, null,"john keN",StreetSearchMode.CONTAINS);
+	assertEquals("the name should be case insensitive",1,nearestStreet.size());
+	assertEquals(streetOSM2.getGid(),nearestStreet.get(0).getGid());
+	
+	nearestStreet = openStreetMapDao.getNearestAndDistanceFrom(searchPoint, 10000, 1, 1, null, null,"keN",StreetSearchMode.CONTAINS);
+	assertEquals("the street name should match if a part of the name is given and street search mode is "+StreetSearchMode.CONTAINS,1,nearestStreet.size());
+
 	
 	//test OneWay
 	assertEquals(0,openStreetMapDao.getNearestAndDistanceFrom(searchPoint, 10000, 1, 1, null,true, null,null).size());
@@ -162,7 +173,7 @@ public class OpenStreetMapDaoTest extends AbstractIntegrationHttpSolrTestCase{
     
     @Test
     public void testGetByGidShouldRetrieveIfEntityExists(){
-	OpenStreetMap streetOSM = createOpenStreetMap();
+	OpenStreetMap streetOSM = GeolocTestHelper.createOpenStreetMapForPeterMartinStreet();
 	openStreetMapDao.save(streetOSM);
 	assertNotNull(openStreetMapDao.get(streetOSM.getId()));
 	
@@ -174,7 +185,7 @@ public class OpenStreetMapDaoTest extends AbstractIntegrationHttpSolrTestCase{
     
     @Test
     public void testSaveShouldsaveLongName(){
-	OpenStreetMap streetOSM = createOpenStreetMap();
+	OpenStreetMap streetOSM = GeolocTestHelper.createOpenStreetMapForPeterMartinStreet();
 	String longString = RandomStringUtils.random(StringHelper.MAX_STRING_INDEXABLE_LENGTH+1,new char[] {'e'});
 	Assert.assertEquals("the string to test is not of the expected size the test will fail",StringHelper.MAX_STRING_INDEXABLE_LENGTH+1, longString.length());
 	streetOSM.setName(longString);
@@ -205,20 +216,27 @@ public class OpenStreetMapDaoTest extends AbstractIntegrationHttpSolrTestCase{
 	
     }
     
-    private OpenStreetMap createOpenStreetMap() {
-	OpenStreetMap streetOSM = new OpenStreetMap();
-	String[] wktLineStrings={"LINESTRING (30.001 30.001, 40 40)"};
-	MultiLineString shape = GeolocHelper.createMultiLineString(wktLineStrings);
-	streetOSM.setShape(shape);
-	streetOSM.setGid(1L);
-	streetOSM.setOneWay(false);
-	streetOSM.setStreetType(StreetType.FOOTWAY);
-	streetOSM.setName("peter martin");
-	streetOSM.setLocation(GeolocHelper.createPoint(30.001F, 40F));
-	
-	return streetOSM;
-    }
 
+
+    
+    @Test
+    public void testBuildIndexForStreetNameSearch(){
+    	OpenStreetMap streetOSM = GeolocTestHelper.createOpenStreetMapForPeterMartinStreet();
+    	openStreetMapDao.save(streetOSM);
+    	assertNotNull(openStreetMapDao.get(streetOSM.getId()));
+    	
+    	
+    	    	
+    	Point searchPoint = GeolocHelper.createPoint(30.1F, 30.1F);
+    	
+    	List<StreetDistance> nearestStreet = openStreetMapDao.getNearestAndDistanceFrom(searchPoint, 10000, 1, 1, null, null,"John",StreetSearchMode.CONTAINS);
+    	assertEquals(0,nearestStreet.size());
+    	
+    	int numberOfLineUpdated = openStreetMapDao.buildIndexForStreetNameSearch();
+    	assertEquals("It should have 2 lines updated : (streetosm +streetosm2) for partial + (streetosm +streetosm2) for fulltext",2, numberOfLineUpdated);
+    	
+    	
+    }
 
     
     @Required

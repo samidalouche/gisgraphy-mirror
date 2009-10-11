@@ -35,18 +35,18 @@ import org.hibernate.Session;
 import org.hibernate.criterion.Projection;
 import org.hibernate.criterion.Restrictions;
 import org.hibernatespatial.criterion.SpatialRestrictions;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.orm.hibernate3.HibernateCallback;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.Assert;
 
 import com.gisgraphy.domain.geoloc.entity.OpenStreetMap;
-import com.gisgraphy.domain.geoloc.entity.Street;
 import com.gisgraphy.domain.geoloc.service.fulltextsearch.StreetSearchMode;
 import com.gisgraphy.domain.geoloc.service.geoloc.street.StreetType;
 import com.gisgraphy.domain.valueobject.StreetDistance;
 import com.gisgraphy.helper.GeolocHelper;
 import com.gisgraphy.helper.IntrospectionHelper;
-import com.gisgraphy.helper.StringHelper;
 import com.gisgraphy.hibernate.criterion.FulltextRestriction;
 import com.gisgraphy.hibernate.criterion.PartialWordSearchRestriction;
 import com.gisgraphy.hibernate.criterion.ProjectionOrder;
@@ -57,14 +57,19 @@ import com.vividsolutions.jts.geom.Point;
 import com.vividsolutions.jts.geom.Polygon;
 
 /**
- * A data access object for {@link Street} Object
+ * A data access object for {@link OpenStreetMap} Object
  * 
  * @author <a href="mailto:david.masclet@gisgraphy.com">David Masclet</a>
  */
 @Repository
 public class OpenStreetMapDao extends GenericDao<OpenStreetMap, Long> implements IOpenStreetMapDao
 {
-
+	/**
+     * The logger
+     */
+    protected static final Logger logger = LoggerFactory
+	    .getLogger(OpenStreetMapDao.class);
+	
     /**
      * Default constructor
      */
@@ -118,9 +123,9 @@ public class OpenStreetMapDao extends GenericDao<OpenStreetMap, Long> implements
 					if (streetSearchMode==StreetSearchMode.CONTAINS){
 					    	criteria = criteria.add(Restrictions.isNotNull("name"));//optimisation!
 					    	//criteria = criteria.add(Restrictions.ilike("name", "%"+name+"%"));
-					    	criteria = criteria.add(new PartialWordSearchRestriction(OpenStreetMap.PARTIALSEARCH_COLUMN_NAME, name));
+					    	criteria = criteria.add(new PartialWordSearchRestriction(OpenStreetMap.PARTIALSEARCH_VECTOR_COLUMN_NAME, name));
 					} else if (streetSearchMode == StreetSearchMode.FULLTEXT){
-						  criteria = criteria.add(new FulltextRestriction(OpenStreetMap.FULLTEXTSEARCH_COLUMN_NAME, name));
+						  criteria = criteria.add(new FulltextRestriction(OpenStreetMap.FULLTEXTSEARCH_VECTOR_COLUMN_NAME, name));
 					} else {
 						throw new NotImplementedException(streetSearchMode+" is not implemented for street search");
 					}
@@ -180,41 +185,31 @@ public class OpenStreetMapDao extends GenericDao<OpenStreetMap, Long> implements
     }
 
     
-    /** 
-     * this method save the entity and update the fulltext field 
+  
+    /* (non-Javadoc)
+     * @see com.gisgraphy.domain.repository.IOpenStreetMapDao#buildIndexForStreetNameSearch()
      */
-    @Override
-    public OpenStreetMap save(final OpenStreetMap o) {
-	super.save(o);
-	if (o.getName()!=null){
-	return (OpenStreetMap) this.getHibernateTemplate().execute(
-			new HibernateCallback() {
+    public Integer buildIndexForStreetNameSearch() {
+	return (Integer) this.getHibernateTemplate().execute(
+			 new HibernateCallback() {
 
 			    public Object doInHibernate(Session session)
 				    throws PersistenceException {
 				session.flush();
-				String transformStringForFulltextIndexation = StringHelper.transformStringForFulltextIndexation(o.getName());
-				if (transformStringForFulltextIndexation != null){
-				String updateFulltextField = "UPDATE openStreetMap SET "+OpenStreetMap.FULLTEXTSEARCH_COLUMN_NAME+" = to_tsvector('simple',coalesce(?,'')) where id="+o.getId();  
+				logger.info("will update "+OpenStreetMap.FULLTEXTSEARCH_VECTOR_COLUMN_NAME+" field");
+				String updateFulltextField = "UPDATE openStreetMap SET "+OpenStreetMap.FULLTEXTSEARCH_VECTOR_COLUMN_NAME+" = to_tsvector('simple',coalesce("+OpenStreetMap.FULLTEXTSEARCH_COLUMN_NAME+",'')) where name is not null";  
 				Query qryUpdateFulltextField = session.createSQLQuery(updateFulltextField);
-				qryUpdateFulltextField.setParameter(0, transformStringForFulltextIndexation);
-				qryUpdateFulltextField.executeUpdate();
-				}
+				int numberOfLineUpdatedForFulltext = qryUpdateFulltextField.executeUpdate();
 				
-				
-				String transformedStringForPartialWordIndexation = StringHelper.transformStringForPartialWordIndexation(o.getName(),StringHelper.WHITESPACE_CHAR_DELIMITER);
-				if (transformedStringForPartialWordIndexation != null){
-				String updatePartialWordField = "UPDATE openStreetMap SET "+OpenStreetMap.PARTIALSEARCH_COLUMN_NAME+" = to_tsvector('simple',coalesce( ? ,'')) where id="+o.getId();
+				logger.info("will update "+OpenStreetMap.PARTIALSEARCH_VECTOR_COLUMN_NAME+" field");
+				String updatePartialWordField = "UPDATE openStreetMap SET "+OpenStreetMap.PARTIALSEARCH_VECTOR_COLUMN_NAME+" = to_tsvector('simple',coalesce( "+OpenStreetMap.PARTIALSEARCH_COLUMN_NAME+" ,'')) where name is not null";
 				Query qryUpdateParialWordField = session.createSQLQuery(updatePartialWordField);
-				qryUpdateParialWordField.setParameter(0, transformedStringForPartialWordIndexation);
-				qryUpdateParialWordField.executeUpdate();
-				}
-				return o;
+				int numberOfLineUpdatedForPartial = qryUpdateParialWordField.executeUpdate();
+				session.flush();
+				return Integer.valueOf(numberOfLineUpdatedForFulltext + numberOfLineUpdatedForPartial);
 				
 			    }
 			});
-	}
-	return o;
     }
     
     

@@ -6,8 +6,10 @@ import java.util.List;
 import junit.framework.Assert;
 
 import org.apache.commons.lang.RandomStringUtils;
-import org.apache.commons.lang.StringUtils;
 import org.junit.Test;
+
+import com.gisgraphy.domain.geoloc.entity.OpenStreetMap;
+import com.gisgraphy.test.GeolocTestHelper;
 
 public class StringHelperTest {
 
@@ -68,7 +70,7 @@ public class StringHelperTest {
     }
     
     @Test
-    public void transformStringForPartialWordIndexationWithBigString(){
+    public void transformStringForPartialWordIndexationWithLongString(){
 	char delimiter ='-';
 	String longString = RandomStringUtils.random(StringHelper.MAX_STRING_INDEXABLE_LENGTH+1,new char[] {'e'});
 	Assert.assertEquals("the string to test is not of the expected size the test will fail",StringHelper.MAX_STRING_INDEXABLE_LENGTH+1, longString.length());
@@ -84,6 +86,41 @@ public class StringHelperTest {
 	char delimiter ='-';
 	String transformedString = StringHelper.transformStringForPartialWordSearch("C'est-tr\u00E9s ",delimiter);
 	Assert.assertEquals("c-est-tres", transformedString);
+    }
+    
+    
+    @Test
+    public void updateOpenStreetMapEntityForIndexation(){
+	OpenStreetMap openStreetMap = GeolocTestHelper.createOpenStreetMapForPeterMartinStreet();
+	//we reset textsearch name and partial search name
+	openStreetMap.setPartialSearchName(null);
+	openStreetMap.setTextSearchName(null);
+	StringHelper.updateOpenStreetMapEntityForIndexation(openStreetMap);
+	Assert.assertEquals("The value of partial search name is not correct",StringHelper.transformStringForPartialWordIndexation(openStreetMap.getName(),StringHelper.WHITESPACE_CHAR_DELIMITER), openStreetMap.getPartialSearchName());
+	Assert.assertEquals("The value of text search name is not correct",StringHelper.transformStringForFulltextIndexation(openStreetMap.getName()), openStreetMap.getTextSearchName());
+    }
+    
+    @Test
+    public void updateOpenStreetMapEntityForIndexationWithANullName(){
+	OpenStreetMap openStreetMap = GeolocTestHelper.createOpenStreetMapForPeterMartinStreet();
+	openStreetMap.setName(null);
+	openStreetMap.setPartialSearchName(null);
+	openStreetMap.setTextSearchName(null);
+	StringHelper.updateOpenStreetMapEntityForIndexation(openStreetMap);
+	Assert.assertNull("The value of partial search name should be null if name is null", openStreetMap.getPartialSearchName());
+	Assert.assertNull("The value of text search name should be null if name is null", openStreetMap.getTextSearchName());
+    }
+    
+    @Test
+    public void updateOpenStreetMapEntityForIndexationWithALongName(){
+	OpenStreetMap openStreetMap = GeolocTestHelper.createOpenStreetMapForPeterMartinStreet();
+	String longName = RandomStringUtils.random(StringHelper.MAX_STRING_INDEXABLE_LENGTH+1,new char[] {'e'});
+	openStreetMap.setName(longName);
+	openStreetMap.setPartialSearchName(null);
+	openStreetMap.setTextSearchName(null);
+	StringHelper.updateOpenStreetMapEntityForIndexation(openStreetMap);
+	Assert.assertNull("The value of partial search should be null if name is too long", openStreetMap.getPartialSearchName());
+	Assert.assertEquals("The value of text search name should not be null and correct if name is too long",StringHelper.transformStringForFulltextIndexation(openStreetMap.getName()), openStreetMap.getTextSearchName());
     }
     
     

@@ -67,5 +67,12 @@ public interface IOpenStreetMapDao extends IDao<OpenStreetMap, java.lang.Long> {
      */
     public OpenStreetMap getByGid(final Long gid) ;
     
+    /** 
+     * Rebuild the index for the street name search
+     * @return the number of line updated
+     * @see StreetSearchMode
+     */    
+    public Integer buildIndexForStreetNameSearch();
+    
     
 }

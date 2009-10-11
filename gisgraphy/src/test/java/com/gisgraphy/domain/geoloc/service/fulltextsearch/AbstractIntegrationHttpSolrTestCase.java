@@ -111,15 +111,6 @@ public abstract class AbstractIntegrationHttpSolrTestCase extends
     public void onSetUp() throws Exception {
 	super.onSetUp();
 
-	/*
-	 * server = new Server(8983); Context root = new
-	 * Context(server,"/solr",Context.SESSIONS);
-	 * root.addFilter(SolrDispatchFilter.class, "/*", 0);
-	 * root.addServlet(new ServletHolder(new DefaultServlet()), "/");
-	 * root.addServlet(SolrServlet.class,"/select/*");
-	 * root.addServlet(SolrUpdateServlet.class, "/update/*");
-	 * server.start();
-	 */
 
 	if (!serverStarted && isMustStartServlet()) {
 	    String separator = System.getProperty("file.separator");
