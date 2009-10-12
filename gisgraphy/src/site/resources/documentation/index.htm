@@ -705,7 +705,7 @@ googleMapAPIKey=ABQIAAAAC0kUg2SfDYBO-AEagcTgvhQ5aXWj7Kef4ih_G0qG0UGxHdmrpFrmSD7s
 The google analytics code to have statistics (see more on the <a href="http://www.google.com/analytics/">Google analytics page</a>)   
 <div class="code">
 Examples : <br/>
-googleMapAPIKey=ABQIAAAAC0kUg2SfDYBO-AEagcTgvhQ5aXWj7Kef4ih_G0qG0UGxHdmrpFrmSD7sGMwTJIN1g7C45waZ5ybiQ<br/>
+googleMapAPIKey=ABQIAAAAC0GGGDYBO-AEagcTgvhQ5aXWj7Kef4ih_G0qG0UGxHdmrpFrmSD7sGMwTJIN1g7C45waZ5ybiQ<br/>
 </div>
 <br/><br/>
 
@@ -752,7 +752,7 @@ Never re-run an import before cleaning the database and restart the web applicat
 <h3>Description</h3>
 <br/>
 The street / geocoding service allows to search for street around earth location.<br/>
-you can
+you can : 
 <ul>
 	<li> Specify GPS position</li>
 	<li> Give the begining of the name of the street</li>
@@ -762,6 +762,8 @@ you can
 	<li> Paginate the results</li>
 	<li> Tells if you want the output to be indented (currently, apply only for XML, not json for performance reasons. may change in next version) </li> 
 </ul>
+
+the service is design to allow search with autosuggestion and autocompletion
 
 <a name="streetserviceparameters"></a>
 <div align="right"><a href="#top">[top]</a></div>
@@ -790,6 +792,24 @@ you can
 <a name="namestreet"></a>
 <li>The begining of the name of the street (optional) : limit the search to the street that starts with the specified name. You must put the name and the type. example : 'Boulevard Paul'.the search is case insensitive. default : search for all street</li>
 <br/>
+
+
+<a name="searchmodestreet"></a>
+<li>The search mode (optional) : Two mode are possible to search for a street name : 
+<ul>
+<li>CONTAINS : the name of the street shoul contain the name given in the request. this mode is used to to autocompletion. the place of the word have importance</li>
+<li>FULLTEXT (Default value) : the name of the street should contains the word given in the request. this mode is used to do autosuggetion and fulltext search. the place of the word doensn't care</li>
+</ul>
+in Both mode the given name is case insensitive and accent insensitive.
+<br/>
+<br/> Examples, we'd like to find "Champs'-Elysées" : 
+<ul>
+<li>with the CONTAINS mode : 'amps el' will match, 'elysees c' won't match, 'elysees champs' won't match, 'champs elysees' will match </li>
+<li>With the FULLTEXT mode : 'amps el' won't match, 'elysees c' won't match, 'elysees champs' will match, 'champs elysees' will match </li>
+</ul>
+
+<br/>
+
 
 <a name="radiusstreet"></a>
 <li>The radius (optional) : distance from the location point in meters we'd like to search around. The value is a number > 0 if it is not specify or incorrect : The default value will be used (10 km).
@@ -853,7 +873,8 @@ Here is a summary of the Web parameters mapping : <br/>
 <th>Parameter description</th><th>Web parameter name</th>
 <tr><td>Latitude</td><td>lat</td></tr>
 <tr><td>Longitude<td>lng</td></tr>
-<tr><td>Part of the name of the street</td><td>name</td></tr>
+<tr><td>name of the street</td><td>name</td></tr>
+<tr><td>search mode</td><td>mode</td></tr>
 <tr><td>one way street</td><td>oneway</td></tr>
 <tr><td>Type of the street</td><td>streettype</td></tr>
 <tr><td>Radius</td><td>radius</td></tr>
@@ -866,7 +887,7 @@ Here is a summary of the Web parameters mapping : <br/>
 <div class="code">
 Examples : <br/>
 <!--TODO OSM -->
-http://localhost:8080/street/streetsearch?lat=4.5&lng=5.7&radius=5000&from=1&to=10&format=xml&placetype=city&indent=true<br/><br/>
+http://localhost:8080/street/streetsearch?lat=4.5&lng=5.7&radius=5000&from=1&to=10&format=xml&name=strip&mode=fulltext&indent=true<br/><br/>
 http://localhost:8080/street/streetsearch?lat=4.5&lng=5.7<br/><br/>
 </div>
 <br/>
