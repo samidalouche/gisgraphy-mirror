@@ -869,6 +869,10 @@ public class GisFeatureDaoTest extends AbstractIntegrationHttpSolrTestCase {
 		"the fulltext search engine should be iso, case and - insensitive",
 		results.size() == 1);
     }
+    
+    public void testCreateGISTIndexForLocationColumnShouldNotThrow(){
+	gisFeatureDao.createGISTIndexForLocationColumn();
+    }
 
     @Required
     public void setGisFeatureDao(IGisFeatureDao gisFeatureDao) {

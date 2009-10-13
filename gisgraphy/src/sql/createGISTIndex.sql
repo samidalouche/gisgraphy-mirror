@@ -111,6 +111,6 @@ CREATE INDEX locationIndexZoo ON zoo USING GIST (location);
 
 CREATE INDEX locationindexopenstreetmap ON openstreetmap USING GIST (location);
 CREATE INDEX shapeindexopenstreetmap ON openstreetmap USING GIST (shape);
-CREATE INDEX nameindexopenstreetmap ON openstreetmap  (name varchar_pattern_ops);
+CREATE INDEX textsearchvector_osm_idx ON openstreetmap  USING gin(textsearchvector);
 
 VACUUM FULL ANALYZE;

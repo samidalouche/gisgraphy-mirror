@@ -666,6 +666,10 @@ public class CityDaoTest extends AbstractIntegrationHttpSolrTestCase {
 		results.size());
 
     }
+    
+    public void testCreateGISTIndexForLocationColumnShouldNotThrow(){
+	cityDao.createGISTIndexForLocationColumn();
+    }
 
     @Required
     public void setCityDao(ICityDao cityDao) {

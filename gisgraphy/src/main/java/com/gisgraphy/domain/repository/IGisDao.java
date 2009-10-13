@@ -197,5 +197,11 @@ public interface IGisDao<T> extends IDao<T, java.lang.Long> {
      * @see IGisFeatureDao#listAllFeaturesFromText(String, boolean)
      */
     public List<T> listFromText(String name, boolean includeAlternateNames);
+    
+    
+    /**
+     * Create the database GIST index for the column 'location' for this entity
+     */
+    public void createGISTIndexForLocationColumn();
 
 }
