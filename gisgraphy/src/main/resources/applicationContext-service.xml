@@ -15,6 +15,16 @@
         <aop:advisor id="managerTx" advice-ref="txAdvice" pointcut="execution(* *..service.*Manager.*(..))" order="2"/>
     </aop:config>
     
+    <bean id="internationalisationService" class="com.gisgraphy.service.impl.InternationalisationService">
+    	<property name="resourceBundle" ref="applicationResourcesSource" />
+    </bean>
+    
+     <!--  Messages for internationalization -->
+    <bean id="applicationResourcesSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
+        <property name="basename" value="WEB-INF/classes/ApplicationResources" />
+        <property name="cacheSeconds" value="-1" />
+        <property name="fallbackToSystemLocale" value="false" />
+    </bean>
     
     <!-- Fix bug in Spring 2.0.6: http://issues.appfuse.org/browse/APF-887 -->
     <bean class="org.springframework.transaction.aspectj.AnnotationTransactionAspect" factory-method="aspectOf" dependency-check="none" lazy-init="false">

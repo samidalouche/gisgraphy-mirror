@@ -58,6 +58,7 @@ The OpenStreetMap importer is :&nbsp;<@s.if test="OpenStreetMapImporterEnabled">
 <li class="listspace"> retrieveFiles : ${importerConfig.isRetrieveFiles().toString()}</li>
 <li class="listspace"> importGisFeatureEmbededAlternateNames : ${importerConfig.isImportGisFeatureEmbededAlternateNames().toString()}</li>
 <li class="listspace"> geonamesDownloadURL : ${importerConfig.getGeonamesDownloadURL()}</li>
+<li class="listspace"> openstreetMapDownloadURL : ${importerConfig.getOpenstreetMapDownloadURL()}</li>
 <li class="listspace"> adm1ExtracterStrategyIfAlreadyExists : ${importerConfig.getAdm1ExtracterStrategyIfAlreadyExists()}</li>
 <li class="listspace"> adm2ExtracterStrategyIfAlreadyExists : ${importerConfig.getAdm2ExtracterStrategyIfAlreadyExists()}</li>
 <li class="listspace"> adm3ExtracterStrategyIfAlreadyExists : ${importerConfig.getAdm3ExtracterStrategyIfAlreadyExists()}</li>

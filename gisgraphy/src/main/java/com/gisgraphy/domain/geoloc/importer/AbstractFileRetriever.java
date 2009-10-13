@@ -32,10 +32,12 @@ import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Required;
 
 import com.gisgraphy.domain.valueobject.ImporterStatus;
 import com.gisgraphy.domain.valueobject.NameValueDTO;
+import com.gisgraphy.service.IInternationalisationService;
 
 /**
  *  Base class to download files from a server
@@ -43,6 +45,9 @@ import com.gisgraphy.domain.valueobject.NameValueDTO;
  * @author <a href="mailto:david.masclet@gisgraphy.com">David Masclet</a>
  */
 public abstract class AbstractFileRetriever implements IImporterProcessor {
+    
+   @Autowired
+    private IInternationalisationService internationalisationService;
 
     protected ImporterConfig importerConfig;
 
@@ -69,6 +74,7 @@ public abstract class AbstractFileRetriever implements IImporterProcessor {
      * @see com.gisgraphy.domain.geoloc.importer.IGeonamesProcessor#process()
      */
     public void process() throws GeonamesProcessorException {
+	statusMessage = internationalisationService.getString("import.download.info");
 	status = ImporterStatus.PROCESSING;
 	try {
 	    if (!shouldBeSkipped()) {
@@ -97,7 +103,9 @@ public abstract class AbstractFileRetriever implements IImporterProcessor {
 	    logger.error(statusMessage);
 	    status = ImporterStatus.ERROR;
 	    throw new GeonamesProcessorException(statusMessage, e);
-	} 
+	} finally{
+	    statusMessage = "";
+	}
 
     }
 
@@ -208,5 +216,14 @@ public abstract class AbstractFileRetriever implements IImporterProcessor {
     public void setImporterConfig(ImporterConfig importerConfig) {
 	this.importerConfig = importerConfig;
     }
+    
+    /**
+     * @param internationalisationService the internationalisationService to set
+     */
+    @Required
+    public void setInternationalisationService(IInternationalisationService internationalisationService) {
+        this.internationalisationService = internationalisationService;
+    }
+
 
 }

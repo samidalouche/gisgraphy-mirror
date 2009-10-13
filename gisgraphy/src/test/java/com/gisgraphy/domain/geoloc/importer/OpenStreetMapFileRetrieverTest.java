@@ -33,6 +33,7 @@ import org.junit.Test;
 
 import com.gisgraphy.domain.valueobject.ImporterStatus;
 import com.gisgraphy.domain.valueobject.ImporterStatusDto;
+import com.gisgraphy.service.IInternationalisationService;
 import com.gisgraphy.test.GeolocTestHelper;
 
 
@@ -43,6 +44,7 @@ public class OpenStreetMapFileRetrieverTest {
 	
 	OpenStreetMapFileRetriever openStreetMapFileRetriever = new OpenStreetMapFileRetriever();
 
+	openStreetMapFileRetriever.setInternationalisationService(createMockInternationalisationService());
 	
 	ImporterConfig importerConfig = new ImporterConfig();
 
@@ -119,10 +121,18 @@ public class OpenStreetMapFileRetrieverTest {
 	
 
     }
+
+    private IInternationalisationService createMockInternationalisationService() {
+	IInternationalisationService internationalisationService = EasyMock.createMock(IInternationalisationService.class);
+	EasyMock.expect(internationalisationService.getString((String)EasyMock.anyObject())).andStubReturn("localizedValue");
+	EasyMock.replay(internationalisationService);
+	return internationalisationService;
+    }
     
     @Test
     public void StatusShouldBeEqualsToSkipedIfRetrieveFileIsFalse(){
 	OpenStreetMapFileRetriever openStreetMapFileRetriever = new OpenStreetMapFileRetriever();
+	openStreetMapFileRetriever.setInternationalisationService(createMockInternationalisationService());
 	ImporterConfig importerConfig = new ImporterConfig();
 	importerConfig.setRetrieveFiles(false);
 	openStreetMapFileRetriever.setImporterConfig(importerConfig);
@@ -135,6 +145,7 @@ public class OpenStreetMapFileRetrieverTest {
     @Test
     public void StatusShouldBeEqualsToPROCESSEDIfNoERROR(){
 	OpenStreetMapFileRetriever openStreetMapFileRetriever = new OpenStreetMapFileRetriever();
+	openStreetMapFileRetriever.setInternationalisationService(createMockInternationalisationService());
 	ImporterConfig importerConfig = EasyMock.createMock(ImporterConfig.class);
 	EasyMock.expect(importerConfig.isRetrieveFiles()).andReturn(true);
 	EasyMock.expect(importerConfig.isOpenstreetmapImporterEnabled()).andReturn(true);

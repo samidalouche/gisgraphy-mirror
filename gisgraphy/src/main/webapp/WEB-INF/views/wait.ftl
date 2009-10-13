@@ -11,14 +11,16 @@
       <@s.text name="import.processingRequest"/>
      <br/><img src="/images/loading.gif" width=20px /> <@s.text name="import.wait.importSince"/> ${importerManager.getFormatedTimeElapsed()}<br/> 
      <br/><@s.text name="import.time.info"/>
-     <br/><@s.text name="import.download.info"/>
-       
+        
     </@s.if>
      <@s.if test="importerManager.isAlreadyDone()">
      <br/><@s.text name="import.took.time"/> ${importerManager.getFormatedTimeElapsed()}  
     </@s.if>
     
     </p>
+    <br/>
+    <div class="tip greentip" ><b><@s.text name="import.message"/></b> : <span id="messagebox" name="messageBox"></span> </div>
+    <br/>
    
     <table style="width:100%;border:1px solid;">
     <tr>
@@ -37,6 +39,9 @@
 	         <@s.if test="status.toString().equals('PROCESSING')">
 	         <@s.property value="numberOfLineProcessed" /> / <@s.property value="numberOfLineToProcess" /> (<@s.property value="numberOfLinelefts" /> <@s.text name="importer.line.lefts" />)
 	         <br/><@s.text name="import.currently.sentence" /> <@s.property value="currentFileName" /> <@s.text name="import.line.sentence" /> <@s.property value="currentLine" />
+	          <#if (statusMessage?? && !statusMessage.equals(""))>
+	         <script type="text/javascript">$('messagebox').innerHTML="<@s.property value="statusMessage" />"</script>
+				</#if>
 	         </@s.if>
 	         <@s.if test="status.toString().equals('ERROR')">
 	         <@s.property value="numberOfLineProcessed" /> / <@s.property value="numberOfLineToProcess" /> (<@s.property value="numberOfLinelefts" /> <@s.text name="importer.line.lefts" />)

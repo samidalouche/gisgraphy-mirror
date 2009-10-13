@@ -188,9 +188,10 @@ public class OpenStreetMap  {
 
     /**
      * IT DOES NOTHING. ONLY USE BY HIBERNATE
-     * @param partialSearchVector the ilikesearch to set
+     * @param partialsearchVector the ilikesearch to set
      */
     public void setPartialsearchVector(String partialsearchVector) {
+	
     }
     
     
