@@ -81,6 +81,8 @@ public class OpenStreetMap  {
      */
     public static final String PARTIALSEARCH_COLUMN_NAME = "partialsearchname";
 
+    public static final String LOCATION_COLUMN_NAME = "location";
+
     /**
      * Needed by CGLib
      */
@@ -287,6 +289,7 @@ public class OpenStreetMap  {
      * @return The JTS Point
      */
     @Type(type = "org.hibernatespatial.GeometryUserType")
+    @Column(name=OpenStreetMap.LOCATION_COLUMN_NAME)
     public Point getLocation() {
         return location;
     }

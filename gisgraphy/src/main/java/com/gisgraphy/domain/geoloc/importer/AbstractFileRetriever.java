@@ -97,15 +97,13 @@ public abstract class AbstractFileRetriever implements IImporterProcessor {
 			.info("DownloadFiles option is set to false, we will not download and decompress files");
 		return;
 	    }
-
+	    statusMessage = "";
 	} catch (Exception e) {
 	    this.statusMessage = "error retrieving or decompres file : " + e.getMessage();
 	    logger.error(statusMessage);
 	    status = ImporterStatus.ERROR;
 	    throw new GeonamesProcessorException(statusMessage, e);
-	} finally{
-	    statusMessage = "";
-	}
+	} 
 
     }
 
@@ -117,7 +115,7 @@ public abstract class AbstractFileRetriever implements IImporterProcessor {
     /**
      * @return true if the processor should Not be executed
      */
-    protected boolean shouldBeSkipped() {
+    public boolean shouldBeSkipped() {
 	return importerConfig.isRetrieveFiles();
     }
 

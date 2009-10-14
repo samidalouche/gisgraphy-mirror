@@ -19,7 +19,7 @@
     
     </p>
     <br/>
-    <div class="tip greentip" ><b><@s.text name="import.message"/></b> : <span id="messagebox" name="messageBox"></span> </div>
+    <div class="tip greentip" ><b><@s.text name="import.message"/></b> : <span id="messagebox" name="messageBox"><@s.text name="import.message.no.message"/></span> </div>
     <br/>
    
     <table style="width:100%;border:1px solid;">

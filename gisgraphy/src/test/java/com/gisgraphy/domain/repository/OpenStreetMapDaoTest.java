@@ -97,7 +97,7 @@ public class OpenStreetMapDaoTest extends AbstractIntegrationHttpSolrTestCase{
 	openStreetMapDao.save(streetOSM2);
 	assertNotNull(openStreetMapDao.get(streetOSM2.getId()));
 	
-	int numberOfLineUpdated = openStreetMapDao.buildIndexForStreetNameSearch();
+	int numberOfLineUpdated = openStreetMapDao.updateTS_vectorColumnForStreetNameSearch();
 	assertEquals("It should have 4 lines updated : (streetosm +streetosm2) for partial + (streetosm +streetosm2) for fulltext",4, numberOfLineUpdated);
 	
 	
@@ -220,7 +220,7 @@ public class OpenStreetMapDaoTest extends AbstractIntegrationHttpSolrTestCase{
 
     
     @Test
-    public void testBuildIndexForStreetNameSearch(){
+    public void testUpdateTS_vectorColumnForStreetNameSearch(){
     	OpenStreetMap streetOSM = GeolocTestHelper.createOpenStreetMapForPeterMartinStreet();
     	openStreetMapDao.save(streetOSM);
     	assertNotNull(openStreetMapDao.get(streetOSM.getId()));
@@ -232,11 +232,16 @@ public class OpenStreetMapDaoTest extends AbstractIntegrationHttpSolrTestCase{
     	List<StreetDistance> nearestStreet = openStreetMapDao.getNearestAndDistanceFrom(searchPoint, 10000, 1, 1, null, null,"John",StreetSearchMode.CONTAINS);
     	assertEquals(0,nearestStreet.size());
     	
-    	int numberOfLineUpdated = openStreetMapDao.buildIndexForStreetNameSearch();
+    	int numberOfLineUpdated = openStreetMapDao.updateTS_vectorColumnForStreetNameSearch();
     	assertEquals("It should have 2 lines updated : (streetosm +streetosm2) for partial + (streetosm +streetosm2) for fulltext",2, numberOfLineUpdated);
     	
-    	
     }
+    
+    @Test
+    public void testCreateIndexesShouldNotThrow(){
+    	openStreetMapDao.createIndexes();
+    }
+    
 
     
     @Required

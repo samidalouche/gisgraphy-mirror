@@ -53,7 +53,7 @@ public class FulltextRestrictionTest extends AbstractIntegrationHttpSolrTestCase
 	assertNotNull(openStreetMapDao.get(streetOSM.getId()));
 	
 	
-	int numberOfLineUpdated = openStreetMapDao.buildIndexForStreetNameSearch();
+	int numberOfLineUpdated = openStreetMapDao.updateTS_vectorColumnForStreetNameSearch();
 	assertEquals("It should have 2 lines updated : one for partial and one for fulltext",2, numberOfLineUpdated);
 	
 	

@@ -308,7 +308,7 @@ public class GeonamesAlternateNamesImporter extends AbstractImporterProcessor {
     
 
     @Override
-    protected boolean shouldBeSkipped() {
+    public boolean shouldBeSkipped() {
         if (importerConfig.isImportGisFeatureEmbededAlternateNames() || !importerConfig.isGeonamesImporterEnabled()){
             return true ;
         }

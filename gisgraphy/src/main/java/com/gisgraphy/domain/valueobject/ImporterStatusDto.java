@@ -20,9 +20,6 @@
  *  
  *  
  *******************************************************************************/
-/**
- *
- */
 package com.gisgraphy.domain.valueobject;
 
 import com.gisgraphy.domain.geoloc.importer.IImporterProcessor;

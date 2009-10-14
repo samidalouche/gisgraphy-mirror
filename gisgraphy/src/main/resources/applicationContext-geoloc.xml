@@ -93,9 +93,7 @@
 		class="com.gisgraphy.domain.geoloc.importer.GeonamesFileRetriever" parent="abstractFileRetriever" >
 	</bean>
 	
-	<bean id="openstreetmapFileRetriever"
-		class="com.gisgraphy.domain.geoloc.importer.OpenStreetMapFileRetriever" parent="abstractFileRetriever" >
-	</bean>
+
 
 	<bean id="geonamesLanguageImporter"
 		class="com.gisgraphy.domain.geoloc.importer.GeonamesLanguageImporter"
@@ -145,12 +143,21 @@
 		<property name="spellCheckerIndexer" ref="spellCheckerIndexer"/>
 	</bean>
 	
+	<bean id="geonamesDatabaseIndexer" class="com.gisgraphy.domain.geoloc.importer.GeonamesDatabaseIndexer" />
+	
+	<bean id="openstreetmapFileRetriever"
+		class="com.gisgraphy.domain.geoloc.importer.OpenStreetMapFileRetriever" parent="abstractFileRetriever" >
+	</bean>
+	
+	
+	
 	<bean id="openStreetMapImporter" class="com.gisgraphy.domain.geoloc.importer.OpenStreetMapImporter"
 	parent="abstractGeonamesProcessor">
 		<property name="openStreetMapDao" ref= "openStreetMapDao" />
 	</bean>
 	
-	
+
+	<bean id="openstreetmapDatabaseIndexer" class="com.gisgraphy.domain.geoloc.importer.OpenstreetmapDatabaseIndexer"/>	
 
 	<bean id="importerManager"
 		class="com.gisgraphy.domain.geoloc.importer.ImporterManager">
@@ -171,6 +178,7 @@
 				<ref bean="geonamesAdm4Importer" />
 				<ref bean="geonamesFeatureImporter" />
 				<ref bean="geonamesAlternateNamesImporter" />
+				<ref bean="geonamesDatabaseIndexer" />
 				<ref bean="openstreetmapFileRetriever" />
 				<ref bean="openStreetMapImporter"/>
 			</list>

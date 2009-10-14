@@ -189,7 +189,7 @@ public class OpenStreetMapDao extends GenericDao<OpenStreetMap, Long> implements
     /* (non-Javadoc)
      * @see com.gisgraphy.domain.repository.IOpenStreetMapDao#buildIndexForStreetNameSearch()
      */
-    public Integer buildIndexForStreetNameSearch() {
+    public Integer updateTS_vectorColumnForStreetNameSearch() {
 	return (Integer) this.getHibernateTemplate().execute(
 			 new HibernateCallback() {
 
@@ -211,10 +211,31 @@ public class OpenStreetMapDao extends GenericDao<OpenStreetMap, Long> implements
 			    }
 			});
     }
-    
-    
 
- 
-    
+
+    /* (non-Javadoc)
+     * @see com.gisgraphy.domain.repository.IOpenStreetMapDao#createGISTIndex()
+     */
+    public void createIndexes() {
+	 this.getHibernateTemplate().execute(
+			 new HibernateCallback() {
+
+			    public Object doInHibernate(Session session)
+				    throws PersistenceException {
+				session.flush();
+				logger.info("will create GIST index for  the "+OpenStreetMap.SHAPE_COLUMN_NAME+" column");
+				String createIndexForShape = "CREATE INDEX "+OpenStreetMap.SHAPE_COLUMN_NAME.toLowerCase()+"indexopenstreetmap ON openstreetmap USING GIST ("+OpenStreetMap.SHAPE_COLUMN_NAME.toLowerCase()+")";  
+				Query qryUpdateFulltextField = session.createSQLQuery(createIndexForShape);
+				qryUpdateFulltextField.executeUpdate();
+				
+				logger.info("will create Fulltext index");
+				String createFulltextIndex = "CREATE INDEX "+OpenStreetMap.FULLTEXTSEARCH_VECTOR_COLUMN_NAME.toLowerCase()+"indexopenstreetmap ON openstreetmap USING gin("+OpenStreetMap.FULLTEXTSEARCH_VECTOR_COLUMN_NAME+")";  
+				Query fulltextIndexQuery = session.createSQLQuery(createFulltextIndex);
+				fulltextIndexQuery.executeUpdate();
+				
+				return null;
+			    }
+			});
+   }
 
 }

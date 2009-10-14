@@ -59,13 +59,13 @@
 				<span style="float:left;padding-left:15px;"><@s.url id="previousURL" action="ajaxfulltextsearch" method="search" includeParams="all" >
 			  			<@s.param name="from" value="${from?c}-${defaultNumberOfResultsPerPage?c}" />
 			  			<@s.param name="to" value="${to?c}-${defaultNumberOfResultsPerPage?c}" />
-			 		</@s.url><a href="${previousURL}" class="bigText strong" onclick="return updatePaginationPrevious();" alt="previous" >&lt;&lt;<@s.text name="global.previous"/></a></span>
+			 		</@s.url><a href="${previousURL}" class="bigText strong" onclick="$('searchTerms').focus();return updatePaginationPrevious();" alt="previous" >&lt;&lt;<@s.text name="global.previous"/></a></span>
 			 	</#if>
 			 	<#if ((from + fulltextResponseDTO.resultsSize) < fulltextResponseDTO.numFound)>
 				<span style="float:right;padding-right:15px;"><@s.url id="nextURL" action="ajaxfulltextsearch!search" includeParams="all" >
 			  			<@s.param name="from" value="${from?c}+${defaultNumberOfResultsPerPage?c}" />
 			  			<@s.param name="to" value="${to?c}+${defaultNumberOfResultsPerPage?c}" />
-			 		</@s.url><a href="${nextURL}" class="bigText strong" onclick="return updatePaginationNext();" alt="next"><@s.text name="global.next"/>&gt;&gt;</a></span>
+			 		</@s.url><a href="${nextURL}" class="bigText strong" onclick="$('searchTerms').focus();return updatePaginationNext();" alt="next"><@s.text name="global.next"/>&gt;&gt;</a></span>
 			 	</#if>
 			 		<div class="clear"><br/></div>
 			</div>
@@ -144,19 +144,19 @@
 				<span style="float:left;padding-left:15px;"><@s.url id="previousURL" action="ajaxgeolocsearch" method="search" includeParams="all" >
 			  			<@s.param name="from" value="${from?c}-${defaultNumberOfResultsPerPage?c}" />
 			  			<@s.param name="to" value="${to?c}-${defaultNumberOfResultsPerPage?c}" />
-			 		</@s.url><a href="${previousURL}" class="bigText strong" onclick="return updatePaginationPrevious();" alt="previous">&lt;&lt;<@s.text name="global.previous"/></a></span>
+			 		</@s.url><a href="${previousURL}" class="bigText strong" onclick="$('lat').focus();return updatePaginationPrevious();" alt="previous">&lt;&lt;<@s.text name="global.previous"/></a></span>
 			 	</#if>
 			 	<#if defaultNumberOfResultsPerPage==geolocResponseDTO.numFound>
 				<span style="float:right;padding-right:15px;"><@s.url id="nextURL" action="ajaxgeolocsearch" method="search" includeParams="all" >
 			  			<@s.param name="from" value="${from?c}+${defaultNumberOfResultsPerPage?c}" />
 			  			<@s.param name="to" value="${to?c}+${defaultNumberOfResultsPerPage?c}" />
-			 		</@s.url><a href="${nextURL}" class="bigText strong" onclick="return updatePaginationNext();" alt="next"><@s.text name="global.next"/>&gt;&gt;</a></span>
+			 		</@s.url><a href="${nextURL}" class="bigText strong" onclick="$('lat').focus();return updatePaginationNext();" alt="next"><@s.text name="global.next"/>&gt;&gt;</a></span>
 			 	</#if>
 			<#else>
 			
 			<br/><br/><br/>
 			  <div class="importantMessage indented"><@s.text name="search.noResult"/>!!<br/><br/><br/><br/></div>
-			 <div class="bigText indented"> <@s.text name="search.noresultMessage.part1"/><a href="http://www.geonames.org" target="geonames">Geonames page</a><@s.text name="search.noresultMessage.part2"/></div>
+			 <div class="bigText indented"> <@s.text name="search.noresultMessage.part1"/> <a href="http://www.geonames.org" target="geonames">Geonames page</a> <@s.text name="search.noresultMessage.part2"/></div>
 		</#if>
 		</div>
 </#macro>
@@ -213,19 +213,19 @@
 				<span style="float:left;padding-left:15px;"><@s.url id="previousURL" action="ajaxstreetsearch" method="search" includeParams="all" >
 			  			<@s.param name="from" value="${from?c}-${defaultNumberOfResultsPerPage?c}" />
 			  			<@s.param name="to" value="${to?c}-${defaultNumberOfResultsPerPage?c}" />
-			 		</@s.url><a href="${previousURL}" class="bigText strong" onclick="return updatePaginationPrevious();" alt="previous">&lt;&lt;<@s.text name="global.previous"/></a></span>
+			 		</@s.url><a href="${previousURL}" class="bigText strong" onclick="$('lat').focus();return updatePaginationPrevious();" alt="previous">&lt;&lt;<@s.text name="global.previous"/></a></span>
 			 	</#if>
 			 	<#if defaultNumberOfResultsPerPage==streetResponseDTO.numFound>
 				<span style="float:right;padding-right:15px;"><@s.url id="nextURL" action="ajaxstreetsearch" method="search" includeParams="all" >
 			  			<@s.param name="from" value="${from?c}+${defaultNumberOfResultsPerPage?c}" />
 			  			<@s.param name="to" value="${to?c}+${defaultNumberOfResultsPerPage?c}" />
-			 		</@s.url><a href="${nextURL}" class="bigText strong" onclick="return updatePaginationNext();" alt="next"><@s.text name="global.next"/>&gt;&gt;</a></span>
+			 		</@s.url><a href="${nextURL}" class="bigText strong" onclick="$('lat').focus();return updatePaginationNext();" alt="next"><@s.text name="global.next"/>&gt;&gt;</a></span>
 			 	</#if>
 			<#else>
 			
 			<br/><br/><br/>
 			  <div class="importantMessage indented"><@s.text name="search.noResult"/>!!<br/><br/><br/><br/></div>
-			 <div class="bigText indented"> <@s.text name="search.noresultMessage.part1"/><a href="http://www.geonames.org" target="geonames">Geonames page</a><@s.text name="search.noresultMessage.part2"/></div>
+			 <div class="bigText indented"> <@s.text name="search.noresultMessage.openstreetmap.part1"/> <a href="http://www.geonames.org" target="geonames">Openstreetmap page</a> <@s.text name="search.noresultMessage.openstreetmap.part2"/></div>
 		</#if>
 		</div>
 </#macro>
@@ -239,7 +239,7 @@
 				<span class="spacer">Long (&#x2194;) : </span><@s.textfield name="lng" maxlength="15" required="true" size="6" theme="simple" />
 				<div id="searchbuttonbar">
 					<span id="searchexample">e.g. '3.5', '45.2', ... </span>
-					<@s.submit title="Search" value="%{getText('global.search')}" theme="simple"  onclick="return doSearch()"/>
+					<@s.submit title="%{getText('global.search')}" value="%{getText('global.search')}" theme="simple"  onclick="return doSearch()"/>
 				</div>
 			</div>
 </#macro>
@@ -381,7 +381,7 @@
 		</script>
 			<span class="searchfield">
 			<@s.textfield size="40" name="city" id="city" required="false"  theme="simple"/>
-			<@s.submit title="Search" value="%{getText('search.city.validate.choice')}" theme="simple" id="streetsearchsubmitbutton" onclick="return validateNonEmptyQuery();"/>
+			<@s.submit title="%{getText('global.search')}" value="%{getText('search.city.validate.choice')}" theme="simple" id="streetsearchsubmitbutton" onclick="return validateNonEmptyQuery();"/>
 		</span>
 		</#if>
 </#if>

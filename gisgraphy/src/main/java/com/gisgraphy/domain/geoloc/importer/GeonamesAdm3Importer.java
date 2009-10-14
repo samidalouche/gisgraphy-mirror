@@ -147,7 +147,7 @@ public class GeonamesAdm3Importer extends AbstractImporterProcessor {
      * @see com.gisgraphy.domain.geoloc.importer.AbstractImporterProcessor#shouldBeSkiped()
      */
     @Override
-    protected boolean shouldBeSkipped() {
+    public boolean shouldBeSkipped() {
 	return !importerConfig.isGeonamesImporterEnabled();
     }
 

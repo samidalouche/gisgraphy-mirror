@@ -404,7 +404,7 @@ public class GeonamesFeatureImporter extends AbstractImporterProcessor {
      * @see com.gisgraphy.domain.geoloc.importer.AbstractImporterProcessor#shouldBeSkiped()
      */
     @Override
-    protected boolean shouldBeSkipped() {
+    public boolean shouldBeSkipped() {
 	return !importerConfig.isGeonamesImporterEnabled();
     }
 

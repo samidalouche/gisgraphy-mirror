@@ -155,7 +155,7 @@ public class OpenStreetMapImporter extends AbstractImporterProcessor {
      * @see com.gisgraphy.domain.geoloc.importer.AbstractImporterProcessor#shouldBeSkiped()
      */
     @Override
-    protected boolean shouldBeSkipped() {
+    public boolean shouldBeSkipped() {
 	return !importerConfig.isOpenstreetmapImporterEnabled();
     }
     
@@ -208,7 +208,7 @@ public class OpenStreetMapImporter extends AbstractImporterProcessor {
     protected void tearDown() {
     	super.tearDown();
     	logger.info("building postgres fulltext fields...");
-    	int numberOfLineupdated = openStreetMapDao.buildIndexForStreetNameSearch();
+    	int numberOfLineupdated = openStreetMapDao.updateTS_vectorColumnForStreetNameSearch();
     	logger.info(numberOfLineupdated + " fulltext field have been updated");
     }
 

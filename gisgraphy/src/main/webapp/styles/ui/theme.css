@@ -414,10 +414,10 @@ legend {
 	}
 
 div#searchResults {
-background-color: #EEEEEE;
-height: 300px;
+/*background-color: #EEEEEE;
+height: 300px;*/
 margin:0px auto;
-overflow: auto;
+/*overflow: auto;*/
 padding:0px;
 width:700px;
 }
@@ -455,7 +455,7 @@ padding-right: 5px;
 
 
 div#searchResults .bodyResults{
-background-color: #EEEEEE;
+/*background-color: #EEEEEE;*/
 height: auto;
 margin:10px auto;
 padding:5px;

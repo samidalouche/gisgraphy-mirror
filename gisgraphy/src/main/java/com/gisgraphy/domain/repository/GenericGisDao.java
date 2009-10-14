@@ -544,9 +544,9 @@ public class GenericGisDao<T extends GisFeature> extends
 				    throws PersistenceException {
 				session.flush();
 				logger.info("will create GIST index for  "+persistentClass.getSimpleName());
-				String updateFulltextField = "CREATE INDEX locationIndex"+persistentClass.getSimpleName()+" ON "+persistentClass.getSimpleName().toLowerCase()+" USING GIST (location)";  
-				Query qryUpdateFulltextField = session.createSQLQuery(updateFulltextField);
-				qryUpdateFulltextField.executeUpdate();
+				String createIndex = "CREATE INDEX locationIndex"+persistentClass.getSimpleName()+" ON "+persistentClass.getSimpleName().toLowerCase()+" USING GIST (location)";  
+				Query createIndexQuery = session.createSQLQuery(createIndex);
+				createIndexQuery.executeUpdate();
 				return null;
 			    }
 			});

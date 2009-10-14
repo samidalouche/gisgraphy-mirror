@@ -163,7 +163,7 @@ public class GeonamesCountryImporter extends AbstractImporterProcessor {
      * @see com.gisgraphy.domain.geoloc.importer.AbstractImporterProcessor#shouldBeSkiped()
      */
     @Override
-    protected boolean shouldBeSkipped() {
+    public boolean shouldBeSkipped() {
     	//should never be skiped
     	return false;
     }

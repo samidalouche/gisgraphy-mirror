@@ -81,7 +81,7 @@ public class OpenStreetMapFileRetriever extends AbstractFileRetriever {
      * @see com.gisgraphy.domain.geoloc.importer.AbstractFileRetriever#shouldBeSkipped()
      */
     @Override
-    protected boolean shouldBeSkipped() {
+    public boolean shouldBeSkipped() {
 	return !(importerConfig.isRetrieveFiles()  && importerConfig.isOpenstreetmapImporterEnabled());
     }
 

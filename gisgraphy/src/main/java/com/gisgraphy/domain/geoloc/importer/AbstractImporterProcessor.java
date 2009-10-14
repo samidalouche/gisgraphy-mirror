@@ -324,10 +324,11 @@ public abstract class AbstractImporterProcessor implements IImporterProcessor {
     }
 
 
-    /**
-     * @return true if the processor should Not be executed
+   
+    /* (non-Javadoc)
+     * @see com.gisgraphy.domain.geoloc.importer.IImporterProcessor#shouldBeSkipped()
      */
-    protected boolean shouldBeSkipped() {
+    public boolean shouldBeSkipped() {
 	return false;
     }
 
