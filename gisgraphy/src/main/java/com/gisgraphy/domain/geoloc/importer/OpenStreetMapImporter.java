@@ -26,6 +26,7 @@ import java.io.File;
 import java.util.List;
 
 import org.hibernate.FlushMode;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import com.gisgraphy.domain.geoloc.entity.OpenStreetMap;
 import com.gisgraphy.domain.geoloc.service.geoloc.street.StreetType;
@@ -33,6 +34,7 @@ import com.gisgraphy.domain.repository.OpenStreetMapDao;
 import com.gisgraphy.domain.valueobject.NameValueDTO;
 import com.gisgraphy.helper.GeolocHelper;
 import com.gisgraphy.helper.StringHelper;
+import com.gisgraphy.service.IInternationalisationService;
 import com.vividsolutions.jts.geom.MultiLineString;
 import com.vividsolutions.jts.geom.Point;
 
@@ -42,6 +44,8 @@ import com.vividsolutions.jts.geom.Point;
  * @author <a href="mailto:david.masclet@gisgraphy.com">David Masclet</a>
  */
 public class OpenStreetMapImporter extends AbstractImporterProcessor {
+	
+	
     
     public static Long GeneratedId = 0L;
     
@@ -208,8 +212,10 @@ public class OpenStreetMapImporter extends AbstractImporterProcessor {
     protected void tearDown() {
     	super.tearDown();
     	logger.info("building postgres fulltext fields...");
+    	statusMessage=internationalisationService.getString("import.build.openstreetmap.fulltext.searchEngine");
     	int numberOfLineupdated = openStreetMapDao.updateTS_vectorColumnForStreetNameSearch();
     	logger.info(numberOfLineupdated + " fulltext field have been updated");
+    	statusMessage="";
     }
 
    

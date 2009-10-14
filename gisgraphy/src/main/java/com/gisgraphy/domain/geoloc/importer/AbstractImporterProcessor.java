@@ -37,6 +37,7 @@ import java.io.UnsupportedEncodingException;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.TransactionDefinition;
@@ -46,6 +47,7 @@ import org.springframework.transaction.support.DefaultTransactionDefinition;
 import com.gisgraphy.domain.repository.GisFeatureDao;
 import com.gisgraphy.domain.valueobject.Constants;
 import com.gisgraphy.domain.valueobject.ImporterStatus;
+import com.gisgraphy.service.IInternationalisationService;
 
 /**
  * Base class for all geonames processor. it provides session management and the
@@ -59,6 +61,9 @@ public abstract class AbstractImporterProcessor implements IImporterProcessor {
     protected String statusMessage = "";
 
     protected ImporterStatus status = ImporterStatus.WAITING;
+    
+    @Autowired
+	protected IInternationalisationService internationalisationService;
 
     /**
      * @see IImporterProcessor#getNumberOfLinesToProcess()
@@ -315,6 +320,7 @@ public abstract class AbstractImporterProcessor implements IImporterProcessor {
 	} finally {
 	    try {
 		tearDown();
+		this.statusMessage="";
 	    } catch (Exception e) {
 		this.status = ImporterStatus.ERROR;
 		this.statusMessage = "An error occured on teardown (the import is done but is not being optimzed) :"+e;
