@@ -36,7 +36,7 @@
 	<@s.form action="/street/search" method="get" id="reversegeocoding">
 		<div id="simplesearch">
 			<@gisgraphysearch.latlongsearchbox/>
-			<@breadcrumbs.geolocSearchTooltip advancedSearchURLParam="ajaxgeolocsearch"/>
+			<@breadcrumbs.streetsearchTooltip advancedSearchURLParam="ajaxstreetsearch"/>
 <@s.hidden size="1" name="from" id="from"  value="1" theme="simple" />
 <@s.hidden size="1" name="to"  id="to" value="1" theme="simple"/>
 <@s.hidden size="1" name="name" id="name"  value="%" theme="simple" />
