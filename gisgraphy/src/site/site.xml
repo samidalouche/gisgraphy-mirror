@@ -37,15 +37,17 @@
      <item name="Download Data" href="/download/download_data.htm"/>
      
      <item name="Installation" href="/documentation/installation/index.htm"/>
-     <item name="Features plan / status" href="/features.htm"/>
-     <item name="Dump" href="/dump.htm"/>
+     <item name="User guide" href="/documentation/index.htm"/>
+     <item name="Give feedbacks" href="/feedback/index.htm"/>
      <item name="Donations - Benefactors" href="/benefactors.htm"/>
+
+     <item name="Contact" href="mailto:davidmasclet@gisgraphy.com"/>
+     <item name="Dump" href="/dump.htm"/>
+     
+     <item name="Features plan / status" href="/features.htm"/>
      <item name="Bench" href="/bench.htm"/>
      <item name="Logos" href="/logos.htm"/>
      <item name="Maven repository" href="http://gisgraphy.free.fr/mavenrepo"/>
-     <item name="Wo use Gisgraphy" href="/whouse.htm"/>
-     <item name="Feedbacks" href="/feedback/index.htm"/>
-     <item name="Contact" href="mailto:davidmasclet@gisgraphy.com"/>
  
      <item name="About geonames" href="http://www.geonames.org/about.html" />
      <item name="About openstreetmap" href="http://www.openstreetmap.org/" />
@@ -60,17 +62,17 @@
 	</menu>
 	
     <menu name="Getting help" collapse="false">
+      <item name="User guide" href="/documentation/index.htm"/>
+      <item name="Installation" href="/documentation/installation/index.htm"/>
+      <item name="Forum" href="/forum/"/>
       <item name="geocoding" href="/documentation/index.htm#streetservice"/>
       <item name="Fulltext" href="/documentation/index.htm#fulltextservice"/>
       <item name="Geolocalisation" href="/documentation/index.htm#geolocservice"/>
-      <item name="Installation" href="/documentation/installation/index.htm"/>
-      <item name="User guide" href="/documentation/index.htm"/>
       <item name="opensearch" href="/documentation/addons.htm#opensearch"/>
       <item name="FAQ" href="/faq.html"/>
       <item name="Glossary" href="/glossary.html"/>
       <item name="Placetypes available" href="/placetype.htm"/>
       <item name="Screenshots" href="/screenshots.htm"/>
-      <item name="Forum" href="/forum/"/>
 	</menu>
  	  
       
