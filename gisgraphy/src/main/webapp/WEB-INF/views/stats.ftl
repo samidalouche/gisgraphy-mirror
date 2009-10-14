@@ -23,6 +23,7 @@
 <br/>
 <li><a href="https://www.google.com/adsense/report/overview" target="statsgis">Google adsense</a></li>
 <li><a href="http://www.gisgraphy.com/feedback/feedback.htm" target="statsgis">feedbacks</a></li>
+<li><a href="http://www.gisgraphy.com/forum/" target="statsgis">forum</a></li>
 <br/>
 <li><a href="http://code.google.com/p/gisgraphy/downloads/list" target="statsgis">Google Code (Download)</a></li>
 <li><a href="http://code.google.com/p/gisgraphy/issues/list" target="statsgis">Google Code (issues)</a></li>
