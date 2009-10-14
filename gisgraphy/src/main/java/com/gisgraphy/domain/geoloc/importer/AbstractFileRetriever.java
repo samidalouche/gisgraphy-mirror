@@ -88,7 +88,7 @@ public abstract class AbstractFileRetriever implements IImporterProcessor {
 		    ImporterHelper.download(getDownloadBaseUrl()
 			    + file, getDownloadDirectory() + file);
 		}
-
+		statusMessage = internationalisationService.getString("import.extract.info");
 		decompressFiles();
 		this.status = ImporterStatus.PROCESSED ;
 	    } else {
