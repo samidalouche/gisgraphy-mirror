@@ -130,7 +130,7 @@ public class StreetServlet extends GisgraphyServlet {
 	    streetSearchEngine.executeAndSerialize(query, resp
 		    .getOutputStream());
 	} catch (RuntimeException e) {
-	    logger.error("error while creating geoloc query : " + e);
+	    logger.error("error while execute a streetsearch query from http request : " + e);
 	    String errorMessage = this.debugMode ? " : " + e.getMessage() : "";
 	    sendCustomError(ResourceBundle
 		    .getBundle(Constants.BUNDLE_ERROR_KEY).getString(
