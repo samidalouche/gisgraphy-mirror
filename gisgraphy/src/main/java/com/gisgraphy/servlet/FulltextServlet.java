@@ -131,7 +131,7 @@ public class FulltextServlet extends GisgraphyServlet {
 	    fullTextSearchEngine.executeAndSerialize(query, resp
 		    .getOutputStream());
 	} catch (RuntimeException e) {
-	    logger.error("error while creating full text query : " + e);
+	    logger.error("error while execute a fulltext query from http request : " + e);
 	    e.printStackTrace();
 	    String errorMessage = this.debugMode ? " : " + e.getMessage() : "";
 	    sendCustomError(ResourceBundle
