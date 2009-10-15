@@ -169,6 +169,20 @@ Autocomplete.prototype = {
 
   onValueChange: function() {
     clearInterval(this.onChangeInterval);
+    /* gisgraphy modification */
+    /* lazy mode */
+    if (this.el.value.length > this.currentValue.length && this.suggestions.length < 50 && this.suggestions.length != 0){
+	var lazysuggestions=[];
+	for (var i=0;i< this.suggestions.length;i++){
+		if (this.suggestions[i].toLowerCase().indexOf(this.el.value.toLowerCase())>= 0){
+			lazysuggestions.push(this.suggestions[i]);			
+		}
+	}
+	this.suggestions = lazysuggestions;
+	this.currentValue = this.el.value;
+	this.suggest();
+	return;
+    }
     this.currentValue = this.el.value;
     this.selectedIndex = -1;
     if (this.ignoreValueChange) {
@@ -183,6 +197,7 @@ Autocomplete.prototype = {
   },
 
   getSuggestions: function() {
+	
     var cr = this.cachedResponse[this.currentValue];
     if (cr && Object.isArray(cr.suggestions)) {
       this.suggestions = cr.suggestions;
