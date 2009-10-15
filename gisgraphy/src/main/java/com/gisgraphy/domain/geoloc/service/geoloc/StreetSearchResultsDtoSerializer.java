@@ -94,7 +94,7 @@ public class StreetSearchResultsDtoSerializer implements
 		}
 	    });
 	} catch (JAXBException e) {
-	    throw new GeolocSearchException(e.getMessage(), e.getCause());
+	    throw new StreetSearchException(e.getMessage(), e.getCause());
 	}
     }
 
@@ -150,7 +150,7 @@ public class StreetSearchResultsDtoSerializer implements
     try {
 	writer = new OutputStreamWriter(outputStream, Constants.CHARSET);
     } catch (Exception e) {
-	throw new GeolocSearchException("unknow encoding "
+	throw new StreetSearchException("unknow encoding "
 		+ Constants.CHARSET, e);
     }
 
@@ -158,7 +158,7 @@ public class StreetSearchResultsDtoSerializer implements
     try {
 	writer.flush();
     } catch (IOException e) {
-	throw new GeolocSearchException("error during flush", e);
+	throw new StreetSearchException("error during flush", e);
     }
 }
 
