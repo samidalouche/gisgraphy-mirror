@@ -577,6 +577,8 @@ margin : 5px;
 }
 
 .streetautocompleteerror {
+	float:none;
+	display:block;
 	border-left: 10px 
 	margin-left: 10px;
 	margin-bottom : 10px;

@@ -396,8 +396,8 @@
 <@utils.includeJs jsName="/scripts/autocomplete/autocomplete.js"/>
 <@s.hidden size="1" name="lat"  id="lat"  theme="simple" /><@s.hidden size="1" name="lng" required="false" id="lng" theme="simple"/>
 <span class="searchfield">
-	
-	<@s.textfield size="40" name="streetname" required="false" id="streetname"  theme="simple"/><span style="display:none;" id="loadingImg"><img src="/images/loading.gif" alt="loading" class="imgAlign" style="width:25px;"></span><div class="error streetautocompleteerror" id="streetNameAutocompletererror" >&nbsp;</div>
+	<@s.textfield size="40" name="streetname" required="false" id="streetname"  theme="simple"/><span style="display:none;" id="loadingImg"><img src="/images/loading.gif" alt="loading" class="imgAlign" style="width:25px;"></span>
+	<span class="error streetautocompleteerror" id="streetNameAutocompletererror" >&nbsp;</span>
 </span>
 <br/>
 <script type="text/javascript">

@@ -10,8 +10,10 @@
  * Modified for gisgraphy needs
  */
 
+
 var Autocomplete = function(el, options){
   this.el = $(el);
+  this.maxResults=50;
   this.id = this.el.identify();
   this.el.setAttribute('autocomplete','off');
   this.suggestions = [];
@@ -171,16 +173,22 @@ Autocomplete.prototype = {
     clearInterval(this.onChangeInterval);
     /* gisgraphy modification */
     /* lazy mode */
-    if (this.el.value.length > this.currentValue.length && this.suggestions.length < 50 && this.suggestions.length != 0){
+    if (this.el.value.length > this.currentValue.length && this.suggestions.length < this.maxResults && this.suggestions.length != 0){
 	var lazysuggestions=[];
+	var dataWithId= []
 	for (var i=0;i< this.suggestions.length;i++){
 		if (this.suggestions[i].toLowerCase().indexOf(this.el.value.toLowerCase())>= 0){
-			lazysuggestions.push(this.suggestions[i]);			
+			lazysuggestions.push(this.suggestions[i]);
+			dataWithId.push(this.data[i]);
 		}
 	}
 	this.suggestions = lazysuggestions;
+	this.data=dataWithId;
 	this.currentValue = this.el.value;
 	this.suggest();
+	if (this.suggestions.length==0){
+		this.onNoResultsFound();
+	}
 	return;
     }
     this.currentValue = this.el.value;
@@ -190,6 +198,7 @@ Autocomplete.prototype = {
       return;
     }
     if (this.currentValue === '' || this.currentValue.length < this.options.minChars) {
+      this.suggestions= [];
       this.hide();
     } else {
       this.getSuggestions();
