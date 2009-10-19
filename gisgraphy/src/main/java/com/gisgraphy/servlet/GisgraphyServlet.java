@@ -95,21 +95,31 @@ public abstract class  GisgraphyServlet extends HttpServlet {
 	String response = format.accept(visitor);
 	Writer writer = null;
 	try {
+	   if (!resp.isCommitted()){
 	    resp.reset();
-	    writer = resp.getWriter();
-	    setResponseContentType(req, resp);
 	    resp.setStatus(500);
+	    setResponseContentType(req, resp);
+	    writer = resp.getWriter();
+	    if (writer != null ){
 	    writer.append(response);
 	    writer.flush();
+	}
+	    
+	    }
+	   
 	} catch (IOException e) {
-	    logger.warn("error when sending error");
-	} finally {
+	    logger.warn("error when sending error : "+e.getMessage());
+	}
+	catch (IllegalStateException e) {
+	    logger.warn("Can not send error because the response has already been send : "+e.getMessage());
+	}
+	finally {
 	    if (writer != null) {
 		try {
 		    writer.close();
-		} catch (IOException e) {
+		} catch (Exception e) {
 		    logger
-			    .warn("error when closing writer after sending error");
+			    .warn("Error when closing writer after sending error : "+e.getMessage());
 		}
 	    }
 	}

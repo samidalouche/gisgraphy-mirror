@@ -34,6 +34,9 @@ import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import net.sf.json.JSON;
 import net.sf.json.JSONSerializer;
 import net.sf.json.JsonConfig;
@@ -48,6 +51,7 @@ import com.gisgraphy.domain.valueobject.Pagination;
 import com.gisgraphy.domain.valueobject.StreetDistance;
 import com.gisgraphy.domain.valueobject.StreetSearchResultsDto;
 import com.gisgraphy.domain.valueobject.Output.OutputFormat;
+import com.gisgraphy.servlet.GisgraphyServlet;
 import com.sun.syndication.feed.module.georss.GeoRSSModule;
 import com.sun.syndication.feed.module.georss.gml.GMLModuleImpl;
 import com.sun.syndication.feed.module.opensearch.OpenSearchModule;
@@ -74,6 +78,12 @@ public class StreetSearchResultsDtoSerializer implements
      * Json filter, to not serialize all the properties
      */
     protected JsonConfig jsonConfig = new JsonConfig();
+    
+    /**
+     * The logger
+     */
+    protected static final Logger logger = LoggerFactory
+	    .getLogger(StreetSearchResultsDtoSerializer.class);
 
     /**
      * Default Constructor
@@ -149,16 +159,18 @@ public class StreetSearchResultsDtoSerializer implements
     final Writer writer;
     try {
 	writer = new OutputStreamWriter(outputStream, Constants.CHARSET);
-    } catch (Exception e) {
+    } catch (UnsupportedEncodingException e) {
 	throw new StreetSearchException("unknow encoding "
 		+ Constants.CHARSET, e);
     }
 
     json.write(writer);
     try {
+	if (writer != null){
 	writer.flush();
-    } catch (IOException e) {
-	throw new StreetSearchException("error during flush", e);
+	}
+    } catch (Exception e) {
+	throw new StreetSearchException("error during flush : "+e.getCause()+"/ "+e.getClass(), e);
     }
 }
 

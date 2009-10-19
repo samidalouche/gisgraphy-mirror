@@ -34,6 +34,9 @@ import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import net.sf.json.JSON;
 import net.sf.json.JSONSerializer;
 import net.sf.json.JsonConfig;
@@ -73,6 +76,12 @@ public class GeolocResultsDtoSerializer implements
      * Json filter, to not serialize all the properties
      */
     protected JsonConfig jsonConfig = new JsonConfig();
+    
+    /**
+     * The logger
+     */
+    protected static final Logger logger = LoggerFactory
+	    .getLogger(GeolocResultsDtoSerializer.class);
 
     /**
      * Default Constructor
@@ -155,16 +164,18 @@ public class GeolocResultsDtoSerializer implements
     final Writer writer;
     try {
 	writer = new OutputStreamWriter(outputStream, Constants.CHARSET);
-    } catch (Exception e) {
+    } catch (UnsupportedEncodingException e) {
 	throw new GeolocSearchException("unknow encoding "
 		+ Constants.CHARSET, e);
     }
 
     json.write(writer);
     try {
+	if (writer != null){
 	writer.flush();
-    } catch (IOException e) {
-	throw new GeolocSearchException("error during flush", e);
+	}
+    } catch (Exception e) {
+	throw new GeolocSearchException("error during flush : "+e.getMessage(), e);
     }
 }
 
