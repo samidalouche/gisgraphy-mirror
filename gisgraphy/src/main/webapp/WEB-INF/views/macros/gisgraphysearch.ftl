@@ -182,7 +182,7 @@
 				  					<@s.param name="gid" value="${result.gid?c}" />
 				 				</@s.url>
 								<div class="resultheaderleft"><a href="${streetURL}"><#if result.name??>${result.name}<#else><@s.text name="global.street.noname" /></#if> </a> <@s.text name="global.at"/> ${result.distance} <@s.text name="search.unit.meter"/></div>
-								<div class="resultheaderright"><#if result.streetType??>${result.streetType}</#if></div>
+								<div class="resultheaderright"><#if result.streetType??>${result.streetType?lower_case}</#if></div>
 						</div>
 					
 						<div class="separator"><hr/></div>
@@ -404,7 +404,7 @@
 selectedStreetInformation = null;
 getHtmlFromSelectedStreet = function(selectedStreetInformation){
 var html = '<div id="EmplacementStreetView" class="googlemapInfoWindowHtml"><img src="/images/logos/logo_32.png" alt="free geocoding services" class="imgAlign"/><span  class="biggertext"><@s.text name="search.geocoding.services"/></span><hr/><span  class="biggertext">'+selectedStreetInformation.name+'</span><br/><br/>';
-if (selectedStreetInformation.streetType != null){html= html + "<@s.text name="search.type.of.street"/> : "+selectedStreetInformation.streetType+"<br/><br/>";}
+if (selectedStreetInformation.streetType != null){html= html + "<@s.text name="search.type.of.street"/> : "+selectedStreetInformation.streetType.toLowerCase()+"<br/><br/>";}
  if (selectedStreetInformation.oneWay==true){html = html+ '<@s.text name="street.oneway" />'; } else { html = html +'<@s.text name="street.twoway" />';}
 html= html +'<br/><br/> <@s.text name="global.latitude" /> : '+selectedStreetInformation.lat+'<br/><br/><@s.text name="global.longitude" /> : '+selectedStreetInformation.lng+'<br/><br/> <@s.text name="global.length" /> : '+(selectedStreetInformation.length*100000)+' m</div>';
 return html;
