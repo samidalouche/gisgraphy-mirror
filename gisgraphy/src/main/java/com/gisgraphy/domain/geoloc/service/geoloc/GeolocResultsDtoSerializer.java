@@ -175,7 +175,7 @@ public class GeolocResultsDtoSerializer implements
 	writer.flush();
 	}
     } catch (Exception e) {
-	throw new GeolocSearchException("error during flush : "+e.getMessage(), e);
+	throw new GisgraphyCommunicationException("error during flush : "+e.getCause(), e);
     }
 }
 

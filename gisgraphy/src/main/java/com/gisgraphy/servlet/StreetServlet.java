@@ -35,6 +35,7 @@ import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
 import com.gisgraphy.domain.geoloc.service.errors.IoutputFormatVisitor;
+import com.gisgraphy.domain.geoloc.service.geoloc.GisgraphyCommunicationException;
 import com.gisgraphy.domain.geoloc.service.geoloc.IStreetSearchEngine;
 import com.gisgraphy.domain.geoloc.service.geoloc.StreetSearchErrorVisitor;
 import com.gisgraphy.domain.geoloc.service.geoloc.StreetSearchQuery;
@@ -130,6 +131,10 @@ public class StreetServlet extends GisgraphyServlet {
 	    streetSearchEngine.executeAndSerialize(query, resp
 		    .getOutputStream());
 	} catch (RuntimeException e) {
+	    if (e instanceof GisgraphyCommunicationException){
+		logger.warn("A communication error has occured, maybe the socket has been closed probably because the client has cancel the request, it is probably not important");
+		return;
+	    }
 	    logger.error("error while execute a streetsearch query from http request : " + e);
 	    String errorMessage = this.debugMode ? " : " + e.getMessage() : "";
 	    sendCustomError(ResourceBundle

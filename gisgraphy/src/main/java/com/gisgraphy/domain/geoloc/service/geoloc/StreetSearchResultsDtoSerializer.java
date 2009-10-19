@@ -170,7 +170,7 @@ public class StreetSearchResultsDtoSerializer implements
 	writer.flush();
 	}
     } catch (Exception e) {
-	throw new StreetSearchException("error during flush : "+e.getCause()+"/ "+e.getClass(), e);
+	throw new GisgraphyCommunicationException("error during flush : "+e.getCause(), e);
     }
 }
 
