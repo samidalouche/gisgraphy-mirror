@@ -410,7 +410,7 @@ html= html +'<br/><br/> <@s.text name="global.latitude" /> : '+selectedStreetInf
 return html;
 }
 
-${javascriptNameObject} = new Autocomplete('streetname', { serviceUrl: '/street/streetsearch?format=json"&from=1&to=10"', width: 340, deferRequestBy:400, minChars:1, onSelect: 
+${javascriptNameObject} = new Autocomplete('streetname', { serviceUrl: '/street/streetsearch?format=json"&from=1&to=10"', width: 340, deferRequestBy:200, minChars:1, onSelect: 
 function(value, data){
 	${javascriptNameObject}.streetResults.each(
 		function(value, i) {

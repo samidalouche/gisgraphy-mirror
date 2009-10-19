@@ -219,7 +219,8 @@ Autocomplete.prototype = {
 	onLoading: this.onSearching.bind(this),
 	onInteractive: this.onEndSearching.bind(this),
 	onFailure: this.onFailToRetrieve.bind(this),
-        method: 'get'
+        method: 'get',
+        onlyLatestOfClass: this.id
       });
     }
   },
