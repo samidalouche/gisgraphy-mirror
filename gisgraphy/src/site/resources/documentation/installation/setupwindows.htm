@@ -57,7 +57,7 @@ If you already have Postgresql installed, you can skip this section
 <div>
 This section will guide you step by step to install Postgresql on Windows.
 <br/>
-before install Postgresql 8.3 we have to download it. You can download it on the <a href="http://wwwmaster.postgresql.org/download/mirrors-ftp?file=%2Fbinary%2Fv8.3.0%2Fwin32%2Fpostgresql-8.3.0-1.zip">mirror page</a> 
+before install Postgresql 8.3 we have to download it. You can download it on the <a href="http://wwwmaster.postgresql.org/download/mirrors-ftp/binary/v8.3.8/win32/postgresql-8.3.8-1.zip">mirror page</a> 
 
 once you've download, you've got a file named postgresql-8.3.0-1.zip. you have to extract it by double clicking on it
 
@@ -109,7 +109,7 @@ A message will prompt. it tells you that, due to the fact that you've checked Ac
 <a href="images/image7.jpg"><img src="images/thumb/image7.jpg" class="imagethumb" /></a>
 <br/>
 
-Some procedural languages can be installed now or later, by default 'PL/pgsql' is checked. that mean that it will be install on template1 which is used as a model to create databases.
+Some procedural languages can be installed now or later, by default 'PL/pgsql' is checked. that mean that it will be install.
 <br/>Keep the 'PL/pgsql' checked (it will be used by postgis) and click "Next".
 <br/>
 <a href="images/image8.jpg"><img src="images/thumb/image8.jpg"  class="imagethumb" /></a>
@@ -220,6 +220,23 @@ In order to know if Postgis is correctly install, open a PostgreSQL connection (
 <li><code>select postgis_full_version () ;</code> It will give you the Postgis version </li>
 </ul>
 </div>
+</div>
+
+<h2>Create the database</h2>
+<div> Here are the command to create the Gisgraphy database</div> 
+
+<br/>
+<div class="tip redtip">
+Important : You have to deconnect all the users from the Template_postgis database if you want to create the gisgraphy database from the Template_postgis
+</div>
+<br/>
+
+<div class=code>
+<pre>
+# create the database
+psql -U <i>YOURUSER</i>  -h <i>YOURIP</i> -c  "CREATE DATABASE gisgraphy WITH TEMPLATE = Template_postgis ENCODING = 'UTF8';"
+
+</pre>
 </div>
 
 <h2>And now...</h2>
