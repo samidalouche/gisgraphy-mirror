@@ -30,6 +30,8 @@ import java.io.Reader;
 import org.apache.commons.io.IOUtils;
 import org.apache.solr.client.solrj.ResponseParser;
 import org.apache.solr.common.util.NamedList;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.util.Assert;
 
 import com.gisgraphy.domain.valueobject.Constants;
@@ -43,6 +45,9 @@ import com.gisgraphy.domain.valueobject.Constants;
  */
 public class OutputstreamResponseWrapper extends ResponseParser {
 
+    protected static final Logger logger = LoggerFactory
+    .getLogger(OutputstreamResponseWrapper.class);
+    
     private final OutputStream outputStream;
     private final String writerType;
 
@@ -86,7 +91,7 @@ public class OutputstreamResponseWrapper extends ResponseParser {
 	try {
 	    IOUtils.copy(reader, outputStream, Constants.CHARSET);
 	} catch (IOException e) {
-	    e.printStackTrace();
+	   logger.error("error when writing fulltext respone : "+e);
 	} finally {
 
 	    try {

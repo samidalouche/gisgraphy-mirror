@@ -108,7 +108,6 @@ public class GeonamesDatabaseIndexer implements IImporterProcessor {
 	this.status = ImporterStatus.PROCESSED;
 	this.statusMessage="";
 	} catch (Exception e) {
-	    e.printStackTrace();
 	    this.status = ImporterStatus.ERROR;
 	    this.statusMessage = "An error occurred when processing "
 		    + this.getClass().getSimpleName() + " on dao "

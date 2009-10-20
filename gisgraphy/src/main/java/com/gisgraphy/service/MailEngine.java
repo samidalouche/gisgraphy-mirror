@@ -79,7 +79,6 @@ public class MailEngine {
 	    result = VelocityEngineUtils.mergeTemplateIntoString(
 		    velocityEngine, templateName, model);
 	} catch (VelocityException e) {
-	    e.printStackTrace();
 	    log.error(e.getMessage());
 	}
 

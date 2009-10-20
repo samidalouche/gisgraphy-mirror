@@ -90,7 +90,6 @@ public class FulltextSearchAction extends SearchAction {
 	    setTo(fulltextQuery.getLastPaginationIndex());
 	    this.responseDTO = fullTextSearchEngine.executeQuery(fulltextQuery);
 	} catch (RuntimeException e) {
-	    e.printStackTrace();
 	    String exceptionMessage = "";
 	    if (e.getCause() != null && e.getCause().getCause() != null) {
 		exceptionMessage = e.getCause().getCause().toString();

@@ -252,7 +252,6 @@ public abstract class AbstractImporterProcessor implements IImporterProcessor {
 			    logger.warn(wnofe.getMessage());
 			}
 		    } catch (Exception e) {
-			e.printStackTrace();
 			logger.error("An Error occurred on Line "
 				+ readFileLine + " for " + input + " : "
 				+ e.getCause());
@@ -309,7 +308,6 @@ public abstract class AbstractImporterProcessor implements IImporterProcessor {
 	    
 	this.status = ImporterStatus.PROCESSED;
 	} catch (Exception e) {
-	    e.printStackTrace();
 	    this.status = ImporterStatus.ERROR;
 	    this.statusMessage = "An error occurred when processing "
 		    + this.getClass().getSimpleName() + " on file "

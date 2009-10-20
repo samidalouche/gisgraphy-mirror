@@ -29,6 +29,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.gisgraphy.domain.geoloc.service.fulltextsearch.FullTextSearchEngine;
 import com.gisgraphy.hibernate.projection.ProjectionBean;
 
 /**
@@ -40,6 +44,9 @@ import com.gisgraphy.hibernate.projection.ProjectionBean;
  * 
  */
 public class IntrospectionHelper {
+    
+    protected static final Logger logger = LoggerFactory
+    .getLogger(IntrospectionHelper.class);
 
     private static Map<Class<?>, String[]> cacheArray = new HashMap<Class<?>, String[]>();
 
@@ -124,7 +131,7 @@ public class IntrospectionHelper {
 	    } while (clazzParent != Object.class);
 
 	} catch (RuntimeException x) {
-	    x.printStackTrace();
+	  logger.error("can not update introspection cache "+x);
 	}
 	cacheList.put(clazz, introspectedFields);
 	cacheArray.put(clazz, introspectedFields.toArray(new String[] {}));

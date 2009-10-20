@@ -254,7 +254,6 @@ public class GisFeatureDistanceTest extends AbstractIntegrationHttpSolrTestCase 
     private List<String> inspectGisFeatureDistance(){
 	Class<?> clazzParent = GisFeatureDistance.class;
 	List<String> introspectedFields = new ArrayList<String>();
-	try {
 	    do {
 		int searchMods = 0x0;
 		searchMods |= modifierFromString("private");
@@ -270,9 +269,6 @@ public class GisFeatureDistanceTest extends AbstractIntegrationHttpSolrTestCase 
 		}
 		clazzParent = (Class<?>) clazzParent.getSuperclass();
 	    } while (clazzParent != Object.class);
-	} catch (RuntimeException x) {
-	    x.printStackTrace();
-	}
 	return introspectedFields;
     }
     

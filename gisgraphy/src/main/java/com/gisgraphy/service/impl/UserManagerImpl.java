@@ -82,12 +82,10 @@ public class UserManagerImpl extends UniversalManagerImpl implements
 	try {
 	    return dao.saveUser(user);
 	} catch (DataIntegrityViolationException e) {
-	    e.printStackTrace();
 	    log.warn(e.getMessage());
 	    throw new UserExistsException("User '" + user.getUsername()
 		    + "' already exists!");
 	} catch (EntityExistsException e) { // needed for JPA
-	    e.printStackTrace();
 	    log.warn(e.getMessage());
 	    throw new UserExistsException("User '" + user.getUsername()
 		    + "' already exists!");

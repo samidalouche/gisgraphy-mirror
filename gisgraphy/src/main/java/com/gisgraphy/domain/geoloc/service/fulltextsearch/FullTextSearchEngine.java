@@ -127,7 +127,6 @@ public class FullTextSearchEngine implements IFullTextSearchEngine {
 			    .get(Constants.OUTPUT_FORMAT_PARAMETER)));
 	    server.query(params);
 	} catch (SolrServerException e) {
-	    e.printStackTrace();
 	    logger.error("Can not execute query " + query.toQueryString()
 		    + "for URL : " + solrClient.getURL() + " : "
 		    + e.getCause().getMessage());
@@ -136,7 +135,6 @@ public class FullTextSearchEngine implements IFullTextSearchEngine {
 	    logger.error("The URL " + solrClient.getURL() + " is incorrect");
 	    throw new FullTextSearchException(e1);
 	} catch (RuntimeException e2) {
-	    e2.printStackTrace();
 	    logger
 		    .error("An error has occurred during fulltext search of query "
 			    + query + " : " + e2.getCause().getMessage());
@@ -188,7 +186,6 @@ public class FullTextSearchEngine implements IFullTextSearchEngine {
 
 	    gisFeatureList = gisFeatureDao.listByFeatureIds(ids);
 	} catch (Exception e) {
-	    e.printStackTrace();
 	    logger
 		    .error("An error has occurred during fulltext search to database object for query "
 			    + query + " : " + e.getCause().getMessage());

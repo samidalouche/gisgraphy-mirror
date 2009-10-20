@@ -81,7 +81,6 @@ public class FulltextServlet extends GisgraphyServlet {
 	    EncodingHelper.setJVMEncodingToUTF8();
 	} catch (Exception e) {
 	    logger.error("Can not start fulltextServlet : " + e.getMessage());
-	    e.printStackTrace();
 	}
     }
 
@@ -132,7 +131,6 @@ public class FulltextServlet extends GisgraphyServlet {
 		    .getOutputStream());
 	} catch (RuntimeException e) {
 	    logger.error("error while execute a fulltext query from http request : " + e);
-	    e.printStackTrace();
 	    String errorMessage = this.debugMode ? " : " + e.getMessage() : "";
 	    sendCustomError(ResourceBundle
 		    .getBundle(Constants.BUNDLE_ERROR_KEY).getString(

@@ -257,7 +257,6 @@ public class ImporterManagerTest extends AbstractIntegrationHttpSolrTestCase {
 	    importall();
 
 	} catch (GeonamesProcessorException e) {
-	    e.printStackTrace();
 	    fail(e.getCause() + " : " + e.getMessage());
 	}
 
@@ -269,7 +268,6 @@ public class ImporterManagerTest extends AbstractIntegrationHttpSolrTestCase {
 	    this.importerConfig.setImportGisFeatureEmbededAlternateNames(true);
 	    importall();
 	} catch (GeonamesProcessorException e) {
-	    e.printStackTrace();
 	    fail(e.getCause() + " : " + e.getMessage());
 	}
 
@@ -335,7 +333,6 @@ public class ImporterManagerTest extends AbstractIntegrationHttpSolrTestCase {
 	    importall();
 
 	} catch (GeonamesProcessorException e) {
-	    e.printStackTrace();
 	    fail(e.getCause() + " : " + e.getMessage());
 	} finally {
 	    // restore option
@@ -361,7 +358,6 @@ public class ImporterManagerTest extends AbstractIntegrationHttpSolrTestCase {
 	    importall();
 
 	} catch (GeonamesProcessorException e) {
-	    e.printStackTrace();
 	    fail(e.getCause() + " : " + e.getMessage());
 	} finally {
 	    // restore option
@@ -384,7 +380,6 @@ public class ImporterManagerTest extends AbstractIntegrationHttpSolrTestCase {
 	    importall();
 
 	} catch (GeonamesProcessorException e) {
-	    e.printStackTrace();
 	    fail(e.getCause() + " : " + e.getMessage());
 	} finally {
 	    // restore option
@@ -2250,7 +2245,6 @@ public class ImporterManagerTest extends AbstractIntegrationHttpSolrTestCase {
 		    reader.close();
 		} catch (IOException e) {
 		    fail();
-		    e.printStackTrace();
 		}
 	    }
 	}

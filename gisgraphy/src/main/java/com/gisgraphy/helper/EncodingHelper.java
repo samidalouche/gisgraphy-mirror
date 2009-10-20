@@ -50,7 +50,6 @@ public class EncodingHelper {
 	try {
 	    utf8 = new String(string.getBytes(Constants.CHARSET));
 	} catch (UnsupportedEncodingException e1) {
-	    e1.printStackTrace();
 	    throw new RuntimeException("can not change String Encoding");
 	}
 	return utf8;

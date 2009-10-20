@@ -78,7 +78,6 @@ public class GeolocServlet extends GisgraphyServlet {
 	    logger.info("GeolocServlet debugmode = " + this.debugMode);
 	} catch (Exception e) {
 	    logger.error("Can not start GeolocServlet : " + e.getMessage());
-	    e.printStackTrace();
 	}
     }
 
@@ -130,7 +129,6 @@ public class GeolocServlet extends GisgraphyServlet {
 		    .getOutputStream());
 	} catch (RuntimeException e) {
 	    logger.error("error while execute a geoloc query from http request : " + e);
-	    e.printStackTrace();
 	    String errorMessage = this.debugMode ? " : " + e.getMessage() : "";
 	    sendCustomError(ResourceBundle
 		    .getBundle(Constants.BUNDLE_ERROR_KEY).getString(

@@ -47,7 +47,7 @@ import com.opensymphony.module.sitemesh.RequestConstants;
 import com.opensymphony.module.sitemesh.util.Container;
 
 /**
- * Main SiteMesh filter for applying Decorators to entire Pages.
+ * Main SiteMesh filter for applying Decorators to entire Pages without creating a session.
  * 
  * @author <a HREF="mailto:joe@truemesh.com">Joe Walnes</a>
  * @author <a HREF="mailto:scott@atlassian.com">Scott Farquhar</a>
@@ -232,8 +232,6 @@ public class PageFilterWithoutSession implements Filter, RequestConstants {
 	    // added a print message here because otherwise Tomcat swallows
 	    // the error and you never see it = bad!
 	    if (Container.get() == Container.TOMCAT)
-		e.printStackTrace();
-
 	    throw e;
 	}
     }

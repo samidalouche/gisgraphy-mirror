@@ -34,7 +34,7 @@ public final class HttpClientT {
     static String url;
 
     @SuppressWarnings("deprecation")
-    public static void main(String[] args)
+    public static void main(String[] args) throws Exception
 
     {
 	multiThreadedHttpConnectionManager = new MultiThreadedHttpConnectionManager();
@@ -46,7 +46,6 @@ public final class HttpClientT {
 	int counter = args.length > 1 ? Integer.parseInt(args[1]) : 100;
 
 
-	try {
 	    httpClient = new HttpClient(multiThreadedHttpConnectionManager);
 
 	    Thread[] arrayThread = new Thread[counter + 1];
@@ -55,9 +54,6 @@ public final class HttpClientT {
 		arrayThread[counter].start();
 	    }
 	    _waitForEver();
-	} catch (Exception e)	{
-	    e.printStackTrace();
-	}
 
     }
 

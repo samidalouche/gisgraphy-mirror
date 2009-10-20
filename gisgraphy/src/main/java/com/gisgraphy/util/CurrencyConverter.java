@@ -80,7 +80,6 @@ public class CurrencyConverter implements Converter {
 
 		    return num.doubleValue();
 		} catch (ParseException pe) {
-		    pe.printStackTrace();
 		}
 	    } else if (value instanceof Double) {
 		if (log.isDebugEnabled()) {

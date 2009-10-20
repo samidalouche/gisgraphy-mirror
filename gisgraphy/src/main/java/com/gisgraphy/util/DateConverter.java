@@ -90,7 +90,6 @@ public class DateConverter implements Converter {
 		}
 		return date;
 	    } catch (Exception pe) {
-		pe.printStackTrace();
 		throw new ConversionException("Error converting String to Date");
 	    }
 	}
@@ -120,7 +119,6 @@ public class DateConverter implements Converter {
 	    try {
 		return df.format(value);
 	    } catch (Exception e) {
-		e.printStackTrace();
 		throw new ConversionException("Error converting Date to String");
 	    }
 	} else {

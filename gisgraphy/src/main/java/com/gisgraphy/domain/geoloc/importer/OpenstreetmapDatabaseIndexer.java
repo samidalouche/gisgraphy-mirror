@@ -104,7 +104,6 @@ public class OpenstreetmapDatabaseIndexer implements IImporterProcessor {
 	    statusMessage="";
 	this.status = ImporterStatus.PROCESSED;
 	} catch (Exception e) {
-	    e.printStackTrace();
 	    this.status = ImporterStatus.ERROR;
 	    this.statusMessage = "An error occurred when processing "
 		    + this.getClass().getSimpleName() +" : " + e.getCause();

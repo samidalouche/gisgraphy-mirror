@@ -222,7 +222,6 @@ public class DateUtil {
 	} catch (ParseException pe) {
 	    log.error("Could not convert '" + strDate
 		    + "' to a date, throwing exception");
-	    pe.printStackTrace();
 	    throw new ParseException(pe.getMessage(), pe.getErrorOffset());
 	}
 
