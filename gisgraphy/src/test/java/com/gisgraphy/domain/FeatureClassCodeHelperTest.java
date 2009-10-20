@@ -22,128 +22,127 @@
  *******************************************************************************/
 package com.gisgraphy.domain;
 
+import org.junit.Assert;
 import org.junit.Test;
 
-import com.gisgraphy.domain.geoloc.service.fulltextsearch.AbstractIntegrationHttpSolrTestCase;
 import com.gisgraphy.helper.FeatureClassCodeHelper;
 
-public class FeatureClassCodeHelperTest extends
-	AbstractIntegrationHttpSolrTestCase {
+public class FeatureClassCodeHelperTest  {
 
     @Test
-    public void testIsCityWithNullValuesShouldNotThrow() {
-	assertFalse(FeatureClassCodeHelper.isCity(null, null));
+    public void isCityWithNullValuesShouldNotThrow() {
+	Assert.assertFalse(FeatureClassCodeHelper.isCity(null, null));
     }
 
     @Test
-    public void testIsCityWithCorrectFeatureClassAndWrongFeatureCodeShouldReturnFalse() {
-	assertFalse(FeatureClassCodeHelper.isCity("P", "ERR"));
+    public void isCityWithCorrectFeatureClassAndWrongFeatureCodeShouldReturnFalse() {
+	Assert.assertFalse(FeatureClassCodeHelper.isCity("P", "ERR"));
     }
 
     @Test
-    public void testIsCityWithIncorrectFeatureClassAndCorrectFeatureCodeShouldReturnFalse() {
-	assertFalse(FeatureClassCodeHelper.isCountry("F", "PPL"));
+    public void isCityWithIncorrectFeatureClassAndCorrectFeatureCodeShouldReturnFalse() {
+	Assert.assertFalse(FeatureClassCodeHelper.isCountry("F", "PPL"));
     }
 
     @Test
-    public void testIsCityIsCaseSensitiveForFeatureClass() {
-	assertFalse(FeatureClassCodeHelper.isCity("p", "PPL"));
+    public void isCityIsCaseSensitiveForFeatureClass() {
+	Assert.assertFalse(FeatureClassCodeHelper.isCity("p", "PPL"));
     }
 
     @Test
-    public void testIsCityIsCaseSensitiveForFeatureCode() {
-	assertFalse(FeatureClassCodeHelper.isCity("P", "ppl"));
+    public void isCityIsCaseSensitiveForFeatureCode() {
+	Assert.assertFalse(FeatureClassCodeHelper.isCity("P", "ppl"));
     }
 
     @Test
-    public void testIsCityShouldReturnTrueForCityFeatureClassCode() {
-	assertTrue(FeatureClassCodeHelper.isCity("P", "PPL"));
+    public void isCityShouldReturnTrueForCityFeatureClassCode() {
+	Assert.assertTrue(FeatureClassCodeHelper.isCity("P", "PPL"));
     }
 
     @Test
-    public void testIsCityShouldReturnFalseForNonCityFeatureClassCode() {
-	assertFalse(FeatureClassCodeHelper.isCity("P", "PPLE"));
+    public void isCityShouldReturnFalseForNonCityFeatureClassCode() {
+	Assert.assertFalse(FeatureClassCodeHelper.isCity("P", "PPLE"));
     }
 
     // iscountry
     @Test
-    public void testIsCoutnryWithNullValuesShouldNotThrow() {
-	assertFalse(FeatureClassCodeHelper.isCountry(null, null));
+    public void isCoutnryWithNullValuesShouldNotThrow() {
+	Assert.assertFalse(FeatureClassCodeHelper.isCountry(null, null));
     }
 
     @Test
-    public void testIsCountryWithCorrectFeatureClassAndWrongFeatureCodeShouldReturnFalse() {
-	assertFalse(FeatureClassCodeHelper.isCountry("A", "ERR"));
+    public void isCountryWithCorrectFeatureClassAndWrongFeatureCodeShouldReturnFalse() {
+	Assert.assertFalse(FeatureClassCodeHelper.isCountry("A", "ERR"));
     }
 
     @Test
-    public void testIsCountryWithIncorrectFeatureClassAndCorrectFeatureCodeShouldReturnFalse() {
-	assertFalse(FeatureClassCodeHelper.isCountry("ERR", "PCL"));
+    public void isCountryWithIncorrectFeatureClassAndCorrectFeatureCodeShouldReturnFalse() {
+	Assert.assertFalse(FeatureClassCodeHelper.isCountry("ERR", "PCL"));
     }
 
     @Test
-    public void testIsCountryIsCaseSensitiveForFeatureClass() {
-	assertFalse(FeatureClassCodeHelper.isCountry("a", "PCL"));
+    public void isCountryIsCaseSensitiveForFeatureClass() {
+	Assert.assertFalse(FeatureClassCodeHelper.isCountry("a", "PCL"));
     }
 
     @Test
-    public void testIsCountryIsCaseSensitiveForFeatureCode() {
-	assertFalse(FeatureClassCodeHelper.isCountry("A", "pcl"));
+    public void isCountryIsCaseSensitiveForFeatureCode() {
+	Assert.assertFalse(FeatureClassCodeHelper.isCountry("A", "pcl"));
     }
 
     @Test
-    public void testIsCountryShouldReturnTrueForCountryFeatureClassCode() {
-	assertTrue(FeatureClassCodeHelper.isCountry("A", "PCL"));
-	assertTrue(FeatureClassCodeHelper.isCountry("A", "PCLD"));
-	assertTrue(FeatureClassCodeHelper.isCountry("A", "PCLF"));
-	assertTrue(FeatureClassCodeHelper.isCountry("A", "PCLI"));
-	assertTrue(FeatureClassCodeHelper.isCountry("A", "PCLS"));
+    public void isCountryShouldReturnTrueForCountryFeatureClassCode() {
+	Assert.assertTrue(FeatureClassCodeHelper.isCountry("A", "PCL"));
+	Assert.assertTrue(FeatureClassCodeHelper.isCountry("A", "PCLD"));
+	Assert.assertTrue(FeatureClassCodeHelper.isCountry("A", "PCLF"));
+	Assert.assertTrue(FeatureClassCodeHelper.isCountry("A", "PCLI"));
+	Assert.assertTrue(FeatureClassCodeHelper.isCountry("A", "PCLS"));
     }
 
     @Test
-    public void testIsCountryShouldReturnFalseForNonCountryFeatureClassCode() {
-	assertFalse(FeatureClassCodeHelper.isCountry("P", "PCLIX"));
+    public void isCountryShouldReturnFalseForNonCountryFeatureClassCode() {
+	Assert.assertFalse(FeatureClassCodeHelper.isCountry("P", "PCLIX"));
     }
 
     // isAdm
 
     @Test
-    public void testIsAdmWithNullValuesShouldNotThrow() {
-	assertFalse(FeatureClassCodeHelper.is_Adm(null, null));
+    public void isAdmWithNullValuesShouldNotThrow() {
+	Assert.assertFalse(FeatureClassCodeHelper.is_Adm(null, null));
     }
 
     @Test
-    public void testIsAdmWithCorrectFeatureClassAndWrongFeatureCodeShouldReturnFalse() {
-	assertFalse(FeatureClassCodeHelper.is_Adm("A", "ERR"));
+    public void isAdmWithCorrectFeatureClassAndWrongFeatureCodeShouldReturnFalse() {
+	Assert.assertFalse(FeatureClassCodeHelper.is_Adm("A", "ERR"));
     }
 
     @Test
-    public void testIsAdmWithIncorrectFeatureClassAndCorrectFeatureCodeShouldReturnFalse() {
-	assertFalse(FeatureClassCodeHelper.is_Adm("ERR", "ADM1"));
+    public void isAdmWithIncorrectFeatureClassAndCorrectFeatureCodeShouldReturnFalse() {
+	Assert.assertFalse(FeatureClassCodeHelper.is_Adm("ERR", "ADM1"));
     }
 
     @Test
-    public void testIsAdmIsCaseSensitiveForFeatureClass() {
-	assertFalse(FeatureClassCodeHelper.is_Adm("a", "ADM1"));
+    public void isAdmIsCaseSensitiveForFeatureClass() {
+	Assert.assertFalse(FeatureClassCodeHelper.is_Adm("a", "ADM1"));
 
     }
 
     @Test
-    public void testIsAdmIsCaseSensitiveForFeatureCode() {
-	assertFalse(FeatureClassCodeHelper.is_Adm("A", "adm1"));
+    public void isAdmIsCaseSensitiveForFeatureCode() {
+	Assert.assertFalse(FeatureClassCodeHelper.is_Adm("A", "adm1"));
     }
 
     @Test
-    public void testIsAdmShouldReturnTrueForCountryFeatureClassCode() {
-	assertTrue(FeatureClassCodeHelper.is_Adm("A", "ADM1"));
-	assertTrue(FeatureClassCodeHelper.is_Adm("A", "ADM2"));
-	assertTrue(FeatureClassCodeHelper.is_Adm("A", "ADM3"));
-	assertTrue(FeatureClassCodeHelper.is_Adm("A", "ADM4"));
+    public void isAdmShouldReturnTrueForCountryFeatureClassCode() {
+	Assert.assertTrue(FeatureClassCodeHelper.is_Adm("A", "ADM1"));
+	Assert.assertTrue(FeatureClassCodeHelper.is_Adm("A", "ADM2"));
+	Assert.assertTrue(FeatureClassCodeHelper.is_Adm("A", "ADM3"));
+	Assert.assertTrue(FeatureClassCodeHelper.is_Adm("A", "ADM4"));
     }
 
     @Test
-    public void testIsAdmShouldReturnFalseForNonCityFeatureClassCode() {
-	assertFalse(FeatureClassCodeHelper.is_Adm("A", "ADM"));
+    public void isAdmShouldReturnFalseForNonCityFeatureClassCode() {
+	Assert.assertFalse(FeatureClassCodeHelper.is_Adm("A", "ADM"));
     }
 
 }
