@@ -22,10 +22,11 @@
  *******************************************************************************/
 package com.gisgraphy.domain.geoloc.importer;
 
+import static org.junit.Assert.assertEquals;
+
 import java.util.List;
 
 import junit.framework.Assert;
-import junit.framework.TestCase;
 
 import org.easymock.classextension.EasyMock;
 import org.junit.Test;
@@ -33,10 +34,10 @@ import org.junit.Test;
 import com.gisgraphy.domain.repository.IAdmDao;
 import com.gisgraphy.domain.valueobject.NameValueDTO;
 
-public class GeonamesAdm4ImporterTest extends TestCase {
+public class GeonamesAdm4ImporterTest {
 
     @Test
-    public void testRollback() {
+    public void rollbackShouldRollback() {
 	GeonamesAdm4Importer geonamesAdm4Importer = new GeonamesAdm4Importer();
 	IAdmDao admDao = EasyMock.createMock(IAdmDao.class);
 	EasyMock.expect(admDao.deleteAllByLevel(4)).andReturn(4);
@@ -48,7 +49,7 @@ public class GeonamesAdm4ImporterTest extends TestCase {
     }
     
     @Test
-    public void testShouldBeSkipShouldReturnCorrectValue(){
+    public void shouldBeSkipShouldReturnCorrectValue(){
 	ImporterConfig importerConfig = new ImporterConfig();
 	GeonamesAdm4Importer geonamesAdm4Importer = new GeonamesAdm4Importer();
 	geonamesAdm4Importer.setImporterConfig(importerConfig);

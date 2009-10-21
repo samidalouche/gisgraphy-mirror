@@ -28,7 +28,6 @@ import org.springframework.orm.hibernate3.HibernateCallback;
 
 public interface _DaoHelper {
 
-    @SuppressWarnings("unchecked")
     List<?> testCallback(HibernateCallback hibernateCallback);
 
 }

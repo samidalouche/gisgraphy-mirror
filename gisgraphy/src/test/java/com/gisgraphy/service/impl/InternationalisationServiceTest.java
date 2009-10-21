@@ -4,6 +4,7 @@ import java.util.Locale;
 
 import junit.framework.Assert;
 
+import org.junit.Test;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 
 import com.gisgraphy.domain.repository.AbstractTransactionalTestCase;
@@ -21,6 +22,7 @@ public class InternationalisationServiceTest extends AbstractTransactionalTestCa
 	return testBundle;
     }
     
+    @Test
      public void testsetLocale() {
 	try {
 	    internationalisationService.setResourceBundle(createRessourceBundleTest());
@@ -36,6 +38,7 @@ public class InternationalisationServiceTest extends AbstractTransactionalTestCa
 
  
 
+    @Test
     public void testGetString() {
 	try {
 	    internationalisationService.setResourceBundle(createRessourceBundleTest());
@@ -51,6 +54,7 @@ public class InternationalisationServiceTest extends AbstractTransactionalTestCa
 	}
     }
 
+    @Test
     public void testGetStringWithParams() {
 	try {
 	    internationalisationService.setResourceBundle(createRessourceBundleTest());
@@ -66,6 +70,7 @@ public class InternationalisationServiceTest extends AbstractTransactionalTestCa
 	}
     }
 
+    @Test
     public void testGetStringWithParamsWithUnknowKey() {
 	try {
 	    internationalisationService.setResourceBundle(createRessourceBundleTest());
@@ -82,6 +87,7 @@ public class InternationalisationServiceTest extends AbstractTransactionalTestCa
 	}
     }
 
+    @Test
     public void testGetStringWithUnknowKey() {
 	try {
 	    internationalisationService.setResourceBundle(createRessourceBundleTest());
@@ -97,18 +103,10 @@ public class InternationalisationServiceTest extends AbstractTransactionalTestCa
 	}
     }
 
-    /**
-     * @param internationalisationService
-     *            the internationalisationService to set
-     */
     public void setInternationalisationService(InternationalisationService internationalisationService) {
 	this.internationalisationService = internationalisationService;
     }
 
-    /**
-     * @param applicationResourcesSource
-     *            the applicationResourcesSource to set
-     */
     public void setApplicationResourcesSource(ReloadableResourceBundleMessageSource applicationResourcesSource) {
 	this.applicationResourcesSource = applicationResourcesSource;
     }

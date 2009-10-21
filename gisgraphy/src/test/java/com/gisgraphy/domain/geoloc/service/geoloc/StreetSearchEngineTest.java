@@ -36,6 +36,7 @@ import org.junit.Test;
 
 import com.gisgraphy.domain.geoloc.entity.OpenStreetMap;
 import com.gisgraphy.domain.geoloc.service.fulltextsearch.AbstractIntegrationHttpSolrTestCase;
+import com.gisgraphy.domain.geoloc.service.fulltextsearch.StreetSearchMode;
 import com.gisgraphy.domain.geoloc.service.geoloc.street.StreetType;
 import com.gisgraphy.domain.repository.IOpenStreetMapDao;
 import com.gisgraphy.domain.valueobject.Constants;
@@ -101,6 +102,46 @@ public class StreetSearchEngineTest extends AbstractIntegrationHttpSolrTestCase 
 		.DeleteNonEmptyDirectory(tempDir));
 
     }
+    
+    @Test
+    public void testExecuteWithContainsMode() {
+	OpenStreetMap street = GeolocTestHelper.createOpenStreetMapForJohnKenedyStreet();
+	
+
+	this.openStreetMapDao.save(street);
+
+	Pagination pagination = paginate().from(1).to(15);
+	Output output = Output.withFormat(OutputFormat.XML).withIndentation();
+	StreetSearchQuery query = new StreetSearchQuery(street.getLocation(),10000,pagination,output,StreetType.MOTROWAY,street.getOneWay(),"hn ken",StreetSearchMode.CONTAINS);
+	
+	StreetSearchResultsDto results = streetSearchEngine.executeQuery(query);
+	assertEquals(1, results.getResult().size());
+	assertEquals(street.getName(), results.getResult().get(0).getName());
+    }
+    
+    
+    
+    @Test
+    public void testExecuteWithFulltextMode() {
+	OpenStreetMap street = GeolocTestHelper.createOpenStreetMapForJohnKenedyStreet();
+	
+
+	this.openStreetMapDao.save(street);
+	int numberOfLineUpdated =openStreetMapDao.updateTS_vectorColumnForStreetNameSearch();
+	assertEquals("It should have 2 lines updated one for partial + one for fulltext",2, numberOfLineUpdated);
+
+	Pagination pagination = paginate().from(1).to(15);
+	Output output = Output.withFormat(OutputFormat.XML).withIndentation();
+	StreetSearchQuery query = new StreetSearchQuery(street.getLocation(),10000,pagination,output,StreetType.MOTROWAY,street.getOneWay(),"Kenedy",StreetSearchMode.FULLTEXT);
+	
+	StreetSearchResultsDto results = streetSearchEngine.executeQuery(query);
+	assertEquals(1, results.getResult().size());
+	assertEquals(street.getName(), results.getResult().get(0).getName());
+
+	
+
+    }
+    
 
     @Test
     public void testExecuteQueryToStringShouldReturnsAValidStringWithResults() {

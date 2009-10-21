@@ -42,7 +42,7 @@ public class StreetSearchResultsDtoSerializerTest {
 
     
     @Test
-    public void testSerializeshouldThrowAnUnsupportedFormatExceptionWhenFormatIsNotSupported(){
+    public void serializeshouldThrowAnUnsupportedFormatExceptionWhenFormatIsNotSupported(){
 	OutputFormat outputFormatMocked = EasyMock.createMock(OutputFormat.class);
 	EasyMock.expect(outputFormatMocked.isSupported(GisgraphyServiceType.STREET)).andReturn(false);
 	StreetSearchResultsDtoSerializer serializer = new StreetSearchResultsDtoSerializer();
@@ -55,7 +55,7 @@ public class StreetSearchResultsDtoSerializerTest {
     }
     
     @Test
-    public void testSerializeShouldSerializeInXML() throws UnsupportedEncodingException {
+    public void serializeShouldSerializeInXML() throws UnsupportedEncodingException {
 	IStreetSearchResultsDtoSerializer streetSearchResultsDtoSerializer = new StreetSearchResultsDtoSerializer();
 	    StreetSearchResultsDto streetSearchResultsDto = GeolocTestHelper.createStreetSearchResultsDto();
 	    ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
@@ -66,7 +66,7 @@ public class StreetSearchResultsDtoSerializerTest {
     }
 
     @Test
-    public void testSerializeShouldSerializeInJSON() throws UnsupportedEncodingException {
+    public void serializeShouldSerializeInJSON() throws UnsupportedEncodingException {
 	IStreetSearchResultsDtoSerializer streetSearchResultsDtoSerializer = new StreetSearchResultsDtoSerializer();
 	    StreetSearchResultsDto streetSearchResultsDto = GeolocTestHelper.createStreetSearchResultsDto();
 	    ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
@@ -77,7 +77,7 @@ public class StreetSearchResultsDtoSerializerTest {
     }
    
     @Test
-    public void testSerializeShouldSerializeInGEORSS() throws UnsupportedEncodingException {
+    public void serializeShouldSerializeInGEORSS() throws UnsupportedEncodingException {
 	IStreetSearchResultsDtoSerializer streetSearchResultsDtoSerializer = new StreetSearchResultsDtoSerializer();
 	   StreetSearchResultsDto streetSearchResultsDto = GeolocTestHelper.createStreetSearchResultsDto();
 	    ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
@@ -88,7 +88,7 @@ public class StreetSearchResultsDtoSerializerTest {
     }
     
     @Test
-    public void testSerializeShouldSerializeInATOM() throws UnsupportedEncodingException {
+    public void serializeShouldSerializeInATOM() throws UnsupportedEncodingException {
 	IStreetSearchResultsDtoSerializer streetSearchResultsDtoSerializer = new StreetSearchResultsDtoSerializer();
 	   StreetSearchResultsDto streetSearchResultsDto = GeolocTestHelper.createStreetSearchResultsDto();
 	    ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();

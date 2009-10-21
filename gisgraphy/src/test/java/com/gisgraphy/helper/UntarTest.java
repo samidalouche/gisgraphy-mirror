@@ -50,41 +50,41 @@ public class UntarTest {
     }
     
     @Test
-    public void testUntarGzipForGzipExtension() throws IOException{
+    public void untarGzipForGzipExtension() throws IOException{
 	Untar untar = new Untar("./data/tests/tar/test.tar.gz",tempDir);
 	untar.untar();
 	Assert.assertTrue("",new File(tempDir+File.separator+"tarfilegzip.txt").exists());
     }
     
     @Test
-    public void testUntarGzipForGZExtension() throws IOException{
+    public void untarGzipForGZExtension() throws IOException{
 	Untar untar = new Untar("./data/tests/tar/test.tar.gzip",tempDir);
 	untar.untar();
 	Assert.assertTrue("",new File(tempDir+File.separator+"tarfilegzip.txt").exists());
     }
     
     @Test
-    public void testUntarBzip2ForBZ2Extension() throws IOException{
+    public void untarBzip2ForBZ2Extension() throws IOException{
 	Untar untar = new Untar("./data/tests/tar/test.tar.bz2",tempDir);
 	untar.untar();
 	Assert.assertTrue("",new File(tempDir+File.separator+"tarfilebz2.txt").exists());
     }
     
     @Test
-    public void testUntarBzip2ForBzip2Extension() throws IOException{
+    public void untarBzip2ForBzip2Extension() throws IOException{
 	Untar untar = new Untar("./data/tests/tar/test.tar.bzip2",tempDir);
 	untar.untar();
 	Assert.assertTrue("",new File(tempDir+File.separator+"tarfilebz2.txt").exists());
     }
     
     @Test (expected=RuntimeException.class)
-    public void testUntarForUnknowCompression() throws IOException{
+    public void untarForUnknowCompression() throws IOException{
 	Untar untar = new Untar("./data/tests/tar/test.tar.unknowext",tempDir);
 	untar.untar();
     }
     
     @Test
-    public void testUntarForNotCompressed() throws IOException{
+    public void untarForNotCompressed() throws IOException{
 	Untar untar = new Untar("./data/tests/tar/test.tar",tempDir);
 	untar.untar();
 	Assert.assertTrue("",new File(tempDir+File.separator+"tarwocompression.txt").exists());

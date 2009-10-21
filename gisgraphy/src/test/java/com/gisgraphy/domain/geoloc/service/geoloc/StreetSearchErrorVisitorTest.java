@@ -39,19 +39,19 @@ public class StreetSearchErrorVisitorTest {
     private String errorMessage = "My Message";
 
     @Test
-    public void testStreetSearchErrorVisitorString() {
+    public void streetSearchErrorVisitorString() {
 	IoutputFormatVisitor StreetSearchErrorVisitor = new StreetSearchErrorVisitor(errorMessage);
 	Assert.assertEquals("The error message is not well set ",errorMessage, StreetSearchErrorVisitor.getErrorMessage());
     }
     
     @Test
-    public void testStreetSearchErrorVisitor() {
+    public void streetSearchErrorVisitor() {
 	IoutputFormatVisitor StreetSearchErrorVisitor = new StreetSearchErrorVisitor();
 	Assert.assertEquals("An error message should be provided when no message is specified ",IoutputFormatVisitor.DEFAULT_ERROR_MESSAGE, StreetSearchErrorVisitor.getErrorMessage());
     }
 
     @Test
-    public void testVisitXML() {
+    public void visitXML() {
 
 	    IoutputFormatVisitor StreetSearchErrorVisitor = new StreetSearchErrorVisitor(errorMessage);
 	    String result = StreetSearchErrorVisitor.visitXML(OutputFormat.XML);
@@ -61,7 +61,7 @@ public class StreetSearchErrorVisitorTest {
 
 
     @Test
-    public void testVisitJSON() {
+    public void visitJSON() {
 	JsTester jsTester = null;
 	try {
 	    jsTester = new JsTester();
@@ -88,7 +88,7 @@ public class StreetSearchErrorVisitorTest {
     }
 
     @Test
-    public void testVisitPYTHON() {
+    public void visitPYTHON() {
 	IoutputFormatVisitor StreetSearchErrorVisitor = new StreetSearchErrorVisitor(errorMessage);
 	    String result = StreetSearchErrorVisitor.visitPYTHON(OutputFormat.PYTHON);
 	    
@@ -96,7 +96,7 @@ public class StreetSearchErrorVisitorTest {
     }
 
     @Test
-    public void testVisitRUBY() {
+    public void visitRUBY() {
 	IoutputFormatVisitor StreetSearchErrorVisitor = new StreetSearchErrorVisitor(errorMessage);
 	    String result = StreetSearchErrorVisitor.visitRUBY(OutputFormat.RUBY);
 	    
@@ -104,7 +104,7 @@ public class StreetSearchErrorVisitorTest {
     }
 
     @Test
-    public void testVisitPHP() {
+    public void visitPHP() {
 	IoutputFormatVisitor StreetSearchErrorVisitor = new StreetSearchErrorVisitor(errorMessage);
 	    String result = StreetSearchErrorVisitor.visitPHP(OutputFormat.PHP);
 	    
@@ -112,7 +112,7 @@ public class StreetSearchErrorVisitorTest {
     }
 
     @Test
-    public void testVisitATOM() {
+    public void visitATOM() {
 	IoutputFormatVisitor StreetSearchErrorVisitor = new StreetSearchErrorVisitor(errorMessage);
 	    String result = StreetSearchErrorVisitor.visitATOM(OutputFormat.ATOM);
 	    
@@ -120,7 +120,7 @@ public class StreetSearchErrorVisitorTest {
     }
 
     @Test
-    public void testVisitGEORSS() {
+    public void visitGEORSS() {
 	IoutputFormatVisitor StreetSearchErrorVisitor = new StreetSearchErrorVisitor(errorMessage);
 	    String result = StreetSearchErrorVisitor.visitGEORSS(OutputFormat.GEORSS);
 	    

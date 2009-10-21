@@ -25,6 +25,8 @@
  */
 package com.gisgraphy.domain.valueobject;
 
+import static org.junit.Assert.fail;
+
 import java.io.ByteArrayOutputStream;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
@@ -35,17 +37,15 @@ import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.PropertyException;
 
-import junit.framework.TestCase;
-
 import org.junit.Test;
 
 import com.gisgraphy.test.FeedChecker;
 import com.gisgraphy.test.GeolocTestHelper;
 
-public class GeolocResultsDtoTest extends TestCase {
+public class GeolocResultsDtoTest {
 
     @Test
-    public void testGeolocResultsDtoShouldBeMappedWithJAXB() {
+    public void geolocResultsDtoShouldBeMappedWithJAXB() {
 	try {
 	    JAXBContext context = JAXBContext
 		    .newInstance(GeolocResultsDto.class);
@@ -65,7 +65,7 @@ public class GeolocResultsDtoTest extends TestCase {
     }
 
     @Test
-    public void testGeolocResultsDtoForEmptyListShouldreturnValidXML() {
+    public void geolocResultsDtoForEmptyListShouldreturnValidXML() {
 	try {
 	    JAXBContext context = JAXBContext
 		    .newInstance(GeolocResultsDto.class);

@@ -25,14 +25,15 @@
  */
 package com.gisgraphy.domain.valueobject;
 
-import junit.framework.TestCase;
+import static org.junit.Assert.assertNotNull;
 
-import org.junit.Assert;
+import org.junit.Test;
 
-public class SolrResponseDtoTest extends TestCase {
+public class SolrResponseDtoTest  {
 
-    public void testConstructorWithNullValueShouldNotThrows() {
-	Assert.assertNotNull(new SolrResponseDto(null));
+    @Test
+    public void constructorWithNullValueShouldNotThrows() {
+	assertNotNull(new SolrResponseDto(null));
     }
 
 }

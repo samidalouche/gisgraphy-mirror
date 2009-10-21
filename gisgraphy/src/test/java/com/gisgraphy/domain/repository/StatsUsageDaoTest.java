@@ -24,6 +24,8 @@ package com.gisgraphy.domain.repository;
 
 import javax.annotation.Resource;
 
+import org.junit.Test;
+
 import com.gisgraphy.service.IStatsUsageService;
 import com.gisgraphy.stats.StatsUsage;
 import com.gisgraphy.stats.StatsUsageType;
@@ -36,6 +38,7 @@ public class StatsUsageDaoTest extends AbstractTransactionalTestCase {
     @Resource
     private IStatsUsageDao statUsageDao;
 
+    @Test
     public void testGetByUsageType() {
 
 	if (statUsageDao.getAll().size() == StatsUsageType.values().length) {

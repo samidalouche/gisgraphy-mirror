@@ -25,7 +25,8 @@
  */
 package com.gisgraphy.domain.geoloc.entity;
 
-import junit.framework.TestCase;
+import org.junit.Assert;
+import org.junit.Test;
 
 import com.gisgraphy.test.GeolocTestHelper;
 
@@ -33,17 +34,18 @@ import com.gisgraphy.test.GeolocTestHelper;
  * @author david
  * 
  */
-public class CityTest extends TestCase {
+public class CityTest  {
 
     /**
      * Test method for
      * {@link com.gisgraphy.domain.geoloc.entity.City#getFullyQualifiedName(boolean)}.
      */
+    @Test
     public void testGetFullyQualifiedNameShouldContainsZipCode() {
 	City city = GeolocTestHelper.createCity("Paris", 1F, 2F, 3L);
 	city.setZipCode("95000");
 	System.err.println(city.getFullyQualifiedName(false));
-	assertTrue(city.getFullyQualifiedName(false).contains("95000"));
+	Assert.assertTrue(city.getFullyQualifiedName(false).contains("95000"));
 
     }
 

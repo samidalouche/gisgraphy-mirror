@@ -30,6 +30,7 @@ import net.sf.jstester.JsTester;
 import org.apache.commons.httpclient.Header;
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.methods.GetMethod;
+import org.junit.Test;
 import org.mortbay.jetty.servlet.ServletHolder;
 import org.mortbay.jetty.testing.ServletTester;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -77,17 +78,13 @@ public class FulltextServletTest extends AbstractIntegrationHttpSolrTestCase {
 	}
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see com.gisgraphy.domain.geoloc.service.fulltextsearch.AbstractIntegrationHttpSolrTestCase#onTearDown()
-     */
     @Override
     public void onTearDown() throws Exception {
 	super.onTearDown();
 	// servletTester.stop();
     }
 
+    @Test
     public void testFulltextServletShouldReturnCorrectContentType() {
 	String url = fulltextServletUrl + FULLTEXT_SERVLET_CONTEXT
 		+ "/fulltextsearch";
@@ -120,6 +117,7 @@ public class FulltextServletTest extends AbstractIntegrationHttpSolrTestCase {
 
     }
 
+    @Test
     public void testFulltextServletShouldReturnCorrectJSONError() {
 
 	JsTester jsTester = null;
@@ -173,7 +171,7 @@ public class FulltextServletTest extends AbstractIntegrationHttpSolrTestCase {
 
     }
     
-    
+    @Test
     public void testFulltextServletShouldReturnCorrectStatusCode() {
 	String url = fulltextServletUrl + FULLTEXT_SERVLET_CONTEXT
 		+ "/fulltextsearch";
@@ -204,6 +202,7 @@ public class FulltextServletTest extends AbstractIntegrationHttpSolrTestCase {
    
     
 
+    @Test
     public void testFulltextServletShouldReturnCorrectXMLError() {
 
 	String url = fulltextServletUrl + FULLTEXT_SERVLET_CONTEXT
@@ -236,7 +235,8 @@ public class FulltextServletTest extends AbstractIntegrationHttpSolrTestCase {
 
     }
     
-    public void testgetGisgraphyServiceTypeShouldReturnTheCorrectValue(){
+    @Test
+    public void testGetGisgraphyServiceTypeShouldReturnTheCorrectValue(){
 	GisgraphyServlet servlet = new FulltextServlet();
     	assertEquals(GisgraphyServiceType.FULLTEXT, servlet.getGisgraphyServiceType());
 

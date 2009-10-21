@@ -28,7 +28,7 @@ import org.junit.Test;
 public class StreetTypeTest {
 
     @Test
-    public void testGetFromString() {
+    public void getFromString() {
 	for (StreetType streetType: StreetType.values()){
 	    Assert.assertEquals("getFromString should return correct values",StreetType.valueOf(streetType.toString()), StreetType.getFromString(streetType.toString()));
 	    Assert.assertEquals("getFromString should be case sensitive",StreetType.valueOf(streetType.toString()), StreetType.getFromString(streetType.toString().toUpperCase()));

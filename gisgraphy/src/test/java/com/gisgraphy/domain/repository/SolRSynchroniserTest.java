@@ -145,6 +145,7 @@ public class SolRSynchroniserTest extends AbstractIntegrationHttpSolrTestCase {
      * be synchronised ",results.isEmpty()); }
      */
 
+    @Test
     public void testCommitShouldReallyCommit() {
 	City city = GeolocTestHelper.createCityAtSpecificPoint("my city", 1.5F,
 		1.6F);
@@ -322,7 +323,8 @@ public class SolRSynchroniserTest extends AbstractIntegrationHttpSolrTestCase {
 		savedCountry.getFeatureId(), searchResults.getResults().get(0)
 			.getFieldValue(FullTextFields.FEATUREID.getValue()));
     }
-
+    
+    @Test
     public void testZipCodeShouldBeSynchronisedIfFeatureIsACity() {
 	// create one city
 	Long featureId = 1001L;
@@ -617,7 +619,7 @@ public class SolRSynchroniserTest extends AbstractIntegrationHttpSolrTestCase {
     @Test
     public void testSynchronizeAcountryShouldSynchronizeAdmSpecificFields() {
     
-    Adm adm = geolocTestHelper
+    Adm adm = GeolocTestHelper
 	.createAdm("AdmName", "FR", "A1", "B2", null, null, null, 2);
 
         admDao.save(adm);

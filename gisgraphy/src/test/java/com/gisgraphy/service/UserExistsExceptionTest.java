@@ -22,8 +22,8 @@
  *******************************************************************************/
 package com.gisgraphy.service;
 
+import org.junit.Test;
 import org.springframework.beans.BeanUtils;
-import org.springframework.beans.factory.annotation.Required;
 
 import com.gisgraphy.domain.repository.AbstractTransactionalTestCase;
 import com.gisgraphy.model.User;
@@ -31,11 +31,7 @@ import com.gisgraphy.model.User;
 public class UserExistsExceptionTest extends AbstractTransactionalTestCase {
     private UserManager userManager = null;
 
-    @Required
-    public void setUserManager(UserManager userManager) {
-	this.userManager = userManager;
-    }
-
+    @Test
     public void testAddExistingUser() throws Exception {
 	logger.debug("entered 'testAddExistingUser' method");
 	assertNotNull(userManager);
@@ -56,5 +52,9 @@ public class UserExistsExceptionTest extends AbstractTransactionalTestCase {
 	} catch (UserExistsException uee) {
 	    assertNotNull(uee);
 	}
+    }
+    
+    public void setUserManager(UserManager userManager) {
+	this.userManager = userManager;
     }
 }

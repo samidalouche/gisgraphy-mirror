@@ -643,10 +643,6 @@ public class FulltextSearchEngineTest extends
 	// duplicate tests
     }
 
-    /**
-     * @param cityDao
-     *                the cityDao to set
-     */
     public void setCityDao(ICityDao cityDao) {
 	this.cityDao = cityDao;
     }

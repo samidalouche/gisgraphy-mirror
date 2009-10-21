@@ -33,7 +33,7 @@ import com.gisgraphy.test.GeolocTestHelper;
 public class GisFeatureStoredEventTest {
 
     @Test
-    public void GisFeatureStoredEventCouldNothaveNullGisFeature() {
+    public void gisFeatureStoredEventCouldNothaveNullGisFeature() {
 	try {
 	    new GisFeatureStoredEvent(null);
 	    fail("we should not be able to create a gisFeatureStoredEvent with a null gisFeature");
@@ -43,7 +43,7 @@ public class GisFeatureStoredEventTest {
     }
 
     @Test
-    public void GetGisFeatureShouldReturnTheConstructorOne() {
+    public void getGisFeatureShouldReturnTheConstructorOne() {
 	GisFeature gisFeature = GeolocTestHelper.createGisFeature("name", 3F,
 		4F, 2L);
 	assertEquals("GetGisFeature() should return the constructor one",

@@ -37,7 +37,7 @@ import com.gisgraphy.domain.valueobject.NameValueDTO;
 public class GeonamesAdm1ImporterTest {
 
     @Test
-    public void testRollback() {
+    public void rollbackShouldRollback() {
 	GeonamesAdm1Importer geonamesAdm1Importer = new GeonamesAdm1Importer();
 	IAdmDao admDao = EasyMock.createMock(IAdmDao.class);
 	EasyMock.expect(admDao.deleteAllByLevel(1)).andReturn(4);
@@ -49,7 +49,7 @@ public class GeonamesAdm1ImporterTest {
     }
     
     @Test
-    public void testShouldBeSkipShouldReturnCorrectValue(){
+    public void shouldBeSkipShouldReturnCorrectValue(){
 	ImporterConfig importerConfig = new ImporterConfig();
 	GeonamesAdm1Importer geonamesAdm1Importer = new GeonamesAdm1Importer();
 	geonamesAdm1Importer.setImporterConfig(importerConfig);

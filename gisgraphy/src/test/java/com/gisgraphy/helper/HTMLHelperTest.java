@@ -23,17 +23,19 @@
 package com.gisgraphy.helper;
 
 import static com.gisgraphy.servlet.FulltextServlet.QUERY_PARAMETER;
-import junit.framework.TestCase;
+import static org.junit.Assert.assertTrue;
 
+import org.junit.Test;
 import org.springframework.mock.web.MockHttpServletRequest;
 
 import com.gisgraphy.servlet.FulltextServlet;
 import com.gisgraphy.servlet.GeolocServlet;
 import com.gisgraphy.test.GeolocTestHelper;
 
-public class HTMLHelperTest extends TestCase {
+public class HTMLHelperTest  {
 
-    public void testIsParametesrEmptyShouldReturnValidResult() {
+    @Test
+    public void isParametesrEmptyShouldReturnValidResult() {
 	MockHttpServletRequest req = GeolocTestHelper
 		.createMockHttpServletRequestForFullText();
 	assertTrue(!HTMLHelper.isParametersEmpty(req, QUERY_PARAMETER));

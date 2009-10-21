@@ -24,41 +24,21 @@ package com.gisgraphy.hibernate.projection;
 
 public class _OpenstreetmapDTO {
 
-    /**
-     * 
-     */
-    public _OpenstreetmapDTO() {
-	super();
-    }
-
     private String name;
     private Long Gid;
 
-    /**
-     * @return the name
-     */
     public String getName() {
 	return name;
     }
 
-    /**
-     * @param name
-     *                the name to set
-     */
     public void setName(String name) {
 	this.name = name;
     }
 
-    /**
-     * @return the gid
-     */
     public Long getGid() {
         return Gid;
     }
 
-    /**
-     * @param gid the gid to set
-     */
     public void setGid(Long gid) {
         Gid = gid;
     }

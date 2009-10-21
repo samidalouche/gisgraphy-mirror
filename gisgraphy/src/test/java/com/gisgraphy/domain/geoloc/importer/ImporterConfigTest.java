@@ -31,7 +31,7 @@ import org.junit.Test;
 public class ImporterConfigTest {
     
     @Test
-    public void testSetOpenStreetMapDirShouldAddFileSeparatorIfItDoesnTEndsWithFileSeparator(){
+    public void setOpenStreetMapDirShouldAddFileSeparatorIfItDoesnTEndsWithFileSeparator(){
 	String OpenStreetMapDir = "Test";
 	ImporterConfig importerConfig = new ImporterConfig();
 	importerConfig.setOpenStreetMapDir(OpenStreetMapDir);
@@ -40,7 +40,7 @@ public class ImporterConfigTest {
     }
     
     @Test
-    public void testSetGeonamesDirShouldAddFileSeparatorIfItDoesnTEndsWithFileSeparator(){
+    public void setGeonamesDirShouldAddFileSeparatorIfItDoesnTEndsWithFileSeparator(){
 	String geonamesDir = "Test";
 	ImporterConfig importerConfig = new ImporterConfig();
 	importerConfig.setGeonamesDir(geonamesDir);
@@ -49,13 +49,13 @@ public class ImporterConfigTest {
     }
     
     @Test
-    public void testIsGeonamesImporterShouldBeTrueByDefault(){
+    public void isGeonamesImporterShouldBeTrueByDefault(){
 	ImporterConfig importerConfig = new ImporterConfig();
 	Assert.assertTrue("Geonames importer should be enabled by default ",importerConfig.isGeonamesImporterEnabled());
     }
     
     @Test
-    public void testIsOpenstreetmapImporterShouldBeTrueByDefault(){
+    public void isOpenstreetmapImporterShouldBeTrueByDefault(){
 	ImporterConfig importerConfig = new ImporterConfig();
 	Assert.assertTrue("OpenStreetMap importer should be enabled by default ",importerConfig.isOpenstreetmapImporterEnabled());
     }

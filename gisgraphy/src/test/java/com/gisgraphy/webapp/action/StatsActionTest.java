@@ -40,7 +40,7 @@ import com.opensymphony.xwork2.Action;
 public class StatsActionTest {
 
     @Test
-    public void testExecute() throws Exception {
+    public void execute() throws Exception {
 	List<StatsUsage> statsUsageList = new ArrayList<StatsUsage>();
 	StatsUsage statsUsage1 = new StatsUsage(StatsUsageType.FULLTEXT);
 	StatsUsage statsUsage2 = new StatsUsage(StatsUsageType.GEOLOC);
@@ -67,7 +67,7 @@ public class StatsActionTest {
     }
     
     @Test
-    public void testGetFlushFrequency(){
+    public void getFlushFrequency(){
 	StatsAction statsAction = new StatsAction();
 	assertEquals("getFlushFrequecy should return the flush threshold",IStatsUsageService.FLUSH_THRESHOLD, statsAction.getFlushFrequency());
     }

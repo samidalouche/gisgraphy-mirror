@@ -22,21 +22,25 @@
  *******************************************************************************/
 package com.gisgraphy.domain.geoloc.importer;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
-import junit.framework.Assert;
-import junit.framework.TestCase;
-
+import org.junit.Assert;
 import org.junit.Test;
 
 import com.gisgraphy.domain.valueobject.NameValueDTO;
 import com.gisgraphy.test.GeolocTestHelper;
 
-public class AdmExtracterTest extends TestCase {
+public class AdmExtracterTest  {
 
-    public void testRollback() {
+    @Test
+    public void rollbackShouldRollback() {
 	AdmExtracter admExtracter = new AdmExtracter();
 	ImporterConfig importerConfig = new ImporterConfig();
 	File tempDir = GeolocTestHelper.createTempDir(this.getClass()
@@ -69,12 +73,12 @@ public class AdmExtracterTest extends TestCase {
 	}
 
 	// delete temp dir
-	assertTrue("The tempDir has not been deleted", GeolocTestHelper
+	org.junit.Assert.assertTrue("The tempDir has not been deleted", GeolocTestHelper
 		.DeleteNonEmptyDirectory(tempDir));
     }
     
     @Test
-    public void testShouldBeSkipShouldReturnCorrectValue(){
+    public void shouldBeSkipShouldReturnCorrectValue(){
 	ImporterConfig importerConfig = new ImporterConfig();
 	AdmExtracter extracter = new AdmExtracter();
 	extracter.setImporterConfig(importerConfig);

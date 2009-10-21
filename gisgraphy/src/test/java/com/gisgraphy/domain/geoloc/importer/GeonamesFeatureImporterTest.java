@@ -22,10 +22,11 @@
  *******************************************************************************/
 package com.gisgraphy.domain.geoloc.importer;
 
+import static org.junit.Assert.assertEquals;
+
 import java.util.List;
 
 import junit.framework.Assert;
-import junit.framework.TestCase;
 
 import org.easymock.classextension.EasyMock;
 import org.junit.Test;
@@ -38,10 +39,11 @@ import com.gisgraphy.domain.repository.IGisDao;
 import com.gisgraphy.domain.repository.IGisFeatureDao;
 import com.gisgraphy.domain.valueobject.NameValueDTO;
 
-public class GeonamesFeatureImporterTest extends TestCase {
+public class GeonamesFeatureImporterTest {
 
     @SuppressWarnings("unchecked")
-    public void testRollback() {
+    @Test
+    public void rollbackShouldRollback() {
 	GeonamesFeatureImporter featureImporter = new GeonamesFeatureImporter();
 	ICityDao mockCityDao = EasyMock.createMock(ICityDao.class);
 	EasyMock.expect(mockCityDao.deleteAll()).andReturn(2);
@@ -71,7 +73,7 @@ public class GeonamesFeatureImporterTest extends TestCase {
     }
     
     @Test
-    public void testShouldBeSkipShouldReturnCorrectValue(){
+    public void shouldBeSkipShouldReturnCorrectValue(){
 	ImporterConfig importerConfig = new ImporterConfig();
 	GeonamesFeatureImporter geonamesFeatureImporter = new GeonamesFeatureImporter();
 	geonamesFeatureImporter.setImporterConfig(importerConfig);

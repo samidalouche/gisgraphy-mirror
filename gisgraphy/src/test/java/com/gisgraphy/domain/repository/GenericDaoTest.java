@@ -56,7 +56,6 @@ public class GenericDaoTest extends AbstractIntegrationHttpSolrTestCase {
 
     }
 
-    @Required
     public void setAdmDao(IAdmDao admDao) {
 	this.admDao = admDao;
     }

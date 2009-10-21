@@ -22,10 +22,11 @@
  *******************************************************************************/
 package com.gisgraphy.domain.geoloc.importer;
 
+import static org.junit.Assert.assertEquals;
+
 import java.util.List;
 
 import junit.framework.Assert;
-import junit.framework.TestCase;
 
 import org.easymock.classextension.EasyMock;
 import org.junit.Test;
@@ -33,9 +34,10 @@ import org.junit.Test;
 import com.gisgraphy.domain.repository.ILanguageDao;
 import com.gisgraphy.domain.valueobject.NameValueDTO;
 
-public class GeonamesLanguageImporterTest extends TestCase {
+public class GeonamesLanguageImporterTest {
 
-    public void testRollback() {
+    @Test
+    public void rollbackShouldRollback() {
 	GeonamesLanguageImporter geonamesLanguageImporter = new GeonamesLanguageImporter();
 	ILanguageDao languageDao = EasyMock.createMock(ILanguageDao.class);
 	EasyMock.expect(languageDao.deleteAll()).andReturn(4);
@@ -48,7 +50,7 @@ public class GeonamesLanguageImporterTest extends TestCase {
     }
     
     @Test
-    public void testShouldBeSkipShouldReturnCorrectValue(){
+    public void shouldBeSkipShouldReturnCorrectValue(){
 	GeonamesLanguageImporter geonamesLanguageImporter = new GeonamesLanguageImporter();
 	Assert.assertFalse(geonamesLanguageImporter.shouldBeSkipped());
 		

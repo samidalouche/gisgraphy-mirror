@@ -26,6 +26,11 @@
 package com.gisgraphy.domain.geoloc.service.geoloc;
 
 import static com.gisgraphy.domain.valueobject.Pagination.paginate;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 import junit.framework.TestCase;
 
 import org.apache.commons.lang.RandomStringUtils;
@@ -50,7 +55,7 @@ import com.gisgraphy.servlet.StreetServlet;
 import com.gisgraphy.test.GeolocTestHelper;
 import com.vividsolutions.jts.geom.Point;
 
-public class StreetSearchQueryTest extends TestCase {
+public class StreetSearchQueryTest  {
 
     /**
      * a simple point to avoid creation of new one for each test
@@ -58,7 +63,7 @@ public class StreetSearchQueryTest extends TestCase {
     private static Point GENERIC_POINT = GeolocHelper.createPoint(3.2F, 2.5F);
 
     @Test
-    public void testStreetSearchQueryPointRadiusPaginationOutputStreetType() {
+    public void streetSearchQueryPointRadiusPaginationOutputStreetType() {
 	Pagination pagination = paginate().from(2).to(7);
 	Output output = Output.withFormat(OutputFormat.JSON).withLanguageCode(
 		"FR").withStyle(OutputStyle.FULL).withIndentation();
@@ -69,14 +74,15 @@ public class StreetSearchQueryTest extends TestCase {
 	assertEquals(null, query.getPlaceType());
 	assertEquals(GENERIC_POINT, query.getPoint());
 	assertTrue(query.isOutputIndented());
-	assertEquals(3D, query.getRadius());
+	assertEquals(3D, query.getRadius(),0.01);
 	assertEquals(StreetType.UNCLASSIFIED, query.getStreetType());
 	assertEquals(Boolean.TRUE, query.getOneWay());
 	assertEquals("name", query.getName());
 	assertEquals(StreetSearchMode.CONTAINS, query.getStreetSearchMode());
     }
     
-    public void testStreetSearchModeShouldBeSetToDefaultIfNameIsNotNullAndStreetSearchModeIsNull(){
+    @Test
+    public void streetSearchModeShouldBeSetToDefaultIfNameIsNotNullAndStreetSearchModeIsNull(){
     	Pagination pagination = paginate().from(2).to(7);
     	Output output = Output.withFormat(OutputFormat.JSON).withLanguageCode(
     		"FR").withStyle(OutputStyle.FULL).withIndentation();
@@ -92,26 +98,28 @@ public class StreetSearchQueryTest extends TestCase {
     	
     }
 
-    public void testStreetSearchQueryPointRadius() {
+    @Test
+    public void streetSearchQueryPointRadius() {
 	    StreetSearchQuery query = new StreetSearchQuery(GENERIC_POINT, 3D,StreetType.UNCLASSIFIED);
 	    assertEquals(Pagination.DEFAULT_PAGINATION, query.getPagination());
 	    assertEquals(Output.DEFAULT_OUTPUT, query.getOutput());
 	    assertEquals(GENERIC_POINT, query.getPoint());
-	    assertEquals(3D, query.getRadius());
-	    assertEquals(StreetType.UNCLASSIFIED, query.getStreetType());
-    }
-
-    public void testStreetSearchQueryPoint() {
-	    StreetSearchQuery query = new StreetSearchQuery(GENERIC_POINT,StreetType.UNCLASSIFIED);
-	    assertEquals(Pagination.DEFAULT_PAGINATION, query.getPagination());
-	    assertEquals(Output.DEFAULT_OUTPUT, query.getOutput());
-	    assertEquals(GENERIC_POINT, query.getPoint());
-	    assertEquals(GeolocQuery.DEFAULT_RADIUS, query.getRadius());
+	    assertEquals(3D, query.getRadius(),0.01);
 	    assertEquals(StreetType.UNCLASSIFIED, query.getStreetType());
     }
 
     @Test
-    public void testStreetSearchQueryFromAnHttpServletRequest() {
+    public void streetSearchQueryPoint() {
+	    StreetSearchQuery query = new StreetSearchQuery(GENERIC_POINT,StreetType.UNCLASSIFIED);
+	    assertEquals(Pagination.DEFAULT_PAGINATION, query.getPagination());
+	    assertEquals(Output.DEFAULT_OUTPUT, query.getOutput());
+	    assertEquals(GENERIC_POINT, query.getPoint());
+	    assertEquals(GeolocQuery.DEFAULT_RADIUS, query.getRadius(),0.01);
+	    assertEquals(StreetType.UNCLASSIFIED, query.getStreetType());
+    }
+
+    @Test
+    public void streetSearchQueryFromAnHttpServletRequest() {
 	Class<? extends GisFeature> savedDefaultType = GisgraphyConfig.defaultGeolocSearchPlaceTypeClass;
 	try {
 	    GisgraphyConfig.defaultGeolocSearchPlaceTypeClass = Country.class;
@@ -129,9 +137,9 @@ public class StreetSearchQueryTest extends TestCase {
 	    assertEquals(null, query.getOutputLanguage());
 	    assertEquals(OutputStyle.getDefault(), query.getOutputStyle());
 	    assertEquals(City.class, query.getPlaceType());
-	    assertEquals(1.0, query.getLatitude());
-	    assertEquals(2.0, query.getLongitude());
-	    assertEquals(10000D, query.getRadius());
+	    assertEquals(1.0, query.getLatitude(),0.1);
+	    assertEquals(2.0, query.getLongitude(),0.1);
+	    assertEquals(10000D, query.getRadius(),0.01);
 
 	    // test first pagination index
 	    // with no value specified
@@ -606,12 +614,12 @@ public class StreetSearchQueryTest extends TestCase {
 	// with negative value
 	StreetSearchQuery query = new StreetSearchQuery(GENERIC_POINT, -1, pagination,
 		output, StreetType.UNCLASSIFIED,true,"name",StreetSearchMode.getDefault());
-	assertEquals(GeolocQuery.DEFAULT_RADIUS, query.getRadius());
+	assertEquals(GeolocQuery.DEFAULT_RADIUS, query.getRadius(),0.01);
 
 	// with 0
 	 query = new StreetSearchQuery(GENERIC_POINT, 0, pagination,
 		output, StreetType.UNCLASSIFIED,true,"name",StreetSearchMode.getDefault());
-	assertEquals(GeolocQuery.DEFAULT_RADIUS, query.getRadius());
+	assertEquals(GeolocQuery.DEFAULT_RADIUS, query.getRadius(),0.01);
 
     }
 

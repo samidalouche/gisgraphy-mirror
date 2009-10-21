@@ -46,7 +46,7 @@ import com.opensymphony.xwork2.Action;
 public class GeocodingActionTest {
 
     @Test
-    public void testGetCountries() {
+    public void getCountries() {
 	ICountryDao countryDaoMock = EasyMock.createMock(ICountryDao.class);
 	EasyMock.expect(countryDaoMock.getAllSortedByName()).andReturn((new ArrayList<Country>()));
 	EasyMock.replay(countryDaoMock);
@@ -61,7 +61,7 @@ public class GeocodingActionTest {
     }
    
     @Test
-    public void testGetLatLongJson() {
+    public void getLatLongJson() {
 	GeocodingAction action = new GeocodingAction();
 	List<SolrResponseDto> ambiguousCities = createAmbiguousCities();
 	action.setAmbiguousCities(ambiguousCities);
@@ -106,7 +106,7 @@ public class GeocodingActionTest {
     
     
     @Test
-    public void testGetGoogleMapAPIKey(){
+    public void getGoogleMapAPIKey(){
 	 String savedGoogleMapAPIKey  = GisgraphyConfig .googleMapAPIKey;
 	try {
            GeocodingAction action = new GeocodingAction();
@@ -122,7 +122,7 @@ public class GeocodingActionTest {
     }
     
     @Test
-    public void testExecuteWithCityAndNoCountry() throws Exception{
+    public void executeWithCityAndNoCountry() throws Exception{
 	GeocodingAction action = new GeocodingAction(){
 
 	    @Override
@@ -138,7 +138,7 @@ public class GeocodingActionTest {
     }
     
     @Test
-    public void testExecuteWithCityAndCountryWithNoCityMatches() throws Exception{
+    public void executeWithCityAndCountryWithNoCityMatches() throws Exception{
 	GeocodingAction action = new GeocodingAction();
 	
 	IFullTextSearchEngine fullTextSearchEngine = EasyMock.createMock(IFullTextSearchEngine.class);
@@ -157,7 +157,7 @@ public class GeocodingActionTest {
     }
     
     @Test
-    public void testExecuteWithCityAndCountryWithOneCityMatches() throws Exception{
+    public void executeWithCityAndCountryWithOneCityMatches() throws Exception{
 	GeocodingAction action = new GeocodingAction();
 	
 	SolrResponseDto cityFound1 =  EasyMock.createMock(SolrResponseDto.class);
@@ -194,7 +194,7 @@ public class GeocodingActionTest {
     
     
     @Test
-    public void testExecuteWithCityAndCountryWithMoreThanOneCityMatches() throws Exception{
+    public void executeWithCityAndCountryWithMoreThanOneCityMatches() throws Exception{
 	GeocodingAction action = new GeocodingAction();
 	
 	SolrResponseDto cityFound1 =  EasyMock.createMock(SolrResponseDto.class);
@@ -239,7 +239,7 @@ public class GeocodingActionTest {
     }
     
     @Test
-    public void testExecuteWithAmbiguousCities() throws Exception{
+    public void executeWithAmbiguousCities() throws Exception{
 	GeocodingAction action = new GeocodingAction();
 	
 	SolrResponseDto cityFound1 =  EasyMock.createMock(SolrResponseDto.class);
@@ -284,7 +284,7 @@ public class GeocodingActionTest {
     }
     
     @Test
-    public void testExecuteThrowsException() throws Exception{
+    public void executeThrowsException() throws Exception{
 	GeocodingAction action = new GeocodingAction(){
 	    @Override
 	    public String getText(String textName, String defaultValue) {

@@ -36,7 +36,6 @@ import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.transform.Transformers;
 import org.junit.Test;
-import org.springframework.beans.factory.annotation.Required;
 import org.springframework.orm.hibernate3.HibernateCallback;
 
 import com.gisgraphy.domain.geoloc.entity.City;
@@ -54,15 +53,6 @@ public class DistanceRestrictionTest extends
 
     private _DaoHelper testDao;
 
-    @Required
-    public void setCityDao(ICityDao cityDao) {
-	this.cityDao = cityDao;
-    }
-
-    @Required
-    public void setTestDao(_DaoHelper testDao) {
-	this.testDao = testDao;
-    }
 
     @Test
     public void testDistanceRestrictionPointDoubleBooleanShouldUseIndexIfUseIndexTrue() {
@@ -158,6 +148,14 @@ public class DistanceRestrictionTest extends
 		1, cities.size());
 	assertEquals("bordeaux", cities.get(0).getName());
 
+    }
+    
+    public void setCityDao(ICityDao cityDao) {
+	this.cityDao = cityDao;
+    }
+
+    public void setTestDao(_DaoHelper testDao) {
+	this.testDao = testDao;
     }
 
 }

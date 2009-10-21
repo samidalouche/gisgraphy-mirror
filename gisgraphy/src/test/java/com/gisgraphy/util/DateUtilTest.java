@@ -22,28 +22,22 @@
  *******************************************************************************/
 package com.gisgraphy.util;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+
 import java.util.Date;
 import java.util.Locale;
 
-import junit.framework.TestCase;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.junit.Test;
 import org.springframework.context.i18n.LocaleContextHolder;
 
-public class DateUtilTest extends TestCase {
-    // ~ Instance fields
-    // ========================================================
+public class DateUtilTest {
 
     private final Log log = LogFactory.getLog(DateUtilTest.class);
 
-    // ~ Constructors
-    // ===========================================================
-
-    public DateUtilTest(String name) {
-	super(name);
-    }
-
+    @Test
     public void testGetInternationalDatePattern() {
 	LocaleContextHolder.setLocale(new Locale("nl"));
 	assertEquals("dd-MMM-yyyy", DateUtil.getDatePattern());
@@ -63,6 +57,7 @@ public class DateUtilTest extends TestCase {
 	assertEquals(defaultPattern, fiPattern);
     }
 
+    @Test
     public void testGetDate() throws Exception {
 	if (log.isDebugEnabled()) {
 	    log.debug("db date to convert: " + new Date());
@@ -77,6 +72,7 @@ public class DateUtilTest extends TestCase {
 	assertTrue(date != null);
     }
 
+    @Test
     public void testGetDateTime() {
 	if (log.isDebugEnabled()) {
 	    log.debug("entered 'testGetDateTime' method");

@@ -22,12 +22,16 @@
  *******************************************************************************/
 package com.gisgraphy.webapp.filter;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+
 import java.util.Locale;
 
 import javax.servlet.jsp.jstl.core.Config;
 
-import junit.framework.TestCase;
-
+import org.junit.Before;
+import org.junit.Test;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.mock.web.MockFilterConfig;
 import org.springframework.mock.web.MockHttpServletRequest;
@@ -36,16 +40,17 @@ import org.springframework.mock.web.MockHttpSession;
 
 import com.gisgraphy.Constants;
 
-public class LocaleFilterTest extends TestCase {
+public class LocaleFilterTest  {
     private LocaleFilter filter = null;
 
-    @Override
-    protected void setUp() throws Exception {
+    @Before
+    public void setUp() throws Exception {
 	filter = new LocaleFilter();
 	filter.init(new MockFilterConfig());
     }
 
-    public void testSetLocaleInSessionWhenSessionIsNull() throws Exception {
+    @Test
+    public void setLocaleInSessionWhenSessionIsNull() throws Exception {
 	MockHttpServletRequest request = new MockHttpServletRequest();
 	request.addParameter("locale", "es");
 
@@ -59,7 +64,8 @@ public class LocaleFilterTest extends TestCase {
 	assertNotNull(LocaleContextHolder.getLocale());
     }
 
-    public void testSetLocaleInSessionWhenSessionNotNull() throws Exception {
+    @Test
+    public void setLocaleInSessionWhenSessionNotNull() throws Exception {
 	MockHttpServletRequest request = new MockHttpServletRequest();
 	request.addParameter("locale", "es");
 
@@ -76,7 +82,8 @@ public class LocaleFilterTest extends TestCase {
 	assertEquals(new Locale("es"), locale);
     }
 
-    public void testSetInvalidLocale() throws Exception {
+    @Test
+    public void setInvalidLocale() throws Exception {
 	MockHttpServletRequest request = new MockHttpServletRequest();
 	request.addParameter("locale", "foo");
 
@@ -91,7 +98,8 @@ public class LocaleFilterTest extends TestCase {
 		Constants.PREFERRED_LOCALE_KEY));
     }
 
-    public void testJstlLocaleIsSet() throws Exception {
+    @Test
+    public void jstlLocaleIsSet() throws Exception {
 	MockHttpServletRequest request = new MockHttpServletRequest();
 	request.addParameter("locale", "es");
 
@@ -103,7 +111,8 @@ public class LocaleFilterTest extends TestCase {
 	assertNotNull(Config.get(request.getSession(), Config.FMT_LOCALE));
     }
 
-    public void testLocaleAndCountry() throws Exception {
+    @Test
+    public void localeAndCountry() throws Exception {
 	MockHttpServletRequest request = new MockHttpServletRequest();
 	request.setSession(new MockHttpSession());
 	request.addParameter("locale", "zh-TW");

@@ -43,7 +43,7 @@ public class OpenStreetMapImporterTest extends AbstractIntegrationHttpSolrTestCa
     private IOpenStreetMapDao openStreetMapDao;
   
 
-
+    @Test
     public void testImporterShouldImport(){
 	OpenStreetMapImporter.GeneratedId = 0L;
 	openStreetMapImporter.process();

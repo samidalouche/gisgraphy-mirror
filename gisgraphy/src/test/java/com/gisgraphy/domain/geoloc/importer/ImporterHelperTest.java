@@ -22,23 +22,27 @@
  *******************************************************************************/
 package com.gisgraphy.domain.geoloc.importer;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
 import java.util.Random;
 import java.util.regex.Pattern;
 
-import junit.framework.Assert;
-import junit.framework.TestCase;
-
+import org.junit.Assert;
 import org.junit.Test;
 
 import com.gisgraphy.test.GeolocTestHelper;
 
-public class ImporterHelperTest extends TestCase {
+public class ImporterHelperTest {
 
     @Test
-    public void testVirtualizeADMDshouldChangeADMDTOADMXAccordingToTheAdmcodes() {
+    public void virtualizeADMDshouldChangeADMDTOADMXAccordingToTheAdmcodes() {
 	String[] fields = new String[19];
 	fields[6] = "A";
 	fields[7] = "ADMD";
@@ -54,7 +58,7 @@ public class ImporterHelperTest extends TestCase {
     }
 
     @Test
-    public void testcorrectLastAdmCodeIfPossibleShouldReallyCorrect() {
+    public void correctLastAdmCodeIfPossibleShouldReallyCorrect() {
 	String[] fieldsWrongFeatureClass = { "123", "1", "2", "3", "4", "5",
 		"B", "ADM1", "8", "9", "", "11", "12", "13", "14", "15", "16",
 		"17", "18" };
@@ -109,7 +113,7 @@ public class ImporterHelperTest extends TestCase {
     }
 
     @Test
-    public void testIsDirectoryAccessible() {
+    public void isDirectoryAccessible() {
 	File tempDir = null;
 	try {
 	    String accessiblePath = System.getProperty("java.io.tmpdir")
@@ -143,27 +147,27 @@ public class ImporterHelperTest extends TestCase {
     }
 
     @Test
-    public void testCompileRegexShouldCompile() {
+    public void compileRegexShouldCompile() {
 	List<Pattern> patterns = ImporterHelper
 		.compileRegex("P[.]PPL[A-Z&&[^QW]];P[.]PPL$;P[.]STLMT$");
 	assertEquals(3, patterns.size());
     }
 
     @Test
-    public void testCompileRegexShouldReturnEmptyListForEmptyString() {
+    public void compileRegexShouldReturnEmptyListForEmptyString() {
 	List<Pattern> patterns = ImporterHelper.compileRegex("");
 	assertEquals(0, patterns.size());
     }
 
     @Test
-    public void testCompileRegexShouldReturnNullIfRegexAreIncorect() {
+    public void compileRegexShouldReturnNullIfRegexAreIncorect() {
 	List<Pattern> patterns = ImporterHelper
 		.compileRegex("P[.]PPL[A-Z&&[^QW]];P[.]PPL$;P[.]STLMT$;*");
 	assertNull(patterns);
     }
 
     @Test
-    public void testFormatSeconds() {
+    public void formatSecondsShouldFormat() {
 	// test value and space
 	assertTrue(ImporterHelper.formatSeconds(1000000).contains("277 "));
 	assertTrue(ImporterHelper.formatSeconds(1000000).contains(" 46 "));
@@ -201,7 +205,7 @@ public class ImporterHelperTest extends TestCase {
     }
     
     @Test
-    public void testListCountryFilesToImport() throws IOException{
+    public void listCountryFilesToImport() throws IOException{
 	
 	// create a temporary directory to download files
 	File tempDir = GeolocTestHelper.createTempDir(this.getClass()
@@ -259,17 +263,17 @@ public class ImporterHelperTest extends TestCase {
     }
     
     @Test
-    public void testListCountryFilesToImportShouldNotReturnNullIfThereIsNoFile(){
+    public void listCountryFilesToImportShouldNotReturnNullIfThereIsNoFile(){
 	Assert.assertNotNull(ImporterHelper.listCountryFilesToImport(""));
     }
     
     @Test
-    public void testListZipFilesShouldNotReturnNullIfThereIsNoFile(){
+    public void listZipFilesShouldNotReturnNullIfThereIsNoFile(){
 	Assert.assertNotNull(ImporterHelper.listZipFiles(""));
     }
     
     @Test
-    public void testListTarFilesShouldNotReturnNullIfThereIsNoFile(){
+    public void listTarFilesShouldNotReturnNullIfThereIsNoFile(){
 	Assert.assertNotNull(ImporterHelper.listZipFiles(""));
     }
     

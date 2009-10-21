@@ -22,6 +22,7 @@
  *******************************************************************************/
 package com.gisgraphy.webapp.action;
 
+import org.junit.Test;
 import org.subethamail.wiser.Wiser;
 
 public class PasswordHintActionTest extends BaseActionTestCase {
@@ -31,6 +32,7 @@ public class PasswordHintActionTest extends BaseActionTestCase {
 	this.passwordHintAction = action;
     }
 
+    @Test
     public void testExecute() throws Exception {
 	// start SMTP Server
 	Wiser wiser = new Wiser();

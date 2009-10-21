@@ -31,12 +31,12 @@ import com.gisgraphy.domain.geoloc.importer.IImporterManager;
 public class ImportActionTest {
 
     @Test
-    public void testdoWaitShouldReturnWaitView() throws Exception {
+    public void doWaitShouldReturnWaitView() throws Exception {
 	Assert.assertEquals(ImportAction.WAIT, new ImportAction().doWait());
     }
 
     @Test
-    public void testStatusShouldReturnWaitView() throws Exception {
+    public void statusShouldReturnWaitView() throws Exception {
 	Assert.assertEquals(ImportAction.WAIT, new ImportAction().status());
     }
 

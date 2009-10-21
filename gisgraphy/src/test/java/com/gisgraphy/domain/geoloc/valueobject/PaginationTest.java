@@ -25,25 +25,24 @@
  */
 package com.gisgraphy.domain.geoloc.valueobject;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 import junit.framework.TestCase;
 
+import org.junit.Assert;
 import org.junit.Test;
 
 import com.gisgraphy.domain.valueobject.Pagination;
 
-public class PaginationTest extends TestCase {
+public class PaginationTest {
 
-    /**
-     * Test method for
-     * {@link com.gisgraphy.domain.valueobject.Pagination#paginate()}.
-     */
     @Test
-    public void testPaginate() {
+    public void paginate() {
 	Pagination.paginate().from(1).to(5);
     }
 
     @Test
-    public void testDefaultPaginate() {
+    public void defaultPaginate() {
 	assertEquals(Pagination.DEFAULT_FROM, Pagination.DEFAULT_PAGINATION
 		.getFrom());
 	assertEquals(Pagination.DEFAULT_MAX_RESULTS,
@@ -51,7 +50,7 @@ public class PaginationTest extends TestCase {
     }
 
     @Test
-    public void testPaginateShouldHaveToGreaterThanFrom() {
+    public void paginateShouldHaveToGreaterThanFrom() {
 
 	Pagination pagination = Pagination.paginate().from(5).to(1);
 	assertEquals(5, pagination.getFrom());
@@ -65,7 +64,7 @@ public class PaginationTest extends TestCase {
     }
 
     @Test
-    public void testPaginateShouldNotHaveFromParametersNegativeOrZero() {
+    public void paginateShouldNotHaveFromParametersNegativeOrZero() {
 	Pagination pagination = Pagination.paginate().from(-1).to(1);
 	assertEquals("pagination with negative from should have from="
 		+ Pagination.DEFAULT_FROM, Pagination.DEFAULT_FROM, pagination
@@ -78,7 +77,7 @@ public class PaginationTest extends TestCase {
     }
 
     @Test
-    public void testPaginateShouldNotHaveToParametersNegativeOrZero() {
+    public void paginateShouldNotHaveToParametersNegativeOrZero() {
 	Pagination pagination = Pagination.paginate().from(1).to(-1);
 	assertTrue(
 		"pagination with negative to should be set to a value to have numberOfResults="
@@ -96,7 +95,7 @@ public class PaginationTest extends TestCase {
     }
 
     @Test
-    public void testPaginateShouldHaveFromGreaterOrEqualsToToParameter() {
+    public void paginateShouldHaveFromGreaterOrEqualsToToParameter() {
 
 	Pagination pagination = Pagination.paginate().from(2).to(1);
 	assertTrue(
@@ -112,7 +111,7 @@ public class PaginationTest extends TestCase {
     }
 
     @Test
-    public void testLimitNumberOfResultsShouldLimit() {
+    public void limitNumberOfResultsShouldLimit() {
 	// with negative limit=>no effect
 	assertEquals(13, Pagination.paginate().from(4).to(16)
 		.limitNumberOfResults(-3).getMaxNumberOfResults());
@@ -134,12 +133,9 @@ public class PaginationTest extends TestCase {
 
     }
 
-    /**
-     * Test method for
-     * {@link com.gisgraphy.domain.valueobject.Pagination#getMaxNumberOfResults()}.
-     */
+   
     @Test
-    public void testGetNumberOfResultsShouldReturnCorrectValue() {
+    public void getNumberOfResultsShouldReturnCorrectValue() {
 	assertEquals(1, Pagination.paginate().from(1).to(1)
 		.getMaxNumberOfResults());
 	assertEquals(2, Pagination.paginate().from(1).to(2)
@@ -149,7 +145,7 @@ public class PaginationTest extends TestCase {
     }
     
     @Test
-    public void testPaginateWithMaxResults(){
+    public void paginateWithMaxResults(){
 	Pagination pagination = Pagination.paginateWithMaxResults(32).from(1).to(-1);
 	assertEquals(1, pagination.getFrom());
 	assertEquals(32, pagination.getTo());

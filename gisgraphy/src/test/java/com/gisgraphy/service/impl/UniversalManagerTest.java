@@ -23,6 +23,7 @@
 package com.gisgraphy.service.impl;
 
 import org.jmock.Mock;
+import org.junit.Test;
 import org.springframework.orm.ObjectRetrievalFailureException;
 import org.springframework.test.AssertThrows;
 
@@ -54,18 +55,21 @@ public class UniversalManagerTest extends BaseManagerMockTestCase {
     /**
      * Simple test to verify BaseDao works.
      */
+    @Test
     public void testCreate() {
 	User user = createUser();
 	dao.expects(once()).method("save").will(returnValue(user));
 	user = (User) manager.save(user);
     }
 
+    @Test
     public void testRetrieve() {
 	User user = createUser();
 	dao.expects(once()).method("get").will(returnValue(user));
 	user = (User) manager.get(User.class, user.getUsername());
     }
 
+    @Test
     public void testUpdate() {
 	User user = createUser();
 	dao.expects(once()).method("save").isVoid();
@@ -73,6 +77,7 @@ public class UniversalManagerTest extends BaseManagerMockTestCase {
 	user = (User) manager.save(user);
     }
 
+    @Test
     public void testDelete() {
 	Exception ex = new ObjectRetrievalFailureException(User.class, "foo");
 	dao.expects(once()).method("remove").isVoid();

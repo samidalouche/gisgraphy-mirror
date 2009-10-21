@@ -33,7 +33,7 @@ import org.hibernate.Session;
 import org.hibernate.criterion.ProjectionList;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.transform.Transformers;
-import org.springframework.beans.factory.annotation.Required;
+import org.junit.Test;
 import org.springframework.orm.hibernate3.HibernateCallback;
 
 import com.gisgraphy.domain.geoloc.entity.City;
@@ -49,6 +49,7 @@ public class ProjectionBeanTest extends AbstractIntegrationHttpSolrTestCase {
     private ICityDao cityDao;
 
     @SuppressWarnings("unchecked")
+    @Test
     public void testPropertiesList() {
 
 	City p1 = GeolocTestHelper.createCity("paris", 48.86667F, 2.3333F, 1L);
@@ -56,7 +57,6 @@ public class ProjectionBeanTest extends AbstractIntegrationHttpSolrTestCase {
 	this.cityDao.save(p1);
 	HibernateCallback hibernateCallback = new HibernateCallback() {
 
-	    @SuppressWarnings("unchecked")
 	    public Object doInHibernate(Session session)
 		    throws PersistenceException {
 
@@ -83,6 +83,7 @@ public class ProjectionBeanTest extends AbstractIntegrationHttpSolrTestCase {
     }
 
     @SuppressWarnings("unchecked")
+    @Test
     public void testBeanFieldList() {
 
 	City p1 = GeolocTestHelper.createCity("paris", 48.86667F, 2.3333F, 1L);
@@ -90,7 +91,6 @@ public class ProjectionBeanTest extends AbstractIntegrationHttpSolrTestCase {
 	this.cityDao.save(p1);
 	HibernateCallback hibernateCallback = new HibernateCallback() {
 
-	    @SuppressWarnings("unchecked")
 	    public Object doInHibernate(Session session)
 		    throws PersistenceException {
 
@@ -128,7 +128,6 @@ public class ProjectionBeanTest extends AbstractIntegrationHttpSolrTestCase {
 	this.cityDao.save(p1);
 	HibernateCallback hibernateCallback = new HibernateCallback() {
 
-	    @SuppressWarnings("unchecked")
 	    public Object doInHibernate(Session session)
 		    throws PersistenceException {
 
@@ -156,15 +155,10 @@ public class ProjectionBeanTest extends AbstractIntegrationHttpSolrTestCase {
 	assertEquals(1L, cities.get(0)[0]);
     }
 
-    @Required
     public void setCityDao(ICityDao cityDao) {
 	this.cityDao = cityDao;
     }
 
-    /**
-     * @param testDao
-     *                the testDao to set
-     */
     public void setTestDao(_DaoHelper testDao) {
 	this.testDao = testDao;
     }

@@ -22,17 +22,19 @@
  *******************************************************************************/
 package com.gisgraphy.hibernate.criterion;
 
-import junit.framework.TestCase;
+import static org.junit.Assert.assertTrue;
 
 import org.easymock.EasyMock;
 import org.hibernate.Criteria;
 import org.hibernate.criterion.CriteriaQuery;
+import org.junit.Test;
 
 import com.gisgraphy.test.GeolocTestHelper;
 
-public class DistanceOrderTest extends TestCase {
+public class DistanceOrderTest  {
 
-    public void testDistanceOrderPointBooleanShouldTakeAscOrderIntoAccount() {
+    @Test
+    public void distanceOrderPointBooleanShouldTakeAscOrderIntoAccount() {
 	CriteriaQuery criteriaQuery = EasyMock.createMock(CriteriaQuery.class);
 	EasyMock.expect(
 		criteriaQuery.getSQLAlias((Criteria) EasyMock.anyObject()))
@@ -46,7 +48,8 @@ public class DistanceOrderTest extends TestCase {
 	EasyMock.verify(criteriaQuery);
     }
 
-    public void testDistanceOrderShouldHaveAscOrderByDefault() {
+    @Test
+    public void distanceOrderShouldHaveAscOrderByDefault() {
 	CriteriaQuery criteriaQuery = EasyMock.createMock(CriteriaQuery.class);
 	EasyMock.expect(
 		criteriaQuery.getSQLAlias((Criteria) EasyMock.anyObject()))
@@ -60,7 +63,8 @@ public class DistanceOrderTest extends TestCase {
 	EasyMock.verify(criteriaQuery);
     }
 
-    public void testDistanceOrderPointBooleanShouldTakeDescOrderIntoAccount() {
+    @Test
+    public void distanceOrderPointBooleanShouldTakeDescOrderIntoAccount() {
 	CriteriaQuery criteriaQuery = EasyMock.createMock(CriteriaQuery.class);
 	EasyMock.expect(
 		criteriaQuery.getSQLAlias((Criteria) EasyMock.anyObject()))

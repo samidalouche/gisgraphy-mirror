@@ -54,7 +54,7 @@ public class DisplayFeatureActionTest {
     }
 
     @Test
-    public void testGetPreferedNameShouldReturnFullyQualyfiedNameIfExists()
+    public void getPreferedNameShouldReturnFullyQualyfiedNameIfExists()
 	    throws Exception {
 	action.setFeatureId("3");
 	String fullyQualifedName = "fully";
@@ -74,7 +74,7 @@ public class DisplayFeatureActionTest {
     }
 
     @Test
-    public void testGetPreferedNameShouldReturnNameWhenNoFullyQualyfiedNameExists()
+    public void getPreferedNameShouldReturnNameWhenNoFullyQualyfiedNameExists()
 	    throws Exception {
 	action.setFeatureId("3");
 	String fullyQualifedName = "";
@@ -96,7 +96,7 @@ public class DisplayFeatureActionTest {
     }
 
     @Test
-    public void testExecuteWithOutFeatureId() throws Exception {
+    public void executeWithOutFeatureId() throws Exception {
 	SolrResponseDto mockSolrResponseDto = EasyMock
 		.createMock(SolrResponseDto.class);
 	EasyMock.replay(mockSolrResponseDto);
@@ -113,7 +113,7 @@ public class DisplayFeatureActionTest {
     }
 
     @Test
-    public void testExecuteWithNonNumericFeatureId() throws Exception {
+    public void executeWithNonNumericFeatureId() throws Exception {
 	action.setFeatureId("a");
 	SolrResponseDto mockSolrResponseDto = EasyMock
 		.createMock(SolrResponseDto.class);
@@ -131,7 +131,7 @@ public class DisplayFeatureActionTest {
     }
 
     @Test
-    public void testExecuteWithNonUniqueResult() throws Exception {
+    public void executeWithNonUniqueResult() throws Exception {
 	action.setFeatureId("1");
 	SolrResponseDto mockSolrResponseDto = EasyMock
 		.createMock(SolrResponseDto.class);
@@ -150,7 +150,7 @@ public class DisplayFeatureActionTest {
     }
 
     @Test
-    public void testExecuteWithNoResult() throws Exception {
+    public void executeWithNoResult() throws Exception {
 	action.setFeatureId("1");
 	EasyMock.replay(mockResultDTO);
 	String errorMessage = "Message";
@@ -167,7 +167,7 @@ public class DisplayFeatureActionTest {
     }
 
     @Test
-    public void testExecute() throws Exception {
+    public void execute() throws Exception {
 	action.setFeatureId("1");
 	SolrResponseDto mockSolrResponseDto = EasyMock
 		.createMock(SolrResponseDto.class);

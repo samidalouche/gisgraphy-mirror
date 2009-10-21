@@ -22,17 +22,21 @@
  *******************************************************************************/
 package com.gisgraphy.helper;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+
 import java.util.List;
 
-import junit.framework.TestCase;
+import org.junit.Test;
 
 import com.gisgraphy.domain.geoloc.entity.City;
 import com.gisgraphy.domain.geoloc.entity.GisFeature;
 import com.gisgraphy.test.FakeBean;
 
-public class IntrospectionHelperTest extends TestCase {
+public class IntrospectionHelperTest  {
 
-    public void testGetGisFeatureFieldsAsListShouldIgnoreAnnotedFields() {
+    @Test
+    public void getGisFeatureFieldsAsListShouldIgnoreAnnotedFields() {
 	List<String> fields = IntrospectionHelper
 		.getFieldsAsList(GisFeature.class);
 	assertEquals(19, fields.size());
@@ -57,7 +61,8 @@ public class IntrospectionHelperTest extends TestCase {
 	assertTrue(fields.contains("timezone"));
     }
 
-    public void testGetGisFeatureFieldsAsListShouldExploreSubClass() {
+    @Test
+    public void getGisFeatureFieldsAsListShouldExploreSubClass() {
 	List<String> fields = IntrospectionHelper
 		.getFieldsAsList(City.class);
 	assertEquals(20, fields.size());
@@ -83,25 +88,29 @@ public class IntrospectionHelperTest extends TestCase {
 	assertTrue(fields.contains("zipCode"));
     }
 
-    public void testGetGisFeatureFieldsAsArrayShouldIgnoreAnnotedFields() {
+    @Test
+    public void getGisFeatureFieldsAsArrayShouldIgnoreAnnotedFields() {
 	String[] fields = IntrospectionHelper
 		.getFieldsAsArray(GisFeature.class);
 	assertEquals(19, fields.length);
     }
     
-    public void testGetGisFeatureFieldsAsArrayShouldIgnoreFinalFields() {
+    @Test
+    public void getGisFeatureFieldsAsArrayShouldIgnoreFinalFields() {
 	String[] fields = IntrospectionHelper
 		.getFieldsAsArray(FakeBean.class);
 	assertEquals(20, fields.length);
     }
 
-    public void testGetGisFeatureFieldsAsArrayShouldExploreSubClass() {
+    @Test
+    public void getGisFeatureFieldsAsArrayShouldExploreSubClass() {
 	String[] fields = IntrospectionHelper
 		.getFieldsAsArray(City.class);
 	assertEquals(20, fields.length);
     }
 
-    public void testGetGisFeatureFieldsAsArrayShouldReturnTheSameValueForSecondCall() {
+    @Test
+    public void getGisFeatureFieldsAsArrayShouldReturnTheSameValueForSecondCall() {
 	String[] fields = IntrospectionHelper
 		.getFieldsAsArray(GisFeature.class);
 	fields = IntrospectionHelper
@@ -112,7 +121,8 @@ public class IntrospectionHelperTest extends TestCase {
 	assertEquals(20, fields.length);
     }
 
-    public void testClearCache() {
+    @Test
+    public void clearCache() {
 	String[] fields = IntrospectionHelper
 		.getFieldsAsArray(GisFeature.class);
 	assertEquals(19, fields.length);
@@ -122,7 +132,8 @@ public class IntrospectionHelperTest extends TestCase {
 	assertEquals(19, fields.length);
     }
 
-    public void testGetGisFeatureFieldsAsListShouldReturnTheSameValueForSecondCall() {
+    @Test
+    public void getGisFeatureFieldsAsListShouldReturnTheSameValueForSecondCall() {
 	List<String> fields = IntrospectionHelper
 		.getFieldsAsList(GisFeature.class);
 	fields = IntrospectionHelper

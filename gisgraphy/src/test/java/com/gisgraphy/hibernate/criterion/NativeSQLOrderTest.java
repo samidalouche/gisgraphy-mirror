@@ -66,7 +66,6 @@ public class NativeSQLOrderTest extends AbstractIntegrationHttpSolrTestCase {
 	this.cityDao.save(p3);
 	HibernateCallback hibernateCallback = new HibernateCallback() {
 
-	    @SuppressWarnings("unchecked")
 	    public Object doInHibernate(Session session)
 		    throws PersistenceException {
 
@@ -107,7 +106,6 @@ public class NativeSQLOrderTest extends AbstractIntegrationHttpSolrTestCase {
 	this.cityDao.save(p3);
 	HibernateCallback hibernateCallback = new HibernateCallback() {
 
-	    @SuppressWarnings("unchecked")
 	    public Object doInHibernate(Session session)
 		    throws PersistenceException {
 
@@ -173,12 +171,10 @@ public class NativeSQLOrderTest extends AbstractIntegrationHttpSolrTestCase {
 	EasyMock.verify(criteriaQuery);
     }
 
-    @Required
     public void setCityDao(ICityDao cityDao) {
 	this.cityDao = cityDao;
     }
 
-    @Required
     public void setTestDao(_DaoHelper testDao) {
 	this.testDao = testDao;
     }

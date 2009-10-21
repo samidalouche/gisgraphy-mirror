@@ -25,6 +25,10 @@
  */
 package com.gisgraphy.domain.geoloc.importer;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -32,16 +36,17 @@ import java.util.regex.Pattern;
 
 import junit.framework.TestCase;
 
+import org.junit.Assert;
 import org.junit.Test;
 
-public class Testregexpression extends TestCase {
+public class Testregexpression {
 
     public static String accpetRegexp = ImporterConfig.DEFAULT_ACCEPT_REGEX_CITY;
 
     private static List<Pattern> acceptedPatterns;
 
     @Test
-    public void testDefaulAcceptRegexpForCity() {
+    public void defaulAcceptRegexpForCity() {
 	compileRegex();
 	assertEquals(
 		"UNK[.].+;.[.]UNK;A[.]ADM.?;A[.]PCL.?;P[.]PPL[A-Z&&[^QW]];P[.]PPL$;P[.]STLMT$",

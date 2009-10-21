@@ -28,6 +28,8 @@ package com.gisgraphy.domain.valueobject;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
+import javax.annotation.Resource;
+
 import org.apache.commons.lang.RandomStringUtils;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Required;
@@ -41,6 +43,7 @@ import com.gisgraphy.helper.GeolocHelper;
 
 public class FeatureCodeTest extends AbstractIntegrationHttpSolrTestCase {
 
+    @Resource
     IGisFeatureDao gisFeatureDao;
 
     @Test
@@ -128,11 +131,6 @@ public class FeatureCodeTest extends AbstractIntegrationHttpSolrTestCase {
 	    }
 
 	}
-    }
-
-    @Required
-    public void setGisFeatureDao(IGisFeatureDao gisFeatureDao) {
-	this.gisFeatureDao = gisFeatureDao;
     }
 
 }

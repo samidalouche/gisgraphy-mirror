@@ -48,28 +48,26 @@ public class FulltextErrorVisitorTest  {
     
     
     @Test
-    public void testFulltextErrorVisitorString() {
+    public void fulltextErrorVisitorString() {
 	IoutputFormatVisitor FulltextErrorVisitor = new FulltextErrorVisitor(errorMessage);
 	Assert.assertEquals("The error message is not well set ",errorMessage, FulltextErrorVisitor.getErrorMessage());
     }
     
     @Test
-    public void testFulltextErrorVisitor() {
+    public void fulltextErrorVisitor() {
 	IoutputFormatVisitor FulltextErrorVisitor = new FulltextErrorVisitor();
 	Assert.assertEquals("An error message should be provided when no message is specified ",IoutputFormatVisitor.DEFAULT_ERROR_MESSAGE, FulltextErrorVisitor.getErrorMessage());
     }
 
     @Test
-    public void testVisitXML() {
-
+    public void visitXML() {
 	    String result = FulltextErrorVisitor.visitXML(OutputFormat.XML);
-	    
 	    FeedChecker.checkFulltextErrorXML(result,errorMessage);
     }
 
 
     @Test
-    public void testVisitJSON() {
+    public void visitJSON() {
 	JsTester jsTester = null;
 	IoutputFormatVisitor FulltextErrorVisitor = new FulltextErrorVisitor(errorMessage);
 	String result = FulltextErrorVisitor.visitJSON(OutputFormat.JSON);
@@ -101,7 +99,7 @@ public class FulltextErrorVisitorTest  {
     }
 
     @Test
-    public void testVisitPYTHON() {
+    public void visitPYTHON() {
 	    String result = FulltextErrorVisitor.visitPYTHON(OutputFormat.PYTHON);
 	    checkErrorMessageIsPresentInOutputStream(result);
     }
@@ -110,27 +108,27 @@ public class FulltextErrorVisitorTest  {
 
 
     @Test
-    public void testVisitRUBY() {
+    public void visitRUBY() {
 	    String result = FulltextErrorVisitor.visitRUBY(OutputFormat.RUBY);
 	    checkErrorMessageIsPresentInOutputStream(result);
     }
 
     @Test
-    public void testVisitPHP() {
+    public void visitPHP() {
 	    String result = FulltextErrorVisitor.visitPHP(OutputFormat.PHP);
 	    checkErrorMessageIsPresentInOutputStream(result);
 	    
     }
 
     @Test
-    public void testVisitATOM() {
+    public void visitATOM() {
 	    String result = FulltextErrorVisitor.visitATOM(OutputFormat.ATOM);
 	    
 	    FeedChecker.checkFulltextErrorXML(result,errorMessage);
     }
 
     @Test
-    public void testVisitGEORSS() {
+    public void visitGEORSS() {
 	    String result = FulltextErrorVisitor.visitGEORSS(OutputFormat.GEORSS);
 	    
 	    FeedChecker.checkFulltextErrorXML(result,errorMessage);

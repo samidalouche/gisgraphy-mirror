@@ -30,6 +30,7 @@ import net.sf.jstester.JsTester;
 import org.apache.commons.httpclient.Header;
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.methods.GetMethod;
+import org.junit.Test;
 import org.mortbay.jetty.servlet.ServletHolder;
 import org.mortbay.jetty.testing.ServletTester;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,11 +54,6 @@ public class GeolocServletTest extends AbstractIntegrationHttpSolrTestCase {
 
     private static boolean geolocServletStarted = false;
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see com.gisgraphy.domain.geoloc.service.fulltextsearch.AbstractIntegrationHttpSolrTestCase#onSetUp()
-     */
     @Override
     public void onSetUp() throws Exception {
 	super.onSetUp();
@@ -87,6 +83,7 @@ public class GeolocServletTest extends AbstractIntegrationHttpSolrTestCase {
 	// servletTester.stop();
     }
 
+    @Test
     public void testShouldReturnCorrectContentTypeForSupportedFormat() {
 	String url = geolocServletUrl + GEOLOC_SERVLET_CONTEXT
 		+ "/geolocsearch";
@@ -119,6 +116,7 @@ public class GeolocServletTest extends AbstractIntegrationHttpSolrTestCase {
 
     }
     
+    @Test
     public void testShouldReturnCorrectContentTypeForSupportedFormatWhenErrorOccured() {
 	String url = geolocServletUrl + GEOLOC_SERVLET_CONTEXT
 		+ "/geolocsearch";
@@ -149,7 +147,7 @@ public class GeolocServletTest extends AbstractIntegrationHttpSolrTestCase {
 	}
 
     }
-    
+    @Test
     public void testShouldReturnCorrectStatusCode() {
 	String url = geolocServletUrl + GEOLOC_SERVLET_CONTEXT
 		+ "/geolocsearch";
@@ -177,6 +175,7 @@ public class GeolocServletTest extends AbstractIntegrationHttpSolrTestCase {
 
     }
 
+    @Test
     public void testShouldReturnCorrectJSONError() {
 
 	JsTester jsTester = null;
@@ -219,6 +218,7 @@ public class GeolocServletTest extends AbstractIntegrationHttpSolrTestCase {
 
     }
 
+    @Test
     public void testShouldReturnCorrectXMLError() {
 
 	String url = geolocServletUrl + GEOLOC_SERVLET_CONTEXT
@@ -251,7 +251,8 @@ public class GeolocServletTest extends AbstractIntegrationHttpSolrTestCase {
 
     }
     
-    public void testgetGisgraphyServiceTypeShouldReturnTheCorrectValue(){
+    @Test
+    public void testGetGisgraphyServiceTypeShouldReturnTheCorrectValue(){
 	GisgraphyServlet servlet = new GeolocServlet();
     	assertEquals(GisgraphyServiceType.GEOLOC, servlet.getGisgraphyServiceType());
 

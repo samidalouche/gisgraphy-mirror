@@ -23,6 +23,7 @@
 package com.gisgraphy.service.impl;
 
 import org.jmock.Mock;
+import org.junit.Test;
 import org.springframework.dao.DataIntegrityViolationException;
 
 import com.gisgraphy.Constants;
@@ -33,8 +34,6 @@ import com.gisgraphy.model.User;
 import com.gisgraphy.service.UserExistsException;
 
 public class UserManagerImplTest extends BaseManagerMockTestCase {
-    // ~ Instance fields
-    // ========================================================
     private UserManagerImpl userManager = new UserManagerImpl();
 
     private RoleManagerImpl roleManager = new RoleManagerImpl();
@@ -43,8 +42,6 @@ public class UserManagerImplTest extends BaseManagerMockTestCase {
 
     private Mock roleDao = null;
 
-    // ~ Methods
-    // ================================================================
 
     @Override
     protected void setUp() throws Exception {
@@ -55,6 +52,7 @@ public class UserManagerImplTest extends BaseManagerMockTestCase {
 	roleManager.setRoleDao((RoleDao) roleDao.proxy());
     }
 
+    @Test
     public void testGetUser() throws Exception {
 	User testData = new User("1");
 	testData.getRoles().add(new Role("user"));
@@ -67,6 +65,7 @@ public class UserManagerImplTest extends BaseManagerMockTestCase {
 	assertTrue(user.getRoles().size() == 1);
     }
 
+    @Test
     public void testSaveUser() throws Exception {
 	User testData = new User("1");
 	testData.getRoles().add(new Role("user"));
@@ -85,6 +84,7 @@ public class UserManagerImplTest extends BaseManagerMockTestCase {
 	assertTrue(user.getRoles().size() == 1);
     }
 
+    @Test
     public void testAddAndRemoveUser() throws Exception {
 	User user = new User();
 
@@ -115,6 +115,7 @@ public class UserManagerImplTest extends BaseManagerMockTestCase {
 	assertNull(user);
     }
 
+    @Test
     public void testUserExistsException() {
 	// set expectations
 	User user = new User("admin");

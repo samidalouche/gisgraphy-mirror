@@ -46,17 +46,11 @@ public class GeonamesAlternateNamesImporterTest extends AbstractIntegrationHttpS
     
     private GeonamesAlternateNamesImporter geonamesAlternateNamesImporter;
     
-    
     private ISpellCheckerIndexer spellCheckerIndexer;
 
   
 
-    /**
-     * @param solRSynchroniser the solRSynchroniser to set
-     */
-    public void setSolRSynchroniser(ISolRSynchroniser solRSynchroniser) {
-        this.solRSynchroniser = solRSynchroniser;
-    }
+   
 
     /**
      * @param spellCheckerIndexer the spellCheckerIndexer to set
@@ -171,20 +165,16 @@ public class GeonamesAlternateNamesImporterTest extends AbstractIntegrationHttpS
     }
     
     
-    /**
-     * @param importerConfig the importerConfig to set
-     */
-    @Required
     public void setImporterConfig(ImporterConfig importerConfig) {
         this.importerConfig = importerConfig;
     }
 
-    /**
-     * @param geonamesAlternateNamesImporter the geonamesAlternateNamesImporter to set
-     */
-    @Required
     public void setGeonamesAlternateNamesImporter(
     	GeonamesAlternateNamesImporter geonamesAlternateNamesImporter) {
         this.geonamesAlternateNamesImporter = geonamesAlternateNamesImporter;
+    }
+    
+    public void setSolRSynchroniser(ISolRSynchroniser solRSynchroniser) {
+        this.solRSynchroniser = solRSynchroniser;
     }
 }

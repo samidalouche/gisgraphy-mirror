@@ -237,19 +237,11 @@ public class GisFeatureTest extends AbstractIntegrationHttpSolrTestCase {
 
     }
 
-    /**
-     * @param cityDao
-     *                the cityDao to set
-     */
     @Required
     public void setCityDao(ICityDao cityDao) {
 	this.cityDao = cityDao;
     }
 
-    /**
-     * @param countryDao
-     *                the countryDao to set
-     */
     @Required
     public void setCountryDao(ICountryDao countryDao) {
 	this.countryDao = countryDao;

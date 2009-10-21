@@ -65,7 +65,7 @@ public class FulltextSearchActionTest {
     }
 
     @Test
-    public void testIsDisplayResults() throws Exception {
+    public void isDisplayResults() throws Exception {
 	MockHttpServletRequest request = new MockHttpServletRequest("GET",
 		"/search.html");
 	ServletActionContext.setRequest(request);
@@ -86,7 +86,7 @@ public class FulltextSearchActionTest {
     }
 
     @Test
-    public void testSearch() throws Exception {
+    public void search() throws Exception {
 	MockHttpServletRequest request = new MockHttpServletRequest("GET",
 		"/search.html");
 	ServletActionContext.setRequest(request);
@@ -106,7 +106,7 @@ public class FulltextSearchActionTest {
     }
 
     @Test
-    public void testSearchShouldSetErrorMessageWhenFail() throws Exception {
+    public void searchShouldSetErrorMessageWhenFail() throws Exception {
 	String errorMessage = "message";
 	MockHttpServletRequest request = new MockHttpServletRequest("GET",
 		"/search.html");
@@ -130,7 +130,7 @@ public class FulltextSearchActionTest {
     }
 
     @Test
-    public void testSearchPopupShouldReturnPopupView() throws Exception {
+    public void searchPopupShouldReturnPopupView() throws Exception {
 	MockHttpServletRequest request = new MockHttpServletRequest("GET",
 		"/search.html");
 	ServletActionContext.setRequest(request);
@@ -150,7 +150,7 @@ public class FulltextSearchActionTest {
     }
 
     @Test
-    public void testGetStyleShouldReturnDefaultStyle() throws Exception {
+    public void getStyleShouldReturnDefaultStyle() throws Exception {
 	MockHttpServletRequest request = new MockHttpServletRequest("GET",
 		"/search.html");
 	ServletActionContext.setRequest(request);
@@ -167,7 +167,7 @@ public class FulltextSearchActionTest {
     }
 
     @Test
-    public void testGetFormatsShouldReturnFormatForFullText() {
+    public void getFormatsShouldReturnFormatForFullText() {
 	Assert.assertEquals(Arrays.asList(OutputFormat
 		.listByService(GisgraphyServiceType.FULLTEXT)), Arrays
 		.asList(action.getFormats()));
@@ -175,7 +175,7 @@ public class FulltextSearchActionTest {
     }
     
     @Test
-    public void testisSpellCheckingShouldHaveDefaultValue() {
+    public void isSpellCheckingShouldHaveDefaultValue() {
 	boolean savevalue = SpellCheckerConfig.activeByDefault;
 	try {
 	    SpellCheckerConfig.activeByDefault = false;

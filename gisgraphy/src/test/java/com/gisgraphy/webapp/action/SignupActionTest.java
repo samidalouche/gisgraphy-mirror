@@ -24,6 +24,7 @@ package com.gisgraphy.webapp.action;
 
 import org.acegisecurity.context.SecurityContextHolder;
 import org.apache.struts2.ServletActionContext;
+import org.junit.Test;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.subethamail.wiser.Wiser;
@@ -39,6 +40,7 @@ public class SignupActionTest extends BaseActionTestCase {
 	this.signupAction = action;
     }
 
+    @Test
     public void testDisplayForm() throws Exception {
 	MockHttpServletRequest request = new MockHttpServletRequest(null,
 		"GET", "/signup.html");
@@ -46,6 +48,7 @@ public class SignupActionTest extends BaseActionTestCase {
 	assertEquals("input", signupAction.execute());
     }
 
+    @Test
     public void testExecute() throws Exception {
 	User user = new User();
 	user.setUsername("self-registered");

@@ -126,7 +126,6 @@ public class OutputstreamResponseWrapperTest extends
 
     }
 
-    @Required
     public void setCityDao(ICityDao cityDao) {
 	this.cityDao = cityDao;
     }

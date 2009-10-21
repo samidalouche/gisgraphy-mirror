@@ -22,7 +22,8 @@
  *******************************************************************************/
 package com.gisgraphy.domain.valueobject;
 
-import junit.framework.TestCase;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 
 import org.easymock.classextension.EasyMock;
 import org.junit.Test;
@@ -30,7 +31,7 @@ import org.junit.Test;
 import com.gisgraphy.domain.geoloc.importer.GeonamesFeatureImporter;
 import com.gisgraphy.domain.geoloc.importer.IImporterProcessor;
 
-public class ImporterStatusDtoTest extends TestCase {
+public class ImporterStatusDtoTest {
 
     private static final String STATUS_MESSAGE = "message";
 
@@ -55,7 +56,7 @@ public class ImporterStatusDtoTest extends TestCase {
 	    + ImporterStatusDto.CSV_LINE_SEPARATOR;
 
     @Test
-    public void testConstructorWithAllFields() {
+    public void constructorWithAllFields() {
 	ImporterStatusDto importerStatusDto = new ImporterStatusDto(
 		PROCESSOR_NAME, null, CURRENT_LINE, TOTAL_LINE_TO_PROCESS,
 		TOTAL_READ_LINE, STATUS_MESSAGE, ImporterStatus.PROCESSING);
@@ -79,7 +80,7 @@ public class ImporterStatusDtoTest extends TestCase {
     }
 
     @Test
-    public void testConstructorFromCSV() {
+    public void constructorFromCSV() {
 	ImporterStatusDto importerStatusDto = new ImporterStatusDto(EXPECTEDCSV);
 	assertEquals(PROCESSOR_NAME, importerStatusDto.getProcessorName());
 	assertEquals(CURRENT_FILE_NAME, importerStatusDto.getCurrentFileName());
@@ -94,7 +95,7 @@ public class ImporterStatusDtoTest extends TestCase {
     }
 
     @Test
-    public void testConstructorFromCSVShouldThrowIfWrongNumberOfFields() {
+    public void constructorFromCSVShouldThrowIfWrongNumberOfFields() {
 	try {
 	    new ImporterStatusDto(" ; ");
 	    fail("Wrong number of CSV should throw");
@@ -104,7 +105,7 @@ public class ImporterStatusDtoTest extends TestCase {
     }
 
     @Test
-    public void testConstructorFromImporter() {
+    public void constructorFromImporter() {
 	IImporterProcessor processor = EasyMock
 		.createMock(GeonamesFeatureImporter.class);
 	EasyMock.expect(processor.getCurrentFileName()).andReturn(
@@ -149,7 +150,7 @@ public class ImporterStatusDtoTest extends TestCase {
     }
 
     @Test
-    public void testToCSV() {
+    public void toCSV() {
 	ImporterStatusDto importerStatusDto = new ImporterStatusDto(
 		PROCESSOR_NAME, CURRENT_FILE_NAME, CURRENT_LINE,
 		TOTAL_LINE_TO_PROCESS, TOTAL_READ_LINE, STATUS_MESSAGE,
@@ -159,7 +160,7 @@ public class ImporterStatusDtoTest extends TestCase {
     }
     
     @Test
-    public void testPercentShouldBe100IfThereIsNoThingToDo(){
+    public void percentShouldBe100IfThereIsNoThingToDo(){
 	ImporterStatusDto importerStatusDto = new ImporterStatusDto(
 		PROCESSOR_NAME, CURRENT_FILE_NAME, CURRENT_LINE,
 		0, 0, STATUS_MESSAGE,

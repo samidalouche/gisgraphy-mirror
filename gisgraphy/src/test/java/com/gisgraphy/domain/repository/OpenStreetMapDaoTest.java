@@ -66,8 +66,8 @@ public class OpenStreetMapDaoTest extends AbstractIntegrationHttpSolrTestCase{
  }
  
  
- @Test
- public void testGetNearestAndDistanceFromShouldNotAcceptNullStreetSearchModeIfNameIsNotNull() {
+  @Test
+  public void testGetNearestAndDistanceFromShouldNotAcceptNullStreetSearchModeIfNameIsNotNull() {
 	 try {
 		openStreetMapDao.getNearestAndDistanceFrom(GeolocHelper.createPoint(30.1F, 30.1F), 10000, 1, 1, null, null,"john keN",null);
 		fail("getNearestAndDistanceFrom should not accept a null streetSearchmode if name is not null");
@@ -160,8 +160,6 @@ public class OpenStreetMapDaoTest extends AbstractIntegrationHttpSolrTestCase{
 	Double firstDist = nearestStreet.get(0).getDistance();
 	Double secondDist = nearestStreet.get(1).getDistance();
 	assertTrue("result should be sorted by distance : "+firstDist +"  should be < " +secondDist ,firstDist < secondDist);
-	
-	
     
     }
 
@@ -244,7 +242,6 @@ public class OpenStreetMapDaoTest extends AbstractIntegrationHttpSolrTestCase{
     
 
     
-    @Required
     public void setOpenStreetMapDao(IOpenStreetMapDao openStreetMapDao) {
         this.openStreetMapDao = openStreetMapDao;
     }

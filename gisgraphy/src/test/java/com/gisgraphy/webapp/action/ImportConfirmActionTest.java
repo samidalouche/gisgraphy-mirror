@@ -90,7 +90,7 @@ public class ImportConfirmActionTest {
     }
     
     @Test
-    public void TestIsGeonamesImporterEnabled(){
+    public void isGeonamesImporterEnabled(){
 	ImporterConfig importerConfig = new ImporterConfig();
 	Assert.assertTrue(importerConfig.isGeonamesImporterEnabled());
 	ImportConfirmAction action = new ImportConfirmAction();
@@ -101,7 +101,7 @@ public class ImportConfirmActionTest {
     }
     
     @Test
-    public void TestDisableGeonamesImporter(){
+    public void disableGeonamesImporter(){
 	ImporterConfig importerConfig = new ImporterConfig();
 	Assert.assertTrue(importerConfig.isGeonamesImporterEnabled());
 	
@@ -114,7 +114,7 @@ public class ImportConfirmActionTest {
     }
     
     @Test
-    public void TestEnableGeonamesImporter(){
+    public void enableGeonamesImporter(){
 	ImporterConfig importerConfig = new ImporterConfig();
 	Assert.assertTrue(importerConfig.isGeonamesImporterEnabled());
 	
@@ -128,7 +128,7 @@ public class ImportConfirmActionTest {
     }
     
     @Test
-    public void TestIsOpenStreetMapImporterEnabled(){
+    public void isOpenStreetMapImporterEnabled(){
 	ImporterConfig importerConfig = new ImporterConfig();
 	Assert.assertTrue(importerConfig.isOpenstreetmapImporterEnabled());
 	ImportConfirmAction action = new ImportConfirmAction();
@@ -139,7 +139,7 @@ public class ImportConfirmActionTest {
     }
     
     @Test
-    public void TestDisableOpenStreetMapImporter(){
+    public void disableOpenStreetMapImporter(){
 	ImporterConfig importerConfig = new ImporterConfig();
 	Assert.assertTrue(importerConfig.isOpenstreetmapImporterEnabled());
 	
@@ -152,7 +152,7 @@ public class ImportConfirmActionTest {
     }
     
     @Test
-    public void TestEnableOpenStreetMapImporter(){
+    public void enableOpenStreetMapImporter(){
 	ImporterConfig importerConfig = new ImporterConfig();
 	Assert.assertTrue(importerConfig.isGeonamesImporterEnabled());
 	

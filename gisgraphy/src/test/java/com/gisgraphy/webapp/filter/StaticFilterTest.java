@@ -22,24 +22,28 @@
  *******************************************************************************/
 package com.gisgraphy.webapp.filter;
 
-import junit.framework.TestCase;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 
+import org.junit.Before;
+import org.junit.Test;
 import org.springframework.mock.web.MockFilterConfig;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
 
-public class StaticFilterTest extends TestCase {
+public class StaticFilterTest  {
     private StaticFilter filter = null;
 
-    @Override
-    protected void setUp() throws Exception {
+   @Before
+    public void setUp() throws Exception {
 	filter = new StaticFilter();
 	MockFilterConfig config = new MockFilterConfig();
 	config.addInitParameter("includes", "/scripts/*");
 	filter.init(config);
     }
 
-    public void testFilterDoesntForwardWhenPathMatches() throws Exception {
+   @Test
+    public void filterDoesntForwardWhenPathMatches() throws Exception {
 	MockHttpServletRequest request = new MockHttpServletRequest("GET",
 		"/scripts/dojo/test.html");
 	MockHttpServletResponse response = new MockHttpServletResponse();
@@ -50,7 +54,8 @@ public class StaticFilterTest extends TestCase {
 	assertNull(chain.getForwardURL());
     }
 
-    public void testFilterForwardsWhenPathDoesntMatch() throws Exception {
+   @Test
+    public void filterForwardsWhenPathDoesntMatch() throws Exception {
 	MockHttpServletRequest request = new MockHttpServletRequest("GET",
 		"/editProfile.html");
 	MockHttpServletResponse response = new MockHttpServletResponse();

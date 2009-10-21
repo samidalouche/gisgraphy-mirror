@@ -33,7 +33,6 @@ import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.transform.Transformers;
 import org.junit.Test;
-import org.springframework.beans.factory.annotation.Required;
 import org.springframework.orm.hibernate3.HibernateCallback;
 
 import com.gisgraphy.domain.geoloc.entity.City;
@@ -61,7 +60,6 @@ public class SpatialProjectionTest extends AbstractIntegrationHttpSolrTestCase {
 
 	HibernateCallback hibernateCallback = new HibernateCallback() {
 
-	    @SuppressWarnings("unchecked")
 	    public Object doInHibernate(Session session)
 		    throws PersistenceException {
 
@@ -93,12 +91,10 @@ public class SpatialProjectionTest extends AbstractIntegrationHttpSolrTestCase {
 
     }
 
-    @Required
     public void setCityDao(ICityDao cityDao) {
 	this.cityDao = cityDao;
     }
 
-    @Required
     public void setTestDao(_DaoHelper testDao) {
 	this.testDao = testDao;
     }

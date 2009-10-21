@@ -31,7 +31,7 @@ import com.gisgraphy.domain.valueobject.GisgraphyConfig;
 public class ReverseGeocodingActionTest {
     
     @Test
-    public void testGetGoogleMapAPIKey(){
+    public void getGoogleMapAPIKey(){
 	 String savedGoogleMapAPIKey  = GisgraphyConfig .googleMapAPIKey;
 	try {
            GeocodingAction action = new GeocodingAction();

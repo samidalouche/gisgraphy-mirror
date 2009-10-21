@@ -25,6 +25,9 @@
  */
 package com.gisgraphy.domain.valueobject;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
+
 import java.io.ByteArrayOutputStream;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
@@ -37,16 +40,17 @@ import javax.xml.bind.PropertyException;
 
 import junit.framework.TestCase;
 
+import org.junit.Assert;
 import org.junit.Test;
 
 import com.gisgraphy.test.FeedChecker;
 import com.gisgraphy.test.GeolocTestHelper;
 
-public class StreetSearchResultsDtoTest extends TestCase {
+public class StreetSearchResultsDtoTest {
 
     
     @Test
-    public void testConstructor(){
+    public void constructor(){
 	 StreetDistance streetDistance = GeolocTestHelper.createStreetDistance();
 	 Long qtime = 300L;
 	 List<StreetDistance> list = new ArrayList<StreetDistance>();
@@ -59,7 +63,7 @@ public class StreetSearchResultsDtoTest extends TestCase {
     }
     
     @Test
-    public void testStreetSearchResultsDtoShouldBeMappedWithJAXB() {
+    public void streetSearchResultsDtoShouldBeMappedWithJAXB() {
 	try {
 	    JAXBContext context = JAXBContext
 		    .newInstance(StreetSearchResultsDto.class);
@@ -77,7 +81,7 @@ public class StreetSearchResultsDtoTest extends TestCase {
     }
 
     @Test
-    public void testStreetSearchResultsDtoForEmptyListShouldreturnValidXML() {
+    public void streetSearchResultsDtoForEmptyListShouldreturnValidXML() {
 	try {
 	    JAXBContext context = JAXBContext
 		    .newInstance(StreetSearchResultsDto.class);

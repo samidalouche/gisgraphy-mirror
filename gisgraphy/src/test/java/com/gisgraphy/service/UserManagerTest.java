@@ -27,6 +27,7 @@ import java.util.Map;
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.junit.Test;
 import org.springframework.beans.factory.annotation.Required;
 
 import com.gisgraphy.Constants;
@@ -35,8 +36,6 @@ import com.gisgraphy.model.User;
 import com.gisgraphy.util.ConvertUtil;
 
 public class UserManagerTest extends AbstractTransactionalTestCase {
-    // ~ Instance fields
-    // ========================================================
 
     private UserManager userManager = null;
 
@@ -46,16 +45,7 @@ public class UserManagerTest extends AbstractTransactionalTestCase {
 
     public User user;
 
-    @Required
-    public void setUserManager(UserManager userManager) {
-	this.userManager = userManager;
-    }
-
-    @Required
-    public void setRoleManager(RoleManager roleManager) {
-	this.roleManager = roleManager;
-    }
-
+    @Test
     public void testGetUser() throws Exception {
 	user = userManager.getUserByUsername("user");
 	assertNotNull(user);
@@ -64,6 +54,7 @@ public class UserManagerTest extends AbstractTransactionalTestCase {
 	assertEquals(1, user.getRoles().size());
     }
 
+    @Test
     public void testSaveUser() throws Exception {
 	user = userManager.getUserByUsername("user");
 	user.setPhoneNumber("303-555-1212");
@@ -97,6 +88,7 @@ public class UserManagerTest extends AbstractTransactionalTestCase {
     }
 
     // TODO why super.populate doesn't work
+    @Test
     public void testAddAndRemoveUser() throws Exception {
 	user = new User();
 
@@ -121,5 +113,13 @@ public class UserManagerTest extends AbstractTransactionalTestCase {
 	    log.debug(e);
 	    assertNotNull(e);
 	}
+    }
+    
+    public void setUserManager(UserManager userManager) {
+	this.userManager = userManager;
+    }
+
+    public void setRoleManager(RoleManager roleManager) {
+	this.roleManager = roleManager;
     }
 }

@@ -25,41 +25,44 @@
  */
 package com.gisgraphy.domain.geoloc.valueobject;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import junit.framework.TestCase;
 
+import org.junit.Assert;
 import org.junit.Test;
 
 import com.gisgraphy.domain.valueobject.Output;
 import com.gisgraphy.domain.valueobject.Output.OutputFormat;
 import com.gisgraphy.domain.valueobject.Output.OutputStyle;
 
-public class OutputTest extends TestCase {
+public class OutputTest  {
 
     @Test
-    public void testOutputTestWithNullValuesSetTheDefaultFormat() {
+    public void outputTestWithNullValuesSetTheDefaultFormat() {
 	assertEquals(OutputFormat.getDefault(), Output.withFormat(null)
 		.getFormat());
     }
 
     @Test
-    public void testWithFormatShouldSetTheFormat() {
+    public void withFormatShouldSetTheFormat() {
 	assertEquals(OutputFormat.JSON, Output.withFormat(OutputFormat.JSON)
 		.getFormat());
     }
 
     @Test
-    public void testWithIndentationShouldSetTheidentation() {
-	assertTrue(Output.withDefaultFormat().withIndentation().isIndented());
+    public void withIndentationShouldSetTheidentation() {
+	Assert.assertTrue(Output.withDefaultFormat().withIndentation().isIndented());
     }
 
     @Test
-    public void testWithDefaultFormatShouldBeSetToFormat() {
+    public void withDefaultFormatShouldBeSetToFormat() {
 	assertEquals(OutputFormat.getDefault(), Output.withDefaultFormat()
 		.getFormat());
     }
 
     @Test
-    public void testWithLanguageCodeWithNullOrEmptyShouldBeSetToDefault() {
+    public void withLanguageCodeWithNullOrEmptyShouldBeSetToDefault() {
 	assertEquals(Output.DEFAULT_LANGUAGE_CODE, Output.withDefaultFormat()
 		.withLanguageCode(null).getLanguageCode());
 	assertEquals(Output.DEFAULT_LANGUAGE_CODE, Output.withDefaultFormat()
@@ -69,19 +72,19 @@ public class OutputTest extends TestCase {
     }
 
     @Test
-    public void testWithLanguageCodeShouldBeUpperCased() {
+    public void withLanguageCodeShouldBeUpperCased() {
 	assertEquals("FR", Output.withDefaultFormat().withLanguageCode("fr")
 		.getLanguageCode());
     }
 
     @Test
-    public void testWithStyleWithNullShouldBeSetToDefault() {
+    public void withStyleWithNullShouldBeSetToDefault() {
 	assertEquals(OutputStyle.getDefault(), Output.withDefaultFormat()
 		.withStyle(null).getStyle());
     }
 
     @Test
-    public void testDefaultOutputShouldHaveDefaultParameters() {
+    public void defaultOutputShouldHaveDefaultParameters() {
 	assertEquals(Output.DEFAULT_LANGUAGE_CODE, Output.DEFAULT_OUTPUT
 		.getLanguageCode());
 	assertEquals(OutputFormat.getDefault(), Output.DEFAULT_OUTPUT
@@ -91,14 +94,14 @@ public class OutputTest extends TestCase {
     }
 
     @Test
-    public void testWithwithIndentationShouldSetTheIndentationToTrue() {
+    public void withIndentationShouldSetTheIndentationToTrue() {
 	assertEquals(true, Output.withDefaultFormat().withIndentation()
 		.isIndented());
 	assertEquals(false, Output.DEFAULT_OUTPUT.isIndented());
     }
 
     @Test
-    public void testOutputStyleGetFieldListForShortShouldBeCorrect() {
+    public void outputStyleGetFieldListForShortShouldBeCorrect() {
 	String list = OutputStyle.SHORT.getFieldList(null);
 	assertEquals("The field list has a wrong size for SHORT :" + list, 8,
 		list.split(",").length);
@@ -119,7 +122,7 @@ public class OutputTest extends TestCase {
     }
 
     @Test
-    public void testOutputStyleGetFieldListForMediumShouldBeCorrect() {
+    public void outputStyleGetFieldListForMediumShouldBeCorrect() {
 	String list = OutputStyle.MEDIUM.getFieldList(null);
 	assertEquals("The field list has a wrong size for MEDIUM :" + list, 34,
 		list.split(",").length);
@@ -137,7 +140,7 @@ public class OutputTest extends TestCase {
     }
 
     @Test
-    public void testOutputStyleGetFieldListForLongShouldBeCorrect() {
+    public void outputStyleGetFieldListForLongShouldBeCorrect() {
 	String list = OutputStyle.LONG.getFieldList(null);
 	assertEquals("The field list has a wrong size for LONG :" + list, 42,
 		list.split(",").length);
@@ -155,7 +158,7 @@ public class OutputTest extends TestCase {
     }
 
     @Test
-    public void testOutputStyleGetFieldListForFullShouldBeCorrect() {
+    public void outputStyleGetFieldListForFullShouldBeCorrect() {
 	String list = OutputStyle.FULL.getFieldList(null);
 	assertEquals(
 		"The field list has a wrong size for FULL without countryCode :"
@@ -174,7 +177,7 @@ public class OutputTest extends TestCase {
     }
 
     @Test
-    public void testGetFieldListshouldbeConsistant() {
+    public void getFieldListshouldbeConsistant() {
 	assertEquals(OutputStyle.getDefault()
 		.getFieldList(Output.DEFAULT_LANGUAGE_CODE), Output
 		.withDefaultFormat().getFields());

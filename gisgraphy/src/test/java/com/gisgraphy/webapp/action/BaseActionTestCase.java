@@ -83,7 +83,6 @@ public abstract class BaseActionTestCase extends AbstractTransactionalTestCase {
 	ActionContext.getContext().setSession(null);
     }
 
-    @Required
     public void setMailSender(JavaMailSenderImpl mailSender) {
 	this.mailSender = mailSender;
     }

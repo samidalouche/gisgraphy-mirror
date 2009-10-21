@@ -42,12 +42,8 @@ public class AdmDaoTest extends AbstractIntegrationHttpSolrTestCase {
 
     private IGisFeatureDao gisFeatureDao;
 
-    @Resource
     private GeolocTestHelper geolocTestHelper;
 
-    /*
-     * !!!!!!!!!!!!!!!!!!!!!Save!!!!!!!!!!!!!!!!!!!!!!
-     */
 
     @Test
     public void testSaveAdmWithoutChildsShouldSaveAdm() {
@@ -952,7 +948,7 @@ public class AdmDaoTest extends AbstractIntegrationHttpSolrTestCase {
     }
 
     @Test
-    public void getAdmOrFirstValidParentIfNotFoundShouldReturnTheExistingParentIfTheAdmDoesnTExists() {
+    public void testGetAdmOrFirstValidParentIfNotFoundShouldReturnTheExistingParentIfTheAdmDoesnTExists() {
 	Adm adm1 = GeolocTestHelper.createAdm("adm", "FR", "A1", null, null,
 		null, null, 1);
 	this.admDao.save(adm1);
@@ -969,7 +965,7 @@ public class AdmDaoTest extends AbstractIntegrationHttpSolrTestCase {
     }
 
     @Test
-    public void getAdmOrFirstValidParentifNotFoundShouldReturnTheExistingGrandParentIfTheAdmDoesnTExists() {
+    public void testGetAdmOrFirstValidParentifNotFoundShouldReturnTheExistingGrandParentIfTheAdmDoesnTExists() {
 	Adm adm1 = GeolocTestHelper.createAdm("adm", "FR", "A1", null, null,
 		null, null, 1);
 	Adm savedAdm1 = this.admDao.save(adm1);
@@ -987,7 +983,7 @@ public class AdmDaoTest extends AbstractIntegrationHttpSolrTestCase {
     }
 
     @Test
-    public void getAdmOrFirstValidParentifNotFoundShouldReturnTheAdmIfExists() {
+    public void testGetAdmOrFirstValidParentifNotFoundShouldReturnTheAdmIfExists() {
 	Adm adm1 = GeolocTestHelper.createAdm("adm", "FR", "A1", null, null,
 		null, null, 1);
 	this.admDao.save(adm1);
@@ -1004,7 +1000,7 @@ public class AdmDaoTest extends AbstractIntegrationHttpSolrTestCase {
     }
 
     @Test
-    public void getAdmOrFirstValidParentifNotFoundShouldReturnNullIfNoParentExists() {
+    public void testGetAdmOrFirstValidParentifNotFoundShouldReturnNullIfNoParentExists() {
 	Adm adm1 = GeolocTestHelper.createAdm("adm", "FR", "A1", null, null,
 		null, null, 1);
 	this.admDao.save(adm1);
@@ -1344,12 +1340,10 @@ public class AdmDaoTest extends AbstractIntegrationHttpSolrTestCase {
 
     }
 
-    @Required
     public void setAdmDao(IAdmDao admDao) {
 	this.admDao = admDao;
     }
 
-    @Required
     public void setGisFeatureDao(IGisFeatureDao gisFeatureDao) {
 	this.gisFeatureDao = gisFeatureDao;
     }

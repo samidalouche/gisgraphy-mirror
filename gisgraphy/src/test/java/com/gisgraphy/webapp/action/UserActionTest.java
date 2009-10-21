@@ -23,6 +23,7 @@
 package com.gisgraphy.webapp.action;
 
 import org.apache.struts2.ServletActionContext;
+import org.junit.Test;
 import org.springframework.mock.web.MockHttpServletRequest;
 
 import com.gisgraphy.model.User;
@@ -35,6 +36,7 @@ public class UserActionTest extends BaseActionTestCase {
 	this.userAction = action;
     }
 
+    @Test
     public void testCancel() throws Exception {
 	assertEquals(userAction.cancel(), "mainMenu");
 	assertFalse(userAction.hasActionErrors());
@@ -43,6 +45,7 @@ public class UserActionTest extends BaseActionTestCase {
 	assertEquals("cancel", userAction.cancel());
     }
 
+    @Test
     public void testEdit() throws Exception {
 	// so request.getRequestURL() doesn't fail
 	MockHttpServletRequest request = new MockHttpServletRequest("GET",
@@ -56,6 +59,7 @@ public class UserActionTest extends BaseActionTestCase {
 	assertFalse(userAction.hasActionErrors());
     }
 
+    @Test
     public void testSave() throws Exception {
 	UserManager userManager = (UserManager) applicationContext
 		.getBean("userManager");
@@ -74,6 +78,7 @@ public class UserActionTest extends BaseActionTestCase {
 	assertFalse(userAction.hasActionErrors());
     }
 
+    @Test
     public void testSaveConflictingUser() throws Exception {
 	UserManager userManager = (UserManager) applicationContext
 		.getBean("userManager");
@@ -99,6 +104,7 @@ public class UserActionTest extends BaseActionTestCase {
 	assertTrue(userAction.hasActionErrors());
     }
 
+    @Test
     public void testSearch() throws Exception {
 	assertNull(userAction.getUsers());
 	assertEquals("success", userAction.list());
@@ -106,6 +112,7 @@ public class UserActionTest extends BaseActionTestCase {
 	assertFalse(userAction.hasActionErrors());
     }
 
+    @Test
     public void testRemove() throws Exception {
 	User user = new User("admin");
 	user.setId(-2L);

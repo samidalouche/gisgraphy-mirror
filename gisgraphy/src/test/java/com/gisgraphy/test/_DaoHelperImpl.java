@@ -31,11 +31,6 @@ import com.gisgraphy.domain.valueobject.GisFeatureDistance;
 
 public class _DaoHelperImpl extends HibernateDaoSupport implements _DaoHelper {
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see com.gisgraphy.test.TestDao#testCallback(org.springframework.orm.hibernate3.HibernateCallback)
-     */
     @SuppressWarnings("unchecked")
     public List<?> testCallback(HibernateCallback hibernateCallback) {
 	return (List<GisFeatureDistance>) this.getHibernateTemplate().execute(

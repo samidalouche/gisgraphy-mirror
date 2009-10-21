@@ -22,19 +22,20 @@
  *******************************************************************************/
 package com.gisgraphy.helper;
 
-import java.util.HashMap;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
-import junit.framework.TestCase;
+import java.util.HashMap;
 
 import org.junit.Test;
 
 import com.gisgraphy.test.GeolocTestHelper;
 import com.vividsolutions.jts.geom.Point;
 
-public class URLUtilsTest extends TestCase {
+public class URLUtilsTest  {
 
     @Test
-    public void testCreateGoogleMapUrlShouldReturnCorrectURL() {
+    public void createGoogleMapUrlShouldReturnCorrectURL() {
 	Point point = GeolocTestHelper.createPoint(2.33333F, 48.86667F);
 	String URL = URLUtils.createGoogleMapUrl(point, "Paris");
 	HashMap<String, String> map = GeolocTestHelper.splitURLParams(URL,
@@ -47,13 +48,13 @@ public class URLUtilsTest extends TestCase {
     }
 
     @Test
-    public void testCreateGoogleMapUrlShouldReturnDefaultGoogleURLIfPointIsNull() {
+    public void createGoogleMapUrlShouldReturnDefaultGoogleURLIfPointIsNull() {
 	assertEquals(URLUtils.DEFAULT_GOOGLE_MAP_BASE_URL, URLUtils
 		.createGoogleMapUrl(null, null));
     }
 
     @Test
-    public void testCreateYahooMapUrlShouldReturnCorrectURL() {
+    public void createYahooMapUrlShouldReturnCorrectURL() {
 	Point point = GeolocTestHelper.createPoint(2.33333F, 48.86667F);
 	String URL = URLUtils.createYahooMapUrl(point);
 	HashMap<String, String> map = GeolocTestHelper.splitURLParams(URL,
@@ -63,25 +64,25 @@ public class URLUtilsTest extends TestCase {
     }
 
     @Test
-    public void testCreateYahooMapUrlShouldReturnDefaultyahooURLIfPointIsNull() {
+    public void createYahooMapUrlShouldReturnDefaultyahooURLIfPointIsNull() {
 	assertEquals(URLUtils.DEFAULT_YAHOO_MAP_BASE_URL, URLUtils
 		.createYahooMapUrl(null));
     }
 
     @Test
-    public void testCreateCountryFlagUrlShouldReturnCorrectURL() {
+    public void createCountryFlagUrlShouldReturnCorrectURL() {
 	assertEquals(URLUtils.COUNTRY_FLAG_BASE_URL + "FR.png", URLUtils
 		.createCountryFlagUrl("FR"));
     }
 
     @Test
-    public void testCreateCountryFlagUrlShouldupperCaseTheCountryCode() {
+    public void createCountryFlagUrlShouldupperCaseTheCountryCode() {
 	assertEquals(URLUtils.COUNTRY_FLAG_BASE_URL + "FR.png", URLUtils
 		.createCountryFlagUrl("fr"));
     }
 
     @Test
-    public void testCreateCountryFlagUrlShouldReturnDefaultCountryFlagURLIfCountryCodeIsNull() {
+    public void createCountryFlagUrlShouldReturnDefaultCountryFlagURLIfCountryCodeIsNull() {
 	assertEquals(URLUtils.DEFAULT_COUNTRY_FLAG_URL, URLUtils
 		.createCountryFlagUrl(null));
     }

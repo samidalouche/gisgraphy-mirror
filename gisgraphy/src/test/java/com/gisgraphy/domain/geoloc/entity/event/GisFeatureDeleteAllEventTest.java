@@ -36,7 +36,7 @@ import com.gisgraphy.test.GeolocTestHelper;
 public class GisFeatureDeleteAllEventTest {
 
     @Test
-    public void GisFeatureDeleteAllEventCouldNothaveNullList() {
+    public void gisFeatureDeleteAllEventCouldNothaveNullList() {
 	try {
 	    new GisFeatureDeleteAllEvent(null);
 	    fail("we should not be able to create a GisFeatureDeleteAllEvent with a null List");
@@ -46,7 +46,7 @@ public class GisFeatureDeleteAllEventTest {
     }
 
     @Test
-    public void GetGisFeatureShouldReturnTheConstructorOne() {
+    public void getGisFeatureShouldReturnTheConstructorOne() {
 	GisFeature gisFeature = GeolocTestHelper.createGisFeature("name", 3F,
 		4F, 2L);
 	List<GisFeature> list = new ArrayList<GisFeature>();

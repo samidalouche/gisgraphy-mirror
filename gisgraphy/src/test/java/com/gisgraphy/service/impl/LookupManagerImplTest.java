@@ -26,6 +26,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.jmock.Mock;
+import org.junit.Test;
 
 import com.gisgraphy.Constants;
 import com.gisgraphy.dao.LookupDao;
@@ -44,6 +45,7 @@ public class LookupManagerImplTest extends BaseManagerMockTestCase {
 	mgr.setLookupDao((LookupDao) lookupDao.proxy());
     }
 
+    @Test
     public void testGetAllRoles() {
 	log.debug("entered 'testGetAllRoles' method");
 

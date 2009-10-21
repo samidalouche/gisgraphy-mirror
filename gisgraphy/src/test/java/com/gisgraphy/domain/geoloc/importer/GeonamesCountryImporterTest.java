@@ -37,7 +37,7 @@ import com.gisgraphy.domain.valueobject.NameValueDTO;
 public class GeonamesCountryImporterTest {
 
     @Test
-    public void testRollback() {
+    public void rollbackShouldRollback() {
 	GeonamesCountryImporter geonamesCountryImporter = new GeonamesCountryImporter();
 	ICountryDao countryDao = EasyMock.createMock(ICountryDao.class);
 	EasyMock.expect(countryDao.deleteAll()).andReturn(5);
@@ -50,7 +50,7 @@ public class GeonamesCountryImporterTest {
     }
     
     @Test
-    public void testShouldBeSkipShouldReturnCorrectValue(){
+    public void shouldBeSkipShouldReturnCorrectValue(){
 	GeonamesCountryImporter geonamesCountryImporter = new GeonamesCountryImporter();
 	
 	Assert.assertFalse("country importer should never be skiped",geonamesCountryImporter.shouldBeSkipped());

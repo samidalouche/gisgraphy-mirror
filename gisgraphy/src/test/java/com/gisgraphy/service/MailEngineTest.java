@@ -29,7 +29,7 @@ import javax.mail.Part;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 
-import org.springframework.beans.factory.annotation.Required;
+import org.junit.Test;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
@@ -48,21 +48,8 @@ public class MailEngineTest extends AbstractTransactionalTestCase {
 
     JavaMailSenderImpl mailSender;
 
-    @Required
-    public void setMailSender(JavaMailSenderImpl mailSender) {
-	this.mailSender = mailSender;
-    }
 
-    @Required
-    public void setMailEngine(MailEngine mailEngine) {
-	this.mailEngine = mailEngine;
-    }
-
-    @Required
-    public void setMailMessage(SimpleMailMessage mailMessage) {
-	this.mailMessage = mailMessage;
-    }
-
+    @Test
     public void testSend() throws Exception {
 	// mock smtp server
 	Wiser wiser = new Wiser();
@@ -88,6 +75,7 @@ public class MailEngineTest extends AbstractTransactionalTestCase {
 	assertEquals(emailBody, wm.getMimeMessage().getContent());
     }
 
+    @Test
     public void testSendMessageWithAttachment() throws Exception {
 	final String ATTACHMENT_NAME = "boring-attachment.txt";
 
@@ -138,4 +126,17 @@ public class MailEngineTest extends AbstractTransactionalTestCase {
 	assertTrue(hasTheAttachment);
 	assertEquals(emailSubject, mm.getSubject());
     }
+    
+    public void setMailSender(JavaMailSenderImpl mailSender) {
+	this.mailSender = mailSender;
+    }
+
+    public void setMailEngine(MailEngine mailEngine) {
+	this.mailEngine = mailEngine;
+    }
+    
+    public void setMailMessage(SimpleMailMessage mailMessage) {
+	this.mailMessage = mailMessage;
+    }
+    
 }

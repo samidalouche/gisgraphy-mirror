@@ -84,7 +84,7 @@ public class GeolocSearchActionTest {
     }
 
     @Test
-    public void testSearch() throws Exception {
+    public void search() throws Exception {
 	MockHttpServletRequest request = new MockHttpServletRequest("GET",
 		"/search.html");
 	ServletActionContext.setRequest(request);
@@ -105,7 +105,7 @@ public class GeolocSearchActionTest {
     }
 
     @Test
-    public void testIsDisplayResults() throws Exception {
+    public void isDisplayResults() throws Exception {
 	MockHttpServletRequest request = new MockHttpServletRequest("GET",
 		"/search.html");
 	ServletActionContext.setRequest(request);
@@ -127,7 +127,7 @@ public class GeolocSearchActionTest {
     }
 
     @Test
-    public void testSearchWhenFailed() throws Exception {
+    public void searchWhenFailed() throws Exception {
 	String errorMessage = "message";
 	MockHttpServletRequest request = new MockHttpServletRequest("GET",
 		"/search.html");
@@ -148,7 +148,7 @@ public class GeolocSearchActionTest {
     }
 
     @Test
-    public void testSearchPopupShouldReturnPopupView() throws Exception {
+    public void searchPopupShouldReturnPopupView() throws Exception {
 	MockHttpServletRequest request = new MockHttpServletRequest("GET",
 		"/search.html");
 	ServletActionContext.setRequest(request);
@@ -169,7 +169,7 @@ public class GeolocSearchActionTest {
     }
 
     @Test
-    public void testGetStyleShouldReturnStyle() throws Exception {
+    public void getStyleShouldReturnStyle() throws Exception {
 	MockHttpServletRequest request = new MockHttpServletRequest("GET",
 		"/search.html");
 	ServletActionContext.setRequest(request);
@@ -180,7 +180,7 @@ public class GeolocSearchActionTest {
     }
 
     @Test
-    public void testGetStyleShouldReturnDefaultStyle() throws Exception {
+    public void getStyleShouldReturnDefaultStyle() throws Exception {
 	MockHttpServletRequest request = new MockHttpServletRequest("GET",
 		"/search.html");
 	ServletActionContext.setRequest(request);
@@ -192,7 +192,7 @@ public class GeolocSearchActionTest {
     }
 
     @Test
-    public void testGetFormatsShouldReturnFormatForGeoloc() {
+    public void getFormatsShouldReturnFormatForGeoloc() {
 	Assert.assertEquals(Arrays.asList(OutputFormat
 		.listByService(GisgraphyServiceType.GEOLOC)), Arrays
 		.asList(action.getFormats()));

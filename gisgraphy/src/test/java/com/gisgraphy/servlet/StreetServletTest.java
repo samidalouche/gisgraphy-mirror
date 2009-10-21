@@ -30,6 +30,7 @@ import net.sf.jstester.JsTester;
 import org.apache.commons.httpclient.Header;
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.methods.GetMethod;
+import org.junit.Test;
 import org.mortbay.jetty.servlet.ServletHolder;
 import org.mortbay.jetty.testing.ServletTester;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -87,6 +88,7 @@ public class StreetServletTest extends AbstractIntegrationHttpSolrTestCase {
 	// servletTester.stop();
     }
 
+    @Test
     public void testServletShouldReturnCorrectContentTypeForSupportedFormat() {
 	String url = streetServletUrl + STREET_SERVLET_CONTEXT
 		+ "/geolocsearch";
@@ -119,6 +121,7 @@ public class StreetServletTest extends AbstractIntegrationHttpSolrTestCase {
 
     }
     
+    @Test
     public void testServletShouldReturnCorrectContentTypeForSupportedFormatWhenErrorOccured() {
 	String url = streetServletUrl + STREET_SERVLET_CONTEXT
 		+ "/streetsearch";
@@ -150,6 +153,7 @@ public class StreetServletTest extends AbstractIntegrationHttpSolrTestCase {
 
     }
     
+    @Test
     public void testServletShouldReturnCorrectStatusCode() {
 	String url = streetServletUrl + STREET_SERVLET_CONTEXT
 		+ "/streetsearch";
@@ -177,6 +181,7 @@ public class StreetServletTest extends AbstractIntegrationHttpSolrTestCase {
 
     }
 
+    @Test
     public void testServletShouldReturnCorrectJSONError() {
 
 	JsTester jsTester = null;
@@ -219,6 +224,7 @@ public class StreetServletTest extends AbstractIntegrationHttpSolrTestCase {
 
     }
 
+    @Test
     public void testServletShouldReturnCorrectXMLError() {
 
 	String url = streetServletUrl + STREET_SERVLET_CONTEXT
@@ -252,7 +258,8 @@ public class StreetServletTest extends AbstractIntegrationHttpSolrTestCase {
 
     }
     
-    public void testgetGisgraphyServiceTypeShouldReturnTheCorrectValue(){
+    @Test
+    public void testGetGisgraphyServiceTypeShouldReturnTheCorrectValue(){
 	GisgraphyServlet servlet = new StreetServlet();
     	assertEquals(GisgraphyServiceType.STREET, servlet.getGisgraphyServiceType());
 

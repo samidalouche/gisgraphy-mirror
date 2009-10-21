@@ -119,7 +119,6 @@ public class LanguageDaoTest extends AbstractIntegrationHttpSolrTestCase {
      * assertEquals(0, languageDao.deleteAll()); }
      */
 
-    @Required
     public void setLanguageDao(ILanguageDao languageDao) {
 	this.languageDao = languageDao;
     }

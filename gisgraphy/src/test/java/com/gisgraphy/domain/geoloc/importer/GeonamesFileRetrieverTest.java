@@ -22,6 +22,11 @@
  *******************************************************************************/
 package com.gisgraphy.domain.geoloc.importer;
 
+import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertTrue;
+import static junit.framework.Assert.fail;
+import static org.junit.Assert.assertFalse;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -35,10 +40,10 @@ import org.junit.Test;
 import com.gisgraphy.domain.valueobject.NameValueDTO;
 import com.gisgraphy.test.GeolocTestHelper;
 
-public class GeonamesFileRetrieverTest extends TestCase {
+public class GeonamesFileRetrieverTest {
 
     @Test
-    public void testRollback() {
+    public void rollbackShouldRollback() {
 	GeonamesFileRetriever geonamesFileRetriever = new GeonamesFileRetriever();
 	ImporterConfig importerConfig = new ImporterConfig();
 	File tempDir = GeolocTestHelper.createTempDir(this.getClass()
@@ -66,7 +71,7 @@ public class GeonamesFileRetrieverTest extends TestCase {
     }
     
     @Test
-    public void testShouldBeSkipShouldReturnCorrectValue(){
+    public void shouldBeSkipShouldReturnCorrectValue(){
 	ImporterConfig importerConfig = new ImporterConfig();
 	GeonamesFileRetriever geonamesFileRetriever = new GeonamesFileRetriever();
 	geonamesFileRetriever.setImporterConfig(importerConfig);
