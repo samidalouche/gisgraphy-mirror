@@ -22,7 +22,11 @@
  *******************************************************************************/
 package com.gisgraphy.service.impl;
 
+import java.util.Enumeration;
+import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
+import java.util.ResourceBundle;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -38,6 +42,25 @@ import com.gisgraphy.service.IInternationalisationService;
  * @author <a href="mailto:david.masclet@gisgraphy.com">David Masclet</a>
  */
 public class InternationalisationService implements IInternationalisationService {
+    
+    /**
+     * Method to convert a ResourceBundle to a Map object.
+     * 
+     * @param rb
+     *                a given resource bundle
+     * @return Map a populated map
+     */
+    public static Map<String, String> convertBundleToMap(ResourceBundle rb) {
+	Map<String, String> map = new HashMap<String, String>();
+
+	Enumeration<String> keys = rb.getKeys();
+	while (keys.hasMoreElements()) {
+	    String key = keys.nextElement();
+	    map.put(key, rb.getString(key));
+	}
+
+	return map;
+    }
 
     private Locale locale = LocaleContextHolder.getLocale();
     

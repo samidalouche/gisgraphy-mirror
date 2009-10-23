@@ -22,6 +22,10 @@
  *******************************************************************************/
 package com.gisgraphy.webapp.action;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.ResourceBundle;
+
 import org.springframework.beans.factory.annotation.Required;
 
 import com.gisgraphy.domain.geoloc.importer.IImporterManager;
@@ -29,6 +33,7 @@ import com.gisgraphy.domain.geoloc.importer.ImporterConfig;
 import com.gisgraphy.domain.geoloc.importer.ImporterHelper;
 import com.gisgraphy.domain.geoloc.importer.ImporterManager;
 import com.gisgraphy.domain.geoloc.service.fulltextsearch.IFullTextSearchEngine;
+import com.gisgraphy.service.impl.InternationalisationService;
 import com.opensymphony.xwork2.Action;
 import com.opensymphony.xwork2.ActionSupport;
 
@@ -187,5 +192,9 @@ public class ImportConfirmAction extends ActionSupport {
 	    IFullTextSearchEngine fullTextSearchEngine) {
 	this.fullTextSearchEngine = fullTextSearchEngine;
     }
+    
+    public Map<String,String> getConfigValuesMap(){
+	return InternationalisationService.convertBundleToMap(ResourceBundle.getBundle("env"));
+     }
 
 }

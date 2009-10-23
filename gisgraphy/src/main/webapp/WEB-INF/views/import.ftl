@@ -3,6 +3,9 @@
 <title><@s.text name="import.import"/></title>
 </head>
 <body>
+
+
+
 <div class="tip yellowtip">
 <@s.text name="import.free.disk.space">
 	<@s.param>30 GO</@s.param>
@@ -37,43 +40,25 @@ The OpenStreetMap importer is :&nbsp;<@s.if test="OpenStreetMapImporterEnabled">
 <@s.else><span style="color:#FF0000">DISABLED</span><br/><br/><div style="margin-left: 100px;" ><@s.form action="importconfirm!enableOpenStreetMapImporter.html" method="get" id="enableopenstreetmap"><@s.submit title="Enable OpenStreetMap" value="Enable OpenStreetMap" theme="simple" /></@s.form></div> </@s.else>
 </fieldset>
 
-<br/><br/>
-<fieldset>
-<legend><@s.text name="import.options"/></legend>
-<ul>
-<br/>
-<li class="listspace"> geonamesDir : ${importerConfig.getGeonamesDir()}</li>
-<li class="listspace">Fulltext engine URL : ${FulltextSearchEngineURL}</li><#if !fulltextSearchEngineAlive>
+<#if !fulltextSearchEngineAlive>
 <div class="tip redtip">
 <@s.text name="import.fulltextEngineNotReachable" >
 <@s.param>${FulltextSearchEngineURL}</@s.param>
 </@s.text>
 </div></#if>
-<li class="listspace" > geonamesFilesToDownload : ${importerConfig.getGeonamesFilesToDownload()}</li>
-<li class="listspace"> openStreetMapFilesToDownload : ${importerConfig.getOpenStreetMapFilesToDownload()}</li>
+
+<br/><br/>
 <#if !regexpCorrects><div class="tip redtip">
 <@s.text name="import.incorrectRegexp"/>
 </div></#if>
-<li class="listspace"> acceptRegExString : ${importerConfig.getAcceptRegExString()}</li>
-<li class="listspace"> retrieveFiles : ${importerConfig.isRetrieveFiles().toString()}</li>
-<li class="listspace"> importGisFeatureEmbededAlternateNames : ${importerConfig.isImportGisFeatureEmbededAlternateNames().toString()}</li>
-<li class="listspace"> geonamesDownloadURL : ${importerConfig.getGeonamesDownloadURL()}</li>
-<li class="listspace"> openstreetMapDownloadURL : ${importerConfig.getOpenstreetMapDownloadURL()}</li>
-<li class="listspace"> adm1ExtracterStrategyIfAlreadyExists : ${importerConfig.getAdm1ExtracterStrategyIfAlreadyExists()}</li>
-<li class="listspace"> adm2ExtracterStrategyIfAlreadyExists : ${importerConfig.getAdm2ExtracterStrategyIfAlreadyExists()}</li>
-<li class="listspace"> adm3ExtracterStrategyIfAlreadyExists : ${importerConfig.getAdm3ExtracterStrategyIfAlreadyExists()}</li>
-<li class="listspace"> adm4ExtracterStrategyIfAlreadyExists : ${importerConfig.getAdm4ExtracterStrategyIfAlreadyExists()}</li>
-<li class="listspace" > syncAdmCodesWithLinkedAdmOnes : ${importerConfig.isSyncAdmCodesWithLinkedAdmOnes().toString()}</li>
-<li class="listspace"> tryToDetectAdmIfNotFound : ${importerConfig.isTryToDetectAdmIfNotFound().toString()}</li>
-<li class="listspace"> missingRequiredFieldThrows : ${importerConfig.isMissingRequiredFieldThrows().toString()}</li>
-<li class="listspace"> wrongNumberOfFieldsThrows : ${importerConfig.isWrongNumberOfFieldsThrows().toString()}</li>
-<li class="listspace"> adm1FileName : ${importerConfig.getAdm1FileName()}</li>
-<li class="listspace"> adm2FileName : ${importerConfig.getAdm2FileName()}</li>
-<li class="listspace"> adm3FileName : ${importerConfig.getAdm3FileName()}</li>
-<li class="listspace"> adm4FileName : ${importerConfig.getAdm4FileName()}</li>
-<li class="listspace"> countriesFileName : ${importerConfig.getCountriesFileName()}</li>
-<li class="listspace"> languageFileName : ${importerConfig.getLanguageFileName()}</li>
-<li class="listspace"> alternateNamesFileName : ${importerConfig.getAlternateNamesFileName()}</li>
+
+<fieldset>
+<legend><@s.text name="import.options"/></legend>
+<ul>
+<@s.iterator value="configValuesMap.keySet()" id="item" >
+<li class="listspace">${item} = ${configValuesMap[item]}<br/></li>
+</@s.iterator>
+
 </ul>
 </fieldset>
 <br/>
