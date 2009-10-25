@@ -368,7 +368,7 @@
 		<a href="${chooseOtherCityUrl}"><@s.text name="search.city.chooseOther" /></a>
 		<#else>
 			<div class="forminstructions"><img src="/images/puce_2.gif" class="imagenumberlist" alt="puce_2"/><@s.text name="search.choose.city"/> : </div>
-			<#if (city?? && !countryCode??) ><span class="error"><@s.text name="search.nocityfound"/> '${city}' ! </span><br/><br/></#if>
+			<#if (city?? && countryCode??) ><span class="error"><@s.text name="search.nocityfound"/> '${city}' ! </span><br/><br/></#if>
 			<script type="text/javascript">
 				validateNonEmptyQuery= function(){
 					if ($('city').value == ''){
