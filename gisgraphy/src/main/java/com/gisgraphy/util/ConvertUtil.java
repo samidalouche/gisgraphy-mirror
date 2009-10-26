@@ -23,7 +23,6 @@
 package com.gisgraphy.util;
 
 import java.util.Enumeration;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -34,6 +33,7 @@ import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import com.gisgraphy.helper.PropertiesHelper;
 import com.gisgraphy.model.LabelValue;
 
 /**
@@ -48,24 +48,7 @@ public final class ConvertUtil {
     private ConvertUtil() {
     }
 
-    /**
-     * Method to convert a ResourceBundle to a Map object.
-     * 
-     * @param rb
-     *                a given resource bundle
-     * @return Map a populated map
-     */
-    public static Map<String, String> convertBundleToMap(ResourceBundle rb) {
-	Map<String, String> map = new HashMap<String, String>();
-
-	Enumeration<String> keys = rb.getKeys();
-	while (keys.hasMoreElements()) {
-	    String key = keys.nextElement();
-	    map.put(key, rb.getString(key));
-	}
-
-	return map;
-    }
+    
 
     /**
      * Convert a java.util.List of LabelValue objects to a LinkedHashMap.
@@ -114,7 +97,7 @@ public final class ConvertUtil {
      */
     public static Object populateObject(Object obj, ResourceBundle rb) {
 	try {
-	    Map<String, String> map = convertBundleToMap(rb);
+	    Map<String, String> map = PropertiesHelper.convertBundleToMap(rb);
 	    BeanUtils.copyProperties(obj, map);
 	} catch (Exception e) {
 	    log

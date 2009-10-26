@@ -31,6 +31,7 @@ import org.junit.Test;
 
 import com.gisgraphy.Constants;
 import com.gisgraphy.domain.repository.AbstractTransactionalTestCase;
+import com.gisgraphy.helper.PropertiesHelper;
 import com.gisgraphy.model.User;
 import com.gisgraphy.util.ConvertUtil;
 
@@ -80,7 +81,7 @@ public class UserManagerTest extends AbstractTransactionalTestCase {
     protected Object populate(Object obj) throws Exception {
 	// loop through all the beans methods and set its properties from
 	// its .properties file
-	Map map = ConvertUtil.convertBundleToMap(rb);
+	Map map = PropertiesHelper.convertBundleToMap(rb);
 	BeanUtils.copyProperties(obj, map);
 
 	return obj;

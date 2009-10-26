@@ -45,6 +45,7 @@ import org.springframework.transaction.support.DefaultTransactionDefinition;
 
 import com.gisgraphy.domain.valueobject.Constants;
 import com.gisgraphy.helper.EncodingHelper;
+import com.gisgraphy.helper.PropertiesHelper;
 
 /**
  * Abstract Test Case that takes care of beginning and rolling back a
@@ -61,24 +62,7 @@ public abstract class AbstractTransactionalTestCase extends
 	return true;
     }
 
-    /**
-     * Method to convert a ResourceBundle to a Map object.
-     * 
-     * @param rb
-     *                a given resource bundle
-     * @return Map a populated map
-     */
-    private static Map<String, String> convertBundleToMap(ResourceBundle rb) {
-	Map<String, String> map = new HashMap<String, String>();
-
-	Enumeration<String> keys = rb.getKeys();
-	while (keys.hasMoreElements()) {
-	    String key = keys.nextElement();
-	    map.put(key, rb.getString(key));
-	}
-
-	return map;
-    }
+ 
 
     // private final static String[] resources = { "classpath:/spring/*.xml",
     // "classpath:/springtest/*.xml" };
@@ -195,7 +179,7 @@ public abstract class AbstractTransactionalTestCase extends
     protected Object populate(Object obj) throws Exception {
 	// loop through all the beans methods and set its properties from
 	// its .properties file
-	Map map = convertBundleToMap(rb);
+	Map map = PropertiesHelper.convertBundleToMap(rb);
 	BeanUtils.copyProperties(obj, map);
 
 	return obj;

@@ -31,6 +31,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.jmock.MockObjectTestCase;
 
+import com.gisgraphy.helper.PropertiesHelper;
 import com.gisgraphy.util.ConvertUtil;
 
 public abstract class BaseManagerMockTestCase extends MockObjectTestCase {
@@ -72,7 +73,7 @@ public abstract class BaseManagerMockTestCase extends MockObjectTestCase {
     protected Object populate(Object obj) throws Exception {
 	// loop through all the beans methods and set its properties from
 	// its .properties file
-	Map<String, String> map = ConvertUtil.convertBundleToMap(rb);
+	Map<String, String> map = PropertiesHelper.convertBundleToMap(rb);
 
 	BeanUtils.copyProperties(obj, map);
 
