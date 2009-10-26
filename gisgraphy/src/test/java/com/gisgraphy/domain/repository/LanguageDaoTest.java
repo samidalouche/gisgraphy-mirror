@@ -23,7 +23,6 @@
 package com.gisgraphy.domain.repository;
 
 import org.junit.Test;
-import org.springframework.beans.factory.annotation.Required;
 
 import com.gisgraphy.domain.geoloc.entity.Language;
 import com.gisgraphy.domain.geoloc.service.fulltextsearch.AbstractIntegrationHttpSolrTestCase;

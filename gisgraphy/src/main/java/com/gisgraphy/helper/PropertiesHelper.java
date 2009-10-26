@@ -20,42 +20,45 @@
  *  
  *  
  *******************************************************************************/
-package com.gisgraphy.domain.repository;
+package com.gisgraphy.helper;
 
-import java.util.List;
+import java.util.Enumeration;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.ResourceBundle;
 
-import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import com.gisgraphy.domain.geoloc.entity.Adm;
-import com.gisgraphy.domain.geoloc.service.fulltextsearch.AbstractIntegrationHttpSolrTestCase;
-import com.gisgraphy.test.GeolocTestHelper;
+/**
+ * Some useful functions for properties files
+ * 
+ * @author <a href="mailto:david.masclet@gisgraphy.com">David Masclet</a>
+ */
+public class PropertiesHelper {
 
-public class GenericDaoTest extends AbstractIntegrationHttpSolrTestCase {
+    protected static final Logger logger = LoggerFactory
+	    .getLogger(PropertiesHelper.class);
 
-    private IAdmDao admDao;
-
-    @Test
-    public void testCount() {
-	int nbToCreate = 10;
-	List<Adm> adms = GeolocTestHelper.createAdms("adm", "FR", "A1", "B2",
-		"C3", "D4", null, 4, nbToCreate);
-	// set durty/clean featureid
-
-	// double set adm1 for adm1=>adm2s cascade
-	for (Adm adm : adms) {
-	    this.admDao.save(adm);
+	/**
+	 * Method to convert a ResourceBundle to a Map object.
+	 * 
+	 * @param rb
+	 *                a given resource bundle
+	 * @return Map a populated map
+	 */
+	public static Map<String, String> convertBundleToMap(ResourceBundle rb) {
+	Map<String, String> map = new HashMap<String, String>();
+	
+	Enumeration<String> keys = rb.getKeys();
+	while (keys.hasMoreElements()) {
+	    String key = keys.nextElement();
+	    map.put(key, rb.getString(key));
 	}
-	// check all are saved
-	List<Adm> savedAdms = this.admDao.getAll();
-	assertNotNull(adms);
-	assertEquals(adms.size(), savedAdms.size());
+	
+	return map;
+	}
 
-	long count = admDao.count();
-	assertEquals(nbToCreate, count);
+   
 
-    }
-
-    public void setAdmDao(IAdmDao admDao) {
-	this.admDao = admDao;
-    }
 }

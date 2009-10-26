@@ -34,9 +34,6 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import junit.framework.TestCase;
-
-import org.junit.Assert;
 import org.junit.Test;
 
 public class Testregexpression {

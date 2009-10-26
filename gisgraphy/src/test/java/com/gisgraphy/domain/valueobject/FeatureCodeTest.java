@@ -32,7 +32,6 @@ import javax.annotation.Resource;
 
 import org.apache.commons.lang.RandomStringUtils;
 import org.junit.Test;
-import org.springframework.beans.factory.annotation.Required;
 import org.springframework.context.i18n.LocaleContextHolder;
 
 import com.gisgraphy.domain.geoloc.entity.Country;

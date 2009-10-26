@@ -32,7 +32,6 @@ import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.gisgraphy.domain.geoloc.service.fulltextsearch.FullTextSearchEngine;
 import com.gisgraphy.hibernate.projection.ProjectionBean;
 
 /**

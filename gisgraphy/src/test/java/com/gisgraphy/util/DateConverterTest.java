@@ -32,9 +32,6 @@ import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Locale;
 
-import junit.framework.TestCase;
-
-import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.context.i18n.LocaleContextHolder;
 

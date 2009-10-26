@@ -24,7 +24,6 @@ package com.gisgraphy.webapp.action;
 
 import org.apache.commons.logging.Log;
 import org.apache.struts2.ServletActionContext;
-import org.springframework.beans.factory.annotation.Required;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.mock.web.MockHttpServletRequest;
 

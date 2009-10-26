@@ -47,7 +47,6 @@ import org.springframework.orm.hibernate3.HibernateCallback;
 import org.springframework.util.Assert;
 
 import com.gisgraphy.domain.geoloc.entity.GisFeature;
-import com.gisgraphy.domain.geoloc.entity.OpenStreetMap;
 import com.gisgraphy.domain.geoloc.entity.event.EventManager;
 import com.gisgraphy.domain.geoloc.entity.event.GisFeatureDeleteAllEvent;
 import com.gisgraphy.domain.geoloc.entity.event.GisFeatureDeletedEvent;

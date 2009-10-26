@@ -35,7 +35,6 @@ import org.hibernate.criterion.Projection;
 import org.hibernate.criterion.Projections;
 import org.hibernate.transform.Transformers;
 import org.junit.Test;
-import org.springframework.beans.factory.annotation.Required;
 import org.springframework.orm.hibernate3.HibernateCallback;
 
 import com.gisgraphy.domain.geoloc.entity.City;

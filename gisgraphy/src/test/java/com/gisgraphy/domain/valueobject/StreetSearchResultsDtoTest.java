@@ -38,9 +38,6 @@ import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.PropertyException;
 
-import junit.framework.TestCase;
-
-import org.junit.Assert;
 import org.junit.Test;
 
 import com.gisgraphy.test.FeedChecker;

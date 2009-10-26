@@ -34,13 +34,13 @@ import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import net.sf.json.JSON;
 import net.sf.json.JSONSerializer;
 import net.sf.json.JsonConfig;
 import net.sf.json.util.PropertyFilter;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.gisgraphy.domain.geoloc.service.ServiceException;
 import com.gisgraphy.domain.geoloc.service.errors.UnsupportedFormatException;

@@ -28,7 +28,6 @@ import org.apache.commons.lang.RandomStringUtils;
 import org.hibernate.exception.ConstraintViolationException;
 import org.junit.Assert;
 import org.junit.Test;
-import org.springframework.beans.factory.annotation.Required;
 import org.springframework.dao.DataIntegrityViolationException;
 
 import com.gisgraphy.domain.geoloc.entity.OpenStreetMap;

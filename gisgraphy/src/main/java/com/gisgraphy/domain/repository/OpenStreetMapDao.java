@@ -48,7 +48,6 @@ import com.gisgraphy.domain.valueobject.StreetDistance;
 import com.gisgraphy.helper.GeolocHelper;
 import com.gisgraphy.helper.IntrospectionHelper;
 import com.gisgraphy.hibernate.criterion.FulltextRestriction;
-import com.gisgraphy.hibernate.criterion.PartialWordSearchRestriction;
 import com.gisgraphy.hibernate.criterion.ProjectionOrder;
 import com.gisgraphy.hibernate.criterion.ResultTransformerUtil;
 import com.gisgraphy.hibernate.projection.ProjectionBean;

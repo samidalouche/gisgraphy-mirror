@@ -28,8 +28,6 @@ import static org.junit.Assert.fail;
 
 import java.util.logging.Level;
 
-import junit.framework.TestCase;
-
 import org.apache.commons.httpclient.MultiThreadedHttpConnectionManager;
 import org.apache.jasper.servlet.JspServlet;
 import org.apache.solr.servlet.SolrDispatchFilter;
