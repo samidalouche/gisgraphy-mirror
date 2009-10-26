@@ -74,7 +74,8 @@ public interface IOpenStreetMapDao extends IDao<OpenStreetMap, java.lang.Long> {
     public OpenStreetMap getByGid(final Long gid) ;
     
     /** 
-     * Update the ts_vector column for the street name search
+     * Update the ts_vector column for the street name search 
+     * (partial search and fulltext search)
      * @return the number of line updated
      * @see StreetSearchMode
      */    

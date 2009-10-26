@@ -23,18 +23,17 @@
 package com.gisgraphy.domain.geoloc.importer;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.hibernate.FlushMode;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import com.gisgraphy.domain.geoloc.entity.OpenStreetMap;
 import com.gisgraphy.domain.geoloc.service.geoloc.street.StreetType;
-import com.gisgraphy.domain.repository.OpenStreetMapDao;
+import com.gisgraphy.domain.repository.IOpenStreetMapDao;
 import com.gisgraphy.domain.valueobject.NameValueDTO;
 import com.gisgraphy.helper.GeolocHelper;
 import com.gisgraphy.helper.StringHelper;
-import com.gisgraphy.service.IInternationalisationService;
 import com.vividsolutions.jts.geom.MultiLineString;
 import com.vividsolutions.jts.geom.Point;
 
@@ -49,7 +48,7 @@ public class OpenStreetMapImporter extends AbstractImporterProcessor {
     
     public static Long GeneratedId = 0L;
     
-    private OpenStreetMapDao openStreetMapDao;
+    private IOpenStreetMapDao openStreetMapDao;
 
     /* (non-Javadoc)
      * @see com.gisgraphy.domain.geoloc.importer.AbstractImporterProcessor#flushAndClear()
@@ -194,14 +193,22 @@ public class OpenStreetMapImporter extends AbstractImporterProcessor {
      * @see com.gisgraphy.domain.geoloc.importer.IGeonamesProcessor#rollback()
      */
     public List<NameValueDTO<Integer>> rollback() {
-	// TODO osm 
-	return null;
+    	List<NameValueDTO<Integer>> deletedObjectInfo = new ArrayList<NameValueDTO<Integer>>();
+    	logger.info("deleting openstreetmap entities...");
+    	int deleted = openStreetMapDao.deleteAll();
+    	if (deleted != 0) {
+    	    deletedObjectInfo
+    		    .add(new NameValueDTO<Integer>(openStreetMapDao.getPersistenceClass().getSimpleName(), deleted));
+    	}
+    	logger.info(deleted + " openstreetmap entities have been deleted");
+    	resetStatusFields();
+    	return deletedObjectInfo;
     }
     
     /**
      * @param openStreetMapDao the openStreetMapDao to set
      */
-    public void setOpenStreetMapDao(OpenStreetMapDao openStreetMapDao) {
+    public void setOpenStreetMapDao(IOpenStreetMapDao openStreetMapDao) {
         this.openStreetMapDao = openStreetMapDao;
     }
     

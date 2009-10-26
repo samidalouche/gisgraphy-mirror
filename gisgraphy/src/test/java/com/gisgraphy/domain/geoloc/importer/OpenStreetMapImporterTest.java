@@ -22,14 +22,18 @@
  *******************************************************************************/
 package com.gisgraphy.domain.geoloc.importer;
 
+import java.util.List;
+
 import junit.framework.Assert;
 
+import org.easymock.classextension.EasyMock;
 import org.junit.Test;
 
 import com.gisgraphy.domain.geoloc.entity.OpenStreetMap;
 import com.gisgraphy.domain.geoloc.service.fulltextsearch.AbstractIntegrationHttpSolrTestCase;
 import com.gisgraphy.domain.geoloc.service.geoloc.street.StreetType;
 import com.gisgraphy.domain.repository.IOpenStreetMapDao;
+import com.gisgraphy.domain.valueobject.NameValueDTO;
 import com.gisgraphy.helper.GeolocHelper;
 import com.gisgraphy.helper.StringHelper;
 import com.vividsolutions.jts.geom.Point;
@@ -42,7 +46,20 @@ public class OpenStreetMapImporterTest extends AbstractIntegrationHttpSolrTestCa
     
     private IOpenStreetMapDao openStreetMapDao;
   
-
+    @Test
+    public void testRollback() throws Exception {
+    	OpenStreetMapImporter openStreetMapImporter = new OpenStreetMapImporter();
+    	IOpenStreetMapDao openStreetMapDao = EasyMock.createMock(IOpenStreetMapDao.class);
+    	EasyMock.expect(openStreetMapDao.getPersistenceClass()).andReturn(OpenStreetMap.class);
+    	EasyMock.expect(openStreetMapDao.deleteAll()).andReturn(5);
+    	EasyMock.replay(openStreetMapDao);
+    	openStreetMapImporter.setOpenStreetMapDao(openStreetMapDao);
+    	List<NameValueDTO<Integer>> deleted = openStreetMapImporter
+    		.rollback();
+    	assertEquals(1, deleted.size());
+    	assertEquals(5, deleted.get(0).getValue().intValue());
+	}
+    
     @Test
     public void testImporterShouldImport(){
 	OpenStreetMapImporter.GeneratedId = 0L;

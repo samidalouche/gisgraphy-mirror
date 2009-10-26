@@ -3429,7 +3429,11 @@ public enum FeatureCode {
     UNK_UNK {
 	public GisFeature getObject() {
 	    return new GisFeature();
-	}
+	}},
+	UNKNOW {
+		public GisFeature getObject() {
+		    return new GisFeature();
+		}
     };
 
     /**
@@ -3463,8 +3467,9 @@ public enum FeatureCode {
 	}
 	String description = DEFAULT_TRANSLATION;
 	try {
-	    description = ResourceBundle.getBundle(
-		    Constants.FEATURECODE_BUNDLE_KEY, locale).getString(
+	    ResourceBundle bundle = ResourceBundle.getBundle(
+		    Constants.FEATURECODE_BUNDLE_KEY, locale);
+		description = bundle.getString(
 		    this.toString());
 	} catch (MissingResourceException mse) {
 	    logger.warn(this.toString() + " is not localized for : " + locale);

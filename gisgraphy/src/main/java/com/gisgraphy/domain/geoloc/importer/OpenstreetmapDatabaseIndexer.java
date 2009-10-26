@@ -135,18 +135,19 @@ public class OpenstreetmapDatabaseIndexer implements IImporterProcessor {
     protected void tearDown() {
     }
 
-    /* (non-Javadoc)
-     * @see com.gisgraphy.domain.geoloc.importer.IImporterProcessor#rollback()
+    /**
+     * implemented to return an empty list. this does nothing special
      */
     public List<NameValueDTO<Integer>> rollback() {
-	return new ArrayList<NameValueDTO<Integer>>();
+    	logger.info("will rollback "+this.getClass().getSimpleName()+", but this operation does nothing");
+    	return new ArrayList<NameValueDTO<Integer>>();
     }
 
     /* (non-Javadoc)
      * @see com.gisgraphy.domain.geoloc.importer.IImporterProcessor#shouldBeSkipped()
      */
     public boolean shouldBeSkipped() {
-	return !importerConfig.isGeonamesImporterEnabled();
+	return !importerConfig.isOpenstreetmapImporterEnabled();
     }
 
     /**

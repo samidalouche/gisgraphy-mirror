@@ -49,7 +49,7 @@ public class FeatureCodeTest extends AbstractIntegrationHttpSolrTestCase {
     @Test
     public void testGetLocalizedDescriptionShouldReturnLocalizedDescription() {
 	assertEquals(ResourceBundle.getBundle(Constants.FEATURECODE_BUNDLE_KEY,
-		Locale.FRENCH).getString("P_PPL"), FeatureCode.P_PPL
+		Locale.FRENCH).getString(FeatureCode.P_PPL.toString()), FeatureCode.P_PPL
 		.getLocalizedDescription(Locale.FRENCH));
 	assertEquals(ResourceBundle.getBundle(Constants.FEATURECODE_BUNDLE_KEY,
 		Locale.US).getString("P_PPL"), FeatureCode.P_PPL
@@ -100,9 +100,15 @@ public class FeatureCodeTest extends AbstractIntegrationHttpSolrTestCase {
 	Locale.setDefault(savedDefault);
 	LocaleContextHolder.setLocale(savedcontext);
 
-	// existing locale but non existing translation
-	assertEquals(FeatureCode.DEFAULT_TRANSLATION, FeatureCode.UNK_UNK
+	// existing locale and existing translation
+	assertEquals(ResourceBundle.getBundle(Constants.FEATURECODE_BUNDLE_KEY,
+			Locale.ENGLISH).getString(FeatureCode.UNK_UNK.toString()), FeatureCode.UNK_UNK
+		.getLocalizedDescription(Locale.ENGLISH));
+	
+	// existing locale and non existing translation
+	assertEquals(FeatureCode.DEFAULT_TRANSLATION, FeatureCode.UNKNOW
 		.getLocalizedDescription(Locale.ENGLISH));//
+
 
     }
 

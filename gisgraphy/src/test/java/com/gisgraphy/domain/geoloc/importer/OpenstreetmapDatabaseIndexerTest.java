@@ -1,14 +1,17 @@
 package com.gisgraphy.domain.geoloc.importer;
 
+import java.util.List;
+
 import junit.framework.Assert;
 
 import org.junit.Test;
 
 import com.gisgraphy.domain.repository.AbstractTransactionalTestCase;
+import com.gisgraphy.domain.valueobject.NameValueDTO;
 
 public class OpenstreetmapDatabaseIndexerTest extends AbstractTransactionalTestCase {
     
-    public OpenstreetmapDatabaseIndexer openstreetmapDatabaseIndexer;
+    public IImporterProcessor openstreetmapDatabaseIndexer;
     
     @Test
     public void testProcess(){
@@ -22,10 +25,10 @@ public class OpenstreetmapDatabaseIndexerTest extends AbstractTransactionalTestC
 	OpenstreetmapDatabaseIndexer openstreetmapDatabaseIndexerTobeSkipped = new OpenstreetmapDatabaseIndexer();
 	openstreetmapDatabaseIndexerTobeSkipped.setImporterConfig(importerConfig);
 	
-	importerConfig.setGeonamesImporterEnabled(false);
+	importerConfig.setOpenstreetmapImporterEnabled(false);
 	Assert.assertTrue(openstreetmapDatabaseIndexerTobeSkipped.shouldBeSkipped());
 	
-	importerConfig.setGeonamesImporterEnabled(true);
+	importerConfig.setOpenstreetmapImporterEnabled(true);
 	Assert.assertFalse(openstreetmapDatabaseIndexerTobeSkipped.shouldBeSkipped());
     }
 
@@ -33,7 +36,12 @@ public class OpenstreetmapDatabaseIndexerTest extends AbstractTransactionalTestC
         this.openstreetmapDatabaseIndexer = openstreetmapDatabaseIndexer;
     }
 
-    
+    @Test
+    public void testRollback() throws Exception {
+    	List<NameValueDTO<Integer>> dtoList = openstreetmapDatabaseIndexer.rollback();
+    	Assert.assertNotNull(dtoList);
+		Assert.assertEquals(0, dtoList.size());
+	}
     
     
     
