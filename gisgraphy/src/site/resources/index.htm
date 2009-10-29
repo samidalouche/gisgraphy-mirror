@@ -32,7 +32,7 @@
 </ul>
 
 <h2>Examples<h2>
-<blockquote>Geocoding / streetname webservices example
+<blockquote>Geocoding / streetname webservices examples
 <ul>
 <li>Find streets with length, gps position, etc that contains 'champs e', in paris in json format : <br/>
 <a href="http://services.gisgraphy.com/street/streetsearch?format=json&lat=48.85340881347656&lng=2.34879994392395&from=1&to=10&name=Champs%20e&mode=contains">http://services.gisgraphy.com/street/streetsearch?format=json&lat=48.85340881347656&lng=2.34879994392395&from=1&to=10&name=Champs%20e&mode=contains</a>
@@ -45,12 +45,12 @@
 <b>Fulltext webservice examples</b>
 <ul>
 <li>Find cities, with population, gps positions, elevation, zipcode...that matchs 'paris france' with the translation in japanese, output in php, indented, with all the administrative division, paginate from 1 to 10 and without spellchecked suggestions : <br/>
-<a href="http://services.gisgraphy.com/fulltext/fulltextsearch?q=paris+france&placetype=city&country=&spellchecking=false&lang=JA&format=PHP&style=FULL&indent=true&from=1&to=10">http://services.gisgraphy.com/fulltext/fulltextsearch?q=paris+france&placetype=city&country=&spellchecking=false&lang=JA&format=PHP&style=FULL&indent=true&from=1&to=10</a></li>
-<li>find cities that have zipcode=75000 in XML, paginate from 1 to 2 : <br/>
-<a href="http://services.gisgraphy.com/fulltext/fulltextsearch?q=75000&placetype=&country=&spellchecking=true&lang=&format=XML&style=FULL&indent=true&from=1&to=2">http://services.gisgraphy.com/fulltext/fulltextsearch?q=75000&placetype=&country=&spellchecking=true&lang=&format=XML&style=FULL&indent=true&from=1&to=2</a>
+<a href="http://services.gisgraphy.com/fulltext/fulltextsearch?q=paris+france&placetype=city&country=&spellchecking=false&lang=JA&format=PHP&style=FULL&indent=true&from=1&to=10">http://services.gisgraphy.com/fulltext/fulltextsearch?q=paris+france&placetype=city&country=&spellchecking=false&amp;lang=JA&format=PHP&style=FULL&indent=true&from=1&to=10</a></li>
+<li>Find cities that have zipcode=75000 in XML, paginate from 1 to 2 : <br/>
+<a href="http://services.gisgraphy.com/fulltext/fulltextsearch?q=75000&placetype=&country=&lang=&format=XML&style=FULL&indent=true&from=1&to=2">http://services.gisgraphy.com/fulltext/fulltextsearch?q=75000&placetype=&country=&amp;lang=&format=XML&style=FULL&indent=true&from=1&to=2</a>
 </li>
 <li>Hotels in new york, output in python :<br/>
-<a href="http://services.gisgraphy.com/fulltext/fulltextsearch?q=hotel+new+york&placetype=&country=&spellchecking=true&lang=&format=PYTHON&style=FULL&indent=true&from=1&to=10">http://services.gisgraphy.com/fulltext/fulltextsearch?q=hotel+new+york&placetype=&country=&spellchecking=true&lang=&format=PYTHON&style=FULL&indent=true&from=1&to=10</a></li>
+<a href="http://services.gisgraphy.com/fulltext/fulltextsearch?q=hotel+new+york&placetype=&country=&spellchecking=true&lang=&format=PYTHON&style=FULL&indent=true&from=1&to=10">http://services.gisgraphy.com/fulltext/fulltextsearch?q=hotel+new+york&placetype=&country=&spellchecking=true&amp;lang=&format=PYTHON&style=FULL&indent=true&from=1&to=10</a></li>
 <li>
 Airport that have ICAO code= LFPG : <br/>
 <a href="http://services.gisgraphy.com/fulltext/search?q=LFPG&placetype=airport&country=&to=10&from=1&style=FULL">http://services.gisgraphy.com/fulltext/search?q=LFPG&placetype=airport&country=&to=10&from=1&style=FULL</a>
@@ -58,14 +58,14 @@ Airport that have ICAO code= LFPG : <br/>
 </ul>
 </blockquote>
 <blockquote>
-<b>Geolocalisation webservice example</b>
+<b>Geolocalisation webservice examples</b>
 <ul>
 <li>All the schools near the gps position lat=43.00034713745117&lng=-75.4999008178711 (washington) in a radius <= 7 kms, in xml :<br/>
 <a href="http://services.gisgraphy.com/geoloc/search?lat=43.00034713745117&lng=-75.4999008178711&radius=7000&placetype=school&from=1&to=10">http://services.gisgraphy.com/geoloc/search?lat=43.00034713745117&lng=-75.4999008178711&radius=7000&placetype=school&from=1&to=10</a></li>
 <li>All the schools near the gps position lat=43.00034713745117&lng=-75.4999008178711 (washington) in a radius <= 7 kms, in xml :<br/>
 <a href="http://services.gisgraphy.com/geoloc/search?lat=43.00034713745117&lng=-75.4999008178711&radius=7000&placetype=school&from=1&to=10">http://services.gisgraphy.com/geoloc/search?lat=43.00034713745117&lng=-75.4999008178711&radius=7000&placetype=school&from=1&to=10</a></li>
 <li>Cities aroun Tokyo in XML : <br/>
-<a href="http://services.gisgraphy.com/geoloc/search?lat=35.689498901367&lng=139.69171142578&radius=&placetype=city&format=XML&indent=true&from=1&to=10">http://services.gisgraphy.com/geoloc/geolocsearch?lat=35.689498901367&lng=139.69171142578&radius=&placetype=city&format=XML&indent=true&from=1&to=10</a></li>
+<a href="http://services.gisgraphy.com/geoloc/search?lat=35.689498901367&lng=139.69171142578&radius=&placetype=city&format=XML&indent=true&from=1&to=10">http://services.gisgraphy.com/geoloc/search?lat=35.689498901367&lng=139.69171142578&radius=&placetype=city&format=XML&indent=true&from=1&to=10</a></li>
 </ul>
 </blockquote>
 
