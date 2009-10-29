@@ -22,12 +22,17 @@
  *******************************************************************************/
 package com.gisgraphy.webapp.action;
 
+import java.util.ResourceBundle;
+
 import org.easymock.classextension.EasyMock;
 import org.junit.Assert;
 import org.junit.Test;
 
 import com.gisgraphy.domain.geoloc.importer.IImporterManager;
 import com.gisgraphy.domain.geoloc.importer.ImporterConfig;
+import com.gisgraphy.domain.valueobject.Constants;
+import com.gisgraphy.helper.PropertiesHelper;
+import com.gisgraphy.service.impl.InternationalisationService;
 import com.opensymphony.xwork2.Action;
 
 public class ImportConfirmActionTest {
@@ -165,4 +170,10 @@ public class ImportConfirmActionTest {
 	Assert.assertTrue("isOpenStreetMapImporterEnabled should return the same value as the importerConfig One ",action.isOpenStreetMapImporterEnabled());
     }
 
+    
+    @Test
+    public void getConfigValuesMap(){
+	ImportConfirmAction action = new ImportConfirmAction();
+	Assert.assertEquals(PropertiesHelper.convertBundleToMap(ResourceBundle.getBundle(Constants.ENVIRONEMENT_BUNDLE_KEY)),action.getConfigValuesMap() );
+    }
 }

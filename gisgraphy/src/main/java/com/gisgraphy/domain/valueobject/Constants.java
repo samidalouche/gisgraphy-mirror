@@ -258,6 +258,12 @@ public class Constants {
     public static final String FEATURECODE_BUNDLE_KEY = "featurecodes";
     
     /**
+     * The name of the ResourceBundle for environement properties that hold 
+     * gisgraphy configuration
+     */
+    public static final String ENVIRONEMENT_BUNDLE_KEY = "env";
+    
+    /**
      * The default title for the RSS/ATOM
      */
     public static final String FEED_TITLE = "Gisgraphy";

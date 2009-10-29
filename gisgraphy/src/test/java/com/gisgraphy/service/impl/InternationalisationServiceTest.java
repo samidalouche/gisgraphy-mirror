@@ -1,6 +1,8 @@
 package com.gisgraphy.service.impl;
 
 import java.util.Locale;
+import java.util.Map;
+import java.util.ResourceBundle;
 
 import junit.framework.Assert;
 
@@ -8,6 +10,8 @@ import org.junit.Test;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 
 import com.gisgraphy.domain.repository.AbstractTransactionalTestCase;
+import com.gisgraphy.domain.valueobject.Constants;
+import com.gisgraphy.webapp.action.ImportConfirmAction;
 
 public class InternationalisationServiceTest extends AbstractTransactionalTestCase {
 
@@ -102,7 +106,8 @@ public class InternationalisationServiceTest extends AbstractTransactionalTestCa
 	    internationalisationService.setResourceBundle(applicationResourcesSource);
 	}
     }
-
+    
+   
     public void setInternationalisationService(InternationalisationService internationalisationService) {
 	this.internationalisationService = internationalisationService;
     }
