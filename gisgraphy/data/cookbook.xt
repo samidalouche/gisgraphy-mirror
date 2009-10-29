@@ -279,7 +279,15 @@ to see host names modify in the server.wml of the tomcat:
 
 
 
+sudo ulimit -n6000
 
+
+
+
+/etc/security/limits/conf
+
+* hard nofile 20000
+* soft nofile 20000
 
   
 
