@@ -181,6 +181,10 @@
 				Geonames country importer does not ignore the fist line anymore
 			</action>
 			
+			<action dev="David Masclet" type="fix">
+				reset import throw a 404 not found
+			</action>
+			
 			
 		</release>
 	</body>
