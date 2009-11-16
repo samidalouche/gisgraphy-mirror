@@ -22,36 +22,26 @@
  *******************************************************************************/
 package com.gisgraphy.domain.repository;
 
-import java.util.List;
 
-import com.gisgraphy.domain.valueobject.ImporterStatusDto;
-
-public interface IImporterStatusListDao {
-
-    /**
-     * @return the file path where data will be saved
-     */
-    String getSavedFilePath();
+/**
+ * Interface that describe usefull function to manage the database 
+ * 
+ * @author <a href="mailto:david.masclet@gisgraphy.com">David Masclet</a>
+ */
+public interface IDatabaseHelper {
 
     /**
-     * @param importerStatusDtoList
-     *                the list to save or update
-     * @return the saved list
-     */
-    List<ImporterStatusDto> saveOrUpdate(
-	    List<ImporterStatusDto> importerStatusDtoList);
-
-    /**
-     * @return the list of {@link ImporterStatusDto}
-     */
-    List<ImporterStatusDto> get();
-
-    /**
-     * Delete the saved list of {@link ImporterStatusDto}
+     * This method will drop all the tables related to Geonames
      * 
-     * @return true if the deletion is successful or nothing was saved (no list
-     *         are still saved)
      */
-    boolean delete();
+    public void DropGeonamesTables();
+    
+    /**
+     * This method will recreate all the tables related to Geonames
+     * 
+     */
+    public void CreateGeonamesTables();
+    
+  
 
 }
