@@ -261,7 +261,7 @@ public class GisFeatureDaoTest extends AbstractIntegrationHttpSolrTestCase {
 	// check 3 adm, country,city, and gisFeature are saved
 	assertEquals(1, countryDao.count());
 	assertEquals(7, gisFeatureDao.count());
-	// 1 city + 1 gis with null FeatureCode + 1 GIS with not null GisFeature
+	// 1 city + 1 gis with null FeatureCode + 1 GIS with not null featureCode
 	assertEquals(3, gisFeatureDao.deleteAllExceptAdmsAndCountries());
 	assertEquals(3, admDao.count());
 	assertEquals(1, countryDao.count());
