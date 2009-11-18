@@ -721,12 +721,12 @@ public class GeonamesFeatureImporter extends AbstractImporterProcessor {
 	    if (gisDao.getPersistenceClass() != GisFeature.class
 		    && gisDao.getPersistenceClass() != Adm.class
 		    && gisDao.getPersistenceClass() != Country.class) {
-		logger.info("deleting "
+		logger.warn("deleting "
 			+ gisDao.getPersistenceClass().getSimpleName() + "...");
 		// we don't want to remove adm because some feature can be
 		// linked again
 		int deletedgis = gisDao.deleteAll();
-		logger.info(deletedgis
+		logger.warn(deletedgis+" "
 			+ gisDao.getPersistenceClass().getSimpleName()
 			+ " have been deleted");
 		if (deletedgis != 0) {
@@ -735,10 +735,10 @@ public class GeonamesFeatureImporter extends AbstractImporterProcessor {
 		}
 	    }
 	}
-	logger.info("deleting gisFeature...");
+	logger.warn("deleting gisFeature...");
 	// we don't want to remove adm because some feature can be linked again
 	int deletedgis = gisFeatureDao.deleteAllExceptAdmsAndCountries();
-	logger.info(deletedgis + " gisFeature have been deleted");
+	logger.warn(deletedgis + " gisFeature have been deleted");
 	if (deletedgis != 0) {
 	    deletedObjectInfo.add(new NameValueDTO<Integer>(GisFeature.class
 		    .getSimpleName(), deletedgis));
