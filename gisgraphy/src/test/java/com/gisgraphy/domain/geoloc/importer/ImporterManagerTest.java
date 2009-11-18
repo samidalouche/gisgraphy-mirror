@@ -173,7 +173,7 @@ public class ImporterManagerTest extends AbstractIntegrationHttpSolrTestCase {
 	IsolrClient mockSolRClient = EasyMock
 	.createMock(IsolrClient.class);
 	mockSolRClient.setSolRLogLevel(Level.WARNING);
-	EasyMock.expectLastCall();
+	EasyMock.expectLastCall().times(2);
 	EasyMock.replay(mockSolRClient);
 	
 	
@@ -198,8 +198,27 @@ public class ImporterManagerTest extends AbstractIntegrationHttpSolrTestCase {
 	EasyMock.expect(processor1.getReadFileLine()).andReturn(1);
 	EasyMock.expect(processor1.getNumberOfLinesToProcess()).andReturn(5);
 	EasyMock.replay(processor1);
+	
+	IImporterProcessor processor2 = EasyMock
+	.createMock(IImporterProcessor.class);
+	processor2.process();
+	EasyMock.expectLastCall();
+	EasyMock.expect(processor2.rollback()).andReturn(
+		new ArrayList<NameValueDTO<Integer>>());
+	EasyMock.expect(processor2.getCurrentFileName()).andReturn(
+		"currentFileName");
+	EasyMock.expect(processor2.getStatus()).andReturn(
+		ImporterStatus.PROCESSED);
+	EasyMock.expect(processor2.getStatusMessage()).andReturn("message");
+	EasyMock.expect(processor2.getTotalReadLine()).andReturn(3);
+	EasyMock.expect(processor2.getReadFileLine()).andReturn(1);
+	EasyMock.expect(processor2.getNumberOfLinesToProcess()).andReturn(5);
+	EasyMock.replay(processor2);
+	
+	
 	List<IImporterProcessor> processors = new ArrayList<IImporterProcessor>();
 	processors.add(processor1);
+	processors.add(processor2);
 	fakeimporterManager.setImporterStatusListDao(fakeimporterStatusListDao);
 	fakeimporterManager.setImporters(processors);
 	fakeimporterManager.setImporterConfig(mockImporterConfig);
@@ -218,6 +237,10 @@ public class ImporterManagerTest extends AbstractIntegrationHttpSolrTestCase {
 	fakeimporterManager.resetImport();
 	assertFalse(fakeimporterManager.isAlreadyDone());
 	assertFalse(fakeimporterManager.isInProgress());
+	
+	assertEquals("The processor list have been inverted but not restored",processor1, processors.get(0));
+	assertEquals("The processor list have been inverted but not restored",processor2, processors.get(1));
+	
     }
 
     @Test

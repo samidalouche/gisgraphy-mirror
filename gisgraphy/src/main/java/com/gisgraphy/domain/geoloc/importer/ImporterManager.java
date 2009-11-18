@@ -214,18 +214,22 @@ public class ImporterManager implements IImporterManager {
      * @see com.gisgraphy.domain.geoloc.importer.IImporterManager#resetImport()
      */
     public List<NameValueDTO<Integer>> resetImport() {
+	solrClient.setSolRLogLevel(Level.WARNING);
 	List<NameValueDTO<Integer>> deletedObjectInfo = new ArrayList<NameValueDTO<Integer>>();
 
-	List<IImporterProcessor> reverseImporters = importers;
-	Collections.reverse(reverseImporters);
-	setCommitFlushModeForAllDaos();
-	for (IImporterProcessor importer : reverseImporters) {
-	    logger.info("will reset " + importer.getClass().getSimpleName());
-	    rollbackInTransaction(deletedObjectInfo, importer);
+	Collections.reverse(importers);
+	try {
+	    setCommitFlushModeForAllDaos();
+	    for (IImporterProcessor importer : importers) {
+	        logger.warn("will reset " + importer.getClass().getSimpleName());
+	        rollbackInTransaction(deletedObjectInfo, importer);
+	    }
+	    resetFullTextSearchEngine();
+	    this.alreadyDone = false;
+	    this.inProgress = false;
+	} finally{
+	    Collections.reverse(importers);
 	}
-	resetFullTextSearchEngine();
-	this.alreadyDone = false;
-	this.inProgress = false;
 	return deletedObjectInfo;
 
     }
