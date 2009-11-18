@@ -3,11 +3,16 @@
  */
 package com.gisgraphy.domain.repository;
 
+import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
 import java.sql.SQLException;
 
 import javax.persistence.PersistenceException;
@@ -21,6 +26,8 @@ import org.springframework.orm.hibernate3.HibernateCallback;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 import org.springframework.stereotype.Component;
 
+import com.gisgraphy.domain.valueobject.Constants;
+
 /**
  * Default implementation of {@link IDatabaseHelper}
  * 
@@ -31,7 +38,10 @@ public class DatabaseHelper extends HibernateDaoSupport implements IDatabaseHelp
 
 	protected static final Logger logger = LoggerFactory.getLogger(DatabaseHelper.class);
 
-	public void execute(final File file) throws IOException, SQLException {
+	/* (non-Javadoc)
+	 * @see com.gisgraphy.domain.repository.IDatabaseHelper#execute(java.io.File, boolean)
+	 */
+	public boolean execute(final File file, final boolean continueOnError) throws Exception {
 		if (file == null) {
 			throw new IllegalArgumentException("Can not execute a null file");
 		}
@@ -40,20 +50,30 @@ public class DatabaseHelper extends HibernateDaoSupport implements IDatabaseHelp
 			throw new IllegalArgumentException("The specified file does not exists and can not be executed : " + file.getAbsolutePath());
 		}
 		// todo set log4j.xml
-		logger.info("Reading from file " + file.getAbsolutePath());
+		logger.info("will execute sql file " + file.getAbsolutePath());
 
-		this.getHibernateTemplate().execute(new HibernateCallback() {
-
+		return (Boolean) this.getHibernateTemplate().execute(new HibernateCallback() {
 			public Object doInHibernate(Session session) throws PersistenceException {
 
 				BufferedReader reader;
+				
+				
+				InputStream inInternal = null;
+				// uses a BufferedInputStream for better performance
 				try {
-					reader = new BufferedReader(new FileReader(file));
+				    inInternal = new BufferedInputStream(new FileInputStream(file));
 				} catch (FileNotFoundException e) {
-					throw new PersistenceException(e);
+				    throw new RuntimeException(e);
+				}
+				try {
+				    reader = new BufferedReader(new InputStreamReader(inInternal,
+					    Constants.CHARSET));
+				} catch (UnsupportedEncodingException e) {
+				    throw new RuntimeException(e);
 				}
 				String line;
 				int count = 0;
+				boolean errorDuringProcess = false;
 				try {
 					while ((line = reader.readLine()) != null) {
 						line = line.trim();
@@ -62,15 +82,22 @@ public class DatabaseHelper extends HibernateDaoSupport implements IDatabaseHelp
 						{
 							continue;
 						} 
-							Query createIndexQuery = session.createSQLQuery(line);
-							int nbupdate = createIndexQuery.executeUpdate();
-							logger.info("execution of line modify "+nbupdate+" lines");
-							count++;
+						Query createIndexQuery = session.createSQLQuery(line);
+						try {
+						    int nbupdate = createIndexQuery.executeUpdate();
+						    logger.info("execution of line : "+line+" modify "+nbupdate+" lines");
+						} catch (Exception e) {
+						    	errorDuringProcess = true;
+							logger.error("Error on line "+count+" ("+line +") :" +e);
+							if (!continueOnError){
+							    throw new PersistenceException(e);
+							}
+						} 
 					}
-				} catch (Exception e) {
+				} catch (IOException e) {
 					logger.error("error on line "+count+" : "+e);
 				} 
-				return null;
+				return !errorDuringProcess;
 			}
 		});
 	}

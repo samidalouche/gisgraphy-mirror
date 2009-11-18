@@ -22,6 +22,10 @@
  *******************************************************************************/
 package com.gisgraphy.domain.repository;
 
+import java.io.File;
+import java.io.IOException;
+import java.sql.SQLException;
+
 
 /**
  * Interface that describe usefull function to manage the database 
@@ -30,6 +34,14 @@ package com.gisgraphy.domain.repository;
  */
 public interface IDatabaseHelper {
 
+    /**
+     * @param file the file to execute, it will be read as an utf-8 file
+     * @param continueOnError if an error occured, the process will go on if this value is true, if not it will throw an exception
+     * @throws Exception in case of error during execution, or if the file is null or does not exist
+     * @return true if no error or false if an error occured and continueOnError is true)
+     */
+    public boolean execute(final File file, boolean continueOnError) throws Exception;
+    
     /**
      * This method will drop all the tables related to Geonames
      * 
