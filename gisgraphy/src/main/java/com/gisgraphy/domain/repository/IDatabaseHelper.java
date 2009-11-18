@@ -23,8 +23,6 @@
 package com.gisgraphy.domain.repository;
 
 import java.io.File;
-import java.io.IOException;
-import java.sql.SQLException;
 
 
 /**
