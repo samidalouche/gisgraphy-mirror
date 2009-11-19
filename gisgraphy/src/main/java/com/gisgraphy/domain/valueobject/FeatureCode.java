@@ -3469,6 +3469,10 @@ public enum FeatureCode {
 	try {
 	    ResourceBundle bundle = ResourceBundle.getBundle(
 		    Constants.FEATURECODE_BUNDLE_KEY, locale);
+	    if (bundle.getLocale().getLanguage()!= locale.getLanguage()){
+	    	 bundle = ResourceBundle.getBundle(
+	    		    Constants.FEATURECODE_BUNDLE_KEY, LocaleContextHolder.getLocale());
+	    }
 		description = bundle.getString(
 		    this.toString());
 	} catch (MissingResourceException mse) {

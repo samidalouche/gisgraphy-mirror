@@ -87,7 +87,6 @@ public class InternationalisationService implements IInternationalisationService
      * @see com.gisgraphy.service.IInternationalisationService#setLocale(java.util.Locale)
      */
     public void setLocale(Locale locale) {
-//	LocaleContextHolder.getLocale();
         this.locale = locale;
     }
 

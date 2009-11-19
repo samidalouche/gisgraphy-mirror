@@ -42,100 +42,95 @@ import com.gisgraphy.helper.GeolocHelper;
 
 public class FeatureCodeTest extends AbstractIntegrationHttpSolrTestCase {
 
-    @Resource
-    IGisFeatureDao gisFeatureDao;
+	@Resource
+	IGisFeatureDao gisFeatureDao;
 
-    @Test
-    public void testGetLocalizedDescriptionShouldReturnLocalizedDescription() {
-	assertEquals(ResourceBundle.getBundle(Constants.FEATURECODE_BUNDLE_KEY,
-		Locale.FRENCH).getString(FeatureCode.P_PPL.toString()), FeatureCode.P_PPL
-		.getLocalizedDescription(Locale.FRENCH));
-	assertEquals(ResourceBundle.getBundle(Constants.FEATURECODE_BUNDLE_KEY,
-		Locale.US).getString("P_PPL"), FeatureCode.P_PPL
-		.getLocalizedDescription(Locale.US));
+	private static Locale localeaa = new Locale("aa");
+	private static Locale localeaacc = new Locale("aa", "dd");
+	private static Locale localebb = new Locale("bb");
+	private static Locale localebbdd = new Locale("bb", "dd");
+	private static Locale localeWithOutBundle = new Locale("ee", "ff");
 
-	// null
-	Locale savedcontext = LocaleContextHolder.getLocale();
-	LocaleContextHolder.setLocale(Locale.FRENCH);// force an existing
-	// translation bundle
-	assertEquals("if the locale is null, the thread one should be used",
-		FeatureCode.P_PPL.getLocalizedDescription(LocaleContextHolder
-			.getLocale()), FeatureCode.P_PPL
-			.getLocalizedDescription(null));
-	LocaleContextHolder.setLocale(savedcontext);
+	@Test
+	public void testGetLocalizedDescriptionShouldReturnLocalizedDescription() {
 
-	// no bundle for the specified Locale
-	LocaleContextHolder.setLocale(Locale.FRENCH);// force an existing
-	// translation bundle
-	assertEquals(
-		"If no bundle for the specified locale exists the thread one should be used",
-		FeatureCode.P_PPL.getLocalizedDescription(LocaleContextHolder
-			.getLocale()), FeatureCode.P_PPL
-			.getLocalizedDescription(Locale.CHINESE));
-	LocaleContextHolder.setLocale(savedcontext);
+		assertEquals("The bundle should ignore the country if a bundle with only the language exists", ResourceBundle.getBundle(Constants.FEATURECODE_BUNDLE_KEY, localeaa).getString(FeatureCode.P_PPL.toString()), FeatureCode.P_PPL.getLocalizedDescription(localeaacc));
 
-	// no bundle exists for the thread locale
+		assertEquals("The bundle should take the country and language if a bundle with both exists", ResourceBundle.getBundle(Constants.FEATURECODE_BUNDLE_KEY, localebbdd).getString(FeatureCode.P_PPL.toString()), FeatureCode.P_PPL.getLocalizedDescription(localebbdd));
 
-	LocaleContextHolder.setLocale(Locale.CHINESE);
-	assertEquals(
-		"If no bundle for the specified locale exists and the default thread one does not exists, the default locale should be used : "
-			+ Locale.getDefault(), FeatureCode.P_PPL
-			.getLocalizedDescription(Locale.getDefault()),
-		FeatureCode.P_PPL.getLocalizedDescription(null));
-	// restore
-	LocaleContextHolder.setLocale(savedcontext);
+		assertEquals("The bundle should be able to only take the language into account", ResourceBundle.getBundle(Constants.FEATURECODE_BUNDLE_KEY, localeaa).getString("P_PPL"), FeatureCode.P_PPL.getLocalizedDescription(localeaa));
 
-	// no bundle exists for the thread locale and default one,
-	Locale savedDefault = Locale.getDefault();
-	LocaleContextHolder.setLocale(Locale.CHINESE);
-	Locale.setDefault(Locale.CHINESE);
-	assertEquals(
-		"If no bundle for the specified locale exists and no bundle for the default thread one exists and no bundle for the default one exists, the DEFAULT_FALLBACK_LOCALE should be used : "
-			+ FeatureCode.DEFAULT_FALLBACK_LOCALE,
-		FeatureCode.P_PPL
-			.getLocalizedDescription(FeatureCode.DEFAULT_FALLBACK_LOCALE),
-		FeatureCode.P_PPL.getLocalizedDescription(null));
-	// restore
-	Locale.setDefault(savedDefault);
-	LocaleContextHolder.setLocale(savedcontext);
+		// null
+		Locale savedcontext = LocaleContextHolder.getLocale();
+		LocaleContextHolder.setLocale(localeaa);// force an existing
+		// translation bundle
+		assertEquals("if the locale is null, the LocaleContextHolder one should be used",
+				FeatureCode.P_PPL.getLocalizedDescription(LocaleContextHolder.getLocale()),
+				FeatureCode.P_PPL.getLocalizedDescription(null));
+		LocaleContextHolder.setLocale(savedcontext);
 
-	// existing locale and existing translation
-	assertEquals(ResourceBundle.getBundle(Constants.FEATURECODE_BUNDLE_KEY,
-			Locale.ENGLISH).getString(FeatureCode.UNK_UNK.toString()), FeatureCode.UNK_UNK
-		.getLocalizedDescription(Locale.ENGLISH));
-	
-	// existing locale and non existing translation
-	assertEquals(FeatureCode.DEFAULT_TRANSLATION, FeatureCode.UNKNOW
-		.getLocalizedDescription(Locale.ENGLISH));//
+		// no bundle for the specified Locale
+		LocaleContextHolder.setLocale(localeaa);// force an existing
+		// translation bundle
+		assertEquals("If no bundle for the specified locale exists the thread one should be used",
+				FeatureCode.P_PPL.getLocalizedDescription(LocaleContextHolder.getLocale()),
+				FeatureCode.P_PPL.getLocalizedDescription(localeWithOutBundle));
+		LocaleContextHolder.setLocale(savedcontext);
 
+		// no bundle exists for the thread locale
 
-    }
+		LocaleContextHolder.setLocale(localeWithOutBundle);
+		assertEquals("If no bundle for the specified locale exists and the default"
+				+" thread one does not exists, the locale.getDefault should be used : " + Locale.getDefault(),
+				FeatureCode.P_PPL.getLocalizedDescription(Locale.getDefault()),
+				FeatureCode.P_PPL.getLocalizedDescription(localeWithOutBundle));
+		// restore
+		LocaleContextHolder.setLocale(savedcontext);
 
-    @Test
-    public void testAllPlaceTypeShouldbeMappedWithHibernate() {
-	Long count = 1L;
-	for (FeatureCode featureCode : FeatureCode.values()) {
-	    Object feature = featureCode.getObject();
-	    if (feature instanceof Country) {
-		Country typedFeature = (Country) feature;
-		typedFeature.setIso3166Alpha2Code(RandomStringUtils.random(2));
-		typedFeature.setIso3166Alpha3Code(RandomStringUtils.random(3));
-		typedFeature.setIso3166NumericCode(count.intValue());
-		typedFeature.setFeatureId(count++);
-		typedFeature.setLocation(GeolocHelper.createPoint(1.5F, 3.2F));
-		typedFeature.setName("name" + count);
-		typedFeature.setSource(GISSource.PERSONAL);
-		gisFeatureDao.save(typedFeature);
-	    } else {
-		GisFeature typedFeature = (GisFeature) feature;
-		typedFeature.setFeatureId(count++);
-		typedFeature.setLocation(GeolocHelper.createPoint(1.5F, 3.2F));
-		typedFeature.setName("name" + count);
-		typedFeature.setSource(GISSource.PERSONAL);
-		gisFeatureDao.save(typedFeature);
-	    }
+		// no bundle exists for the thread locale and default one,
+		Locale savedDefault = Locale.getDefault();
+		LocaleContextHolder.setLocale(localeWithOutBundle);
+		Locale.setDefault(localeWithOutBundle);
+		assertEquals("If no bundle for the specified locale exists and no bundle for the default "
+				+"thread one exists and no bundle for the default one exists,"
+				+" the DEFAULT_FALLBACK_LOCALE should be used : " + FeatureCode.DEFAULT_FALLBACK_LOCALE,
+				FeatureCode.P_PPL.getLocalizedDescription(localeWithOutBundle), FeatureCode.P_PPL.getLocalizedDescription(null));
+		// restore
+		Locale.setDefault(savedDefault);
+		LocaleContextHolder.setLocale(savedcontext);
+
+		// existing locale and non existing translation
+		assertEquals("if no translation for the locale is found,"
+				+" default translation should be used : " + FeatureCode.DEFAULT_TRANSLATION,
+				FeatureCode.DEFAULT_TRANSLATION, FeatureCode.UNKNOW.getLocalizedDescription(localeaa));//
 
 	}
-    }
+
+	@Test
+	public void testAllPlaceTypeShouldbeMappedWithHibernate() {
+		Long count = 1L;
+		for (FeatureCode featureCode : FeatureCode.values()) {
+			Object feature = featureCode.getObject();
+			if (feature instanceof Country) {
+				Country typedFeature = (Country) feature;
+				typedFeature.setIso3166Alpha2Code(RandomStringUtils.random(2));
+				typedFeature.setIso3166Alpha3Code(RandomStringUtils.random(3));
+				typedFeature.setIso3166NumericCode(count.intValue());
+				typedFeature.setFeatureId(count++);
+				typedFeature.setLocation(GeolocHelper.createPoint(1.5F, 3.2F));
+				typedFeature.setName("name" + count);
+				typedFeature.setSource(GISSource.PERSONAL);
+				gisFeatureDao.save(typedFeature);
+			} else {
+				GisFeature typedFeature = (GisFeature) feature;
+				typedFeature.setFeatureId(count++);
+				typedFeature.setLocation(GeolocHelper.createPoint(1.5F, 3.2F));
+				typedFeature.setName("name" + count);
+				typedFeature.setSource(GISSource.PERSONAL);
+				gisFeatureDao.save(typedFeature);
+			}
+
+		}
+	}
 
 }
