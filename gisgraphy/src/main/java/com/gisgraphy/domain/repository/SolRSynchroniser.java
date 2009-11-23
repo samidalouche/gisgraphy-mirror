@@ -49,8 +49,10 @@ import com.gisgraphy.domain.geoloc.entity.event.PlaceTypeDeleteAllEvent;
 import com.gisgraphy.domain.geoloc.service.fulltextsearch.FullTextFields;
 import com.gisgraphy.domain.geoloc.service.fulltextsearch.IsolrClient;
 import com.gisgraphy.domain.geoloc.service.fulltextsearch.SolrClient;
+import com.gisgraphy.domain.geoloc.service.geoloc.GisgraphyCommunicationException;
 import com.gisgraphy.helper.ClassNameHelper;
 import com.gisgraphy.helper.EncodingHelper;
+import com.gisgraphy.helper.RetryOnErrorTemplate;
 import com.gisgraphy.helper.URLUtils;
 
 /**
@@ -60,6 +62,8 @@ import com.gisgraphy.helper.URLUtils;
  * @author <a href="mailto:david.masclet@gisgraphy.com">David Masclet</a>
  */
 public class SolRSynchroniser implements ISolRSynchroniser {
+    
+    private static int numberOfRetryOnFailure = 3;
 
     /**
      * Needed by cglib
@@ -84,16 +88,23 @@ public class SolRSynchroniser implements ISolRSynchroniser {
     /**
      * @param gisFeatureEvent
      */
-    private void handleEvent(GisFeatureDeletedEvent gisFeatureEvent) {
+    private void handleEvent(final GisFeatureDeletedEvent gisFeatureEvent) {
 	try {
-	    solClient.getServer().deleteById(
-		    gisFeatureEvent.getGisFeature().getFeatureId().toString());
-	    solClient.getServer().commit(true, true);
-	} catch (SolrServerException e) {
-	    throw new RuntimeException(e);
-	} catch (IOException e) {
-	    throw new RuntimeException(e);
-	}
+	    RetryOnErrorTemplate<Object> retryOnError = new RetryOnErrorTemplate<Object>() {
+		    @Override
+		    public String tryThat() throws Exception {
+			solClient.getServer().deleteById(
+				    gisFeatureEvent.getGisFeature().getFeatureId().toString());
+			    solClient.getServer().commit(true, true);
+			    return null;
+		    }
+		};
+		retryOnError.times(numberOfRetryOnFailure);
+	    
+	    
+	} catch (Exception e) {
+	    throw new GisgraphyCommunicationException("Can not synchronise SolR : can not delete feature with id="+gisFeatureEvent.getGisFeature().getFeatureId(),e.getCause());
+	} 
     }
 
     /*
@@ -103,14 +114,21 @@ public class SolRSynchroniser implements ISolRSynchroniser {
      */
     public void deleteAll() {
 	try {
-	    logger.info("The entire index will be reset");
-	    this.solClient.getServer().deleteByQuery("*:*");
-	    this.solClient.getServer().commit();
-	    this.solClient.getServer().optimize();
-	} catch (SolrServerException e) {
-	    throw new RuntimeException(e);
-	} catch (IOException e) {
-	    throw new RuntimeException(e);
+	    RetryOnErrorTemplate<Object> retryOnError = new RetryOnErrorTemplate<Object>() {
+		    @Override
+		    public String tryThat() throws Exception {
+			 logger.info("The entire index will be reset");
+			    solClient.getServer().deleteByQuery("*:*");
+			    solClient.getServer().commit();
+			    solClient.getServer().optimize();
+			    return null;
+		    }
+		};
+		retryOnError.times(numberOfRetryOnFailure);
+	    
+	    
+	} catch (Exception e) {
+	    throw new GisgraphyCommunicationException("Can not synchronise SolR : can not delete all features",e.getCause());
 	}
     }
 
@@ -123,34 +141,48 @@ public class SolRSynchroniser implements ISolRSynchroniser {
 	deleteAllByPlaceType(placeTypeDeleteAllEvent.getPlaceType());
     }
 
-    public void deleteAllByPlaceType(Class<? extends GisFeature> placetype) {
+    public void deleteAllByPlaceType(final Class<? extends GisFeature> placetype) {
 	try {
-	    logger.info("GisFeature of type"
-		    + placetype.getClass().getSimpleName() + " will be reset");
-	    this.solClient.getServer().deleteByQuery(
-		    FullTextFields.PLACETYPE.getValue() + ":"
-			    + placetype.getSimpleName());
-	    this.solClient.getServer().commit();
-	    this.solClient.getServer().optimize();
-	} catch (SolrServerException e) {
-	    throw new RuntimeException(e);
-	} catch (IOException e) {
-	    throw new RuntimeException(e);
+	    RetryOnErrorTemplate<Object> retryOnError = new RetryOnErrorTemplate<Object>() {
+		    @Override
+		    public String tryThat() throws Exception {
+			  logger.info("GisFeature of type"
+				    + placetype.getClass().getSimpleName() + " will be reset");
+			    solClient.getServer().deleteByQuery(
+				    FullTextFields.PLACETYPE.getValue() + ":"
+					    + placetype.getSimpleName());
+			    solClient.getServer().commit();
+			    solClient.getServer().optimize();
+			    return null;
+		    }
+		};
+		retryOnError.times(numberOfRetryOnFailure);
+	    
+	    
+	} catch (Exception e) {
+	    throw new GisgraphyCommunicationException("Can not synchronise SolR : can not delete all "+placetype.getClass().getSimpleName(),e.getCause());
 	}
     }
 
-    private void handleEvent(GisFeatureDeleteAllEvent gisFeatureDeleteAllEvent) {
+    private void handleEvent(final GisFeatureDeleteAllEvent gisFeatureDeleteAllEvent) {
 	try {
-	    for (GisFeature gisFeature : gisFeatureDeleteAllEvent
-		    .getGisFeatures()) {
-		solClient.getServer().deleteById(
-			gisFeature.getFeatureId().toString());
-	    }
-	    solClient.getServer().commit(true, true);
-	} catch (SolrServerException e) {
-	    throw new RuntimeException(e);
-	} catch (IOException e) {
-	    throw new RuntimeException(e);
+	    RetryOnErrorTemplate<Object> retryOnError = new RetryOnErrorTemplate<Object>() {
+		    @Override
+		    public String tryThat() throws Exception {
+			 for (GisFeature gisFeature : gisFeatureDeleteAllEvent
+				    .getGisFeatures()) {
+				solClient.getServer().deleteById(
+					gisFeature.getFeatureId().toString());
+			    }
+			    solClient.getServer().commit(true, true);
+			    return null;
+		    }
+		};
+		retryOnError.times(numberOfRetryOnFailure);
+	    
+	    
+	} catch (Exception e) {
+	    throw new GisgraphyCommunicationException("Can not synchronise SolR : can not delete the specified features ",e.getCause());
 	}
     }
 
@@ -179,13 +211,22 @@ public class SolRSynchroniser implements ISolRSynchroniser {
      * 
      * @see com.gisgraphy.domain.repository.ISolRSynchroniser#commit()
      */
-    public void commit() {
+    public boolean commit() {
+	//todo test
 	try {
-	    this.solClient.getServer().commit(true, true);
-	} catch (SolrServerException e) {
-	    throw new RuntimeException(e);
-	} catch (IOException e) {
-	    throw new RuntimeException(e);
+	    RetryOnErrorTemplate<Boolean> retryOnError = new RetryOnErrorTemplate<Boolean>() {
+		    @Override
+		    public Boolean tryThat() throws Exception {
+			solClient.getServer().commit(true, true);
+			return true;
+		    }
+		};
+		return retryOnError.times(numberOfRetryOnFailure);
+	    
+	    
+	} catch (Exception e) {
+	    logger.error("Can not synchronise SolR : can not commit ",e.getCause());
+	    return false;
 	}
     }
 
@@ -196,194 +237,205 @@ public class SolRSynchroniser implements ISolRSynchroniser {
      */
     public void optimize() {
 	try {
-	    this.solClient.getServer().optimize();
-	} catch (SolrServerException e) {
-	    throw new RuntimeException(e);
-	} catch (IOException e) {
-	    throw new RuntimeException(e);
+	    RetryOnErrorTemplate<Boolean> retryOnError = new RetryOnErrorTemplate<Boolean>() {
+		    @Override
+		    public Boolean tryThat() throws Exception {
+			solClient.getServer().optimize();
+			return true;
+		    }
+		};
+		retryOnError.times(numberOfRetryOnFailure);
+	    
+	    
+	} catch (Exception e) {
+	  throw new GisgraphyCommunicationException("Can not synchronise SolR : can not commit ",e.getCause());
 	}
     }
 
-    private void handleEvent(GisFeatureStoredEvent gisfeatureCreatedEventEvent) {
-
-	SolrInputDocument ex = new SolrInputDocument();
-	GisFeature gisFeature = gisfeatureCreatedEventEvent.getGisFeature();
-
-	if (gisFeature == null) {
-	    logger.info("Can not synchronize a null gisFeature");
-	    return;
-	}
-	if (gisFeature.getFeatureId() == null || gisFeature.getFeatureId() <= 0) {
-	    logger
-		    .info("Can not synchronize GisFeature with wrong featureId : "
-			    + gisFeature.getFeatureId());
-	    return;
-	}
-
-	if (gisFeature.getLatitude() == 0 && gisFeature.getLongitude() == 0) {
-	    logger.info("Can not synchronize GisFeature "
-		    + gisFeature.getFeatureId() + " with wrong Location "
-		    + gisFeature.getName() + ": [" + gisFeature.getLongitude()
-		    + "," + gisFeature.getLatitude() + "]");
-	    return;
-	}
-
-	if (!gisFeature.isFullTextSearchable()) {
-	    logger.debug(gisFeature.getClass().getSimpleName()
-		    + " is not FullTextSearchable");
-	    return;
-	}
-
-	ex.setField(FullTextFields.FEATUREID.getValue(), gisFeature
-		.getFeatureId());
-	ex.setField(FullTextFields.FEATURECLASS.getValue(), gisFeature
-		.getFeatureClass());
-	ex.setField(FullTextFields.FEATURECODE.getValue(), gisFeature
-		.getFeatureCode());
-	ex.setField(FullTextFields.NAME.getValue(), EncodingHelper
-		.toUTF8(gisFeature.getName()));
-	ex.setField(FullTextFields.NAMEASCII.getValue(), gisFeature
-		.getAsciiName());
-
-	ex.setField(FullTextFields.ELEVATION.getValue(), gisFeature
-		.getElevation());
-	ex.setField(FullTextFields.GTOPO30.getValue(), gisFeature.getGtopo30());
-	ex.setField(FullTextFields.TIMEZONE.getValue(), gisFeature
-		.getTimezone());
-	String placetype = ClassNameHelper.stripEnhancerClass(gisFeature
-		.getClass().getSimpleName());
-	ex.setField(FullTextFields.PLACETYPE.getValue(), placetype);
-	ex.setField(FullTextFields.PLACETYPECLASS.getValue(), placetype
-		+ FullTextFields.PLACETYPECLASS_SUFFIX.getValue());
-	ex.setField(FullTextFields.POPULATION.getValue(), gisFeature
-		.getPopulation());
-	ex.setField(FullTextFields.FULLY_QUALIFIED_NAME.getValue(),
-		EncodingHelper.toUTF8(gisFeature.getFullyQualifiedName(false)));
-	ex.setField(FullTextFields.LAT.getValue(), gisFeature.getLatitude());
-	ex.setField(FullTextFields.LONG.getValue(), gisFeature.getLongitude());
-	ex.setField(FullTextFields.COUNTRY_FLAG_URL.getValue(), URLUtils
-		.createCountryFlagUrl(gisFeature.getCountryCode()));
-	ex.setField(FullTextFields.GOOGLE_MAP_URL.getValue(), URLUtils
-		.createGoogleMapUrl(gisFeature.getLocation(), gisFeature
-			.getName()));
-	ex.setField(FullTextFields.YAHOO_MAP_URL.getValue(), URLUtils
-		.createYahooMapUrl(gisFeature.getLocation()));
-	// setAdmCode from adm not from the gisfeature one because of
-	// syncAdmCodesWithLinkedAdmOnes if it is false , the value may not be
-	// the same
-	Adm adm = null;
-
-	if (gisFeature instanceof Adm) {
-	    adm = (Adm) gisFeature;
-	    ex.setField(FullTextFields.LEVEL.getValue(), adm.getLevel());
-	    
-	} else {
-	    adm = gisFeature.getAdm();
-	}
-	// we set admCode once for all
-	if (adm != null) {
-	    ex.setField(FullTextFields.ADM1CODE.getValue(), adm.getAdm1Code());
-	    ex.setField(FullTextFields.ADM2CODE.getValue(), adm.getAdm2Code());
-	    ex.setField(FullTextFields.ADM3CODE.getValue(), adm.getAdm3Code());
-	    ex.setField(FullTextFields.ADM4CODE.getValue(), adm.getAdm4Code());
-	}
-	while (adm != null) {
-	    int level = adm.getLevel();
-	    String admLevelName = FullTextFields
-		    .valueOf("ADM" + level + "NAME").getValue();
-	    ex.setField(admLevelName, EncodingHelper.toUTF8(adm.getName()));
-	    if (level == 1 || level == 2) {
-		populateAlternateNames(admLevelName, adm.getAlternateNames(),
-			ex);
-	    }
-	    adm = adm.getParent();
-	}
-
-	if (gisFeature instanceof ZipCodeAware) {
-	    try {
-		ZipCodeAware city = (ZipCodeAware) gisFeature;
-		if (city.getZipCode() != null) {
-		    ex.setField(FullTextFields.ZIPCODE.getValue(), city
-			    .getZipCode());
-		}
-	    } catch (ClassCastException cce) {
-		logger
-			.warn(gisFeature
-				+ " is of a zipcodeAware features but but we can not cast it to ZipCodeAware");
-	    }
-	}
-
-	// No prefix for cities
-
-	List<AlternateName> alternatenames = gisFeature.getAlternateNames();
-	populateAlternateNames(FullTextFields.NAME.getValue(), alternatenames,
-		ex);
-
-	// we don't want this fields
-	// populateAlternateNames("adm3_", adm2.getAlternateNames(), ex);
-	// populateAlternateNames("adm4_", adm1.getAlternateNames(), ex);
-	if (gisFeature instanceof Country) {
-	    Country country = (Country) gisFeature;
-	    ex.setField(FullTextFields.CONTINENT.getValue(), country
-		    .getContinent());
-	    ex.setField(FullTextFields.CURRENCY_CODE.getValue(), country
-		    .getCurrencyCode());
-	    ex.setField(FullTextFields.CURRENCY_NAME.getValue(), country
-		    .getCurrencyName());
-	    ex.setField(FullTextFields.FIPS_CODE.getValue(), country
-		    .getFipsCode());
-	    ex.setField(FullTextFields.ISOALPHA2_COUNTRY_CODE.getValue(),
-		    country.getIso3166Alpha2Code());
-	    ex.setField(FullTextFields.ISOALPHA3_COUNTRY_CODE.getValue(),
-		    country.getIso3166Alpha3Code());
-	    ex.setField(FullTextFields.COUNTRYCODE.getValue(), country.getCountryCode()
-			.toUpperCase());
-	    ex.setField(FullTextFields.POSTAL_CODE_MASK.getValue(), country
-		    .getPostalCodeMask());
-	    ex.setField(FullTextFields.POSTAL_CODE_REGEX.getValue(), country
-		    .getPostalCodeRegex());
-	    ex.setField(FullTextFields.PHONE_PREFIX.getValue(), country
-		    .getPhonePrefix());
-	    for (Language language : country.getSpokenLanguages()) {
-		ex.setField(FullTextFields.SPOKEN_LANGUAGES.getValue(),
-			language.getIso639LanguageName());
-	    }
-	    ex.setField(FullTextFields.TLD.getValue(), country.getTld());
-	    ex.setField(FullTextFields.CAPITAL_NAME.getValue(), country
-		    .getCapitalName());
-	    ex.setField(FullTextFields.AREA.getValue(), country.getArea());
-	    populateAlternateNames(FullTextFields.COUNTRYNAME
-		    .getValue(), country.getAlternateNames(), ex);
-	    ex.setField(FullTextFields.COUNTRYNAME.getValue(),
-		    EncodingHelper.toUTF8(country.getName()));
-	} else {
-
-	    String countryCode = gisFeature.getCountryCode();
-	    if (countryCode != null) {
-		ex.setField(FullTextFields.COUNTRYCODE.getValue(), countryCode
-			.toUpperCase());
-		Country country = gisFeature.getCountry();
-		if (country != null) {
-		    populateAlternateNames(FullTextFields.COUNTRYNAME
-			    .getValue(), country.getAlternateNames(), ex);
-		    ex.setField(FullTextFields.COUNTRYNAME.getValue(),
-			    EncodingHelper.toUTF8(country.getName()));
-		} else {
-		    logger.error("Can not find country with code "
-			    + gisFeature.getCountryCode() + " for "
-			    + gisFeature);
-		}
-	    }
-	}
-
+    private void handleEvent(final GisFeatureStoredEvent gisfeatureCreatedEventEvent) {
 	try {
-	    this.solClient.getServer().add(ex);
-	} catch (SolrServerException e) {
-	    throw new RuntimeException(e);
-	} catch (IOException e) {
-	    throw new RuntimeException(e);
-	}
+	    RetryOnErrorTemplate<Boolean> retryOnError = new RetryOnErrorTemplate<Boolean>() {
+		    @Override
+		    public Boolean tryThat() throws Exception {
+			SolrInputDocument ex = new SolrInputDocument();
+			GisFeature gisFeature = gisfeatureCreatedEventEvent.getGisFeature();
 
+			if (gisFeature == null) {
+			    logger.info("Can not synchronize a null gisFeature");
+			    return false;
+			}
+			if (gisFeature.getFeatureId() == null || gisFeature.getFeatureId() <= 0) {
+			    logger
+				    .info("Can not synchronize GisFeature with wrong featureId : "
+					    + gisFeature.getFeatureId());
+			    return false;
+			}
+
+			if (gisFeature.getLatitude() == 0 && gisFeature.getLongitude() == 0) {
+			    logger.info("Can not synchronize GisFeature "
+				    + gisFeature.getFeatureId() + " with wrong Location "
+				    + gisFeature.getName() + ": [" + gisFeature.getLongitude()
+				    + "," + gisFeature.getLatitude() + "]");
+			    return false;
+			}
+
+			if (!gisFeature.isFullTextSearchable()) {
+			    logger.debug(gisFeature.getClass().getSimpleName()
+				    + " is not FullTextSearchable");
+			    return false;
+			}
+
+			ex.setField(FullTextFields.FEATUREID.getValue(), gisFeature
+				.getFeatureId());
+			ex.setField(FullTextFields.FEATURECLASS.getValue(), gisFeature
+				.getFeatureClass());
+			ex.setField(FullTextFields.FEATURECODE.getValue(), gisFeature
+				.getFeatureCode());
+			ex.setField(FullTextFields.NAME.getValue(), EncodingHelper
+				.toUTF8(gisFeature.getName()));
+			ex.setField(FullTextFields.NAMEASCII.getValue(), gisFeature
+				.getAsciiName());
+
+			ex.setField(FullTextFields.ELEVATION.getValue(), gisFeature
+				.getElevation());
+			ex.setField(FullTextFields.GTOPO30.getValue(), gisFeature.getGtopo30());
+			ex.setField(FullTextFields.TIMEZONE.getValue(), gisFeature
+				.getTimezone());
+			String placetype = ClassNameHelper.stripEnhancerClass(gisFeature
+				.getClass().getSimpleName());
+			ex.setField(FullTextFields.PLACETYPE.getValue(), placetype);
+			ex.setField(FullTextFields.PLACETYPECLASS.getValue(), placetype
+				+ FullTextFields.PLACETYPECLASS_SUFFIX.getValue());
+			ex.setField(FullTextFields.POPULATION.getValue(), gisFeature
+				.getPopulation());
+			ex.setField(FullTextFields.FULLY_QUALIFIED_NAME.getValue(),
+				EncodingHelper.toUTF8(gisFeature.getFullyQualifiedName(false)));
+			ex.setField(FullTextFields.LAT.getValue(), gisFeature.getLatitude());
+			ex.setField(FullTextFields.LONG.getValue(), gisFeature.getLongitude());
+			ex.setField(FullTextFields.COUNTRY_FLAG_URL.getValue(), URLUtils
+				.createCountryFlagUrl(gisFeature.getCountryCode()));
+			ex.setField(FullTextFields.GOOGLE_MAP_URL.getValue(), URLUtils
+				.createGoogleMapUrl(gisFeature.getLocation(), gisFeature
+					.getName()));
+			ex.setField(FullTextFields.YAHOO_MAP_URL.getValue(), URLUtils
+				.createYahooMapUrl(gisFeature.getLocation()));
+			// setAdmCode from adm not from the gisfeature one because of
+			// syncAdmCodesWithLinkedAdmOnes if it is false , the value may not be
+			// the same
+			Adm adm = null;
+
+			if (gisFeature instanceof Adm) {
+			    adm = (Adm) gisFeature;
+			    ex.setField(FullTextFields.LEVEL.getValue(), adm.getLevel());
+			    
+			} else {
+			    adm = gisFeature.getAdm();
+			}
+			// we set admCode once for all
+			if (adm != null) {
+			    ex.setField(FullTextFields.ADM1CODE.getValue(), adm.getAdm1Code());
+			    ex.setField(FullTextFields.ADM2CODE.getValue(), adm.getAdm2Code());
+			    ex.setField(FullTextFields.ADM3CODE.getValue(), adm.getAdm3Code());
+			    ex.setField(FullTextFields.ADM4CODE.getValue(), adm.getAdm4Code());
+			}
+			while (adm != null) {
+			    int level = adm.getLevel();
+			    String admLevelName = FullTextFields
+				    .valueOf("ADM" + level + "NAME").getValue();
+			    ex.setField(admLevelName, EncodingHelper.toUTF8(adm.getName()));
+			    if (level == 1 || level == 2) {
+				populateAlternateNames(admLevelName, adm.getAlternateNames(),
+					ex);
+			    }
+			    adm = adm.getParent();
+			}
+
+			if (gisFeature instanceof ZipCodeAware) {
+			    try {
+				ZipCodeAware city = (ZipCodeAware) gisFeature;
+				if (city.getZipCode() != null) {
+				    ex.setField(FullTextFields.ZIPCODE.getValue(), city
+					    .getZipCode());
+				}
+			    } catch (ClassCastException cce) {
+				logger
+					.warn(gisFeature
+						+ " is of a zipcodeAware features but but we can not cast it to ZipCodeAware");
+			    }
+			}
+
+			// No prefix for cities
+
+			List<AlternateName> alternatenames = gisFeature.getAlternateNames();
+			populateAlternateNames(FullTextFields.NAME.getValue(), alternatenames,
+				ex);
+
+			// we don't want this fields
+			// populateAlternateNames("adm3_", adm2.getAlternateNames(), ex);
+			// populateAlternateNames("adm4_", adm1.getAlternateNames(), ex);
+			if (gisFeature instanceof Country) {
+			    Country country = (Country) gisFeature;
+			    ex.setField(FullTextFields.CONTINENT.getValue(), country
+				    .getContinent());
+			    ex.setField(FullTextFields.CURRENCY_CODE.getValue(), country
+				    .getCurrencyCode());
+			    ex.setField(FullTextFields.CURRENCY_NAME.getValue(), country
+				    .getCurrencyName());
+			    ex.setField(FullTextFields.FIPS_CODE.getValue(), country
+				    .getFipsCode());
+			    ex.setField(FullTextFields.ISOALPHA2_COUNTRY_CODE.getValue(),
+				    country.getIso3166Alpha2Code());
+			    ex.setField(FullTextFields.ISOALPHA3_COUNTRY_CODE.getValue(),
+				    country.getIso3166Alpha3Code());
+			    ex.setField(FullTextFields.COUNTRYCODE.getValue(), country.getCountryCode()
+					.toUpperCase());
+			    ex.setField(FullTextFields.POSTAL_CODE_MASK.getValue(), country
+				    .getPostalCodeMask());
+			    ex.setField(FullTextFields.POSTAL_CODE_REGEX.getValue(), country
+				    .getPostalCodeRegex());
+			    ex.setField(FullTextFields.PHONE_PREFIX.getValue(), country
+				    .getPhonePrefix());
+			    for (Language language : country.getSpokenLanguages()) {
+				ex.setField(FullTextFields.SPOKEN_LANGUAGES.getValue(),
+					language.getIso639LanguageName());
+			    }
+			    ex.setField(FullTextFields.TLD.getValue(), country.getTld());
+			    ex.setField(FullTextFields.CAPITAL_NAME.getValue(), country
+				    .getCapitalName());
+			    ex.setField(FullTextFields.AREA.getValue(), country.getArea());
+			    populateAlternateNames(FullTextFields.COUNTRYNAME
+				    .getValue(), country.getAlternateNames(), ex);
+			    ex.setField(FullTextFields.COUNTRYNAME.getValue(),
+				    EncodingHelper.toUTF8(country.getName()));
+			} else {
+
+			    String countryCode = gisFeature.getCountryCode();
+			    if (countryCode != null) {
+				ex.setField(FullTextFields.COUNTRYCODE.getValue(), countryCode
+					.toUpperCase());
+				Country country = gisFeature.getCountry();
+				if (country != null) {
+				    populateAlternateNames(FullTextFields.COUNTRYNAME
+					    .getValue(), country.getAlternateNames(), ex);
+				    ex.setField(FullTextFields.COUNTRYNAME.getValue(),
+					    EncodingHelper.toUTF8(country.getName()));
+				} else {
+				    logger.error("Can not find country with code "
+					    + gisFeature.getCountryCode() + " for "
+					    + gisFeature);
+				}
+			    }
+			}
+			solClient.getServer().add(ex);
+			return true;
+		    }
+		};
+		retryOnError.times(numberOfRetryOnFailure);
+	    
+	    
+	} catch (Exception e) {
+	  throw new GisgraphyCommunicationException("Can not synchronise SolR : can not synchronize  "+gisfeatureCreatedEventEvent.getGisFeature(),e.getCause());
+	}
     }
 
     private void populateAlternateNames(String fieldPrefix,

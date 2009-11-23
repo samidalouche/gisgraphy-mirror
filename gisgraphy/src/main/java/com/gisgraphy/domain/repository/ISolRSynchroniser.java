@@ -39,14 +39,17 @@ public interface ISolRSynchroniser {
      * update, delete a GIS object)
      * 
      * @param event
-     *                The event to handle
+     *            The event to handle
      */
     public void handleEvent(IEvent event);
 
     /**
-     * Send a commit to the full text search engine
+     * Send a commit to the full text search engine 
+     * @return true if succes or
+     * false other case. it does not throw exception because the commit may not
+     * be required because of the auto commit functionnality in solr.
      */
-    public void commit();
+    public boolean commit();
 
     /**
      * Send a optimize command to the full text search engine

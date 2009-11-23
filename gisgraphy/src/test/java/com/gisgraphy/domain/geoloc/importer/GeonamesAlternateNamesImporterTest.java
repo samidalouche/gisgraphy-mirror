@@ -75,7 +75,7 @@ public class GeonamesAlternateNamesImporterTest extends AbstractIntegrationHttpS
     @Test
     public void testTeardown(){
 	ISolRSynchroniser mockSolRSynchroniser = EasyMock.createMock(ISolRSynchroniser.class);
-	mockSolRSynchroniser.commit();
+	EasyMock.expect(mockSolRSynchroniser.commit()).andReturn(true);
 	EasyMock.expectLastCall();
 	mockSolRSynchroniser.optimize();
 	EasyMock.expectLastCall();
@@ -99,7 +99,7 @@ public class GeonamesAlternateNamesImporterTest extends AbstractIntegrationHttpS
 	 //teardown must be called even if ImportGisFeatureEmbededAlternateNames is true
 	importerConfig.setImportGisFeatureEmbededAlternateNames(true);
 	ISolRSynchroniser mockSolRSynchroniser = EasyMock.createMock(ISolRSynchroniser.class);
-	mockSolRSynchroniser.commit();
+	EasyMock.expect(mockSolRSynchroniser.commit()).andReturn(true);
 	EasyMock.expectLastCall();
 	mockSolRSynchroniser.optimize();
 	EasyMock.expectLastCall();
