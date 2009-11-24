@@ -51,6 +51,12 @@
         <level value="INFO"/>
          <appender-ref ref="RollingFileImporter"/>
     </logger> 
+    
+    <logger name="com.gisgraphy.domain.repository.DatabaseHelper">
+        <level value="INFO"/>
+         <appender-ref ref="RollingFileImporter"/>
+    </logger>
+    
 
     <!-- Suppress success logging from InteractiveAuthenticationSuccessEvent -->
     <logger name="org.acegisecurity">

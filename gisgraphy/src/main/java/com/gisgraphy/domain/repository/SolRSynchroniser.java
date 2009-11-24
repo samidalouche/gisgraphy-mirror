@@ -209,7 +209,6 @@ public class SolRSynchroniser implements ISolRSynchroniser {
      * @see com.gisgraphy.domain.repository.ISolRSynchroniser#commit()
      */
     public boolean commit() {
-	//todo test
 	try {
 	    RetryOnErrorTemplate<Boolean> retryOnError = new RetryOnErrorTemplate<Boolean>() {
 		    @Override

@@ -23,6 +23,7 @@
 package com.gisgraphy.domain.repository;
 
 import java.io.File;
+import java.util.List;
 
 
 /**
@@ -53,5 +54,11 @@ public interface IDatabaseHelper {
     public void CreateGeonamesTables();
     
   
+    /**
+     * Create the sql schema of all tables in a file
+     * @param outputFileName the filename where we want to save the schema
+     * @return a list of exceptions
+     */
+    public List createSqlSchemaFile(File outputFileName);
 
 }

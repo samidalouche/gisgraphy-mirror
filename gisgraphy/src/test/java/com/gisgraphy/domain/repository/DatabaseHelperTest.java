@@ -6,11 +6,13 @@ import java.io.OutputStreamWriter;
 
 import junit.framework.Assert;
 
+import org.junit.Test;
+
 import com.gisgraphy.test.GeolocTestHelper;
 
 public class DatabaseHelperTest extends AbstractTransactionalTestCase {
 
-    DatabaseHelper databaseHelper;
+    IDatabaseHelper databaseHelper;
 
     /**
      * @param databaseHelper
@@ -49,7 +51,8 @@ public class DatabaseHelperTest extends AbstractTransactionalTestCase {
 	    }
 	}
 
-	Assert.assertTrue("The file has not been process corectly",databaseHelper.execute(new File(file.getAbsolutePath()), false));
+	Assert.assertTrue("The file has not been process correctly",databaseHelper.execute(new File(file.getAbsolutePath()), false));
+	tempDir.delete();
     }
     
     public void testExecuteFileFailureWithContinueOnError() throws Exception {
@@ -82,7 +85,25 @@ public class DatabaseHelperTest extends AbstractTransactionalTestCase {
 	}
 
 	Assert.assertFalse("The file has not been process corectly",databaseHelper.execute(new File(file.getAbsolutePath()), true));
+	tempDir.delete();
     }
     
+    
+    @Test
+    public void testcreateSqlSchemaFile(){
+	File tempDir = GeolocTestHelper.createTempDir(this.getClass().getSimpleName());
+	File file = new File(tempDir.getAbsolutePath() + System.getProperty("file.separator") + "databaseschema.sql");
+	databaseHelper.createSqlSchemaFile(file);
+	tempDir.delete();
+    }
+    
+    @Test
+    public void testcreateSqlSchemaFileThrowsifFileIsNull(){
+	try {
+	    databaseHelper.createSqlSchemaFile(null);
+	    fail("we should not allow creation of sql schema in a null file");
+	} catch (IllegalArgumentException ignore) {
+	}
+    }
 
 }

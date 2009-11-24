@@ -668,7 +668,10 @@ public class GeonamesFeatureImporter extends AbstractImporterProcessor {
     @Override
     protected void tearDown() {
 	super.tearDown();
-	solRSynchroniser.commit();
+	super.tearDown();
+	if (!solRSynchroniser.commit()){
+	    logger.warn("The commit in tearDown of "+this.getClass().getSimpleName()+" has failed, the uncommitted changes will be commited with the auto commit of solr in few minuts");
+	}
 	solRSynchroniser.optimize();
     }
 

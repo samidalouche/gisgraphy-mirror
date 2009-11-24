@@ -273,7 +273,9 @@ public class GeonamesAlternateNamesImporter extends AbstractImporterProcessor {
     @Override
     protected void tearDown() {
 	super.tearDown();
-	solRSynchroniser.commit();
+	if (!solRSynchroniser.commit()){
+	    logger.warn("The commit in tearDown of "+this.getClass().getSimpleName()+" has failed, the uncommitted changes will be commited with the auto commit of solr in few minuts");
+	}
 	spellCheckerIndexer.buildAllIndex();
 	solRSynchroniser.optimize();
     }
