@@ -22,14 +22,12 @@
  *******************************************************************************/
 package com.gisgraphy.domain.repository;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.apache.solr.client.solrj.SolrServerException;
 import org.apache.solr.common.SolrInputDocument;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -48,7 +46,6 @@ import com.gisgraphy.domain.geoloc.entity.event.IEvent;
 import com.gisgraphy.domain.geoloc.entity.event.PlaceTypeDeleteAllEvent;
 import com.gisgraphy.domain.geoloc.service.fulltextsearch.FullTextFields;
 import com.gisgraphy.domain.geoloc.service.fulltextsearch.IsolrClient;
-import com.gisgraphy.domain.geoloc.service.fulltextsearch.SolrClient;
 import com.gisgraphy.domain.geoloc.service.geoloc.GisgraphyCommunicationException;
 import com.gisgraphy.helper.ClassNameHelper;
 import com.gisgraphy.helper.EncodingHelper;
@@ -78,7 +75,7 @@ public class SolRSynchroniser implements ISolRSynchroniser {
 
     private IsolrClient solClient;
 
-    public SolRSynchroniser(SolrClient solrClient) {
+    public SolRSynchroniser(IsolrClient solrClient) {
 	Assert
 		.notNull(solrClient,
 			"can not instanciate solRsynchroniser because the solrClient is null");
@@ -119,8 +116,8 @@ public class SolRSynchroniser implements ISolRSynchroniser {
 		    public String tryThat() throws Exception {
 			 logger.info("The entire index will be reset");
 			    solClient.getServer().deleteByQuery("*:*");
-			    solClient.getServer().commit();
-			    solClient.getServer().optimize();
+			    solClient.getServer().commit(true,true);
+			    solClient.getServer().optimize(true,true);
 			    return null;
 		    }
 		};
@@ -151,8 +148,8 @@ public class SolRSynchroniser implements ISolRSynchroniser {
 			    solClient.getServer().deleteByQuery(
 				    FullTextFields.PLACETYPE.getValue() + ":"
 					    + placetype.getSimpleName());
-			    solClient.getServer().commit();
-			    solClient.getServer().optimize();
+			    solClient.getServer().commit(true,true);
+			    solClient.getServer().optimize(true,true);
 			    return null;
 		    }
 		};
@@ -240,7 +237,7 @@ public class SolRSynchroniser implements ISolRSynchroniser {
 	    RetryOnErrorTemplate<Boolean> retryOnError = new RetryOnErrorTemplate<Boolean>() {
 		    @Override
 		    public Boolean tryThat() throws Exception {
-			solClient.getServer().optimize();
+			solClient.getServer().optimize(true,true);
 			return true;
 		    }
 		};

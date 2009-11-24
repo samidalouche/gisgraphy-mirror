@@ -44,10 +44,11 @@ public interface ISolRSynchroniser {
     public void handleEvent(IEvent event);
 
     /**
-     * Send a commit to the full text search engine 
-     * @return true if succes or
-     * false other case. it does not throw exception because the commit may not
-     * be required because of the auto commit functionnality in solr.
+     * Send a commit to the full text search engine
+     * 
+     * @return true if success or false other case. it does not throw exception
+     *         because the commit may not be required because of the auto commit
+     *         functionnality in solr. it is up to the caller to deal with this
      */
     public boolean commit();
 

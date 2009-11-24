@@ -37,14 +37,14 @@ public interface IsolrClient {
      * @param solrUrl
      *                the solr URL
      */
-    public abstract void bindToUrl(String solrUrl);
+    public void bindToUrl(String solrUrl);
 
     /**
      * return a handler to the server
      * 
      * @return The server
      */
-    public abstract SolrServer getServer();
+    public SolrServer getServer();
 
     /**
      * @return The current url of the server

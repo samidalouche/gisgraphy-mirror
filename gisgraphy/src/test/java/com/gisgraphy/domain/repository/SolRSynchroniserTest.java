@@ -23,6 +23,9 @@
 package com.gisgraphy.domain.repository;
 
 import static com.gisgraphy.domain.valueobject.Pagination.paginate;
+import static org.easymock.EasyMock.expect;
+import static org.easymock.classextension.EasyMock.createMock;
+import static org.easymock.classextension.EasyMock.replay;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -35,9 +38,14 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
+import junit.framework.Assert;
+
 import org.apache.solr.client.solrj.SolrQuery;
+import org.apache.solr.client.solrj.SolrServer;
 import org.apache.solr.client.solrj.SolrServerException;
 import org.apache.solr.client.solrj.response.QueryResponse;
+import org.apache.solr.common.SolrInputDocument;
+import org.easymock.classextension.EasyMock;
 import org.junit.Test;
 
 import com.gisgraphy.domain.geoloc.entity.Adm;
@@ -46,11 +54,17 @@ import com.gisgraphy.domain.geoloc.entity.City;
 import com.gisgraphy.domain.geoloc.entity.Country;
 import com.gisgraphy.domain.geoloc.entity.Language;
 import com.gisgraphy.domain.geoloc.entity.ZipCodeAware;
+import com.gisgraphy.domain.geoloc.entity.event.GisFeatureDeleteAllEvent;
+import com.gisgraphy.domain.geoloc.entity.event.GisFeatureDeletedEvent;
+import com.gisgraphy.domain.geoloc.entity.event.GisFeatureStoredEvent;
+import com.gisgraphy.domain.geoloc.entity.event.PlaceTypeDeleteAllEvent;
 import com.gisgraphy.domain.geoloc.service.fulltextsearch.AbstractIntegrationHttpSolrTestCase;
 import com.gisgraphy.domain.geoloc.service.fulltextsearch.FullTextFields;
 import com.gisgraphy.domain.geoloc.service.fulltextsearch.FullTextSearchException;
 import com.gisgraphy.domain.geoloc.service.fulltextsearch.FulltextQuery;
+import com.gisgraphy.domain.geoloc.service.fulltextsearch.IsolrClient;
 import com.gisgraphy.domain.geoloc.service.fulltextsearch.spell.ISpellCheckerIndexer;
+import com.gisgraphy.domain.geoloc.service.geoloc.GisgraphyCommunicationException;
 import com.gisgraphy.domain.valueobject.AlternateNameSource;
 import com.gisgraphy.domain.valueobject.Constants;
 import com.gisgraphy.domain.valueobject.Output;
@@ -216,6 +230,302 @@ public class SolRSynchroniserTest extends AbstractIntegrationHttpSolrTestCase {
 	assertTrue("a GisFeatureWith null featureId should not synchronize",
 		results.isEmpty());
     }
+    
+    @Test
+    public void testDeleteAllGisFeaturesOfASpecificPlaceTypeShouldRetryOnFailure() throws SolrServerException, IOException {
+	
+	SolrServer mockSolrServer = createMock(SolrServer.class);
+	expect(mockSolrServer.deleteByQuery(((String)EasyMock.anyObject()))).andThrow(new SolrServerException("exception"));
+	expect(mockSolrServer.deleteByQuery(((String)EasyMock.anyObject()))).andReturn(null);
+	expect(mockSolrServer.commit(true, true)).andReturn(null);
+	expect(mockSolrServer.optimize(true,true)).andReturn(null);
+	replay(mockSolrServer);
+	
+	IsolrClient mockSolrClient = createMock(IsolrClient.class);
+	expect(mockSolrClient.getServer()).andStubReturn(mockSolrServer);
+	replay(mockSolrClient);
+	
+	ISolRSynchroniser fakeSolrsynchroniser = new SolRSynchroniser(mockSolrClient);
+	
+	fakeSolrsynchroniser.handleEvent(new PlaceTypeDeleteAllEvent(City.class));
+	EasyMock.verify(mockSolrServer);
+    }
+    
+    @Test
+    public void testDeleteAllGisFeaturesOfASpecificPlaceTypeShouldFailWhenMaxNumberOfRetryIsReached() throws SolrServerException, IOException {
+	
+	SolrServer mockSolrServer = createMock(SolrServer.class);
+	expect(mockSolrServer.deleteByQuery(((String)EasyMock.anyObject()))).andStubThrow(new SolrServerException("exception"));
+	expect(mockSolrServer.commit(true, true)).andReturn(null);
+	expect(mockSolrServer.optimize(true,true)).andReturn(null);
+	replay(mockSolrServer);
+	
+	IsolrClient mockSolrClient = createMock(IsolrClient.class);
+	expect(mockSolrClient.getServer()).andStubReturn(mockSolrServer);
+	replay(mockSolrClient);
+	
+	ISolRSynchroniser fakeSolrsynchroniser = new SolRSynchroniser(mockSolrClient);
+	
+	try {
+	    fakeSolrsynchroniser.handleEvent(new PlaceTypeDeleteAllEvent(City.class));
+	    fail("The solrSynchroniser should have throw");
+	} catch (GisgraphyCommunicationException ignore) {
+	}
+    }
+    
+    @Test
+    public void testDeleteAFeatureShouldRetryOnFailure() throws SolrServerException, IOException {
+	City city = GeolocTestHelper.createCityAtSpecificPoint("my city", 1.5F,
+		1.6F);
+	city.setFeatureId(2L);
+	
+	SolrServer mockSolrServer = createMock(SolrServer.class);
+	expect(mockSolrServer.deleteById("2")).andThrow(new SolrServerException("exception"));
+	expect(mockSolrServer.deleteById("2")).andReturn(null);
+	expect(mockSolrServer.commit(true, true)).andReturn(null);
+	replay(mockSolrServer);
+	
+	IsolrClient mockSolrClient = createMock(IsolrClient.class);
+	expect(mockSolrClient.getServer()).andStubReturn(mockSolrServer);
+	replay(mockSolrClient);
+	
+	ISolRSynchroniser fakeSolrsynchroniser = new SolRSynchroniser(mockSolrClient);
+	
+	fakeSolrsynchroniser.handleEvent(new GisFeatureDeletedEvent(city));
+	EasyMock.verify(mockSolrServer);
+    }
+    
+    @Test
+    public void testDeleteAFeatureShouldFailWhenMaxNumberOfRetryIsReached() throws SolrServerException, IOException {
+	City city = GeolocTestHelper.createCityAtSpecificPoint("my city", 1.5F,
+		1.6F);
+	city.setFeatureId(2L);
+	
+	SolrServer mockSolrServer = createMock(SolrServer.class);
+	expect(mockSolrServer.deleteById("2")).andStubThrow(new SolrServerException("exception"));
+	replay(mockSolrServer);
+	
+	IsolrClient mockSolrClient = createMock(IsolrClient.class);
+	expect(mockSolrClient.getServer()).andStubReturn(mockSolrServer);
+	replay(mockSolrClient);
+	
+	ISolRSynchroniser fakesolrsynchroniser = new SolRSynchroniser(mockSolrClient);
+	
+	try {
+	    fakesolrsynchroniser.handleEvent(new GisFeatureDeletedEvent(city));
+	    fail("The solrSynchroniser should have throw");
+	} catch (GisgraphyCommunicationException ignore) {
+	}
+
+    }
+    
+    
+    @Test
+    public void testSaveAFeatureShouldRetryOnFailure() throws SolrServerException, IOException {
+	City city = GeolocTestHelper.createCityAtSpecificPoint("my city", 1.5F,
+		1.6F);
+	city.setFeatureId(2L);
+	
+	SolrServer mockSolrServer = createMock(SolrServer.class);
+	expect(mockSolrServer.add(((SolrInputDocument)EasyMock.anyObject()))).andThrow(new SolrServerException("exception"));
+	expect(mockSolrServer.add(((SolrInputDocument)EasyMock.anyObject()))).andReturn(null);
+	replay(mockSolrServer);
+	
+	IsolrClient mockSolrClient = createMock(IsolrClient.class);
+	expect(mockSolrClient.getServer()).andStubReturn(mockSolrServer);
+	replay(mockSolrClient);
+	
+	ISolRSynchroniser fakeSolrsynchroniser = new SolRSynchroniser(mockSolrClient);
+	
+	fakeSolrsynchroniser.handleEvent(new GisFeatureStoredEvent(city));
+	EasyMock.verify(mockSolrServer);
+    }
+    
+    @Test
+    public void testSaveAFeatureShouldFailWhenMaxNumberOfRetryIsReached() throws SolrServerException, IOException {
+	City city = GeolocTestHelper.createCityAtSpecificPoint("my city", 1.5F,
+		1.6F);
+	city.setFeatureId(2L);
+	
+	SolrServer mockSolrServer = createMock(SolrServer.class);
+	expect(mockSolrServer.add(((SolrInputDocument)EasyMock.anyObject()))).andStubThrow(new SolrServerException("exception"));
+	replay(mockSolrServer);
+	
+	IsolrClient mockSolrClient = createMock(IsolrClient.class);
+	expect(mockSolrClient.getServer()).andStubReturn(mockSolrServer);
+	replay(mockSolrClient);
+	
+	ISolRSynchroniser fakesolrsynchroniser = new SolRSynchroniser(mockSolrClient);
+	
+	try {
+	    fakesolrsynchroniser.handleEvent(new GisFeatureStoredEvent(city));
+	    fail("The solrSynchroniser should have throw");
+	} catch (GisgraphyCommunicationException ignore) {
+	}
+
+    }
+    
+    
+    @Test
+    public void testDeleteAListOfFeatureShouldRetryOnFailure() throws SolrServerException, IOException {
+	City city = GeolocTestHelper.createCityAtSpecificPoint("my city", 1.5F,
+		1.6F);
+	city.setFeatureId(2L);
+	
+	SolrServer mockSolrServer = EasyMock.createMock(SolrServer.class);
+	expect(mockSolrServer.deleteById("2")).andThrow(new SolrServerException("exception"));
+	expect(mockSolrServer.deleteById("2")).andReturn(null);
+	expect(mockSolrServer.commit(true, true)).andReturn(null);
+	replay(mockSolrServer);
+	
+	IsolrClient mockSolrClient = createMock(IsolrClient.class);
+	expect(mockSolrClient.getServer()).andStubReturn(mockSolrServer);
+	replay(mockSolrClient);
+	
+	ISolRSynchroniser fakeSolrsynchroniser = new SolRSynchroniser(mockSolrClient);
+	
+	List<City> listOfFeature = new ArrayList<City>();
+	listOfFeature.add(city);
+	fakeSolrsynchroniser.handleEvent(new GisFeatureDeleteAllEvent(listOfFeature));
+	EasyMock.verify(mockSolrServer);
+    }
+    
+    @Test
+    public void testCommitShouldRetryOnFailure() throws SolrServerException, IOException {
+	SolrServer mockSolrServer = createMock(SolrServer.class);
+	expect(mockSolrServer.commit(true,true)).andThrow(new SolrServerException("exception"));
+	expect(mockSolrServer.commit(true, true)).andReturn(null);
+	replay(mockSolrServer);
+	
+	IsolrClient mockSolrClient = createMock(IsolrClient.class);
+	expect(mockSolrClient.getServer()).andStubReturn(mockSolrServer);
+	replay(mockSolrClient);
+	
+	ISolRSynchroniser fakeSolrsynchroniser = new SolRSynchroniser(mockSolrClient);
+	
+	Assert.assertTrue("When a commit is success it must return true",fakeSolrsynchroniser.commit());
+	EasyMock.verify(mockSolrServer);
+    }
+    
+    @Test
+    public void testOptimizeShouldRetryOnFailure() throws SolrServerException, IOException {
+	SolrServer mockSolrServer = createMock(SolrServer.class);
+	expect(mockSolrServer.optimize(true,true)).andThrow(new SolrServerException("exception"));
+	expect(mockSolrServer.optimize(true, true)).andReturn(null);
+	replay(mockSolrServer);
+	
+	IsolrClient mockSolrClient = createMock(IsolrClient.class);
+	expect(mockSolrClient.getServer()).andStubReturn(mockSolrServer);
+	replay(mockSolrClient);
+	
+	ISolRSynchroniser fakeSolrsynchroniser = new SolRSynchroniser(mockSolrClient);
+	
+	fakeSolrsynchroniser.optimize();
+	EasyMock.verify(mockSolrServer);
+    }
+    
+    @Test
+    public void testOptimizeShouldFailWhenMaxNumberOfRetryIsReached() throws SolrServerException, IOException {
+	SolrServer mockSolrServer = createMock(SolrServer.class);
+	expect(mockSolrServer.optimize(true,true)).andStubThrow(new SolrServerException("exception"));
+	replay(mockSolrServer);
+	
+	IsolrClient mockSolrClient = createMock(IsolrClient.class);
+	expect(mockSolrClient.getServer()).andStubReturn(mockSolrServer);
+	replay(mockSolrClient);
+	
+	ISolRSynchroniser fakeSolrsynchroniser = new SolRSynchroniser(mockSolrClient);
+	
+	try {
+	    fakeSolrsynchroniser.optimize();
+	} catch (GisgraphyCommunicationException ignore) {
+	}
+    }
+    
+    @Test
+    public void testCommitShouldReturnFalseWhenMaxNumberOfRetryIsReached() throws SolrServerException, IOException {
+	SolrServer mockSolrServer = createMock(SolrServer.class);
+	expect(mockSolrServer.commit(true,true)).andStubThrow(new SolrServerException("exception"));
+	replay(mockSolrServer);
+	
+	IsolrClient mockSolrClient = createMock(IsolrClient.class);
+	expect(mockSolrClient.getServer()).andStubReturn(mockSolrServer);
+	replay(mockSolrClient);
+	
+	ISolRSynchroniser fakeSolrsynchroniser = new SolRSynchroniser(mockSolrClient);
+	
+	assertFalse("When a commit fail it must return false",fakeSolrsynchroniser.commit());
+	   
+    }
+    
+    
+    @Test
+    public void testDeleteAListOfFeatureShouldFailWhenMaxNumberOfRetryIsReached() throws SolrServerException, IOException {
+	City city = GeolocTestHelper.createCityAtSpecificPoint("my city", 1.5F,
+		1.6F);
+	city.setFeatureId(2L);
+	
+	SolrServer mockSolrServer = createMock(SolrServer.class);
+	expect(mockSolrServer.deleteById("2")).andStubThrow(new SolrServerException("exception"));
+	replay(mockSolrServer);
+	
+	IsolrClient mockSolrClient = createMock(IsolrClient.class);
+	expect(mockSolrClient.getServer()).andStubReturn(mockSolrServer);
+	replay(mockSolrClient);
+	
+	ISolRSynchroniser fakeSolrsynchroniser = new SolRSynchroniser(mockSolrClient);
+	
+	List<City> listOfFeature = new ArrayList<City>();
+	listOfFeature.add(city);
+	try {
+	    fakeSolrsynchroniser.handleEvent(new GisFeatureDeleteAllEvent(listOfFeature));
+	    fail("The solrSynchroniser should have throw");
+	} catch (GisgraphyCommunicationException e) {
+	}
+    }
+    
+    
+    
+    @Test
+    public void testDeleteAllShouldRetryOnFailure() throws SolrServerException, IOException {
+	SolrServer mockSolrServer = createMock(SolrServer.class);
+	expect(mockSolrServer.deleteByQuery("*:*")).andThrow(new SolrServerException("exception"));
+	expect(mockSolrServer.deleteByQuery("*:*")).andReturn(null);
+	expect(mockSolrServer.commit(true, true)).andReturn(null);
+	expect(mockSolrServer.optimize(true,true)).andReturn(null);
+	EasyMock.replay(mockSolrServer);
+	
+	IsolrClient mockSolrClient = createMock(IsolrClient.class);
+	expect(mockSolrClient.getServer()).andStubReturn(mockSolrServer);
+	replay(mockSolrClient);
+	
+	ISolRSynchroniser fakeSolrsynchroniser = new SolRSynchroniser(mockSolrClient);
+	
+	fakeSolrsynchroniser.deleteAll();
+	EasyMock.verify(mockSolrServer);
+    }
+    
+    @Test
+    public void testDeleteAllShouldFailWhenMaxNumberOfRetryIsReached() throws SolrServerException, IOException {
+	SolrServer mockSolrServer = createMock(SolrServer.class);
+	expect(mockSolrServer.deleteByQuery("*:*")).andStubThrow((new SolrServerException("exception")));
+	replay(mockSolrServer);
+	
+	IsolrClient mockSolrClient = createMock(IsolrClient.class);
+	expect(mockSolrClient.getServer()).andStubReturn(mockSolrServer);
+	replay(mockSolrClient);
+	
+	ISolRSynchroniser fakeSolrsynchroniser = new SolRSynchroniser(mockSolrClient);
+	
+	try {
+	    fakeSolrsynchroniser.deleteAll();
+	    fail("The solrSynchroniser should have throw");
+	} catch (GisgraphyCommunicationException ignore) {
+	}
+    }
+    
+    
+  
 
     @Test
     public void testDeleteAgisFeatureShouldSynchronize() {
@@ -276,7 +586,7 @@ public class SolRSynchroniserTest extends AbstractIntegrationHttpSolrTestCase {
     }
 
     @Test
-    public void testDeleteallGisFeaturesOfAspecificPlaceTypeShouldSynchronize() {
+    public void testDeleteAllGisFeaturesOfASpecificPlaceTypeShouldSynchronize() {
 	City city = GeolocTestHelper.createCityAtSpecificPoint("my city", 1.5F,
 		1.6F);
 	city.setFeatureId(1L);
