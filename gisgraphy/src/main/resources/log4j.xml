@@ -89,7 +89,7 @@
     </logger-->
    
     <logger name="com.gisgraphy.domain.geoloc.importer">
-        <level value="WARN"/>
+        <level value="ERROR"/>
         <appender-ref ref="RollingFileImporter"/>
     </logger>
     
