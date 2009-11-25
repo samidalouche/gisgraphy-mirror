@@ -22,6 +22,11 @@
  *******************************************************************************/
 package com.gisgraphy.helper;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.gisgraphy.domain.geoloc.importer.AbstractImporterProcessor;
+
 
 /**
  * Give the ability to retry a function multiple times if it fails.
@@ -47,6 +52,11 @@ public abstract class RetryOnErrorTemplate<T> {
 
     private int numberOfTimesToRetry = 1;
     private T returnvalue = null;
+    
+    protected static final Logger logger = LoggerFactory
+    .getLogger(RetryOnErrorTemplate.class);
+    
+    private String loggingSentence = "?";
 
     private RetryOnErrorTemplate<T> retry() throws Exception {
 	try {
@@ -54,6 +64,7 @@ public abstract class RetryOnErrorTemplate<T> {
 	    alreadyTry++;
 	    return this;
 	} catch (Exception e) {
+	    logger.error("try no "+alreadyTry+" for "+loggingSentence+" fails : " + e);
 	    numberOfTimesToRetry--;
 	    alreadyTry++;
 	    if (numberOfTimesToRetry == 0) {
@@ -89,6 +100,25 @@ public abstract class RetryOnErrorTemplate<T> {
     public int getNumberOfTimesToRetry() {
         return numberOfTimesToRetry;
     }
+
+
+    /**
+     * @return the loggingSentence
+     */
+    public String getLoggingSentence() {
+        return loggingSentence;
+    }
+
+
+    /**
+     * @param loggingSentence the loggingSentence to set
+     */
+    public void setLoggingSentence(String loggingSentence) {
+        this.loggingSentence = loggingSentence;
+    }
+
+
+  
 
 
 }

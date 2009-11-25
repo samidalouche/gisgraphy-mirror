@@ -63,7 +63,7 @@ public abstract class AbstractImporterProcessor implements IImporterProcessor {
     protected ImporterStatus status = ImporterStatus.WAITING;
     
     @Autowired
-	protected IInternationalisationService internationalisationService;
+    protected IInternationalisationService internationalisationService;
 
     /**
      * @see IImporterProcessor#getNumberOfLinesToProcess()

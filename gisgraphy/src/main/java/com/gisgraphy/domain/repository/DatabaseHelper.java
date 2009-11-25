@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
 
@@ -31,6 +32,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 
 import com.gisgraphy.domain.valueobject.Constants;
+import com.sun.corba.se.pept.transport.Connection;
 
 /**
  * Default implementation of {@link IDatabaseHelper}
@@ -105,37 +107,66 @@ public class DatabaseHelper extends HibernateDaoSupport implements IDatabaseHelp
 		});
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.gisgraphy.domain.repository.IDatabaseHelper#CreateGeonamesTables()
+	/* (non-Javadoc)
+	 * @see com.gisgraphy.domain.repository.IDatabaseHelper#generateSqlCreationSchemaFile(java.io.File)
 	 */
-	public void CreateGeonamesTables() {
-		// TODO Auto-generated method stub
-
+	public void generateSqlCreationSchemaFile(File outputFileName){
+	   createSqlSchemaFile(outputFileName,true,false,false);
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.gisgraphy.domain.repository.IDatabaseHelper#DropGeonamesTables()
+	
+	/* (non-Javadoc)
+	 * @see com.gisgraphy.domain.repository.IDatabaseHelper#generateSqlDropSchemaFile(java.io.File)
 	 */
-	public void DropGeonamesTables() {
-		// TODO Auto-generated method stub
-
+	public void generateSqlDropSchemaFile(File outputFileName){
+	    createSqlSchemaFile(outputFileName,false,true,false);
 	}
+	
+	/* (non-Javadoc)
+	 * @see com.gisgraphy.domain.repository.IDatabaseHelper#DropAllTables()
+	 */
+	public List<SQLException> DropAllTables(){
+	    return createSqlSchemaFile(null,false,true,true);
+	}
+	
+	/* (non-Javadoc)
+	 * @see com.gisgraphy.domain.repository.IDatabaseHelper#createAllTables()
+	 */
+	public List<SQLException> createAllTables(){
+	    return createSqlSchemaFile(null,true,false,true);
+	}
+	
+	/* (non-Javadoc)
+	 * @see com.gisgraphy.domain.repository.IDatabaseHelper#dropAndRecreateAllTables()
+	 */
+	public List<SQLException> dropAndRecreateAllTables(){
+	    return createSqlSchemaFile(null,true,true,true);
+	}
+	
+	
+	
 
-	public List createSqlSchemaFile(File outputFileName){
-	  Assert.notNull(outputFileName,"can not create a sql schema in a null file, please specify a valid one");
+	private List<SQLException> createSqlSchemaFile(File outputFileName,boolean create, boolean drop, boolean execute ){
+	Assert.notNull(outputFileName,"Can not create a sql schema in a null file, please specify a valid one");
 	AnnotationConfiguration config = new AnnotationConfiguration();
 	config.setProperty("hibernate.dialect",PostgisDialectNG.class.getName());
-		config.configure();	
-		//config.addAnnotatedClass(GisFeature.class);
-		SchemaExport schema = new SchemaExport(config);
-		schema.setOutputFile(outputFileName.getAbsolutePath());
+		config.configure();
+		SchemaExport schema =null;
+		if (execute == true){
+		java.sql.Connection connection = getSession().connection();
+		schema = new SchemaExport(config,connection);
+		} else {
+		   schema = new SchemaExport(config);
+		}
+		if (outputFileName != null){
+		    schema.setOutputFile(outputFileName.getAbsolutePath());
+		}
 		logger.info("will create the Database schema");
-		//schema.create(true, false);
-		schema.execute(true, false, false, true);
+		if (create == true){
+		    schema.create(true, true);
+		}else if (drop == true){
+		    schema.drop(true, true);
+		}
+		schema.execute(true, execute, drop, create);
 		return schema.getExceptions();
 	}
 	

@@ -23,42 +23,58 @@
 package com.gisgraphy.domain.repository;
 
 import java.io.File;
+import java.sql.SQLException;
 import java.util.List;
 
-
 /**
- * Interface that describe usefull function to manage the database 
+ * Interface that describe usefull function to manage the database
  * 
  * @author <a href="mailto:david.masclet@gisgraphy.com">David Masclet</a>
  */
 public interface IDatabaseHelper {
 
     /**
-     * @param file the file to execute, it will be read as an utf-8 file
-     * @param continueOnError if an error occured, the process will go on if this value is true, if not it will throw an exception
-     * @throws Exception in case of error during execution, or if the file is null or does not exist
-     * @return true if no error or false if an error occured and continueOnError is true)
+     * @param file
+     *            the file to execute, it will be read as an utf-8 file
+     * @param continueOnError
+     *            if an error occured, the process will go on if this value is
+     *            true, if not it will throw an exception
+     * @throws Exception
+     *             in case of error during execution, or if the file is null or
+     *             does not exist
+     * @return true if no error or false if an error occured and continueOnError
+     *         is true)
      */
     public boolean execute(final File file, boolean continueOnError) throws Exception;
-    
+
     /**
-     * This method will drop all the tables related to Geonames
-     * 
+     * @param outputFileName
+     * @return
      */
-    public void DropGeonamesTables();
-    
+    public void generateSqlCreationSchemaFile(File outputFileName);
+
     /**
-     * This method will recreate all the tables related to Geonames
-     * 
+     * @param outputFileName
+     * @return
      */
-    public void CreateGeonamesTables();
+    public void generateSqlDropSchemaFile(File outputFileName);
     
   
     /**
-     * Create the sql schema of all tables in a file
-     * @param outputFileName the filename where we want to save the schema
-     * @return a list of exceptions
+     * @return
      */
-    public List createSqlSchemaFile(File outputFileName);
+    public List<SQLException> createAllTables();
+
+    /**
+     * @return
+     */
+    public List<SQLException> DropAllTables();
+    
+    /**
+     * @return
+     */
+    public List<SQLException> dropAndRecreateAllTables();
+    
+   
 
 }

@@ -26,8 +26,12 @@
 package com.gisgraphy.test;
 
 import java.io.BufferedReader;
+import java.io.DataInputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -80,6 +84,49 @@ public class GeolocTestHelper {
     @Resource
     private ICountryDao countryDao;
 
+    public static boolean isFileContains(File file, String text) {
+	if (file == null) {
+	    throw new IllegalArgumentException("can not check a null file");
+	}
+	if (!file.exists()) {
+	    throw new IllegalArgumentException("can not check a file that does not exists");
+	}
+	if (!file.isFile()) {
+	    throw new IllegalArgumentException("can only check file, not directory");
+	}
+	FileInputStream fstream = null;
+	DataInputStream in = null;
+	try {
+	    fstream = new FileInputStream(file);
+	    in = new DataInputStream(fstream);
+	    BufferedReader br = new BufferedReader(new InputStreamReader(in));
+	    String strLine;
+	    // Read File Line By Line
+	    while ((strLine = br.readLine()) != null) {
+		if (strLine.contains(text)){
+		    return true;
+		}
+	    }
+	} catch (Exception e) {// Catch exception if any
+	    throw new IllegalArgumentException("an exception has occured durind the assertion of " + text + " in " + file.getAbsolutePath());
+	} finally {
+	    if (in != null) {
+		try {
+		    in.close();
+		} catch (IOException e) {
+		}
+	    }
+	    if (fstream != null) {
+		try {
+		    fstream.close();
+		} catch (IOException e) {
+		}
+	    }
+	}
+	return false;
+    }
+
+    
     public static File createTempDir(String path) {
 	File tempDir = new File(System.getProperty("java.io.tmpdir"));
 	if (!tempDir.canWrite()) {

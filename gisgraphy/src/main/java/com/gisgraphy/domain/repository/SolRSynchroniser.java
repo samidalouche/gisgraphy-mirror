@@ -96,6 +96,7 @@ public class SolRSynchroniser implements ISolRSynchroniser {
 			    return null;
 		    }
 		};
+		retryOnError.setLoggingSentence("Synchronise SolR : deletion of feature with id="+gisFeatureEvent.getGisFeature().getFeatureId());
 		retryOnError.times(numberOfRetryOnFailure);
 	    
 	    
@@ -121,6 +122,7 @@ public class SolRSynchroniser implements ISolRSynchroniser {
 			    return null;
 		    }
 		};
+		retryOnError.setLoggingSentence("Synchronise SolR : deletion of all features");
 		retryOnError.times(numberOfRetryOnFailure);
 	    
 	    
@@ -153,6 +155,7 @@ public class SolRSynchroniser implements ISolRSynchroniser {
 			    return null;
 		    }
 		};
+		retryOnError.setLoggingSentence("Synchronise SolR : deletion of features of type="+placetype.getClass().getSimpleName());
 		retryOnError.times(numberOfRetryOnFailure);
 	    
 	    
@@ -175,11 +178,12 @@ public class SolRSynchroniser implements ISolRSynchroniser {
 			    return null;
 		    }
 		};
+		retryOnError.setLoggingSentence("Synchronise SolR : deletion of specific features");
 		retryOnError.times(numberOfRetryOnFailure);
 	    
 	    
 	} catch (Exception e) {
-	    throw new GisgraphyCommunicationException("Can not synchronise SolR : can not delete the specified features ",e.getCause());
+	    throw new GisgraphyCommunicationException("Can not synchronise SolR : Can not delete the specified features ",e.getCause());
 	}
     }
 
@@ -217,6 +221,7 @@ public class SolRSynchroniser implements ISolRSynchroniser {
 			return true;
 		    }
 		};
+		retryOnError.setLoggingSentence("Synchronise SolR : commit");
 		return retryOnError.times(numberOfRetryOnFailure);
 	    
 	    
@@ -240,11 +245,12 @@ public class SolRSynchroniser implements ISolRSynchroniser {
 			return true;
 		    }
 		};
+		retryOnError.setLoggingSentence("Synchronise SolR : optimize");
 		retryOnError.times(numberOfRetryOnFailure);
 	    
 	    
 	} catch (Exception e) {
-	  throw new GisgraphyCommunicationException("Can not synchronise SolR : can not commit ",e.getCause());
+	  throw new GisgraphyCommunicationException("Can not synchronise SolR : can not optimize ",e.getCause());
 	}
     }
 
@@ -426,6 +432,7 @@ public class SolRSynchroniser implements ISolRSynchroniser {
 			return true;
 		    }
 		};
+		retryOnError.setLoggingSentence("Synchronise SolR : Add feature with id "+gisfeatureCreatedEventEvent.getGisFeature());
 		retryOnError.times(numberOfRetryOnFailure);
 	    
 	    

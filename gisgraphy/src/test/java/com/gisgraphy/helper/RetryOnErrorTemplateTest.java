@@ -33,6 +33,7 @@ import com.gisgraphy.helper.RetryOnErrorTemplate;
 public class RetryOnErrorTemplateTest {
 
     
+    private static final String THE_SENTENCE_TO_IDENTIFY_RETRY_IN_LOGS = "the sentence to identify retry in logs";
     private static final String THE_RETURNED_VALUE = "The returned value";
 
     @Test
@@ -63,9 +64,20 @@ public class RetryOnErrorTemplateTest {
 		return THE_RETURNED_VALUE;
 	    }
 	};
-	// retryOnError.expect(retryOnError).retry();
 	Assert.assertEquals("The returned value is not the expected one",THE_RETURNED_VALUE, retryOnError.times(3));
 	Assert.assertEquals("Only one try should have been done",1, retryOnError.getAlreadyTry());
+    }
+    
+    @Test
+    public void testLoggingSentence() throws Exception {
+	RetryOnErrorTemplate<String> retryOnError = new RetryOnErrorTemplate<String>() {
+	    @Override
+	    public String tryThat() throws Exception {
+		return THE_RETURNED_VALUE;
+	    }
+	};
+	retryOnError.setLoggingSentence(THE_SENTENCE_TO_IDENTIFY_RETRY_IN_LOGS);
+	Assert.assertEquals("The logging sentence value is not the expected one",THE_SENTENCE_TO_IDENTIFY_RETRY_IN_LOGS, retryOnError.getLoggingSentence());
     }
 
 }
