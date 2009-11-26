@@ -76,11 +76,12 @@ public interface IImporterManager {
      * delete all the fulltext search engine entries, in order to re-run a new
      * import from scratch
      * 
-     * @return a {@linkplain NameValueDTO} with the name of the deleted object
-     *         and the number of deleted Object. No entry will be return for
-     *         Object that were 0 object will be deleted.
+     * @return a list with the SQL Errors and warnings. note
+     *         that you can have warning but the reset can be successful
+     * 
+     * @throws Exception
      */
-    public List<NameValueDTO<Integer>> resetImport();
+    public List<String> resetImport() throws Exception;
 
     /**
      * @return a list of DTO for each importers

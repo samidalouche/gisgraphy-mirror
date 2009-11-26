@@ -23,11 +23,10 @@
 package com.gisgraphy.domain.repository;
 
 import java.io.File;
-import java.sql.SQLException;
 import java.util.List;
 
 /**
- * Interface that describe usefull function to manage the database
+ * Interface that describe useful function to manage the database
  * 
  * @author <a href="mailto:david.masclet@gisgraphy.com">David Masclet</a>
  */
@@ -35,46 +34,51 @@ public interface IDatabaseHelper {
 
     /**
      * @param file
-     *            the file to execute, it will be read as an utf-8 file
+     *            the file to execute, it will be read as an UTF-8 file
      * @param continueOnError
      *            if an error occured, the process will go on if this value is
      *            true, if not it will throw an exception
      * @throws Exception
      *             in case of error during execution, or if the file is null or
      *             does not exist
-     * @return true if no error or false if an error occured and continueOnError
-     *         is true)
+     * @return A list of String with errorMessage 
      */
-    public boolean execute(final File file, boolean continueOnError) throws Exception;
+    public List<String> execute(final File file, boolean continueOnError) throws Exception;
 
     /**
-     * @param outputFileName
-     * @return
+     * Generate the sql file to create all the Gisgraphy tables
+     * 
+     * @param outputFile
+     *            The File that we want to write the SQL
      */
-    public void generateSqlCreationSchemaFile(File outputFileName);
+    public void generateSqlCreationSchemaFile(File outputFile);
 
     /**
-     * @param outputFileName
-     * @return
+     * Generate the sql file to drop all the Gisgraphy tables
+     * 
+     * @param outputFile
+     *            The File that we want to write the SQL
      */
-    public void generateSqlDropSchemaFile(File outputFileName);
-    
-  
-    /**
-     * @return
-     */
-    public List<SQLException> createAllTables();
-
-    /**
-     * @return
-     */
-    public List<SQLException> DropAllTables();
-    
-    /**
-     * @return
-     */
-    public List<SQLException> dropAndRecreateAllTables();
-    
+    public void generateSQLDropSchemaFile(File outputFile);
    
 
+    /**
+     * Generate the SQL file to create all the Gisgraphy tables that have to be
+     * reset to rerun the import, the user and role tables won't be deleted
+     * 
+     * @param outputFile
+     *            The File that we want to write the SQL
+     */
+    public void generateSQLCreationSchemaFileToRerunImport(File outputFile);
+    
+    /**
+     * Generate the SQL file to drop all the Gisgraphy tables that have to be
+     * reset to rerun the import, the user and role tables won't be deleted
+     * 
+     * @param outputFile
+     *            The File that we want to write the SQL
+     */
+    public void generateSqlDropSchemaFileToRerunImport(File outputFile);
+
+   
 }

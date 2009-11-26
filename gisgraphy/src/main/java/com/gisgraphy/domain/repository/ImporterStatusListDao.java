@@ -20,9 +20,6 @@
  *  
  *  
  *******************************************************************************/
-/**
- * 
- */
 package com.gisgraphy.domain.repository;
 
 import java.io.BufferedOutputStream;
@@ -42,6 +39,7 @@ import org.springframework.beans.factory.annotation.Required;
 import org.springframework.stereotype.Repository;
 
 import com.gisgraphy.domain.geoloc.importer.ImporterConfig;
+import com.gisgraphy.domain.geoloc.importer.ImporterManager;
 import com.gisgraphy.domain.valueobject.Constants;
 import com.gisgraphy.domain.valueobject.ImporterStatus;
 import com.gisgraphy.domain.valueobject.ImporterStatusDto;
@@ -56,8 +54,6 @@ public class ImporterStatusListDao implements IImporterStatusListDao {
 
     public static final String IMPORTER_STATUS_LIST_FILENAME = "importerStatusList";
 
-    public static final String IMPORTER_METADATA_RELATIVE_PATH = "IMPORTER-METADATA-DO_NOT_REMOVE";
-
     ImporterConfig importerConfig;
 
     private Logger logger = LoggerFactory
@@ -70,7 +66,7 @@ public class ImporterStatusListDao implements IImporterStatusListDao {
      */
     public String getSavedFilePath() {
 	String dirpath = importerConfig.getGeonamesDir()
-		+ IMPORTER_METADATA_RELATIVE_PATH + File.separator;
+		+ ImporterManager.IMPORTER_METADATA_RELATIVE_PATH + File.separator;
 	File directory = new File(dirpath);
 	if (!directory.exists()) {
 	    if (!directory.mkdir()) {

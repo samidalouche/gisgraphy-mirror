@@ -10,6 +10,7 @@ import junit.framework.Assert;
 
 import org.junit.Test;
 
+import com.gisgraphy.helper.FileHelper;
 import com.gisgraphy.test.GeolocTestHelper;
 
 public class DatabaseHelperTest extends AbstractTransactionalTestCase {
@@ -25,7 +26,7 @@ public class DatabaseHelperTest extends AbstractTransactionalTestCase {
     }
 
     public void testExecuteFileSuccess() throws Exception {
-	File tempDir = GeolocTestHelper.createTempDir(this.getClass().getSimpleName());
+	File tempDir = FileHelper.createTempDir(this.getClass().getSimpleName());
 	File file = new File(tempDir.getAbsolutePath() + System.getProperty("file.separator") + "sqlErrorFile.sql");
 	FileOutputStream fos = null;
 	OutputStreamWriter out = null;
@@ -53,12 +54,12 @@ public class DatabaseHelperTest extends AbstractTransactionalTestCase {
 	    }
 	}
 
-	Assert.assertTrue("The file has not been process correctly", databaseHelper.execute(new File(file.getAbsolutePath()), false));
+	Assert.assertTrue("The file has not been process correctly", databaseHelper.execute(new File(file.getAbsolutePath()), false).isEmpty());
 	tempDir.delete();
     }
 
     public void testExecuteFileFailureWithContinueOnError() throws Exception {
-	File tempDir = GeolocTestHelper.createTempDir(this.getClass().getSimpleName());
+	File tempDir = FileHelper.createTempDir(this.getClass().getSimpleName());
 	File file = new File(tempDir.getAbsolutePath() + System.getProperty("file.separator") + "sqlErrorFile.sql");
 	FileOutputStream fos = null;
 	OutputStreamWriter out = null;
@@ -86,42 +87,84 @@ public class DatabaseHelperTest extends AbstractTransactionalTestCase {
 	    }
 	}
 
-	Assert.assertFalse("The file has not been process correctly", databaseHelper.execute(new File(file.getAbsolutePath()), true));
+	Assert.assertFalse("The file has not been process correctly", databaseHelper.execute(new File(file.getAbsolutePath()), true).isEmpty());
 	file.delete();
 	tempDir.delete();
     }
 
     @Test
     public void testGenerateSqlCreationSchemaFileShouldCreateTheFileAndNotContainsDropInstruction() {
-	File tempDir = GeolocTestHelper.createTempDir(this.getClass().getSimpleName());
+	File tempDir = FileHelper.createTempDir(this.getClass().getSimpleName());
 	File file = new File(tempDir.getAbsolutePath() + System.getProperty("file.separator") + "createTables.sql");
 	databaseHelper.generateSqlCreationSchemaFile(file);
-	assertFalse("the creation script should not contains drop",isFileContains(file, "drop"));
-	assertTrue("the creation script should contains create",isFileContains(file, "create"));
-	//file.delete();
-	//tempDir.delete();
+	assertFalse("the creation script should not contains 'drop'", isFileContains(file, "drop"));
+	assertTrue("the creation script should contains 'create'", isFileContains(file, "create"));
+	file.delete();
+	tempDir.delete();
     }
-    
+
     @Test
     public void testGenerateSqlDropSchemaFileShouldCreateTheFileAndNotContainsCreateInstruction() {
-	File tempDir = GeolocTestHelper.createTempDir(this.getClass().getSimpleName());
+	File tempDir = FileHelper.createTempDir(this.getClass().getSimpleName());
 	File file = new File(tempDir.getAbsolutePath() + System.getProperty("file.separator") + "dropTables.sql");
-	databaseHelper.generateSqlDropSchemaFile(file);
-	assertTrue("the creation script should not contains drop",isFileContains(file, "drop"));
-	assertFalse("the creation script should contains create",isFileContains(file, "create"));
-	//file.delete();
-	//tempDir.delete();
+	databaseHelper.generateSQLDropSchemaFile(file);
+	assertTrue("the drop SQL script should 'drop'", isFileContains(file, "drop"));
+	assertFalse("the drop SQL script should contains 'create'", isFileContains(file, "create"));
+	file.delete();
+	tempDir.delete();
+    }
+
+    @Test
+    public void testGenerateSQLCreationSchemaFileToRerunImport() {
+	File tempDir = FileHelper.createTempDir(this.getClass().getSimpleName());
+	File file = new File(tempDir.getAbsolutePath() + System.getProperty("file.separator") + "createTablesToRerunImport.sql");
+	databaseHelper.generateSQLCreationSchemaFileToRerunImport(file);
+	assertFalse("The creation script to re-run import should not contains 'drop'", isFileContains(file, "drop"));
+	assertTrue("The creation script to re-run import should contains 'create'", isFileContains(file, "create"));
+	for (int i = 0; i < DatabaseHelper.TABLES_NAME_THAT_MUST_BE_KEPT_WHEN_RESETING_IMPORT.length; i++) {
+	    assertFalse("The creation script to re-run import should not contains " + DatabaseHelper.TABLES_NAME_THAT_MUST_BE_KEPT_WHEN_RESETING_IMPORT[i], 
+		    isFileContains(file, DatabaseHelper.TABLES_NAME_THAT_MUST_BE_KEPT_WHEN_RESETING_IMPORT[i]));
+	}
+	file.delete();
+	tempDir.delete();
+    }
+    
+
+    @Test
+    public void testGenerateSqlDropSchemaFileToRerunImport() {
+	File tempDir = FileHelper.createTempDir(this.getClass().getSimpleName());
+	File file = new File(tempDir.getAbsolutePath() + System.getProperty("file.separator") + "dropTablesToRerunImport.sql");
+	databaseHelper.generateSqlDropSchemaFileToRerunImport(file);
+	assertTrue("The drop script to re-run import should contains 'drop'", isFileContains(file, "drop"));
+	assertFalse("The drop script to re-run import should not contains create", isFileContains(file, "create"));
+	for (int i = 0; i < DatabaseHelper.TABLES_NAME_THAT_MUST_BE_KEPT_WHEN_RESETING_IMPORT.length; i++) {
+	    assertFalse("The drop script to re-run import should not contains " + DatabaseHelper.TABLES_NAME_THAT_MUST_BE_KEPT_WHEN_RESETING_IMPORT[i], 
+		    isFileContains(file, DatabaseHelper.TABLES_NAME_THAT_MUST_BE_KEPT_WHEN_RESETING_IMPORT[i]));
+	}
+	file.delete();
+	tempDir.delete();
     }
     
     @Test
-    public void testGenerateSqlCreationSchemaFile() {
-	File tempDir = GeolocTestHelper.createTempDir(this.getClass().getSimpleName());
-	File file = new File(tempDir.getAbsolutePath() + System.getProperty("file.separator") + "createTables.sql");
-	databaseHelper.generateSqlCreationSchemaFile(file);
-	assertFalse("the creation script should not contains drop",isFileContains(file, "drop"));
-	assertTrue("the creation script should contains create",isFileContains(file, "create"));
-	//file.delete();
-	//tempDir.delete();
+    public void testGenerateSQLCreationSchemaFileToRerunImportShouldBeCoherentWithGenerateSqlDropSchemaFileToRerunImport(){
+	File tempDir = FileHelper.createTempDir(this.getClass().getSimpleName());
+	File fileDrop = new File(tempDir.getAbsolutePath() + System.getProperty("file.separator") + "dropTablesToRerunImport.sql");
+	databaseHelper.generateSqlDropSchemaFileToRerunImport(fileDrop);
+	
+	File fileCreate = new File(tempDir.getAbsolutePath() + System.getProperty("file.separator") + "createTablesToRerunImport.sql");
+	databaseHelper.generateSQLCreationSchemaFileToRerunImport(fileCreate);
+	
+	int numberOfTablesDeletion = GeolocTestHelper.countLinesInFileThatStartsWith(fileDrop, "drop table");
+	int numberOfTablesCreation = GeolocTestHelper.countLinesInFileThatStartsWith(fileCreate, "create table");
+	Assert.assertEquals("number of table deletion = "+numberOfTablesDeletion+" but number of tables creation="+numberOfTablesCreation,numberOfTablesCreation,numberOfTablesDeletion );
+	
+	int numberOfSequenceDeletion = GeolocTestHelper.countLinesInFileThatStartsWith(fileDrop, "drop sequence");
+	int numberOfSequenceCreation = GeolocTestHelper.countLinesInFileThatStartsWith(fileCreate, "create sequence");
+	Assert.assertEquals("number of sequence deletion = "+numberOfSequenceDeletion+" but number of sequence creation="+numberOfSequenceCreation,numberOfSequenceDeletion,numberOfSequenceCreation );
+	
+	fileDrop.delete();
+	fileCreate.delete();
+	tempDir.delete();
     }
 
     @Test
@@ -133,5 +176,4 @@ public class DatabaseHelperTest extends AbstractTransactionalTestCase {
 	}
     }
 
-   
 }

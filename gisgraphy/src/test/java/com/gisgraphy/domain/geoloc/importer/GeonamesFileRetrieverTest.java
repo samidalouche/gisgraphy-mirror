@@ -37,6 +37,7 @@ import junit.framework.Assert;
 import org.junit.Test;
 
 import com.gisgraphy.domain.valueobject.NameValueDTO;
+import com.gisgraphy.helper.FileHelper;
 import com.gisgraphy.test.GeolocTestHelper;
 
 public class GeonamesFileRetrieverTest {
@@ -45,7 +46,7 @@ public class GeonamesFileRetrieverTest {
     public void rollbackShouldRollback() {
 	GeonamesFileRetriever geonamesFileRetriever = new GeonamesFileRetriever();
 	ImporterConfig importerConfig = new ImporterConfig();
-	File tempDir = GeolocTestHelper.createTempDir(this.getClass()
+	File tempDir = FileHelper.createTempDir(this.getClass()
 		.getSimpleName());
 	File file = new File(tempDir.getAbsolutePath()
 		+ System.getProperty("file.separator") + "FR.zip");

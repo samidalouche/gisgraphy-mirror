@@ -13,7 +13,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.sql.SQLException;
-import java.util.HashMap;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.PersistenceException;
@@ -21,7 +21,6 @@ import javax.persistence.PersistenceException;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.cfg.AnnotationConfiguration;
-import org.hibernate.engine.FilterDefinition;
 import org.hibernate.tool.hbm2ddl.SchemaExport;
 import org.hibernatespatial.postgis.PostgisDialectNG;
 import org.slf4j.Logger;
@@ -32,7 +31,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 
 import com.gisgraphy.domain.valueobject.Constants;
-import com.sun.corba.se.pept.transport.Connection;
+import com.gisgraphy.helper.FileHelper;
+import com.gisgraphy.helper.FileLineFilter;
 
 /**
  * Default implementation of {@link IDatabaseHelper}
@@ -43,11 +43,14 @@ import com.sun.corba.se.pept.transport.Connection;
 public class DatabaseHelper extends HibernateDaoSupport implements IDatabaseHelper {
 
 	protected static final Logger logger = LoggerFactory.getLogger(DatabaseHelper.class);
+	
+	public static String[] TABLES_NAME_THAT_MUST_BE_KEPT_WHEN_RESETING_IMPORT= {"app_user","role","user_role"};
 
 	/* (non-Javadoc)
 	 * @see com.gisgraphy.domain.repository.IDatabaseHelper#execute(java.io.File, boolean)
 	 */
-	public boolean execute(final File file, final boolean continueOnError) throws Exception {
+	@SuppressWarnings("unchecked")
+	public List<String> execute(final File file, final boolean continueOnError) throws Exception {
 		if (file == null) {
 			throw new IllegalArgumentException("Can not execute a null file");
 		}
@@ -57,9 +60,9 @@ public class DatabaseHelper extends HibernateDaoSupport implements IDatabaseHelp
 		}
 		logger.info("will execute sql file " + file.getAbsolutePath());
 
-		return (Boolean) this.getHibernateTemplate().execute(new HibernateCallback() {
+		return (List<String>) this.getHibernateTemplate().execute(new HibernateCallback() {
 			public Object doInHibernate(Session session) throws PersistenceException {
-
+			    	List<String> exceptionMessageList = new ArrayList<String>();
 				BufferedReader reader;
 				
 				
@@ -93,7 +96,9 @@ public class DatabaseHelper extends HibernateDaoSupport implements IDatabaseHelp
 						    logger.info("execution of line : "+line+" modify "+nbupdate+" lines");
 						} catch (Exception e) {
 						    	errorDuringProcess = true;
-							logger.error("Error on line "+count+" ("+line +") :" +e);
+							String msg = "Error on line "+count+" ("+line +") :" +e;
+							logger.error(msg);
+							exceptionMessageList.add(msg);
 							if (!continueOnError){
 							    throw new PersistenceException(e);
 							}
@@ -102,7 +107,7 @@ public class DatabaseHelper extends HibernateDaoSupport implements IDatabaseHelp
 				} catch (IOException e) {
 					logger.error("error on line "+count+" : "+e);
 				} 
-				return !errorDuringProcess;
+				return exceptionMessageList;
 			}
 		});
 	}
@@ -111,42 +116,22 @@ public class DatabaseHelper extends HibernateDaoSupport implements IDatabaseHelp
 	 * @see com.gisgraphy.domain.repository.IDatabaseHelper#generateSqlCreationSchemaFile(java.io.File)
 	 */
 	public void generateSqlCreationSchemaFile(File outputFileName){
+	    logger.info("Will generate file to create tables");
 	   createSqlSchemaFile(outputFileName,true,false,false);
 	}
 	
 	/* (non-Javadoc)
 	 * @see com.gisgraphy.domain.repository.IDatabaseHelper#generateSqlDropSchemaFile(java.io.File)
 	 */
-	public void generateSqlDropSchemaFile(File outputFileName){
-	    createSqlSchemaFile(outputFileName,false,true,false);
+	public void generateSQLDropSchemaFile(File outputFile){
+	    logger.info("Will generate file to drop tables");
+	    createSqlSchemaFile(outputFile,false,true,false);
 	}
-	
-	/* (non-Javadoc)
-	 * @see com.gisgraphy.domain.repository.IDatabaseHelper#DropAllTables()
-	 */
-	public List<SQLException> DropAllTables(){
-	    return createSqlSchemaFile(null,false,true,true);
-	}
-	
-	/* (non-Javadoc)
-	 * @see com.gisgraphy.domain.repository.IDatabaseHelper#createAllTables()
-	 */
-	public List<SQLException> createAllTables(){
-	    return createSqlSchemaFile(null,true,false,true);
-	}
-	
-	/* (non-Javadoc)
-	 * @see com.gisgraphy.domain.repository.IDatabaseHelper#dropAndRecreateAllTables()
-	 */
-	public List<SQLException> dropAndRecreateAllTables(){
-	    return createSqlSchemaFile(null,true,true,true);
-	}
-	
 	
 	
 
-	private List<SQLException> createSqlSchemaFile(File outputFileName,boolean create, boolean drop, boolean execute ){
-	Assert.notNull(outputFileName,"Can not create a sql schema in a null file, please specify a valid one");
+	private List<SQLException> createSqlSchemaFile(File outputFile,boolean create, boolean drop, boolean execute ){
+	Assert.notNull(outputFile,"Can not create a sql schema in a null file, please specify a valid one");
 	AnnotationConfiguration config = new AnnotationConfiguration();
 	config.setProperty("hibernate.dialect",PostgisDialectNG.class.getName());
 		config.configure();
@@ -157,8 +142,8 @@ public class DatabaseHelper extends HibernateDaoSupport implements IDatabaseHelp
 		} else {
 		   schema = new SchemaExport(config);
 		}
-		if (outputFileName != null){
-		    schema.setOutputFile(outputFileName.getAbsolutePath());
+		if (outputFile != null){
+		    schema.setOutputFile(outputFile.getAbsolutePath());
 		}
 		logger.info("will create the Database schema");
 		if (create == true){
@@ -169,5 +154,30 @@ public class DatabaseHelper extends HibernateDaoSupport implements IDatabaseHelp
 		schema.execute(true, execute, drop, create);
 		return schema.getExceptions();
 	}
+
+	
+
+	public void generateSQLCreationSchemaFileToRerunImport(File outputFile) {
+	    logger.info("Will generate file to create tables to reset import");
+	    File tempDir = FileHelper.createTempDir(this.getClass().getSimpleName());
+	    File fileToBeFiltered = new File(tempDir.getAbsolutePath() + System.getProperty("file.separator") + "createAllTables.sql");
+	    generateSqlCreationSchemaFile(fileToBeFiltered);
+	    FileLineFilter filter = new FileLineFilter(DatabaseHelper.TABLES_NAME_THAT_MUST_BE_KEPT_WHEN_RESETING_IMPORT);
+	    filter.filter(fileToBeFiltered, outputFile);
+	    fileToBeFiltered.delete();
+	    
+	}
+
+	public void generateSqlDropSchemaFileToRerunImport(File outputFile) {
+	    logger.info("Will generate file to drop tables to reset import");
+	    File tempDir = FileHelper.createTempDir(this.getClass().getSimpleName());
+	    File fileToBeFiltered = new File(tempDir.getAbsolutePath() + System.getProperty("file.separator") + "dropAllTables.sql");
+	    generateSQLDropSchemaFile(fileToBeFiltered);
+	    FileLineFilter filter = new FileLineFilter(DatabaseHelper.TABLES_NAME_THAT_MUST_BE_KEPT_WHEN_RESETING_IMPORT);
+	    filter.filter(fileToBeFiltered, outputFile);
+	    fileToBeFiltered.delete();
+	}
+	
+	
 	
 }

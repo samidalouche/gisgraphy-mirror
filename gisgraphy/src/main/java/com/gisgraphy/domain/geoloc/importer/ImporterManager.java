@@ -22,8 +22,9 @@
  *******************************************************************************/
 package com.gisgraphy.domain.geoloc.importer;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.logging.Level;
 
@@ -37,11 +38,13 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.gisgraphy.domain.geoloc.entity.GisFeature;
 import com.gisgraphy.domain.geoloc.service.fulltextsearch.IsolrClient;
+import com.gisgraphy.domain.repository.IDatabaseHelper;
 import com.gisgraphy.domain.repository.IGisDao;
 import com.gisgraphy.domain.repository.IImporterStatusListDao;
 import com.gisgraphy.domain.repository.ISolRSynchroniser;
 import com.gisgraphy.domain.valueobject.ImporterStatusDto;
 import com.gisgraphy.domain.valueobject.NameValueDTO;
+import com.gisgraphy.helper.FileHelper;
 
 /**
  * Do the importing stuff
@@ -63,7 +66,6 @@ public class ImporterManager implements IImporterManager {
 
     private boolean inProgress = false;
 
-    private boolean alreadyDone = false;
 
     private ISolRSynchroniser solRSynchroniser;
 
@@ -71,6 +73,11 @@ public class ImporterManager implements IImporterManager {
     
     @Autowired
     private IsolrClient solrClient;
+    
+    @Autowired
+    private IDatabaseHelper databaseHelper;
+
+    public static final String IMPORTER_METADATA_RELATIVE_PATH = "IMPORTER-METADATA-DO_NOT_REMOVE";
 
 
     /**
@@ -78,6 +85,8 @@ public class ImporterManager implements IImporterManager {
      */
     protected static final Logger logger = LoggerFactory
 	    .getLogger(ImporterManager.class);
+
+    public static final String ALREADY_DONE_FILE_NAME = "importNotAlreadyDone";
 
     /*
      * (non-Javadoc)
@@ -90,7 +99,7 @@ public class ImporterManager implements IImporterManager {
 		    .error("You can not run an import because an other one is in progress");
 	    return;
 	}
-	if (this.alreadyDone == true) {
+	if (isAlreadyDone() == true) {
 	    logger
 		    .error("You can not run an import because an other has already been done, if you want to run an other import, you must reset all the database and the fulltext search engine first");
 	    return;
@@ -114,7 +123,7 @@ public class ImporterManager implements IImporterManager {
 	    }
 	    this.endTime = System.currentTimeMillis();
 	    this.inProgress = false;
-	    this.alreadyDone = true;
+	    setAlreadyDone(true);
 	}
     }
 
@@ -204,33 +213,35 @@ public class ImporterManager implements IImporterManager {
      * @see com.gisgraphy.domain.geoloc.importer.IImporterManager#isAlreadyDone()
      */
     public boolean isAlreadyDone() {
-	List<ImporterStatusDto> importerStatusDtoList = importerStatusListDao.get();
-	return alreadyDone || (importerStatusDtoList != null && !importerStatusDtoList.isEmpty());
+	return new File(getAlreadyDoneFilePath()).exists();
     }
 
+    
+    
     /*
      * (non-Javadoc)
      * 
      * @see com.gisgraphy.domain.geoloc.importer.IImporterManager#resetImport()
      */
-    public List<NameValueDTO<Integer>> resetImport() {
+    public List<String> resetImport() throws Exception {
 	solrClient.setSolRLogLevel(Level.WARNING);
-	List<NameValueDTO<Integer>> deletedObjectInfo = new ArrayList<NameValueDTO<Integer>>();
+	List<String> warningAndErrorMessage = new ArrayList<String>();
 
-	Collections.reverse(importers);
-	try {
-	    setCommitFlushModeForAllDaos();
-	    for (IImporterProcessor importer : importers) {
-	        logger.warn("will reset " + importer.getClass().getSimpleName());
-	        rollbackInTransaction(deletedObjectInfo, importer);
-	    }
+	    File tempDir = FileHelper.createTempDir(this.getClass().getSimpleName());
+	    File fileToCreateTablesToReRunImport = new File(tempDir.getAbsolutePath() + System.getProperty("file.separator") + "createTables.sql");
+	    File fileToDropTablesToReRunImport = new File(tempDir.getAbsolutePath() + System.getProperty("file.separator") + "dropTables.sql");
+	    databaseHelper.generateSqlDropSchemaFileToRerunImport(fileToDropTablesToReRunImport);
+	    databaseHelper.generateSQLCreationSchemaFileToRerunImport(fileToCreateTablesToReRunImport);
+	    
+	    List<String> dropErrorMessage = databaseHelper.execute(fileToDropTablesToReRunImport, true);
+	    List<String> creationErrorMessage = databaseHelper.execute(fileToCreateTablesToReRunImport, true);
+	    warningAndErrorMessage.addAll(dropErrorMessage);
+	    warningAndErrorMessage.addAll(creationErrorMessage);
+	    
 	    resetFullTextSearchEngine();
-	    this.alreadyDone = false;
+	    setAlreadyDone(false);
 	    this.inProgress = false;
-	} finally{
-	    Collections.reverse(importers);
-	}
-	return deletedObjectInfo;
+	return warningAndErrorMessage;
 
     }
 
@@ -296,6 +307,42 @@ public class ImporterManager implements IImporterManager {
 	iDaos = daos;
     }
 
+    private void setAlreadyDone(boolean alreadyDone) {
+	File alreadyDoneFile = new File(getAlreadyDoneFilePath());
+	if (alreadyDone == true) {
+	    if (!alreadyDoneFile.exists()) {
+		try {
+		    boolean created = alreadyDoneFile.createNewFile();
+		    if (created == false) {
+			throw new ImporterException("Can not change the already done status to " + alreadyDone);
+		    }
+		} catch (IOException e) {
+		    throw new ImporterException("Can not change the already done status to " + alreadyDone + " : " + e);
+		}
+	    }
+
+	} else {
+	    if (alreadyDoneFile.exists()) {
+		boolean deleted = alreadyDoneFile.delete();
+		if (deleted == false) {
+		    throw new ImporterException("Can not change the already done status to " + alreadyDone);
+		}
+	    }
+
+	}
+    }
+    
+    protected String getAlreadyDoneFilePath() {
+	String dirpath = importerConfig.getGeonamesDir() + ImporterManager.IMPORTER_METADATA_RELATIVE_PATH + File.separator;
+	File directory = new File(dirpath);
+	if (!directory.exists()) {
+	    if (!directory.mkdir()) {
+		throw new RuntimeException("Can not create ImporterMetadataDirectory");
+	    }
+	}
+	return dirpath + ALREADY_DONE_FILE_NAME;
+    }
+    
     /**
      * @param importerStatusListDao
      *                the importerStatusListDao to set
@@ -309,8 +356,17 @@ public class ImporterManager implements IImporterManager {
     /**
      * @param solrClient the solrClient to set
      */
+    @Required
     public void setSolrClient(IsolrClient solrClient) {
         this.solrClient = solrClient;
+    }
+
+    /**
+     * @param databaseHelper the databaseHelper to set
+     */
+    @Required
+    public void setDatabaseHelper(IDatabaseHelper databaseHelper) {
+        this.databaseHelper = databaseHelper;
     }
     
     

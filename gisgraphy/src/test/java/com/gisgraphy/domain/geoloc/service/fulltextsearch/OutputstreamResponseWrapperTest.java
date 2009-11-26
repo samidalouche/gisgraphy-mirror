@@ -48,6 +48,7 @@ import com.gisgraphy.domain.valueobject.Output;
 import com.gisgraphy.domain.valueobject.Pagination;
 import com.gisgraphy.domain.valueobject.Output.OutputFormat;
 import com.gisgraphy.domain.valueobject.Output.OutputStyle;
+import com.gisgraphy.helper.FileHelper;
 import com.gisgraphy.test.FeedChecker;
 import com.gisgraphy.test.GeolocTestHelper;
 
@@ -59,7 +60,7 @@ public class OutputstreamResponseWrapperTest extends
     @Test
     public void testOutputstreamResponseWrapperTestShouldSerializeFromInputStream() {
 
-	File tempDir = GeolocTestHelper.createTempDir(this.getClass()
+	File tempDir = FileHelper.createTempDir(this.getClass()
 		.getSimpleName());
 	File file = new File(tempDir.getAbsolutePath()
 		+ System.getProperty("file.separator") + "serialize.txt");

@@ -37,6 +37,7 @@ import org.junit.Test;
 import com.gisgraphy.domain.geoloc.importer.ImporterConfig;
 import com.gisgraphy.domain.valueobject.ImporterStatus;
 import com.gisgraphy.domain.valueobject.ImporterStatusDto;
+import com.gisgraphy.helper.FileHelper;
 import com.gisgraphy.test.GeolocTestHelper;
 
 public class ImporterStatusListDaoTest extends TestCase {
@@ -59,7 +60,7 @@ public class ImporterStatusListDaoTest extends TestCase {
     public void testSave() {
 	ImporterStatusListDao importerstatusDao = new ImporterStatusListDao();
 	// create a temporary directory to download files
-	File tempDir = GeolocTestHelper.createTempDir(this.getClass()
+	File tempDir = FileHelper.createTempDir(this.getClass()
 		.getSimpleName());
 	ImporterConfig importerConfig = new ImporterConfig();
 	importerConfig.setGeonamesDir(tempDir.getAbsolutePath());
@@ -115,7 +116,7 @@ public class ImporterStatusListDaoTest extends TestCase {
     public void testGet() {
 	ImporterStatusListDao importerstatusDao = new ImporterStatusListDao();
 	// create a temporary directory to download files
-	File tempDir = GeolocTestHelper.createTempDir(this.getClass()
+	File tempDir = FileHelper.createTempDir(this.getClass()
 		.getSimpleName());
 	ImporterConfig importerConfig = new ImporterConfig();
 	importerConfig.setGeonamesDir(tempDir.getAbsolutePath());
@@ -139,7 +140,7 @@ public class ImporterStatusListDaoTest extends TestCase {
     public void testDelete() {
 	ImporterStatusListDao importerstatusDao = new ImporterStatusListDao();
 	// create a temporary directory to download files
-	File tempDir = GeolocTestHelper.createTempDir(this.getClass()
+	File tempDir = FileHelper.createTempDir(this.getClass()
 		.getSimpleName());
 	ImporterConfig importerConfig = new ImporterConfig();
 	importerConfig.setGeonamesDir(tempDir.getAbsolutePath());

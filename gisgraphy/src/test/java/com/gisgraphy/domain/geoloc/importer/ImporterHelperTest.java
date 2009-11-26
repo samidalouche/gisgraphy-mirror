@@ -37,6 +37,7 @@ import java.util.regex.Pattern;
 import org.junit.Assert;
 import org.junit.Test;
 
+import com.gisgraphy.helper.FileHelper;
 import com.gisgraphy.test.GeolocTestHelper;
 
 public class ImporterHelperTest {
@@ -208,7 +209,7 @@ public class ImporterHelperTest {
     public void listCountryFilesToImport() throws IOException{
 	
 	// create a temporary directory to download files
-	File tempDir = GeolocTestHelper.createTempDir(this.getClass()
+	File tempDir = FileHelper.createTempDir(this.getClass()
 		.getSimpleName());
 
 	try {

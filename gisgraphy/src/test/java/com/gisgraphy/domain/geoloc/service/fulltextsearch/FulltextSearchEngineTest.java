@@ -54,6 +54,7 @@ import com.gisgraphy.domain.valueobject.Output;
 import com.gisgraphy.domain.valueobject.Pagination;
 import com.gisgraphy.domain.valueobject.Output.OutputFormat;
 import com.gisgraphy.domain.valueobject.Output.OutputStyle;
+import com.gisgraphy.helper.FileHelper;
 import com.gisgraphy.service.IStatsUsageService;
 import com.gisgraphy.stats.StatsUsageType;
 import com.gisgraphy.test.FeedChecker;
@@ -201,7 +202,7 @@ public class FulltextSearchEngineTest extends
 
     @Test
     public void testExecuteAndSerializeShouldSerialize() {
-	File tempDir = GeolocTestHelper.createTempDir(this.getClass()
+	File tempDir = FileHelper.createTempDir(this.getClass()
 		.getSimpleName());
 	File file = new File(tempDir.getAbsolutePath()
 		+ System.getProperty("file.separator") + "serialize.txt");

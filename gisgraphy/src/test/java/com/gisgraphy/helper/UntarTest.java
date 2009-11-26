@@ -40,7 +40,7 @@ public class UntarTest {
 
     @Before
     public void setup(){
-	tempDir = GeolocTestHelper.createTempDir("targzip"+System.currentTimeMillis());
+	tempDir = FileHelper.createTempDir("targzip"+System.currentTimeMillis());
     }
     
     @After

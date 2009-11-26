@@ -11,16 +11,16 @@
 	 			<#else>
 	 				<@s.text name="import.reset.done"/>
 	 				<br><br/>
-					<#if deletedObjectsInfo.size()!=0 >
-						<@s.text name="import.reset.deleted"/>
+					<#if errorsAndWarningMessages.size()!=0 >
+						<@s.text name="import.reset.listMessages"/> : 
 		 				<br><br/>
 		 				<ul>
-							<#list DeletedObjectsInfo as deletedObject>
-								<li>${deletedObject.name} : ${deletedObject.value}</li>
+							<#list errorsAndWarningMessages as messages>
+								<li>${messages}</li>
 							</#list>
 						</ul>
 					<#else>
-						<@s.text name="import.reset.nothing"/>
+						<@s.text name="import.reset.noErrorMessages"/>
 					</#if>
 				</#if>
 				</div>

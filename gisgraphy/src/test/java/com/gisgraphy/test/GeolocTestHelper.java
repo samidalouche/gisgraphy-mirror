@@ -83,6 +83,8 @@ public class GeolocTestHelper {
     private IAdmDao admDao;
     @Resource
     private ICountryDao countryDao;
+    
+    
 
     public static boolean isFileContains(File file, String text) {
 	if (file == null) {
@@ -127,25 +129,6 @@ public class GeolocTestHelper {
     }
 
     
-    public static File createTempDir(String path) {
-	File tempDir = new File(System.getProperty("java.io.tmpdir"));
-	if (!tempDir.canWrite()) {
-	    throw new RuntimeException("can not write in temp Directory :"
-		    + tempDir.getAbsolutePath());
-	}
-
-	tempDir = new File(System.getProperty("java.io.tmpdir")
-		+ System.getProperty("file.separator") + path + "-"
-		+ System.currentTimeMillis());
-
-	tempDir.mkdir();
-	if (!tempDir.canWrite()) {
-	    throw new RuntimeException("can not write in temp Directory :"
-		    + tempDir.getAbsolutePath());
-	}
-	return tempDir;
-    }
-
     /**
      * Note : if there is more than one parameter with the same name, The last
      * one will be put in the map
@@ -783,5 +766,47 @@ public class GeolocTestHelper {
     }
     
     
+    public static int countLinesInFileThatStartsWith(File file, String text) {
+	int count = 0;
+	if (file == null) {
+	    throw new IllegalArgumentException("can not check a null file");
+	}
+	if (!file.exists()) {
+	    throw new IllegalArgumentException("can not check a file that does not exists");
+	}
+	if (!file.isFile()) {
+	    throw new IllegalArgumentException("can only check file, not directory");
+	}
+	FileInputStream fstream = null;
+	DataInputStream in = null;
+	try {
+	    fstream = new FileInputStream(file);
+	    in = new DataInputStream(fstream);
+	    BufferedReader br = new BufferedReader(new InputStreamReader(in));
+	    String strLine;
+	    // Read File Line By Line
+	    while ((strLine = br.readLine()) != null) {
+		if (strLine.trim().startsWith(text)){
+		    count++;
+		}
+	    }
+	} catch (Exception e) {// Catch exception if any
+	    throw new IllegalArgumentException("an exception has occured durind the assertion of " + text + " in " + file.getAbsolutePath());
+	} finally {
+	    if (in != null) {
+		try {
+		    in.close();
+		} catch (IOException e) {
+		}
+	    }
+	    if (fstream != null) {
+		try {
+		    fstream.close();
+		} catch (IOException e) {
+		}
+	    }
+	}
+	return count;
+    }
     
 }

@@ -71,6 +71,7 @@ import com.gisgraphy.domain.valueobject.Output;
 import com.gisgraphy.domain.valueobject.Pagination;
 import com.gisgraphy.domain.valueobject.Output.OutputFormat;
 import com.gisgraphy.domain.valueobject.Output.OutputStyle;
+import com.gisgraphy.helper.FileHelper;
 import com.gisgraphy.helper.URLUtils;
 import com.gisgraphy.test.FeedChecker;
 import com.gisgraphy.test.GeolocTestHelper;
@@ -674,7 +675,7 @@ public class SolRSynchroniserTest extends AbstractIntegrationHttpSolrTestCase {
 	for (String key : spellChekerResultMap.keySet()){
 	    assertTrue(spellChekerResultMap.get(key).booleanValue());
 	}
-	File tempDir = GeolocTestHelper.createTempDir(this.getClass()
+	File tempDir = FileHelper.createTempDir(this.getClass()
 		.getSimpleName());
 	File file = new File(tempDir.getAbsolutePath()
 		+ System.getProperty("file.separator") + "serialize.txt");
@@ -847,7 +848,7 @@ public class SolRSynchroniserTest extends AbstractIntegrationHttpSolrTestCase {
 	countryDao.save(country);
 	// commit changes
 	this.solRSynchroniser.commit();
-	File tempDir = GeolocTestHelper.createTempDir(this.getClass()
+	File tempDir = FileHelper.createTempDir(this.getClass()
 		.getSimpleName());
 	File file = new File(tempDir.getAbsolutePath()
 		+ System.getProperty("file.separator") + "serialize.txt");
@@ -935,7 +936,7 @@ public class SolRSynchroniserTest extends AbstractIntegrationHttpSolrTestCase {
         admDao.save(adm);
 
         this.solRSynchroniser.commit();
-        File tempDir = GeolocTestHelper.createTempDir(this.getClass()
+        File tempDir = FileHelper.createTempDir(this.getClass()
 		.getSimpleName());
 	File file = new File(tempDir.getAbsolutePath()
 		+ System.getProperty("file.separator") + "serialize.txt");

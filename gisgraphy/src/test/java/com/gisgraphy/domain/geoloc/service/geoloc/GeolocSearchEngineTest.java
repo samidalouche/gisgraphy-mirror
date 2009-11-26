@@ -44,6 +44,7 @@ import com.gisgraphy.domain.valueobject.GisFeatureDistance;
 import com.gisgraphy.domain.valueobject.Output;
 import com.gisgraphy.domain.valueobject.Pagination;
 import com.gisgraphy.domain.valueobject.Output.OutputFormat;
+import com.gisgraphy.helper.FileHelper;
 import com.gisgraphy.helper.GeolocHelper;
 import com.gisgraphy.service.IStatsUsageService;
 import com.gisgraphy.stats.StatsUsageType;
@@ -79,7 +80,7 @@ public class GeolocSearchEngineTest extends AbstractIntegrationHttpSolrTestCase 
 	this.cityDao.save(p2);
 	this.cityDao.save(p3);
 
-	File tempDir = GeolocTestHelper.createTempDir(this.getClass()
+	File tempDir = FileHelper.createTempDir(this.getClass()
 		.getSimpleName());
 	File file = new File(tempDir.getAbsolutePath()
 		+ System.getProperty("file.separator") + "serializegeoloc.txt");

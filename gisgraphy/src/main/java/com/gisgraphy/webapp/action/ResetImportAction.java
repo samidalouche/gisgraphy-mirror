@@ -56,7 +56,7 @@ public class ResetImportAction extends ActionSupport {
 
     private IImporterManager importerManager;
 
-    private List<NameValueDTO<Integer>> deletedObjectsInfo = new ArrayList<NameValueDTO<Integer>>();
+    private List<String> errorsAndWarningMessages = new ArrayList<String>();
 
     private boolean resetFailed = false;
 
@@ -100,8 +100,8 @@ public class ResetImportAction extends ActionSupport {
 	if (confirm == true) {
 	    logger.info("Reseting the import");
 	    try {
-		deletedObjectsInfo = importerManager.resetImport();
-	    } catch (RuntimeException e) {
+		errorsAndWarningMessages = importerManager.resetImport();
+	    } catch (Exception e) {
 		resetFailed = true;
 		failedMessage = e.getMessage();
 		logger.warn("The reset has failed : " + e.getMessage());
@@ -156,8 +156,8 @@ public class ResetImportAction extends ActionSupport {
     /**
      * @return the deletedObjectInfo
      */
-    public List<NameValueDTO<Integer>> getDeletedObjectsInfo() {
-	return deletedObjectsInfo;
+    public List<String> getErrorsAndWarningMessages() {
+	return errorsAndWarningMessages;
     }
 
     /**

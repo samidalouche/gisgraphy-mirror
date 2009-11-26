@@ -10,13 +10,12 @@ import junit.framework.Assert;
 
 import org.junit.Test;
 
-import com.gisgraphy.test.GeolocTestHelper;
 
 
 public class FileLineFilterTest {
    @Test
 public void testFilter() throws Exception{
-    	File tempDir = GeolocTestHelper.createTempDir(this.getClass().getSimpleName());
+    	File tempDir = FileHelper.createTempDir(this.getClass().getSimpleName());
 	File file = new File(tempDir.getAbsolutePath() + System.getProperty("file.separator") + "fileToFilter.sql");
 	File filteredFile = new File(tempDir.getAbsolutePath() + System.getProperty("file.separator") + "filteredFile.sql");
 	FileOutputStream fos = null;

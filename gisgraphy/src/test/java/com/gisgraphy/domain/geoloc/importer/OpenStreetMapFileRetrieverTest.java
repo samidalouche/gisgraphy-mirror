@@ -33,6 +33,7 @@ import org.junit.Test;
 
 import com.gisgraphy.domain.valueobject.ImporterStatus;
 import com.gisgraphy.domain.valueobject.ImporterStatusDto;
+import com.gisgraphy.helper.FileHelper;
 import com.gisgraphy.service.IInternationalisationService;
 import com.gisgraphy.test.GeolocTestHelper;
 
@@ -51,7 +52,7 @@ public class OpenStreetMapFileRetrieverTest {
 	importerConfig.setOpenstreetMapDownloadURL("http://download.gisgraphy.com/openstreetmap/");
 	
 	// create a temporary directory to download files
-	File tempDir = GeolocTestHelper.createTempDir(this.getClass()
+	File tempDir = FileHelper.createTempDir(this.getClass()
 		.getSimpleName());
 
 	// get files to download

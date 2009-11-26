@@ -41,7 +41,6 @@ import java.util.Map;
 import java.util.logging.Level;
 
 import org.easymock.classextension.EasyMock;
-import org.hibernate.FlushMode;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -60,6 +59,7 @@ import com.gisgraphy.domain.repository.IAdmDao;
 import com.gisgraphy.domain.repository.IAlternateNameDao;
 import com.gisgraphy.domain.repository.ICityDao;
 import com.gisgraphy.domain.repository.ICountryDao;
+import com.gisgraphy.domain.repository.IDatabaseHelper;
 import com.gisgraphy.domain.repository.IGisDao;
 import com.gisgraphy.domain.repository.IGisFeatureDao;
 import com.gisgraphy.domain.repository.IImporterStatusListDao;
@@ -71,6 +71,7 @@ import com.gisgraphy.domain.valueobject.GISSource;
 import com.gisgraphy.domain.valueobject.ImporterStatus;
 import com.gisgraphy.domain.valueobject.ImporterStatusDto;
 import com.gisgraphy.domain.valueobject.NameValueDTO;
+import com.gisgraphy.helper.FileHelper;
 import com.gisgraphy.test.GeolocTestHelper;
 
 public class ImporterManagerTest extends AbstractIntegrationHttpSolrTestCase {
@@ -146,9 +147,9 @@ public class ImporterManagerTest extends AbstractIntegrationHttpSolrTestCase {
 
     @SuppressWarnings("unchecked")
     @Test
-    public void testResetImportShouldSetAlreadyDoneToFalseAndReturnInfoOnDeletedObjects() {
+    public void testResetImportShouldSetAlreadyDoneToFalseAndReturnInfoOnDeletedObjects() throws Exception {
 	ImporterManager fakeimporterManager = new ImporterManager();
-	ICityDao mockCityDao = EasyMock.createMock(ICityDao.class);
+	/*ICityDao mockCityDao = EasyMock.createMock(ICityDao.class);
 	mockCityDao.setFlushMode(FlushMode.COMMIT);
 	EasyMock.expectLastCall();
 	EasyMock.replay(mockCityDao);
@@ -156,7 +157,25 @@ public class ImporterManagerTest extends AbstractIntegrationHttpSolrTestCase {
 	IGisFeatureDao mockGisDao = EasyMock.createMock(IGisFeatureDao.class);
 	mockGisDao.setFlushMode(FlushMode.COMMIT);
 	EasyMock.expectLastCall();
-	EasyMock.replay(mockGisDao);
+	EasyMock.replay(mockGisDao);*/
+	IDatabaseHelper mockDatabaseHelper = EasyMock.createMock(IDatabaseHelper.class);
+
+	mockDatabaseHelper.generateSqlDropSchemaFileToRerunImport(((File)EasyMock.anyObject()));
+	mockDatabaseHelper.generateSQLCreationSchemaFileToRerunImport(((File)EasyMock.anyObject()));
+	
+	List<String> dropMessages =new ArrayList<String>();
+	dropMessages.add("dropmessage1");
+	
+	List<String> creationMessages =new ArrayList<String>();
+	creationMessages.add("creationMessage1");
+	
+	
+	EasyMock.expect(mockDatabaseHelper.execute(((File)EasyMock.anyObject()), EasyMock.anyBoolean())).andReturn(dropMessages);
+	EasyMock.expect(mockDatabaseHelper.execute(((File)EasyMock.anyObject()), EasyMock.anyBoolean())).andReturn(creationMessages);
+	EasyMock.replay(mockDatabaseHelper);
+	fakeimporterManager.setDatabaseHelper(mockDatabaseHelper);
+	
+	
 	IImporterStatusListDao fakeimporterStatusListDao = EasyMock
 		.createMock(IImporterStatusListDao.class);
 	EasyMock.expect(fakeimporterStatusListDao.delete()).andStubReturn(true);
@@ -177,8 +196,9 @@ public class ImporterManagerTest extends AbstractIntegrationHttpSolrTestCase {
 	EasyMock.replay(mockSolRClient);
 	
 	
-	ImporterConfig mockImporterConfig = EasyMock
-		.createMock(ImporterConfig.class);
+	ImporterConfig fakeImporterConfig = new ImporterConfig();
+	String geonamesDir = FileHelper.createTempDir(this.getClass().getSimpleName()).getAbsolutePath();
+	fakeImporterConfig.setGeonamesDir(geonamesDir);
 	IImporterProcessor processor1 = EasyMock
 		.createMock(IImporterProcessor.class);
 	ISolRSynchroniser mockSolRSynchroniser = EasyMock
@@ -221,20 +241,20 @@ public class ImporterManagerTest extends AbstractIntegrationHttpSolrTestCase {
 	processors.add(processor2);
 	fakeimporterManager.setImporterStatusListDao(fakeimporterStatusListDao);
 	fakeimporterManager.setImporters(processors);
-	fakeimporterManager.setImporterConfig(mockImporterConfig);
+	fakeimporterManager.setImporterConfig(fakeImporterConfig);
 	fakeimporterManager.setSolRSynchroniser(mockSolRSynchroniser);
 	fakeimporterManager.setSolrClient(mockSolRClient);
 
-	IGisDao<? extends GisFeature>[] daoList = new IGisDao[2];
-	daoList[0] = mockCityDao;
-	daoList[1] = mockGisDao;
-	fakeimporterManager.setIDaos(daoList);
+	//IGisDao<? extends GisFeature>[] daoList = new IGisDao[2];
+	//daoList[0] = mockCityDao;
+	//daoList[1] = mockGisDao;
+	//fakeimporterManager.setIDaos(daoList);
 	assertFalse(fakeimporterManager.isAlreadyDone());
 	assertFalse(fakeimporterManager.isInProgress());
 	fakeimporterManager.importAll();
 	assertTrue(fakeimporterManager.isAlreadyDone());
 	assertFalse(fakeimporterManager.isInProgress());
-	fakeimporterManager.resetImport();
+	assertEquals("wrong number of message has been returned",2,fakeimporterManager.resetImport().size());
 	assertFalse(fakeimporterManager.isAlreadyDone());
 	assertFalse(fakeimporterManager.isInProgress());
 	
@@ -2078,7 +2098,7 @@ public class ImporterManagerTest extends AbstractIntegrationHttpSolrTestCase {
     private void processAndCheckGeonamesFileRetriever() {
 
 	// create a temporary directory to download files
-	File tempDir = GeolocTestHelper.createTempDir(this.getClass()
+	File tempDir = FileHelper.createTempDir(this.getClass()
 		.getSimpleName());
 
 	// save geonamesdir in order to restore it

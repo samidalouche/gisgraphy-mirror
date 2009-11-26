@@ -35,6 +35,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import com.gisgraphy.domain.valueobject.NameValueDTO;
+import com.gisgraphy.helper.FileHelper;
 import com.gisgraphy.test.GeolocTestHelper;
 
 public class AdmExtracterTest  {
@@ -43,7 +44,7 @@ public class AdmExtracterTest  {
     public void rollbackShouldRollback() {
 	AdmExtracter admExtracter = new AdmExtracter();
 	ImporterConfig importerConfig = new ImporterConfig();
-	File tempDir = GeolocTestHelper.createTempDir(this.getClass()
+	File tempDir = FileHelper.createTempDir(this.getClass()
 		.getSimpleName());
 	// create adm file
 	for (int i = 1; i <= 4; i++) {
