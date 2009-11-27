@@ -76,7 +76,7 @@
 
         <global-exception-mappings>
             <exception-mapping exception="org.springframework.dao.DataAccessException" result="dataAccessFailure"/>
-             <exception-mapping exception="com.gisgraphy.domain.geoloc.importer.GeonamesProcessorException" result="importFailure"/>
+             <exception-mapping exception="com.gisgraphy.domain.geoloc.importer.ImporterException" result="importFailure"/>
         </global-exception-mappings>
 
         <action name="mainMenu" >

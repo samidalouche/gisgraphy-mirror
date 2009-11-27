@@ -213,10 +213,10 @@ public class ImporterHelper {
 	} catch (UnknownHostException e) {
 	    String errorMessage = "can not download " + address + " to " + localFileName + " : " + e.getMessage() + ". if the host exists and is reachable," + " maybe this links can help : http://www.gisgraphy.com/forum/viewtopic.php?f=3&t=64 ";
 	    logger.warn(errorMessage);
-	    throw new GeonamesProcessorException(errorMessage, e);
+	    throw new ImporterException(errorMessage, e);
 	} catch (Exception e) {
 	    logger.warn("can not download " + address + " to " + localFileName + " : " + e.getMessage());
-	    throw new GeonamesProcessorException(e);
+	    throw new ImporterException(e);
 	} finally {
 	    try {
 		if (in != null) {
@@ -265,7 +265,7 @@ public class ImporterHelper {
 	    zipFile.close();
 	} catch (IOException e) {
 	    logger.error("can not unzip " + file.getName() + " : " + e.getMessage());
-	    throw new GeonamesProcessorException(e);
+	    throw new ImporterException(e);
 	}
     }
 

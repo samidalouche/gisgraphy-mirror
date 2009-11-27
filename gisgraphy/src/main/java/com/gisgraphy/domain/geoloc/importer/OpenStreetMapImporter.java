@@ -79,7 +79,7 @@ public class OpenStreetMapImporter extends AbstractImporterProcessor {
      * @see com.gisgraphy.domain.geoloc.importer.AbstractImporterProcessor#processData(java.lang.String)
      */
     @Override
-    protected void processData(String line) throws GeonamesProcessorException {
+    protected void processData(String line) throws ImporterException {
 	String[] fields = line.split("\t");
 
 	//

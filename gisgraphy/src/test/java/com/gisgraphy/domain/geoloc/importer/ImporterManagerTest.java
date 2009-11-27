@@ -283,7 +283,7 @@ public class ImporterManagerTest extends AbstractIntegrationHttpSolrTestCase {
 	try {
 	    this.geonamesAdm2Importer.process();
 	    commitAndOptimize();
-	} catch (GeonamesProcessorException e) {
+	} catch (ImporterException e) {
 	    fail("adm2 importer with wrong featureId format should not throw");
 
 	} finally {
@@ -299,7 +299,7 @@ public class ImporterManagerTest extends AbstractIntegrationHttpSolrTestCase {
 	    this.importerConfig.setImportGisFeatureEmbededAlternateNames(false);
 	    importall();
 
-	} catch (GeonamesProcessorException e) {
+	} catch (ImporterException e) {
 	    fail(e.getCause() + " : " + e.getMessage());
 	}
 
@@ -310,7 +310,7 @@ public class ImporterManagerTest extends AbstractIntegrationHttpSolrTestCase {
 	try {
 	    this.importerConfig.setImportGisFeatureEmbededAlternateNames(true);
 	    importall();
-	} catch (GeonamesProcessorException e) {
+	} catch (ImporterException e) {
 	    fail(e.getCause() + " : " + e.getMessage());
 	}
 
@@ -329,7 +329,7 @@ public class ImporterManagerTest extends AbstractIntegrationHttpSolrTestCase {
 
 	try {
 	    processAndCheckGeonamesFileRetriever();
-	} catch (GeonamesProcessorException e) {
+	} catch (ImporterException e) {
 	    fail("an error occurred during file retriever with retrieveFile Option to false ");
 
 	} finally {
@@ -350,7 +350,7 @@ public class ImporterManagerTest extends AbstractIntegrationHttpSolrTestCase {
 
 	try {
 	    processAndCheckGeonamesFileRetriever();
-	} catch (GeonamesProcessorException e) {
+	} catch (ImporterException e) {
 	    fail("an error occurred during file retriever with retrieveFiles Option to true ");
 
 	} finally {
@@ -375,7 +375,7 @@ public class ImporterManagerTest extends AbstractIntegrationHttpSolrTestCase {
 	    this.importerConfig.setImportGisFeatureEmbededAlternateNames(false);
 	    importall();
 
-	} catch (GeonamesProcessorException e) {
+	} catch (ImporterException e) {
 	    fail(e.getCause() + " : " + e.getMessage());
 	} finally {
 	    // restore option
@@ -400,7 +400,7 @@ public class ImporterManagerTest extends AbstractIntegrationHttpSolrTestCase {
 	    this.importerConfig.setImportGisFeatureEmbededAlternateNames(false);
 	    importall();
 
-	} catch (GeonamesProcessorException e) {
+	} catch (ImporterException e) {
 	    fail(e.getCause() + " : " + e.getMessage());
 	} finally {
 	    // restore option
@@ -422,7 +422,7 @@ public class ImporterManagerTest extends AbstractIntegrationHttpSolrTestCase {
 	    this.importerConfig.setImportGisFeatureEmbededAlternateNames(false);
 	    importall();
 
-	} catch (GeonamesProcessorException e) {
+	} catch (ImporterException e) {
 	    fail(e.getCause() + " : " + e.getMessage());
 	} finally {
 	    // restore option
@@ -446,7 +446,7 @@ public class ImporterManagerTest extends AbstractIntegrationHttpSolrTestCase {
 	    fail("the wrongNumberOfFieldsThrows option should be set to true and is "
 		    + importerConfig.isWrongNumberOfFieldsThrows()
 		    + " and should has been throws");
-	} catch (GeonamesProcessorException e) {
+	} catch (ImporterException e) {
 	    assertEquals(
 		    "The cause of the exception is not of type WrongNumberOfFieldsException",
 		    e.getCause().getClass(), WrongNumberOfFieldsException.class);
@@ -480,7 +480,7 @@ public class ImporterManagerTest extends AbstractIntegrationHttpSolrTestCase {
 	    fail("the wrongNumberOfFieldsThrows option should be set to true and is "
 		    + importerConfig.isWrongNumberOfFieldsThrows()
 		    + " and should has been throws");
-	} catch (GeonamesProcessorException e) {
+	} catch (ImporterException e) {
 	    assertEquals(
 		    "The cause of the exception is not of type WrongNumberOfFieldsException",
 		    e.getCause().getClass(), WrongNumberOfFieldsException.class);
@@ -517,7 +517,7 @@ public class ImporterManagerTest extends AbstractIntegrationHttpSolrTestCase {
 	    fail("the wrongNumberOfFieldsThrows option should be set to true and is "
 		    + importerConfig.isWrongNumberOfFieldsThrows()
 		    + " and should has been throws");
-	} catch (GeonamesProcessorException e) {
+	} catch (ImporterException e) {
 	    assertEquals(
 		    "the cause of the exception is not of type WrongNumberOfFieldsException",
 		    e.getCause().getClass(), WrongNumberOfFieldsException.class);
@@ -554,7 +554,7 @@ public class ImporterManagerTest extends AbstractIntegrationHttpSolrTestCase {
 	    fail("the wrongNumberOfFieldsThrows option should be set to true and is "
 		    + importerConfig.isWrongNumberOfFieldsThrows()
 		    + " and should has been throws");
-	} catch (GeonamesProcessorException e) {
+	} catch (ImporterException e) {
 	    assertEquals(
 		    "The cause of the exception is not of type WrongNumberOfFieldsException",
 		    e.getCause().getClass(), WrongNumberOfFieldsException.class);
@@ -592,7 +592,7 @@ public class ImporterManagerTest extends AbstractIntegrationHttpSolrTestCase {
 	    fail("the wrongNumberOfFieldsThrows option should be set to true and is "
 		    + importerConfig.isWrongNumberOfFieldsThrows()
 		    + " and should has been throws");
-	} catch (GeonamesProcessorException e) {
+	} catch (ImporterException e) {
 	    assertEquals(
 		    "The cause of the exception is not of type WrongNumberOfFieldsException",
 		    e.getCause().getClass(), WrongNumberOfFieldsException.class);
@@ -624,7 +624,7 @@ public class ImporterManagerTest extends AbstractIntegrationHttpSolrTestCase {
 	    fail("the wrongNumberOfFieldsThrows option should be set to true and is "
 		    + importerConfig.isWrongNumberOfFieldsThrows()
 		    + " and should has been throws");
-	} catch (GeonamesProcessorException e) {
+	} catch (ImporterException e) {
 	    assertEquals(
 		    "The cause of the exception is not of type WrongNumberOfFieldsException",
 		    e.getCause().getClass(), WrongNumberOfFieldsException.class);
@@ -656,7 +656,7 @@ public class ImporterManagerTest extends AbstractIntegrationHttpSolrTestCase {
 	    fail("The MissingRequiredFieldThrows option should be set to true and is "
 		    + importerConfig.isMissingRequiredFieldThrows()
 		    + " and should has been throws");
-	} catch (GeonamesProcessorException e) {
+	} catch (ImporterException e) {
 	    assertEquals(
 		    "The cause of the exception is not of type MissingRequiredFieldThrows",
 		    e.getCause().getClass(),
@@ -677,7 +677,7 @@ public class ImporterManagerTest extends AbstractIntegrationHttpSolrTestCase {
 	this.importerConfig.setMissingRequiredFieldThrows(false);
 	try {
 	    processAndCheckAdmExtracter();
-	} catch (GeonamesProcessorException e) {
+	} catch (ImporterException e) {
 	    fail("The MissingRequiredFieldThrows option should be set to false and is "
 		    + importerConfig.isMissingRequiredFieldThrows()
 		    + " and should nothas been throws");
@@ -705,7 +705,7 @@ public class ImporterManagerTest extends AbstractIntegrationHttpSolrTestCase {
 	    fail("the MissingRequiredFieldThrows option should be set to true and is "
 		    + importerConfig.isMissingRequiredFieldThrows()
 		    + " and should has been throws");
-	} catch (GeonamesProcessorException e) {
+	} catch (ImporterException e) {
 	    assertEquals(
 		    "the cause of the exception is not of type MissingRequiredFieldThrows",
 		    e.getCause().getClass(),
@@ -733,7 +733,7 @@ public class ImporterManagerTest extends AbstractIntegrationHttpSolrTestCase {
 	try {
 	    processAndCheckGeonamesAdm1Importer();
 
-	} catch (GeonamesProcessorException e) {
+	} catch (ImporterException e) {
 	    fail("the MissingRequiredFieldThrows option should be set to false and is "
 		    + importerConfig.isMissingRequiredFieldThrows()
 		    + " and should not has been throws");
@@ -763,7 +763,7 @@ public class ImporterManagerTest extends AbstractIntegrationHttpSolrTestCase {
 	    fail("the MissingRequiredFieldThrows option should be set to true and is "
 		    + importerConfig.isMissingRequiredFieldThrows()
 		    + " and should has been throws");
-	} catch (GeonamesProcessorException e) {
+	} catch (ImporterException e) {
 	    assertEquals(
 		    "the cause of the exception is not of type MissingRequiredFieldThrows",
 		    e.getCause().getClass(),
@@ -791,7 +791,7 @@ public class ImporterManagerTest extends AbstractIntegrationHttpSolrTestCase {
 	this.importerConfig.setMissingRequiredFieldThrows(false);
 	try {
 	    processAndCheckGeonamesAdm2Importer();
-	} catch (GeonamesProcessorException e) {
+	} catch (ImporterException e) {
 	    fail("the MissingRequiredFieldThrows option should be set to false and is "
 		    + importerConfig.isMissingRequiredFieldThrows()
 		    + " and should not has been throws");
@@ -822,7 +822,7 @@ public class ImporterManagerTest extends AbstractIntegrationHttpSolrTestCase {
 	    fail("the MissingRequiredFieldThrows option should be set to true and is "
 		    + importerConfig.isMissingRequiredFieldThrows()
 		    + " and should has been throws");
-	} catch (GeonamesProcessorException e) {
+	} catch (ImporterException e) {
 	    assertEquals(
 		    "the cause of the exception is not of type MissingRequiredFieldThrows",
 		    e.getCause().getClass(),
@@ -851,7 +851,7 @@ public class ImporterManagerTest extends AbstractIntegrationHttpSolrTestCase {
 	try {
 	    processAndCheckGeonamesAdm3Importer();
 
-	} catch (GeonamesProcessorException e) {
+	} catch (ImporterException e) {
 	    fail("The MissingRequiredFieldThrows option should be set to false and is "
 		    + importerConfig.isMissingRequiredFieldThrows()
 		    + " and should not has been throws");
@@ -882,7 +882,7 @@ public class ImporterManagerTest extends AbstractIntegrationHttpSolrTestCase {
 	    fail("the MissingRequiredFieldThrows option should be set to true and is "
 		    + importerConfig.isMissingRequiredFieldThrows()
 		    + " and should has been throws");
-	} catch (GeonamesProcessorException e) {
+	} catch (ImporterException e) {
 	    assertEquals(
 		    "the cause of the exception is not of type MissingRequiredFieldThrows",
 		    e.getCause().getClass(),
@@ -913,7 +913,7 @@ public class ImporterManagerTest extends AbstractIntegrationHttpSolrTestCase {
 		    .setAdm4FileName(ADM4_FILENAME_WITH_MISSING_FIELDS);
 	    this.importerConfig.setMissingRequiredFieldThrows(false);
 	    processAndCheckGeonamesAdm4Importer();
-	} catch (GeonamesProcessorException e) {
+	} catch (ImporterException e) {
 	    fail("the MissingRequiredFieldThrows option should be set to false and is "
 		    + importerConfig.isMissingRequiredFieldThrows()
 		    + " and should not has been throws");
@@ -944,7 +944,7 @@ public class ImporterManagerTest extends AbstractIntegrationHttpSolrTestCase {
 	    fail("the MissingRequiredFieldThrows option should be set to true and is "
 		    + importerConfig.isMissingRequiredFieldThrows()
 		    + " and should has been throws");
-	} catch (GeonamesProcessorException e) {
+	} catch (ImporterException e) {
 	    assertEquals(
 		    "the cause of the exception is not of type MissingRequiredFieldThrows",
 		    e.getCause().getClass(),
@@ -972,7 +972,7 @@ public class ImporterManagerTest extends AbstractIntegrationHttpSolrTestCase {
 	this.importerConfig.setMissingRequiredFieldThrows(false);
 	try {
 	    processAndCheckGeonamesFeatureImporter();
-	} catch (GeonamesProcessorException e) {
+	} catch (ImporterException e) {
 	    fail("the MissingRequiredFieldThrows option should be set to false and is "
 		    + importerConfig.isMissingRequiredFieldThrows()
 		    + " and should not has been throws");
@@ -1011,7 +1011,7 @@ public class ImporterManagerTest extends AbstractIntegrationHttpSolrTestCase {
 	    fail("the MissingRequiredFieldThrows option should be set to true and is "
 		    + importerConfig.isMissingRequiredFieldThrows()
 		    + " and should has been throws");
-	} catch (GeonamesProcessorException e) {
+	} catch (ImporterException e) {
 	    assertEquals(
 		    "The cause of the exception is not of type MissingRequiredFieldThrows",
 		    e.getCause().getClass(),
@@ -1053,7 +1053,7 @@ public class ImporterManagerTest extends AbstractIntegrationHttpSolrTestCase {
 	try {
 	    processAndCheckGeonamesAlternateNamesImporter(allAlternateNamesSize);
 
-	} catch (GeonamesProcessorException e) {
+	} catch (ImporterException e) {
 	    fail("the MissingRequiredFieldThrows option should be set to false and is "
 		    + importerConfig.isMissingRequiredFieldThrows()
 		    + " and should not has been throws");

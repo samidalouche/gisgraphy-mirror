@@ -386,7 +386,7 @@ public class AdmExtracter extends AbstractImporterProcessor {
      */
     private File createFileAndBackupIfAlreadyExists(File file) {
 	if (file == null) {
-	    throw new GeonamesProcessorException(
+	    throw new ImporterException(
 		    "Can not create or backup a null File ");
 	}
 

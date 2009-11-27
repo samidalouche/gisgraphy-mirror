@@ -20,50 +20,54 @@
  *  
  *  
  *******************************************************************************/
+/**
+ *
+ */
 package com.gisgraphy.domain.geoloc.importer;
 
-import com.gisgraphy.GisgraphyException;
-
-
 /**
- * Exception that must be throw during import
+ * Basic Exception for Importers
  * 
  * @author <a href="mailto:david.masclet@gisgraphy.com">David Masclet</a>
  */
-public class ImporterException extends GisgraphyException {
+public class ImporterException extends RuntimeException {
 
     /**
-     * Default generated serial ID
+     * Default serial id
      */
-    private static final long serialVersionUID = 5086776885839921918L;
+    private static final long serialVersionUID = -5721395154087962690L;
 
     /**
-     * Default Constructor
+     * Default constructor
      */
     public ImporterException() {
 	super();
     }
 
     /**
-     * @param message The message
-     * @param cause The cause
-     */
-    public ImporterException(String message, Throwable cause) {
-	super(message, cause);
-    }
-
-    /**
-     * @param message The message
+     * @param message
+     *                The message
      */
     public ImporterException(String message) {
 	super(message);
     }
 
     /**
-     * @param cause The cause
+     * @param cause
+     *                The cause
      */
     public ImporterException(Throwable cause) {
 	super(cause);
+    }
+
+    /**
+     * @param message
+     *                The message
+     * @param cause
+     *                The cause
+     */
+    public ImporterException(String message, Throwable cause) {
+	super(message, cause);
     }
 
 }

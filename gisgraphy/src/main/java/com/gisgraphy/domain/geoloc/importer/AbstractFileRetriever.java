@@ -73,7 +73,7 @@ public abstract class AbstractFileRetriever implements IImporterProcessor {
      * 
      * @see com.gisgraphy.domain.geoloc.importer.IGeonamesProcessor#process()
      */
-    public void process() throws GeonamesProcessorException {
+    public void process() throws ImporterException {
 	statusMessage = internationalisationService.getString("import.download.info");
 	status = ImporterStatus.PROCESSING;
 	try {
@@ -102,7 +102,7 @@ public abstract class AbstractFileRetriever implements IImporterProcessor {
 	    this.statusMessage = "error retrieving or decompres file : " + e.getMessage();
 	    logger.error(statusMessage);
 	    status = ImporterStatus.ERROR;
-	    throw new GeonamesProcessorException(statusMessage, e);
+	    throw new ImporterException(statusMessage, e);
 	} 
 
     }

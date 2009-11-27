@@ -206,10 +206,10 @@ public abstract class AbstractImporterProcessor implements IImporterProcessor {
      * 
      * @return The number of lines that have been processed for the current
      *         processed file
-     * @throws GeonamesProcessorException
+     * @throws ImporterException
      *                 if an error occurred
      */
-    public int readLineAndProcessData() throws GeonamesProcessorException {
+    public int readLineAndProcessData() throws ImporterException {
 	if (this.isEndOfDocument()) {
 	    throw new IllegalArgumentException(
 		    "Must NOT be called when it is the end of the document");
@@ -219,7 +219,7 @@ public abstract class AbstractImporterProcessor implements IImporterProcessor {
 	try {
 	    input = (this.in).readLine();
 	} catch (IOException e1) {
-	    throw new GeonamesProcessorException("can not read line ", e1);
+	    throw new ImporterException("can not read line ", e1);
 	}
 
 	if (input != null) {
@@ -234,7 +234,7 @@ public abstract class AbstractImporterProcessor implements IImporterProcessor {
 			if (this.importerConfig.isMissingRequiredFieldThrows()) {
 			    logger.error("A requrired field is missing "
 				    + mrfe.getMessage());
-			    throw new GeonamesProcessorException(
+			    throw new ImporterException(
 				    "A requrired field is missing "
 					    + mrfe.getMessage(), mrfe);
 			} else {
@@ -245,7 +245,7 @@ public abstract class AbstractImporterProcessor implements IImporterProcessor {
 			    logger
 				    .error("wrong number of fields during import "
 					    + wnofe.getMessage());
-			    throw new GeonamesProcessorException(
+			    throw new ImporterException(
 				    "Wrong number of fields during import "
 					    + wnofe.getMessage(), wnofe);
 			} else {
@@ -255,7 +255,7 @@ public abstract class AbstractImporterProcessor implements IImporterProcessor {
 			logger.error("An Error occurred on Line "
 				+ readFileLine + " for " + input + " : "
 				+ e.getCause());
-			throw new GeonamesProcessorException(
+			throw new ImporterException(
 				"An Error occurred on Line " + readFileLine
 					+ " for " + input + " : "
 					+ e.getCause(), e);
@@ -277,7 +277,7 @@ public abstract class AbstractImporterProcessor implements IImporterProcessor {
      *                the line to process
      */
     protected abstract void processData(String line)
-	    throws GeonamesProcessorException;
+	    throws ImporterException;
 
     /**
      * Manage the transaction, flush Daos, and process all files to be processed
@@ -314,7 +314,7 @@ public abstract class AbstractImporterProcessor implements IImporterProcessor {
 		    + getCurrentFileName() + " on line " + getReadFileLine()
 		    + " : " + e.getCause();
 	    logger.error(statusMessage);
-	    throw new GeonamesProcessorException(statusMessage, e.getCause());
+	    throw new ImporterException(statusMessage, e.getCause());
 	} finally {
 	    try {
 		tearDown();
@@ -353,7 +353,7 @@ public abstract class AbstractImporterProcessor implements IImporterProcessor {
 	}
     }
 
-    private void processFile() throws GeonamesProcessorException {
+    private void processFile() throws ImporterException {
 	try {
 	    hasConsumedFirstLine = false;
 	    readFileLine = 0;
@@ -385,7 +385,7 @@ public abstract class AbstractImporterProcessor implements IImporterProcessor {
 	    // incremented on time more
 	} catch (Exception e) {
 	    transactionManager.rollback(txStatus);
-	    throw new GeonamesProcessorException(
+	    throw new ImporterException(
 		    "An error occurred when processing "
 			    + getCurrentFileName() + " on line "
 			    + readFileLine + " : " + e.getCause(), e.getCause());

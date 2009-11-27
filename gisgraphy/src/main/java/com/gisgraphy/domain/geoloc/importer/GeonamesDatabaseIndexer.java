@@ -113,7 +113,7 @@ public class GeonamesDatabaseIndexer implements IImporterProcessor {
 		    + this.getClass().getSimpleName() + " on dao "
 		    + getCurrentFileName() + " : " + e.getCause();
 	    logger.error(statusMessage);
-	    throw new GeonamesProcessorException(statusMessage, e.getCause());
+	    throw new ImporterException(statusMessage, e.getCause());
 	} finally {
 	    try {
 		tearDown();

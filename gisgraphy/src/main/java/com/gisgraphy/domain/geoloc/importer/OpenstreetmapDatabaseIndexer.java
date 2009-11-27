@@ -106,7 +106,7 @@ public class OpenstreetmapDatabaseIndexer implements IImporterProcessor {
 	    this.statusMessage = "An error occurred when processing "
 		    + this.getClass().getSimpleName() +" : " + e.getCause();
 	    logger.error(statusMessage);
-	    throw new GeonamesProcessorException(statusMessage, e.getCause());
+	    throw new ImporterException(statusMessage, e.getCause());
 	} finally {
 	    try {
 		tearDown();
