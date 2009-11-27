@@ -7,7 +7,8 @@
 			<div class="clear"><br/></div>
 	 			<div>
 	 			<#if resetFailed>
-	 				<@s.text name="import.reset.failed"/> : ${failedMessage}
+	 				<@s.text name="import.reset.failed"/> : ${failedMessage}<br/><br/>
+	 				<@s.text name="import.reset.failed.next.instructions"/>
 	 			<#else>
 	 				<@s.text name="import.reset.done"/>
 	 				<br><br/>

@@ -81,7 +81,6 @@ public class DatabaseHelper extends HibernateDaoSupport implements IDatabaseHelp
 				}
 				String line;
 				int count = 0;
-				boolean errorDuringProcess = false;
 				try {
 					while ((line = reader.readLine()) != null) {
 						line = line.trim();
@@ -95,7 +94,6 @@ public class DatabaseHelper extends HibernateDaoSupport implements IDatabaseHelp
 						    int nbupdate = createIndexQuery.executeUpdate();
 						    logger.info("execution of line : "+line+" modify "+nbupdate+" lines");
 						} catch (Exception e) {
-						    	errorDuringProcess = true;
 							String msg = "Error on line "+count+" ("+line +") :" +e;
 							logger.error(msg);
 							exceptionMessageList.add(msg);
@@ -135,24 +133,24 @@ public class DatabaseHelper extends HibernateDaoSupport implements IDatabaseHelp
 	AnnotationConfiguration config = new AnnotationConfiguration();
 	config.setProperty("hibernate.dialect",PostgisDialectNG.class.getName());
 		config.configure();
-		SchemaExport schema =null;
+		SchemaExport schemaExporter =null;
 		if (execute == true){
 		java.sql.Connection connection = getSession().connection();
-		schema = new SchemaExport(config,connection);
+		schemaExporter = new SchemaExport(config,connection);
 		} else {
-		   schema = new SchemaExport(config);
+		   schemaExporter = new SchemaExport(config);
 		}
 		if (outputFile != null){
-		    schema.setOutputFile(outputFile.getAbsolutePath());
+		    schemaExporter.setOutputFile(outputFile.getAbsolutePath());
 		}
 		logger.info("will create the Database schema");
 		if (create == true){
-		    schema.create(true, true);
+		    schemaExporter.create(true, true);
 		}else if (drop == true){
-		    schema.drop(true, true);
+		    schemaExporter.drop(true, true);
 		}
-		schema.execute(true, execute, drop, create);
-		return schema.getExceptions();
+		schemaExporter.execute(true, execute, drop, create);
+		return schemaExporter.getExceptions();
 	}
 
 	

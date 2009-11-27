@@ -121,9 +121,13 @@ public class ImporterManager implements IImporterManager {
 	    } catch (RuntimeException e) {
 		logger.error("Can not save statusDtoList : " + e.getMessage());
 	    }
-	    this.endTime = System.currentTimeMillis();
-	    this.inProgress = false;
-	    setAlreadyDone(true);
+	    try {
+		this.endTime = System.currentTimeMillis();
+		this.inProgress = false;
+		setAlreadyDone(true);
+	    } catch (Exception e) {
+		logger.error("The import is done but we can not persist the already done status : "+e.getMessage());
+	    }
 	}
     }
 
