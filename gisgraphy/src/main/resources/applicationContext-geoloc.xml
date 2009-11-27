@@ -234,7 +234,7 @@
 		<property name="adm3FileName" value="${importerConfig.adm3FileName}"/>
 		<property name="adm4FileName" value="${importerConfig.adm4FileName}"/>
 		<property name="languageFileName" value="${importerConfig.languageFileName}"/>
-		<property name="countriesFileName" value="${importerConfig.countriesFileName}"/>
+		<property name="countriesFileName" value="${importerConfig.countriesInfosFileName}"/>
 		<property name="alternateNamesFileName" value="${importerConfig.alternateNamesFileName}"/>
 		<property name="openstreetMapDownloadURL" value="${importer.openstreetmap.downloadURL}"/>
 		<property name="geonamesImporterEnabled" value="${importer.geonames.enabled}"/>

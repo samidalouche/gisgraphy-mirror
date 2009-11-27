@@ -84,11 +84,15 @@ public interface IImporterProcessor {
      *         Object that were 0 object will be deleted.
      */
     public List<NameValueDTO<Integer>> rollback();
-    
+
     /**
      * @return true if the processor should Not be executed
      */
     public boolean shouldBeSkipped();
-    
+
+    /**
+     * Reset status fields, it should be done when the import has been canceled
+     */
+    public void resetStatus();
 
 }

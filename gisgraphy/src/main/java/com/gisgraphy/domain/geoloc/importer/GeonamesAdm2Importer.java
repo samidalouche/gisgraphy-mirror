@@ -267,7 +267,7 @@ public class GeonamesAdm2Importer extends AbstractImporterProcessor {
 		    .add(new NameValueDTO<Integer>("ADM2", deletedadm));
 	}
 	logger.info(deletedadm + " adm2s have been deleted");
-	resetStatusFields();
+	resetStatus();
 	return deletedObjectInfo;
     }
 

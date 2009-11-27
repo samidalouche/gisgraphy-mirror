@@ -198,12 +198,16 @@ public abstract class AbstractFileRetriever implements IImporterProcessor {
 	}
 	deletedObjectInfo.add(new NameValueDTO<Integer>("Downloaded files",
 		deleted));
+	resetStatus();
+	return deletedObjectInfo;
+    }
+
+    public void resetStatus() {
 	currentFileName = null;
 	status = ImporterStatus.WAITING;
 	fileIndex = 0;
 	numberOfFileToDownload = 0;
 	statusMessage = "";
-	return deletedObjectInfo;
     }
     
     /**

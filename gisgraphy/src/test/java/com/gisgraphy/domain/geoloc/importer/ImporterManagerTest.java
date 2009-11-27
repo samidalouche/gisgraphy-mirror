@@ -22,6 +22,8 @@
  *******************************************************************************/
 package com.gisgraphy.domain.geoloc.importer;
 
+import static org.easymock.classextension.EasyMock.verify;
+
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.File;
@@ -70,7 +72,6 @@ import com.gisgraphy.domain.valueobject.Constants;
 import com.gisgraphy.domain.valueobject.GISSource;
 import com.gisgraphy.domain.valueobject.ImporterStatus;
 import com.gisgraphy.domain.valueobject.ImporterStatusDto;
-import com.gisgraphy.domain.valueobject.NameValueDTO;
 import com.gisgraphy.helper.FileHelper;
 import com.gisgraphy.test.GeolocTestHelper;
 
@@ -207,8 +208,8 @@ public class ImporterManagerTest extends AbstractIntegrationHttpSolrTestCase {
 	EasyMock.expectLastCall();
 	processor1.process();
 	EasyMock.expectLastCall();
-	EasyMock.expect(processor1.rollback()).andReturn(
-		new ArrayList<NameValueDTO<Integer>>());
+	/*EasyMock.expect(processor1.rollback()).andReturn(
+		new ArrayList<NameValueDTO<Integer>>());*/
 	EasyMock.expect(processor1.getCurrentFileName()).andReturn(
 		"currentFileName");
 	EasyMock.expect(processor1.getStatus()).andReturn(
@@ -217,14 +218,16 @@ public class ImporterManagerTest extends AbstractIntegrationHttpSolrTestCase {
 	EasyMock.expect(processor1.getTotalReadLine()).andReturn(3);
 	EasyMock.expect(processor1.getReadFileLine()).andReturn(1);
 	EasyMock.expect(processor1.getNumberOfLinesToProcess()).andReturn(5);
+	processor1.resetStatus();
+	EasyMock.expectLastCall();
 	EasyMock.replay(processor1);
 	
 	IImporterProcessor processor2 = EasyMock
 	.createMock(IImporterProcessor.class);
 	processor2.process();
 	EasyMock.expectLastCall();
-	EasyMock.expect(processor2.rollback()).andReturn(
-		new ArrayList<NameValueDTO<Integer>>());
+	/*EasyMock.expect(processor2.rollback()).andReturn(
+		new ArrayList<NameValueDTO<Integer>>());*/
 	EasyMock.expect(processor2.getCurrentFileName()).andReturn(
 		"currentFileName");
 	EasyMock.expect(processor2.getStatus()).andReturn(
@@ -233,6 +236,8 @@ public class ImporterManagerTest extends AbstractIntegrationHttpSolrTestCase {
 	EasyMock.expect(processor2.getTotalReadLine()).andReturn(3);
 	EasyMock.expect(processor2.getReadFileLine()).andReturn(1);
 	EasyMock.expect(processor2.getNumberOfLinesToProcess()).andReturn(5);
+	processor2.resetStatus();
+	EasyMock.expectLastCall();
 	EasyMock.replay(processor2);
 	
 	
@@ -260,6 +265,10 @@ public class ImporterManagerTest extends AbstractIntegrationHttpSolrTestCase {
 	
 	assertEquals("The processor list have been inverted but not restored",processor1, processors.get(0));
 	assertEquals("The processor list have been inverted but not restored",processor2, processors.get(1));
+	verify(processor1);
+	verify(processor2);
+	verify(mockDatabaseHelper);
+	verify(mockSolRClient);
 	
     }
 

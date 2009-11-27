@@ -746,7 +746,7 @@ public class GeonamesFeatureImporter extends AbstractImporterProcessor {
 	    deletedObjectInfo.add(new NameValueDTO<Integer>(GisFeature.class
 		    .getSimpleName(), deletedgis));
 	}
-	resetStatusFields();
+	resetStatus();
 	return deletedObjectInfo;
     }
 

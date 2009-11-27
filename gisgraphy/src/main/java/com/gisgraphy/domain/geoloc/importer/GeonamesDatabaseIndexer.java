@@ -161,4 +161,13 @@ public class GeonamesDatabaseIndexer implements IImporterProcessor {
         this.importerConfig = importerConfig;
     }
 
+    /* (non-Javadoc)
+     * @see com.gisgraphy.domain.geoloc.importer.IImporterProcessor#resetStatus()
+     */
+    public void resetStatus() {
+	numberOfDaoThatHaveBeenIndexed = 0;
+	status = ImporterStatus.WAITING;
+	statusMessage = "";
+    }
+
 }

@@ -256,7 +256,7 @@ public class GeonamesAdm4Importer extends AbstractImporterProcessor {
 		    .add(new NameValueDTO<Integer>("ADM4", deletedadm));
 	}
 	logger.info(deletedadm + " adm4s have been deleted");
-	resetStatusFields();
+	resetStatus();
 	return deletedObjectInfo;
     }
 

@@ -240,6 +240,10 @@ public class ImporterManager implements IImporterManager {
 	    
 	    resetFullTextSearchEngine();
 	    setAlreadyDone(false);
+	    for (IImporterProcessor importer :importers){
+		importer.resetStatus();
+	    }
+	    importerStatusListDao.delete();
 	    this.inProgress = false;
 	return warningAndErrorMessage;
 

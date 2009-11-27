@@ -366,7 +366,7 @@ public class GeonamesAlternateNamesImporter extends AbstractImporterProcessor {
 		    .getSimpleName(), deletedAnames));
 	}
 	logger.info(deletedAnames + " alternateNames have been deleted");
-	resetStatusFields();
+	resetStatus();
 	return deletedObjectInfo;
     }
 

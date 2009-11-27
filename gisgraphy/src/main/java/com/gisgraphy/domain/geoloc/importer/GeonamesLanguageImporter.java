@@ -178,7 +178,7 @@ public class GeonamesLanguageImporter extends AbstractImporterProcessor {
 		    .getSimpleName(), deletedlang));
 	}
 	logger.info(deletedlang + " languages have been deleted");
-	resetStatusFields();
+	resetStatus();
 	return deletedObjectInfo;
     }
 

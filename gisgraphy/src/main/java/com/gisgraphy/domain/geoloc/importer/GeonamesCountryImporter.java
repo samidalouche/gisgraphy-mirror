@@ -266,7 +266,7 @@ public class GeonamesCountryImporter extends AbstractImporterProcessor {
 		    .getSimpleName(), deletedCountries));
 	}
 	logger.info(deletedCountries + " countries have been deleted");
-	resetStatusFields();
+	resetStatus();
 	return deletedObjectInfo;
     }
 

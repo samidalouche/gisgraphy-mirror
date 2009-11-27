@@ -549,7 +549,7 @@ public class AdmExtracter extends AbstractImporterProcessor {
 	adm4file = new File(importerConfig.getGeonamesDir()
 		+ importerConfig.getAdm4FileName());
 	deleteFile(adm4file, deletedObjectInfo);
-	resetStatusFields();
+	resetStatus();
 	return deletedObjectInfo;
     }
 

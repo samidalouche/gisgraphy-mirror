@@ -617,7 +617,7 @@ public abstract class AbstractImporterProcessor implements IImporterProcessor {
 	return importerConfig.getMaxInsertsBeforeFlush();
     }
 
-    protected void resetStatusFields() {
+    public void resetStatus() {
 	this.currentFile = null;
 	this.readFileLine = 0;
 	this.totalReadLine = 0;

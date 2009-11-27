@@ -237,6 +237,10 @@
 				Add new links on statistics page   
 			</action>
 			
+			<action dev="David Masclet" type="update">
+				to be clearer the option importerConfig.countriesFileName has been renamed to importerConfig.countriesFileName  
+			</action>
+			
 			
 			
 			

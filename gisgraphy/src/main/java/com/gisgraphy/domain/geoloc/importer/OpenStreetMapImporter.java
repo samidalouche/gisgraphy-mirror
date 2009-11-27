@@ -201,7 +201,7 @@ public class OpenStreetMapImporter extends AbstractImporterProcessor {
     		    .add(new NameValueDTO<Integer>(openStreetMapDao.getPersistenceClass().getSimpleName(), deleted));
     	}
     	logger.info(deleted + " openstreetmap entities have been deleted");
-    	resetStatusFields();
+    	resetStatus();
     	return deletedObjectInfo;
     }
     

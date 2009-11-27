@@ -166,7 +166,20 @@ public class DatabaseHelperTest extends AbstractTransactionalTestCase {
 	fileCreate.delete();
 	tempDir.delete();
     }
-
+    
+    @Test
+    public void testExecuteSqlDropSchemaFileToRerunImportAndCreateShouldNotThrows() throws Exception{
+	File tempDir = FileHelper.createTempDir(this.getClass().getSimpleName());
+	File fileDrop = new File(tempDir.getAbsolutePath() + System.getProperty("file.separator") + "dropTablesToRerunImport.sql");
+	databaseHelper.generateSqlDropSchemaFileToRerunImport(fileDrop);
+	
+	File fileCreate = new File(tempDir.getAbsolutePath() + System.getProperty("file.separator") + "createTablesToRerunImport.sql");
+	databaseHelper.generateSQLCreationSchemaFileToRerunImport(fileCreate);
+	Assert.assertTrue(databaseHelper.execute(fileDrop,true).isEmpty());
+	Assert.assertTrue(databaseHelper.execute(fileCreate,true).isEmpty());
+    }
+    
+  
     @Test
     public void testGenerateSqlCreationSchemaFileThrowsIfFileIsNull() {
 	try {
