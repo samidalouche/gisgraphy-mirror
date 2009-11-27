@@ -28,6 +28,7 @@ com.gisgraphy.domain.geoloc.importer.ImporterManager importerManager = (com.gisg
    <div class="tip yellowtip"> <fmt:message key="config.googlemapapikey.empty" /></div>
 <% } %>
 <ul class="glassList">
+<li><a href="http://www.gisgraphy.com/documentation/index.htm"><fmt:message key="global.read.docs" /></a></li>
 	<% if (!importerManager.isAlreadyDone()) { %>
    <li>
         <a href="<c:url value='/admin/importconfirm.html'/>"><fmt:message key="menu.admin.import"/></a>
