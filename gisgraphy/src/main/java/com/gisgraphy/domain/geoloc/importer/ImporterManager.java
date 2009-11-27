@@ -86,7 +86,7 @@ public class ImporterManager implements IImporterManager {
     protected static final Logger logger = LoggerFactory
 	    .getLogger(ImporterManager.class);
 
-    public static final String ALREADY_DONE_FILE_NAME = "importNotAlreadyDone";
+    public static final String ALREADY_DONE_FILE_NAME = "importAlreadyDone";
 
     /*
      * (non-Javadoc)
