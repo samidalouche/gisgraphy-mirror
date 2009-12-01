@@ -135,7 +135,7 @@ public class SolrClient implements IsolrClient {
 	    XPath xpath = XPathFactory.newInstance().newXPath();
 	    if (xpath == null || builder == null) {
 		throw new RuntimeException(
-			"Can not determine if searchengine is alive");
+			"Can not determine if fulltext engine is alive");
 	    }
 	    SolrPingResponse response = getServer().ping();
 	    if (response == null) {
@@ -143,7 +143,7 @@ public class SolrClient implements IsolrClient {
 	    }
 	    return ((String) response.getResponse().get("status")).equals("OK");
 	} catch (Exception e) {
-	    logger.error("can not determine if server is alive "
+	    logger.error("can not determine if fulltext engine is alive "
 		    + e.getMessage());
 	    return false;
 	}
