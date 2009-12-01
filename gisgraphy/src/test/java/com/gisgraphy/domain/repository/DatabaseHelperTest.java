@@ -5,6 +5,7 @@ import static com.gisgraphy.test.GeolocTestHelper.isFileContains;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.OutputStreamWriter;
+import java.util.List;
 
 import junit.framework.Assert;
 
@@ -28,9 +29,16 @@ public class DatabaseHelperTest extends AbstractTransactionalTestCase {
     
     @Test
     public void testCreateNormalize_textFunctionShouldNotThrow() throws Exception {
-	databaseHelper.dropNormalize_textFunction();
+	//databaseHelper.dropNormalize_textFunction();
 	//Assert.assertFalse("after deletion the Normalize_text() sql function should be deleted in postgres",databaseHelper.isNormalize_textFunctionCreated()); 
 	databaseHelper.createNormalize_textFunction();
+	//Assert.assertTrue("after creation the Normalize_text() sql function should be created in postgres",databaseHelper.isNormalize_textFunctionCreated()); 
+    }
+    
+    @Test
+    public void testdropNormalize_textFunctionShouldNotThrow() throws Exception {
+	databaseHelper.dropNormalize_textFunction();
+	//Assert.assertFalse("after deletion the Normalize_text() sql function should be deleted in postgres",databaseHelper.isNormalize_textFunctionCreated()); 
 	//Assert.assertTrue("after creation the Normalize_text() sql function should be created in postgres",databaseHelper.isNormalize_textFunctionCreated()); 
     }
 
@@ -184,10 +192,19 @@ public class DatabaseHelperTest extends AbstractTransactionalTestCase {
 	
 	File fileCreate = new File(tempDir.getAbsolutePath() + System.getProperty("file.separator") + "createTablesToRerunImport.sql");
 	databaseHelper.generateSQLCreationSchemaFileToRerunImport(fileCreate);
-	Assert.assertTrue(databaseHelper.execute(fileDrop,true).isEmpty());
-	Assert.assertTrue(databaseHelper.execute(fileCreate,true).isEmpty());
+	List<String> dropErrors = databaseHelper.execute(fileDrop,true);
+	List<String> createErrors = databaseHelper.execute(fileCreate,true);
+	Assert.assertTrue("the drop Database script has generate "+dropErrors.size()+" errors : "+printErrors(dropErrors),dropErrors.isEmpty());
+	Assert.assertTrue("the create Database script has generate "+createErrors.size()+" errors : "+printErrors(createErrors),createErrors.isEmpty());
     }
     
+    private String printErrors(List<String> errorsList){
+    	String concatenateErrors= "";
+    	for (String error: errorsList){
+    		concatenateErrors = concatenateErrors + " "+ error+"\r\n\r\n";
+    	}
+    	return concatenateErrors;
+    }
   
     @Test
     public void testGenerateSqlCreationSchemaFileThrowsIfFileIsNull() {

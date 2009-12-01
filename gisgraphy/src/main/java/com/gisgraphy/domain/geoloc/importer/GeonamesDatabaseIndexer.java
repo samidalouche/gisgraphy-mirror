@@ -101,6 +101,7 @@ public class GeonamesDatabaseIndexer implements IImporterProcessor {
 	    this.status = ImporterStatus.PROCESSING;
 	    setup();
 	   for (int i=0; i < daos.length;i++){
+		   currentDao=daos[i];
 	       statusMessage = internationalisationService.getString("import.message.createIndex",new String[]{daos[i].getPersistenceClass().getSimpleName()});
 	       daos[i].createGISTIndexForLocationColumn();
 	   }

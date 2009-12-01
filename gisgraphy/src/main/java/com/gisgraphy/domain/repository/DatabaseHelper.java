@@ -101,11 +101,11 @@ public class DatabaseHelper extends HibernateDaoSupport implements IDatabaseHelp
 						    int nbupdate = createIndexQuery.executeUpdate();
 						    logger.info("execution of line : "+line+" modify "+nbupdate+" lines");
 						} catch (Exception e) {
-							String msg = "Error on line "+count+" ("+line +") :" +e;
+							String msg = "Error on line "+count+" ("+line +") :" +e.getCause();
 							logger.error(msg);
 							exceptionMessageList.add(msg);
 							if (!continueOnError){
-							    throw new PersistenceException(e);
+							    throw new PersistenceException(e.getCause());
 							}
 						} 
 					}
