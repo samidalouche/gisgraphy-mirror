@@ -217,7 +217,7 @@ public class ImporterManager implements IImporterManager {
      * @see com.gisgraphy.domain.geoloc.importer.IImporterManager#isAlreadyDone()
      */
     public boolean isAlreadyDone() {
-	return new File(getAlreadyDoneFilePath()).exists();
+	return !new File(getAlreadyDoneFilePath()).exists();
     }
 
     
