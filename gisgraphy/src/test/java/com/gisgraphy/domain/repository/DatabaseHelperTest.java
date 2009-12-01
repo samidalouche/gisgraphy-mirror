@@ -25,6 +25,15 @@ public class DatabaseHelperTest extends AbstractTransactionalTestCase {
 	this.databaseHelper = databaseHelper;
     }
 
+    
+    @Test
+    public void testCreateNormalize_textFunctionShouldNotThrow() throws Exception {
+	databaseHelper.dropNormalize_textFunction();
+	//Assert.assertFalse("after deletion the Normalize_text() sql function should be deleted in postgres",databaseHelper.isNormalize_textFunctionCreated()); 
+	databaseHelper.createNormalize_textFunction();
+	//Assert.assertTrue("after creation the Normalize_text() sql function should be created in postgres",databaseHelper.isNormalize_textFunctionCreated()); 
+    }
+
     public void testExecuteFileSuccess() throws Exception {
 	File tempDir = FileHelper.createTempDir(this.getClass().getSimpleName());
 	File file = new File(tempDir.getAbsolutePath() + System.getProperty("file.separator") + "sqlErrorFile.sql");
@@ -188,5 +197,7 @@ public class DatabaseHelperTest extends AbstractTransactionalTestCase {
 	} catch (IllegalArgumentException ignore) {
 	}
     }
+    
+  
 
 }

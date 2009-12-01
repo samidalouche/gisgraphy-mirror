@@ -33,6 +33,25 @@ import java.util.List;
 public interface IDatabaseHelper {
 
     /**
+     * Drop the Normalize_text function in postgres
+     */
+    public void dropNormalize_textFunction();
+    
+    /**
+     * Determines if the normalize_text function is created in postgres
+     * 
+     * @return true if the call to that function does not throw exception and
+     *         return a the correct result
+     */
+    public boolean isNormalize_textFunctionCreated();
+
+    /**
+     * create a postgres function in postgres to remove accent, lower cased, trim, and
+     * remove unwanted char (, . ; ")
+     */
+    public void createNormalize_textFunction();
+
+    /**
      * @param file
      *            the file to execute, it will be read as an UTF-8 file
      * @param continueOnError
@@ -41,7 +60,7 @@ public interface IDatabaseHelper {
      * @throws Exception
      *             in case of error during execution, or if the file is null or
      *             does not exist
-     * @return A list of String with errorMessage 
+     * @return A list of String with errorMessage
      */
     public List<String> execute(final File file, boolean continueOnError) throws Exception;
 
@@ -60,7 +79,6 @@ public interface IDatabaseHelper {
      *            The File that we want to write the SQL
      */
     public void generateSQLDropSchemaFile(File outputFile);
-   
 
     /**
      * Generate the SQL file to create all the Gisgraphy tables that have to be
@@ -70,7 +88,7 @@ public interface IDatabaseHelper {
      *            The File that we want to write the SQL
      */
     public void generateSQLCreationSchemaFileToRerunImport(File outputFile);
-    
+
     /**
      * Generate the SQL file to drop all the Gisgraphy tables that have to be
      * reset to rerun the import, the user and role tables won't be deleted
@@ -80,5 +98,4 @@ public interface IDatabaseHelper {
      */
     public void generateSqlDropSchemaFileToRerunImport(File outputFile);
 
-   
 }

@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.PersistenceException;
+import javax.sql.DataSource;
 
 import org.hibernate.Query;
 import org.hibernate.Session;
@@ -25,11 +26,15 @@ import org.hibernate.tool.hbm2ddl.SchemaExport;
 import org.hibernatespatial.postgis.PostgisDialectNG;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.orm.hibernate3.HibernateCallback;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 
+import com.gisgraphy.domain.geoloc.entity.Adm;
 import com.gisgraphy.domain.valueobject.Constants;
 import com.gisgraphy.helper.FileHelper;
 import com.gisgraphy.helper.FileLineFilter;
@@ -45,6 +50,8 @@ public class DatabaseHelper extends HibernateDaoSupport implements IDatabaseHelp
 	protected static final Logger logger = LoggerFactory.getLogger(DatabaseHelper.class);
 	
 	public static String[] TABLES_NAME_THAT_MUST_BE_KEPT_WHEN_RESETING_IMPORT= {"app_user","role","user_role"};
+	
+	public static final String NORMALIZE_TEXT_POSTRES_FUNCTION_BODY = "CREATE OR REPLACE FUNCTION normalize_text(text) RETURNS text AS 'BEGIN RETURN replace(replace(replace(replace(translate(trim(lower($1)),''âãäåāăąàèéêëēĕėęěìíîïìĩīĭóôõöōŏőðøùúûüũūŭůçñÿ'',''aaaaaaaaeeeeeeeeeiiiiiiiiooooooooouuuuuuuucny''),''-'','' ''),''.'','' ''),''\\;'','' ''),''  '','' '') \u003B END '  LANGUAGE 'plpgsql' ";
 
 	/* (non-Javadoc)
 	 * @see com.gisgraphy.domain.repository.IDatabaseHelper#execute(java.io.File, boolean)
@@ -175,7 +182,71 @@ public class DatabaseHelper extends HibernateDaoSupport implements IDatabaseHelp
 	    filter.filter(fileToBeFiltered, outputFile);
 	    fileToBeFiltered.delete();
 	}
+
+	/* (non-Javadoc)
+	 * @see com.gisgraphy.domain.repository.IDatabaseHelper#createNormalize_textFunction()
+	 */
+	public void createNormalize_textFunction() {
+	    logger.info("will create normalize_text function");
+	     this.getHibernateTemplate().execute(
+			new HibernateCallback() {
+
+			    public Object doInHibernate(Session session)
+				    throws PersistenceException {
+				
+				Query qry = session.createSQLQuery(NORMALIZE_TEXT_POSTRES_FUNCTION_BODY);
+				qry.executeUpdate();
+				return  null;
+			    }
+			});
+	     logger.info("normalize_text function has been created");
+	    
+	}
 	
+	/* (non-Javadoc)
+	 * @see com.gisgraphy.domain.repository.IDatabaseHelper#isNormalize_textFunctionCreated()
+	 */
+	public boolean isNormalize_textFunctionCreated() {
+	    try {
+		this.getHibernateTemplate().execute(
+			new HibernateCallback() {
+
+			    public Object doInHibernate(Session session)
+				    throws PersistenceException {
+				
+				Query qry = session.createSQLQuery("select normalize_text('éèê')");
+				qry.uniqueResult();
+				return  null;
+			    }
+			});
+	    } catch (Exception e) {
+		  logger.info("normalize_text function has generate an exception : we consider that the function is not created : "+e);
+		  return false;
+	    }
+	     logger.info("normalize_text function has been successfully called : we consider that the function is created");
+	     return true;
+	    
+	}
+	
+	
+	/* (non-Javadoc)
+	 * @see com.gisgraphy.domain.repository.IDatabaseHelper#dropNormalize_textFunction()
+	 */
+	public void dropNormalize_textFunction(){
+	    logger.info("will drop normalize_text function");
+	     this.getHibernateTemplate().execute(
+			new HibernateCallback() {
+
+			    public Object doInHibernate(Session session)
+				    throws PersistenceException {
+				
+				Query qry = session.createSQLQuery("DROP FUNCTION IF EXISTS normalize_text(text)");
+				qry.executeUpdate();
+				return  null;
+			    }
+			});
+	     logger.info("normalize_text function has been drop");
+	}
 	
 	
 }
