@@ -48,9 +48,9 @@ import com.gisgraphy.helper.StringHelper;
 
 /**
  * An implementation of the <code>Criterion</code> interface that implements
- * Partial word search, it must be coupled with the DAO to have a comon format
+ * Partial word search, it must be coupled with the DAO to have a common format
  * =>the DAO store a special string and this criteria search 
- * for thatstring (the searchterms have to be transform too)
+ * for that string (the searchterms have to be transform too)
  * 
  * @author <a href="mailto:david.masclet@gisgraphy.com">David Masclet</a>
  */
