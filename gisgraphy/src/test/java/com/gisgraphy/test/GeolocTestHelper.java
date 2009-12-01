@@ -687,7 +687,7 @@ public class GeolocTestHelper {
 	List<AlternateName> alternateNames = new ArrayList<AlternateName>();
 	for (int i = 0; i < nombres; i++) {
 	    AlternateName alternateName = new AlternateName();
-	    alternateName.setName("lutece");
+	    alternateName.setName("lutece"+i);
 	    alternateName.setGisFeature(gisFeature);
 	    alternateName.setSource(AlternateNameSource.ALTERNATENAMES_FILE);
 	    alternateNames.add(alternateName);
