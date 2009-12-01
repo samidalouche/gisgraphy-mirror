@@ -42,6 +42,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 
+import junit.framework.Assert;
+
 import org.easymock.classextension.EasyMock;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -200,6 +202,8 @@ public class ImporterManagerTest extends AbstractIntegrationHttpSolrTestCase {
 	ImporterConfig fakeImporterConfig = new ImporterConfig();
 	String geonamesDir = FileHelper.createTempDir(this.getClass().getSimpleName()).getAbsolutePath();
 	fakeImporterConfig.setGeonamesDir(geonamesDir);
+
+	
 	IImporterProcessor processor1 = EasyMock
 		.createMock(IImporterProcessor.class);
 	ISolRSynchroniser mockSolRSynchroniser = EasyMock
@@ -250,6 +254,12 @@ public class ImporterManagerTest extends AbstractIntegrationHttpSolrTestCase {
 	fakeimporterManager.setSolRSynchroniser(mockSolRSynchroniser);
 	fakeimporterManager.setSolrClient(mockSolRClient);
 
+	//create a file to simulate that the import is not already done (as the gisgraphy dis does)
+	String alreadyDoneFilePath = fakeimporterManager.getAlreadyDoneFilePath();
+	File alreadyDoneFile = new File(alreadyDoneFilePath);
+	Assert.assertTrue("can not create the 'already done' file to simulate that the import is not already done ",alreadyDoneFile.createNewFile());
+	
+	
 	//IGisDao<? extends GisFeature>[] daoList = new IGisDao[2];
 	//daoList[0] = mockCityDao;
 	//daoList[1] = mockGisDao;

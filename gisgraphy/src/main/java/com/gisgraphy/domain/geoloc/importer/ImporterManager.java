@@ -86,7 +86,7 @@ public class ImporterManager implements IImporterManager {
     protected static final Logger logger = LoggerFactory
 	    .getLogger(ImporterManager.class);
 
-    public static final String ALREADY_DONE_FILE_NAME = "importAlreadyDone";
+    public static final String ALREADY_DONE_FILE_NAME = "importNotAlreadyDone";
 
     /*
      * (non-Javadoc)
@@ -317,7 +317,7 @@ public class ImporterManager implements IImporterManager {
 
     private void setAlreadyDone(boolean alreadyDone) {
 	File alreadyDoneFile = new File(getAlreadyDoneFilePath());
-	if (alreadyDone == true) {
+	if (alreadyDone == false) {
 	    if (!alreadyDoneFile.exists()) {
 		try {
 		    boolean created = alreadyDoneFile.createNewFile();
