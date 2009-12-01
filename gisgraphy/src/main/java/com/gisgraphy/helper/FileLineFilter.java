@@ -56,7 +56,7 @@ public class FileLineFilter {
     /**
      * 
      * All the lines that contains the word or sentence of the filter will be
-     * deleted, the result file will be written in the {@param destFile}
+     * deleted, the result file will be written in the destFile
      * 
      * @param originalFile
      *            The file to filter

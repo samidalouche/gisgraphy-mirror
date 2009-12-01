@@ -121,9 +121,7 @@
 			<directory>data/import</directory>
 			<outputDirectory>data/import</outputDirectory>
 			<includes>
-				<include>countries.txt</include>
-				<include>iso-languagecodes.txt</include>
-				<include>openstreetmap</include>
+				<include>**</include>
 			</includes>
 		</fileSet>
 		<fileSet>
