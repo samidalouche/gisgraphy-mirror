@@ -101,7 +101,7 @@ public class GeonamesDatabaseIndexer implements IImporterProcessor {
 	    this.status = ImporterStatus.PROCESSING;
 	    setup();
 	   for (int i=0; i < daos.length;i++){
-		   currentDao=daos[i];
+	       currentDao=daos[i];
 	       statusMessage = internationalisationService.getString("import.message.createIndex",new String[]{daos[i].getPersistenceClass().getSimpleName()});
 	       daos[i].createGISTIndexForLocationColumn();
 	   }
@@ -110,9 +110,8 @@ public class GeonamesDatabaseIndexer implements IImporterProcessor {
 	this.statusMessage="";
 	} catch (Exception e) {
 	    this.status = ImporterStatus.ERROR;
-	    this.statusMessage = "An error occurred when processing "
-		    + this.getClass().getSimpleName() + " on dao "
-		    + getCurrentFileName() + " : " + e.getCause();
+	    this.statusMessage = "The import is done but performance may not be optimal because an error occurred when creating spatial indexes with DAO "
+		    + getCurrentFileName() + "(maybe you haven't the SQL rights or the indexes are already created) : " + e.getCause();
 	    logger.error(statusMessage);
 	    throw new ImporterException(statusMessage, e.getCause());
 	} finally {
