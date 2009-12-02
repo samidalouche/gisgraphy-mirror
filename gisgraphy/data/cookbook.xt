@@ -202,7 +202,7 @@ vim /etc/apache2/sites-available/download
       BandWidthModule On
       BandWidth all 8000000
       AddOutputFilterByType MOD_BW application/x-gzip  application/zip application/x-bzip2
-      ErrorDocument 509 "Sorry, there is too many users connected, this site has limmited resources, please try again later."
+     ErrorDocument 509 "Due to Gisgraphy success, I must limit the bandwith and simultaneous download. I try to keep a good SLA anyway. You can help by a donation : http://services.gisgraphy.com/public/donate.html"
       BandWidthError 509
       MaxConnection all 5
       ReadmeName readme.txt

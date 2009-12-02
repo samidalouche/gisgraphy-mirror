@@ -1,4 +1,7 @@
-You can download this data for free.
+You can download this data for free.  Due to Gisgraphy success, I must limit the bandwith and simultaneous download 
+because the machine host the download server, forum, services, and the Gisgraphy sites.
+ I try to keep a good SLA, but it cost me money and i don't plan to buy new machine.
+ Thanks for your comprehension :)
 The data are preprocess from Openstreetmap (http://www.openstreetmap.org/) dump in order to be inject with gisgraphy (http://www.gisgraphy.com), but you can you use it for anything else
 
 This work is licensed under a Creative Commons Attribution 3.0 License,

@@ -29,17 +29,24 @@ public class DatabaseHelperTest extends AbstractTransactionalTestCase {
     
     @Test
     public void testCreateNormalize_textFunctionShouldNotThrow() throws Exception {
-	//databaseHelper.dropNormalize_textFunction();
-	//Assert.assertFalse("after deletion the Normalize_text() sql function should be deleted in postgres",databaseHelper.isNormalize_textFunctionCreated()); 
 	databaseHelper.createNormalize_textFunction();
-	//Assert.assertTrue("after creation the Normalize_text() sql function should be created in postgres",databaseHelper.isNormalize_textFunctionCreated()); 
     }
     
     @Test
     public void testdropNormalize_textFunctionShouldNotThrow() throws Exception {
 	databaseHelper.dropNormalize_textFunction();
-	//Assert.assertFalse("after deletion the Normalize_text() sql function should be deleted in postgres",databaseHelper.isNormalize_textFunctionCreated()); 
-	//Assert.assertTrue("after creation the Normalize_text() sql function should be created in postgres",databaseHelper.isNormalize_textFunctionCreated()); 
+    }
+    
+    @Test
+    public void testisNormalize_textFunctionCreatedShouldReturnTrueAfterCreation() throws Exception {
+	databaseHelper.createNormalize_textFunction();
+	Assert.assertTrue("after creation the Normalize_text() sql function should be created in postgres",databaseHelper.isNormalize_textFunctionCreated()); 
+    }
+    
+    @Test
+    public void testisNormalize_textFunctionCreatedShouldReturnFalseAfterDrop() throws Exception {
+	databaseHelper.dropNormalize_textFunction();
+	Assert.assertFalse("after deletion the Normalize_text() sql function should be deleted in postgres",databaseHelper.isNormalize_textFunctionCreated()); 
     }
 
     public void testExecuteFileSuccess() throws Exception {

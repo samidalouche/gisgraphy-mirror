@@ -215,8 +215,12 @@ public class DatabaseHelper extends HibernateDaoSupport implements IDatabaseHelp
 				    throws PersistenceException {
 				
 				Query qry = session.createSQLQuery("select normalize_text('éèê')");
-				qry.uniqueResult();
-				return  null;
+				Object result = qry.uniqueResult();
+				if ("eee"!= result){
+				    logger.info("normalize_text function does not return the expected value : we consider that the function is not created");
+				    return false;
+				}
+				return true;
 			    }
 			});
 	    } catch (Exception e) {
