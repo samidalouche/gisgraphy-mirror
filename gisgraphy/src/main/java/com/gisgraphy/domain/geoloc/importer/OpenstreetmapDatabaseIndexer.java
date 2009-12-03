@@ -103,10 +103,10 @@ public class OpenstreetmapDatabaseIndexer implements IImporterProcessor {
 	this.status = ImporterStatus.PROCESSED;
 	} catch (Exception e) {
 	    this.status = ImporterStatus.ERROR;
-	    this.statusMessage = "An error occurred when processing "
-		    + this.getClass().getSimpleName() +" : " + e.getCause();
+	    this.statusMessage = "The import is done but performance may not be optimal because an error occurred when creating spatial indexes for openstreetmap " +
+	    		"(maybe you haven't the SQL rights or the indexes are already created) : " + e.getCause();
 	    logger.error(statusMessage);
-	    throw new ImporterException(statusMessage, e.getCause());
+	//    throw new ImporterException(statusMessage, e.getCause());
 	} finally {
 	    try {
 		tearDown();
