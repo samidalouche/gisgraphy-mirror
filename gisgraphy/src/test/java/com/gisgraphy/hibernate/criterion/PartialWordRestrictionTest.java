@@ -9,6 +9,7 @@ import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.criterion.Projection;
 import org.hibernate.transform.Transformers;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.springframework.orm.hibernate3.HibernateCallback;
 
@@ -41,11 +42,13 @@ public class PartialWordRestrictionTest extends AbstractIntegrationHttpSolrTestC
 	streetOSM.setName("Champs-Elysées");
 	streetOSM.setLocation(GeolocHelper.createPoint(30.001F, 40F));
 	
-	return StringHelper.updateOpenStreetMapEntityForIndexation(streetOSM);
+	OpenStreetMap updatedOsm = StringHelper.updateOpenStreetMapEntityForIndexation(streetOSM);
+	return updatedOsm;
     }
     
     @SuppressWarnings("unchecked")
     @Test
+    @Ignore
     public void testPartialWordRestriction() {
 	OpenStreetMap streetOSM = createOpenStreetMap();
 	openStreetMapDao.save(streetOSM);

@@ -37,6 +37,7 @@ import org.hibernate.criterion.Restrictions;
 import org.hibernatespatial.criterion.SpatialRestrictions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.hibernate3.HibernateCallback;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.Assert;
@@ -63,6 +64,9 @@ import com.vividsolutions.jts.geom.Polygon;
 @Repository
 public class OpenStreetMapDao extends GenericDao<OpenStreetMap, Long> implements IOpenStreetMapDao
 {
+	@Autowired
+	IDatabaseHelper databaseHelper;
+	
 	/**
      * The logger
      */
@@ -196,12 +200,12 @@ public class OpenStreetMapDao extends GenericDao<OpenStreetMap, Long> implements
 				    throws PersistenceException {
 				session.flush();
 				logger.info("will update "+OpenStreetMap.FULLTEXTSEARCH_VECTOR_COLUMN_NAME+" field");
-				String updateFulltextField = "UPDATE openStreetMap SET "+OpenStreetMap.FULLTEXTSEARCH_VECTOR_COLUMN_NAME+" = to_tsvector('simple',coalesce("+OpenStreetMap.FULLTEXTSEARCH_COLUMN_NAME+",'')) where name is not null";  
+				String updateFulltextField = "UPDATE openStreetMap SET "+OpenStreetMap.FULLTEXTSEARCH_VECTOR_COLUMN_NAME+" = to_tsvector('simple',coalesce("+DatabaseHelper.NORMALIZE_TEXT_FUNCTION_NAME+"("+OpenStreetMap.FULLTEXTSEARCH_COLUMN_NAME+"),'')) where name is not null";  
 				Query qryUpdateFulltextField = session.createSQLQuery(updateFulltextField);
 				int numberOfLineUpdatedForFulltext = qryUpdateFulltextField.executeUpdate();
 				
 				logger.info("will update "+OpenStreetMap.PARTIALSEARCH_VECTOR_COLUMN_NAME+" field");
-				String updatePartialWordField = "UPDATE openStreetMap SET "+OpenStreetMap.PARTIALSEARCH_VECTOR_COLUMN_NAME+" = to_tsvector('simple',coalesce( "+OpenStreetMap.PARTIALSEARCH_COLUMN_NAME+" ,'')) where name is not null";
+				String updatePartialWordField = "UPDATE openStreetMap SET "+OpenStreetMap.PARTIALSEARCH_VECTOR_COLUMN_NAME+" = to_tsvector('simple',coalesce( "+DatabaseHelper.NORMALIZE_TEXT_FUNCTION_NAME+"("+OpenStreetMap.PARTIALSEARCH_COLUMN_NAME+") ,'')) where name is not null";
 				Query qryUpdateParialWordField = session.createSQLQuery(updatePartialWordField);
 				int numberOfLineUpdatedForPartial = qryUpdateParialWordField.executeUpdate();
 				session.flush();

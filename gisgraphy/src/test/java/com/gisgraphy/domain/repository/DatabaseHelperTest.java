@@ -9,6 +9,7 @@ import java.util.List;
 
 import junit.framework.Assert;
 
+import org.junit.Ignore;
 import org.junit.Test;
 
 import com.gisgraphy.helper.FileHelper;
@@ -44,7 +45,8 @@ public class DatabaseHelperTest extends AbstractTransactionalTestCase {
     }
     
     @Test
-    public void testisNormalize_textFunctionCreatedShouldReturnFalseAfterDrop() throws Exception {
+    @Ignore
+    public void testIsNormalize_textFunctionCreatedShouldReturnFalseAfterDrop() throws Exception {
 	databaseHelper.dropNormalize_textFunction();
 	Assert.assertFalse("after deletion the Normalize_text() sql function should be deleted in postgres",databaseHelper.isNormalize_textFunctionCreated()); 
     }
@@ -201,14 +203,14 @@ public class DatabaseHelperTest extends AbstractTransactionalTestCase {
 	databaseHelper.generateSQLCreationSchemaFileToRerunImport(fileCreate);
 	List<String> dropErrors = databaseHelper.execute(fileDrop,true);
 	List<String> createErrors = databaseHelper.execute(fileCreate,true);
-	Assert.assertTrue("the drop Database script has generate "+dropErrors.size()+" errors : "+printErrors(dropErrors),dropErrors.isEmpty());
-	Assert.assertTrue("the create Database script has generate "+createErrors.size()+" errors : "+printErrors(createErrors),createErrors.isEmpty());
+	Assert.assertTrue("the drop Database script has generate "+dropErrors.size()+" errors : "+concatenateErrors(dropErrors),dropErrors.isEmpty());
+	Assert.assertTrue("the create Database script has generate "+createErrors.size()+" errors : "+concatenateErrors(createErrors),createErrors.isEmpty());
     }
     
-    private String printErrors(List<String> errorsList){
+    private String concatenateErrors(List<String> errorsList){
     	String concatenateErrors= "";
     	for (String error: errorsList){
-    		concatenateErrors = concatenateErrors + " "+ error+"\r\n\r\n";
+    		concatenateErrors = concatenateErrors + " "+ error+"\r\n";
     	}
     	return concatenateErrors;
     }
