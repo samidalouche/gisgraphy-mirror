@@ -200,7 +200,7 @@ public class OpenStreetMapDao extends GenericDao<OpenStreetMap, Long> implements
 				    throws PersistenceException {
 				session.flush();
 				logger.info("will update "+OpenStreetMap.FULLTEXTSEARCH_VECTOR_COLUMN_NAME+" field");
-				String updateFulltextField = "UPDATE openStreetMap SET "+OpenStreetMap.FULLTEXTSEARCH_VECTOR_COLUMN_NAME+" = to_tsvector('simple',coalesce("+DatabaseHelper.NORMALIZE_TEXT_FUNCTION_NAME+"("+OpenStreetMap.FULLTEXTSEARCH_COLUMN_NAME+"),'')) where name is not null";  
+				String updateFulltextField = "UPDATE openStreetMap SET "+OpenStreetMap.FULLTEXTSEARCH_VECTOR_COLUMN_NAME+" = to_tsvector('simple',coalesce("+OpenStreetMap.FULLTEXTSEARCH_COLUMN_NAME+",'')) where name is not null";  
 				Query qryUpdateFulltextField = session.createSQLQuery(updateFulltextField);
 				int numberOfLineUpdatedForFulltext = qryUpdateFulltextField.executeUpdate();
 				

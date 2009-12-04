@@ -48,7 +48,7 @@ public class DatabaseHelper extends HibernateDaoSupport implements IDatabaseHelp
 	
 	public static final String NORMALIZE_TEXT_FUNCTION_NAME = "normalize_text";
 	
-	public static final String NORMALIZE_TEXT_POSTRES_FUNCTION_BODY = String.format("CREATE OR REPLACE FUNCTION %s(text) RETURNS text AS 'BEGIN RETURN replace(replace(replace(replace(translate(trim(lower($1)),''âãäåāăąàèéêëēĕėęěìíîïìĩīĭóôõöōŏőðøùúûüũūŭůçñÿ'',''aaaaaaaaeeeeeeeeeiiiiiiiiooooooooouuuuuuuucny''),''-'','' ''),''.'','' ''),''\\;'','' ''),''  '','' '') \u003B END '  LANGUAGE 'plpgsql' RETURNS NULL ON NULL INPUT ",DatabaseHelper.NORMALIZE_TEXT_FUNCTION_NAME);
+	public static final String NORMALIZE_TEXT_POSTRES_FUNCTION_BODY = String.format("CREATE OR REPLACE FUNCTION %s(text) RETURNS text AS 'BEGIN RETURN replace(replace(replace(replace(replace(translate(trim(lower($1)),''âãäåāăąàèéêëēĕėęěìíîïìĩīĭóôõöōŏőðøùúûüũūŭůçñÿ'',''aaaaaaaaeeeeeeeeeiiiiiiiiooooooooouuuuuuuucny''),''-'','' ''),''.'','' ''),''\\;'','' ''),''\"'','' ''),'''''''','' '') \u003B END '  LANGUAGE 'plpgsql' RETURNS NULL ON NULL INPUT ",DatabaseHelper.NORMALIZE_TEXT_FUNCTION_NAME);
 
 	/* (non-Javadoc)
 	 * @see com.gisgraphy.domain.repository.IDatabaseHelper#execute(java.io.File, boolean)
@@ -211,9 +211,9 @@ public class DatabaseHelper extends HibernateDaoSupport implements IDatabaseHelp
 			    public Object doInHibernate(Session session)
 				    throws PersistenceException {
 				
-				Query qry = session.createSQLQuery("select "+DatabaseHelper.NORMALIZE_TEXT_FUNCTION_NAME+"('éèê')");
+				Query qry = session.createSQLQuery("select "+DatabaseHelper.NORMALIZE_TEXT_FUNCTION_NAME+"('é-è.ê''à\"ù')");
 				Object result = qry.uniqueResult();
-				if ("eee"!= result){
+				if ("e e e a u"!= result){
 				    logger.info(DatabaseHelper.NORMALIZE_TEXT_FUNCTION_NAME+" function does not return the expected value : we consider that the function is not created");
 				    return false;
 				}
