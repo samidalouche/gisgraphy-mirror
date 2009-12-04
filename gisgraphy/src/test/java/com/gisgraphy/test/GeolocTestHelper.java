@@ -369,7 +369,7 @@ public class GeolocTestHelper {
 	streetOSM.setLocation(GeolocHelper.createPoint(30.11F, 30.11F));
 	streetOSM.setOneWay(true);
 	streetOSM.setStreetType(StreetType.MOTROWAY);
-	streetOSM.setName("John Kenedy");
+	streetOSM.setName("John Kénedy");
 	return StringHelper.updateOpenStreetMapEntityForIndexation(streetOSM);
 
     }

@@ -116,7 +116,7 @@ public class StreetSearchEngineTest extends AbstractIntegrationHttpSolrTestCase 
 	StreetSearchQuery query = new StreetSearchQuery(street.getLocation(),10000,pagination,output,StreetType.MOTROWAY,street.getOneWay(),"hn ken",StreetSearchMode.CONTAINS);
 	
 	StreetSearchResultsDto results = streetSearchEngine.executeQuery(query);
-	assertEquals(1, results.getResult().size());
+	assertEquals("Contains mode should be case insensitive and accent insensitive ",1, results.getResult().size());
 	assertEquals(street.getName(), results.getResult().get(0).getName());
     }
     

@@ -48,7 +48,6 @@ public class PartialWordRestrictionTest extends AbstractIntegrationHttpSolrTestC
     
     @SuppressWarnings("unchecked")
     @Test
-    @Ignore
     public void testPartialWordRestriction() {
 	OpenStreetMap streetOSM = createOpenStreetMap();
 	openStreetMapDao.save(streetOSM);

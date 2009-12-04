@@ -125,7 +125,7 @@ public class OpenStreetMapDao extends GenericDao<OpenStreetMap, Long> implements
 			if (name != null) {
 					if (streetSearchMode==StreetSearchMode.CONTAINS){
 					    	criteria = criteria.add(Restrictions.isNotNull("name"));//optimisation!
-					    	criteria = criteria.add(Restrictions.ilike("name", "%"+name+"%"));
+					    	criteria = criteria.add(Restrictions.ilike("textSearchName", "%"+name+"%"));
 					    	//criteria = criteria.add(new PartialWordSearchRestriction(OpenStreetMap.PARTIALSEARCH_VECTOR_COLUMN_NAME, name));
 					} else if (streetSearchMode == StreetSearchMode.FULLTEXT){
 						  criteria = criteria.add(new FulltextRestriction(OpenStreetMap.FULLTEXTSEARCH_VECTOR_COLUMN_NAME, name));
@@ -205,7 +205,7 @@ public class OpenStreetMapDao extends GenericDao<OpenStreetMap, Long> implements
 				int numberOfLineUpdatedForFulltext = qryUpdateFulltextField.executeUpdate();
 				
 				logger.info("will update "+OpenStreetMap.PARTIALSEARCH_VECTOR_COLUMN_NAME+" field");
-				String updatePartialWordField = "UPDATE openStreetMap SET "+OpenStreetMap.PARTIALSEARCH_VECTOR_COLUMN_NAME+" = to_tsvector('simple',coalesce( "+DatabaseHelper.NORMALIZE_TEXT_FUNCTION_NAME+"("+OpenStreetMap.PARTIALSEARCH_COLUMN_NAME+") ,'')) where name is not null";
+				String updatePartialWordField = "UPDATE openStreetMap SET "+OpenStreetMap.PARTIALSEARCH_VECTOR_COLUMN_NAME+" = to_tsvector('simple',coalesce("+OpenStreetMap.PARTIALSEARCH_COLUMN_NAME+" ,'')) where name is not null";
 				Query qryUpdateParialWordField = session.createSQLQuery(updatePartialWordField);
 				int numberOfLineUpdatedForPartial = qryUpdateParialWordField.executeUpdate();
 				session.flush();

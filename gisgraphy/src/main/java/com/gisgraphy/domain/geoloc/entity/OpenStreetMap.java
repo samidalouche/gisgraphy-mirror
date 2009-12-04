@@ -68,11 +68,21 @@ public class OpenStreetMap  {
     public static final String PARTIALSEARCH_VECTOR_COLUMN_NAME = "partialsearchVector";
     
     /**
-     * Name of the column that is equals to store a string that is used for fulltext search
+     * Name of the fulltextsearch property in hiobernate that is equals to store a string that is used for fulltext search
      *  This value should be change if the getter and the setter of the {@link #getTextsearchVector()} change
      *  @see StreetSearchMode#FULLTEXT
      */
-    public static final String FULLTEXTSEARCH_COLUMN_NAME = "textsearchname";
+    public static final String FULLTEXTSEARCH_PROPERTY_NAME = "textSearchName";
+    
+    /**
+     * Name of the column that is equals to store a string that is used for fulltext search. it deffer form the @{@link #FULLTEXTSEARCH_COLUMN_NAME}
+     *  because Hibernate, by default, lowercase the property to get the column name 
+     *  This value should be change if the getter and the setter of the {@link #getTextsearchVector()} change
+     *  @see StreetSearchMode#FULLTEXT
+     */
+    public static final String FULLTEXTSEARCH_COLUMN_NAME = FULLTEXTSEARCH_PROPERTY_NAME.toLowerCase();
+    
+    
     
     /**
      * Name of the column that is used to store a string used for partial search

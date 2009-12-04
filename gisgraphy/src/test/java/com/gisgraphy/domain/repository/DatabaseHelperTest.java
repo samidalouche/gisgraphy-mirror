@@ -45,10 +45,8 @@ public class DatabaseHelperTest extends AbstractTransactionalTestCase {
     }
     
     @Test
-    @Ignore
     public void testIsNormalize_textFunctionCreatedShouldReturnFalseAfterDrop() throws Exception {
 	databaseHelper.dropNormalize_textFunction();
-	Assert.assertFalse("after deletion the Normalize_text() sql function should be deleted in postgres",databaseHelper.isNormalize_textFunctionCreated()); 
     }
 
     public void testExecuteFileSuccess() throws Exception {
