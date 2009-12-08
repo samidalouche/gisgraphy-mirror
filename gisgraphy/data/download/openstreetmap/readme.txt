@@ -3,7 +3,8 @@ because the machine host the download server, forum, services, and the Gisgraphy
  I try to keep a good SLA, but it cost me money and i don't plan to buy new machine.
  Thanks for your comprehension :)
  
- Please do not use automatic download software, it will fail because the number of simultaneous download is limited, and limit all the users
+ Please do not use automatic download software (e.g :Free Download Manager), it will fail because the number of simultaneous download is limited, and will limit all the users
+ 
  
 The data are preprocess from Openstreetmap (http://www.openstreetmap.org/) dump in order to be inject with gisgraphy (http://www.gisgraphy.com), but you can you use it for anything else
 
