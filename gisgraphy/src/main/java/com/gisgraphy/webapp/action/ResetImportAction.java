@@ -103,7 +103,7 @@ public class ResetImportAction extends ActionSupport {
 		errorsAndWarningMessages = importerManager.resetImport();
 	    } catch (Exception e) {
 		resetFailed = true;
-		failedMessage = e.getMessage();
+		failedMessage = e.getMessage()==null?e.toString():e.getMessage();
 		logger.warn("The reset has failed : " + e.getMessage());
 	    }
 	    unconfirm();
