@@ -4,8 +4,10 @@ license plugin
 format
 tests
 upload maven repo
+modify pom with version
 
 site
+save feedbacks
 dist
 check javadoc
 install
