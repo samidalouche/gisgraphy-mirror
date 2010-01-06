@@ -57,7 +57,9 @@ public class OpenstreetmapDatabaseIndexer implements IImporterProcessor {
     @Autowired
     private IInternationalisationService internationalisationService;
     
+    private int readFileLine = 0;
     
+    private int totalReadLine = 0;
     
     private ImporterStatus status = ImporterStatus.WAITING;
     
@@ -74,7 +76,7 @@ public class OpenstreetmapDatabaseIndexer implements IImporterProcessor {
     }
 
     public int getReadFileLine() {
-	return 1;
+	return readFileLine;
     }
 
     public ImporterStatus getStatus() {
@@ -86,7 +88,7 @@ public class OpenstreetmapDatabaseIndexer implements IImporterProcessor {
     }
 
     public int getTotalReadLine() {
-	return 1;
+	return totalReadLine;
     }
 
     public void process() {
@@ -98,7 +100,11 @@ public class OpenstreetmapDatabaseIndexer implements IImporterProcessor {
 	    this.status = ImporterStatus.PROCESSING;
 	    setup();
 	    statusMessage = internationalisationService.getString("import.message.createIndex",new String[]{openStreetMapDao.getPersistenceClass().getSimpleName()});
+	    totalReadLine= totalReadLine+1;
+	    readFileLine = readFileLine +1;
 	    openStreetMapDao.createIndexes();
+	    totalReadLine= totalReadLine+1;
+	    readFileLine = readFileLine +1;
 	    statusMessage="";
 	this.status = ImporterStatus.PROCESSED;
 	} catch (Exception e) {
