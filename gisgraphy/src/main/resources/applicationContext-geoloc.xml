@@ -181,6 +181,7 @@
 				<ref bean="geonamesDatabaseIndexer" />
 				<ref bean="openstreetmapFileRetriever" />
 				<ref bean="openStreetMapImporter"/>
+				<ref bean="openstreetmapDatabaseIndexer"/>
 			</list>
 		</constructor-arg>
 	</bean>
