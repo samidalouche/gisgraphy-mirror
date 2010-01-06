@@ -3,10 +3,13 @@ because the machine host the download server, forum, services, and the Gisgraphy
  I try to keep a good SLA, but it cost me money and i don't plan to buy new machine.
  Thanks for your comprehension :)
  
+ 
  Please do not use automatic download software (e.g :Free Download Manager), it will fail because the number of simultaneous download is limited, and will limit all the users
  
  
 The data are preprocess from Openstreetmap (http://www.openstreetmap.org/) dump in order to be inject with gisgraphy (http://www.gisgraphy.com), but you can you use it for anything else
+
+A project called osm2gisgraphycsv (http://code.google.com/p/osm2gisgraphycsv/) has been created by willy tiengo and aguiar marcio to convert the Openstreetmap data from the openstreetmap site to the Gisgraphy CSV format. it give the ability to add some file to the import. this programm is not used by Gisgraphy to compute the files above but is an external tool.
 
 This work is licensed under a Creative Commons Attribution 3.0 License,
 see http://creativecommons.org/licenses/by/3.0/

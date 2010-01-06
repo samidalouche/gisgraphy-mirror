@@ -43,6 +43,7 @@
 
      <item name="Contact" href="mailto:davidmasclet@gisgraphy.com"/>
      <item name="Dump" href="/dump.htm"/>
+     <item name="osm2gisgraphycsv" href="/osm2gisgraphycsv.htm"/>
      
      <item name="Features plan / status" href="/features.htm"/>
      <item name="Who use gisgraphy" href="/whouse.htm"/>
