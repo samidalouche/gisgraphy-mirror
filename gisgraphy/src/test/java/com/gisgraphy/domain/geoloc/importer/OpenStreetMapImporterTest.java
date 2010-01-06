@@ -58,11 +58,12 @@ public class OpenStreetMapImporterTest extends AbstractIntegrationHttpSolrTestCa
     		.rollback();
     	assertEquals(1, deleted.size());
     	assertEquals(5, deleted.get(0).getValue().intValue());
+    	assertEquals("generatedId should be reset to 0",0L, OpenStreetMapImporter.generatedId,0.01);
 	}
     
     @Test
     public void testImporterShouldImport(){
-	OpenStreetMapImporter.GeneratedId = 0L;
+	OpenStreetMapImporter.generatedId = 0L;
 	openStreetMapImporter.process();
 	assertEquals(4L,openStreetMapDao.count());
 	OpenStreetMap openStreetMap = openStreetMapDao.getByGid(1L);

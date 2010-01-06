@@ -46,7 +46,7 @@ public class OpenStreetMapImporter extends AbstractImporterProcessor {
 	
 	
     
-    public static Long GeneratedId = 0L;
+    public static Long generatedId = 0L;
     
     private IOpenStreetMapDao openStreetMapDao;
 
@@ -114,8 +114,8 @@ public class OpenStreetMapImporter extends AbstractImporterProcessor {
 	    street.setCountryCode(fields[4].trim());
 	}
 	
-		GeneratedId= GeneratedId+1;
-	        street.setGid(new Long(GeneratedId));
+		generatedId= generatedId+1;
+	        street.setGid(new Long(generatedId));
 	
 	if (!isEmptyField(fields, 6, false)) {
 	    StreetType type;
@@ -202,6 +202,7 @@ public class OpenStreetMapImporter extends AbstractImporterProcessor {
     	}
     	logger.info(deleted + " openstreetmap entities have been deleted");
     	resetStatus();
+    	generatedId= 0L;
     	return deletedObjectInfo;
     }
     
