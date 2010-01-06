@@ -305,8 +305,6 @@ public abstract class AbstractImporterProcessor implements IImporterProcessor {
 		closeBufferReader();
 
 	    }
-	    
-	this.status = ImporterStatus.PROCESSED;
 	} catch (Exception e) {
 	    this.status = ImporterStatus.ERROR;
 	    this.statusMessage = "An error occurred when processing "
@@ -318,6 +316,7 @@ public abstract class AbstractImporterProcessor implements IImporterProcessor {
 	} finally {
 	    try {
 		tearDown();
+		this.status = ImporterStatus.PROCESSED;
 		this.statusMessage="";
 	    } catch (Exception e) {
 		this.status = ImporterStatus.ERROR;
