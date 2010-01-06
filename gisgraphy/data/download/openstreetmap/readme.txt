@@ -9,7 +9,9 @@ because the machine host the download server, forum, services, and the Gisgraphy
  
 The data are preprocess from Openstreetmap (http://www.openstreetmap.org/) dump in order to be inject with gisgraphy (http://www.gisgraphy.com), but you can you use it for anything else
 
-A project called osm2gisgraphycsv (http://code.google.com/p/osm2gisgraphycsv/) has been created by willy tiengo and aguiar marcio to convert the Openstreetmap data from the openstreetmap site to the Gisgraphy CSV format. it give the ability to add some file to the import. this programm is not used by Gisgraphy to compute the files above but is an external tool.
+A project called osm2gisgraphycsv (http://code.google.com/p/osm2gisgraphycsv/) has been created by willy tiengo and aguiar marcio.
+It allows to convert the Openstreetmap data from the openstreetmap site to the Gisgraphy CSV format.
+It gives the ability to add some files to the import. This programm is not used by Gisgraphy to compute the files above but is an external tool.
 
 This work is licensed under a Creative Commons Attribution 3.0 License,
 see http://creativecommons.org/licenses/by/3.0/
