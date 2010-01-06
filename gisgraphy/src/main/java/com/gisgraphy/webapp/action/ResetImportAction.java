@@ -104,7 +104,7 @@ public class ResetImportAction extends ActionSupport {
 	    } catch (Exception e) {
 		resetFailed = true;
 		failedMessage = e.getMessage()==null?e.toString():e.getMessage();
-		logger.warn("The reset has failed : " + e.getMessage());
+		logger.warn("The reset has failed : " + e.getMessage() +"due to "+e.getStackTrace());
 	    }
 	    unconfirm();
 	    return RESET;
