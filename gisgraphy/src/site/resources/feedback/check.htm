@@ -38,7 +38,11 @@ $random_string = $_REQUEST['random'];
   {
    $myFile = "feedback.htm";
     $fh = fopen($myFile, 'a');
-    $textToAppend="From ".$mail." : <br/><pre>".$message."</pre><br/><hr/>";
+   $date=date("D M j \a\\t G:i");
+$textToAppend="<hr/> - ".$date.", ".$mail." say : <br/><br/><table style=\"border:0; background-color:#EEE;width:500px;\">
+<tr><td valign=\"top\" style=\"border:0px;\"><img src=\"/images/apostrophe_start.gif\"/></td><td style=\"padding-top:20px;padding-bottom:20px;padding-left:10px;padding-right:10px;border:0px;\"><pre>".$message."</pre></td><td valign=\"bottom\"  style=\"border:0px;\"><img src=\"/images/apostrophe_end.gif\" /></td></tr>
+</table><br/>";
+
     fwrite($fh,$textToAppend);
     fwrite($fh, $stringData);
     fclose($fh);
