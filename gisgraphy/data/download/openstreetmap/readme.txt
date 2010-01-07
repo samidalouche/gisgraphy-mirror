@@ -12,6 +12,7 @@ The data are preprocess from Openstreetmap (http://www.openstreetmap.org/) dump 
 A project called osm2gisgraphycsv (http://code.google.com/p/osm2gisgraphycsv/) has been created by willy tiengo and aguiar marcio.
 It allows to convert the Openstreetmap data from the openstreetmap site to the Gisgraphy CSV format.
 It gives the ability to add some files to the import. This programm is not used by Gisgraphy to compute the files above but is an external tool.
+It is not develop by me, and no support will be given.
 
 This work is licensed under a Creative Commons Attribution 3.0 License,
 see http://creativecommons.org/licenses/by/3.0/
