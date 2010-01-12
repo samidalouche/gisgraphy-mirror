@@ -7,5 +7,6 @@ echo "Checking files....."
 for i in *.zip
 do
 	echo "checking $i" 
-	`unzip -t ${i}`
+	`unzip -t ${i} >>out.txt 2>&1`
+	echo "status code for $i : $? "
 done
