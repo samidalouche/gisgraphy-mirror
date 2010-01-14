@@ -30,7 +30,7 @@
     </links>
 
     <menu ref="parent"/>
-
+	 <item name="About me" href="/aboutme.htm"/>
     <menu name="Gisgraphy project" collapse="false">
      <item name="Home" href="/index.htm"/>
      <item name="Download Gisgraphy" href="/download/index.htm"/>
