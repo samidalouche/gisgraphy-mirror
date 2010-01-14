@@ -1,7 +1,7 @@
 
 #CREATE TABLE "openstreetmap" (gid serial PRIMARY KEY,"type" varchar(20),"name" varchar(68),"oneway" varchar(9),"shape" geometry NOT NULL,"countrycode" varchar(3),"length" integer,"location" geometry );
 
-`mkdir done`
+`mkdir imported`
 for i in *.zip
 do
 	countrycode=`echo ${i}| cut -d "." -f1`
@@ -22,7 +22,7 @@ do
 	fi
 	cd ..
 	rm -rf $countrycode
-	mv $i done/	
+	mv $i imported/	
 done
 
 
