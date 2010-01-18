@@ -179,6 +179,8 @@ JkWorkersFile /etc/apache2/workers.properties
 ServerName services.gisgraphy.com
 ServerAdmin davidmasclet@gisgraphy.com
 
+ErrorDocument 403 "You don't have permission to access this, or you've reached the maximum number of requests allowed. (you'll be block for a short period)"
+
 CustomLog /var/log/apache2/access-services.log combined
 
 ErrorLog /var/log/apache2/error-services.log
@@ -255,7 +257,33 @@ LoadModule bw_module /usr/lib/apache2/modules/mod_bw.so
       AddOutputFilterByType MOD_BW application/x-gzip  application/zip
 
 ##########################
+sudo apt-get install libapache2-mod-evasive
 
+mkdir -p /var/log/mod_evasive/
+
+add to apache2.conf 
+
+<IfModule mod_evasive20.c>
+DOSHashTableSize 4000
+DOSPageCount 300
+DOSSiteCount 1000
+DOSPageInterval 600
+DOSSiteInterval 86400
+DOSBlockingPeriod 3600
+#DOSEmailNotify "admin@domaine.fr"
+DOSLogDir "/var/log/mod_evasive/"
+#DOSSystemCommand "echo "%s" >>/var/log/apache2/abuse_ip.log"
+DOSWhiteList 127.0.0.1
+DOSWhiteList 66.249.64.*
+DOSWhiteList 66.249.65.*
+DOSWhiteList 66.249.66.*
+DOSWhiteList 66.249.71.*
+</IfModule>
+
+
+
+
+#########################
   
 sudo a2ensite services
   
