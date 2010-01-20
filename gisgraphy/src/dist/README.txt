@@ -13,12 +13,16 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-To run this example configuration, use 
+To run this example configuration, use
 
-  java -jar start.jar
+* on linux/unix : launch.sh
+* on Macintosch : launch.cmd
+* on windows : launch.bat
 
-in this directory, and when Solr is started connect to 
+Note : you may need to change script permission : chmod +x ./launch.sh 
 
-  http://localhost:8080/solr/admin/
+open http://localhost:8080/ to connect to Gisgraphy and http://localhost:8080/solr/admin/ in a browser to connect to SOLR admin page
 
-or go to http://localhost:8080/ to connect to Gisgraphy
+any question : davidmasclet@gisgraphy.com or post a message in the forum http://www.gisgraphy.com/forum/
+
+
