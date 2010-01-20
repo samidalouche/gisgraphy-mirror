@@ -71,6 +71,10 @@ public class FulltextSearchAction extends SearchAction {
     private String style;
     private String q;
     private boolean spellchecking = SpellCheckerConfig.activeByDefault;
+    
+    private static List<String> cachedUsedLanguageCode = null;
+    
+    private static String syncToken = "";
 
    
 
@@ -134,7 +138,12 @@ public class FulltextSearchAction extends SearchAction {
      * @return the languages
      */
     public List<String> getLanguages() {
-	return alternateNameDao.getUsedLanguagesCodes();
+	synchronized (syncToken) {
+	    if (cachedUsedLanguageCode == null){
+		    cachedUsedLanguageCode = alternateNameDao.getUsedLanguagesCodes();
+		}
+	}
+	return cachedUsedLanguageCode;
     }
 
     /**

@@ -41,6 +41,7 @@ import org.springframework.mock.web.MockHttpServletRequest;
 import com.gisgraphy.domain.geoloc.service.fulltextsearch.FulltextQuery;
 import com.gisgraphy.domain.geoloc.service.fulltextsearch.IFullTextSearchEngine;
 import com.gisgraphy.domain.geoloc.service.fulltextsearch.spell.SpellCheckerConfig;
+import com.gisgraphy.domain.repository.IAlternateNameDao;
 import com.gisgraphy.domain.valueobject.FulltextResultsDto;
 import com.gisgraphy.domain.valueobject.GisgraphyServiceType;
 import com.gisgraphy.domain.valueobject.SolrResponseDto;
@@ -188,6 +189,24 @@ public class FulltextSearchActionTest {
 	    SpellCheckerConfig.activeByDefault = savevalue;
 	}
 
+    }
+    
+    @Test
+    public void getLanguages(){
+	FulltextSearchAction fulltextSearchAction = new FulltextSearchAction();	
+	IAlternateNameDao mockAlternateNameDao = EasyMock.createMock(IAlternateNameDao.class);
+	List<String> fakeUsedlanguages =new ArrayList<String>();
+	fakeUsedlanguages.add("FR");
+	fakeUsedlanguages.add("DE");
+	EasyMock.expect(mockAlternateNameDao.getUsedLanguagesCodes()).andReturn(fakeUsedlanguages);
+	EasyMock.replay(mockAlternateNameDao);
+	fulltextSearchAction.setAlternateNameDao(mockAlternateNameDao);
+	
+	List<String> usedLanguaged =  fulltextSearchAction.getLanguages();
+	Assert.assertEquals(fakeUsedlanguages, usedLanguaged);
+	usedLanguaged =  fulltextSearchAction.getLanguages();
+	Assert.assertEquals(fakeUsedlanguages, usedLanguaged);
+	EasyMock.verify(mockAlternateNameDao);
     }
 
 
