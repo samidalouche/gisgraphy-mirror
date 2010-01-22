@@ -50,7 +50,7 @@
 		maxElementsInMemory="1000" eternal="true" overflowToDisk="false" />
 
 		<cache name="com.gisgraphy.domain.geoloc.entity.GisFeature.alternateNames"
-		maxElementsInMemory="1000" eternal="true" overflowToDisk="false" />
+		maxElementsInMemory="500" eternal="true" overflowToDisk="false" />
         
         <cache name="com.gisgraphy.domain.geoloc.entity.City"
 		maxElementsInMemory="1000" eternal="true" overflowToDisk="false" />	
@@ -59,10 +59,10 @@
 		maxElementsInMemory="100" eternal="true" overflowToDisk="false" />	
 			
 		<cache name="com.gisgraphy.domain.geoloc.entity.Adm"
-		maxElementsInMemory="20000" eternal="true" overflowToDisk="false" />
+		maxElementsInMemory="1000" eternal="true" overflowToDisk="false" />
 		
 		<cache name="com.gisgraphy.domain.geoloc.entity.Adm.children"
-		maxElementsInMemory="1000" eternal="true" overflowToDisk="false" />
+		maxElementsInMemory="2000" eternal="true" overflowToDisk="false" />
 		
 		<cache name="com.gisgraphy.domain.geoloc.entity.Country"
 		maxElementsInMemory="5" eternal="true" overflowToDisk="false" />
