@@ -1,10 +1,11 @@
 organize import
 remove sysout et syserr
 license plugin
+change year and header in footer of services...
+change year and version in pom.xml
 format
 tests
 upload maven repo
-modify pom with version
 
 site
 save feedbacks
