@@ -45,7 +45,6 @@
 						<@s.param name="lat" value="${result.lat?c}" />
 			  			<@s.param name="lng" value="${result.lng?c}" />
 						<@s.param name="autosubmit" value="true" />
-						<@s.param name="name" value="'%'" />
 					</@s.url>
 					 | <a href="${streetsearchurl}" class="greenlink"><@s.text name="search.view.street.breadcrumbs"/></a>
 					</#if>
@@ -131,7 +130,6 @@
 						<@s.param name="lat" value="${result.lat?c}" />
 			  			<@s.param name="lng" value="${result.lng?c}" />
 						<@s.param name="autosubmit" value="true" />
-						<@s.param name="name" value="'%'" />
 					</@s.url>
 					 | <a href="${streetsearchurl}" class="greenlink"><@s.text name="search.view.street.breadcrumbs"/></a>
 					</#if>

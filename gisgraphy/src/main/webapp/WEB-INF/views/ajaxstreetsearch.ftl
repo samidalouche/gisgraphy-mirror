@@ -33,7 +33,7 @@
 	<@s.form action="${streetsearchFormUrl}" method="get" id="streetsearch">
 		<div id="simplesearch">
 			<@gisgraphysearch.latlongsearchbox/>
-			<@breadcrumbs.streetsearchTooltip advancedSearchURLParam="ajaxstreetsearch"/>
+			<@breadcrumbs.streetsearchTooltip advancedSearchURLParam="streetSearch"/>
 	</div>
 	<div class="clear"><br/></div>
 	<div id="nonAjaxDisplayResults">
@@ -63,13 +63,6 @@
 		<span class="searchfield">
 			<span class="searchfieldlabel"><@s.text name="global.radius"/> (<@s.text name="global.unit"/>) : </span>
 			<@s.textfield name="radius" required="true" size="10" theme="simple" />
-			<br/>
-		</span>
-		<div class="clear"></div>
-		<span class="searchfield">
-			<s:set name="personName" value="ee"/>
-			<span class="searchfieldlabel"><@s.text name="global.name"/>  : </span>
-			<@s.select  name="name"  list="nameOptions"   multiple="false" theme="simple"/>
 			<br/>
 		</span>
 
