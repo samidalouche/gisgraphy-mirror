@@ -148,7 +148,8 @@
 			http://code.google.com/p/gisgraphy/issues/detail?id=1
 			</action>
 			
-			<action dev="David Masclet" type="add">
+			<action dev="David Masclet" type="add">fix advanced search URL for reverse geocoding and street search
+remove the ability to search for 'no name street'
 				Add how many times all the services has been called on the stats page
 			</action>
 			
@@ -249,7 +250,17 @@
 					http://code.google.com/p/gisgraphy/issues/detail?id=8 : street search webservice should be accent insensitive 
 			</action>
 		
-			
+		   <action dev="David Masclet" type="fix">
+			   fix advanced search URL for reverse geocoding and street search
+		   </action>
+		
+		   <action dev="David Masclet" type="update">	
+			remove the ability to search for 'no name street'
+		   </action>	
+		   
+		   <action dev="David Masclet" type="update">
+				Localize legend of status import   
+			</action>
 			
 			
 		</release>
