@@ -56,7 +56,7 @@
 	</p>
 	<@s.text name="global.legend"/> :<br/>
 	<blockquote><@s.iterator value="statusEnumList" var="statusEnumValue">
-		<img src="/images/<@s.property />.png" alt="<@s.property/>" title="<@s.property />"/> : ${statusEnumValue?lower_case}&nbsp;&nbsp;;<br/>
+		<img src="/images/<@s.property />.png" alt="<@s.property/>" title="<@s.property />"/> : <@s.text name="${statusEnumValue}" />&nbsp;&nbsp;;<br/>
 	</@s.iterator>
 	</blockquote>
 	<br/><br/>
