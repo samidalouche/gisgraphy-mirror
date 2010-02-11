@@ -27,7 +27,7 @@
 						<br/>
 						<@s.text name="global.length"/> : ${result.length} km(s); 
 						<br/>
-						<#if result.streetType??><@s.text name="search.type.of.street"/> : ${result.streetType}<br/></#if>
+						<#if result.streetType??><@s.text name="search.type.of.street"/> : <@s.text name="${result.streetType}"/><br/></#if>
 						<#if result.oneWay??>
 						<img src="/images/twoway.png" class="imgAlign" alt="<@s.text name="global.street.way"/>"/>
 							<#if result.oneWay==true>
