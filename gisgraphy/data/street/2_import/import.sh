@@ -17,12 +17,12 @@ do
 	#`shp2pgsql -a $shapefile -g shape $table $db > $countrycode.sql`
 	`shp2pgsql -a $shapefile -g shape $table $db |psql -Upostgres -d $db -h127.0.0.1`
 	`echo "update $table set countrycode ='$countrycode' where countrycode is null" | psql -Upostgres -d $db -h127.0.0.1`
+	mv $i imported/	
 	else
 	echo "no shapeFile in $countrycode"
 	fi
 	cd ..
 	rm -rf $countrycode
-	mv $i imported/	
 done
 
 
