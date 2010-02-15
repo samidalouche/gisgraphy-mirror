@@ -3,7 +3,7 @@
 (( from = 1));
 ((batch_size = 1000));
 ((to = from + batch_size))
- for iter  in `seq 0 287000`;
+ for iter  in `seq 0 28700`;
 	        do
 		     ((from = $iter * batch_size +1))	
 			((to = from + batch_size -1))
