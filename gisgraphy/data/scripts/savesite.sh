@@ -1,15 +1,14 @@
  #!/bin/bash
  
- export SITE_HOME="/home/dmasclet/dirtosave/"
- export SAVE_SITE_HOME="/home/dmasclet/dirbackup/"
- dataBkUp="/data/"
+ export SITE_HOME="/home/dmasclet/dirtosave"
+ export SAVE_SITE_HOME="/home/dmasclet/dirbackup"
  FilesToSave[0]="abuse.txt";
  FileToSave[1]=""
  
 function  check_vars {
  if [[ -z $SITE_HOME ]]
  then
- echo "please set the SITE_HOME directory first (must ends with a slash) : "
+ echo "please set the SITE_HOME directory first : "
  read site_home
  export SITE_HOME="$site_home" 
  echo "SITE_HOME directory has been set to $SITE_HOME"
@@ -43,7 +42,7 @@ function  check_vars {
 function save_site_data {
 	#`mkdir $SAVE_SITE_HOME$dataBkUp`
 	echo "will save $SITE_HOME to $SAVE_SITE_HOME"
-	date=`date "+%Y-%m-%dT%H:%M:%S"`
+	date=`date "+%Y-%m-%d_%H:%M:%S"`
 	#ending slash of $SITE_HOME is important
 	rsync -aP --delete --link-dest=$SAVE_SITE_HOME/current $SITE_HOME/ $SAVE_SITE_HOME/backup-$date
 	rm -f $SAVE_SITE_HOME/current
