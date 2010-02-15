@@ -6,7 +6,6 @@ tableName="osm"
 pgUser="postgres"
 pgHost="127.0.0.1"
 geometryColumnName="shape"
-host="localhost"
 countrycodeFileName="countrycode4test.txt"
 urlFileName="urls4test.txt"
 typeset -i OK=0
@@ -73,12 +72,12 @@ fi
 }
 
 function psql_getCountLine {
-var_count=`psql -q -t -h$host -U$pgUser -d$databaseName -c "select count(*) from $1"`
+var_count=`psql -q -t -h$pgHost -U$pgUser -d$databaseName -c "select count(*) from $1"`
 echo "$var_count";
 }
 
 function psql_runSQLcommandOnDatabase {
-`psql -h$host -U$pgUser -d$databaseName -c "$1" `
+`psql -h$pgHost -U$pgUser -d$databaseName -c "$1" `
 executionReturnedCode=$?;
 if [[ $executionReturnedCode==0 ]]
 then
@@ -89,7 +88,7 @@ return $executionReturnedCode
 }
 
 function psql_runSQLcommand {
-psql -h$host -U$pgUser -c "$1" 
+psql -h$pgHost -U$pgUser -c "$1" 
 executionReturnedCode=$?;
 if [[ $executionReturnedCode != "0" ]]
 then
