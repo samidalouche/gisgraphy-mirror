@@ -25,6 +25,9 @@ package com.gisgraphy.webapp.action;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.collections.ListUtils;
+import org.apache.commons.lang.ArrayUtils;
+
 import com.gisgraphy.model.User;
 import com.gisgraphy.webapp.util.RequestUtil;
 
@@ -61,7 +64,7 @@ public class PasswordHintAction extends BaseAction {
 		    .warn("Username not specified, notifying user that it's a required field.");
 
 	    args.add(getText("user.username"));
-	    addActionError(getText("errors.requiredField", args));
+	    addActionError(getText("errors.requiredField",args.toArray(new String[]{}) ));
 	    return INPUT;
 	}
 
@@ -96,12 +99,12 @@ public class PasswordHintAction extends BaseAction {
 	    args.add(username);
 	    args.add(user.getEmail());
 
-	    saveMessage(getText("login.passwordHint.sent", args));
+	    saveMessage(getText("login.passwordHint.sent", args.toArray(new String[]{})));
 
 	} catch (Exception e) {
 	    log.warn("Username '" + username + "' not found in database.");
 	    args.add(username);
-	    addActionError(getText("login.passwordHint.error", args));
+	    addActionError(getText("login.passwordHint.error", args.toArray(new String[]{})));
 	    return INPUT;
 	}
 

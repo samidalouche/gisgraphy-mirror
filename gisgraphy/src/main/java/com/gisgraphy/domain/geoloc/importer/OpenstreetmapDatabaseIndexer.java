@@ -133,7 +133,7 @@ public class OpenstreetmapDatabaseIndexer implements IImporterProcessor {
     /**
      * Template method that can be override. This method is called after the end
      * of the process. it is not called for each file processed.
-     * You should always call super.tearDown() when you override this method
+     * 
      */
     protected void tearDown() {
     }
@@ -164,6 +164,13 @@ public class OpenstreetmapDatabaseIndexer implements IImporterProcessor {
     public void resetStatus() {
 	 statusMessage="";
 	 status = ImporterStatus.WAITING;
+    }
+
+    /**
+     * @param openStreetMapDao the openStreetMapDao to set
+     */
+    public void setOpenStreetMapDao(IOpenStreetMapDao openStreetMapDao) {
+        this.openStreetMapDao = openStreetMapDao;
     }
 
 }

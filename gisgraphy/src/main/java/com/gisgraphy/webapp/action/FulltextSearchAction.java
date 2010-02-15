@@ -22,6 +22,7 @@
  *******************************************************************************/
 package com.gisgraphy.webapp.action;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.struts2.ServletActionContext;
@@ -72,7 +73,7 @@ public class FulltextSearchAction extends SearchAction {
     private String q;
     private boolean spellchecking = SpellCheckerConfig.activeByDefault;
     
-    private static List<String> cachedUsedLanguageCode = null;
+    private static List<String> cachedUsedLanguageCode = new ArrayList<String>();
     
     private static String syncToken = "";
 
@@ -139,7 +140,7 @@ public class FulltextSearchAction extends SearchAction {
      */
     public List<String> getLanguages() {
 	synchronized (syncToken) {
-	    if (cachedUsedLanguageCode == null){
+	    if (cachedUsedLanguageCode.size()==0){
 		    cachedUsedLanguageCode = alternateNameDao.getUsedLanguagesCodes();
 		}
 	}

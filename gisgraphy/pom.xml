@@ -1103,32 +1103,18 @@
 			<groupId>org.apache.struts</groupId>
 			<artifactId>struts2-core</artifactId>
 			<version>${struts.version}</version>
-			<exclusions>
-				<exclusion>
-					<groupId>freemarker</groupId>
-					<artifactId>freemarker</artifactId>
-				</exclusion>
-			</exclusions>
+			
 		</dependency>
 		<dependency>
 			<groupId>org.apache.struts</groupId>
 			<artifactId>struts2-codebehind-plugin</artifactId>
 			<version>${struts.version}</version>
-			<exclusions>
-				<exclusion>
-					<groupId>freemarker</groupId>
-					<artifactId>freemarker</artifactId>
-				</exclusion>
-			</exclusions>
+			
 		</dependency>
 		<!--  ************************************** -->
 		<!--  Templating Engines -->
 		<!--  ************************************** -->
-		<dependency>
-			<groupId>org.freemarker</groupId>
-			<artifactId>freemarker</artifactId>
-			<version>2.3.14</version>
-		</dependency>
+		
 		<dependency>
 			<groupId>org.apache.struts</groupId>
 			<artifactId>struts2-spring-plugin</artifactId>
@@ -1747,13 +1733,13 @@
 		<oscache.version>2.3</oscache.version>
 		<sitemesh.version>2.3</sitemesh.version>
 		<struts.menu.version>2.4.3</struts.menu.version>
-		<struts.version>2.1.2</struts.version>
+		<struts.version>2.1.8</struts.version>
 		<urlrewrite.version>3.0.4</urlrewrite.version>
 		<velocity.version>1.4</velocity.version>
 		<xfire.version>1.2.6</xfire.version>
 		<gisProvider>postgis</gisProvider>
 		<geotools.version>2.5-M1</geotools.version>
 		<fill.db.skip>false</fill.db.skip>
-		<!--		<jvm.version>jvm-6</jvm.version>-->
+		<!--<jvm.version>jvm-6</jvm.version>-->
 	</properties>
 </project>

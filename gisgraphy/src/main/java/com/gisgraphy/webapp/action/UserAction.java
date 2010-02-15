@@ -101,7 +101,7 @@ public class UserAction extends BaseAction implements Preparable {
 	userManager.removeUser(user.getId().toString());
 	List<String> args = new ArrayList<String>();
 	args.add(user.getFullName());
-	saveMessage(getText("user.deleted", args));
+	saveMessage(getText("user.deleted", args.toArray(new String[]{})));
 
 	return SUCCESS;
     }
@@ -246,7 +246,7 @@ public class UserAction extends BaseAction implements Preparable {
 	    List<String> args = new ArrayList<String>();
 	    args.add(user.getUsername());
 	    args.add(user.getEmail());
-	    addActionError(getText("errors.existing.user", args));
+	    addActionError(getText("errors.existing.user", args.toArray(new String[]{})));
 
 	    // reset the version # to what was passed in
 	    user.setVersion(originalVersion);
@@ -264,14 +264,14 @@ public class UserAction extends BaseAction implements Preparable {
 	    List<String> args = new ArrayList<String>();
 	    args.add(user.getFullName());
 	    if (isNew) {
-		saveMessage(getText("user.added", args));
+		saveMessage(getText("user.added", args.toArray(new String[]{})));
 		// Send an account information e-mail
 		mailMessage.setSubject(getText("signup.email.subject"));
-		sendUserMessage(user, getText("newuser.email.message", args),
+		sendUserMessage(user, getText("newuser.email.message", args.toArray(new String[]{})),
 			RequestUtil.getAppURL(getRequest()));
 		return SUCCESS;
 	    } else {
-		saveMessage(getText("user.updated.byAdmin", args));
+		saveMessage(getText("user.updated.byAdmin", args.toArray(new String[]{})));
 		return INPUT;
 	    }
 	}

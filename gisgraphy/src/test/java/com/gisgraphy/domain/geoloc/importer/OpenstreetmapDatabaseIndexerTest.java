@@ -6,7 +6,11 @@ import junit.framework.Assert;
 
 import org.junit.Test;
 
+import com.gisgraphy.domain.geoloc.entity.OpenStreetMap;
 import com.gisgraphy.domain.repository.AbstractTransactionalTestCase;
+import com.gisgraphy.domain.repository.IOpenStreetMapDao;
+import com.gisgraphy.domain.repository.OpenStreetMapDao;
+import com.gisgraphy.domain.valueobject.ImporterStatus;
 import com.gisgraphy.domain.valueobject.NameValueDTO;
 
 public class OpenstreetmapDatabaseIndexerTest extends AbstractTransactionalTestCase {
@@ -16,8 +20,10 @@ public class OpenstreetmapDatabaseIndexerTest extends AbstractTransactionalTestC
     @Test
     public void testProcess(){
 	openstreetmapDatabaseIndexer.process();
-	assertEquals("statusMessage should be null if the process is ok","", openstreetmapDatabaseIndexer.getStatusMessage());
+	assertEquals("statusMessage should be empty if the process is ok","", openstreetmapDatabaseIndexer.getStatusMessage());
     }
+    
+    
     
     @Test
     public void testShouldBeSkiped(){
@@ -32,9 +38,7 @@ public class OpenstreetmapDatabaseIndexerTest extends AbstractTransactionalTestC
 	Assert.assertFalse(openstreetmapDatabaseIndexerTobeSkipped.shouldBeSkipped());
     }
 
-    public void setOpenstreetmapDatabaseIndexer(OpenstreetmapDatabaseIndexer openstreetmapDatabaseIndexer) {
-        this.openstreetmapDatabaseIndexer = openstreetmapDatabaseIndexer;
-    }
+  
 
     @Test
     public void testRollback() throws Exception {
@@ -43,7 +47,32 @@ public class OpenstreetmapDatabaseIndexerTest extends AbstractTransactionalTestC
 		Assert.assertEquals(0, dtoList.size());
 	}
     
+    @Test
+    public void testGetCurrentFileNameShouldReturnTheClassName(){
+	OpenstreetmapDatabaseIndexer openstreetmapDatabaseIndexerToTest = new OpenstreetmapDatabaseIndexer();
+	openstreetmapDatabaseIndexerToTest.setOpenStreetMapDao(new OpenStreetMapDao());
+	assertEquals(OpenStreetMap.class.getSimpleName(), openstreetmapDatabaseIndexerToTest.getCurrentFileName());
+    }
     
+    @Test
+    public void testResetStatusShouldReset(){
+	OpenstreetmapDatabaseIndexer openstreetmapDatabaseIndexerToTest = new OpenstreetmapDatabaseIndexer(){
+	    @Override
+	    protected void setup() {
+	        throw new RuntimeException();
+	    }
+	};
+	openstreetmapDatabaseIndexerToTest.process();
+	Assert.assertTrue(openstreetmapDatabaseIndexerToTest.getStatusMessage().length()>0);
+	Assert.assertEquals(ImporterStatus.ERROR,openstreetmapDatabaseIndexerToTest.getStatus());
+	openstreetmapDatabaseIndexerToTest.resetStatus();
+	Assert.assertTrue(openstreetmapDatabaseIndexerToTest.getStatusMessage().length() ==0);
+	Assert.assertEquals(ImporterStatus.WAITING,openstreetmapDatabaseIndexerToTest.getStatus());
+    }
+    
+    public void setOpenstreetmapDatabaseIndexer(OpenstreetmapDatabaseIndexer openstreetmapDatabaseIndexer) {
+        this.openstreetmapDatabaseIndexer = openstreetmapDatabaseIndexer;
+    }
     
 
 }
