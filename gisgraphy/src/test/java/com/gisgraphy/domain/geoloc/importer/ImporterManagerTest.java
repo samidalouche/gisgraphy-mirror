@@ -152,15 +152,7 @@ public class ImporterManagerTest extends AbstractIntegrationHttpSolrTestCase {
     @Test
     public void testResetImportShouldSetAlreadyDoneToFalseAndReturnInfoOnDeletedObjects() throws Exception {
 	ImporterManager fakeimporterManager = new ImporterManager();
-	/*ICityDao mockCityDao = EasyMock.createMock(ICityDao.class);
-	mockCityDao.setFlushMode(FlushMode.COMMIT);
-	EasyMock.expectLastCall();
-	EasyMock.replay(mockCityDao);
-
-	IGisFeatureDao mockGisDao = EasyMock.createMock(IGisFeatureDao.class);
-	mockGisDao.setFlushMode(FlushMode.COMMIT);
-	EasyMock.expectLastCall();
-	EasyMock.replay(mockGisDao);*/
+	
 	IDatabaseHelper mockDatabaseHelper = EasyMock.createMock(IDatabaseHelper.class);
 
 	mockDatabaseHelper.generateSqlDropSchemaFileToRerunImport(((File)EasyMock.anyObject()));
