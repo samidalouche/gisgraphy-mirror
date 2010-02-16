@@ -4,14 +4,16 @@ import java.util.List;
 
 import junit.framework.Assert;
 
+import org.easymock.classextension.EasyMock;
 import org.junit.Test;
 
 import com.gisgraphy.domain.geoloc.entity.OpenStreetMap;
 import com.gisgraphy.domain.repository.AbstractTransactionalTestCase;
-import com.gisgraphy.domain.repository.IOpenStreetMapDao;
 import com.gisgraphy.domain.repository.OpenStreetMapDao;
 import com.gisgraphy.domain.valueobject.ImporterStatus;
+import com.gisgraphy.domain.valueobject.ImporterStatusDto;
 import com.gisgraphy.domain.valueobject.NameValueDTO;
+import com.gisgraphy.service.IInternationalisationService;
 
 public class OpenstreetmapDatabaseIndexerTest extends AbstractTransactionalTestCase {
     
@@ -23,6 +25,29 @@ public class OpenstreetmapDatabaseIndexerTest extends AbstractTransactionalTestC
 	assertEquals("statusMessage should be empty if the process is ok","", openstreetmapDatabaseIndexer.getStatusMessage());
     }
     
+    @Test
+    public void testStatusPercentShouldBe50DuringProcess(){
+	ImporterConfig importerConfig = new ImporterConfig();
+	importerConfig.setOpenstreetmapImporterEnabled(true);
+	
+	IInternationalisationService internationalisationService = EasyMock.createNiceMock(IInternationalisationService.class);
+	
+	OpenstreetmapDatabaseIndexer openstreetmapDatabaseIndexerToTest = new OpenstreetmapDatabaseIndexer();
+	openstreetmapDatabaseIndexerToTest.setInternationalisationService(internationalisationService);
+	openstreetmapDatabaseIndexerToTest.setImporterConfig(importerConfig);
+	OpenStreetMapDao fakeOpenStreetMapDao = new OpenStreetMapDao(){
+	    public void createIndexes() {
+		throw new RuntimeException();
+	    };
+	};
+	
+	openstreetmapDatabaseIndexerToTest.setOpenStreetMapDao(fakeOpenStreetMapDao);
+	try {
+	    openstreetmapDatabaseIndexerToTest.process();
+	} catch (Exception ignore) {
+	}
+	Assert.assertEquals(50, new ImporterStatusDto(openstreetmapDatabaseIndexerToTest).getPercent());
+    }
     
     
     @Test

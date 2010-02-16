@@ -32,7 +32,6 @@ import org.apache.commons.logging.LogFactory;
 import org.jmock.MockObjectTestCase;
 
 import com.gisgraphy.helper.PropertiesHelper;
-import com.gisgraphy.util.ConvertUtil;
 
 public abstract class BaseManagerMockTestCase extends MockObjectTestCase {
     // ~ Static fields/initializers

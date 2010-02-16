@@ -25,8 +25,6 @@ package com.gisgraphy.helper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.gisgraphy.domain.geoloc.importer.AbstractImporterProcessor;
-
 
 /**
  * Give the ability to retry a function multiple times if it fails.

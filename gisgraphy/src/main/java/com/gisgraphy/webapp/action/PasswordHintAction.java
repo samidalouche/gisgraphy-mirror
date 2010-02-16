@@ -25,9 +25,6 @@ package com.gisgraphy.webapp.action;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.collections.ListUtils;
-import org.apache.commons.lang.ArrayUtils;
-
 import com.gisgraphy.model.User;
 import com.gisgraphy.webapp.util.RequestUtil;
 

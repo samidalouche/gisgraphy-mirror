@@ -33,7 +33,6 @@ import com.gisgraphy.Constants;
 import com.gisgraphy.domain.repository.AbstractTransactionalTestCase;
 import com.gisgraphy.helper.PropertiesHelper;
 import com.gisgraphy.model.User;
-import com.gisgraphy.util.ConvertUtil;
 
 public class UserManagerTest extends AbstractTransactionalTestCase {
 

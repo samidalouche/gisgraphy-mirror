@@ -25,7 +25,6 @@ package com.gisgraphy.domain.geoloc.importer;
 import java.util.List;
 
 import com.gisgraphy.domain.valueobject.ImporterStatusDto;
-import com.gisgraphy.domain.valueobject.NameValueDTO;
 
 public interface IImporterManager {
 

@@ -9,7 +9,6 @@ import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.criterion.Projection;
 import org.hibernate.transform.Transformers;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.springframework.orm.hibernate3.HibernateCallback;
 

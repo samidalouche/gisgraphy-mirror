@@ -32,7 +32,6 @@ import org.springframework.beans.factory.annotation.Required;
 
 import com.gisgraphy.domain.geoloc.importer.IImporterManager;
 import com.gisgraphy.domain.geoloc.importer.ImporterManager;
-import com.gisgraphy.domain.valueobject.NameValueDTO;
 import com.opensymphony.xwork2.ActionSupport;
 
 /**

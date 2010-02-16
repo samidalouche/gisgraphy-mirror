@@ -28,6 +28,7 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Required;
 
 import com.gisgraphy.domain.repository.IOpenStreetMapDao;
 import com.gisgraphy.domain.valueobject.ImporterStatus;
@@ -169,8 +170,17 @@ public class OpenstreetmapDatabaseIndexer implements IImporterProcessor {
     /**
      * @param openStreetMapDao the openStreetMapDao to set
      */
+    @Required
     public void setOpenStreetMapDao(IOpenStreetMapDao openStreetMapDao) {
         this.openStreetMapDao = openStreetMapDao;
+    }
+
+    /**
+     * @param internationalisationService the internationalisationService to set
+     */
+    @Required
+    public void setInternationalisationService(IInternationalisationService internationalisationService) {
+        this.internationalisationService = internationalisationService;
     }
 
 }

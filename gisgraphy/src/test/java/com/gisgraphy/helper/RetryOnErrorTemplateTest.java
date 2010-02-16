@@ -27,7 +27,6 @@ import junit.framework.Assert;
 import org.junit.Test;
 
 import com.gisgraphy.domain.geoloc.service.geoloc.GisgraphyCommunicationException;
-import com.gisgraphy.helper.RetryOnErrorTemplate;
 
 
 public class RetryOnErrorTemplateTest {
