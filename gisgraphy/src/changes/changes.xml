@@ -262,6 +262,16 @@ remove the ability to search for 'no name street'
 				Localize legend of status import   
 			</action>
 			
+			<action dev="David Masclet" type="fix">
+					http://code.google.com/p/gisgraphy/issues/detail?id=10 : memory leak (DBCP/ prepareStatement pool)
+			</action>
+			
+			<action dev="David Masclet" type="update">
+					update struts2 to 2.1.8 to be able to disable ognl cache to eat less memory
+			</action>
+			
+			
+			
 			
 		</release>
 	</body>
