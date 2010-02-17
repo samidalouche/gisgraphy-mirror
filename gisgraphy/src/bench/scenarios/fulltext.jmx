@@ -84,7 +84,7 @@
           <stringProp name="variableNames">name</stringProp>
           <stringProp name="delimiter">\t</stringProp>
           <boolProp name="quotedData">false</boolProp>
-          <boolProp name="recycle">true</boolProp>
+          <boolProp name="recycle">false</boolProp>
           <boolProp name="stopThread">true</boolProp>
           <stringProp name="shareMode">Toutes les unités</stringProp>
         </CSVDataSet>
