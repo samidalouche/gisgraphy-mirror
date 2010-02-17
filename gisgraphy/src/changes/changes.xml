@@ -270,7 +270,9 @@ remove the ability to search for 'no name street'
 					update struts2 to 2.1.8 to be able to disable ognl cache to eat less memory
 			</action>
 			
-			
+			<action dev="David Masclet" type="fix">
+				fix  issue http://code.google.com/p/gisgraphy/issues/detail?id=11:  create boudingbox method in distance restriction sometimes return bad values 
+			</action>
 			
 			
 		</release>
