@@ -221,30 +221,27 @@ public class GeolocHelper {
 		    + distance);
 	}
 
-	double latrad = ((lat * Math.PI) / 180);
-	double lngrad = ((lng * Math.PI) / 180);
+	double latrad = Math.toRadians(lat);
 	double angulardistance = distance / Constants.RADIUS_OF_EARTH_IN_METERS;
 	double latRadSinus = Math.sin(latrad);
 	double latRadCosinus = Math.cos(latrad);
 	double angularDistanceCosinus = Math.cos(angulardistance);
-	double deltaYLatInDegrees = Math.abs(Math.asin(latRadSinus
+	double deltaYLatInRadian = Math.abs(Math.asin(latRadSinus
 		* angularDistanceCosinus + latRadCosinus
 		* Math.sin(angulardistance) * COS0)
 		- latrad);
 
-	double deltaXlngInDegrees = Math.abs(Math.atan2(SIN90
+	double deltaXlngInRadian = Math.abs(Math.atan2(SIN90
 		* Math.sin(angulardistance) * latRadCosinus,
 		angularDistanceCosinus - latRadSinus * latRadSinus));
 
-	lngrad = (lngrad + Math.PI) % (2 * Math.PI) - Math.PI;
+	double deltaYLatInDegree = Math.toDegrees(deltaYLatInRadian);
+	double deltaXlngInDegree = Math.toDegrees(deltaXlngInRadian);
 
-	double latdeg = ((deltaYLatInDegrees * 180) / Math.PI);
-	double lngdeg = ((deltaXlngInDegrees * 180) / Math.PI);
-
-	double minX = lng - lngdeg;
-	double maxX = lng + lngdeg;
-	double minY = lat - latdeg;
-	double maxY = lat + latdeg;
+	double minX = lng - deltaXlngInDegree;
+	double maxX = lng + deltaXlngInDegree;
+	double minY = lat - deltaYLatInDegree;
+	double maxY = lat + deltaYLatInDegree;
 
 	WKTReader reader = new WKTReader();
 	StringBuffer sb = new StringBuffer("POLYGON((");

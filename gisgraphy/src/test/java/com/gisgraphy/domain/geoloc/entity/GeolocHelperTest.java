@@ -36,10 +36,10 @@ import com.vividsolutions.jts.geom.Polygon;
 
 public class GeolocHelperTest {
 	
-	 @Test
-	    public void testgetBoundingBox(){
-	    	Assert.assertTrue(GeolocHelper.getBoundingBox("alias", 51.8365537F ,7.0562314F, 10000).contains("NaN"));
-	    }
+   @Test
+    public void testgetBoundingBox(){
+    	Assert.assertFalse(GeolocHelper.getBoundingBox("alias", 51.8365537F ,7.0562314F, 10000).contains("NaN"));
+    }
 
     @Test
     public void createPointWithFloat() {
