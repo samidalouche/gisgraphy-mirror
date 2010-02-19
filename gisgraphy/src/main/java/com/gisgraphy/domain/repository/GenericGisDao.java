@@ -202,7 +202,7 @@ public class GenericGisDao<T extends GisFeature> extends
 
 			Projection projections = ProjectionBean.fieldList(
 				fieldList,true).add(
-				SpatialProjection.distance_sphere(point).as(
+				SpatialProjection.distance_sphere(point,GisFeature.LOCATION_COLUMN_NAME).as(
 					"distance"));
 			criteria.setProjection(projections);
 			if (pointId != 0) {

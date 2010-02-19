@@ -42,7 +42,6 @@ import org.hibernate.criterion.CriteriaQuery;
 import org.hibernate.criterion.SimpleProjection;
 import org.hibernate.type.Type;
 
-import com.gisgraphy.domain.geoloc.entity.GisFeature;
 import com.gisgraphy.domain.valueobject.SRID;
 import com.vividsolutions.jts.geom.Point;
 
@@ -52,54 +51,68 @@ import com.vividsolutions.jts.geom.Point;
  */
 public class SpatialProjection {
 
-    /**
-     * projection to get the distance_sphere of a point
-     * 
-     * @param point
-     *                the point to get the distance
-     * @return the projection
-     */
-    public static SimpleProjection distance_sphere(final Point point) {
-	return new SimpleProjection() {
+	private static final String DISTANCE_FUNCTION = "distance";
+	private static final String DISTANCE_SPHERE_FUNCTION = "distance_sphere";
 
-	    /**
-	     * 
-	     */
-	    private static final long serialVersionUID = -8771843067497785957L;
+	/**
+	 * projection to get the distance_sphere of a point
+	 * 
+	 * @param point
+	 *                the point to get the distance
+	 * @param locationColumnName the name of the column we want the distance
+	 * @return the projection
+	 * @see #distance(Point, String)
+	 */
+	public static SimpleProjection distance_sphere(final Point point, final String locationColumnName) {
+		return distance_function(point, locationColumnName, DISTANCE_SPHERE_FUNCTION);
+	}
 
-	    /*
-	     * (non-Javadoc)
-	     * 
-	     * @see org.hibernate.criterion.Projection#getTypes(org.hibernate.Criteria,
-	     *      org.hibernate.criterion.CriteriaQuery)
-	     */
-	    public Type[] getTypes(Criteria criteria,
-		    CriteriaQuery criteriaQuery) throws HibernateException {
-		return new Type[] { Hibernate.DOUBLE };
-	    }
+	/**
+	 * projection to get the distance from a point
+	 * 
+	 * @param point
+	 *                the point to get the distance
+	 * @param locationColumnName the name of the column we want the distance
+	 * @return the projection
+	 * @see #distance_sphere(Point, String)
+	 */
+	public static SimpleProjection distance(final Point point, final String locationColumnName) {
+		return distance_function(point, locationColumnName, DISTANCE_FUNCTION);
+	}
 
-	    /*
-	     * (non-Javadoc)
-	     * 
-	     * @see org.hibernate.criterion.Projection#toSqlString(org.hibernate.Criteria,
-	     *      int, org.hibernate.criterion.CriteriaQuery)
-	     */
-	    public String toSqlString(Criteria criteria, int position,
-		    CriteriaQuery criteriaQuery) throws HibernateException {
-		String columnName = criteriaQuery.getColumn(criteria,
-			GisFeature.LOCATION_COLUMN_NAME);
-		StringBuffer sb = new StringBuffer();
-		String sqlString = sb.append("distance_sphere(").append(
-			columnName).append(", GeometryFromText( 'POINT(")
-			.append(point.getX()).append(" ").append(point.getY())
-			.append(")',").append(SRID.WGS84_SRID.getSRID())
-			.append(")) as y").append(position).append("_")
-			.toString();
-		return sqlString;
-	    }
+	private static SimpleProjection distance_function(final Point point, final String locationColumnName, final String distanceFunction) {
+		return new SimpleProjection() {
 
-	};
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = -8771843067497785957L;
 
-    }
+			/*
+			 * (non-Javadoc)
+			 * 
+			 * @see org.hibernate.criterion.Projection#getTypes(org.hibernate.Criteria,
+			 *      org.hibernate.criterion.CriteriaQuery)
+			 */
+			public Type[] getTypes(Criteria criteria, CriteriaQuery criteriaQuery) throws HibernateException {
+				return new Type[] { Hibernate.DOUBLE };
+			}
+
+			/*
+			 * (non-Javadoc)
+			 * 
+			 * @see org.hibernate.criterion.Projection#toSqlString(org.hibernate.Criteria,
+			 *      int, org.hibernate.criterion.CriteriaQuery)
+			 */
+			public String toSqlString(Criteria criteria, int position, CriteriaQuery criteriaQuery) throws HibernateException {
+				String columnName = criteriaQuery.getColumn(criteria, locationColumnName);
+				StringBuffer sb = new StringBuffer();
+				String sqlString = sb.append(distanceFunction).append("(").append(columnName).append(", GeometryFromText( 'POINT(").append(point.getX()).append(" ").append(point.getY()).append(")',").append(SRID.WGS84_SRID.getSRID()).append(")) as y").append(position).append("_").toString();
+				return sqlString;
+			}
+
+		};
+
+	}
 
 }

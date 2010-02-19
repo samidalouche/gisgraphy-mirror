@@ -36,6 +36,7 @@ import org.junit.Test;
 import org.springframework.orm.hibernate3.HibernateCallback;
 
 import com.gisgraphy.domain.geoloc.entity.City;
+import com.gisgraphy.domain.geoloc.entity.GisFeature;
 import com.gisgraphy.domain.geoloc.service.fulltextsearch.AbstractIntegrationHttpSolrTestCase;
 import com.gisgraphy.domain.repository.ICityDao;
 import com.gisgraphy.test.GeolocTestHelper;
@@ -66,7 +67,7 @@ public class SpatialProjectionTest extends AbstractIntegrationHttpSolrTestCase {
 		Criteria testCriteria = session.createCriteria(City.class);
 		ProjectionList projection = Projections.projectionList().add(
 			Projections.property("name").as("name")).add(
-			SpatialProjection.distance_sphere(p1.getLocation()).as(
+			SpatialProjection.distance_sphere(p1.getLocation(),GisFeature.LOCATION_COLUMN_NAME).as(
 				"distance"));
 		// remove the from point
 		testCriteria.add(Restrictions.ne("id", p1.getId()))

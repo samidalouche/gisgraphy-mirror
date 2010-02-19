@@ -271,7 +271,15 @@ remove the ability to search for 'no name street'
 			</action>
 			
 			<action dev="David Masclet" type="fix">
-				fix  issue http://code.google.com/p/gisgraphy/issues/detail?id=11:  create boudingbox method in distance restriction sometimes return bad values 
+				fix  issue http://code.google.com/p/gisgraphy/issues/detail?id=11 : create boudingbox method in distance restriction sometimes return bad values 
+			</action>
+			
+			<action dev="David Masclet" type="fix">
+				fix  issue http://code.google.com/p/gisgraphy/issues/detail?id=12 :   	 Street find webservice returns wrong street 
+			</action>
+			
+			<action dev="David Masclet" type="update">
+					street webservice does not sort the result by distance_sphere(middle of the street, point) anymore. It sort by distance (not distance sphere) between the line and the point
 			</action>
 			
 			

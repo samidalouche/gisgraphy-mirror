@@ -42,6 +42,7 @@ import org.springframework.orm.hibernate3.HibernateCallback;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.Assert;
 
+import com.gisgraphy.domain.geoloc.entity.GisFeature;
 import com.gisgraphy.domain.geoloc.entity.OpenStreetMap;
 import com.gisgraphy.domain.geoloc.service.fulltextsearch.StreetSearchMode;
 import com.gisgraphy.domain.geoloc.service.geoloc.street.StreetType;
@@ -107,8 +108,10 @@ public class OpenStreetMapDao extends GenericDao<OpenStreetMap, Long> implements
 
 			Projection projections = ProjectionBean.fieldList(
 				fieldList,false).add(
-				SpatialProjection.distance_sphere(point).as(
-					"distance"));
+//				SpatialProjection.distance_sphere(point, GisFeature.LOCATION_COLUMN_NAME).as(
+//					"distance"));
+						SpatialProjection.distance(point, OpenStreetMap.SHAPE_COLUMN_NAME).as(
+						"distance"));
 			criteria.setProjection(projections);
 			criteria.addOrder(new ProjectionOrder("distance"));
 			if (maxResults > 0) {

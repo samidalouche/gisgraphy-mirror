@@ -30,12 +30,25 @@ package com.gisgraphy.domain.valueobject;
  */
 public enum SRID {
 
+    /**
+     * 4326;"EPSG";4326;"GEOGCS["WGS 84"...
+     */
+   
     WGS84_SRID {
 	@Override
 	public int getSRID() {
 	    return 4326;
 	}
-    };
+    },
+    /**
+     * 3395;"EPSG";3395;"PROJCS["WGS 84 / World Mercator"...
+     */
+    WGS84_SRID_PROJCS {
+    	@Override
+    	public int getSRID() {
+    	    return 4326;
+    	}
+        };
 
     /**
      * @return an SRID (Spatial Reference IDentifier) *
