@@ -128,7 +128,7 @@ public class OpenStreetMapDao extends GenericDao<OpenStreetMap, Long> implements
 			if (name != null) {
 					if (streetSearchMode==StreetSearchMode.CONTAINS){
 					    	criteria = criteria.add(Restrictions.isNotNull("name"));//optimisation!
-					    	criteria = criteria.add(Restrictions.ilike("textSearchName", "%"+name+"%"));
+					    	criteria = criteria.add(Restrictions.ilike(OpenStreetMap.FULLTEXTSEARCH_PROPERTY_NAME, "%"+name+"%"));
 					    	//criteria = criteria.add(new PartialWordSearchRestriction(OpenStreetMap.PARTIALSEARCH_VECTOR_COLUMN_NAME, name));
 					} else if (streetSearchMode == StreetSearchMode.FULLTEXT){
 						  criteria = criteria.add(new FulltextRestriction(OpenStreetMap.FULLTEXTSEARCH_VECTOR_COLUMN_NAME, name));
