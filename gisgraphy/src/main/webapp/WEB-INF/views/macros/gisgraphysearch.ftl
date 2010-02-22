@@ -180,7 +180,7 @@
 				  					<@s.param name="gid" value="${result.gid?c}" />
 				 				</@s.url>
 								<div class="resultheaderleft"><a href="${streetURL}"><#if result.name??>${result.name}<#else><@s.text name="global.street.noname" /></#if> </a> <@s.text name="global.at"/> ${result.distance} <@s.text name="search.unit.meter"/></div>
-								<div class="resultheaderright"><#if result.streetType??>streetType</#if></div>
+								<div class="resultheaderright"><#if result.streetType??><@s.text name="${result.streetType}" /></#if></div>
 						</div>
 					
 						<div class="separator"><hr/></div>
