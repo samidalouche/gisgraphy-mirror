@@ -50,13 +50,85 @@ import com.vividsolutions.jts.geom.Point;
  *         Spatial Projections. distance_sphere...
  */
 public class SpatialProjection {
+    
+    private static final String DISTANCE_FUNCTION = "distance";
+    private static final String DISTANCE_SPHERE_FUNCTION = "distance_sphere";
+    private static String ST_LINE_INTERPOLATE_POINT_FUNCTION = "ST_line_interpolate_point";
+    private static String ST_LINE_LOCATE_POINT_FUNCTION = "st_line_locate_point";
+    private static String LINEMERGE_FUNCTION = "linemerge";
 
-	private static final String DISTANCE_FUNCTION = "distance";
-	private static final String DISTANCE_SPHERE_FUNCTION = "distance_sphere";
+    /**
+	 * projection to get the distance_sphere between a point and a LineString
+	 * 
+	 * @param point
+	 *                the point to get the distance
+	 * @param lineStringColumnName the name of the lineString column
+	 * @return the projection
+	 * @see #distance(Point, String)
+	 */
+	public static SimpleProjection distance_pointToLine(final Point point, final String lineStringColumnName) {
+	    return new SimpleProjection() {
+
+		private static final long serialVersionUID = -7424596977297450115L;
+
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see org.hibernate.criterion.Projection#getTypes(org.hibernate.Criteria,
+		 *      org.hibernate.criterion.CriteriaQuery)
+		 */
+		public Type[] getTypes(Criteria criteria, CriteriaQuery criteriaQuery) throws HibernateException {
+			return new Type[] { Hibernate.DOUBLE };
+		}
+
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see org.hibernate.criterion.Projection#toSqlString(org.hibernate.Criteria,
+		 *      int, org.hibernate.criterion.CriteriaQuery)
+		 */
+		public String toSqlString(Criteria criteria, int position, CriteriaQuery criteriaQuery) throws HibernateException {
+			String columnName = criteriaQuery.getColumn(criteria, lineStringColumnName);
+			//TODO point.toString
+			String pointAsString = new StringBuffer("GeometryFromText( 'POINT(")
+			.append(point.getX()).append(" ").append(point.getY()).append(")',").append(SRID.WGS84_SRID.getSRID()).append(")").toString();
+			
+			String lineMerge = new StringBuffer(LINEMERGE_FUNCTION)
+			.append("(")
+			.append(columnName)
+			.append(")").toString();
+			
+			String sqlString = new StringBuffer()
+			.append(DISTANCE_SPHERE_FUNCTION)
+			.append("(")
+			.append(pointAsString)
+			.append(",")
+			.append(ST_LINE_INTERPOLATE_POINT_FUNCTION)
+			.append("(")
+			.append(lineMerge)
+			.append(",")
+			.append(ST_LINE_LOCATE_POINT_FUNCTION)
+			.append("(")
+			.append(lineMerge)
+			.append(",")
+			.append(pointAsString)
+			.append(")")
+			.append(")")
+			.append(")")
+			.toString();
+			
+			 
+			return sqlString;
+		}
+
+	};
+	}
+
+    
 
 	/**
 	 * projection to get the distance_sphere of a point
-	 * 
+	 * if you're on a Cartesian ref use {@link SpatialProjection#distance(Point, String)}
 	 * @param point
 	 *                the point to get the distance
 	 * @param locationColumnName the name of the column we want the distance
@@ -66,9 +138,11 @@ public class SpatialProjection {
 	public static SimpleProjection distance_sphere(final Point point, final String locationColumnName) {
 		return distance_function(point, locationColumnName, DISTANCE_SPHERE_FUNCTION);
 	}
+	
 
 	/**
 	 * projection to get the distance from a point
+	 * if you're on a lat/long ref, use @link {@link #distance_sphere(Point, String)}
 	 * 
 	 * @param point
 	 *                the point to get the distance
