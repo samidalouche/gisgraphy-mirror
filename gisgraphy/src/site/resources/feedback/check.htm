@@ -11,7 +11,7 @@ $captchas = new CaptchasDotNet ('demo', 'secret',
 
 // Read the form values
 $message       = stripcslashes($_REQUEST['message']);
-$mail          = $_REQUEST['mail'];
+$mail          = stripcslashes($_REQUEST['mail']);
 $password      = $_REQUEST['password'];
 $random_string = $_REQUEST['random'];
 ?>
