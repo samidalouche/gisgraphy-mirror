@@ -8,8 +8,8 @@ pgHost="127.0.0.1"
 geometryColumnName="shape"
 lengthColumnName="length"
 locationColumnName="location"
-countrycodeFileName="countrycode4test.txt"
-urlFileName="urls4test.txt"
+countrycodeFileName="countrycode.txt"
+urlFileName="urls.txt"
 typeset -i OK=0
 typeset -i KO=1
 postgisPath="/usr/share/postgresql-8.3-postgis/"
@@ -33,7 +33,7 @@ then
 	return $KO
 fi
 
-paste -d: $urlFileName $countrycodeFileName | while read line ; do echo $line| awk -F: '{print "wget "$1" -O "$2}'| sh ; done
+paste -d: $urlFileName $countrycodeFileName | while read line ; do echo "$line || cat "download of $1 in $2 failed" >errordownload.txt "| awk -F: '{print "wget "$1" -O "$2}'    ; done
 echo "download files finished"
 return $OK
 }
@@ -198,7 +198,7 @@ function clean_data {
 	echo "add $lengthColumnName column"
 	psql_runSQLcommandOnDatabase "ALTER TABLE $tableName ADD COLUMN $lengthColumnName double precision"
 	echo "update length"
-	psql_runSQLcommandOnDatabase "update $tableName set $lengthColumnName=distance(startpoint($geometryColumnName),endpoint($geometryColumnName))"
+	psql_runSQLcommandOnDatabase "update $tableName set $lengthColumnName=distance_sphere(startpoint($geometryColumnName),endpoint($geometryColumnName))"
 }
 
 
