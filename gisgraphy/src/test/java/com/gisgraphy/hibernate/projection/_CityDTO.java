@@ -22,12 +22,15 @@
  *******************************************************************************/
 package com.gisgraphy.hibernate.projection;
 
+import com.vividsolutions.jts.geom.MultiLineString;
+
 public class _CityDTO {
 
 
     private String name;
     private Long featureId;
     private Double distance;
+   
 
     public String getName() {
 	return name;
@@ -52,5 +55,7 @@ public class _CityDTO {
     public void setDistance(Double distance) {
 	this.distance = distance;
     }
+
+    
 
 }

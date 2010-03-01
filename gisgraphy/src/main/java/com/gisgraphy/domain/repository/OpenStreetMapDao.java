@@ -110,7 +110,7 @@ public class OpenStreetMapDao extends GenericDao<OpenStreetMap, Long> implements
 				fieldList,false).add(
 //				SpatialProjection.distance_sphere(point, GisFeature.LOCATION_COLUMN_NAME).as(
 //					"distance"));
-						SpatialProjection.distance(point, OpenStreetMap.SHAPE_COLUMN_NAME).as(
+						SpatialProjection.distance_pointToLine(point, OpenStreetMap.SHAPE_COLUMN_NAME).as(
 						"distance"));
 			criteria.setProjection(projections);
 			criteria.addOrder(new ProjectionOrder("distance"));

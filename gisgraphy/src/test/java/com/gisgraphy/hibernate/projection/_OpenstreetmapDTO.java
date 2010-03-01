@@ -22,10 +22,14 @@
  *******************************************************************************/
 package com.gisgraphy.hibernate.projection;
 
+import com.vividsolutions.jts.geom.MultiLineString;
+
 public class _OpenstreetmapDTO {
 
     private String name;
     private Long Gid;
+    private MultiLineString shape; 
+    private Double distance;
 
     public String getName() {
 	return name;
@@ -43,6 +47,21 @@ public class _OpenstreetmapDTO {
         Gid = gid;
     }
 
+    public MultiLineString getShape() {
+        return shape;
+    }
+
+    public void setShape(MultiLineString shape) {
+        this.shape = shape;
+    }
+
+    public void setDistance(Double distance) {
+        this.distance = distance;
+    }
+
+    public Double getDistance() {
+        return distance;
+    }
     
 
 

@@ -33,26 +33,79 @@ import org.hibernate.criterion.ProjectionList;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.transform.Transformers;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.springframework.orm.hibernate3.HibernateCallback;
 
 import com.gisgraphy.domain.geoloc.entity.City;
 import com.gisgraphy.domain.geoloc.entity.GisFeature;
+import com.gisgraphy.domain.geoloc.entity.OpenStreetMap;
 import com.gisgraphy.domain.geoloc.service.fulltextsearch.AbstractIntegrationHttpSolrTestCase;
 import com.gisgraphy.domain.repository.ICityDao;
+import com.gisgraphy.domain.repository.IOpenStreetMapDao;
+import com.gisgraphy.domain.valueobject.SRID;
 import com.gisgraphy.helper.GeolocHelper;
 import com.gisgraphy.test.GeolocTestHelper;
 import com.gisgraphy.test._DaoHelper;
+import com.vividsolutions.jts.geom.MultiLineString;
 import com.vividsolutions.jts.geom.Point;
 
 public class SpatialProjectionTest extends AbstractIntegrationHttpSolrTestCase {
 
     private ICityDao cityDao;
+    
+    private IOpenStreetMapDao openStreetMapDao;
 
     private _DaoHelper testDao;
 
     @SuppressWarnings("unchecked")
     @Test
+    public void testdistance_pointToLine() {
+	   String[] wktLineStrings={"LINESTRING (6.9416088 50.9154239,6.9410001 50.9154734)"};
+	    MultiLineString shape = GeolocHelper.createMultiLineString(wktLineStrings);
+	    shape.setSRID(SRID.WGS84_SRID.getSRID());
+		
+		OpenStreetMap streetOSM = GeolocTestHelper.createOpenStreetMapForPeterMartinStreet();
+		streetOSM.setShape(shape);
+		openStreetMapDao.save(streetOSM);
+		assertNotNull(openStreetMapDao.get(streetOSM.getId()));
+		
+		final Point p1 = GeolocHelper.createPoint(6.9412748F, 50.9155829F);
+
+	HibernateCallback hibernateCallback = new HibernateCallback() {
+
+	    public Object doInHibernate(Session session)
+		    throws PersistenceException {
+
+		Criteria testCriteria = session.createCriteria(OpenStreetMap.class);
+		ProjectionList projection = Projections.projectionList().add(
+			Projections.property("name").as("name")).add(
+			SpatialProjection.distance_pointToLine(p1,OpenStreetMap.SHAPE_COLUMN_NAME).as(
+				"distance")).add(Projections.property("shape").as("shape"));
+		// remove the from point
+				testCriteria.setProjection(projection);
+		testCriteria.setResultTransformer(Transformers
+			.aliasToBean(_OpenstreetmapDTO.class));
+
+		List<_OpenstreetmapDTO> results = testCriteria.list();
+		return results;
+	    }
+	};
+
+	List<_OpenstreetmapDTO> streets = (List<_OpenstreetmapDTO>) testDao
+		.testCallback(hibernateCallback);
+	assertEquals(1, streets.size());
+	Double calculatedDist = 14.76D;
+	Double retrieveDistance = streets.get(0).getDistance();
+	double percent = (Math.abs(calculatedDist - retrieveDistance) * 100)
+		/ Math.min(retrieveDistance, calculatedDist);
+	assertTrue("There is more than one percent of error beetween the calculated distance ("+calculatedDist+") and the retrieved one ("+retrieveDistance+")",percent < 1);
+
+    }
+    
+    @SuppressWarnings("unchecked")
+    @Test
+    @Ignore
     public void testDistance_sphere() {
 	final City p1 = GeolocTestHelper.createCity("paris", 48.86667F,
 		2.3333F, 1L);
@@ -94,8 +147,11 @@ public class SpatialProjectionTest extends AbstractIntegrationHttpSolrTestCase {
 	assertTrue("There is more than one percent of error beetween the calculated distance ("+calculatedDist+") and the retrieved one ("+retrieveDistance+")",percent < 1);
 
     }
+    
+    
     @SuppressWarnings("unchecked")
     @Test
+    @Ignore
     public void testDistance(){
 	float x1 = -2f;
 	float y1 = 2f;
@@ -154,6 +210,10 @@ public class SpatialProjectionTest extends AbstractIntegrationHttpSolrTestCase {
 
     public void setTestDao(_DaoHelper testDao) {
 	this.testDao = testDao;
+    }
+
+    public void setOpenStreetMapDao(IOpenStreetMapDao openStreetMapDao) {
+        this.openStreetMapDao = openStreetMapDao;
     }
 
 }

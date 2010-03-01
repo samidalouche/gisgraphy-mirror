@@ -98,7 +98,7 @@ public class OpenStreetMapDaoTest extends AbstractIntegrationHttpSolrTestCase{
 	streetOSM2.setShape(shape2);
 	streetOSM2.setGid(2L);
 	//Simulate middle point
-	streetOSM2.setLocation(GeolocHelper.createPoint(5F, 5F));
+	streetOSM2.setLocation(GeolocHelper.createPoint(6.94130445F , 50.91544865F));
 	streetOSM2.setOneWay(false);
 	streetOSM2.setStreetType(StreetType.FOOTWAY);
 	streetOSM2.setName("John Kenedy");
@@ -115,10 +115,14 @@ public class OpenStreetMapDaoTest extends AbstractIntegrationHttpSolrTestCase{
 	List<StreetDistance> nearestStreet = openStreetMapDao.getNearestAndDistanceFrom(searchPoint, 10000, 1, 1, null,null, null,null);
 	assertEquals(1,nearestStreet.size());
 	assertEquals("the street is not the expected one, there is probably a problem with the distance",streetOSM2.getGid(),nearestStreet.get(0).getGid());
-	//test distance
-	Assert.assertEquals("There is probably a problem with the distance",searchPoint.distance(streetOSM2.getShape()), nearestStreet.get(0).getDistance().longValue(),5);
-	//the following line test the distance when the middle of the street is taken
+	//test distance 
+	//the following line test the distance when the nearest point is taken, with distance_sphere
+	Assert.assertEquals("There is probably a problem with the distance",14.7, nearestStreet.get(0).getDistance(),0.1);
+	//the following line test the distance when the middle of the street is taken with distance
+	//Assert.assertEquals("There is probably a problem with the distance",searchPoint.distance(streetOSM2.getShape()), nearestStreet.get(0).getDistance().longValue(),5);
+	//the following line test the distance when the middle of the street is taken with distance_sphere
 	//Assert.assertEquals(GeolocHelper.distance(searchPoint, nearestStreet.get(0).getLocation()), nearestStreet.get(0).getDistance().longValue(),5);
+	
 	
 	//test streettype
 	assertEquals(0,openStreetMapDao.getNearestAndDistanceFrom(searchPoint, 10000, 1, 1, StreetType.UNCLASSIFIED,null, null,null).size());

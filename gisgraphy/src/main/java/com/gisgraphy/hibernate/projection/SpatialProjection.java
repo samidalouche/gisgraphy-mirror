@@ -115,6 +115,7 @@ public class SpatialProjection {
 			.append(")")
 			.append(")")
 			.append(")")
+			.append("as y").append(position).append("_")
 			.toString();
 			
 			 
