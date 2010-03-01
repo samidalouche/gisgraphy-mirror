@@ -16,7 +16,33 @@ postgisPath="/usr/share/postgresql-8.3-postgis/"
 postgislwFileName="lwpostgis.sql"
 postgisSpatialRefSysFileName="spatial_ref_sys.sql"
 
+URL404File="404URL.txt"
+
+
+function checkURLAndLog {
+echo "checking if $1 exists"
+containsHeader=`wget --spider $1 2>&1 | grep text`
+
+if [[ -n ${containsHeader} ]]
+	then
+	echo "$1 is a HTML file and should be a zipped one"
+	echo "$1" > ${URL404File}
+fi
+}
+
+function clean_env {
+`rm -f ${URL404File}`
+}
  
+ 
+function checkURLs {
+paste $urlFileName |while read line ; do checkURLAndLog $line ; done
+if [[ -e ${URL404File} ]]
+then
+ return $KO
+fi
+return $OK
+}
 
 function downloadZipFile {
 
@@ -33,7 +59,7 @@ then
 	return $KO
 fi
 
-paste -d: $urlFileName $countrycodeFileName | while read line ; do echo "$line || cat "download of $1 in $2 failed" >errordownload.txt "| awk -F: '{print "wget "$1" -O "$2}'    ; done
+paste -d: $urlFileName $countrycodeFileName | while read line ; do echo "$line || cat "download of $1 in $2 failed" >errordownload.txt "| awk -F: '{print "wget "$1" -O "$2}' |sh   ; done
 echo "download files finished"
 return $OK
 }
@@ -277,6 +303,8 @@ echo "--------------------------------------------------------------------------
 echo "DOWNLOAD FILES"
 echo "----------------------------------------------------------------------------------------------"
 
+clean_env
+checkURLs
 downloadZipFile
 
 echo "----------------------------------------------------------------------------------------------"
