@@ -28,7 +28,7 @@ downloads.cloudmade.com/south_america/bolivia/bolivia.shapefiles.zip
 downloads.cloudmade.com/south_america/brazil/brazil.shapefiles.zip
 downloads.cloudmade.com/north_america/bahamas/bahamas.shapefiles.zip
 downloads.cloudmade.com/asia/bhutan/bhutan.shapefiles.zip
-downloads.cloudmade.com/antartica/bouvet_island_(bouvetoya)/bouvet_island_(bouvetoya).shapefiles.zip
+downloads.cloudmade.com/antarctica/bouvet_island/bouvet_island.shapefiles.zip
 downloads.cloudmade.com/africa/botswana/botswana.shapefiles.zip
 downloads.cloudmade.com/europe/belarus/belarus.shapefiles.zip
 downloads.cloudmade.com/north_america/belize/belize.shapefiles.zip
@@ -43,7 +43,7 @@ downloads.cloudmade.com/north_america/canada/pr_edwrd_island/pr_edwrd_island.sha
 downloads.cloudmade.com/north_america/canada/quebec/quebec.shapefiles.zip
 downloads.cloudmade.com/north_america/canada/saskatchewan/saskatchewan.shapefiles.zip
 downloads.cloudmade.com/north_america/canada/yukon/yukon.shapefiles.zip
-downloads.cloudmade.com/asia/cocos_(keeling)_islands/cocos_(keeling)_islands.shapefiles.zip
+downloads.cloudmade.com/oceania/cocos_keeling_islands/cocos_keeling_islands.shapefiles.zip
 downloads.cloudmade.com/africa/democratic_republic_of_the_congo/democratic_republic_of_the_congo.shapefiles.zip
 downloads.cloudmade.com/africa/central_african_republic/central_african_republic.shapefiles.zip
 downloads.cloudmade.com/africa/congo/congo.shapefiles.zip
@@ -63,6 +63,7 @@ downloads.cloudmade.com/europe/czech_republic/czech_republic.shapefiles.zip
 downloads.cloudmade.com/europe/germany/germany.shapefiles.zip
 downloads.cloudmade.com/africa/djibouti/djibouti.shapefiles.zip
 downloads.cloudmade.com/europe/denmark/denmark.shapefiles.zip
+downloads.cloudmade.com/north_america/dominica/dominica.shapefiles.zip
 downloads.cloudmade.com/north_america/dominican_republic/dominican_republic.shapefiles.zip
 downloads.cloudmade.com/africa/algeria/algeria.shapefiles.zip
 downloads.cloudmade.com/south_america/ecuador/ecuador.shapefiles.zip
@@ -74,7 +75,7 @@ downloads.cloudmade.com/europe/spain/spain.shapefiles.zip
 downloads.cloudmade.com/africa/ethiopia/ethiopia.shapefiles.zip
 downloads.cloudmade.com/europe/finland/finland.shapefiles.zip
 downloads.cloudmade.com/oceania/fiji/fiji.shapefiles.zip
-downloads.cloudmade.com/south_america/falklands_islands_(malvinas)/falklands_islands_(malvinas).shapefiles.zip
+downloads.cloudmade.com/south_america/falkland_islands/falkland_islands.shapefiles.zip
 downloads.cloudmade.com/oceania/federated_states_of_micronesia/federated_states_of_micronesia.shapefiles.zip
 downloads.cloudmade.com/europe/faroe_islands/faroe_islands.shapefiles.zip
 downloads.cloudmade.com/europe/france/france.shapefiles.zip
@@ -110,7 +111,7 @@ downloads.cloudmade.com/europe/ireland/ireland.shapefiles.zip
 downloads.cloudmade.com/asia/israel/israel.shapefiles.zip
 downloads.cloudmade.com/europe/isle_of_man/isle_of_man.shapefiles.zip
 downloads.cloudmade.com/asia/india/india.shapefiles.zip
-downloads.cloudmade.com/asia/british_indian_ocean_territory_(chagos_archipelago)/british_indian_ocean_territory_(chagos_archipelago).shapefiles.zip
+downloads.cloudmade.com/asia/british_indian_ocean_territory/british_indian_ocean_territory.shapefiles.zip
 downloads.cloudmade.com/asia/iraq/iraq.shapefiles.zip
 downloads.cloudmade.com/asia/iran/iran.shapefiles.zip
 downloads.cloudmade.com/europe/iceland/iceland.shapefiles.zip
@@ -148,7 +149,7 @@ downloads.cloudmade.com/africa/madagascar/madagascar.shapefiles.zip
 downloads.cloudmade.com/oceania/marshall_islands/marshall_islands.shapefiles.zip
 downloads.cloudmade.com/europe/macedonia/macedonia.shapefiles.zip
 downloads.cloudmade.com/africa/mali/mali.shapefiles.zip
-downloads.cloudmade.com/asia/myanmar_(burma)/myanmar_(burma).shapefiles.zip
+downloads.cloudmade.com/asia/union_of_myanmar/union_of_myanmar.shapefiles.zip
 downloads.cloudmade.com/asia/mongolia/mongolia.shapefiles.zip
 downloads.cloudmade.com/asia/macau/macau.shapefiles.zip
 downloads.cloudmade.com/oceania/northern_mariana_islands/northern_mariana_islands.shapefiles.zip
@@ -225,6 +226,7 @@ downloads.cloudmade.com/asia/turkey/turkey.shapefiles.zip
 downloads.cloudmade.com/north_america/trinidad_and_tobago/trinidad_and_tobago.shapefiles.zip
 downloads.cloudmade.com/oceania/tuvalu/tuvalu.shapefiles.zip
 downloads.cloudmade.com/asia/taiwan/taiwan.shapefiles.zip
+downloads.cloudmade.com/africa/united_republic_of_tanzania/united_republic_of_tanzania.shapefiles.zip
 downloads.cloudmade.com/europe/ukraine/ukraine.shapefiles.zip
 downloads.cloudmade.com/africa/uganda/uganda.shapefiles.zip
 downloads.cloudmade.com/south_america/uruguay/uruguay.shapefiles.zip
@@ -233,7 +235,7 @@ downloads.cloudmade.com/europe/vatican_city/vatican_city.shapefiles.zip
 downloads.cloudmade.com/north_america/st_vincent_and_the_grenadines/st_vincent_and_the_grenadines.shapefiles.zip
 downloads.cloudmade.com/south_america/venezuela/venezuela.shapefiles.zip
 downloads.cloudmade.com/north_america/british_virgin_islands/british_virgin_islands.shapefiles.zip
-downloads.cloudmade.com/north_america/virgin_islands_(us)/virgin_islands_(us).shapefiles.zip
+downloads.cloudmade.com/north_america/virgin_islands/virgin_islands.shapefiles.zip
 downloads.cloudmade.com/asia/vietnam/vietnam.shapefiles.zip
 downloads.cloudmade.com/oceania/vanuatu/vanuatu.shapefiles.zip
 downloads.cloudmade.com/oceania/wallis_and_futuna/wallis_and_futuna.shapefiles.zip

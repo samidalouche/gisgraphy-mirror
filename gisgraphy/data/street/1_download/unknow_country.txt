@@ -1,1 +1,8 @@
-AX,DM,HK,KY,MS,PS,TC,TL,TZ,UM
+AX Aland Islands EU
+HK Hong Kong AS
+KY Cayman Islands NA
+MS Montserrat NA
+PS Palestinian Territory AS
+TC Turks and Caicos Islands NA
+TL East Timor OC
+UM United States Minor Outlying Islands OC

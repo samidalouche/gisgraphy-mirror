@@ -63,6 +63,7 @@ CZ.zip
 DE.zip
 DJ.zip
 DK.zip
+DM.zip
 DO.zip
 DZ.zip
 EC.zip
@@ -225,6 +226,7 @@ TR.zip
 TT.zip
 TV.zip
 TW.zip
+TZ.zip
 UA.zip
 UG.zip
 UY.zip
