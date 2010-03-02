@@ -19,7 +19,7 @@ postgisSpatialRefSysFileName="spatial_ref_sys.sql"
 URL404File="404URL.txt"
 
 
-function checkURLAndLog {
+function check404URLAndLog {
 echo "checking if $1 exists"
 containsHeader=`wget --spider $1 2>&1 | grep text`
 
@@ -36,7 +36,7 @@ function clean_env {
  
  
 function checkURLs {
-paste $urlFileName |while read line ; do checkURLAndLog $line ; done
+paste $urlFileName |while read line ; do check404URLAndLog $line ; done
 if [[ -e ${URL404File} ]]
 then
  return $KO
