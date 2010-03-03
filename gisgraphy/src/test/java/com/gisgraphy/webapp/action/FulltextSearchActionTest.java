@@ -63,6 +63,7 @@ public class FulltextSearchActionTest {
 	action.setFullTextSearchEngine(mockSearchEngine);
 	mockResultDTO = EasyMock.createMock(FulltextResultsDto.class);
 	EasyMock.expect(mockResultDTO.getResults()).andReturn(results);
+	BaseActionTestCase.setUpActionContext();
     }
 
     @Test

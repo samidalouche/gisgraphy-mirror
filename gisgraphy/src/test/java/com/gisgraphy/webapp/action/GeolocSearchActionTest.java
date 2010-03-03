@@ -64,17 +64,7 @@ public class GeolocSearchActionTest {
     @SuppressWarnings("unchecked")
     @Before
     public void setup() {
-	ConfigurationManager configurationManager = new ConfigurationManager();
-	configurationManager
-		.addContainerProvider(new XWorkConfigurationProvider());
-	Configuration config = configurationManager.getConfiguration();
-	Container container = config.getContainer();
-
-	ValueStack stack = container.getInstance(ValueStackFactory.class)
-		.createValueStack();
-	stack.getContext().put(ActionContext.CONTAINER, container);
-	ActionContext.setContext(new ActionContext(stack.getContext()));
-	ServletActionContext.setRequest(new MockHttpServletRequest());
+	BaseActionTestCase.setUpActionContext();
 	results = new ArrayList<GisFeatureDistance>();
 	action = new GeolocSearchAction();
 	mockSearchEngine = EasyMock.createMock(IGeolocSearchEngine.class);

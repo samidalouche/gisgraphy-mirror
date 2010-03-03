@@ -64,17 +64,17 @@ public class ResetImportAction extends ActionSupport {
     /**
      * view of the page that ask for confirmation
      */
-    private static String ASK = "ask";
+    public static String ASK = "ask";
 
     /**
      * view of page that gives information after the reset
      */
-    private static String RESET = "reset";
+    public static String RESET = "reset";
 
     /**
      * view of page that gives information after the reset
      */
-    private static String CONFIRM = "ask";
+    public static String IMPORT_IN_PROGRESS = "impossible";
 
     /*
      * (non-Javadoc)
@@ -84,6 +84,10 @@ public class ResetImportAction extends ActionSupport {
     @Override
     public String execute() throws Exception {
 	logger.info("the page for reseting the import has been called");
+	if (importerManager.isInProgress()){
+    	logger.info("can not reset the import because it is in progress");
+    	return IMPORT_IN_PROGRESS;
+    }
 	return ASK;
     }
 
@@ -95,8 +99,11 @@ public class ResetImportAction extends ActionSupport {
      * @return the reset view
      */
     public String reset() {
-	Boolean confirm = isConfirmed();
-	if (confirm == true) {
+    if (importerManager.isInProgress()){
+    	logger.info("can not reset the import because it is in progress");
+    	return IMPORT_IN_PROGRESS;
+    }
+	if (isConfirmed()) {
 	    logger.info("Reseting the import");
 	    try {
 		errorsAndWarningMessages = importerManager.resetImport();
@@ -132,7 +139,7 @@ public class ResetImportAction extends ActionSupport {
 		RESET_IMPORT_CONFIRM, Boolean.TRUE);
 	logger
 		.info("Confirm has been set to true, the reset of the import will be possible");
-	return CONFIRM;
+	return ASK;
     }
 
     /**

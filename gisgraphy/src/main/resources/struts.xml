@@ -203,6 +203,7 @@
             <interceptor-ref name="adminCheck"/>
             <result name="reset" type="freemarker">/WEB-INF/views/resetimport.ftl</result>
              <result name="ask" type="freemarker">/WEB-INF/views/resetimportconfirm.ftl</result>
+             <result name="impossible" type="freemarker">/WEB-INF/views/resetimportimpossible.ftl</result>
         </action>
    		
    
