@@ -8,8 +8,9 @@ pgHost="127.0.0.1"
 geometryColumnName="shape"
 lengthColumnName="length"
 locationColumnName="location"
-countrycodeFileName="countrycode.txt"
-urlFileName="urls.txt"
+countrycodeFileName="countrycode4test.txt"
+urlFileName="urls4test.txt"
+donTReDownloadFile="true"
 typeset -i OK=0
 typeset -i KO=1
 postgisPath="/usr/share/postgresql-8.3-postgis/"
@@ -18,6 +19,16 @@ postgisSpatialRefSysFileName="spatial_ref_sys.sql"
 
 URL404File="404URL.txt"
 
+function echoNotDownloadedFiles {
+for  i in `cat $countrycodeFileName`
+do
+#echo $i
+if [[ ! -e $i ]]
+then
+echo "$i doesn't not exists"
+fi
+done
+}
 
 function check404URLAndLog {
 echo "checking if $1 exists"
@@ -59,18 +70,20 @@ then
 	return $KO
 fi
 
-paste -d: $urlFileName $countrycodeFileName | while read line ; do echo "$line || cat "download of $1 in $2 failed" >errordownload.txt "| awk -F: '{print "wget "$1" -O "$2}' |sh   ; done
+paste -d: $urlFileName $countrycodeFileName | while read line ; do echo "$line "| awk -F: '{print(" if [[ -e "$2" ]]; then echo  \""$1" is already downloaded\"; else wget "$1" -O "$2";  fi")}' | bash   ; done
+#paste -d: $urlFileName $countrycodeFileName | while read line ; do echo "$line "| awk -F: '{print "wget "$1" -O "$2}' |sh   ; done
 echo "download files finished"
 return $OK
 }
 
 function checkDownloadedZipFile {
 echo "Checking number of zipped files....." 
-((nbURLs=`cat $urlFileName | wc -l`+1))
+((nbURLs=`cat $urlFileName | wc -l`))
 ((nbZipFile=`ls *.zip | wc -l`))
 if [[ $nbURLs > $nbZipFile ]]
 then
 echo "The number of zipped files is not enough (expected : $nbURLs, but was $nbZipFile)"
+echoNotDownloadedFiles
 exit 1
 else
 echo "The number of downloaded files is correct"
@@ -183,7 +196,7 @@ do
 			echo "will create the table $tableName"
 			` shp2pgsql -p $shapefile -g $geometryColumnName $tableName $databaseName |psql -U$pgUser -d $databaseName -h$pgHost `
 			echo "will add the countrycode column to $tableName"
-			psql_runSQLcommandOnDatabase "ALTER TABLE $tableName ADD COLUMN countrycode character(3)[];"
+			psql_runSQLcommandOnDatabase "ALTER TABLE $tableName ADD COLUMN countrycode character varying(3);"
 			tablecreated=1;
 		fi
 	echo " will process $shapefile";
@@ -199,32 +212,36 @@ done
 }
 
 function clean_data {
+	echo "process linemerge"
+	psql_runSQLcommandOnDatabase "ALTER TABLE osm DROP CONSTRAINT enforce_geotype_shape;"
+	psql_runSQLcommandOnDatabase "UPDATE $tableName set $geometryColumnName = LineMerge($geometryColumnName)"
+
 	echo "clean type"
-	psql_runSQLcommandOnDatabase "update $tableName  set type = regexp_replace(type, '.*:', '') where type like 'plan.at%';"
+	psql_runSQLcommandOnDatabase "UPDATE $tableName  set type = regexp_replace(type, '.*:', '') where type like 'plan.at%';"
 	
 	echo "update type to remove less frequent type"
-	psql_runSQLcommandOnDatabase "update $tableName set type= NULL where type not in (select lessFrequentType.type from (select o.type,count(type) as count from $tableName o group by type order by count) as lessFrequentType where lessFrequentType.count < 1000)"
-	psql_runSQLcommandOnDatabase "update $tableName set type= NULL where type= 'unclassified';"
+	psql_runSQLcommandOnDatabase "UPDATE $tableName set type= NULL where type not in (select lessFrequentType.type from (select o.type,count(type) as count from $tableName o group by type order by count) as lessFrequentType where lessFrequentType.count < 1000)"
+	psql_runSQLcommandOnDatabase "UPDATE $tableName set type= NULL where type= 'unclassified';"
 	#check select count(oneway) as c, oneway from $tableName group by oneway order by C desc
 	
 	echo "clean oneway phase 1 "
-	psql_runSQLcommandOnDatabase "update $tableName set oneway='false' where oneway <> '1' and oneway <> 'yes' and oneway <> 'true'"
+	psql_runSQLcommandOnDatabase "UPDATE $tableName SET oneway='false' WHERE oneway <> '1' and oneway <> 'yes' and oneway <> 'true'"
 	echo "clean oneway phase 2 "
-	psql_runSQLcommandOnDatabase "update $tableName set oneway='true' where oneway = 'yes' or oneway = '1'"
+	psql_runSQLcommandOnDatabase "UPDATE $tableName SET oneway='true' WHERE oneway = 'yes' or oneway = '1'"
 	echo "clean oneway phase 3 "
-	psql_runSQLcommandOnDatabase "update $tableName set oneway='false' where oneway <> 'false' and oneway <> 'true'"
+	psql_runSQLcommandOnDatabase "UPDATE $tableName SET oneway='false' WHERE oneway <> 'false' and oneway <> 'true'"
 	echo "clean oneway phase 4 "
-	psql_runSQLcommandOnDatabase "update $tableName set oneway='false' where oneway is null"
+	psql_runSQLcommandOnDatabase "UPDATE $tableName SET oneway='false' WHERE oneway is null"
 	
 	echo "add $locationColumnName column"
 	psql_runSQLcommandOnDatabase "ALTER TABLE $tableName ADD COLUMN \"$locationColumnName\" geometry;"
 	echo "update MidPoint (location)" 
-	psql_runSQLcommandOnDatabase "update $tableName set $locationColumnName=line_interpolate_point(LineMerge($geometryColumnName),0.5)"
+	psql_runSQLcommandOnDatabase "UPDATE $tableName SET $locationColumnName=line_interpolate_point($geometryColumnName,0.5)"
 	
 	echo "add $lengthColumnName column"
 	psql_runSQLcommandOnDatabase "ALTER TABLE $tableName ADD COLUMN $lengthColumnName double precision"
 	echo "update length"
-	psql_runSQLcommandOnDatabase "update $tableName set $lengthColumnName=distance_sphere(startpoint($geometryColumnName),endpoint($geometryColumnName))"
+	psql_runSQLcommandOnDatabase "UPDATE $tableName SET $lengthColumnName=distance_sphere(startpoint($geometryColumnName),endpoint($geometryColumnName))"
 }
 
 
@@ -283,7 +300,7 @@ pwd
 		else 
 			 echo "taring $countrycode.txt"
 		         tar -jcf  $countrycode.tar.bz2 $countrycode.txt readme.txt;
-		         mv $countrycode.txt ../txt_file_already_tared/
+		        
 		fi
 	 done
 	
@@ -291,8 +308,12 @@ pwd
 	tar -jcf US.tar.bz2 US.*.txt readme.txt
 	mv US.*.txt ../txt_file_already_tared/
 	
-	#echo "tar allcountries.tar.bz2"
-	#tar -jcf  allcountries.tar.bz2 *.txt ;
+	echo "tar allcountries.tar.bz2"
+	tar -jcf  allcountries.tar.bz2 *.txt ;
+	for csvfile in `ls *.txt` ;
+	do
+	 mv $countrycode.txt ../txt_file_already_tared/
+	done;
 	rm readme.txt
 	cd ..
 	mv exported file_to_be_uploded
@@ -320,8 +341,6 @@ echo "--------------------------------------------------------------------------
 init_database
 importFiles
 
-#numbline=`psql_getCountLine`
-#echo "$numbline"
 
 echo "----------------------------------------------------------------------------------------------"
 echo "clean Data"
