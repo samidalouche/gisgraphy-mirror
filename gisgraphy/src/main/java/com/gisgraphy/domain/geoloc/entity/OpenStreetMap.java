@@ -24,6 +24,8 @@ package com.gisgraphy.domain.geoloc.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -262,6 +264,7 @@ public class OpenStreetMap  {
      * @return the type of the street
      */
     @Index(name = "streetosmtypeIndex")
+    @Enumerated(EnumType.STRING)
     public StreetType getStreetType() {
         return streetType;
     }
