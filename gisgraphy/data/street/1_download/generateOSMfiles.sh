@@ -8,8 +8,8 @@ pgHost="127.0.0.1"
 geometryColumnName="shape"
 lengthColumnName="length"
 locationColumnName="location"
-countrycodeFileName="countrycode4test.txt"
-urlFileName="urls4test.txt"
+countrycodeFileName="countrycode.txt"
+urlFileName="urls.txt"
 donTReDownloadFile="true"
 typeset -i OK=0
 typeset -i KO=1
@@ -197,11 +197,12 @@ do
 			` shp2pgsql -p $shapefile -g $geometryColumnName $tableName $databaseName |psql -U$pgUser -d $databaseName -h$pgHost `
 			echo "will add the countrycode column to $tableName"
 			psql_runSQLcommandOnDatabase "ALTER TABLE $tableName ADD COLUMN countrycode character varying(3);"
+			psql_runSQLcommandOnDatabase "ALTER TABLE osm ALTER "type" TYPE character varying(30);"
 			tablecreated=1;
 		fi
 	echo " will process $shapefile";
 	` shp2pgsql -a $shapefile -g $geometryColumnName $tableName $databaseName | psql -U$pgUser -d $databaseName -h$pgHost `
-	psql_runSQLcommandOnDatabase "update $tableName set countrycode ='$countrycode' where countrycode is null"
+	psql_runSQLcommandOnDatabase "UPDATE $tableName set countrycode ='$countrycode' where countrycode is null"
 	else
 	echo "============================================================>no shapeFile in $countrycode"
 	fi
