@@ -8,17 +8,12 @@
 </head>
 
 
-<p><fmt:message key="mainMenu.message"/></p>
-
 <%
 com.gisgraphy.domain.geoloc.service.fulltextsearch.FullTextSearchEngine fulltextSearchEngine = (com.gisgraphy.domain.geoloc.service.fulltextsearch.FullTextSearchEngine) org.springframework.web.context.support.WebApplicationContextUtils.getWebApplicationContext(session.getServletContext()).getBean("fullTextSearchEngine");
 
 com.gisgraphy.domain.geoloc.importer.ImporterManager importerManager = (com.gisgraphy.domain.geoloc.importer.ImporterManager) org.springframework.web.context.support.WebApplicationContextUtils.getWebApplicationContext(session.getServletContext()).getBean("importerManager");
 
 %>
-
-<div class="separator"></div>
-
 <% if (!fulltextSearchEngine.isAlive()) { %>
    <div class="tip redtip"> <fmt:message key="import.fulltextEngineNotReachable" ><fmt:param><%= fulltextSearchEngine.getURL() %></fmt:param></fmt:message></div>
 <% } else {%>
@@ -28,6 +23,10 @@ com.gisgraphy.domain.geoloc.importer.ImporterManager importerManager = (com.gisg
 <% if (com.gisgraphy.domain.valueobject.GisgraphyConfig.googleMapAPIKey == null || "".equals(com.gisgraphy.domain.valueobject.GisgraphyConfig.googleMapAPIKey.trim())) { %>
    <div class="tip yellowtip"> <fmt:message key="config.googlemapapikey.empty" /></div>
 <% } %>
+<div class="separator"></div>
+<p><fmt:message key="mainMenu.message"/></p>
+
+
 <ul class="glassList">
 <li><a href="http://www.gisgraphy.com/documentation/index.htm"><fmt:message key="global.read.docs" /></a></li>
 	<% if (!importerManager.isAlreadyDone()) { %>
