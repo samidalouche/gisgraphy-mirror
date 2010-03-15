@@ -33,7 +33,13 @@
 <fieldset>
 <legend><@s.text name="global.dataset"/></legend>
 <@s.text name="import.dataset.choose" /><br/><br/>
-The Geonames importer is :&nbsp;<@s.if test="geonamesImporterEnabled"><span style="color:#00FF00">ENABLED</span><br/><br/><div style="margin-left: 100px;" ><@s.form action="importconfirm!disableGeonamesImporter.html" method="get" id="disableGeonames"><@s.submit title="Disable Geonames" value="Disable Geonames" theme="simple" /></@s.form></div></@s.if><@s.else><span style="color:#FF0000">DISABLED</span><br/><br/><div style="margin-left: 100px;" > <@s.form action="importconfirm!enableGeonamesImporter.html" method="get" id="enableGeonames"><@s.submit title="Enable Geonames" value="Enable Geonames" theme="simple" /></@s.form></div></@s.else>
+The Geonames importer is :&nbsp;<@s.if test="geonamesImporterEnabled">
+<span style="color:#00FF00">ENABLED</span><br/><br/><div style="margin-left: 100px;" >
+<@s.form action="importconfirm!disableGeonamesImporter.html" method="get" id="disableGeonames">
+<@s.submit title="Disable Geonames" value="Disable Geonames" theme="simple" /></@s.form></div></@s.if>
+<@s.else><span style="color:#FF0000">DISABLED</span><br/><br/><div style="margin-left: 100px;" > 
+<@s.form action="importconfirm!enableGeonamesImporter.html" method="get" id="enableGeonames">
+<@s.submit title="Enable Geonames" value="Enable Geonames" theme="simple" /></@s.form></div></@s.else>
 <br/><br/><br/>
 
 The OpenStreetMap importer is :&nbsp;<@s.if test="OpenStreetMapImporterEnabled"><span style="color:#00FF00">ENABLED</span><br/><br/><div style="margin-left: 100px;" > <@s.form action="importconfirm!disableOpenStreetMapImporter.html" method="get" id="disableopenstreetmap"><@s.submit title="Disable OpenStreetMap" value="Disable OpenStreetMap" theme="simple" /></@s.form></div></@s.if>
