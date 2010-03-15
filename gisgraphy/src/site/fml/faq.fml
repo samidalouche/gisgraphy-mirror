@@ -16,16 +16,41 @@
         </p>
       </answer>
     </faq>
+    <faq id="choose dataset">
+      <question>Is it possible to import geonames and not openstreetmap dataset and the opposite?</question>
+      <answer>
+        <p>
+          yes! just choose the dataset(s) you are interested in on the confirm import page. If you want to import an other dataset later, a <a href="http://www.gisgraphy.com/forum/viewtopic.php?f=3&t=219">workaround is possible</a>
+        </p>
+      </answer>
+    </faq>
  <faq id="how-long-import">
       <question>How long does it take to import all of the data?</question>
       <answer>
         <p>
-          It depends on the machine and the memory. On a core2 Duo it takes about 24 hours. If you need a Postgres dump or solr dump <a href="mailto:david.masclet@gisgraphy.com">contact me</a>.
+          It depends on the machine and the memory. 
+          On a core2 Duo it takes about 40 hours.
+           the importer is useful if you are interested on an custom import(specific placetypes, countries, dataset...), If you don't want to run an import by yourself, because you are interested in all placetypes for all countries, a Postgres dump and a Solr dump can be found <a href="http://download.gisgraphy.com/dump/">here</a>.
+           it will takes only the time to inject the dump into Postgres and copy the Solr dump into the solr directory(~1 hours)
+        </p>
+      </answer>
+      </faq>
+     <faq id="why-import-long">
+      <question>Why the import takes so long ?</question>
+      <answer>
+        <p>
+          The import is long because :
+          <ul>
+          <li>There are a lot of features to import (more than 34 Millions)</li> 
+          <li>Gisgraphy try to do error correction to detect the correct ADM, and a lot of request is made to the database for each line. this is the "price to pay" to have a parent/child ADM tree</li>
+          <li>for each feature or alternate names imported, the fulltext engine is synchronized</li>
+          </ul>  
+          The openstreetmap import take less time because data are pre-processed by me (length, middle point,...) to CSV. so no error correction is necessary
         </p>
       </answer>
       </faq>
     <faq id="young">
-     <question>The project is young, has it been tested?</question>
+     <question>The project is young, has it been tested ?</question>
       <answer>
         <p>
 		It has been tested on several machines using linux, Windows and various JVMs. Gisgraphy has high unit/integration test coverage.
@@ -52,7 +77,7 @@
      <question>What technology is used?</question>
       <answer>
         <p>
-		Java / Spring / Hibernate / Hibernate Spatial / Maven 2 / PostGIS / PostgreSQL / Jersey (CXF when V2.1 is released). 
+		Java / Spring / Hibernate / Hibernate Spatial / Maven 2 / PostGIS / PostgreSQL / struts2 / SolR-Lucene. 
         </p>
       </answer>
     </faq>
@@ -60,17 +85,15 @@
      <question>Can Gisgraphy run on Java 1.4?</question>
       <answer>
         <p>
-		Gisgraphy is designed for Java 1.5 but you can try this <a href="http://retrotranslator.sourceforge.net/">tool</a>.
+		Gisgraphy is designed and have been tested for Java 1.5 and later .
         </p>
       </answer>
     </faq>
-    http://retrotranslator.sourceforge.net/
-    
-    <faq id="importcountries">
+   <faq id="importcountries">
      <question>Is it possible to only Import the countries I'm interested in?</question>
       <answer>
         <p>
-		Edit the importer.filesToDownload option in the env.properties file. Set the country you want to download and process. Or, if you don't want Gisgraphy to download files; set the importer.retrieveFiles option to false and put the files you want to process in the <code>'importer.geonames.dir'</code> directory.
+		Edit the importer.filesToDownload option in the env.properties file. Set the country you want to download, then start gisgraphy, go to the admin menu=>run import . Or, if you don't want Gisgraphy to download files; set the importer.retrieveFiles option to false and put the files you want to process in the <code>'importer.geonames.dir'</code> directory.
         </p>
       </answer>
     </faq>
@@ -78,7 +101,7 @@
      <question>Is it possible to only Import the features I'm interested in?</question>
       <answer>
         <p>
-		Yes, just edit the <code>importerConfig.acceptRegExString</code> option. See user the guide. 
+		Yes, just edit the <code>importerConfig.acceptRegExString</code> option. Consult the <a href="http://www.gisgraphy.com/documentation/index.htm">user guide</a>. 
         </p>
       </answer>
     </faq>
