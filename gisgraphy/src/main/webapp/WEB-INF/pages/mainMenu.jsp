@@ -7,6 +7,7 @@
     <meta name="menu" content="MainMenu"/>
 </head>
 
+
 <p><fmt:message key="mainMenu.message"/></p>
 
 <%
@@ -23,7 +24,7 @@ com.gisgraphy.domain.geoloc.importer.ImporterManager importerManager = (com.gisg
 <% } else {%>
 <div class="tip greentip"> <fmt:message key="import.fulltextEngineReachable"/> ! </div>
 <%  }%>
-<br/>
+
 <% if (com.gisgraphy.domain.valueobject.GisgraphyConfig.googleMapAPIKey == null || "".equals(com.gisgraphy.domain.valueobject.GisgraphyConfig.googleMapAPIKey.trim())) { %>
    <div class="tip yellowtip"> <fmt:message key="config.googlemapapikey.empty" /></div>
 <% } %>
@@ -42,3 +43,7 @@ com.gisgraphy.domain.geoloc.importer.ImporterManager importerManager = (com.gisg
         <fmt:message key="global.gohome"/>
     </li>
 </ul>
+
+<iframe src="http://www.gisgraphy.com/news/getnews.php?version=<fmt:message key="gisgraphy.version"/>" 
+width="100%" height="100%" id="iframenews" frameborder="0" vspace="0" hspace="0" marginwidth="0" marginheight="0" scrolling="no" noresize
+> </iframe>
