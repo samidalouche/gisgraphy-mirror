@@ -23,10 +23,15 @@
 package com.gisgraphy.test;
 
 import com.gisgraphy.domain.geoloc.entity.GisFeature;
+import com.gisgraphy.helper.IntrospectionHelperTest;
 
 public class FakeBean extends GisFeature{
     private static final long serialVersionUID = 1L;
     
+    
+    /**
+     * please keep this fields, it is used for the {@link IntrospectionHelperTest}
+     */
     private Integer field;
 }
 
