@@ -23,15 +23,12 @@
 package com.gisgraphy.domain.geoloc.importer;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
-import java.util.Random;
 import java.util.regex.Pattern;
 
 import org.junit.Assert;
@@ -42,6 +39,8 @@ import com.gisgraphy.test.GeolocTestHelper;
 
 public class ImporterHelperTest {
 
+	
+	
     @Test
     public void virtualizeADMDshouldChangeADMDTOADMXAccordingToTheAdmcodes() {
 	String[] fields = new String[19];
@@ -113,39 +112,7 @@ public class ImporterHelperTest {
 
     }
 
-    @Test
-    public void isDirectoryAccessible() {
-	File tempDir = null;
-	try {
-	    String accessiblePath = System.getProperty("java.io.tmpdir")
-		    + System.getProperty("file.separator")
-		    + getClass().getSimpleName() + "-"
-		    + System.currentTimeMillis();
-	    tempDir = new File(accessiblePath);
-	    tempDir.mkdir();
-	    assertTrue(ImporterHelper.isDirectoryAccessible(accessiblePath));
-	    String pathNotAccessible = System.getProperty("java.io.tmpdir")
-		    + System.getProperty("file.separator")
-		    + getClass().getSimpleName() + "-"
-		    + new Random().nextLong();
-	    // System.err.println("#########"+pathNotAccessible);
-	    assertFalse(ImporterHelper.isDirectoryAccessible(pathNotAccessible));
-	    String filePath = tempDir.getAbsolutePath()
-		    + System.getProperty("file.separator") + "test.txt";
-	    File file = new File(filePath);
-	    try {
-		file.createNewFile();
-	    } catch (IOException e) {
-		fail("Can not create file " + filePath);
-	    }
-	    assertFalse(ImporterHelper.isDirectoryAccessible(filePath));
-	} finally {
-	    // delete temp dir
-	    assertTrue("the tempDir has not been deleted", GeolocTestHelper
-		    .DeleteNonEmptyDirectory(tempDir));
-	}
-
-    }
+   
 
     @Test
     public void compileRegexShouldCompile() {

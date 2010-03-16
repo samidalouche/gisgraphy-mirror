@@ -177,10 +177,11 @@ public class ImporterConfig {
      *         {@link #geonamesFilesToDownload}
      */
     public List<String> getGeonamesDownloadFilesListFromOption() {
-	return splitsemiColmunStringToList(geonamesFilesToDownload);
+	return splitSemiColmunStringToList(geonamesFilesToDownload);
     }
 
-    private List<String> splitsemiColmunStringToList(String stringToSplit) {
+    
+    private List<String> splitSemiColmunStringToList(String stringToSplit) {
 	List<String> list = new ArrayList<String>();
 	if (stringToSplit != null && stringToSplit.length() != 0) {
 	    String[] splited = stringToSplit.split(OPTION_SEPARATOR);
@@ -196,7 +197,7 @@ public class ImporterConfig {
      *         {@link #openStreetMapFilesToDownload}
      */
     public List<String> getOpenStreetMapDownloadFilesListFromOption() {
-	return splitsemiColmunStringToList(openStreetMapFilesToDownload);
+	return splitSemiColmunStringToList(openStreetMapFilesToDownload);
     }
 
     private String adm1FileName;
@@ -819,5 +820,47 @@ public class ImporterConfig {
     public int getMaxInsertsBeforeFlush() {
 	return this.maxInsertsBeforeFlush;
     }
+
+	/**
+	 * @param directoryPath
+	 *            The directory to check. it can be absolute or relative
+	 * @return true if the path is a directory (not a file) AND exists AND is
+	 *         writable
+	 */
+	private boolean isDirectoryAccessible(String directoryPath) {
+	File dir = new File(directoryPath);
+	return dir.exists() && dir.isDirectory() && dir.canWrite();
+	}
+	
+	/**
+	 * @return true if the directory with the file to import exists and is
+	 *         accessible
+	 */
+	public boolean isGeonamesDownloadDirectoryAccessible() {
+		return isDirectoryAccessible(getGeonamesDir());
+	}
+
+	/**
+	 * @return true if the directory with the file to import exists and is
+	 *         accessible
+	 */
+	public boolean isOpenStreetMapDownloadDirectoryAccessible() {
+		return  isDirectoryAccessible(getOpenStreetMapDir());
+	}
+
+	/**
+	 * @return true if the regexp of the feature class/ code are correct
+	 */
+	public boolean isRegexpCorrects() {
+		return ImporterHelper.compileRegex(getAcceptRegExString()) != null;
+	}
+	
+	/**
+	 * @return true if the config is Ok to process the import
+	 */
+	public boolean isConfigCorrectForImport(){
+		return isRegexpCorrects() && isGeonamesDownloadDirectoryAccessible() && isOpenStreetMapDownloadDirectoryAccessible();
+	}
+
 
 }

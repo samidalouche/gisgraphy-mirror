@@ -283,7 +283,7 @@ public class ImporterHelper {
 
     /**
      * @param fields
-     *            the fields corresponding a split line of the csv geonames file
+     *            the fields corresponding to a split line of the csv geonames file
      * @return the modified fields whith the feature code change to
      *         ADM1,ADM2,ADM3,ADM4 according to the ADMcodes. e.g id adm1code
      *         and Adm2 code are not null : the feature code will be change to
@@ -299,17 +299,6 @@ public class ImporterHelper {
 	}
 	return fields;
 
-    }
-
-    /**
-     * @param directoryPath
-     *            The directory to check. it can be absolute or relative
-     * @return true if the path is a directory (not a file) AND exists AND is
-     *         writable
-     */
-    public static boolean isDirectoryAccessible(String directoryPath) {
-	File dir = new File(directoryPath);
-	return dir.exists() && dir.isDirectory() && dir.canWrite();
     }
 
     public static String[] correctLastAdmCodeIfPossible(String[] fields) {

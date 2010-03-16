@@ -54,6 +54,8 @@ public class GisgraphyConfig {
     
     public static  String googleanalytics_uacctcode ;
 
+	public static final String ENVIRONEMENT_PROPERTIES_FILE = "env";
+
     /**
      * @param defaultGeolocSearchPlaceType
      *                the defaultGeolocSearchPlaceType to set

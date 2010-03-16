@@ -22,6 +22,10 @@
  *******************************************************************************/
 package com.gisgraphy.webapp.action;
 
+import static org.easymock.EasyMock.expect;
+import static org.easymock.classextension.EasyMock.createMock;
+import static org.easymock.classextension.EasyMock.replay;
+
 import java.util.ResourceBundle;
 
 import org.easymock.classextension.EasyMock;
@@ -227,6 +231,38 @@ public class ImportConfirmActionTest {
 		Assert.assertTrue("isOpenStreetMapImporterEnabled should return the same value as the importerConfig One ", action.isOpenStreetMapImporterEnabled());
 	}
 
+	@Test
+	public void isDownloadDirectoryAccessible() {
+		ImporterConfig importerConfig = createMock(ImporterConfig.class);
+		expect(importerConfig.isGeonamesDownloadDirectoryAccessible()).andReturn(true);
+		replay(importerConfig);
+		ImportConfirmAction action = new ImportConfirmAction();
+		action.setImporterConfig(importerConfig);
+		action.isDownloadDirectoryAccessible();
+		EasyMock.verify(importerConfig);
+	}
+
+	@Test
+	public void isOpenStreetMapDownloadDirectoryAccessible() {
+		ImporterConfig importerConfig = createMock(ImporterConfig.class);
+		expect(importerConfig.isOpenStreetMapDownloadDirectoryAccessible()).andReturn(true);
+		replay(importerConfig);
+		ImportConfirmAction action = new ImportConfirmAction();
+		action.setImporterConfig(importerConfig);
+		action.isOpenStreetMapDownloadDirectoryAccessible();
+		EasyMock.verify(importerConfig);
+	}
+
+	@Test
+	public void isRegexpCorrects() {
+		ImporterConfig importerConfig = createMock(ImporterConfig.class);
+		expect(importerConfig.isRegexpCorrects()).andReturn(true);
+		replay(importerConfig);
+		ImportConfirmAction action = new ImportConfirmAction();
+		action.setImporterConfig(importerConfig);
+		action.isRegexpCorrects();
+		EasyMock.verify(importerConfig);
+	}
 	
 	
 

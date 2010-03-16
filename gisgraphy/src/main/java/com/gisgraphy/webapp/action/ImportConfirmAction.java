@@ -29,9 +29,9 @@ import org.springframework.beans.factory.annotation.Required;
 
 import com.gisgraphy.domain.geoloc.importer.IImporterManager;
 import com.gisgraphy.domain.geoloc.importer.ImporterConfig;
-import com.gisgraphy.domain.geoloc.importer.ImporterHelper;
 import com.gisgraphy.domain.geoloc.importer.ImporterManager;
 import com.gisgraphy.domain.geoloc.service.fulltextsearch.IFullTextSearchEngine;
+import com.gisgraphy.domain.valueobject.GisgraphyConfig;
 import com.gisgraphy.helper.PropertiesHelper;
 import com.opensymphony.xwork2.Action;
 import com.opensymphony.xwork2.ActionSupport;
@@ -102,7 +102,7 @@ public class ImportConfirmAction extends ActionSupport {
 	 *         accessible
 	 */
 	public boolean isDownloadDirectoryAccessible() {
-		return ImporterHelper.isDirectoryAccessible(importerConfig.getGeonamesDir());
+		return importerConfig.isGeonamesDownloadDirectoryAccessible();
 	}
 
 	/**
@@ -110,14 +110,14 @@ public class ImportConfirmAction extends ActionSupport {
 	 *         accessible
 	 */
 	public boolean isOpenStreetMapDownloadDirectoryAccessible() {
-		return ImporterHelper.isDirectoryAccessible(importerConfig.getOpenStreetMapDir());
+		return importerConfig.isOpenStreetMapDownloadDirectoryAccessible();
 	}
 
 	/**
 	 * @return true if the regexp of the feature class/ code are correct
 	 */
 	public boolean isRegexpCorrects() {
-		return ImporterHelper.compileRegex(importerConfig.getAcceptRegExString()) != null;
+		return importerConfig.isRegexpCorrects();
 	}
 
 	/**
@@ -199,7 +199,7 @@ public class ImportConfirmAction extends ActionSupport {
 	}
 
 	public Map<String, String> getConfigValuesMap() {
-		return PropertiesHelper.convertBundleToMap(ResourceBundle.getBundle("env"));
+		return PropertiesHelper.convertBundleToMap(ResourceBundle.getBundle(GisgraphyConfig.ENVIRONEMENT_PROPERTIES_FILE));
 	}
 
 	/**
