@@ -10,7 +10,7 @@
       <@s.if test="importerManager.isInProgress()">
       <@s.text name="import.processingRequest"/>
      <br/><img src="/images/loading.gif" width=20px /> <@s.text name="import.wait.importSince"/> ${importerManager.getFormatedTimeElapsed()}<br/> 
-     <br/><@s.text name="import.time.info"/>
+     <br/><@s.text name="import.time.info"/>. <@s.text name="import.time.why"><@s.param>http://www.gisgraphy.com/faq.html#why-import-long</@s.param><@s.param>http://www.gisgraphy.com/faq.html#how-long-import</@s.param></@s.text>
         
     </@s.if>
      <@s.if test="importerManager.isAlreadyDone()">
