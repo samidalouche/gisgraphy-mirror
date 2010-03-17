@@ -13,19 +13,13 @@
 </div>
 <#if !DownloadDirectoryAccessible>
 <div class="tip redtip">
-<u>IMPORTANT</u> : The download directory '${importerConfig.getGeonamesDir()}' is not accessible, you ve probably not started Gisgraphy in the correct directory or this directory is not 'writable'.<br/><br/>
-<u>Example</u> : If you've specified a relative path : It is relative from the directory you were when you launch Gisgraphy.
-<br/><br/>If the download directory is './data/import/', you must cd to the directory where the 'data' directory is (not the import one !) and then launch Gisgraphy.<a href="http://www.gisgraphy.com/documentation/index.htm#installation"> more</a>
-<br><br/>Now, you must shutdown Gisgraphy and restart it from the correct directory to run the importer. 
+<@s.text name="import.directory.not.accesible"><@s.param>Geonames</@s.param><@s.param>${importerConfig.getOpenStreetMapDir()}</as.param></@s.text> 
 </div>
 </#if>
 
 <#if !openStreetMapDownloadDirectoryAccessible>
 <div class="tip redtip">
-<u>IMPORTANT</u> : The openstreetmap download directory '${importerConfig.getOpenStreetMapDir()}' is not accessible, you ve probably not started Gisgraphy in the correct directory or this directory is not 'writable'.<br/><br/>
-<u>Example</u> : If you've specified a relative path : It is relative from the directory you were when you launch Gisgraphy.
-<br/><br/>If the download directory is './data/import/', you must cd to the directory where the 'data' directory is (not the import one !) and then launch Gisgraphy.<a href="http://www.gisgraphy.com/documentation/index.htm#installation"> more</a>
-<br><br/>Now, you must shutdown Gisgraphy and restart it from the correct directory to run the importer. 
+<@s.text name="import.directory.not.accesible"><@s.param>Openstreetmap</@s.param><@s.param>${importerConfig.getOpenStreetMapDir()}</as.param></@s.text> 
 </div>
 </#if>
 
