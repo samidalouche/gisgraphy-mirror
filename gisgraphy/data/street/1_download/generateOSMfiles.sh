@@ -197,7 +197,13 @@ do
 			` shp2pgsql -p $shapefile -g $geometryColumnName $tableName $databaseName |psql -U$pgUser -d $databaseName -h$pgHost `
 			echo "will add the countrycode column to $tableName"
 			psql_runSQLcommandOnDatabase "ALTER TABLE $tableName ADD COLUMN countrycode character varying(3);"
-			psql_runSQLcommandOnDatabase "ALTER TABLE osm ALTER "type" TYPE character varying(30);"
+			echo "will increase size of type column"
+			psql_runSQLcommandOnDatabase "ALTER TABLE osm ALTER "type" TYPE character varying(255);"
+			echo "will increase size of name column"
+			psql_runSQLcommandOnDatabase "ALTER TABLE osm ALTER "name" TYPE character varying(255);"
+			echo "will increase size of oneway column"
+			psql_runSQLcommandOnDatabase "ALTER TABLE osm ALTER "oneway" TYPE character varying(255);"
+
 			tablecreated=1;
 		fi
 	echo " will process $shapefile";
@@ -243,6 +249,9 @@ function clean_data {
 	psql_runSQLcommandOnDatabase "ALTER TABLE $tableName ADD COLUMN $lengthColumnName double precision"
 	echo "update length"
 	psql_runSQLcommandOnDatabase "UPDATE $tableName SET $lengthColumnName=distance_sphere(startpoint($geometryColumnName),endpoint($geometryColumnName))"
+	
+	echo "Add index on column contrycode"
+	psql_runSQLcommandOnDatabase "CREATE INDEX osmcountryindex ON $tableName USING btree (countrycode);"
 }
 
 
@@ -260,9 +269,9 @@ function export_data {
 		        ((offset = 0));
 		        ((limit = 100000));
 		
-		        for iter  in `seq 1 188`;
+		        for iter  in `seq 1 190`;
 		        do
-			      echo "extraction de US $iter / 188"
+			      echo "extraction de US $iter / 190"
 		             psql_exportToCSV "select * from $tableName where countrycode='$countrycode' offset $offset limit $limit;" "$countrycode.$iter.txt"
 	 
 		                if [[ $iter == '1'  ]]
@@ -280,7 +289,6 @@ function export_data {
 }
 
 function tar_data {
-pwd
 	#remove US.txt because it must not be treated
 	rm US.txt
 	mkdir txt_file_already_tared
@@ -342,12 +350,12 @@ echo "--------------------------------------------------------------------------
 init_database
 importFiles
 
-
 echo "----------------------------------------------------------------------------------------------"
 echo "clean Data"
 echo "----------------------------------------------------------------------------------------------"
 
 clean_data
+
 
 echo "----------------------------------------------------------------------------------------------"
 echo "EXPORT DATA"
