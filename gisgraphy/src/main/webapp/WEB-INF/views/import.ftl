@@ -13,13 +13,13 @@
 </div>
 <#if !DownloadDirectoryAccessible>
 <div class="tip redtip">
-<@s.text name="import.directory.not.accesible"><@s.param>Geonames</@s.param><@s.param>${importerConfig.getOpenStreetMapDir()}</as.param></@s.text> 
+<@s.text name="import.directory.not.accesible"><@s.param>Geonames</@s.param><@s.param>${importerConfig.getOpenStreetMapDir()}</@s.param></@s.text> 
 </div>
 </#if>
 
 <#if !openStreetMapDownloadDirectoryAccessible>
 <div class="tip redtip">
-<@s.text name="import.directory.not.accesible"><@s.param>Openstreetmap</@s.param><@s.param>${importerConfig.getOpenStreetMapDir()}</as.param></@s.text> 
+<@s.text name="import.directory.not.accesible"><@s.param>Openstreetmap</@s.param><@s.param>${importerConfig.getOpenStreetMapDir()}</@s.param></@s.text> 
 </div>
 </#if>
 
