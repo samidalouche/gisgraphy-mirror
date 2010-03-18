@@ -40,6 +40,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 import java.util.logging.Level;
 
 import junit.framework.Assert;
@@ -146,8 +147,16 @@ public class ImporterManagerTest extends AbstractIntegrationHttpSolrTestCase {
 	return text;
     }
 
+    @Test
+    public void testGetAlreadyDoneFilePathShouldCreateTheGeonamesDirIfItDoesnTExist(){
+    	ImporterConfig fakeImporterConfig = new ImporterConfig();
+    	String geonameDirPathThatDoesnTExist = System.getProperty("java.io.tmpdir")+File.separator+Math.abs(new Random().nextInt());
+    	fakeImporterConfig.setGeonamesDir(geonameDirPathThatDoesnTExist);
+    	fakeImporterConfig.getAlreadyDoneFilePath();
+    	assertTrue("if the geonames directory doen't exists it should be created when the getAlreadyDoneFilePath method is called", new File(geonameDirPathThatDoesnTExist).exists());
+    }
+    
     // test reset
-
     @SuppressWarnings("unchecked")
     @Test
     public void testResetImportShouldSetAlreadyDoneToFalseAndReturnInfoOnDeletedObjects() throws Exception {
@@ -192,8 +201,7 @@ public class ImporterManagerTest extends AbstractIntegrationHttpSolrTestCase {
 	
 	
 	ImporterConfig fakeImporterConfig = new ImporterConfig();
-	String geonamesDir = FileHelper.createTempDir(this.getClass().getSimpleName()).getAbsolutePath();
-	fakeImporterConfig.setGeonamesDir(geonamesDir);
+	
 
 	
 	IImporterProcessor processor1 = EasyMock
@@ -246,9 +254,11 @@ public class ImporterManagerTest extends AbstractIntegrationHttpSolrTestCase {
 	fakeimporterManager.setSolRSynchroniser(mockSolRSynchroniser);
 	fakeimporterManager.setSolrClient(mockSolRClient);
 
-	//create a file to simulate that the import is not already done (as the gisgraphy dis does)
-	String alreadyDoneFilePath = fakeimporterManager.getAlreadyDoneFilePath();
-	File alreadyDoneFile = new File(alreadyDoneFilePath);
+	//create a file to simulate that the import is not already done (as the gisgraphy dist does)
+	String geonameDirPathThatDoesnTExist = System.getProperty("java.io.tmpdir")+File.separator+Math.abs(new Random().nextInt());
+	fakeImporterConfig.setGeonamesDir(geonameDirPathThatDoesnTExist);
+	fakeImporterConfig.getAlreadyDoneFilePath();
+	File alreadyDoneFile = new File(fakeImporterConfig.getAlreadyDoneFilePath());
 	Assert.assertTrue("can not create the 'already done' file to simulate that the import is not already done ",alreadyDoneFile.createNewFile());
 	
 	

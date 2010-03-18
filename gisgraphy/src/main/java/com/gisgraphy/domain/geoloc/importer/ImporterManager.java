@@ -77,7 +77,7 @@ public class ImporterManager implements IImporterManager {
     @Autowired
     private IDatabaseHelper databaseHelper;
 
-    public static final String IMPORTER_METADATA_RELATIVE_PATH = "IMPORTER-METADATA-DO_NOT_REMOVE";
+  
 
 
     /**
@@ -86,7 +86,7 @@ public class ImporterManager implements IImporterManager {
     protected static final Logger logger = LoggerFactory
 	    .getLogger(ImporterManager.class);
 
-    public static final String ALREADY_DONE_FILE_NAME = "importNotAlreadyDone";
+   
 
     /*
      * (non-Javadoc)
@@ -217,7 +217,7 @@ public class ImporterManager implements IImporterManager {
      * @see com.gisgraphy.domain.geoloc.importer.IImporterManager#isAlreadyDone()
      */
     public boolean isAlreadyDone() {
-	return !new File(getAlreadyDoneFilePath()).exists();
+	return !new File(importerConfig.getAlreadyDoneFilePath()).exists();
     }
 
     
@@ -316,7 +316,7 @@ public class ImporterManager implements IImporterManager {
     }
 
     private void setAlreadyDone(boolean alreadyDone) {
-	File alreadyDoneFile = new File(getAlreadyDoneFilePath());
+	File alreadyDoneFile = new File(importerConfig.getAlreadyDoneFilePath());
 	if (alreadyDone == false) {
 	    if (!alreadyDoneFile.exists()) {
 		try {
@@ -325,7 +325,7 @@ public class ImporterManager implements IImporterManager {
 			throw new ImporterException("Can not change the already done status to " + alreadyDone);
 		    }
 		} catch (IOException e) {
-		    throw new ImporterException("Can not change the already done status to " + alreadyDone + " : " + e);
+		    throw new ImporterException("Can not change the already done status to " + alreadyDone + " : " + e.getMessage(),e);
 		}
 	    }
 
@@ -340,16 +340,8 @@ public class ImporterManager implements IImporterManager {
 	}
     }
     
-    protected String getAlreadyDoneFilePath() {
-	String dirpath = importerConfig.getGeonamesDir() + ImporterManager.IMPORTER_METADATA_RELATIVE_PATH + File.separator;
-	File directory = new File(dirpath);
-	if (!directory.exists()) {
-	    if (!directory.mkdir()) {
-		throw new RuntimeException("Can not create ImporterMetadataDirectory");
-	    }
-	}
-	return dirpath + ALREADY_DONE_FILE_NAME;
-    }
+   
+    
     
     /**
      * @param importerStatusListDao

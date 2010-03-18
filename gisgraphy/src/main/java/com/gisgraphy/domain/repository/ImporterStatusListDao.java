@@ -65,15 +65,7 @@ public class ImporterStatusListDao implements IImporterStatusListDao {
      * @see com.gisgraphy.domain.repository.IImporterStatusListDao#getFilePath()
      */
     public String getSavedFilePath() {
-	String dirpath = importerConfig.getGeonamesDir()
-		+ ImporterManager.IMPORTER_METADATA_RELATIVE_PATH + File.separator;
-	File directory = new File(dirpath);
-	if (!directory.exists()) {
-	    if (!directory.mkdir()) {
-		throw new RuntimeException(
-			"Can not create ImporterMetadataDirectory");
-	    }
-	}
+	String dirpath = importerConfig.createImporterMetadataDirIfItDoesnTExist();
 	return dirpath + IMPORTER_STATUS_LIST_FILENAME;
     }
 
