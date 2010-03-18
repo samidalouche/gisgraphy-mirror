@@ -245,7 +245,8 @@ Autocomplete.prototype = {
       return;
     }
     var content = [];
-    var re = new RegExp('\\b' + this.currentValue.match(/\w+/g).join('|\\b'), 'gi');
+    var re= new RegExp(this.currentValue, 'gi');
+    //var re = new RegExp('\\b' + this.currentValue.match(/\w+/g).join('|\\b'), 'gi');
     this.suggestions.each(function(value, i) {
       content.push((this.selectedIndex === i ? '<div class="selected"' : '<div'), ' title="', value, '" onclick="Autocomplete.instances[', this.instanceId, '].select(', i, ');" onmouseover="Autocomplete.instances[', this.instanceId, '].activate(', i, ');">', Autocomplete.highlight(value, re), '</div>');
     } .bind(this));
