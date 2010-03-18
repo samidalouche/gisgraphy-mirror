@@ -282,6 +282,13 @@ remove the ability to search for 'no name street'
 					street webservice does not sort the result by distance_sphere(middle of the street, point) anymore. It sort by distance (not distance sphere) between the line and the point
 			</action>
 			
+			<action dev="David Masclet" type="update">
+				streetType is stored as a string  not an integer
+			</action>
+		
+		   <action dev="David Masclet" type="fix">
+			FIX bug :  display Search for streetnames in Russian fails  http://code.google.com/p/gisgraphy/issues/detail?id=13
+			</action>
 			
 		</release>
 	</body>
