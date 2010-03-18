@@ -98,6 +98,8 @@ Is the information correct? [y/N] y
   vim /etc/apache2/workers.properties
   
    sudo apt-get install php5-gd
+   
+   modify memory_limit = 32M  in /etc/php5/apache2/php.ini
   
   # This file provides minimal jk configuration properties needed to
 # connect to Tomcat.
