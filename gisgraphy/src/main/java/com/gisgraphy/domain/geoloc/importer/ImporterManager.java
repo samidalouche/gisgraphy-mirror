@@ -99,10 +99,14 @@ public class ImporterManager implements IImporterManager {
 		    .error("You can not run an import because an other one is in progress");
 	    return;
 	}
-	if (isAlreadyDone() == true) {
-	    logger
-		    .error("You can not run an import because an other has already been done, if you want to run an other import, you must reset all the database and the fulltext search engine first");
-	    return;
+	try {
+	    if (isAlreadyDone() == true) {
+	        logger
+	    	    .error("You can not run an import because an other has already been done, if you want to run an other import, you must reset all the database and the fulltext search engine first");
+	        return;
+	    }
+	} catch (ImporterMetaDataException e1) {
+	    throw new ImporterException(e1.getMessage(),e1);
 	}
 	this.startTime = System.currentTimeMillis();
 	importerStatusListDao.delete();
@@ -216,7 +220,10 @@ public class ImporterManager implements IImporterManager {
      * 
      * @see com.gisgraphy.domain.geoloc.importer.IImporterManager#isAlreadyDone()
      */
-    public boolean isAlreadyDone() {
+    public boolean isAlreadyDone() throws ImporterMetaDataException {
+	if (!new File(importerConfig.getImporterMetadataDirectoryPath()).exists()){
+	    throw new ImporterMetaDataException("can not determine if the import is already done because the directory where the metadata of the importer "+importerConfig.getImporterMetadataDirectoryPath()+"  doesn't exists");
+	}
 	return !new File(importerConfig.getAlreadyDoneFilePath()).exists();
     }
 
@@ -316,6 +323,7 @@ public class ImporterManager implements IImporterManager {
     }
 
     private void setAlreadyDone(boolean alreadyDone) {
+	importerConfig.createImporterMetadataDirIfItDoesnTExist();
 	File alreadyDoneFile = new File(importerConfig.getAlreadyDoneFilePath());
 	if (alreadyDone == false) {
 	    if (!alreadyDoneFile.exists()) {

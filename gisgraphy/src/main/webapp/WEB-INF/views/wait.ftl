@@ -7,14 +7,14 @@
 <body>
     <p style="border: 1px solid silver; padding: 5px; background: #ffd; text-align: center;margin-left:auto;margin-right:auto;">
        
-      <@s.if test="importerManager.isInProgress()">
+      <@s.if test="importInProgress">
       <@s.text name="import.processingRequest"/>
-     <br/><img src="/images/loading.gif" width=20px /> <@s.text name="import.wait.importSince"/> ${importerManager.getFormatedTimeElapsed()}<br/> 
+     <br/><img src="/images/loading.gif" width=20px /> <@s.text name="import.wait.importSince"/> ${importFormatedTimeElapsed}<br/> 
      <br/><@s.text name="import.time.info"/>. <@s.text name="import.time.why"><@s.param>http://www.gisgraphy.com/faq.html#why-import-long</@s.param><@s.param>http://www.gisgraphy.com/faq.html#how-long-import</@s.param></@s.text>
         
     </@s.if>
-     <@s.if test="importerManager.isAlreadyDone()">
-     <br/><@s.text name="import.took.time"/> ${importerManager.getFormatedTimeElapsed()}  
+     <@s.if test="importAlreadyDone">
+     <br/><@s.text name="import.took.time"/> ${importFormatedTimeElapsed}  
     </@s.if>
     
     </p>
@@ -56,7 +56,7 @@
 	</p>
 	<@s.text name="global.legend"/> :<br/>
 	<blockquote><@s.iterator value="statusEnumList" var="statusEnumValue">
-		<img src="/images/<@s.property />.png" alt="<@s.property/>" title="<@s.property />"/> : <@s.text name="${statusEnumValue}" />&nbsp;&nbsp;;<br/>
+		<img src="/images/<@s.property />.png" alt="<@s.property/>" title="<@s.property />"/> : <@s.text name="${statusEnumValue}" />&nbsp;&nbsp;<br/>
 	</@s.iterator>
 	</blockquote>
 	<br/><br/>

@@ -30,6 +30,7 @@ import org.springframework.beans.factory.annotation.Required;
 
 import com.gisgraphy.domain.geoloc.importer.IImporterManager;
 import com.gisgraphy.domain.geoloc.importer.ImporterManager;
+import com.gisgraphy.domain.geoloc.importer.ImporterMetaDataException;
 import com.gisgraphy.domain.valueobject.ImporterStatus;
 import com.gisgraphy.domain.valueobject.ImporterStatusDto;
 import com.opensymphony.xwork2.Action;
@@ -50,8 +51,24 @@ public class ImportAction extends ActionSupport {
     private static Logger logger = LoggerFactory.getLogger(ImportAction.class);
 
     public static String WAIT = "wait";
+    
+    private String errorMessage ="";
+    
 
     private IImporterManager importerManager;
+    
+    public String getImportFormatedTimeElapsed(){
+	return importerManager.getFormatedTimeElapsed();
+    }
+    
+    public boolean isImportInProgress(){
+	return importerManager.isInProgress();
+    }
+
+    
+    public boolean isImportAlreadyDone() throws ImporterMetaDataException{
+	return importerManager.isAlreadyDone();
+    }
 
     /**
      * Run import if not in progress or already done, otherwise return Wait view
@@ -60,8 +77,15 @@ public class ImportAction extends ActionSupport {
      * @throws Exception
      *                 When errors occurred
      */
-    public String doImport() throws Exception {
-	if (importerManager.isInProgress() || importerManager.isAlreadyDone()) {
+    public String doImport()  {
+	boolean alreadyDone;
+	try {
+	    alreadyDone = isImportAlreadyDone();
+	} catch (ImporterMetaDataException e) {
+	   errorMessage = e.getMessage();
+	   return ERROR;
+	}
+	if (importerManager.isInProgress() || alreadyDone) {
 	    return WAIT;
 	}
 	ImportAction.logger.info("doImport");
@@ -69,23 +93,21 @@ public class ImportAction extends ActionSupport {
 	return Action.SUCCESS;
     }
 
-    /**
-     * @return 'Wait'
-     * @throws Exception
-     *                 if errors occurred
-     */
-    public String doWait() throws Exception {
-	ImportAction.logger.debug("dowait");
-	return WAIT;
-    }
-
+    
     /**
      * @return 'Wait'
      * @throws Exception
      *                 if errors occurred
      */
     public String status() throws Exception {
-	ImportAction.logger.debug("dowait");
+	try {
+	    //we check if we can determine if import is already done
+	    isImportAlreadyDone();
+	} catch (ImporterMetaDataException e) {
+	   errorMessage = e.getMessage();
+	   return ERROR;
+	}
+	ImportAction.logger.debug("do status");
 	return WAIT;
     }
 
@@ -125,6 +147,11 @@ public class ImportAction extends ActionSupport {
     @Required
     public IImporterManager getImporterManager() {
 	return importerManager;
+    }
+
+
+    public String getErrorMessage() {
+        return errorMessage;
     }
 
 }

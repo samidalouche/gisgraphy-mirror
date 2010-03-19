@@ -853,12 +853,17 @@ public class ImporterConfig {
 	}
 
 	/**
-	 * if the directory doesn't exists it will create it (but not the file)
 	 * @return  the path to the file that give the information if the import is done or not
 	 */
 	public String getAlreadyDoneFilePath() {
-		String importerMetadataDirPath = createImporterMetadataDirIfItDoesnTExist();
-		return importerMetadataDirPath+ALREADY_DONE_FILE_NAME;
+		return getImporterMetadataDirectoryPath()+ALREADY_DONE_FILE_NAME;
+	}
+	
+	/**
+	 * @return  the path to the file that give the information if the import is done or not
+	 */
+	public String getImporterMetadataDirectoryPath() {
+		return  getGeonamesDir() + IMPORTER_METADATA_RELATIVE_PATH + File.separator;
 	}
 
 	/**

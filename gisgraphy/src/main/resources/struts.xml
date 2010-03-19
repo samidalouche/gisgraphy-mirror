@@ -11,7 +11,6 @@
     <constant name="struts.custom.i18n.resources" value="ApplicationResources,errors,featurecodes"/>
     <constant name="struts.multipart.maxSize" value="2097152"/>
     <constant name="struts.ui.theme" value="css_xhtml"/>
-  <!--  <constant name="struts.ui.templateDir" value="/WEB-INF/struts2-template" />-->
     <constant name="struts.codebehind.pathPrefix" value="/WEB-INF/pages/"/>
     <constant name="struts.enable.SlashesInActionNames" value="true"/>
 
@@ -196,7 +195,8 @@
    		<action name="importconfirm" class="com.gisgraphy.webapp.action.ImportConfirmAction">
             <interceptor-ref name="adminCheck"/>
             <result name="success" type="freemarker">/WEB-INF/views/import.ftl</result>
-             <result name="status" type="redirect">import!status.html</result>
+            <result name="status" type="redirect">import!status.html</result>
+            <result name="error"  type="freemarker">/WEB-INF/views/importError.ftl</result>
         </action>
         
         <action name="resetimport" class="com.gisgraphy.webapp.action.ResetImportAction">
@@ -211,6 +211,7 @@
          <interceptor-ref name="longProcessStack"/>
             <result name="wait" type="freemarker">/WEB-INF/views/wait.ftl</result>
             <result name="success" type="freemarker">/WEB-INF/views/importSuccess.ftl</result>
+             <result name="error"  type="freemarker">/WEB-INF/views/importError.ftl</result>
         </action>
         
         <action name="importstatus" class="com.gisgraphy.webapp.action.ImportAction">

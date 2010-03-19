@@ -148,12 +148,28 @@ public class ImporterManagerTest extends AbstractIntegrationHttpSolrTestCase {
     }
 
     @Test
-    public void testGetAlreadyDoneFilePathShouldCreateTheGeonamesDirIfItDoesnTExist(){
+    public void testcreateImporterMetadataDirIfItDoesnTExistShouldCreateTheGeonamesDirIfItDoesnTExist(){
     	ImporterConfig fakeImporterConfig = new ImporterConfig();
     	String geonameDirPathThatDoesnTExist = System.getProperty("java.io.tmpdir")+File.separator+Math.abs(new Random().nextInt());
     	fakeImporterConfig.setGeonamesDir(geonameDirPathThatDoesnTExist);
-    	fakeImporterConfig.getAlreadyDoneFilePath();
+    	fakeImporterConfig.createImporterMetadataDirIfItDoesnTExist();
     	assertTrue("if the geonames directory doen't exists it should be created when the getAlreadyDoneFilePath method is called", new File(geonameDirPathThatDoesnTExist).exists());
+    }
+    
+  
+    public void testIsAlreadydoneShouldThrowsifTheImporterMetadataDoesnTExist(){
+    	ImporterConfig fakeImporterConfig = new ImporterConfig();
+    	String geonameDirPathThatDoesnTExist = System.getProperty("java.io.tmpdir")+File.separator+Math.abs(new Random().nextInt());
+    	fakeImporterConfig.setGeonamesDir(geonameDirPathThatDoesnTExist);
+    	ImporterManager fakeImporterManager = new ImporterManager();
+    	fakeImporterManager.setImporterConfig(fakeImporterConfig);
+  
+    	try {
+	    fakeImporterManager.isAlreadyDone();
+	    fail("If the meta data directory doesn't exist the is already done method should throws");
+	} catch (ImporterMetaDataException e) {
+	    //OK
+	}
     }
     
     // test reset
@@ -257,7 +273,7 @@ public class ImporterManagerTest extends AbstractIntegrationHttpSolrTestCase {
 	//create a file to simulate that the import is not already done (as the gisgraphy dist does)
 	String geonameDirPathThatDoesnTExist = System.getProperty("java.io.tmpdir")+File.separator+Math.abs(new Random().nextInt());
 	fakeImporterConfig.setGeonamesDir(geonameDirPathThatDoesnTExist);
-	fakeImporterConfig.getAlreadyDoneFilePath();
+	fakeImporterConfig.createImporterMetadataDirIfItDoesnTExist();
 	File alreadyDoneFile = new File(fakeImporterConfig.getAlreadyDoneFilePath());
 	Assert.assertTrue("can not create the 'already done' file to simulate that the import is not already done ",alreadyDoneFile.createNewFile());
 	

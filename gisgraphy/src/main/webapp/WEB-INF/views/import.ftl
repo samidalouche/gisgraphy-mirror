@@ -27,17 +27,17 @@
 <fieldset>
 <legend><@s.text name="global.dataset"/></legend>
 <@s.text name="import.dataset.choose" /><br/><br/>
-The Geonames importer is :&nbsp;<@s.if test="geonamesImporterEnabled">
-<span style="color:#00FF00">ENABLED</span><br/><br/><div style="margin-left: 100px;" >
+<@s.text name="import.dataset.status"><@s.param>Geonames</@s.param></@s.text> &nbsp;:&nbsp;<@s.if test="geonamesImporterEnabled">
+<span style="color:#00FF00"><@s.text name="import.enabled"/></span><br/><br/><div style="margin-left: 100px;" >
 <@s.form action="importconfirm!disableGeonamesImporter.html" method="get" id="disableGeonames">
-<@s.submit title="Disable Geonames" value="Disable Geonames" theme="simple" /></@s.form></div></@s.if>
-<@s.else><span style="color:#FF0000">DISABLED</span><br/><br/><div style="margin-left: 100px;" > 
+<@s.submit title="%{getText('import.disable.geonames')}" value="%{getText('import.disable.geonames')}" theme="simple" /></@s.form></div></@s.if>
+<@s.else><span style="color:#FF0000"><@s.text name="import.disabled"/></span><br/><br/><div style="margin-left: 100px;" > 
 <@s.form action="importconfirm!enableGeonamesImporter.html" method="get" id="enableGeonames">
-<@s.submit title="Enable Geonames" value="Enable Geonames" theme="simple" /></@s.form></div></@s.else>
+<@s.submit title="%{getText('import.enable.geonames')}" value="%{getText('import.enable.geonames')}" theme="simple" /></@s.form></div></@s.else>
 <br/><br/><br/>
 
-The OpenStreetMap importer is :&nbsp;<@s.if test="OpenStreetMapImporterEnabled"><span style="color:#00FF00">ENABLED</span><br/><br/><div style="margin-left: 100px;" > <@s.form action="importconfirm!disableOpenStreetMapImporter.html" method="get" id="disableopenstreetmap"><@s.submit title="Disable OpenStreetMap" value="Disable OpenStreetMap" theme="simple" /></@s.form></div></@s.if>
-<@s.else><span style="color:#FF0000">DISABLED</span><br/><br/><div style="margin-left: 100px;" ><@s.form action="importconfirm!enableOpenStreetMapImporter.html" method="get" id="enableopenstreetmap"><@s.submit title="Enable OpenStreetMap" value="Enable OpenStreetMap" theme="simple" /></@s.form></div> </@s.else>
+<@s.text name="import.dataset.status"><@s.param>Openstreetmap</@s.param></@s.text> :&nbsp;<@s.if test="OpenStreetMapImporterEnabled"><span style="color:#00FF00"><@s.text name="import.enabled"/></span><br/><br/><div style="margin-left: 100px;" > <@s.form action="importconfirm!disableOpenStreetMapImporter.html" method="get" id="disableopenstreetmap"><@s.submit title="%{getText('import.disable.openstreetmap')}" value="%{getText('import.disable.openstreetmap')}" theme="simple" /></@s.form></div></@s.if>
+<@s.else><span style="color:#FF0000"><@s.text name="import.disabled"/></span><br/><br/><div style="margin-left: 100px;" ><@s.form action="importconfirm!enableOpenStreetMapImporter.html" method="get" id="enableopenstreetmap"><@s.submit title="%{getText('import.enable.openstreetmap')}" value="%{getText('import.enable.openstreetmap')}" theme="simple" /></@s.form></div> </@s.else>
 </fieldset>
 
 <#if !fulltextSearchEngineAlive>

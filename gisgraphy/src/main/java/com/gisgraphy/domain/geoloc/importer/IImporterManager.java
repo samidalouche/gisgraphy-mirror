@@ -52,8 +52,9 @@ public interface IImporterManager {
 
     /**
      * @return Wether the import has already been done (error or successful)
+     * @throws ImporterMetaDataException 
      */
-    public boolean isAlreadyDone();
+    public boolean isAlreadyDone() throws ImporterMetaDataException;
 
     /**
      * @return the time the last import took. If the import is in progress,
