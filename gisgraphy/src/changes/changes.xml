@@ -286,9 +286,19 @@ remove the ability to search for 'no name street'
 				streetType is stored as a string  not an integer
 			</action>
 		
-		   <action dev="David Masclet" type="fix">
+		    <action dev="David Masclet" type="fix">
 			FIX bug :  display Search for streetnames in Russian fails  http://code.google.com/p/gisgraphy/issues/detail?id=13
 			</action>
+			
+			<action dev="David Masclet" type="fix">
+			file will be extracted even if retrieve file is false
+			</action>
+			
+			<action dev="David Masclet" type="fix">
+			An error page is display if the importerMetadata directory is not available and we can't determine if the import is done or not
+			</action>
+			
+			
 			
 		</release>
 	</body>
