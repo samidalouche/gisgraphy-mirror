@@ -316,7 +316,7 @@ public abstract class AbstractImporterProcessor implements IImporterProcessor {
 	} finally {
 	    try {
 		tearDown();
-		this.status = ImporterStatus.PROCESSED;
+		this.status = this.status==ImporterStatus.PROCESSING ? ImporterStatus.PROCESSED : this.status;
 		this.statusMessage="";
 	    } catch (Exception e) {
 		this.status = ImporterStatus.ERROR;
