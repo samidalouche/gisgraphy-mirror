@@ -39,8 +39,7 @@ import com.gisgraphy.helper.Untar;
  */
 public class OpenStreetMapFileRetriever extends AbstractFileRetriever {
 
-  
-
+   
     /* (non-Javadoc)
      * @see com.gisgraphy.domain.geoloc.importer.AbstractFileRetriever#getDownloadDirectory()
      */
@@ -82,7 +81,7 @@ public class OpenStreetMapFileRetriever extends AbstractFileRetriever {
      */
     @Override
     public boolean shouldBeSkipped() {
-	return !(importerConfig.isRetrieveFiles()  && importerConfig.isOpenstreetmapImporterEnabled());
+	return !importerConfig.isOpenstreetmapImporterEnabled();
     }
 
     /* (non-Javadoc)

@@ -77,19 +77,9 @@ public class GeonamesFileRetrieverTest {
 	geonamesFileRetriever.setImporterConfig(importerConfig);
 	
 	importerConfig.setGeonamesImporterEnabled(false);
-	importerConfig.setRetrieveFiles(false);
-	Assert.assertTrue(geonamesFileRetriever.shouldBeSkipped());
-	
-	importerConfig.setGeonamesImporterEnabled(false);
-	importerConfig.setRetrieveFiles(true);
 	Assert.assertTrue(geonamesFileRetriever.shouldBeSkipped());
 	
 	importerConfig.setGeonamesImporterEnabled(true);
-	importerConfig.setRetrieveFiles(false);
-	Assert.assertTrue(geonamesFileRetriever.shouldBeSkipped());
-	
-	importerConfig.setGeonamesImporterEnabled(true);
-	importerConfig.setRetrieveFiles(true);
 	Assert.assertFalse(geonamesFileRetriever.shouldBeSkipped());
 	
     }

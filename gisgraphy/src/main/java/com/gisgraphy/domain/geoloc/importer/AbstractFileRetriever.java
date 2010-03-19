@@ -78,15 +78,10 @@ public abstract class AbstractFileRetriever implements IImporterProcessor {
 	status = ImporterStatus.PROCESSING;
 	try {
 	    if (!shouldBeSkipped()) {
+		if (importerConfig.isRetrieveFiles()){
 		logger
 			.info("DownloadFiles option is set to true, we will download and unzip files");
-		List<String> downloadFileList = getFilesToDownload();
-		this.numberOfFileToDownload = downloadFileList.size();
-		for (String file : downloadFileList) {
-		    this.fileIndex++;
-		    this.currentFileName = file;
-		    ImporterHelper.download(getDownloadBaseUrl()
-			    + file, getDownloadDirectory() + file);
+		downloadFiles();
 		}
 		statusMessage = internationalisationService.getString("import.extract.info");
 		decompressFiles();
@@ -105,6 +100,17 @@ public abstract class AbstractFileRetriever implements IImporterProcessor {
 	    throw new ImporterException(statusMessage, e);
 	} 
 
+    }
+
+    protected void downloadFiles() {
+	List<String> downloadFileList = getFilesToDownload();
+	this.numberOfFileToDownload = downloadFileList.size();
+	for (String file : downloadFileList) {
+	    this.fileIndex++;
+	    this.currentFileName = file;
+	    ImporterHelper.download(getDownloadBaseUrl()
+		    + file, getDownloadDirectory() + file);
+	}
     }
 
     /**

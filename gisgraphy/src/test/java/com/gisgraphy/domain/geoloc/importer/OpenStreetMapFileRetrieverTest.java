@@ -23,6 +23,7 @@
 package com.gisgraphy.domain.geoloc.importer;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -39,9 +40,90 @@ import com.gisgraphy.test.GeolocTestHelper;
 
 
 public class OpenStreetMapFileRetrieverTest {
+    @Test
+    public void processShouldExtractFilesEvenIfRetrieveFileIsFalse(){
+	 final List<String> methodCalled = new ArrayList<String>();
+	 final String downloadFlag = "download";
+	 final String decompressFlag = "decompress";
+	
+	OpenStreetMapFileRetriever openStreetMapFileRetriever = new OpenStreetMapFileRetriever(){
+	    @Override
+	    protected void downloadFiles() {
+		methodCalled.add(downloadFlag);
+	    }
+	    
+	    @Override
+	    public void decompressFiles() throws IOException {
+		methodCalled.add(decompressFlag);
+	    }
+	};
+	ImporterConfig importerConfig = new ImporterConfig();
+	importerConfig.setOpenstreetmapImporterEnabled(true);
+	importerConfig.setRetrieveFiles(false);
+	openStreetMapFileRetriever.setInternationalisationService(createMockInternationalisationService());
+	openStreetMapFileRetriever.setImporterConfig(importerConfig);
+	openStreetMapFileRetriever.process();
+	Assert.assertEquals(decompressFlag, methodCalled.get(0));
+	
+    }
     
     @Test
-    public void processAndCheckGeonamesFileRetriever() {
+    public void processShouldExtractAndDownloadFilesIfRetrieveFileIsFalse(){
+	 final List<String> methodCalled = new ArrayList<String>();
+	 final String downloadFlag = "download";
+	 final String decompressFlag = "decompress";
+	
+	OpenStreetMapFileRetriever openStreetMapFileRetriever = new OpenStreetMapFileRetriever(){
+	    @Override
+	    protected void downloadFiles() {
+		methodCalled.add(downloadFlag);
+	    }
+	    
+	    @Override
+	    public void decompressFiles() throws IOException {
+		methodCalled.add(decompressFlag);
+	    }
+	};
+	ImporterConfig importerConfig = new ImporterConfig();
+	importerConfig.setOpenstreetmapImporterEnabled(true);
+	importerConfig.setRetrieveFiles(true);
+	openStreetMapFileRetriever.setInternationalisationService(createMockInternationalisationService());
+	openStreetMapFileRetriever.setImporterConfig(importerConfig);
+	openStreetMapFileRetriever.process();
+	Assert.assertEquals(downloadFlag, methodCalled.get(0));
+	Assert.assertEquals(decompressFlag, methodCalled.get(1));
+	
+    }
+    
+    @Test
+    public void processShouldDoNothingIfopenstreetmapIsDisable(){
+	 final List<String> methodCalled = new ArrayList<String>();
+	 final String downloadFlag = "download";
+	 final String decompressFlag = "decompress";
+	
+	OpenStreetMapFileRetriever openStreetMapFileRetriever = new OpenStreetMapFileRetriever(){
+	    @Override
+	    protected void downloadFiles() {
+		methodCalled.add(downloadFlag);
+	    }
+	    
+	    @Override
+	    public void decompressFiles() throws IOException {
+		methodCalled.add(decompressFlag);
+	    }
+	};
+	ImporterConfig importerConfig = new ImporterConfig();
+	importerConfig.setOpenstreetmapImporterEnabled(false);
+	importerConfig.setRetrieveFiles(true);
+	openStreetMapFileRetriever.setInternationalisationService(createMockInternationalisationService());
+	openStreetMapFileRetriever.setImporterConfig(importerConfig);
+	openStreetMapFileRetriever.process();
+	Assert.assertEquals(0, methodCalled.size());
+	
+    }
+    
+    @Test
+    public void process() {
 	
 	OpenStreetMapFileRetriever openStreetMapFileRetriever = new OpenStreetMapFileRetriever();
 
@@ -135,7 +217,7 @@ public class OpenStreetMapFileRetrieverTest {
 	OpenStreetMapFileRetriever openStreetMapFileRetriever = new OpenStreetMapFileRetriever();
 	openStreetMapFileRetriever.setInternationalisationService(createMockInternationalisationService());
 	ImporterConfig importerConfig = new ImporterConfig();
-	importerConfig.setRetrieveFiles(false);
+	importerConfig.setOpenstreetmapImporterEnabled(false);
 	openStreetMapFileRetriever.setImporterConfig(importerConfig);
 	openStreetMapFileRetriever.process();
 	Assert.assertEquals(ImporterStatus.SKIPPED, openStreetMapFileRetriever.getStatus());
@@ -144,7 +226,7 @@ public class OpenStreetMapFileRetrieverTest {
     }
     
     @Test
-    public void StatusShouldBeEqualsToPROCESSEDIfNoERROR(){
+    public void StatusShouldBeEqualsToPROCESSEDIfNoError(){
 	OpenStreetMapFileRetriever openStreetMapFileRetriever = new OpenStreetMapFileRetriever();
 	openStreetMapFileRetriever.setInternationalisationService(createMockInternationalisationService());
 	ImporterConfig importerConfig = EasyMock.createMock(ImporterConfig.class);
@@ -170,20 +252,12 @@ public class OpenStreetMapFileRetrieverTest {
 	openStreetMapFileRetriever.setImporterConfig(importerConfig);
 	
 	importerConfig.setOpenstreetmapImporterEnabled(false);
-	importerConfig.setRetrieveFiles(false);
 	Assert.assertTrue(openStreetMapFileRetriever.shouldBeSkipped());
-	
-	importerConfig.setOpenstreetmapImporterEnabled(false);
-	importerConfig.setRetrieveFiles(true);
-	Assert.assertTrue(openStreetMapFileRetriever.shouldBeSkipped());
+
 	
 	importerConfig.setOpenstreetmapImporterEnabled(true);
-	importerConfig.setRetrieveFiles(false);
-	Assert.assertTrue(openStreetMapFileRetriever.shouldBeSkipped());
-	
-	importerConfig.setOpenstreetmapImporterEnabled(true);
-	importerConfig.setRetrieveFiles(true);
 	Assert.assertFalse(openStreetMapFileRetriever.shouldBeSkipped());
+	
 	
     }
     

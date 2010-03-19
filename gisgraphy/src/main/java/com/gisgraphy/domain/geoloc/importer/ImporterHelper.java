@@ -129,6 +129,10 @@ public class ImporterHelper {
 		break;
 	    }
 	}
+	
+	if (files.length==0){
+	    logger.warn("there is no file to import in "+directoryPath);
+	}
 
 	// for Log purpose
 	for (int i = 0; i < files.length; i++) {

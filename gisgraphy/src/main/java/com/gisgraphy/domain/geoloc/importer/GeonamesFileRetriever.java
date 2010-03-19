@@ -86,7 +86,7 @@ public class GeonamesFileRetriever extends AbstractFileRetriever {
      */
     @Override
     public boolean shouldBeSkipped() {
-	return !(importerConfig.isRetrieveFiles() && importerConfig.isGeonamesImporterEnabled());
+	return !importerConfig.isGeonamesImporterEnabled();
     }
 
     /* (non-Javadoc)
