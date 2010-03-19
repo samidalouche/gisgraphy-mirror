@@ -321,7 +321,7 @@ function tar_data {
 	tar -jcf  allcountries.tar.bz2 *.txt ;
 	for csvfile in `ls *.txt` ;
 	do
-	 mv $countrycode.txt ../txt_file_already_tared/
+	 mv $csvfile ../txt_file_already_tared/
 	done;
 	rm readme.txt
 	cd ..
