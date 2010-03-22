@@ -272,7 +272,7 @@ function export_data {
 		        for iter  in `seq 1 190`;
 		        do
 			      echo "extraction de US $iter / 190"
-		             psql_exportToCSV "select * from $tableName where countrycode='$countrycode' offset $offset limit $limit;" "$countrycode.$iter.txt"
+		             psql_exportToCSV "select NULL,name,location, length, countrycode, gid, type, oneway, shape from $tableName where countrycode='$countrycode' offset $offset limit $limit;" "$countrycode.$iter.txt"
 	 
 		                if [[ $iter == '1'  ]]
 		                then
@@ -282,7 +282,7 @@ function export_data {
 		        done
 			us_treated=1;
 		else
-				psql_exportToCSV "select * from $tableName where countrycode='$countrycode'" "$countrycode.txt"
+				psql_exportToCSV "select NULL,name,location, length, countrycode, gid, type, oneway, shape from $tableName where countrycode='$countrycode'" "$countrycode.txt"
 		fi
 		mv *.txt exported
 	done
@@ -315,7 +315,6 @@ function tar_data {
 	
 	echo "tar US file" 
 	tar -jcf US.tar.bz2 US.*.txt readme.txt
-	mv US.*.txt ../txt_file_already_tared/
 	
 	echo "tar allcountries.tar.bz2"
 	tar -jcf  allcountries.tar.bz2 *.txt ;
