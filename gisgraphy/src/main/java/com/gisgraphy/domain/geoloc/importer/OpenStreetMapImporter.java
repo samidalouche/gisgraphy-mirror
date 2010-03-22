@@ -114,8 +114,8 @@ public class OpenStreetMapImporter extends AbstractImporterProcessor {
 	    street.setCountryCode(fields[4].trim());
 	}
 	
-		generatedId= generatedId+1;
-	        street.setGid(new Long(generatedId));
+	generatedId= generatedId+1;
+	street.setGid(new Long(generatedId));
 	
 	if (!isEmptyField(fields, 6, false)) {
 	    StreetType type;
