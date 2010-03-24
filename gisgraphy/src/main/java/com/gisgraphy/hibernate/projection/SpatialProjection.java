@@ -93,10 +93,11 @@ public class SpatialProjection {
 			String pointAsString = new StringBuffer("GeometryFromText( 'POINT(")
 			.append(point.getX()).append(" ").append(point.getY()).append(")',").append(SRID.WGS84_SRID.getSRID()).append(")").toString();
 			
-			String lineMerge = new StringBuffer(LINEMERGE_FUNCTION)
+			/*String lineMerge = new StringBuffer(LINEMERGE_FUNCTION)
 			.append("(")
 			.append(columnName)
-			.append(")").toString();
+			.append(")").toString();*/
+			 String lineMerge = columnName;
 			
 			String sqlString = new StringBuffer()
 			.append(DISTANCE_SPHERE_FUNCTION)
