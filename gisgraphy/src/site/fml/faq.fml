@@ -45,15 +45,17 @@
           <li>Gisgraphy try to do error correction to detect the correct ADM, and a lot of request is made to the database for each line. this is the "price to pay" to have a parent/child ADM tree</li>
           <li>for each feature or alternate names imported, the fulltext engine is synchronized</li>
           </ul>  
-          The openstreetmap import take less time because data are pre-processed by me (length, middle point,...) to CSV. so no error correction is necessary
+          The openstreetmap import take less time because data are pre-processed by me (length, middle point,...) to CSV. so no error correction is necessary.
+          <br/>
+          if 
         </p>
       </answer>
       </faq>
-    <faq id="young">
-     <question>The project is young, has it been tested ?</question>
+    <faq id="tested">
+     <question>how can i be sure the project is production ready ?</question>
       <answer>
         <p>
-		It has been tested on several machines using linux, Windows and various JVMs. Gisgraphy has high unit/integration test coverage.
+		It has been tested on several machines using linux, Windows and various JVMs. Gisgraphy has a high unit/integration test coverage. it is scalable, and heve no memory leak (
         </p>
       </answer>
     </faq>
