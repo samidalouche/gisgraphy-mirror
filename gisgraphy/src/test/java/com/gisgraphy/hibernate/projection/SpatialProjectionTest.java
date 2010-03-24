@@ -47,6 +47,7 @@ import com.gisgraphy.domain.valueobject.SRID;
 import com.gisgraphy.helper.GeolocHelper;
 import com.gisgraphy.test.GeolocTestHelper;
 import com.gisgraphy.test._DaoHelper;
+import com.vividsolutions.jts.geom.LineString;
 import com.vividsolutions.jts.geom.MultiLineString;
 import com.vividsolutions.jts.geom.Point;
 
@@ -61,9 +62,7 @@ public class SpatialProjectionTest extends AbstractIntegrationHttpSolrTestCase {
     @SuppressWarnings("unchecked")
     @Test
     public void testdistance_pointToLine() {
-	   String[] wktLineStrings={"LINESTRING (6.9416088 50.9154239,6.9410001 50.9154734)"};
-	    MultiLineString shape = GeolocHelper.createMultiLineString(wktLineStrings);
-	    shape.setSRID(SRID.WGS84_SRID.getSRID());
+		LineString shape = GeolocHelper.createLineString("LINESTRING (6.9416088 50.9154239,6.9410001 50.9154734)");
 		
 		OpenStreetMap streetOSM = GeolocTestHelper.createOpenStreetMapForPeterMartinStreet();
 		streetOSM.setShape(shape);

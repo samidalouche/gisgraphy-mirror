@@ -39,9 +39,9 @@ import com.gisgraphy.domain.valueobject.StreetDistance;
 import com.gisgraphy.helper.GeolocHelper;
 import com.gisgraphy.helper.StringHelper;
 import com.gisgraphy.test.GeolocTestHelper;
+import com.vividsolutions.jts.geom.LineString;
 import com.vividsolutions.jts.geom.MultiLineString;
 import com.vividsolutions.jts.geom.Point;
-import com.vividsolutions.jts.operation.distance.DistanceOp;
 
 
 public class OpenStreetMapDaoTest extends AbstractIntegrationHttpSolrTestCase{
@@ -79,8 +79,7 @@ public class OpenStreetMapDaoTest extends AbstractIntegrationHttpSolrTestCase{
  
     @Test
     public void testGetNearestAndDistanceFromShouldReturnValidDTO() {
-    String[] wktLineStrings={"LINESTRING (6.9416088 50.9154239,6.9410001 50.99999)"};
-    MultiLineString shape = GeolocHelper.createMultiLineString(wktLineStrings);
+    LineString shape = GeolocHelper.createLineString("LINESTRING (6.9416088 50.9154239,6.9410001 50.99999)");
     shape.setSRID(SRID.WGS84_SRID.getSRID());
 	
 	OpenStreetMap streetOSM = GeolocTestHelper.createOpenStreetMapForPeterMartinStreet();
@@ -91,7 +90,7 @@ public class OpenStreetMapDaoTest extends AbstractIntegrationHttpSolrTestCase{
 	//we create a multilineString a little bit closest than the first one 
 	OpenStreetMap streetOSM2 = new OpenStreetMap();
 	String[] wktLineStrings2={"LINESTRING (6.9416088 50.9154239,6.9410001 50.9154734)"};
-	MultiLineString shape2 = GeolocHelper.createMultiLineString(wktLineStrings2);
+	LineString shape2 = GeolocHelper.createLineString("LINESTRING (6.9416088 50.9154239,6.9410001 50.9154734)");
 	shape2.setSRID(SRID.WGS84_SRID.getSRID());
 	
 	

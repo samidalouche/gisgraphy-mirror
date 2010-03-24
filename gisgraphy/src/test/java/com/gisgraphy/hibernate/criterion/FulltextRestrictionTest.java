@@ -20,8 +20,9 @@ import com.gisgraphy.helper.GeolocHelper;
 import com.gisgraphy.helper.StringHelper;
 import com.gisgraphy.hibernate.projection.ProjectionBean;
 import com.gisgraphy.hibernate.projection._OpenstreetmapDTO;
+import com.gisgraphy.test.GeolocTestHelper;
 import com.gisgraphy.test._DaoHelper;
-import com.vividsolutions.jts.geom.MultiLineString;
+import com.vividsolutions.jts.geom.LineString;
 
 
 public class FulltextRestrictionTest extends AbstractIntegrationHttpSolrTestCase{
@@ -30,24 +31,12 @@ public class FulltextRestrictionTest extends AbstractIntegrationHttpSolrTestCase
 
     private IOpenStreetMapDao openStreetMapDao;
     
-    private OpenStreetMap createOpenStreetMap() {
-	OpenStreetMap streetOSM = new OpenStreetMap();
-	String[] wktLineStrings={"LINESTRING (30.001 30.001, 40 40)"};
-	MultiLineString shape = GeolocHelper.createMultiLineString(wktLineStrings);
-	streetOSM.setShape(shape);
-	streetOSM.setGid(1L);
-	streetOSM.setOneWay(false);
-	streetOSM.setStreetType(StreetType.FOOTWAY);
-	streetOSM.setName("Champs-Elysées");
-	streetOSM.setLocation(GeolocHelper.createPoint(30.001F, 40F));
-	
-	return StringHelper.updateOpenStreetMapEntityForIndexation(streetOSM);
-    }
-    
+       
     @SuppressWarnings("unchecked")
     @Test
     public void testFulltextRestriction() {
-	OpenStreetMap streetOSM = createOpenStreetMap();
+	OpenStreetMap streetOSM = GeolocTestHelper.createOpenStreetMapForJohnKenedyStreet();
+	streetOSM.setName("Champs-Elysées");
 	openStreetMapDao.save(streetOSM);
 	assertNotNull(openStreetMapDao.get(streetOSM.getId()));
 	

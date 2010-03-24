@@ -40,6 +40,7 @@ import com.gisgraphy.domain.geoloc.service.fulltextsearch.StreetSearchMode;
 import com.gisgraphy.domain.geoloc.service.geoloc.street.StreetType;
 import com.gisgraphy.domain.valueobject.SRID;
 import com.gisgraphy.helper.IntrospectionIgnoredField;
+import com.vividsolutions.jts.geom.LineString;
 import com.vividsolutions.jts.geom.MultiLineString;
 import com.vividsolutions.jts.geom.Point;
 
@@ -118,7 +119,7 @@ public class OpenStreetMap  {
     private Point location;
     
     @IntrospectionIgnoredField
-    private MultiLineString shape;
+    private LineString shape;
     
     private String countryCode;
     
@@ -321,14 +322,14 @@ public class OpenStreetMap  {
      */
     @Type(type = "org.hibernatespatial.GeometryUserType")
     @Column(nullable = false)
-    public MultiLineString getShape() {
+    public LineString getShape() {
         return shape;
     }
 
     /**
      * @param shape the shape to set
      */
-    public void setShape(MultiLineString shape) {
+    public void setShape(LineString shape) {
         this.shape = shape;
     }
 

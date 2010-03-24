@@ -34,7 +34,7 @@ import com.gisgraphy.domain.repository.IOpenStreetMapDao;
 import com.gisgraphy.domain.valueobject.NameValueDTO;
 import com.gisgraphy.helper.GeolocHelper;
 import com.gisgraphy.helper.StringHelper;
-import com.vividsolutions.jts.geom.MultiLineString;
+import com.vividsolutions.jts.geom.LineString;
 import com.vividsolutions.jts.geom.Point;
 
 /**
@@ -141,9 +141,10 @@ public class OpenStreetMapImporter extends AbstractImporterProcessor {
 	
 	if (!isEmptyField(fields, 8, true)) {
 	    try {
-		street.setShape((MultiLineString)GeolocHelper.convertFromHEXEWKBToGeometry(fields[8]));
+		street.setShape((LineString)GeolocHelper.convertFromHEXEWKBToGeometry(fields[8]));
 	    } catch (RuntimeException e) {
-		logger.warn("can not parse shape for "+fields[1] +" : "+e);
+		logger.warn("can not parse shape for "+fields[8] +" : "+e);
+		return;
 	    }
 	    
 	}

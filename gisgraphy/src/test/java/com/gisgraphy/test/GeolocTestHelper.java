@@ -70,6 +70,7 @@ import com.gisgraphy.servlet.FulltextServlet;
 import com.gisgraphy.servlet.GeolocServlet;
 import com.gisgraphy.servlet.GisgraphyServlet;
 import com.gisgraphy.servlet.StreetServlet;
+import com.vividsolutions.jts.geom.LineString;
 import com.vividsolutions.jts.geom.MultiLineString;
 import com.vividsolutions.jts.geom.Point;
 
@@ -360,9 +361,7 @@ public class GeolocTestHelper {
     
     public static OpenStreetMap createOpenStreetMapForJohnKenedyStreet() {
 	OpenStreetMap streetOSM = new OpenStreetMap();
-	String[] wktLineStrings2={"LINESTRING (30 30, 40 40)"};
-	
-	MultiLineString shape2 = GeolocHelper.createMultiLineString(wktLineStrings2);
+	LineString shape2 = GeolocHelper.createLineString("LINESTRING (30 30, 40 40)");
 	streetOSM.setShape(shape2);
 	streetOSM.setGid(2L);
 	//Simulate middle point
@@ -376,8 +375,7 @@ public class GeolocTestHelper {
     
     public static OpenStreetMap createOpenStreetMapForPeterMartinStreet() {
     	OpenStreetMap streetOSM = new OpenStreetMap();
-    	String[] wktLineStrings={"LINESTRING (30.001 30.001, 40 40)"};
-    	MultiLineString shape = GeolocHelper.createMultiLineString(wktLineStrings);
+    	LineString shape = GeolocHelper.createLineString("LINESTRING (30.001 30.001, 40 40)");
     	streetOSM.setShape(shape);
     	streetOSM.setGid(1L);
     	streetOSM.setOneWay(false);

@@ -108,7 +108,7 @@ public class GeolocHelper {
      * @see <a href="http://en.wikipedia.org/wiki/SRID">SRID</a>
      * @see SRID
      * @param wktLineStrings
-     *                The longitude for the point
+     *                The array that contains all the linestrings
      * @return A MultilineStringObject from the specified array of linestring
      * @throws IllegalArgumentException
      *                 if the string are not correct
@@ -134,6 +134,35 @@ public class GeolocHelper {
 	MultiLineString multiLineString = (MultiLineString) factory
 		.createMultiLineString(lineStrings);
 	return multiLineString;
+    }
+    
+    /**
+     * Create a JTS LineString from the specified String for
+     * the SRID (aka : Spatial Reference IDentifier) 4326 (WGS84)<br>
+     * 
+     * example : {"LINESTRING (0 0, 10 10, 20 20)"}
+     * 
+     * @see <a href="http://en.wikipedia.org/wiki/SRID">SRID</a>
+     * @see SRID
+     * @param wktLineString
+     *                a String that represent the lineString
+     * @return A LineStringObject from the specified linestring
+     * @throws IllegalArgumentException
+     *                 if the string are not correct
+     */
+    //TODO tests
+    public static LineString createLineString(String wktLineString) {
+	 try {
+		LineString lineString = (LineString) new WKTReader().read(wktLineString);
+		lineString.setSRID(SRID.WGS84_SRID.getSRID());
+		return lineString;
+	    } catch (com.vividsolutions.jts.io.ParseException pe) {
+		throw new IllegalArgumentException(wktLineString
+			+ " is not valid " + pe);
+	    } catch (ClassCastException cce) {
+		throw new IllegalArgumentException(wktLineString
+			+ " is not a LINESTRING");
+	    }
     }
 
     /**

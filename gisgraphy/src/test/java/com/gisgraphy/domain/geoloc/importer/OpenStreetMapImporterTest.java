@@ -76,7 +76,7 @@ public class OpenStreetMapImporterTest extends AbstractIntegrationHttpSolrTestCa
 	assertEquals("The length is not correct",0.00142246604529, openStreetMap.getLength());
 	assertEquals("The partialSearchName is not correct",StringHelper.transformStringForPartialWordIndexation(openStreetMap.getName(), StringHelper.WHITESPACE_CHAR_DELIMITER), openStreetMap.getPartialSearchName());
 	assertEquals("The textSearchName is not correct",StringHelper.transformStringForFulltextIndexation(openStreetMap.getName()), openStreetMap.getTextSearchName());
-	assertEquals("The shape is not correct ",GeolocHelper.convertFromHEXEWKBToGeometry("010500000001000000010200000005000000591EFF603B531E40F88667AE78C64740446ADAC534531E40348BAB2578C647405BB164332C531E407033CB5477C64740754A51781A521E403A56CE8360C64740CD63833B06521E409A081B9E5EC64740").toString(), openStreetMap.getShape().toString());
+	assertEquals("The shape is not correct ",GeolocHelper.convertFromHEXEWKBToGeometry("01020000000200000009B254CD6218024038E22428D9EF484075C93846B217024090A8AB96CFEF4840").toString(), openStreetMap.getShape().toString());
     }
 
    
@@ -103,6 +103,18 @@ public class OpenStreetMapImporterTest extends AbstractIntegrationHttpSolrTestCa
     
     public void setOpenStreetMapImporter(IImporterProcessor openStreetMapImporter) {
         this.openStreetMapImporter = openStreetMapImporter;
+    }
+    
+    @Test
+    public void testProcessLineWithBadShapeShouldNotTryToSaveLine(){
+	String line = "		010100000029F2C9850F79E4BFFCAEFE473CE14740	19406.7343711266	FR	8257014	road	false	0BADSHAPE";
+	OpenStreetMapImporter importer = new OpenStreetMapImporter();
+	IOpenStreetMapDao dao = EasyMock.createMock(IOpenStreetMapDao.class);
+	//now we simulate the fact that the dao should not be called
+	EasyMock.expect(dao.save((OpenStreetMap)EasyMock.anyObject())).andThrow(new RuntimeException());
+	EasyMock.replay(dao);
+	importer.setOpenStreetMapDao(dao);
+	importer.processData(line);
     }
 
 }

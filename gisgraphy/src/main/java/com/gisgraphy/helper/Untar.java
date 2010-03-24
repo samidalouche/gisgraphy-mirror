@@ -46,6 +46,7 @@ import org.slf4j.LoggerFactory;
 public class Untar {
     private String tarFileName;
     private File dest;
+    private String currentFileNameIntoArchiveExtracted;
 
     /**
      * The logger
@@ -107,6 +108,7 @@ public class Untar {
 		if (tarEntry.isDirectory()) {
 		    destPath.mkdir();
 		} else {
+		    currentFileNameIntoArchiveExtracted= tarEntry.getName();
 		    logger.info("untar: untar " + tarEntry.getName() + " to " + destPath);
 		    FileOutputStream fout = new FileOutputStream(destPath);
 		    try {
@@ -119,10 +121,15 @@ public class Untar {
 		tarEntry = tin.getNextEntry();
 	    }
 	} finally {
+	    currentFileNameIntoArchiveExtracted =null;
 	    if (tin != null) {
 		tin.close();
 	    }
 	}
 
+    }
+
+    public String getCurrentFileNameIntoArchiveExtracted() {
+        return currentFileNameIntoArchiveExtracted;
     }
 }

@@ -21,7 +21,7 @@ import com.gisgraphy.helper.StringHelper;
 import com.gisgraphy.hibernate.projection.ProjectionBean;
 import com.gisgraphy.hibernate.projection._OpenstreetmapDTO;
 import com.gisgraphy.test._DaoHelper;
-import com.vividsolutions.jts.geom.MultiLineString;
+import com.vividsolutions.jts.geom.LineString;
 
 
 public class PartialWordRestrictionTest extends AbstractIntegrationHttpSolrTestCase{
@@ -32,8 +32,7 @@ public class PartialWordRestrictionTest extends AbstractIntegrationHttpSolrTestC
     
     private OpenStreetMap createOpenStreetMap() {
 	OpenStreetMap streetOSM = new OpenStreetMap();
-	String[] wktLineStrings={"LINESTRING (30.001 30.001, 40 40)"};
-	MultiLineString shape = GeolocHelper.createMultiLineString(wktLineStrings);
+	LineString shape = GeolocHelper.createLineString("LINESTRING (30.001 30.001, 40 40)");
 	streetOSM.setShape(shape);
 	streetOSM.setGid(1L);
 	streetOSM.setOneWay(false);

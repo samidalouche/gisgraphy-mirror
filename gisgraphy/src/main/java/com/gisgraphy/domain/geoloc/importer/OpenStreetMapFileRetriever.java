@@ -39,6 +39,11 @@ import com.gisgraphy.helper.Untar;
  */
 public class OpenStreetMapFileRetriever extends AbstractFileRetriever {
 
+    private Untar untar;
+    
+    public String getcurrentExtractedFileNameIntoArchive(){
+	return untar == null? null : untar.getCurrentFileNameIntoArchiveExtracted();
+    }
    
     /* (non-Javadoc)
      * @see com.gisgraphy.domain.geoloc.importer.AbstractFileRetriever#getDownloadDirectory()
@@ -61,8 +66,9 @@ public class OpenStreetMapFileRetriever extends AbstractFileRetriever {
     public void decompressFiles() throws IOException {
 	File[] filesToUntar = ImporterHelper
 		.listTarFiles(getDownloadDirectory());
+	File destDirectory = new File(getDownloadDirectory());
 	for (int i = 0; i < filesToUntar.length; i++) {
-	    Untar untar = new Untar(filesToUntar[i].getAbsolutePath(),new File(getDownloadDirectory()));
+	    untar = new Untar(filesToUntar[i].getAbsolutePath(),destDirectory);
 	    untar.untar();
 	}
 
