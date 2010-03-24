@@ -90,7 +90,6 @@ public abstract class AbstractFileRetriever implements IImporterProcessor {
 		this.status = ImporterStatus.SKIPPED;
 		logger
 			.info("DownloadFiles option is set to false, we will not download and decompress files");
-		return;
 	    }
 	    statusMessage = "";
 	} catch (Exception e) {
