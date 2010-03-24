@@ -65,7 +65,7 @@ public class DistanceRestriction implements Criterion {
      * @param distance
      *                The distance restriction
      * @param useIndex
-     *                Wethe we must use index
+     *                Wether we must use index or not
      */
     public DistanceRestriction(Point point, double distance, boolean useIndex) {
 	this.point = point;
