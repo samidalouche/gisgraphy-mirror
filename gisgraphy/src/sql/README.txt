@@ -1,19 +1,29 @@
- #Here are the command to run to install and init the gisgraphy database 
+ If you want to set up the Gisgraphy database, you can consult the "setup your environnement" section at http://www.gisgraphy.com/documentation/installation/index.htm
  
- psql -U YOURUSER  -H YOURIP -c  "CREATE DATABASE gisgraphy WITH TEMPLATE = template0 ENCODING = 'UTF8';"
+ the script can be run by running the following command in a command window or a Linux shell :
  
- psql -U YOURUSER -h YOURIP -f create_tables-POSTGRESVERSION.sql 
+  psql -U YOURUSER -h YOURIP -f PATHTOFILE
+  
+  example :
+   psql -U postgres -h 127.0.0.1 -f createGISTIndex.sql
  
-createlang -U YOURUSER -h YOURIP plpgsql gisgraphy 
-
-psql -U YOURUSER -h YOURIP -d gisgraphy -f /usr/share/postgresql-8.3-postgis/lwpostgis.sql
-psql -U YOURUSER -h YOURIP -d gisgraphy -f /usr/share/postgresql-8.3-postgis/spatial_ref_sys.sql
-
- psql -U YOURUSER -h YOURIP -f createGISTIndex.sql
+ There is too different script to create the database : one for windows and one for Linux. There is a difference because the name of the template is different.
  
- psql -U YOURUSER -h YOURIP -f insert_users.sql
+ the createGISTIndex.sql create the spatial index for the geometry columns, this script is provided but the spatial Gist indexes are now created by the importer.
  
- # here are the 2 command line to reset the database after an import failure :
+ The resetdb.sql is the script you should run if the "reset import has failed" via the admin interface fail :
+ login to the mainMenu.html page=>Administration=>Reset Import.
+ Run the resetdb script only if there is some errors, the warnings can be ignored. 
+ 
+ here is the command line you should run to manually reset the import :
  psql -U YOURUSER -h YOURIP -f resetdb.sql
- psql -U YOURUSER -h YOURIP -f create_tables-POSTGRESVERSION.sql
+ psql -U YOURUSER -h YOURIP -f create_tables.sql
+ 
+ the insert_users.sql script is the one that insert the admin and a simple user. the password are the same as the login. YOU MUST CHANGE it the first time you login.
+ via the "edit profile" menu. if you've check the remember me checkbox on the login page. you must logout and login to be abble to change the password.
+ 
+ Still have questions or trouble ?
+ forum : http://www.gisgraphy.com/forum
+ mail : davidmasclet@gisgraphy.com
+    
  
