@@ -110,7 +110,7 @@ public abstract class AbstractImporterProcessor implements IImporterProcessor {
     /**
      * The transaction manager
      */
-    private PlatformTransactionManager transactionManager;
+    protected PlatformTransactionManager transactionManager;
 
     /**
      * Template Method : Whether the processor should ignore the first line of
@@ -252,13 +252,11 @@ public abstract class AbstractImporterProcessor implements IImporterProcessor {
 			    logger.warn(wnofe.getMessage());
 			}
 		    } catch (Exception e) {
-			logger.error("An Error occurred on Line "
+			String message= "An Error occurred on Line "
 				+ readFileLine + " for " + input + " : "
-				+ e.getCause());
+				+ e.getMessage();
 			throw new ImporterException(
-				"An Error occurred on Line " + readFileLine
-					+ " for " + input + " : "
-					+ e.getCause(), e);
+				message, e);
 		    }
 		}
 	    }
@@ -308,19 +306,20 @@ public abstract class AbstractImporterProcessor implements IImporterProcessor {
 	} catch (Exception e) {
 	    this.status = ImporterStatus.ERROR;
 	    this.statusMessage = "An error occurred when processing "
-		    + this.getClass().getSimpleName() + " on file "
-		    + getCurrentFileName() + " on line " + getReadFileLine()
-		    + " : " + e.getCause();
+		    + this.getClass().getSimpleName()+ " : " + e.getMessage();
 	    logger.error(statusMessage);
 	    throw new ImporterException(statusMessage, e.getCause());
 	} finally {
 	    try {
 		tearDown();
 		this.status = this.status==ImporterStatus.PROCESSING ? ImporterStatus.PROCESSED : this.status;
-		this.statusMessage="";
+		if (this.status!= ImporterStatus.ERROR){
+		    this.statusMessage="";
+		}
 	    } catch (Exception e) {
 		this.status = ImporterStatus.ERROR;
-		this.statusMessage = "An error occured on teardown (the import is done but is not being optimzed) :"+e;
+		String teardownErrorMessage= "An error occured on teardown (the import is done but is not being optimzed) :"+e.getMessage();
+		this.statusMessage = this.statusMessage != ""? this.statusMessage+ " and "+teardownErrorMessage:teardownErrorMessage ;
 		logger.error(statusMessage);
 	    }
 	}
@@ -386,8 +385,7 @@ public abstract class AbstractImporterProcessor implements IImporterProcessor {
 	    transactionManager.rollback(txStatus);
 	    throw new ImporterException(
 		    "An error occurred when processing "
-			    + getCurrentFileName() + " on line "
-			    + readFileLine + " : " + e.getCause(), e.getCause());
+			    + getCurrentFileName() + " : " + e.getMessage(), e.getCause());
 	}
     }
 

@@ -33,6 +33,7 @@ import com.gisgraphy.domain.geoloc.entity.OpenStreetMap;
 import com.gisgraphy.domain.geoloc.service.fulltextsearch.AbstractIntegrationHttpSolrTestCase;
 import com.gisgraphy.domain.geoloc.service.geoloc.street.StreetType;
 import com.gisgraphy.domain.repository.IOpenStreetMapDao;
+import com.gisgraphy.domain.valueobject.ImporterStatus;
 import com.gisgraphy.domain.valueobject.NameValueDTO;
 import com.gisgraphy.helper.GeolocHelper;
 import com.gisgraphy.helper.StringHelper;
@@ -42,7 +43,7 @@ import com.vividsolutions.jts.geom.Point;
 
 public class OpenStreetMapImporterTest extends AbstractIntegrationHttpSolrTestCase {
     
-    private IImporterProcessor openStreetMapImporter;
+    private OpenStreetMapImporter openStreetMapImporter;
     
     private IOpenStreetMapDao openStreetMapDao;
   
@@ -101,13 +102,13 @@ public class OpenStreetMapImporterTest extends AbstractIntegrationHttpSolrTestCa
     }
 
     
-    public void setOpenStreetMapImporter(IImporterProcessor openStreetMapImporter) {
+    public void setOpenStreetMapImporter(OpenStreetMapImporter openStreetMapImporter) {
         this.openStreetMapImporter = openStreetMapImporter;
     }
     
     @Test
     public void testProcessLineWithBadShapeShouldNotTryToSaveLine(){
-	String line = "		010100000029F2C9850F79E4BFFCAEFE473CE14740	19406.7343711266	FR	8257014	road	false	0BADSHAPE";
+	String line = "		010100000029F2C9850F79E4BFFCAEFE473CE14740	19406.7343711266	FR	8257014	road	false	BADSHAPE";
 	OpenStreetMapImporter importer = new OpenStreetMapImporter();
 	IOpenStreetMapDao dao = EasyMock.createMock(IOpenStreetMapDao.class);
 	//now we simulate the fact that the dao should not be called
@@ -116,5 +117,46 @@ public class OpenStreetMapImporterTest extends AbstractIntegrationHttpSolrTestCa
 	importer.setOpenStreetMapDao(dao);
 	importer.processData(line);
     }
+    
+    @Test
+    public void testImportWithErrors(){
+	OpenStreetMapImporter importer = new OpenStreetMapImporter(){
+	    @Override
+	    public boolean shouldBeSkipped() {
+	        return false;
+	    }
+	    
+	    @Override
+	    public int getNumberOfLinesToProcess() {
+	        return 2;
+	    }
+	    
+	    @Override
+	    protected void tearDown() {
+	       return;
+	    }
+	};
+	
+	//ImporterConfig config = new ImporterConfig();
+	//config.setOpenStreetMapDir(this.openStreetMapImporter.importerConfig.getOpenStreetMapDir());
+	IOpenStreetMapDao dao = EasyMock.createNiceMock(IOpenStreetMapDao.class);
+	//now we simulate the fact that the dao should not be called
+	EasyMock.expect(dao.save((OpenStreetMap)EasyMock.anyObject())).andThrow(new RuntimeException("message"));
+	EasyMock.replay(dao);
+	importer.setOpenStreetMapDao(dao);
+	importer.setImporterConfig(this.openStreetMapImporter.importerConfig);
+	importer.setTransactionManager(openStreetMapImporter.transactionManager);
+	try {
+	    importer.process();
+	    fail("The import should have failed");
+	} catch (Exception ignore) {
+	    //ok
+	}
+	Assert.assertNotNull("status message is not set",importer.getStatusMessage() );
+	Assert.assertFalse("status message should not be empty",importer.getStatusMessage().trim().length()==0 );
+	Assert.assertEquals(ImporterStatus.ERROR, importer.getStatus());
+    }
+    
+    
 
 }
