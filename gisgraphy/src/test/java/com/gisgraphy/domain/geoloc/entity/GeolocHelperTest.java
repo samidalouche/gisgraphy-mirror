@@ -30,6 +30,7 @@ import org.junit.Test;
 import com.gisgraphy.domain.valueobject.SRID;
 import com.gisgraphy.helper.GeolocHelper;
 import com.vividsolutions.jts.geom.Coordinate;
+import com.vividsolutions.jts.geom.LineString;
 import com.vividsolutions.jts.geom.MultiLineString;
 import com.vividsolutions.jts.geom.Point;
 import com.vividsolutions.jts.geom.Polygon;
@@ -146,26 +147,49 @@ public class GeolocHelperTest {
     }
     
     @Test
-    public void createMultiLineStringFromString(){
+    public void createMultiLineString(){
 	//test with negative and Float values
 	String[] wktLineStrings={"LINESTRING (0 0, 10 10, 20 20)","LINESTRING (30 30, 40.5 40, 50 -50)"};
-	MultiLineString MultiLineString = GeolocHelper.createMultiLineString(wktLineStrings);
-	Assert.assertNotNull(MultiLineString);
-	Assert.assertEquals("wrong SRID",SRID.WGS84_SRID.getSRID(), MultiLineString.getSRID());
-	Assert.assertTrue("createMultiLineStringFromString is not of MultiLineString type", MultiLineString instanceof MultiLineString);
+	MultiLineString multiLineString = GeolocHelper.createMultiLineString(wktLineStrings);
+	Assert.assertNotNull(multiLineString);
+	Assert.assertEquals("wrong SRID",SRID.WGS84_SRID.getSRID(), multiLineString.getSRID());
+	Assert.assertTrue("createMultiLineString is not of MultiLineString type", multiLineString instanceof MultiLineString);
     }
 
     @Test
-    public void createMultiLineStringFromStringShouldThrowIllegalArgumentExceptionIfStringsAreNotCorrect(){
+    public void createMultiLineStringShouldThrowIllegalArgumentExceptionIfStringsAreNotCorrect(){
 	String[] wktLineStrings={"LINESTRING (0 0, 10 10, 20 20)","LINESTRING (30 30, 40 40, 50 )"};
 	
 	try {
 	    GeolocHelper.createMultiLineString(wktLineStrings);
-	    Assert.fail("createMultiLineStringFromString should throw illegalArgumentException if StringAreNotCorrect");
+	    Assert.fail("createMultiLineString should throw illegalArgumentException if string are not correct");
 	} catch (Exception e) {
 	   //ok
 	}
 	
+    }
+    
+
+    @Test
+    public void createLineStringShouldThrowIllegalArgumentExceptionIfStringIsNotCorrect(){
+	String wktLineString="LINESTRING (30 30, 40 40, 50 )";
+	
+	try {
+	    GeolocHelper.createLineString(wktLineString);
+	    Assert.fail("createLineString should throw illegalArgumentException if string is not correct");
+	} catch (Exception e) {
+	   //ok
+	}
+	
+    }
+    
+    @Test
+    public void createLineString(){
+	//test with negative and Float values
+	String wktLineString="LINESTRING (0 0, 10 10, 20 20)";
+	LineString lineString = GeolocHelper.createLineString(wktLineString);
+	Assert.assertNotNull(lineString);
+	Assert.assertEquals("wrong SRID",SRID.WGS84_SRID.getSRID(), lineString.getSRID());
     }
     
     @Test
