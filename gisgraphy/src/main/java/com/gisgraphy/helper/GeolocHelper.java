@@ -150,7 +150,6 @@ public class GeolocHelper {
      * @throws IllegalArgumentException
      *                 if the string are not correct
      */
-    //TODO tests
     public static LineString createLineString(String wktLineString) {
 	 try {
 		LineString lineString = (LineString) new WKTReader().read(wktLineString);
