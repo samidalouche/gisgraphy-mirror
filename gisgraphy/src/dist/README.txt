@@ -13,16 +13,28 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-To run this example configuration, use
+First edit the jdbc properties in /webapps/ROOT/WEB-INF/classes/jdbc.properties
+Optionnaly setup some preferences in webapps/ROOT/WEB-INF/classes/env.properties
+
+To start Gisgraphy, use
 
 * on linux/unix : launch.sh
 * on Macintosch : launch.cmd
 * on windows : launch.bat
 
-Note : you may need to change script permission : chmod +x ./launch.sh 
 
-open http://localhost:8080/ to connect to Gisgraphy and http://localhost:8080/solr/admin/ in a browser to connect to SOLR admin page
+Read the installation guide in the "docs" directory or online (last updates and corrections) : http://www.gisgraphy.com/documentation/installation/index.htm
 
-any question : davidmasclet@gisgraphy.com or post a message in the forum http://www.gisgraphy.com/forum/
+Note : you may need to change script permission on Linux / Macintosch : chmod +x ./launch.sh 
+
+Open http://localhost:8080/ to connect to Gisgraphy and http://localhost:8080/solr/admin/ in a browser to connect to SOLR admin page
+Open http://localhost:8080/mainMenu.html to go to the admin page (import data / statistics...)
+
+Read the manual in the "docs" directory or online  : http://www.gisgraphy.com/documentation/index.htm
+
+ Still have questions or trouble ?
+ Forum : http://www.gisgraphy.com/forum
+ Mail : davidmasclet@gisgraphy.com
+ Send feedbacks : http://www.gisgraphy.com/feedback/index.htm
 
 
