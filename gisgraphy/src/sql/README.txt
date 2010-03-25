@@ -23,7 +23,8 @@
  via the "edit profile" menu. if you've check the remember me checkbox on the login page. you must logout and login to be abble to change the password.
  
  Still have questions or trouble ?
- forum : http://www.gisgraphy.com/forum
- mail : davidmasclet@gisgraphy.com
+ Forum : http://www.gisgraphy.com/forum
+ Mail : davidmasclet@gisgraphy.com
+ Send feedbacks : http://www.gisgraphy.com/feedback/index.htm
     
  
