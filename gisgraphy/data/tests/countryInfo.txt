@@ -70,7 +70,7 @@ BL	BLM	652	TB	Saint Barthélemy	Gustavia	21	8450	NA	.gp	EUR	Euro	590	### ###		fr
 BM	BMU	60	BD	Bermuda	Hamilton	53	65365	NA	.bm	BMD	Dollar	+1-441	@@ ##	^([A-Z]{2}\d{2})$	en-BM,pt	3573345		
 BN	BRN	96	BX	Brunei	Bandar Seri Begawan	5770	381000	AS	.bn	BND	Dollar	673	@@####	^([A-Z]{2}\d{4})$	ms-BN,en-BN	1820814	MY	
 BO	BOL	68	BL	Bolivia	La Paz	1098580	9247000	SA	.bo	BOB	Boliviano	591			es-BO,qu,ay	3923057	PE,CL,PY,BR,AR	
-BR	BRA	76	BR	Brazil	Brasília	8511965	191908000	SA	.br	BRL	Real	55	#####-###	^(\d{8})$	pt-BRR,es,en,fr	3469034	SR,PE,BO,UY,GY,PY,GF,VE,CO,AR	
+BR	BRA	76	BR	Brazil	Brasília	8511965	191908000	SA	.br	BRL	Real	55	#####-###	^(\d{8})$	pt-BR,es,en,fr	3469034	SR,PE,BO,UY,GY,PY,GF,VE,CO,AR	
 BS	BHS	44	BF	Bahamas	Nassau	13940	301790	NA	.bs	BSD	Dollar	+1-242			en-BS	3572887		
 BT	BTN	64	BT	Bhutan	Thimphu	47000	2376000	AS	.bt	BTN	Ngultrum	975			dz	1252634	CN,IN	
 BV	BVT	74	BV	Bouvet Island			0	AN	.bv	NOK	Krone					3371123		
@@ -287,3 +287,4 @@ ZA	ZAF	710	SF	South Africa	Pretoria	1219912	43786000	AF	.za	ZAR	Rand	27	####	^(\
 ZM	ZMB	894	ZA	Zambia	Lusaka	752614	11669000	AF	.zm	ZMK	Kwacha	260	#####	^(\d{5})$	en-ZM,bem,loz,lun,lue,ny,toi	895949	ZW,TZ,MZ,CD,NA,MW,AO	
 ZW	ZWE	716	ZI	Zimbabwe	Harare	390580	12382000	AF	.zw	ZWL	Dollar	263			en-ZW,sn,nr,nd	878675	ZA,MZ,BW,ZM	
 CS	SCG	891	YI	Serbia and Montenegro	Belgrade	102350	10829175	EU	.cs	RSD	Dinar	+381	#####	^(\d{5})$	cu,hu,sq,sr	863038	AL,HU,MK,RO,HR,BA,BG	
+XK	XKX	000	KV	Kosovo	Priština		1800000	EU		EUR	Euro				sq,sr	831053	RS,AL,MK,ME	
