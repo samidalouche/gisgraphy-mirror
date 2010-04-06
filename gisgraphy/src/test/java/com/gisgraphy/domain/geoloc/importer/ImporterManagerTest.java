@@ -388,7 +388,7 @@ public class ImporterManagerTest extends AbstractIntegrationHttpSolrTestCase {
 	try {
 	    processAndCheckGeonamesFileRetriever();
 	} catch (ImporterException e) {
-	    fail("an error occurred during file retriever with retrieveFiles Option to true ");
+	    fail("an error occurred during file retriever with retrieveFiles Option to true "+e.getMessage());
 
 	} finally {
 	    // restore option
@@ -1199,7 +1199,7 @@ public class ImporterManagerTest extends AbstractIntegrationHttpSolrTestCase {
 
 	// check number of Countries
 	countCountry = this.countryDao.count();
-	assertEquals("Wrong number of countries found ", 247, countCountry);
+	assertEquals("Wrong number of countries found ", 248, countCountry);
 
 	country = this.countryDao.getByIso3166Alpha2Code("FR");
 	assertNotNull("The country 'FR' have not been imported", country);
@@ -1265,7 +1265,7 @@ public class ImporterManagerTest extends AbstractIntegrationHttpSolrTestCase {
 	// assertEquals("wrong name for country, maybe it is not trimed " +
 	// country, "Républic of France", toUTF8(country.getName()));
 	assertEquals(
-		"wrong name for country, maybe it is not trimed or the name is not the one of the countries.txt file(we don't want to update the name with the country file one"
+		"wrong name for country, maybe it is not trimed or the name is not the one of the countryInfo.txt file(we don't want to update the name with the country file one"
 			+ country, "France", toUTF8(country.getName()));
 	assertEquals("wrong population for country " + country, new Integer(
 		60656178), country.getPopulation());
@@ -1941,7 +1941,7 @@ public class ImporterManagerTest extends AbstractIntegrationHttpSolrTestCase {
 	Language language;
 	this.geonamesCountryImporter.process();
 	long countCountry = this.countryDao.count();
-	assertEquals("Wrong number of countries found ", 247, countCountry);
+	assertEquals("Wrong number of countries found ", 248, countCountry);
 	// TODO v2 check country code of gisFeature
 	//TODO check code and value
 	// check name is trimed
