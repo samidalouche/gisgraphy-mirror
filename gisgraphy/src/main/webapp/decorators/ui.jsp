@@ -42,6 +42,12 @@
 </fmt:message>.
 <fmt:message key="gisgraphy.baduse"><fmt:param>http://www.gisgraphy.com/abuse.txt</fmt:param></fmt:message>.
 </div>
+<s:if test="%{!getText('gisgraphyMessage').equals('')}">
+<div class="clear"><br/></div>
+<div class="tip yellowtip">
+<s:text name="gisgraphyMessage"/>
+</div>
+</s:if>
                 <decorator:body/>
         </div>
         </div>

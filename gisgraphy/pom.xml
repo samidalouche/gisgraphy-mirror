@@ -1363,24 +1363,6 @@
 	</reporting>
 
 	<profiles>
-		<!-- ================= Production Settings Profile ================= -->
-		<!-- Use "-P profile1,profile2" when you want to use the settings in this profile -->
-		<!-- =============================================================== -->
-		<!--<profile>
-			<id>java5</id>
-			<properties>
-			<jvm.version>jvm-5</jvm.version>
-			</properties>
-			<dependencies>
-			<dependency>
-			<groupId>com.sun.xml.bind</groupId>
-			<artifactId>jaxb-impl</artifactId>
-			<version>2.1.6</version>
-			<version>2.0.5</version>
-			</dependency>
-			</dependencies>
-			</profile>
-		-->
 		<profile>
 			<id>import</id>
 			<activation>
@@ -1427,6 +1409,7 @@
 				<resetdb>false</resetdb>
 				<hbm2ddl.drop>false</hbm2ddl.drop>
 				<fill.db.skip>true</fill.db.skip>
+				<GisgraphyMessage>Gisgraphy needs you, please give us some &lt;a href="http://www.gisgraphy.com/feedback/"&gt;&lt;span class="underline " &gt;feedbacks&lt;/span&gt;&lt;/a&gt;, on the services, things you've appreciate, functionnality you wish to have on the next release, problems you've got, bugs you''ve found, ... </GisgraphyMessage>
 			</properties>
 		</profile>
 		<profile>
@@ -1740,6 +1723,6 @@
 		<gisProvider>postgis</gisProvider>
 		<geotools.version>2.5-M1</geotools.version>
 		<fill.db.skip>false</fill.db.skip>
-		<!--<jvm.version>jvm-6</jvm.version>-->
+		<GisgraphyMessage></GisgraphyMessage>
 	</properties>
 </project>
