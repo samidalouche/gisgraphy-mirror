@@ -250,7 +250,7 @@ public class SolRSynchroniser implements ISolRSynchroniser {
 	    
 	    
 	} catch (Exception e) {
-	  throw new GisgraphyCommunicationException("Can not synchronise SolR : can not optimize ",e.getCause());
+	  throw new GisgraphyCommunicationException("Can not synchronise SolR : can not optimize : "+e.getMessage(),e.getCause());
 	}
     }
 
