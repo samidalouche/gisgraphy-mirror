@@ -231,15 +231,40 @@
 
 
 
+
 <#macro latlongsearchbox >
 <div id="searchleftblock">
+				
 				Lat (&#x2195;) : <@s.textfield name="lat" maxlength="15" required="true" size="6" theme="simple" id="lat"/>
-				<span class="spacer">Long (&#x2194;) : </span><@s.textfield name="lng" maxlength="15" required="true" size="6" theme="simple" />
+				<span class="spacer">Long (&#x2194;) : </span><@s.textfield name="lng" maxlength="15" required="true" size="6" theme="simple" id="lng"/><span id="myPosition"></span>
 				<div id="searchbuttonbar">
 					<span id="searchexample">e.g. '3.5', '45.2', ... </span>
 					<@s.submit title="%{getText('global.search')}" value="%{getText('global.search')}" theme="simple"  onclick="return doSearch()"/>
 				</div>
 			</div>
+			<@utils.includeJs jsName="/scripts/prototype.js"/>
+			<script type="text/javascript">
+			function fillPosition(position)
+			{ 
+			  $("lat").value = position.coords.latitude;
+			  $("lng").value = position.coords.longitude;
+			 
+			}
+			function displayMyPositionLink(){
+				if (navigator.geolocation){
+					 $("myPosition").innerHTML ="<a href=\"javascript:myPosition()\">GPS</a>";
+				}
+			}
+			 
+			function myPosition()
+			{
+			  try{	
+			  navigator.geolocation.getCurrentPosition(fillPosition);
+			 } catch (e) {
+			alert(e);}
+			}
+			displayMyPositionLink();
+			</script>
 </#macro>
 
 <#macro googleStreetPanorama width heigth googleMapAPIKey CSSClass >
