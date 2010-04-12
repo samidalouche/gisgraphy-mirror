@@ -5,6 +5,7 @@ import junit.framework.Assert;
 import org.junit.Test;
 
 import com.gisgraphy.domain.repository.AbstractTransactionalTestCase;
+import com.gisgraphy.domain.valueobject.ImporterStatusDto;
 
 public class GeonamesDatabaseIndexerTest extends AbstractTransactionalTestCase {
     
@@ -14,6 +15,8 @@ public class GeonamesDatabaseIndexerTest extends AbstractTransactionalTestCase {
     public void testProcess(){
 	geonamesDatabaseIndexer.process();
 	assertEquals("statusMessage should be null if the process is ok","", geonamesDatabaseIndexer.getStatusMessage());
+	ImporterStatusDto status = new ImporterStatusDto(geonamesDatabaseIndexer);
+	assertEquals(100, status.getPercent());
     }
     
     @Test
