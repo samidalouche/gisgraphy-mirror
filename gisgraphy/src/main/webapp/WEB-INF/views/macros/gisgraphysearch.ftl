@@ -252,7 +252,7 @@
 			}
 			function displayMyPositionLink(){
 				if (navigator.geolocation){
-					 $("myPosition").innerHTML ="<a href=\"javascript:myPosition()\">GPS</a>";
+					$("myPosition").innerHTML ="<a href=\"javascript:myPosition()\"><img src=\"/images/boussole-32.png\" style=\"vertical-align:middle;\"   alt=\"<@s.text name="use.my.gps.position"/>\" title=\"<@s.text name="use.my.gps.position"/>\"><@s.text name="use.my.gps.position"/> !</a>";
 				}
 			}
 			 
