@@ -52,10 +52,10 @@ public class ImporterStatusDto {
     
     private String processorName = "";
     private String currentFileName = DEFAULT_CURRENT_FILE;
-    private int currentLine = 0;
-    private int numberOfLinelefts = 0;
-    private int numberOfLineToProcess = 0;
-    private int numberOfLineProcessed = 0;
+    private long currentLine = 0;
+    private long numberOfLinelefts = 0;
+    private long numberOfLineToProcess = 0;
+    private long numberOfLineProcessed = 0;
     private int percent = 0;
     private String statusMessage = "";
     private ImporterStatus status = ImporterStatus.UNKNOW;
@@ -133,8 +133,8 @@ public class ImporterStatusDto {
     private void calculateFields() {
 	this.numberOfLinelefts = (this.numberOfLineToProcess - this.numberOfLineProcessed);
 	if (numberOfLineToProcess != 0) {
-	    this.percent = (numberOfLineProcessed * 100)
-		    / numberOfLineToProcess;
+	    this.percent = new Long((numberOfLineProcessed * 100)
+		    / numberOfLineToProcess).intValue();
 	}
 	else if (numberOfLineProcessed==0 && (status == ImporterStatus.PROCESSED || status == ImporterStatus.PROCESSING )){
 	    percent = 100;
@@ -158,21 +158,21 @@ public class ImporterStatusDto {
     /**
      * @return the currentLine
      */
-    public int getCurrentLine() {
+    public long getCurrentLine() {
 	return currentLine;
     }
 
     /**
      * @return the numberOfLineToProcess
      */
-    public int getNumberOfLineToProcess() {
+    public long getNumberOfLineToProcess() {
 	return numberOfLineToProcess;
     }
 
     /**
      * @return the numberOfLineProcessed
      */
-    public int getNumberOfLineProcessed() {
+    public long getNumberOfLineProcessed() {
 	return numberOfLineProcessed;
     }
 
@@ -193,7 +193,7 @@ public class ImporterStatusDto {
     /**
      * @return the numberOfLinelefts
      */
-    public int getNumberOfLinelefts() {
+    public long getNumberOfLinelefts() {
 	return numberOfLinelefts;
     }
 
