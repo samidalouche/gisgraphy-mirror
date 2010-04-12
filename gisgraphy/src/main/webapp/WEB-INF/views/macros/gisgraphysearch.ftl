@@ -236,10 +236,11 @@
 <div id="searchleftblock">
 				
 				Lat (&#x2195;) : <@s.textfield name="lat" maxlength="15" required="true" size="6" theme="simple" id="lat"/>
-				<span class="spacer">Long (&#x2194;) : </span><@s.textfield name="lng" maxlength="15" required="true" size="6" theme="simple" id="lng"/><span id="myPosition"></span>
+				<span class="spacer">Long (&#x2194;) : </span><@s.textfield name="lng" maxlength="15" required="true" size="6" theme="simple" id="lng"/>
 				<div id="searchbuttonbar">
 					<span id="searchexample">e.g. '3.5', '45.2', ... </span>
 					<@s.submit title="%{getText('global.search')}" value="%{getText('global.search')}" theme="simple"  onclick="return doSearch()"/>
+					<br/><br/><span id="myPosition"></span><br/>
 				</div>
 			</div>
 			<@utils.includeJs jsName="/scripts/prototype.js"/>
