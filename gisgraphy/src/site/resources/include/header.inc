@@ -19,7 +19,7 @@
         
         <META NAME="Author" CONTENT="David Masclet"/>
 		<META NAME="Keywords" CONTENT="gisgraphy,geonames,fulltext search,geolocalisation,webservices,gazeteers,postgis,toponyms,lucene,solr,masclet"/>
-		<META NAME="Description" CONTENT="Gisgraphy is a free and open source framework that provides an importer to inject the data into a strongly typed Postgres / Postgis database and use them via webservices : worldwide geocoding, worldwide reverse geocoding, fulltext and find nearby. Its goal is to provide tools to use free GIS Data on the Web. Actually it manage Geonames and OpenStreetMap (34 million entries). Results can be output in XML, Atom, RSS, JSON, PHP, Ruby, and Python"/>
+		<META NAME="Description" CONTENT="Gisgraphy is a free and open source framework that provides an importer to inject the data into a strongly typed Postgres / Postgis database and use them via webservices : worldwide geocoding, worldwide reverse geocoding, fulltext and find nearby. Gisgraphy goal is to provide tools to use free GIS Data on the Web. Actually it manage Geonames and OpenStreetMap (34 million entries). Results can be output in XML, Atom, RSS, JSON, PHP, Ruby, and Python"/>
     	<META http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <script type="text/javascript">
 	function expand( item ) {

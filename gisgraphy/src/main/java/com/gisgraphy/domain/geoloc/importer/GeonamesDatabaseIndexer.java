@@ -113,7 +113,7 @@ public class GeonamesDatabaseIndexer implements IImporterProcessor {
 	    this.status = ImporterStatus.ERROR;
 	    this.statusMessage = "The import is done but performance may not be optimal because an error occurred when creating spatial indexes for geonames in DAO "
 		    + getCurrentFileName() + "(maybe you haven't the SQL rights or the indexes are already created) : " + e.getCause();
-	    logger.error(statusMessage);
+	    logger.error(statusMessage,e);
 	   // throw new ImporterException(statusMessage, e.getCause());
 	} finally {
 	    try {
@@ -121,7 +121,7 @@ public class GeonamesDatabaseIndexer implements IImporterProcessor {
 	    } catch (Exception e) {
 		this.status = ImporterStatus.ERROR;
 		this.statusMessage = "An error occured on teardown :"+e;
-		logger.error(statusMessage);
+		logger.error(statusMessage,e);
 	    }
 	}
 
