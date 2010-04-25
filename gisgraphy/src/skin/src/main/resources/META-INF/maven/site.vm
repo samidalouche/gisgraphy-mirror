@@ -289,7 +289,7 @@
   <body>
     <div id="banner">
      <a href="http://www.gisgraphy.com/"><img src="/images/logos/logo_70.png" alt="Gisgraphy" title="gisgraphy" /><span class="gisgraphy">Gisgraphy</span></a>
-      <p class="tagline">Importer, geolocalisation and fulltext services for Geonames</p>
+      <p class="tagline">Importer, geolocalisation and fulltext services for Geonames and Openstreetmap</p>
       <div class="clear">
         <hr/>
       </div>
