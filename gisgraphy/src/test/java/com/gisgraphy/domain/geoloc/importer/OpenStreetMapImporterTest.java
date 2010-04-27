@@ -33,6 +33,7 @@ import com.gisgraphy.domain.geoloc.entity.OpenStreetMap;
 import com.gisgraphy.domain.geoloc.service.fulltextsearch.AbstractIntegrationHttpSolrTestCase;
 import com.gisgraphy.domain.geoloc.service.geoloc.street.StreetType;
 import com.gisgraphy.domain.repository.IOpenStreetMapDao;
+import com.gisgraphy.domain.valueobject.GisgraphyConfig;
 import com.gisgraphy.domain.valueobject.ImporterStatus;
 import com.gisgraphy.domain.valueobject.NameValueDTO;
 import com.gisgraphy.helper.GeolocHelper;
@@ -75,7 +76,9 @@ public class OpenStreetMapImporterTest extends AbstractIntegrationHttpSolrTestCa
 	assertEquals("The location->X is not correct ",((Point)GeolocHelper.convertFromHEXEWKBToGeometry("010100000006C82291A0521E4054CC39B16BC64740")).getX(), openStreetMap.getLocation().getX());
 	assertEquals("The location->Y is not correct ",((Point)GeolocHelper.convertFromHEXEWKBToGeometry("010100000006C82291A0521E4054CC39B16BC64740")).getY(), openStreetMap.getLocation().getY());
 	assertEquals("The length is not correct",0.00142246604529, openStreetMap.getLength());
-	assertEquals("The partialSearchName is not correct",StringHelper.transformStringForPartialWordIndexation(openStreetMap.getName(), StringHelper.WHITESPACE_CHAR_DELIMITER), openStreetMap.getPartialSearchName());
+	if (GisgraphyConfig.PARTIAL_SEARH_EXPERIMENTAL){
+		assertEquals("The partialSearchName is not correct",StringHelper.transformStringForPartialWordIndexation(openStreetMap.getName(), StringHelper.WHITESPACE_CHAR_DELIMITER), openStreetMap.getPartialSearchName());
+	}
 	assertEquals("The textSearchName is not correct",StringHelper.transformStringForFulltextIndexation(openStreetMap.getName()), openStreetMap.getTextSearchName());
 	assertEquals("The shape is not correct ",GeolocHelper.convertFromHEXEWKBToGeometry("01020000000200000009B254CD6218024038E22428D9EF484075C93846B217024090A8AB96CFEF4840").toString(), openStreetMap.getShape().toString());
     }

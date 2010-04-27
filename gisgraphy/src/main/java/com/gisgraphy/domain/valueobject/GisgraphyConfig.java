@@ -55,6 +55,13 @@ public class GisgraphyConfig {
     public static  String googleanalytics_uacctcode ;
 
 	public static final String ENVIRONEMENT_PROPERTIES_FILE = "env";
+	
+	
+	/**
+	 * it enable or not the partial search that use postgres fulltextsearch
+	 * it must be activate before the import to be useable 
+	 */
+	public static boolean PARTIAL_SEARH_EXPERIMENTAL = true; 
 
     /**
      * @param defaultGeolocSearchPlaceType

@@ -34,6 +34,7 @@ import com.gisgraphy.domain.geoloc.entity.OpenStreetMap;
 import com.gisgraphy.domain.geoloc.service.fulltextsearch.AbstractIntegrationHttpSolrTestCase;
 import com.gisgraphy.domain.geoloc.service.fulltextsearch.StreetSearchMode;
 import com.gisgraphy.domain.geoloc.service.geoloc.street.StreetType;
+import com.gisgraphy.domain.valueobject.GisgraphyConfig;
 import com.gisgraphy.domain.valueobject.SRID;
 import com.gisgraphy.domain.valueobject.StreetDistance;
 import com.gisgraphy.helper.GeolocHelper;
@@ -106,7 +107,11 @@ public class OpenStreetMapDaoTest extends AbstractIntegrationHttpSolrTestCase{
 	assertNotNull(openStreetMapDao.get(streetOSM2.getId()));
 	
 	int numberOfLineUpdated = openStreetMapDao.updateTS_vectorColumnForStreetNameSearch();
-	assertEquals("It should have 4 lines updated : (streetosm +streetosm2) for partial + (streetosm +streetosm2) for fulltext",4, numberOfLineUpdated);
+		if (GisgraphyConfig.PARTIAL_SEARH_EXPERIMENTAL){
+			assertEquals("It should have 4 lines updated : (streetosm +streetosm2) for partial + (streetosm +streetosm2) for fulltext",4, numberOfLineUpdated);
+		} else {
+			assertEquals("It should have 2 lines updated : (streetosm +streetosm2) for fulltext",2, numberOfLineUpdated);
+		}
 	
 	
 	Point searchPoint = GeolocHelper.createPoint(6.9412748F, 50.9155829F);
@@ -245,7 +250,11 @@ public class OpenStreetMapDaoTest extends AbstractIntegrationHttpSolrTestCase{
     	assertEquals(0,nearestStreet.size());
     	
     	int numberOfLineUpdated = openStreetMapDao.updateTS_vectorColumnForStreetNameSearch();
-    	assertEquals("It should have 2 lines updated : (streetosm +streetosm2) for partial + (streetosm +streetosm2) for fulltext",2, numberOfLineUpdated);
+    	if (GisgraphyConfig.PARTIAL_SEARH_EXPERIMENTAL){
+    		assertEquals("It should have 2 lines updated : streetosm for fulltext and partial",2, numberOfLineUpdated);
+    	} else {
+    		assertEquals("It should have 1 lines updated : streetosm for fulltext",1, numberOfLineUpdated);
+    	}
     	
     }
     

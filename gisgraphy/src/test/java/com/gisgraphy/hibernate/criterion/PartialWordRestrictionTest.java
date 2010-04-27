@@ -16,6 +16,7 @@ import com.gisgraphy.domain.geoloc.entity.OpenStreetMap;
 import com.gisgraphy.domain.geoloc.service.fulltextsearch.AbstractIntegrationHttpSolrTestCase;
 import com.gisgraphy.domain.geoloc.service.geoloc.street.StreetType;
 import com.gisgraphy.domain.repository.IOpenStreetMapDao;
+import com.gisgraphy.domain.valueobject.GisgraphyConfig;
 import com.gisgraphy.helper.GeolocHelper;
 import com.gisgraphy.helper.StringHelper;
 import com.gisgraphy.hibernate.projection.ProjectionBean;
@@ -47,6 +48,7 @@ public class PartialWordRestrictionTest extends AbstractIntegrationHttpSolrTestC
     @SuppressWarnings("unchecked")
     @Test
     public void testPartialWordRestriction() {
+    GisgraphyConfig.PARTIAL_SEARH_EXPERIMENTAL=true;
 	OpenStreetMap streetOSM = createOpenStreetMap();
 	openStreetMapDao.save(streetOSM);
 	assertNotNull(openStreetMapDao.get(streetOSM.getId()));
@@ -144,7 +146,7 @@ public class PartialWordRestrictionTest extends AbstractIntegrationHttpSolrTestC
 	assertEquals(
 		"According to the fulltext restriction, it should not have result ",
 		0, streets.size());
-	
+	 GisgraphyConfig.PARTIAL_SEARH_EXPERIMENTAL=false;
 
     }
     

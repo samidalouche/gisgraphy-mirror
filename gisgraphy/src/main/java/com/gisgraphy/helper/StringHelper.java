@@ -29,6 +29,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.gisgraphy.domain.geoloc.entity.OpenStreetMap;
+import com.gisgraphy.domain.valueobject.GisgraphyConfig;
 
 /**
  * Provide some usefull method to copute strinfg for autocompletion and fulltextsearch
@@ -124,7 +125,9 @@ public class StringHelper {
 	 */
 	public static OpenStreetMap updateOpenStreetMapEntityForIndexation(OpenStreetMap openStreetMap) {
 		if (openStreetMap.getName() != null) {
-			openStreetMap.setPartialSearchName(StringHelper.transformStringForPartialWordIndexation(openStreetMap.getName(), StringHelper.WHITESPACE_CHAR_DELIMITER));
+			if (GisgraphyConfig.PARTIAL_SEARH_EXPERIMENTAL){
+				openStreetMap.setPartialSearchName(StringHelper.transformStringForPartialWordIndexation(openStreetMap.getName(), StringHelper.WHITESPACE_CHAR_DELIMITER));
+			}
 			openStreetMap.setTextSearchName(StringHelper.transformStringForFulltextIndexation(openStreetMap.getName()));
 		}
 		return openStreetMap;

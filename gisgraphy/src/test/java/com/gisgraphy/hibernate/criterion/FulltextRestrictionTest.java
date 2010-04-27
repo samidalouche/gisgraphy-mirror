@@ -16,6 +16,7 @@ import com.gisgraphy.domain.geoloc.entity.OpenStreetMap;
 import com.gisgraphy.domain.geoloc.service.fulltextsearch.AbstractIntegrationHttpSolrTestCase;
 import com.gisgraphy.domain.geoloc.service.geoloc.street.StreetType;
 import com.gisgraphy.domain.repository.IOpenStreetMapDao;
+import com.gisgraphy.domain.valueobject.GisgraphyConfig;
 import com.gisgraphy.helper.GeolocHelper;
 import com.gisgraphy.helper.StringHelper;
 import com.gisgraphy.hibernate.projection.ProjectionBean;
@@ -52,7 +53,11 @@ public class FulltextRestrictionTest extends AbstractIntegrationHttpSolrTestCase
 	
 	
 	int numberOfLineUpdated = openStreetMapDao.updateTS_vectorColumnForStreetNameSearch();
-	assertEquals("It should have 2 lines updated : one for partial and one for fulltext",2, numberOfLineUpdated);
+	if (GisgraphyConfig.PARTIAL_SEARH_EXPERIMENTAL){
+		assertEquals("It should have 2 lines updated : one for partial and one for fulltext",2, numberOfLineUpdated);
+	} else {
+		assertEquals("It should have 1 lines updated : one for partial and one for fulltext",1, numberOfLineUpdated);
+	}
 	
 	
 	HibernateCallback hibernateCallback = new HibernateCallback() {

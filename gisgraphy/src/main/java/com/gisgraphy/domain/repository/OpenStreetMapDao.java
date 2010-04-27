@@ -46,6 +46,7 @@ import com.gisgraphy.domain.geoloc.entity.GisFeature;
 import com.gisgraphy.domain.geoloc.entity.OpenStreetMap;
 import com.gisgraphy.domain.geoloc.service.fulltextsearch.StreetSearchMode;
 import com.gisgraphy.domain.geoloc.service.geoloc.street.StreetType;
+import com.gisgraphy.domain.valueobject.GisgraphyConfig;
 import com.gisgraphy.domain.valueobject.StreetDistance;
 import com.gisgraphy.helper.GeolocHelper;
 import com.gisgraphy.helper.IntrospectionHelper;
@@ -206,12 +207,14 @@ public class OpenStreetMapDao extends GenericDao<OpenStreetMap, Long> implements
 				String updateFulltextField = "UPDATE openStreetMap SET "+OpenStreetMap.FULLTEXTSEARCH_VECTOR_COLUMN_NAME+" = to_tsvector('simple',coalesce("+OpenStreetMap.FULLTEXTSEARCH_COLUMN_NAME+",'')) where name is not null";  
 				Query qryUpdateFulltextField = session.createSQLQuery(updateFulltextField);
 				int numberOfLineUpdatedForFulltext = qryUpdateFulltextField.executeUpdate();
-				
-				logger.info("will update "+OpenStreetMap.PARTIALSEARCH_VECTOR_COLUMN_NAME+" field");
-				String updatePartialWordField = "UPDATE openStreetMap SET "+OpenStreetMap.PARTIALSEARCH_VECTOR_COLUMN_NAME+" = to_tsvector('simple',coalesce("+OpenStreetMap.PARTIALSEARCH_COLUMN_NAME+" ,'')) where name is not null";
-				Query qryUpdateParialWordField = session.createSQLQuery(updatePartialWordField);
-				int numberOfLineUpdatedForPartial = qryUpdateParialWordField.executeUpdate();
-				session.flush();
+				int numberOfLineUpdatedForPartial = 0;
+				if (GisgraphyConfig.PARTIAL_SEARH_EXPERIMENTAL){
+					logger.info("will update "+OpenStreetMap.PARTIALSEARCH_VECTOR_COLUMN_NAME+" field");
+					String updatePartialWordField = "UPDATE openStreetMap SET "+OpenStreetMap.PARTIALSEARCH_VECTOR_COLUMN_NAME+" = to_tsvector('simple',coalesce("+OpenStreetMap.PARTIALSEARCH_COLUMN_NAME+" ,'')) where name is not null";
+					Query qryUpdateParialWordField = session.createSQLQuery(updatePartialWordField);
+					numberOfLineUpdatedForPartial = qryUpdateParialWordField.executeUpdate();
+					session.flush();
+				}
 				return Integer.valueOf(numberOfLineUpdatedForFulltext + numberOfLineUpdatedForPartial);
 				
 			    }

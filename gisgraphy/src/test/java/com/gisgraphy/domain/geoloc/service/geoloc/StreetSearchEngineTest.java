@@ -40,6 +40,7 @@ import com.gisgraphy.domain.geoloc.service.fulltextsearch.StreetSearchMode;
 import com.gisgraphy.domain.geoloc.service.geoloc.street.StreetType;
 import com.gisgraphy.domain.repository.IOpenStreetMapDao;
 import com.gisgraphy.domain.valueobject.Constants;
+import com.gisgraphy.domain.valueobject.GisgraphyConfig;
 import com.gisgraphy.domain.valueobject.Output;
 import com.gisgraphy.domain.valueobject.Pagination;
 import com.gisgraphy.domain.valueobject.StreetSearchResultsDto;
@@ -129,7 +130,11 @@ public class StreetSearchEngineTest extends AbstractIntegrationHttpSolrTestCase 
 
 	this.openStreetMapDao.save(street);
 	int numberOfLineUpdated =openStreetMapDao.updateTS_vectorColumnForStreetNameSearch();
-	assertEquals("It should have 2 lines updated one for partial + one for fulltext",2, numberOfLineUpdated);
+	if (GisgraphyConfig.PARTIAL_SEARH_EXPERIMENTAL){
+		assertEquals("It should have 2 lines updated one for partial + one for fulltext",2, numberOfLineUpdated);
+	} else {
+		assertEquals("It should have 1 lines updated for fulltext",1, numberOfLineUpdated);
+	}
 
 	Pagination pagination = paginate().from(1).to(15);
 	Output output = Output.withFormat(OutputFormat.XML).withIndentation();
