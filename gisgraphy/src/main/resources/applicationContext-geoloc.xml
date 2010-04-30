@@ -145,6 +145,12 @@
 	
 	<bean id="geonamesDatabaseIndexer" class="com.gisgraphy.domain.geoloc.importer.GeonamesDatabaseIndexer" />
 	
+	<bean id="openStreetMapFulltextBuilder" class="com.gisgraphy.domain.geoloc.importer.OpenStreetMapFulltextBuilder" >
+		<property name="internationalisationService" ref="internationalisationService" />
+		<property name="openStreetMapDao" ref="openStreetMapDao" />
+		<property name="importerConfig" ref="importerConfig" />
+	</bean>
+	
 	<bean id="openstreetmapFileRetriever"
 		class="com.gisgraphy.domain.geoloc.importer.OpenStreetMapFileRetriever" parent="abstractFileRetriever" >
 	</bean>
@@ -181,6 +187,7 @@
 				<ref bean="geonamesDatabaseIndexer" />
 				<ref bean="openstreetmapFileRetriever" />
 				<ref bean="openStreetMapImporter"/>
+				<ref bean="openStreetMapFulltextBuilder"/>
 				<ref bean="openstreetmapDatabaseIndexer"/>
 			</list>
 		</constructor-arg>
