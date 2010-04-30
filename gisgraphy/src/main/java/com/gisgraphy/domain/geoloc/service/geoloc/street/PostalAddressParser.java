@@ -41,7 +41,7 @@ public class PostalAddressParser {
     Map<String, List<Pattern>> AddressRegexpsByCountryCode = new HashMap<String, List<Pattern>>();
     
     public PostalAddressParser() {
-	AddressRegexpsByCountryCode.put("fr", ImporterHelper.compileRegex("^([0-9\\s]*)\\s*([\\w+\\s+]+)(\\d{5}|[,]+)\\s+([\\w+\\s+]+)"));
+	AddressRegexpsByCountryCode.put("fr", ImporterHelper.compileRegex("^([0-9]*)\\s*([\\w+\\s+]+)(\\d{5}|[,]+)\\s+([\\w+\\s+]+)"));
     }
     
     /**
@@ -58,16 +58,27 @@ public class PostalAddressParser {
 	for (Pattern pattern: patterns){
 	 Matcher matcher = pattern.matcher(address);
 	   if (matcher.find()) {
-	      System.err.println(matcher.group(1));
-	      System.err.println(matcher.group(2));
-	      System.err.println(matcher.group(3));
-	      System.err.println(matcher.group(4));
-	      //System.err.println(matcher.group(5));
+	      String streetNumber = matcher.group(1).trim();
+	      String streetName = matcher.group(2).trim();
+	      String zipCode = matcher.group(3).trim();
+	      String city = matcher.group(4).trim();
 	      
+	     return createAdressFromnumberStreetZipCity(streetNumber,streetName,zipCode,city);
+	           
 	   }
 	}
 
 	return null;
     }
 
+    
+    protected Address createAdressFromnumberStreetZipCity(String streetNumber,String streetName,String zipCode,String city){
+	Address address = new Address();
+	address.setStreetNumber(streetNumber);
+	address.setStreetName(streetName);
+	address.setZipCode(zipCode);
+	address.setCity(city);
+	return address;
+	
+    }
 }

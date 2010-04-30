@@ -2,16 +2,16 @@ package com.gisgraphy.domain.geoloc.service.geoloc.street;
 
 public class Address {
 
-    private int streetNumber;
+    private String streetNumber;
     private String StreetName;
     private String city;
     private String state;
     private String ZipCode;
     
-    public int getStreetNumber() {
+    public String getStreetNumber() {
         return streetNumber;
     }
-    public void setStreetNumber(int streetNumber) {
+    public void setStreetNumber(String streetNumber) {
         this.streetNumber = streetNumber;
     }
     public String getStreetName() {
