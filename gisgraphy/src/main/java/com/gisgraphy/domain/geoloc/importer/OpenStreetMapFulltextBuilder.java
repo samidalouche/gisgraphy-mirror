@@ -22,25 +22,17 @@
  *******************************************************************************/
 package com.gisgraphy.domain.geoloc.importer;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.hibernate.FlushMode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Required;
 
-import com.gisgraphy.domain.geoloc.entity.OpenStreetMap;
-import com.gisgraphy.domain.geoloc.service.geoloc.street.StreetType;
 import com.gisgraphy.domain.repository.IOpenStreetMapDao;
 import com.gisgraphy.domain.valueobject.ImporterStatus;
 import com.gisgraphy.domain.valueobject.NameValueDTO;
-import com.gisgraphy.helper.GeolocHelper;
-import com.gisgraphy.helper.StringHelper;
 import com.gisgraphy.service.IInternationalisationService;
-import com.vividsolutions.jts.geom.LineString;
-import com.vividsolutions.jts.geom.Point;
 
 /**
  * build the fulltext engine in order to use the street fulltext search
@@ -49,26 +41,25 @@ import com.vividsolutions.jts.geom.Point;
  */
 public class OpenStreetMapFulltextBuilder implements IImporterProcessor {
 
+    	/**
+    	 * The logger
+    	 */
+    	protected static final Logger logger = LoggerFactory.getLogger(OpenStreetMapFulltextBuilder.class);
+    	
+	private ImporterConfig importerConfig;
+
+	private IInternationalisationService internationalisationService;
+
+	private IOpenStreetMapDao openStreetMapDao;
+
 	private int increment = 300;
 	
 	protected ImporterStatus status = ImporterStatus.WAITING;
 
-	protected ImporterConfig importerConfig;
-
-	@Autowired
-	private IInternationalisationService internationalisationService;
-
 	private int lineProcessed = 0;
 
 	private int numberOfLinesToProcess = 0;
-	/**
-	 * The logger
-	 */
-	protected static final Logger logger = LoggerFactory.getLogger(OpenStreetMapFulltextBuilder.class);
 
-	public static Long generatedId = 0L;
-
-	private IOpenStreetMapDao openStreetMapDao;
 
 	private String statusMessage;
 
@@ -85,14 +76,8 @@ public class OpenStreetMapFulltextBuilder implements IImporterProcessor {
 	 */
 	public List<NameValueDTO<Integer>> rollback() {
 		List<NameValueDTO<Integer>> deletedObjectInfo = new ArrayList<NameValueDTO<Integer>>();
-		logger.info("deleting openstreetmap entities...");
-		int deleted = openStreetMapDao.deleteAll();
-		if (deleted != 0) {
-			deletedObjectInfo.add(new NameValueDTO<Integer>(openStreetMapDao.getPersistenceClass().getSimpleName(), deleted));
-		}
-		logger.info(deleted + " openstreetmap entities have been deleted");
+		logger.info("rollback OpenStreetMapFulltextBuilder ");
 		resetStatus();
-		generatedId = 0L;
 		return deletedObjectInfo;
 	}
 
@@ -143,11 +128,16 @@ public class OpenStreetMapFulltextBuilder implements IImporterProcessor {
 		status = ImporterStatus.PROCESSING;
 		try {
 			if (!shouldBeSkipped()) {
-				numberOfLinesToProcess = new Long(openStreetMapDao.count()).intValue();
+			    	statusMessage = internationalisationService.getString("import.build.openstreetmap.fulltext.searchEngine.count");
+				numberOfLinesToProcess = new Long(openStreetMapDao.countEstimate()).intValue();
+				logger.info(numberOfLinesToProcess+" streets will be build for the fulltext engine");
 				statusMessage = internationalisationService.getString("import.build.openstreetmap.fulltext.searchEngine");
 				for (int start=0;start<=numberOfLinesToProcess;start = start+increment){
-					openStreetMapDao.updateTS_vectorColumnForStreetNameSearchPaginate(start, start+increment-1);
-					lineProcessed = start;
+				    int from = start;
+				    int to = start+increment-1;
+				    logger.info("paginate build of openstreetmap fulltext engine for streets from "+start+" to "+to);
+					openStreetMapDao.updateTS_vectorColumnForStreetNameSearchPaginate(from, to);
+					lineProcessed = Math.min(start, numberOfLinesToProcess);
 				}
 				
 				this.status = ImporterStatus.PROCESSED;
@@ -157,8 +147,8 @@ public class OpenStreetMapFulltextBuilder implements IImporterProcessor {
 			}
 			statusMessage = "";
 		} catch (Exception e) {
-			this.statusMessage = "error retrieving or decompres file : " + e.getMessage();
-			logger.error(statusMessage);
+			this.statusMessage = "Error during the construction of the openstreetmap fulltext engine : " + e.getMessage();
+			logger.error(statusMessage,e);
 			status = ImporterStatus.ERROR;
 			throw new ImporterException(statusMessage, e);
 		} finally {
@@ -168,11 +158,33 @@ public class OpenStreetMapFulltextBuilder implements IImporterProcessor {
 	}
 
 	public void resetStatus() {
-
+		this.lineProcessed = 0;
+		this.numberOfLinesToProcess = 0;
+		this.status = ImporterStatus.WAITING;
+		this.statusMessage = "";
 	}
 
 	public boolean shouldBeSkipped() {
 		return !importerConfig.isOpenstreetmapImporterEnabled();
+	}
+
+	public ImporterConfig getImporterConfig() {
+	    return importerConfig;
+	}
+
+	@Required
+	public void setImporterConfig(ImporterConfig importerConfig) {
+	    this.importerConfig = importerConfig;
+	}
+
+	@Required
+	public void setInternationalisationService(IInternationalisationService internationalisationService) {
+	    this.internationalisationService = internationalisationService;
+	}
+
+	@Required
+	public IOpenStreetMapDao getOpenStreetMapDao() {
+	    return openStreetMapDao;
 	}
 
 }
