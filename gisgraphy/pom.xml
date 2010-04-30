@@ -390,6 +390,10 @@
 				<filtering>true</filtering>
 			</testResource>
 			<testResource>
+				<directory>src/main/webapp/</directory>
+				<filtering>false</filtering>
+			</testResource>
+			<testResource>
 				<!-- for jstester -->
 				<directory>src/main/webapp/scripts</directory>
 				<filtering>false</filtering>
