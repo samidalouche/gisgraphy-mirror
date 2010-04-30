@@ -379,13 +379,7 @@
 				</includes>
 				<filtering>false</filtering>
 			</resource>
-			<resource>
-				<directory>src/main/webapp</directory>
-				<filtering>true</filtering>
-				<includes>
-					<include>**/*.xml</include>
-				</includes>
-			</resource>
+			
 			<resource>
 				<directory>${config.directory}</directory>
 			</resource>
