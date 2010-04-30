@@ -90,6 +90,11 @@ public interface IOpenStreetMapDao extends IDao<OpenStreetMap, java.lang.Long> {
      * to improve performances
      */
     public void createIndexes();
+    
+    /**
+     * @return the number of streets based on the highest gid 
+     */
+    public long countEstimate();
 	
     
     

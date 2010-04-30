@@ -42,7 +42,6 @@ import org.springframework.orm.hibernate3.HibernateCallback;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.Assert;
 
-import com.gisgraphy.domain.geoloc.entity.GisFeature;
 import com.gisgraphy.domain.geoloc.entity.OpenStreetMap;
 import com.gisgraphy.domain.geoloc.service.fulltextsearch.StreetSearchMode;
 import com.gisgraphy.domain.geoloc.service.geoloc.street.StreetType;
@@ -224,7 +223,7 @@ public class OpenStreetMapDao extends GenericDao<OpenStreetMap, Long> implements
     /* (non-Javadoc)
      * @see com.gisgraphy.domain.repository.IOpenStreetMapDao#buildIndexForStreetNameSearch()
      */
-    public Integer updateTS_vectorColumnForStreetNameSearchPaginate(int from, int to ) {
+    public Integer updateTS_vectorColumnForStreetNameSearchPaginate(final int from,final int to ) {
 	return (Integer) this.getHibernateTemplate().execute(
 			 new HibernateCallback() {
 
@@ -232,13 +231,13 @@ public class OpenStreetMapDao extends GenericDao<OpenStreetMap, Long> implements
 				    throws PersistenceException {
 				session.flush();
 				logger.info("will update "+OpenStreetMap.FULLTEXTSEARCH_VECTOR_COLUMN_NAME+" field");
-				String updateFulltextField = "UPDATE openStreetMap SET "+OpenStreetMap.FULLTEXTSEARCH_VECTOR_COLUMN_NAME+" = to_tsvector('simple',coalesce("+OpenStreetMap.FULLTEXTSEARCH_COLUMN_NAME+",'')) where gid >= from and gid <= to and name is not null";  
+				String updateFulltextField = "UPDATE openStreetMap SET "+OpenStreetMap.FULLTEXTSEARCH_VECTOR_COLUMN_NAME+" = to_tsvector('simple',coalesce("+OpenStreetMap.FULLTEXTSEARCH_COLUMN_NAME+",'')) where gid >= "+from+" and gid <= "+to+" and name is not null";  
 				Query qryUpdateFulltextField = session.createSQLQuery(updateFulltextField);
 				int numberOfLineUpdatedForFulltext = qryUpdateFulltextField.executeUpdate();
 				int numberOfLineUpdatedForPartial = 0;
 				if (GisgraphyConfig.PARTIAL_SEARH_EXPERIMENTAL){
 					logger.info("will update "+OpenStreetMap.PARTIALSEARCH_VECTOR_COLUMN_NAME+" field");
-					String updatePartialWordField = "UPDATE openStreetMap SET "+OpenStreetMap.PARTIALSEARCH_VECTOR_COLUMN_NAME+" = to_tsvector('simple',coalesce("+OpenStreetMap.PARTIALSEARCH_COLUMN_NAME+" ,'')) where gid >= from and gid <= to and name is not null";
+					String updatePartialWordField = "UPDATE openStreetMap SET "+OpenStreetMap.PARTIALSEARCH_VECTOR_COLUMN_NAME+" = to_tsvector('simple',coalesce("+OpenStreetMap.PARTIALSEARCH_COLUMN_NAME+" ,'')) where gid >= "+from+" and gid <= "+to+" and name is not null";
 					Query qryUpdateParialWordField = session.createSQLQuery(updatePartialWordField);
 					numberOfLineUpdatedForPartial = qryUpdateParialWordField.executeUpdate();
 					session.flush();
@@ -275,4 +274,21 @@ public class OpenStreetMapDao extends GenericDao<OpenStreetMap, Long> implements
 			});
    }
 
+    
+    public long countEstimate(){
+	return (Long) this.getHibernateTemplate().execute(
+		new HibernateCallback() {
+
+		    public Object doInHibernate(Session session)
+			    throws PersistenceException {
+			String queryString = "select max(gid) from "
+				+ persistentClass.getSimpleName();
+
+			Query qry = session.createQuery(queryString);
+			qry.setCacheable(true);
+			Long count = (Long) qry.uniqueResult();
+			return count;
+		    }
+		});
+    }
 }
