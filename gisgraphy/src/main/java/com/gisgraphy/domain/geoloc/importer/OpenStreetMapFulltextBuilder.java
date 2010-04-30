@@ -49,6 +49,8 @@ import com.vividsolutions.jts.geom.Point;
  */
 public class OpenStreetMapFulltextBuilder implements IImporterProcessor {
 
+	private int increment = 300;
+	
 	protected ImporterStatus status = ImporterStatus.WAITING;
 
 	protected ImporterConfig importerConfig;
@@ -58,7 +60,7 @@ public class OpenStreetMapFulltextBuilder implements IImporterProcessor {
 
 	private int lineProcessed = 0;
 
-	private int numberOfLineToProcess = 0;
+	private int numberOfLinesToProcess = 0;
 	/**
 	 * The logger
 	 */
@@ -118,7 +120,7 @@ public class OpenStreetMapFulltextBuilder implements IImporterProcessor {
 	}
 
 	public int getNumberOfLinesToProcess() {
-		return numberOfLineToProcess;
+		return numberOfLinesToProcess;
 	}
 
 	public int getReadFileLine() {
@@ -141,14 +143,17 @@ public class OpenStreetMapFulltextBuilder implements IImporterProcessor {
 		status = ImporterStatus.PROCESSING;
 		try {
 			if (!shouldBeSkipped()) {
-				if (importerConfig.isRetrieveFiles()) {
-					logger.info("OpenStreetMapFulltextBuilder will be skiped");
-				}
+				numberOfLinesToProcess = new Long(openStreetMapDao.count()).intValue();
 				statusMessage = internationalisationService.getString("import.build.openstreetmap.fulltext.searchEngine");
+				for (int start=0;start<=numberOfLinesToProcess;start = start+increment){
+					openStreetMapDao.updateTS_vectorColumnForStreetNameSearchPaginate(start, start+increment-1);
+					lineProcessed = start;
+				}
+				
 				this.status = ImporterStatus.PROCESSED;
 			} else {
+				logger.info("OpenStreetMapFulltextBuilder will be skiped");
 				this.status = ImporterStatus.SKIPPED;
-				logger.info("DownloadFiles option is set to false, we will not download and decompress files");
 			}
 			statusMessage = "";
 		} catch (Exception e) {

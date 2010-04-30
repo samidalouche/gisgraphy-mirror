@@ -75,6 +75,16 @@ public interface IOpenStreetMapDao extends IDao<OpenStreetMap, java.lang.Long> {
      */    
     public Integer updateTS_vectorColumnForStreetNameSearch();
     
+    /** 
+     * Update the ts_vector column for the street name search from the gid that are >= from and < to
+     * @param from the start pagination index of gid
+     * @param to the end pagination index 
+     * (partial search and fulltext search)
+     * @return the number of line updated
+     * @see StreetSearchMode
+     */    
+    public Integer updateTS_vectorColumnForStreetNameSearchPaginate(int from, int to ) ;
+    
     /**
      * Create the database GIST and fulltext index for openstreetMap
      * to improve performances
