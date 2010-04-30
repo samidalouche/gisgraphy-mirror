@@ -58,6 +58,13 @@ public class OpenStreetMapImporter extends AbstractImporterProcessor {
 	openStreetMapDao.flushAndClear();
 
     }
+    
+    @Override
+    protected void setup() {
+        super.setup();
+        logger.info("reseting Openstreetmap generatedId");
+        OpenStreetMapImporter.generatedId = 0L;
+    }
 
     /* (non-Javadoc)
      * @see com.gisgraphy.domain.geoloc.importer.AbstractImporterProcessor#getFiles()
@@ -220,11 +227,12 @@ public class OpenStreetMapImporter extends AbstractImporterProcessor {
     @Override
     protected void tearDown() {
     	super.tearDown();
-    	logger.info("building postgres fulltext fields...");
+    	/*logger.info("building postgres fulltext fields...");
     	statusMessage=internationalisationService.getString("import.build.openstreetmap.fulltext.searchEngine");
     	int numberOfLineupdated = openStreetMapDao.updateTS_vectorColumnForStreetNameSearch();
     	logger.info(numberOfLineupdated + " fulltext field have been updated");
     	statusMessage="";
+    	*/
     }
 
    
