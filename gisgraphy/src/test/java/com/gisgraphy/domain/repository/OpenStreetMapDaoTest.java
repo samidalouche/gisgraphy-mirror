@@ -41,7 +41,6 @@ import com.gisgraphy.helper.GeolocHelper;
 import com.gisgraphy.helper.StringHelper;
 import com.gisgraphy.test.GeolocTestHelper;
 import com.vividsolutions.jts.geom.LineString;
-import com.vividsolutions.jts.geom.MultiLineString;
 import com.vividsolutions.jts.geom.Point;
 
 
@@ -182,11 +181,21 @@ public class OpenStreetMapDaoTest extends AbstractIntegrationHttpSolrTestCase{
     
     }
 
+    @Test
+    public void testCountEstimate(){
+	OpenStreetMap streetOSM = GeolocTestHelper.createOpenStreetMapForPeterMartinStreet();
+	streetOSM.setGid(1L);
+	streetOSM.setGid(3L);
+	
+	OpenStreetMap streetOSM2 = GeolocTestHelper.createOpenStreetMapForJohnKenedyStreet();
+	openStreetMapDao.save(streetOSM);
+	openStreetMapDao.save(streetOSM2);
+	
+	long estimateCount = openStreetMapDao.countEstimate();
+	Assert.assertEquals("countestimate should return the max gid, the estimation is based on the fact that the importer start the gid to 0",3L, estimateCount);
+	
+    }
 
-   
-
-
-   
     
     @Test
     public void testGetByGidShouldRetrieveIfEntityExists(){

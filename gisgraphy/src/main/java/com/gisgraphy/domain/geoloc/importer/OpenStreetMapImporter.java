@@ -221,20 +221,4 @@ public class OpenStreetMapImporter extends AbstractImporterProcessor {
         this.openStreetMapDao = openStreetMapDao;
     }
     
-    /* (non-Javadoc)
-     * @see com.gisgraphy.domain.geoloc.importer.AbstractImporterProcessor#tearDown()
-     */
-    @Override
-    protected void tearDown() {
-    	super.tearDown();
-    	/*logger.info("building postgres fulltext fields...");
-    	statusMessage=internationalisationService.getString("import.build.openstreetmap.fulltext.searchEngine");
-    	int numberOfLineupdated = openStreetMapDao.updateTS_vectorColumnForStreetNameSearch();
-    	logger.info(numberOfLineupdated + " fulltext field have been updated");
-    	statusMessage="";
-    	*/
-    }
-
-   
-    
 }

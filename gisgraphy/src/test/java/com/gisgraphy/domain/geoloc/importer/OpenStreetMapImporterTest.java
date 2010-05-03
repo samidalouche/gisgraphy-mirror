@@ -22,6 +22,7 @@
  *******************************************************************************/
 package com.gisgraphy.domain.geoloc.importer;
 
+import java.io.File;
 import java.util.List;
 
 import junit.framework.Assert;
@@ -47,6 +48,10 @@ public class OpenStreetMapImporterTest extends AbstractIntegrationHttpSolrTestCa
     private OpenStreetMapImporter openStreetMapImporter;
     
     private IOpenStreetMapDao openStreetMapDao;
+    
+    static boolean setupIsCalled = false;
+    
+   
   
     @Test
     public void testRollback() throws Exception {
@@ -160,6 +165,49 @@ public class OpenStreetMapImporterTest extends AbstractIntegrationHttpSolrTestCa
 	Assert.assertEquals(ImporterStatus.ERROR, importer.getStatus());
     }
     
+    @Test
+    public void testSetup(){
+		Long savedGeneratedId = OpenStreetMapImporter.generatedId;
+    	OpenStreetMapImporter.generatedId = 1000L;
+    	OpenStreetMapImporter importer = new OpenStreetMapImporter();
+    	importer.setup();
+    	long generatedId = OpenStreetMapImporter.generatedId;
+    	assertEquals("The generatedId should be reset to 0 before import",0L, generatedId);
+    	OpenStreetMapImporter.generatedId = savedGeneratedId;
+    }
     
+    @Test
+    public void testSetupIsCalled(){
+    	
+    	OpenStreetMapImporterTest.setupIsCalled = false;
+    	OpenStreetMapImporter importer = new OpenStreetMapImporter(){
+    		@Override
+    		protected void setup() {
+    			OpenStreetMapImporterTest.setupIsCalled = true;
+    		}
+    		@Override
+    		protected void tearDown() {
+    			return;
+    		}
+    		
+    		@Override
+    		public int getNumberOfLinesToProcess() {
+    			return 0;
+    		}
+    		
+    		@Override
+    		public boolean shouldBeSkipped() {
+    			return false;
+    		}
+    		
+    		@Override
+    		protected File[] getFiles() {
+    			// TODO Auto-generated method stub
+    			return new File[]{};
+    		}
+    	};
+    	importer.process();
+    	assertTrue(OpenStreetMapImporterTest.setupIsCalled);
+    }
 
 }
