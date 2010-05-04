@@ -41,7 +41,6 @@ import com.gisgraphy.domain.geoloc.service.geoloc.street.StreetType;
 import com.gisgraphy.domain.valueobject.SRID;
 import com.gisgraphy.helper.IntrospectionIgnoredField;
 import com.vividsolutions.jts.geom.LineString;
-import com.vividsolutions.jts.geom.MultiLineString;
 import com.vividsolutions.jts.geom.Point;
 
 /**

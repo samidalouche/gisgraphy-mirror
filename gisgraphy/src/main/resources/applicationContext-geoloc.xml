@@ -163,7 +163,6 @@
 	</bean>
 	
 
-	<bean id="openstreetmapDatabaseIndexer" class="com.gisgraphy.domain.geoloc.importer.OpenstreetmapDatabaseIndexer"/>	
 
 	<bean id="importerManager"
 		class="com.gisgraphy.domain.geoloc.importer.ImporterManager">
@@ -188,7 +187,6 @@
 				<ref bean="openstreetmapFileRetriever" />
 				<ref bean="openStreetMapImporter"/>
 				<ref bean="openStreetMapFulltextBuilder"/>
-				<ref bean="openstreetmapDatabaseIndexer"/>
 			</list>
 		</constructor-arg>
 	</bean>

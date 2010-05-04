@@ -71,7 +71,6 @@ import com.gisgraphy.servlet.GeolocServlet;
 import com.gisgraphy.servlet.GisgraphyServlet;
 import com.gisgraphy.servlet.StreetServlet;
 import com.vividsolutions.jts.geom.LineString;
-import com.vividsolutions.jts.geom.MultiLineString;
 import com.vividsolutions.jts.geom.Point;
 
 public class GeolocTestHelper {

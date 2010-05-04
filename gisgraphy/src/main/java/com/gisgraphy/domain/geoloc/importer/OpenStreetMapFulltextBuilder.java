@@ -41,10 +41,10 @@ import com.gisgraphy.service.IInternationalisationService;
  */
 public class OpenStreetMapFulltextBuilder implements IImporterProcessor {
 
-    	/**
-    	 * The logger
-    	 */
-    	protected static final Logger logger = LoggerFactory.getLogger(OpenStreetMapFulltextBuilder.class);
+   /**
+    * The logger
+    */
+   	protected static final Logger logger = LoggerFactory.getLogger(OpenStreetMapFulltextBuilder.class);
     	
 	private ImporterConfig importerConfig;
 
@@ -52,7 +52,10 @@ public class OpenStreetMapFulltextBuilder implements IImporterProcessor {
 
 	private IOpenStreetMapDao openStreetMapDao;
 
-	private int increment = 300;
+	/**
+	 * The paginate step
+	 */
+	protected int increment = 300;
 	
 	protected ImporterStatus status = ImporterStatus.WAITING;
 
@@ -88,17 +91,7 @@ public class OpenStreetMapFulltextBuilder implements IImporterProcessor {
 		this.openStreetMapDao = openStreetMapDao;
 	}
 
-	/* (non-Javadoc)
-	 * @see com.gisgraphy.domain.geoloc.importer.AbstractImporterProcessor#tearDown()
-	 */
-	protected void tearDown() {
-		/*super.tearDown();
-		logger.info("building postgres fulltext fields...");
-		statusMessage=internationalisationService.getString("import.build.openstreetmap.fulltext.searchEngine");
-		int numberOfLineupdated = openStreetMapDao.updateTS_vectorColumnForStreetNameSearch();
-		logger.info(numberOfLineupdated + " fulltext field have been updated");*/
-		statusMessage = "";
-	}
+
 
 	public String getCurrentFileName() {
 		return this.getClass().getSimpleName();
@@ -128,7 +121,8 @@ public class OpenStreetMapFulltextBuilder implements IImporterProcessor {
 		status = ImporterStatus.PROCESSING;
 		try {
 			if (!shouldBeSkipped()) {
-			    	statusMessage = internationalisationService.getString("import.build.openstreetmap.fulltext.searchEngine.count");
+				setup();
+			    statusMessage = internationalisationService.getString("import.build.openstreetmap.fulltext.searchEngine.count");
 				numberOfLinesToProcess = new Long(openStreetMapDao.countEstimate()).intValue();
 				logger.info(numberOfLinesToProcess+" streets will be build for the fulltext engine");
 				statusMessage = internationalisationService.getString("import.build.openstreetmap.fulltext.searchEngine");
@@ -137,7 +131,7 @@ public class OpenStreetMapFulltextBuilder implements IImporterProcessor {
 				    int to = start+increment-1;
 				    logger.info("paginate build of openstreetmap fulltext engine for streets from "+start+" to "+to);
 					openStreetMapDao.updateTS_vectorColumnForStreetNameSearchPaginate(from, to);
-					lineProcessed = Math.min(start, numberOfLinesToProcess);
+					lineProcessed = Math.min(to, numberOfLinesToProcess);
 				}
 				
 				this.status = ImporterStatus.PROCESSED;
@@ -151,10 +145,13 @@ public class OpenStreetMapFulltextBuilder implements IImporterProcessor {
 			logger.error(statusMessage,e);
 			status = ImporterStatus.ERROR;
 			throw new ImporterException(statusMessage, e);
-		} finally {
-			tearDown();
-		}
+		} 
 
+	}
+
+	protected void setup() {
+		statusMessage = internationalisationService.getString("import.message.createIndex");
+		openStreetMapDao.createIndexes();
 	}
 
 	public void resetStatus() {

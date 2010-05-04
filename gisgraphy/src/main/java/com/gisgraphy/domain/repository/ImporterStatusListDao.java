@@ -39,7 +39,6 @@ import org.springframework.beans.factory.annotation.Required;
 import org.springframework.stereotype.Repository;
 
 import com.gisgraphy.domain.geoloc.importer.ImporterConfig;
-import com.gisgraphy.domain.geoloc.importer.ImporterManager;
 import com.gisgraphy.domain.valueobject.Constants;
 import com.gisgraphy.domain.valueobject.ImporterStatus;
 import com.gisgraphy.domain.valueobject.ImporterStatusDto;

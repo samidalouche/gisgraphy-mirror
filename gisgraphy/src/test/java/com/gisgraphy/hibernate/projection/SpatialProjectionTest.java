@@ -43,12 +43,10 @@ import com.gisgraphy.domain.geoloc.entity.OpenStreetMap;
 import com.gisgraphy.domain.geoloc.service.fulltextsearch.AbstractIntegrationHttpSolrTestCase;
 import com.gisgraphy.domain.repository.ICityDao;
 import com.gisgraphy.domain.repository.IOpenStreetMapDao;
-import com.gisgraphy.domain.valueobject.SRID;
 import com.gisgraphy.helper.GeolocHelper;
 import com.gisgraphy.test.GeolocTestHelper;
 import com.gisgraphy.test._DaoHelper;
 import com.vividsolutions.jts.geom.LineString;
-import com.vividsolutions.jts.geom.MultiLineString;
 import com.vividsolutions.jts.geom.Point;
 
 public class SpatialProjectionTest extends AbstractIntegrationHttpSolrTestCase {

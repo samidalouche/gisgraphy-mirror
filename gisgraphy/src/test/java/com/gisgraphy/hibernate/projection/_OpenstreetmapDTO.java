@@ -23,7 +23,6 @@
 package com.gisgraphy.hibernate.projection;
 
 import com.vividsolutions.jts.geom.LineString;
-import com.vividsolutions.jts.geom.MultiLineString;
 
 public class _OpenstreetmapDTO {
 

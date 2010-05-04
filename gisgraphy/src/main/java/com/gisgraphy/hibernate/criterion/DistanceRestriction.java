@@ -30,8 +30,6 @@ import org.hibernate.criterion.Criterion;
 import org.hibernate.engine.TypedValue;
 
 import com.gisgraphy.domain.geoloc.entity.GisFeature;
-import com.gisgraphy.domain.valueobject.Constants;
-import com.gisgraphy.domain.valueobject.SRID;
 import com.gisgraphy.helper.GeolocHelper;
 import com.vividsolutions.jts.geom.Point;
 

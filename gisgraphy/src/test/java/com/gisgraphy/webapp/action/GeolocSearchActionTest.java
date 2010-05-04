@@ -46,13 +46,6 @@ import com.gisgraphy.domain.valueobject.GisgraphyConfig;
 import com.gisgraphy.domain.valueobject.GisgraphyServiceType;
 import com.gisgraphy.domain.valueobject.Output.OutputFormat;
 import com.gisgraphy.servlet.GeolocServlet;
-import com.opensymphony.xwork2.ActionContext;
-import com.opensymphony.xwork2.config.Configuration;
-import com.opensymphony.xwork2.config.ConfigurationManager;
-import com.opensymphony.xwork2.config.providers.XWorkConfigurationProvider;
-import com.opensymphony.xwork2.inject.Container;
-import com.opensymphony.xwork2.util.ValueStack;
-import com.opensymphony.xwork2.util.ValueStackFactory;
 
 public class GeolocSearchActionTest {
 

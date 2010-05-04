@@ -22,7 +22,6 @@
  *******************************************************************************/
 package com.gisgraphy.hibernate.projection;
 
-import com.vividsolutions.jts.geom.MultiLineString;
 
 public class _CityDTO {
 
