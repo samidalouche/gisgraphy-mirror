@@ -25,6 +25,8 @@ package com.gisgraphy.domain.repository;
 import java.util.ArrayList;
 import java.util.List;
 
+import junit.framework.Assert;
+
 import org.junit.Test;
 
 import com.gisgraphy.domain.geoloc.entity.Adm;
@@ -1335,6 +1337,27 @@ public class AdmDaoTest extends AbstractIntegrationHttpSolrTestCase {
 	    assertTrue(true);
 	}
 
+    }
+    
+    @Test
+    public void testListFeatureIdByLevel(){
+    	int nbChilds = 2;
+    	Adm admParent = GeolocTestHelper.createAdm("admparent", "FR", "A1",
+    		null, null, null, null, 1);
+    	List<Adm> childs = GeolocTestHelper.createAdms("admchilds", "FR", "A1",
+    		"B2", null, null, null, 2, nbChilds);
+    	// double set
+    	admParent.setChildren(childs);
+    	this.admDao.save(admParent);
+    	List<Long> listOfFeatureId = admDao.listFeatureIdByLevel(2);
+    	Assert.assertEquals("The result hasn't the right size for level2",childs.size(), listOfFeatureId.size());
+    	for (Adm adm : childs){
+    		Assert.assertTrue("the result list for level 2 doesn't contains the featureId "+adm.getFeatureId(),listOfFeatureId.contains(adm.getFeatureId()));
+    	}
+    	
+    	listOfFeatureId = admDao.listFeatureIdByLevel(1);
+    	Assert.assertEquals("The result hasn't the right size for level 1 ",1, listOfFeatureId.size());
+    	Assert.assertTrue("the result list for level 1 doesn't contains the featureId "+admParent.getFeatureId(),listOfFeatureId.contains(admParent.getFeatureId()));
     }
 
     public void setAdmDao(IAdmDao admDao) {
