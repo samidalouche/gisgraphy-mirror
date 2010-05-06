@@ -30,15 +30,12 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.gisgraphy.domain.repository.IOpenStreetMapDao;
-import com.gisgraphy.domain.repository.OpenStreetMapDao;
 import com.gisgraphy.domain.valueobject.Constants;
 import com.gisgraphy.domain.valueobject.NameValueDTO;
 
@@ -75,9 +72,6 @@ public class GeonamesAlternateNamesExtracter extends AbstractImporterProcessor {
     
     private OutputStreamWriter featuresfileOutputStreamWriter;
 
-    private SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd-HH-mm:ss");
-
-    private StringBuffer sb = new StringBuffer();
 
     @Autowired
     private IOpenStreetMapDao openStreetMapDao;
