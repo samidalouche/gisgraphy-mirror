@@ -25,6 +25,7 @@
 			<include>launch.bat</include>
 			<include>launch.sh</include>
 			<include>start.jar</include>
+			<include>migrationguide</include>
 			</includes>
 		</fileSet>
 		<!-- license -->

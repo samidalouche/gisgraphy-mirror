@@ -34,6 +34,7 @@ import javax.persistence.SequenceGenerator;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.Index;
+import org.hibernate.annotations.IndexColumn;
 import org.hibernate.annotations.Type;
 
 import com.gisgraphy.domain.geoloc.service.fulltextsearch.StreetSearchMode;
@@ -51,47 +52,55 @@ import com.vividsolutions.jts.geom.Point;
 @Entity
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 @SequenceGenerator(name = "streetosmsequence", sequenceName = "street_osm_sequence")
-public class OpenStreetMap  {
+public class OpenStreetMap {
 
     public static final String SHAPE_COLUMN_NAME = "shape";
-    
+
     /**
-     * Name of the column that is equals to to_tsvector({@link #FULLTEXTSEARCH_COLUMN_NAME}
-     * It is used to do Fulltext search with the postgres text search module (to use the index)
-     * This value should be change if the getter and the setter of the {@link #textSearchName} change
+     * Name of the column that is equals to to_tsvector(
+     * {@link #FULLTEXTSEARCH_COLUMN_NAME} It is used to do Fulltext search with
+     * the postgres text search module (to use the index) This value should be
+     * change if the getter and the setter of the {@link #textSearchName} change
      */
     public static final String FULLTEXTSEARCH_VECTOR_COLUMN_NAME = "textsearchVector";
-    
+
     /**
-     * Name of the column that is equals to to_tsvector({@link #PARTIALSEARCH_COLUMN_NAME}
-     * It is used to do Fulltext search with the postgres text search module (to use the index)
-     * This value should be change if the getter and the setter of the {@link #partialSearchName} change
+     * Name of the column that is equals to to_tsvector(
+     * {@link #PARTIALSEARCH_COLUMN_NAME} It is used to do Fulltext search with
+     * the postgres text search module (to use the index) This value should be
+     * change if the getter and the setter of the {@link #partialSearchName}
+     * change
      */
     public static final String PARTIALSEARCH_VECTOR_COLUMN_NAME = "partialsearchVector";
-    
+
     /**
-     * Name of the field property in hibernate. This is a string that is used for fulltext and contains search without postgres fulltext engine.
-     * this fields will have the name without accent and special char
-     *  This value should be change if the getter and the setter of the {@link #getTextsearchVector()} change
-     *  @see StreetSearchMode#FULLTEXT
+     * Name of the field property in hibernate. This is a string that is used
+     * for fulltext and contains search without postgres fulltext engine. this
+     * fields will have the name without accent and special char This value
+     * should be change if the getter and the setter of the
+     * {@link #getTextsearchVector()} change
+     * 
+     * @see StreetSearchMode#FULLTEXT
      */
     public static final String FULLTEXTSEARCH_PROPERTY_NAME = "textSearchName";
-    
-      
+
     /**
-     * Name of the column that is equals to store a string that is used for fulltext search. it deffer form the @{@link #FULLTEXTSEARCH_COLUMN_NAME}
-     *  because Hibernate, by default, lowercase the property to get the column name 
-     *  This value should be change if the getter and the setter of the {@link #getTextsearchVector()} change
-     *  @see StreetSearchMode#FULLTEXT
+     * Name of the column that is equals to store a string that is used for
+     * fulltext search. it deffer form the @{@link #FULLTEXTSEARCH_COLUMN_NAME}
+     * because Hibernate, by default, lowercase the property to get the column
+     * name This value should be change if the getter and the setter of the
+     * {@link #getTextsearchVector()} change
+     * 
+     * @see StreetSearchMode#FULLTEXT
      */
     public static final String FULLTEXTSEARCH_COLUMN_NAME = FULLTEXTSEARCH_PROPERTY_NAME.toLowerCase();
-    
-    
-    
+
     /**
-     * Name of the column that is used to store a string used for partial search with postgres fulltext engine
-     *  This value should be change if the getter and the setter of the {@link #getPartialsearchVector()} change
-     *  @see StreetSearchMode#CONTAINS
+     * Name of the column that is used to store a string used for partial search
+     * with postgres fulltext engine This value should be change if the getter
+     * and the setter of the {@link #getPartialsearchVector()} change
+     * 
+     * @see StreetSearchMode#CONTAINS
      */
     public static final String PARTIALSEARCH_COLUMN_NAME = "partialsearchname";
 
@@ -103,128 +112,131 @@ public class OpenStreetMap  {
     public OpenStreetMap() {
 	super();
     }
-    
+
     @IntrospectionIgnoredField
     private Long id;
-    
+
     private Long gid;
 
     private String name;
-    
+
     private StreetType streetType;
-    
+
     private boolean oneWay = false;
-    
+
     private Point location;
-    
+
     @IntrospectionIgnoredField
     private LineString shape;
-    
+
     private String countryCode;
-    
+
     private Double length;
-    
+
     @IntrospectionIgnoredField
     private String partialSearchName;
-    
+
     @IntrospectionIgnoredField
     private String textSearchName;
-    
-    /**
-	 * This String is used to search for a part of a street name
-	 * @see StreetSearchMode#CONTAINS
-	 * @return the partialSearchName
-	 */
-    @Column(unique = false, nullable = true, columnDefinition="text")
-	public String getPartialSearchName() {
-		return partialSearchName;
-	}
-
-
-	/**
-	 * @param partialSearchName the partialSearchName to set
-	 */
-	public void setPartialSearchName(String partialSearchName) {
-		this.partialSearchName = partialSearchName;
-	}
-
-
-	/**
-	 * This value is use to do a Fulltext search for a street name with index
-	 * @return the textSearchName
-	 */
-	 @Column(unique = false, nullable = true, columnDefinition="text")
-	public String getTextSearchName() {
-		return textSearchName;
-	}
-
-
-	/**
-	 * @param textSearchName the textSearchName to set
-	 */
-	public void setTextSearchName(String textSearchName) {
-		this.textSearchName = textSearchName;
-	}
-
-    
 
     /**
-     * IT DOES NOTHING. ONLY USE BY HIBERNATE
-     * This field is only use for the text search to improve performance, you should not set / get a value,
-     * it is declared here, to create the column 
+     * This String is used to search for a part of a street name
+     * 
+     * @see StreetSearchMode#CONTAINS
+     * @return the partialSearchName
+     */
+    @Column(unique = false, nullable = true, columnDefinition = "text")
+    public String getPartialSearchName() {
+	return partialSearchName;
+    }
+
+    /**
+     * @param partialSearchName
+     *            the partialSearchName to set
+     */
+    public void setPartialSearchName(String partialSearchName) {
+	this.partialSearchName = partialSearchName;
+    }
+
+    /**
+     * This value is use to do a Fulltext search for a street name with index
+     * 
+     * @return the textSearchName
+     */
+    @Column(unique = false, nullable = true, columnDefinition = "text")
+    public String getTextSearchName() {
+	return textSearchName;
+    }
+
+    /**
+     * @param textSearchName
+     *            the textSearchName to set
+     */
+    public void setTextSearchName(String textSearchName) {
+	this.textSearchName = textSearchName;
+    }
+
+    /**
+     * IT DOES NOTHING. ONLY USE BY HIBERNATE This field is only use for the
+     * text search to improve performance, you should not set / get a value, it
+     * is declared here, to create the column
+     * 
      * @return null ALWAYS
      */
-    @Column(unique = false, nullable = true,insertable=false,updatable=true,  columnDefinition="tsvector")
+    @Column(unique = false, nullable = true, insertable = false, updatable = true, columnDefinition = "tsvector")
     @Type(type = "com.gisgraphy.hibernate.type.TsVectorStringType")
     public String getTextsearchVector() {
-        return null;
+	return null;
     }
-    
-  
+
     /**
      * IT DOES NOTHING. ONLY USE BY HIBERNATE
-     * @param textsearchVector the textsearchVector to set
+     * 
+     * @param textsearchVector
+     *            the textsearchVector to set
      * 
      */
     public void setTextsearchVector(String textsearchVector) {
     }
 
-    
     /**
-     * IT DOES NOTHING. ONLY USE BY HIBERNATE
-     * This field is only use for the autocomplete search to improve performance, you should not set / get a value,
-     * it is declared here, to create the column 
+     * IT DOES NOTHING. ONLY USE BY HIBERNATE This field is only use for the
+     * autocomplete search to improve performance, you should not set / get a
+     * value, it is declared here, to create the column
+     * 
      * @return null ALWAYS
      */
-    @Column(unique = false, nullable = true,insertable=false,updatable=true,  columnDefinition="tsvector")
+    @Column(unique = false, nullable = true, insertable = false, updatable = true, columnDefinition = "tsvector")
     @Type(type = "com.gisgraphy.hibernate.type.TsVectorStringType")
     public String getPartialsearchVector() {
-        return null;
+	return null;
     }
 
     /**
      * IT DOES NOTHING. ONLY USE BY HIBERNATE
-     * @param partialsearchVector the ilikesearch to set
+     * 
+     * @param partialsearchVector
+     *            the ilikesearch to set
      */
     public void setPartialsearchVector(String partialsearchVector) {
-	
+
     }
-    
-    
+
     /**
      * @return the id
      */
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "streetosmsequence")
     public Long getId() {
-        return id;
+	return id;
     }
 
     /**
-     * @param id the id to set
+     * @param id
+     *            the id to set
      */
     public void setId(Long id) {
-        this.id = id;
+	this.id = id;
     }
 
     /**
@@ -233,31 +245,31 @@ public class OpenStreetMap  {
     @Index(name = "streetosmgidindex")
     @Column(unique = true, nullable = false)
     public Long getGid() {
-        return gid;
-    }
-    
-    /**
-     * @param gid the gid to set
-     */
-    public void setGid(Long gid) {
-        this.gid = gid;
+	return gid;
     }
 
+    /**
+     * @param gid
+     *            the gid to set
+     */
+    public void setGid(Long gid) {
+	this.gid = gid;
+    }
 
     /**
      * @return the name
      */
-    @Index(name = "streetosmnameIndex")
     @Column(length = 255)
     public String getName() {
-        return name;
+	return name;
     }
 
     /**
-     * @param name the name to set
+     * @param name
+     *            the name to set
      */
     public void setName(String name) {
-        this.name = name;
+	this.name = name;
     }
 
     /**
@@ -266,14 +278,15 @@ public class OpenStreetMap  {
     @Index(name = "streetosmtypeIndex")
     @Enumerated(EnumType.STRING)
     public StreetType getStreetType() {
-        return streetType;
+	return streetType;
     }
 
     /**
-     * @param streetType the streetType to set
+     * @param streetType
+     *            the streetType to set
      */
     public void setStreetType(StreetType streetType) {
-        this.streetType = streetType;
+	this.streetType = streetType;
     }
 
     /**
@@ -282,18 +295,16 @@ public class OpenStreetMap  {
     @Index(name = "streetosmonewayIndex")
     @Column(length = 9)
     public boolean getOneWay() {
-        return oneWay;
+	return oneWay;
     }
-
 
     /**
-     * @param oneWay the oneWay to set
+     * @param oneWay
+     *            the oneWay to set
      */
     public void setOneWay(boolean oneWay) {
-        this.oneWay = oneWay;
+	this.oneWay = oneWay;
     }
-    
-    
 
     /**
      * Returns The JTS location point of the current street : The Geometry
@@ -304,16 +315,17 @@ public class OpenStreetMap  {
      * @return The JTS Point
      */
     @Type(type = "org.hibernatespatial.GeometryUserType")
-    @Column(name=OpenStreetMap.LOCATION_COLUMN_NAME)
+    @Column(name = OpenStreetMap.LOCATION_COLUMN_NAME)
     public Point getLocation() {
-        return location;
+	return location;
     }
 
     /**
-     * @param location the location to set
+     * @param location
+     *            the location to set
      */
     public void setLocation(Point location) {
-        this.location = location;
+	this.location = location;
     }
 
     /**
@@ -322,47 +334,47 @@ public class OpenStreetMap  {
     @Type(type = "org.hibernatespatial.GeometryUserType")
     @Column(nullable = false)
     public LineString getShape() {
-        return shape;
+	return shape;
     }
 
     /**
-     * @param shape the shape to set
+     * @param shape
+     *            the shape to set
      */
     public void setShape(LineString shape) {
-        this.shape = shape;
+	this.shape = shape;
     }
 
     /**
-      * @return The ISO 3166 alpha-2 letter code.
+     * @return The ISO 3166 alpha-2 letter code.
      */
     @Index(name = "openstreetmapcountryindex")
     @Column(length = 3)
     public String getCountryCode() {
-        return countryCode;
+	return countryCode;
     }
 
     /**
-     * @param countryCode the countryCode to set
+     * @param countryCode
+     *            the countryCode to set
      */
     public void setCountryCode(String countryCode) {
-        this.countryCode = countryCode;
+	this.countryCode = countryCode;
     }
 
     /**
      * @return the length of the street in meters
      */
     public Double getLength() {
-        return length;
+	return length;
     }
 
     /**
-     * @param length the length to set
+     * @param length
+     *            the length to set
      */
     public void setLength(Double length) {
-        this.length = length;
+	this.length = length;
     }
 
-
-	
-  
 }

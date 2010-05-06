@@ -268,8 +268,13 @@ public class OpenStreetMapDaoTest extends AbstractIntegrationHttpSolrTestCase{
     }
     
     @Test
-    public void testCreateIndexesShouldNotThrow(){
-    	openStreetMapDao.createIndexes();
+    public void testCreateSpatialIndexesShouldNotThrow(){
+    	openStreetMapDao.createSpatialIndexes();
+    }
+    
+    @Test
+    public void testCreateFulltextIndexesShouldNotThrow(){
+    	openStreetMapDao.createFulltextIndexes();
     }
     
 

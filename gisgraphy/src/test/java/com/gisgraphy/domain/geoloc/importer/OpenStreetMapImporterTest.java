@@ -22,6 +22,11 @@
  *******************************************************************************/
 package com.gisgraphy.domain.geoloc.importer;
 
+import static org.easymock.EasyMock.anyObject;
+import static org.easymock.EasyMock.expect;
+import static org.easymock.classextension.EasyMock.createMock;
+import static org.easymock.classextension.EasyMock.replay;
+
 import java.io.File;
 import java.util.List;
 
@@ -39,6 +44,7 @@ import com.gisgraphy.domain.valueobject.ImporterStatus;
 import com.gisgraphy.domain.valueobject.NameValueDTO;
 import com.gisgraphy.helper.GeolocHelper;
 import com.gisgraphy.helper.StringHelper;
+import com.gisgraphy.service.IInternationalisationService;
 import com.vividsolutions.jts.geom.Point;
 
 
@@ -104,15 +110,7 @@ public class OpenStreetMapImporterTest extends AbstractIntegrationHttpSolrTestCa
 		
     }
     
-    
-    public void setOpenStreetMapDao(IOpenStreetMapDao openStreetMapDao) {
-        this.openStreetMapDao = openStreetMapDao;
-    }
-
-    
-    public void setOpenStreetMapImporter(OpenStreetMapImporter openStreetMapImporter) {
-        this.openStreetMapImporter = openStreetMapImporter;
-    }
+   
     
     @Test
     public void testProcessLineWithBadShapeShouldNotTryToSaveLine(){
@@ -167,12 +165,30 @@ public class OpenStreetMapImporterTest extends AbstractIntegrationHttpSolrTestCa
     
     @Test
     public void testSetup(){
-		Long savedGeneratedId = OpenStreetMapImporter.generatedId;
+	Long savedGeneratedId = OpenStreetMapImporter.generatedId;
     	OpenStreetMapImporter.generatedId = 1000L;
+    	
+    	IOpenStreetMapDao openStreetMapDao = createMock(IOpenStreetMapDao.class);
+    	openStreetMapDao.createSpatialIndexes();
+    	replay(openStreetMapDao);
+    	
+    	IInternationalisationService internationalisationService = createMock(IInternationalisationService.class);
+    	expect(internationalisationService.getString((String)anyObject())).andStubReturn("localizedString");
+    	replay(internationalisationService);
+    	
+    	
     	OpenStreetMapImporter importer = new OpenStreetMapImporter();
+    	importer.setOpenStreetMapDao(openStreetMapDao);
+    	
     	importer.setup();
     	long generatedId = OpenStreetMapImporter.generatedId;
     	assertEquals("The generatedId should be reset to 0 before import",0L, generatedId);
+    	assertEquals("statusMessage should be set to empty string at the end  of the setup method","", importer.getStatusMessage());
+    	
+    	
+    	EasyMock.verify(openStreetMapDao);
+    	
+    	//restore the last value
     	OpenStreetMapImporter.generatedId = savedGeneratedId;
     }
     
@@ -208,6 +224,16 @@ public class OpenStreetMapImporterTest extends AbstractIntegrationHttpSolrTestCa
     	};
     	importer.process();
     	assertTrue(OpenStreetMapImporterTest.setupIsCalled);
+    }
+    
+    
+    public void setOpenStreetMapDao(IOpenStreetMapDao openStreetMapDao) {
+        this.openStreetMapDao = openStreetMapDao;
+    }
+
+    
+    public void setOpenStreetMapImporter(OpenStreetMapImporter openStreetMapImporter) {
+        this.openStreetMapImporter = openStreetMapImporter;
     }
 
 }

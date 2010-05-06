@@ -41,7 +41,7 @@ public class OpenStreetMapFulltextBuilderTest {
 	public void testSetupShouldCreateTheIndex() {
 		OpenStreetMapFulltextBuilder builder = new OpenStreetMapFulltextBuilder();
 		IOpenStreetMapDao openStreetMapDao = createMock(IOpenStreetMapDao.class);
-		openStreetMapDao.createIndexes();
+		openStreetMapDao.createFulltextIndexes();
 		replay(openStreetMapDao);
 
 		IInternationalisationService internationalisationService = createMock(IInternationalisationService.class);
@@ -87,7 +87,7 @@ public class OpenStreetMapFulltextBuilderTest {
 			}
 		};
 		IOpenStreetMapDao openStreetMapDao = createMock(IOpenStreetMapDao.class);
-		openStreetMapDao.createIndexes();
+		openStreetMapDao.createFulltextIndexes();
 		expect(openStreetMapDao.countEstimate()).andReturn(400L);
 		expect(openStreetMapDao.updateTS_vectorColumnForStreetNameSearchPaginate(0, builder.increment - 1)).andReturn(250);
 		expect(openStreetMapDao.updateTS_vectorColumnForStreetNameSearchPaginate(builder.increment, (builder.increment * 2) - 1)).andReturn(200);

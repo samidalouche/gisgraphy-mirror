@@ -64,6 +64,9 @@ public class OpenStreetMapImporter extends AbstractImporterProcessor {
         super.setup();
         logger.info("reseting Openstreetmap generatedId");
         OpenStreetMapImporter.generatedId = 0L;
+        statusMessage = internationalisationService.getString("import.message.createIndex");
+        openStreetMapDao.createSpatialIndexes();
+        statusMessage="";
     }
 
     /* (non-Javadoc)

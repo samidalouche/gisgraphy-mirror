@@ -151,7 +151,7 @@ public class OpenStreetMapFulltextBuilder implements IImporterProcessor {
 
 	protected void setup() {
 		statusMessage = internationalisationService.getString("import.message.createIndex");
-		openStreetMapDao.createIndexes();
+		openStreetMapDao.createFulltextIndexes();
 	}
 
 	public void resetStatus() {
