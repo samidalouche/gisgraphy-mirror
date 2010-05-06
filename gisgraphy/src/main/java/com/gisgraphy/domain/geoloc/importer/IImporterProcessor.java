@@ -81,7 +81,7 @@ public interface IImporterProcessor {
      * 
      * @return a {@linkplain NameValueDTO} with the name of the deleted object
      *         and the number of deleted Object. No entry will be return for
-     *         Object that were 0 object will be deleted.
+     *         Object that were 0 object will be deleted except if an error occurred during the deletion.
      */
     public List<NameValueDTO<Integer>> rollback();
 
