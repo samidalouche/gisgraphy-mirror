@@ -632,4 +632,8 @@ public abstract class AbstractImporterProcessor implements IImporterProcessor {
 	return statusMessage;
     }
 
+    public void setInternationalisationService(IInternationalisationService internationalisationService) {
+        this.internationalisationService = internationalisationService;
+    }
+
 }

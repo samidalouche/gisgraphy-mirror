@@ -179,6 +179,7 @@ public class OpenStreetMapImporterTest extends AbstractIntegrationHttpSolrTestCa
     	
     	OpenStreetMapImporter importer = new OpenStreetMapImporter();
     	importer.setOpenStreetMapDao(openStreetMapDao);
+    	importer.setInternationalisationService(internationalisationService);
     	
     	importer.setup();
     	long generatedId = OpenStreetMapImporter.generatedId;
