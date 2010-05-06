@@ -698,4 +698,24 @@ public class AdmDao extends GenericGisDao<Adm> implements IAdmDao {
 	}
     }
 
+    @SuppressWarnings("unchecked")
+    public List<Long> listFeatureIdByLevel(final int level) {
+	return ((List<Long>) this.getHibernateTemplate().execute(
+		new HibernateCallback() {
+
+		    public Object doInHibernate(final Session session)
+			    throws PersistenceException {
+			final String queryString = "select featureId from "
+				+ persistentClass.getSimpleName()
+				+ " as a where a.level=?";
+
+			final Query qry = session.createQuery(queryString);
+			qry.setParameter(0, level);
+			qry.setCacheable(false);
+			return qry.list();
+
+		    }
+		}));
+    }
+
 }

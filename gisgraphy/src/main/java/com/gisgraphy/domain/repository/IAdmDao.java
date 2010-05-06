@@ -297,5 +297,12 @@ public interface IAdmDao extends IGisDao<Adm> {
      *                deleted Adm
      */
     public int deleteAllByLevel(final int level);
+    
+    /**
+     * List all the featureId of the Adms of a specified level 
+     * @param level the level
+     * @return a list of all featureId
+     */
+    public List<Long> listFeatureIdByLevel(final int level);
 
 }
