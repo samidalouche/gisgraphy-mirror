@@ -31,10 +31,14 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.gisgraphy.domain.repository.IAdmDao;
+import com.gisgraphy.domain.repository.ICountryDao;
 import com.gisgraphy.domain.repository.IOpenStreetMapDao;
 import com.gisgraphy.domain.valueobject.Constants;
 import com.gisgraphy.domain.valueobject.NameValueDTO;
@@ -54,27 +58,39 @@ public class GeonamesAlternateNamesExtracter extends AbstractImporterProcessor {
     
     public static final String ALTERNATE_NAMES_FEATURES_FILENAME = "alternateNames-features.txt";
 
-    private File adm1file;
+    protected File adm1file;
 
-    private File adm2file;
+    protected File adm2file;
 
-    private File countryFile;
+    protected File countryFile;
     
-    private File featuresFile;
+    protected File featuresFile;
 
     
 
-    private OutputStreamWriter adm1fileOutputStreamWriter;
+    protected OutputStreamWriter adm1fileOutputStreamWriter;
 
-    private OutputStreamWriter adm2fileOutputStreamWriter;
+    protected OutputStreamWriter adm2fileOutputStreamWriter;
 
-    private OutputStreamWriter countryfileOutputStreamWriter;
+    protected OutputStreamWriter countryfileOutputStreamWriter;
     
-    private OutputStreamWriter featuresfileOutputStreamWriter;
+    protected OutputStreamWriter featuresfileOutputStreamWriter;
 
 
     @Autowired
     private IOpenStreetMapDao openStreetMapDao;
+    
+    @Autowired
+    private IAdmDao admDao;
+    
+    @Autowired
+    private ICountryDao countryDao;
+
+    protected Map<Long, String> countryMap;
+    
+	protected Map<Long, String> adm1Map;
+
+	protected Map<Long, String> adm2Map;
 
 
     /**
@@ -82,8 +98,10 @@ public class GeonamesAlternateNamesExtracter extends AbstractImporterProcessor {
      */
     public GeonamesAlternateNamesExtracter() {
 	super();
-
     }
+    
+     
+    
 
     /*
      * (non-Javadoc)
@@ -105,11 +123,18 @@ public class GeonamesAlternateNamesExtracter extends AbstractImporterProcessor {
 	// isEmptyField(fields,1,true);
 	if (!isEmptyField(fields, 1, false)) {
 	    // fields = ImporterHelper.virtualizeADMD(fields);
-	    if (lineIsAnAlternateNameForCountry(fields[1])) {
+		Long featureId;
+		try {
+			featureId = new Long(fields[1]);
+		} catch (NumberFormatException e) {
+			logger.warn("geonamesid "+fields[1]+" is not a number for line "+line);
+			return;
+		}
+	    if (lineIsAnAlternateNameForCountry(featureId)) {
 		writeAlternateName(countryfileOutputStreamWriter,line);
-	    } else if (lineIsAnnAlternateNameForAdm1(fields[1])) {
+	    } else if (lineIsAnAlternateNameForAdm1(featureId)) {
 		writeAlternateName(adm1fileOutputStreamWriter,line);
-	    } else if (lineIsAnAlternatNameForAdm2(fields[1])) {
+	    } else if (lineIsAnAlternatNameForAdm2(featureId)) {
 		writeAlternateName(adm2fileOutputStreamWriter,line);
 	    }else {
 		writeAlternateName(featuresfileOutputStreamWriter,line);
@@ -121,16 +146,16 @@ public class GeonamesAlternateNamesExtracter extends AbstractImporterProcessor {
     
   
 
-    private boolean lineIsAnAlternatNameForAdm2(String geonameid) {
-	return false;
+    protected boolean lineIsAnAlternatNameForAdm2(Long featureId) {
+		return adm2Map.get(featureId)!=null;
     }
 
-    private boolean lineIsAnnAlternateNameForAdm1(String geonameid) {
-	return false;
+    protected boolean lineIsAnAlternateNameForAdm1(Long featureId) {
+    	return adm1Map.get(featureId)!=null;
     }
 
-    private boolean lineIsAnAlternateNameForCountry(String geonameid) {
-	return false;
+    protected boolean lineIsAnAlternateNameForCountry(Long featureId) {
+    	return countryMap.get(featureId)!=null;
     }
 
     /* (non-Javadoc)
@@ -138,7 +163,10 @@ public class GeonamesAlternateNamesExtracter extends AbstractImporterProcessor {
      */
     @Override
     public boolean shouldBeSkipped() {
-	return !importerConfig.isGeonamesImporterEnabled();
+    	 if (importerConfig.isImportGisFeatureEmbededAlternateNames() || !importerConfig.isGeonamesImporterEnabled()){
+             return true ;
+         }
+         return false;
     }
 
     /*
@@ -226,7 +254,7 @@ public class GeonamesAlternateNamesExtracter extends AbstractImporterProcessor {
 
     }
 
-    private void initFiles() {
+    protected void initFiles() {
 	adm1file = new File(importerConfig.getGeonamesDir()
 		+ ALTERNATE_NAMES_ADM1_FILENAME);
 	adm2file = new File(importerConfig.getGeonamesDir()
@@ -270,7 +298,21 @@ public class GeonamesAlternateNamesExtracter extends AbstractImporterProcessor {
     @Override
     public void setup() {
 	super.setup();
+	List<Long> countriesIDs = countryDao.listFeatureIds();
+	List<Long> adm1IDs = admDao.listFeatureIdByLevel(1);
+	List<Long> adm2IDs = admDao.listFeatureIdByLevel(2);
+    adm1Map = populateMapFromList(adm1IDs);
+	adm2Map = populateMapFromList(adm2IDs);
+	countryMap = populateMapFromList(countriesIDs);
 	initFiles();
+    }
+    
+    public Map<Long,String> populateMapFromList(List<Long> list){
+    	Map<Long,String> map = new HashMap<Long,String>(list.size()+1); 
+    	for(Long id: list){
+    		map.put(id, "");
+    	}
+    	return map;
     }
 
     /*

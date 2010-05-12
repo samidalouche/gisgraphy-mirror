@@ -92,4 +92,10 @@ public interface ICountryDao extends IGisDao<Country> {
      *         list
      */
     public List<Country> getAllSortedByName();
+    
+    /**
+     * List all the featureId of countries 
+     * @return a list of all featureId for all the countries
+     */
+    public List<Long> listFeatureIds();
 }

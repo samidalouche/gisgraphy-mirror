@@ -240,4 +240,22 @@ public class CountryDao extends GenericGisDao<Country> implements ICountryDao {
 
     }
 
+    @SuppressWarnings("unchecked")
+	public List<Long> listFeatureIds() {
+		return ((List<Long>) this.getHibernateTemplate().execute(
+			new HibernateCallback() {
+
+			    public Object doInHibernate(final Session session)
+				    throws PersistenceException {
+				final String queryString = "select featureId from "
+					+ persistentClass.getSimpleName();
+
+				final Query qry = session.createQuery(queryString);
+				qry.setCacheable(false);
+				return qry.list();
+
+			    }
+			}));
+	}
+
 }

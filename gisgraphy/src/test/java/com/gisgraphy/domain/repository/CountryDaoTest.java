@@ -267,27 +267,9 @@ public class CountryDaoTest extends AbstractIntegrationHttpSolrTestCase {
 
     @Test
     public void testGetAllSortedByName() {
-	Country country1 = new Country("FR", "FRA", 33);
-	country1.setFeatureId(new Random().nextLong());
-	country1.setFeatureClass("A");
-	country1.setFeatureCode("PCL");
-	country1.setLocation(GeolocTestHelper.createPoint(0F, 0F));
-	country1.setName("c");
-	country1.setSource(GISSource.GEONAMES);
-	Country country2 = new Country("BE", "BEL", 34);
-	country2.setFeatureId(new Random().nextLong());
-	country2.setFeatureClass("A");
-	country2.setFeatureCode("PCL");
-	country2.setLocation(GeolocTestHelper.createPoint(0F, 0F));
-	country2.setName("a");
-	country2.setSource(GISSource.GEONAMES);
-	Country country3 = new Country("DE", "DEL", 35);
-	country3.setFeatureId(new Random().nextLong());
-	country3.setFeatureClass("A");
-	country3.setFeatureCode("PCL");
-	country3.setLocation(GeolocTestHelper.createPoint(0F, 0F));
-	country3.setName("B");
-	country3.setSource(GISSource.GEONAMES);
+    	Country country1 = createCountry("FR","FRA",33,25L,"c");
+    	Country country2 = createCountry("BE","BEL",34,26L,"a"); 
+    	Country country3 = createCountry("DE","DEL",35,27L,"B");
 	countryDao.save(country1);
 	countryDao.save(country2);
 	countryDao.save(country3);
@@ -297,6 +279,33 @@ public class CountryDaoTest extends AbstractIntegrationHttpSolrTestCase {
 	assertEquals("B", expected.get(1).getName());
 	assertEquals("c", expected.get(2).getName());
     }
+    
+    @Test
+    public void testlistFeatureIds() {
+	Country country1 = createCountry("FR","FRA",33,25L,"c");
+	Country country2 = createCountry("BE","BEL",34,26L,"a"); 
+	Country country3 = createCountry("DE","DEL",35,27L,"B");new Country("DE", "DEL", 35);
+	countryDao.save(country1);
+	countryDao.save(country2);
+	countryDao.save(country3);
+	List<Long> expected = countryDao.listFeatureIds();
+	assertEquals("The list of featureIds has not the expected size", 3,expected.size());
+	assertTrue("the featureId of the first country is not present", expected.contains(country1.getFeatureId()));
+	assertTrue("the featureId of the second country is not present", expected.contains(country2.getFeatureId()));
+	assertTrue("the featureId of the third country is not present", expected.contains(country3.getFeatureId()));
+    }
+
+	private Country createCountry(String iso3166Alpha2Code, String iso3166Alpha3Code,
+		    int iso3166NumericCode,Long featureID,String name) {
+		Country country1 = new Country(iso3166Alpha2Code,iso3166Alpha3Code, iso3166NumericCode);
+		country1.setFeatureId(featureID);
+		country1.setFeatureClass("A");
+		country1.setFeatureCode("PCL");
+		country1.setLocation(GeolocTestHelper.createPoint(0F, 0F));
+		country1.setName(name);
+		country1.setSource(GISSource.GEONAMES);
+		return country1;
+	}
 
     @Test
     public void testGetAllSortedByNameShouldReturnAnEmptyListIfNoResult() {

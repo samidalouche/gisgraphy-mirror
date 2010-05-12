@@ -158,9 +158,6 @@ public class GeonamesAlternateNamesImporterTest extends AbstractIntegrationHttpS
 	importerConfig.setGeonamesImporterEnabled(true);
 	importerConfig.setImportGisFeatureEmbededAlternateNames(true);
 	Assert.assertTrue(alternateNameImporter.shouldBeSkipped());
-	
-	
-	
     }
     
     
