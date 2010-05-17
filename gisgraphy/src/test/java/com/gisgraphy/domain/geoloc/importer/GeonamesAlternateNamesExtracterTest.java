@@ -24,6 +24,7 @@ import org.springframework.test.AssertThrows;
 import com.gisgraphy.domain.repository.IAdmDao;
 import com.gisgraphy.domain.repository.ICountryDao;
 import com.gisgraphy.helper.FileHelper;
+import com.gisgraphy.test.GeolocTestHelper;
 
 
 public class GeonamesAlternateNamesExtracterTest {
@@ -108,6 +109,7 @@ public class GeonamesAlternateNamesExtracterTest {
 		  
 		  Assert.assertTrue("the featuresFile should have been created",extracter.featuresFile.exists());
 		  Assert.assertNotNull("the featuresfileOutputStreamWriter writer should not be null",extracter.featuresfileOutputStreamWriter!=null);
+		  GeolocTestHelper.DeleteNonEmptyDirectory(tempDir);
 	  }
 
 	  
