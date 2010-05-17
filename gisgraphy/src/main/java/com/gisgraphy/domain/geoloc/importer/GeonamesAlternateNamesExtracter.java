@@ -36,6 +36,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Required;
 
 import com.gisgraphy.domain.repository.IAdmDao;
 import com.gisgraphy.domain.repository.ICountryDao;
@@ -119,10 +120,7 @@ public class GeonamesAlternateNamesExtracter extends AbstractImporterProcessor {
 	 * alternate name 4 : isPreferredName 5 : isShortName
 	 */
 
-	// isEmptyField(fields,0,true);
-	// isEmptyField(fields,1,true);
 	if (!isEmptyField(fields, 1, false)) {
-	    // fields = ImporterHelper.virtualizeADMD(fields);
 		Long featureId;
 		try {
 			featureId = new Long(fields[1]);
@@ -301,13 +299,13 @@ public class GeonamesAlternateNamesExtracter extends AbstractImporterProcessor {
 	List<Long> countriesIDs = countryDao.listFeatureIds();
 	List<Long> adm1IDs = admDao.listFeatureIdByLevel(1);
 	List<Long> adm2IDs = admDao.listFeatureIdByLevel(2);
-    adm1Map = populateMapFromList(adm1IDs);
+	adm1Map = populateMapFromList(adm1IDs);
 	adm2Map = populateMapFromList(adm2IDs);
 	countryMap = populateMapFromList(countriesIDs);
 	initFiles();
     }
     
-    public Map<Long,String> populateMapFromList(List<Long> list){
+    protected Map<Long,String> populateMapFromList(List<Long> list){
     	Map<Long,String> map = new HashMap<Long,String>(list.size()+1); 
     	for(Long id: list){
     		map.put(id, "");
@@ -451,6 +449,21 @@ public class GeonamesAlternateNamesExtracter extends AbstractImporterProcessor {
 	    deletedObjectInfo.add(new NameValueDTO<Integer>(file.getName(), 0));
 	    logger.info("File " + file.getName() + " has not been deleted");
 	}
+    }
+
+
+
+    @Required
+    public void setAdmDao(IAdmDao admDao) {
+        this.admDao = admDao;
+    }
+
+
+
+
+    @Required
+    public void setCountryDao(ICountryDao countryDao) {
+        this.countryDao = countryDao;
     }
 
 }

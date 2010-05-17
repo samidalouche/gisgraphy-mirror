@@ -1,16 +1,34 @@
 package com.gisgraphy.domain.geoloc.importer;
 
+import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertTrue;
+import static org.easymock.EasyMock.expect;
+import static org.easymock.classextension.EasyMock.createMock;
+import static org.easymock.classextension.EasyMock.replay;
+import static org.easymock.classextension.EasyMock.verify;
+
 import java.io.File;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import junit.framework.Assert;
 
+import org.easymock.classextension.EasyMock;
 import org.junit.Test;
+import org.springframework.test.AssertThrows;
 
+import com.gisgraphy.domain.repository.IAdmDao;
+import com.gisgraphy.domain.repository.ICountryDao;
 import com.gisgraphy.helper.FileHelper;
 
 
 public class GeonamesAlternateNamesExtracterTest {
+    
+    public boolean initFilesIsCalled = false;
 	
 	  @Test
 	    public void testShouldBeSkipShouldReturnCorrectValue(){
@@ -90,9 +108,181 @@ public class GeonamesAlternateNamesExtracterTest {
 		  
 		  Assert.assertTrue("the featuresFile should have been created",extracter.featuresFile.exists());
 		  Assert.assertNotNull("the featuresfileOutputStreamWriter writer should not be null",extracter.featuresfileOutputStreamWriter!=null);
-		  
-		  
 	  }
 
+	  
+	  @Test
+	  public void testSetup(){
+	      ICountryDao countryDao = createMockCountryDao();
+	      
+	      IAdmDao admDao = createMockAdmDao();
+	      
+	      
+	      GeonamesAlternateNamesExtracter extracter = new  GeonamesAlternateNamesExtracter(){
+		
+
+		@Override
+		protected void initFiles() {
+		   initFilesIsCalled = true;
+		}
+	      };
+	      extracter.setAdmDao(admDao);
+	      extracter.setCountryDao(countryDao);
+	      
+	      extracter.setup();
+	      assertTrue("initfiles should be called in setup",initFilesIsCalled);
+	      assertEquals("the adm1 map has not the expected number of element ",2,extracter.adm1Map.size());
+	      assertTrue("the adm1 map is missing a value",extracter.adm1Map.containsKey(3L));
+	      assertTrue("the adm1 map is missing a value",extracter.adm1Map.containsKey(4L));
+	      
+	      assertEquals("the adm2 map has not the expected number of element ",2,extracter.adm2Map.size());
+	      assertTrue("the adm2 map is missing a value",extracter.adm2Map.containsKey(5L));
+	      assertTrue("the adm2 map is missing a value",extracter.adm2Map.containsKey(6L));
+	      
+	      assertEquals("the countries map has not the expected number of element ",2,extracter.countryMap.size());
+	      assertTrue("the countries map is missing a value",extracter.countryMap.containsKey(1L));
+	      assertTrue("the countries map is missing a value",extracter.countryMap.containsKey(2L));
+	      verify(countryDao);
+	      verify(admDao);
+	      
+	  }
+
+	private IAdmDao createMockAdmDao() {
+	    IAdmDao admDao = createMock(IAdmDao.class);
+	      List<Long> adm1Ids = new ArrayList<Long>();
+	      adm1Ids.add(3L);
+	      adm1Ids.add(4L);
+	      List<Long> adm2Ids = new ArrayList<Long>();
+	      adm2Ids.add(5L);
+	      adm2Ids.add(6L);
+	      expect(admDao.listFeatureIdByLevel(1)).andReturn(adm1Ids);
+	      expect(admDao.listFeatureIdByLevel(2)).andReturn(adm2Ids);
+	      replay(admDao);
+	    return admDao;
+	}
+
+	private ICountryDao createMockCountryDao() {
+	    ICountryDao countryDao = EasyMock.createMock(ICountryDao.class);
+	      List<Long> countriesIds = new ArrayList<Long>();
+	      countriesIds.add(1L);
+	      countriesIds.add(2L);
+	      expect(countryDao.listFeatureIds()).andStubReturn(countriesIds);
+	      replay(countryDao);
+	    return countryDao;
+	}
+	  
+	  @Test
+	  public void testProcessDataWithNonNumericFeatureIdShouldIgnoreTheLine(){
+	      GeonamesAlternateNamesExtracter extracter = new  GeonamesAlternateNamesExtracter();
+	      extracter.processData("1	nonnumeric	FR	alterantony	1	1");
+	  }
+	  
+	  @Test
+	  public void testProcessDataWithMissingAlternateNameIDShouldIgnoreTheLine(){
+	      GeonamesAlternateNamesExtracter extracter = new  GeonamesAlternateNamesExtracter();
+	      extracter.processData("	nonnumeric	FR	alterantony	1	1");
+	  }
+	  
+	  @Test
+	  public void testProcessDataWithCountryFeatureIDShouldIgnoreTheLine() throws IOException{
+	      String line = "1	1	FR	alterantony	1	1";
+	      GeonamesAlternateNamesExtracter extracter = new  GeonamesAlternateNamesExtracter(){
+		  @Override
+		protected boolean lineIsAnAlternateNameForCountry(Long featureId) {
+		   return true;
+		}
+	      };
+	      OutputStreamWriter mockWriter = EasyMock.createMock(OutputStreamWriter.class);
+	      mockWriter.write(line);
+	      mockWriter.flush();
+	      replay(mockWriter);
+	      extracter.countryfileOutputStreamWriter= mockWriter;
+	      extracter.setCountryDao(createMockCountryDao());
+	      extracter.processData(line);
+	      verify(mockWriter);
+	  }
+	  
+	  @Test
+	  public void testProcessDataWithAdm1FeatureIDShouldIgnoreTheLine() throws IOException{
+	      String line = "1	1	FR	alterantony	1	1";
+	      GeonamesAlternateNamesExtracter extracter = new  GeonamesAlternateNamesExtracter(){
+		  @Override
+		protected boolean lineIsAnAlternateNameForCountry(Long featureId) {
+		   return false;
+		}
+		
+		  @Override
+		protected boolean lineIsAnAlternateNameForAdm1(Long featureId) {
+		    return true;
+		}
+		  
+	      };
+	      OutputStreamWriter mockWriter = EasyMock.createMock(OutputStreamWriter.class);
+	      mockWriter.write(line);
+	      mockWriter.flush();
+	      replay(mockWriter);
+	      extracter.adm1fileOutputStreamWriter= mockWriter;
+	      extracter.setCountryDao(createMockCountryDao());
+	      extracter.processData(line);
+	      verify(mockWriter);
+	  }
+	  
+	  @Test
+	  public void testProcessDataWithAdm2FeatureIDShouldIgnoreTheLine() throws IOException{
+	      String line = "1	1	FR	alterantony	1	1";
+	      GeonamesAlternateNamesExtracter extracter = new  GeonamesAlternateNamesExtracter(){
+		  @Override
+		protected boolean lineIsAnAlternateNameForCountry(Long featureId) {
+		   return false;
+		}
+		
+		  @Override
+		protected boolean lineIsAnAlternateNameForAdm1(Long featureId) {
+		    return false;
+		}
+		  
+		  @Override
+		protected boolean lineIsAnAlternatNameForAdm2(Long featureId) {
+		    return true;
+		}
+	      };
+	      OutputStreamWriter mockWriter = EasyMock.createMock(OutputStreamWriter.class);
+	      mockWriter.write(line);
+	      mockWriter.flush();
+	      replay(mockWriter);
+	      extracter.adm2fileOutputStreamWriter= mockWriter;
+	      extracter.setCountryDao(createMockCountryDao());
+	      extracter.processData(line);
+	      verify(mockWriter);
+	  }
+	  
+	  @Test
+	  public void testProcessDataWithGenericFeatureIDShouldIgnoreTheLine() throws IOException{
+	      String line = "1	1	FR	alterantony	1	1";
+	      GeonamesAlternateNamesExtracter extracter = new  GeonamesAlternateNamesExtracter(){
+		  @Override
+		protected boolean lineIsAnAlternateNameForCountry(Long featureId) {
+		   return false;
+		}
+		
+		  @Override
+		protected boolean lineIsAnAlternateNameForAdm1(Long featureId) {
+		    return false;
+		}
+		  
+		  @Override
+		protected boolean lineIsAnAlternatNameForAdm2(Long featureId) {
+		    return false;
+		}
+	      };
+	      OutputStreamWriter mockWriter = EasyMock.createMock(OutputStreamWriter.class);
+	      mockWriter.write(line);
+	      mockWriter.flush();
+	      replay(mockWriter);
+	      extracter.featuresfileOutputStreamWriter= mockWriter;
+	      extracter.setCountryDao(createMockCountryDao());
+	      extracter.processData(line);
+	      verify(mockWriter);
+	  }
 	  
 }
