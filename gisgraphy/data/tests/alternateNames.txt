@@ -4,12 +4,8 @@
 21	2990611	post	92201	0	0
 #a gisfeature(not a city) with a zipcode=>must log but not throw
 3	3000816	post	00001	0	0
-#an adm
-4	3012874	FR	Région parisienne2	1	1
-# a country
-5	3017382	ES	FranceAlteres	1	0
 #an unwanted field iata
-6	3000751	iata	gésilloniata	0	0
+6	3000751	iata	gï¿½silloniata	0	0
 #an unwanted field icao
 7	3000751	iciao	gesilloniciao	0	0
 #an unwanted field fr-1793
@@ -22,3 +18,7 @@
 11	3031137	FR	Boulogne-Billancourt2	0	1
 #an unknow type of alternate
 12	3031137	XX	Boulogne-Billancourt3	1	0
+# a country
+5	3017382	ES	FranceAlteres	1	0
+#an adm
+4	3012874	FR	Rï¿½gion parisienne2	1	1
