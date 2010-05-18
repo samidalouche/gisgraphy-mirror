@@ -222,11 +222,11 @@ public class GeonamesFeatureImporter extends AbstractImporterProcessor {
 	}
 
 	// add alternatenames
-	// not necessary because alternatenames will ba added by its own
+	// not necessary because alternatenames will be added by its own
 	// importer
 	if (!isEmptyField(fields, 3, false)
 		&& importerConfig.isImportGisFeatureEmbededAlternateNames()) {
-	    gisFeature.addAlternateNames(addAlternateNames(fields[3],
+	    gisFeature.addAlternateNames(splitAlternateNames(fields[3],
 		    gisFeature));
 	}
 
@@ -487,7 +487,7 @@ public class GeonamesFeatureImporter extends AbstractImporterProcessor {
 	}
     }
 
-    private List<AlternateName> addAlternateNames(String alternateNamesString,
+    private List<AlternateName> splitAlternateNames(String alternateNamesString,
 	    GisFeature gisFeature) {
 	String[] alternateNames = alternateNamesString.split(",");
 	List<AlternateName> alternateNamesList = new ArrayList<AlternateName>();
@@ -497,7 +497,6 @@ public class GeonamesFeatureImporter extends AbstractImporterProcessor {
 	    alternateName.setSource(AlternateNameSource.EMBEDED);
 	    alternateName.setGisFeature(gisFeature);
 	    alternateNamesList.add(alternateName);
-
 	}
 	return alternateNamesList;
     }
