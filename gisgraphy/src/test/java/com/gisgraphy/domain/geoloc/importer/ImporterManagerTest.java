@@ -77,7 +77,7 @@ import com.gisgraphy.domain.valueobject.ImporterStatus;
 import com.gisgraphy.domain.valueobject.ImporterStatusDto;
 import com.gisgraphy.helper.FileHelper;
 import com.gisgraphy.test.GeolocTestHelper;
-
+//test class that really must be splitted, refactored, and unit tested vs integration tested
 public class ImporterManagerTest extends AbstractIntegrationHttpSolrTestCase {
 
     private static final String ADM1_FILENAME_WITH_WRONG_NUMBER_OF_FIELDS = "admin1CodesWithWrongNumberOfFields.txt";
@@ -119,6 +119,8 @@ public class ImporterManagerTest extends AbstractIntegrationHttpSolrTestCase {
     private IImporterProcessor geonamesCountryImporter;
 
     private IImporterProcessor geonamesAlternateNamesImporter;
+    
+    private IImporterProcessor geonamesAlternateNamesExtracter;
 
     private ImporterConfig importerConfig;
 
@@ -139,7 +141,7 @@ public class ImporterManagerTest extends AbstractIntegrationHttpSolrTestCase {
     private IAlternateNameDao alternateNameDao;
 
     /*
-     * don't know why on windows, we must do this and sometimes no (encoding
+     * don't know why on windows, we must do this and sometimes not (encoding
      * problems
      */
     private String toUTF8(String text) {
@@ -147,16 +149,8 @@ public class ImporterManagerTest extends AbstractIntegrationHttpSolrTestCase {
 	return text;
     }
 
-    @Test
-    public void testcreateImporterMetadataDirIfItDoesnTExistShouldCreateTheGeonamesDirIfItDoesnTExist(){
-    	ImporterConfig fakeImporterConfig = new ImporterConfig();
-    	String geonameDirPathThatDoesnTExist = System.getProperty("java.io.tmpdir")+File.separator+Math.abs(new Random().nextInt());
-    	fakeImporterConfig.setGeonamesDir(geonameDirPathThatDoesnTExist);
-    	fakeImporterConfig.createImporterMetadataDirIfItDoesnTExist();
-    	assertTrue("if the geonames directory doen't exists it should be created when the getAlreadyDoneFilePath method is called", new File(geonameDirPathThatDoesnTExist).exists());
-    }
-    
-  
+   
+   @Test
     public void testIsAlreadydoneShouldThrowsifTheImporterMetadataDoesnTExist(){
     	ImporterConfig fakeImporterConfig = new ImporterConfig();
     	String geonameDirPathThatDoesnTExist = System.getProperty("java.io.tmpdir")+File.separator+Math.abs(new Random().nextInt());
@@ -277,11 +271,7 @@ public class ImporterManagerTest extends AbstractIntegrationHttpSolrTestCase {
 	File alreadyDoneFile = new File(fakeImporterConfig.getAlreadyDoneFilePath());
 	Assert.assertTrue("can not create the 'already done' file to simulate that the import is not already done ",alreadyDoneFile.createNewFile());
 	
-	
-	//IGisDao<? extends GisFeature>[] daoList = new IGisDao[2];
-	//daoList[0] = mockCityDao;
-	//daoList[1] = mockGisDao;
-	//fakeimporterManager.setIDaos(daoList);
+
 	assertFalse(fakeimporterManager.isAlreadyDone());
 	assertFalse(fakeimporterManager.isInProgress());
 	fakeimporterManager.importAll();
@@ -301,7 +291,7 @@ public class ImporterManagerTest extends AbstractIntegrationHttpSolrTestCase {
     }
 
     @Test
-    public void testImportAdm2WithbadGisFeatureIdFormatShouldNotThrows() {
+    public void testImportAdm2WithBadGisFeatureIdFormatShouldNotThrows() {
 	// save option
 	String savedAdmFileName = importerConfig.getAdm2FileName();
 	AdmExtracterStrategyOptions admStrategy = importerConfig
@@ -1118,6 +1108,7 @@ public class ImporterManagerTest extends AbstractIntegrationHttpSolrTestCase {
 	processAndCheckGeonamesAdm3Importer();
 	processAndCheckGeonamesAdm4Importer();
 	int allAlternateNamesSize = processAndCheckGeonamesFeatureImporter();
+	processAndCheckGeonamesAlternateNamesExtracter();
 	processAndCheckGeonamesAlternateNamesImporter(allAlternateNamesSize);
     }
 
@@ -1741,6 +1732,11 @@ public class ImporterManagerTest extends AbstractIntegrationHttpSolrTestCase {
 	}
 	return allAlternateNamesSize;
     }
+    
+    private void processAndCheckGeonamesAlternateNamesExtracter(){
+	geonamesAlternateNamesExtracter.process();
+	//TODO
+    }
 
     /**
      * 
@@ -1875,6 +1871,7 @@ public class ImporterManagerTest extends AbstractIntegrationHttpSolrTestCase {
 
 	adm3 = this.admDao.getAdm3("FR", "A8", "92", "923");
 	checkAdmName(adm3, "Arrondissement de Boulogne-Billancourt");
+	//TODO check name and ascii name
     }
 
     /**
@@ -1909,6 +1906,7 @@ public class ImporterManagerTest extends AbstractIntegrationHttpSolrTestCase {
 	// do some other check because adm2 export format contains featureId and
 	// AsciiName
 	assertEquals("Departement des Hauts-de-Seine", adm2.getAsciiName());
+	assertEquals("Département des Hauts-de-Seine", adm2.getName());
 	assertEquals(new Long(3013657), adm2.getFeatureId());
     }
 
@@ -2286,7 +2284,7 @@ public class ImporterManagerTest extends AbstractIntegrationHttpSolrTestCase {
 
     /**
      * @param file
-     * @return a Map with first field (featureId in most case) as key and the
+     * @return a Map with featureId (in most case) as key and the
      *         splitted fields as value
      */
     private Map<String, String[]> fileToMap(File file) {
@@ -2452,6 +2450,11 @@ public class ImporterManagerTest extends AbstractIntegrationHttpSolrTestCase {
     @Required
     public void setAlternateNameDao(IAlternateNameDao alternateNameDao) {
 	this.alternateNameDao = alternateNameDao;
+    }
+
+    @Required
+    public void setGeonamesAlternateNamesExtracter(IImporterProcessor geonamesAlternateNamesExtracter) {
+        this.geonamesAlternateNamesExtracter = geonamesAlternateNamesExtracter;
     }
 
 }

@@ -139,5 +139,15 @@ public class ImporterConfigTest {
 		assertTrue("when all the condition are ok the function should return true", importerConfig.isConfigCorrectForImport());
 		
 	}
+	
+	 @Test
+	    public void testcreateImporterMetadataDirIfItDoesnTExistShouldCreateTheGeonamesDirIfItDoesnTExist(){
+	    	ImporterConfig fakeImporterConfig = new ImporterConfig();
+	    	String geonameDirPathThatDoesnTExist = System.getProperty("java.io.tmpdir")+File.separator+Math.abs(new Random().nextInt());
+	    	fakeImporterConfig.setGeonamesDir(geonameDirPathThatDoesnTExist);
+	    	fakeImporterConfig.createImporterMetadataDirIfItDoesnTExist();
+	    	assertTrue("if the geonames directory doen't exists it should be created when the getAlreadyDoneFilePath method is called", new File(geonameDirPathThatDoesnTExist).exists());
+	    }
+	    
 
 }
