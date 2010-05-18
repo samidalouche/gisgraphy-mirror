@@ -121,7 +121,14 @@
 		<property name="admDao" ref="admDao" />
 	</bean>
 	
-		<bean id="geonamesAdm3Importer"
+	<bean id="geonamesAlternateNamesExtracter"
+		class="com.gisgraphy.domain.geoloc.importer.GeonamesAlternateNamesExtracter"
+		parent="abstractGeonamesProcessor">
+		<property name="admDao" ref="admDao" />
+		<property name="countryDao" ref="countryDao" />
+	</bean>
+	
+	<bean id="geonamesAdm3Importer"
 		class="com.gisgraphy.domain.geoloc.importer.GeonamesAdm3Importer"
 		parent="abstractGeonamesProcessor">
 		<property name="admDao" ref="admDao" />
@@ -182,6 +189,7 @@
 				<ref bean="geonamesAdm3Importer" />
 				<ref bean="geonamesAdm4Importer" />
 				<ref bean="geonamesFeatureImporter" />
+				<ref bean="geonamesAlternateNamesExtracter" />
 				<ref bean="geonamesAlternateNamesImporter" />
 				<ref bean="geonamesDatabaseIndexer" />
 				<ref bean="openstreetmapFileRetriever" />
