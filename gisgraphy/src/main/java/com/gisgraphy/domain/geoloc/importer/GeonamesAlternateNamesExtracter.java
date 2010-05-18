@@ -78,9 +78,7 @@ public class GeonamesAlternateNamesExtracter extends AbstractImporterProcessor {
     protected OutputStreamWriter featuresfileOutputStreamWriter;
 
 
-    @Autowired
-    private IOpenStreetMapDao openStreetMapDao;
-    
+   
     @Autowired
     private IAdmDao admDao;
     
@@ -186,6 +184,7 @@ public class GeonamesAlternateNamesExtracter extends AbstractImporterProcessor {
 	if (outputStreamWriter != null) {
 		try {
 		    outputStreamWriter.write(line);
+		    outputStreamWriter.write("\r\n");
 		    flushAndClear();
 		} catch (IOException e) {
 		    throw new RuntimeException(
