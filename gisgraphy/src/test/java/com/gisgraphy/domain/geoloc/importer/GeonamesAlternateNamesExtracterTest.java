@@ -194,10 +194,7 @@ public class GeonamesAlternateNamesExtracterTest {
 		   return true;
 		}
 	      };
-	      OutputStreamWriter mockWriter = EasyMock.createMock(OutputStreamWriter.class);
-	      mockWriter.write(line);
-	      mockWriter.flush();
-	      replay(mockWriter);
+	      OutputStreamWriter mockWriter = createMockWriter(line);
 	      extracter.countryfileOutputStreamWriter= mockWriter;
 	      extracter.setCountryDao(createMockCountryDao());
 	      extracter.processData(line);
@@ -219,10 +216,7 @@ public class GeonamesAlternateNamesExtracterTest {
 		}
 		  
 	      };
-	      OutputStreamWriter mockWriter = EasyMock.createMock(OutputStreamWriter.class);
-	      mockWriter.write(line);
-	      mockWriter.flush();
-	      replay(mockWriter);
+	      OutputStreamWriter mockWriter = createMockWriter(line);
 	      extracter.adm1fileOutputStreamWriter= mockWriter;
 	      extracter.setCountryDao(createMockCountryDao());
 	      extracter.processData(line);
@@ -248,10 +242,7 @@ public class GeonamesAlternateNamesExtracterTest {
 		    return true;
 		}
 	      };
-	      OutputStreamWriter mockWriter = EasyMock.createMock(OutputStreamWriter.class);
-	      mockWriter.write(line);
-	      mockWriter.flush();
-	      replay(mockWriter);
+	      OutputStreamWriter mockWriter = createMockWriter(line);
 	      extracter.adm2fileOutputStreamWriter= mockWriter;
 	      extracter.setCountryDao(createMockCountryDao());
 	      extracter.processData(line);
@@ -277,14 +268,20 @@ public class GeonamesAlternateNamesExtracterTest {
 		    return false;
 		}
 	      };
-	      OutputStreamWriter mockWriter = EasyMock.createMock(OutputStreamWriter.class);
-	      mockWriter.write(line);
-	      mockWriter.flush();
-	      replay(mockWriter);
+	      OutputStreamWriter mockWriter = createMockWriter(line);
 	      extracter.featuresfileOutputStreamWriter= mockWriter;
 	      extracter.setCountryDao(createMockCountryDao());
 	      extracter.processData(line);
 	      verify(mockWriter);
 	  }
+
+	private OutputStreamWriter createMockWriter(String line) throws IOException {
+	    OutputStreamWriter mockWriter = EasyMock.createMock(OutputStreamWriter.class);
+	      mockWriter.write(line);
+	      mockWriter.write("\r\n");
+	      mockWriter.flush();
+	      replay(mockWriter);
+	    return mockWriter;
+	}
 	  
 }
