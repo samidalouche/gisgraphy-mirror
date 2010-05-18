@@ -9,7 +9,6 @@ import static org.easymock.classextension.EasyMock.verify;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -19,7 +18,6 @@ import junit.framework.Assert;
 
 import org.easymock.classextension.EasyMock;
 import org.junit.Test;
-import org.springframework.test.AssertThrows;
 
 import com.gisgraphy.domain.repository.IAdmDao;
 import com.gisgraphy.domain.repository.ICountryDao;
