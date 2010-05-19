@@ -6,6 +6,8 @@ import junit.framework.Assert;
 
 import org.junit.Test;
 
+import com.gisgraphy.test.GeolocTestHelper;
+
 
 public class FileHelperTest {
 
@@ -18,5 +20,6 @@ public class FileHelperTest {
 	Assert.assertTrue("the temporary directory should be writable", directory.canWrite());
 	Assert.assertTrue("the temporary directory haven't been created", directory.exists());
 	Assert.assertTrue("the temporary directory should contains the specified parameter", directory.getName().contains(name));
+	Assert.assertTrue("the tempDir has not been deleted", GeolocTestHelper.DeleteNonEmptyDirectory(directory));
     }
 }

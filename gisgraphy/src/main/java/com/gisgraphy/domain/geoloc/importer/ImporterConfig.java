@@ -157,6 +157,7 @@ public class ImporterConfig {
 	 * @param geonamesImporterEnabled enable or disable Geonames importer
 	 * @see ImporterConfig#isGeonamesImporterEnabled()
 	 */
+	@Required
 	public void setGeonamesImporterEnabled(boolean geonamesImporterEnabled) {
 		this.geonamesImporterEnabled = geonamesImporterEnabled;
 	}
@@ -173,6 +174,7 @@ public class ImporterConfig {
 	 * @param openstreetmapImporterEnabled enable or disable Openstreetmap importer
 	 * @see ImporterConfig#isOpenstreetmapImporterEnabled()
 	 */
+	@Required
 	public void setOpenstreetmapImporterEnabled(boolean openstreetmapImporterEnabled) {
 		this.openstreetmapImporterEnabled = openstreetmapImporterEnabled;
 	}
@@ -231,6 +233,14 @@ public class ImporterConfig {
 	private AdmExtracterStrategyOptions adm3ExtracterStrategyIfAlreadyExists;
 
 	private AdmExtracterStrategyOptions adm4ExtracterStrategyIfAlreadyExists;
+
+	private String alternateNameFeaturesFileName;
+
+	private String alternateNameAdm1FileName;
+
+	private String alternateNameAdm2FileName;
+
+	private String alternateNameCountryFileName;
 
 	/**
 	 * What should we do if the Adm file for the specified level has already
@@ -610,6 +620,7 @@ public class ImporterConfig {
 	 * @param retrieveFiles
 	 *                The options
 	 */
+	@Required
 	public void setRetrieveFiles(boolean retrieveFiles) {
 		this.retrieveFiles = retrieveFiles;
 	}
@@ -799,6 +810,7 @@ public class ImporterConfig {
 	 * @param maxInsertsBeforeFlush
 	 *                The option
 	 */
+	@Required
 	public void setMaxInsertsBeforeFlush(int maxInsertsBeforeFlush) {
 		this.maxInsertsBeforeFlush = maxInsertsBeforeFlush;
 	}
@@ -886,4 +898,81 @@ public class ImporterConfig {
 		return dirpath;
 	}
 
+	/**
+	 * Get the name of the file where the alternate names of features that are not adm1, adm2, or country are 
+	 * @see #setAlternateNameFeaturesFileName(String)
+	 * @return The name of the file
+	 */
+	public String getAlternateNameFeaturesFileName() {
+		return alternateNameFeaturesFileName;
+	}
+
+	/**
+	 * Set the name of the file where the alternate names of features that are not adm1, adm2, or country are 
+	 * @see #getAlternateNameFeaturesFileName()
+	 * @param alternateNameFeaturesFileName The name of the file to set
+	 */
+	@Required
+	public void setAlternateNameFeaturesFileName(String alternateNameFeaturesFileName) {
+		this.alternateNameFeaturesFileName = alternateNameFeaturesFileName;
+	}
+
+	/**
+	 * Get the name of the file where the alternate names of adm with level 1 are 
+	 * @see #setAlternateNameAdm1FileName(String)
+	 * @return The name of the file
+	 */
+	public String getAlternateNameAdm1FileName() {
+		return alternateNameAdm1FileName;
+	}
+
+	/**
+	 * Set the name of the file where the alternate names of adm with level 1 are 
+	 * @see #getAlternateNameAdm1FileName()
+	 * @param alternateNameAdm1FileName The name of the file to set
+	 */
+	@Required
+	public void setAlternateNameAdm1FileName(String alternateNameAdm1FileName) {
+		this.alternateNameAdm1FileName = alternateNameAdm1FileName;
+	}
+
+	/**
+	 * Get the name of the file where the alternate names of adm with level 2 are 
+	 * @see #setAlternateNameAdm2FileName(String)
+	 * @return The name of the file
+	 */
+	public String getAlternateNameAdm2FileName() {
+		return alternateNameAdm2FileName;
+	}
+
+	/**
+	 * Set the name of the file where the alternate names of adm with level 2 are 
+	 * @see #getAlternateNameAdm2FileName()
+	 * @param alternateNameAdm2FileName The name of the file to set
+	 */
+	@Required
+	public void setAlternateNameAdm2FileName(String alternateNameAdm2FileName) {
+		this.alternateNameAdm2FileName = alternateNameAdm2FileName;
+	}
+
+	/**
+	 * Get the name of the file where the alternate names of countries are 
+	 * @see #setAlternateNameCountryFileName(String)
+	 * @return The name of the file
+	 */
+	public String getAlternateNameCountryFileName() {
+		return alternateNameCountryFileName;
+	}
+
+	/**
+	 * Set the name of the file where the alternate names of countries are 
+	 * @see #getAlternateNameCountryFileName()
+	 * @param alternateNameCountryFileName The name of the file to set
+	 */
+	@Required
+	public void setAlternateNameCountryFileName(String alternateNameCountryFileName) {
+		this.alternateNameCountryFileName = alternateNameCountryFileName;
+	}
+
+	
 }

@@ -40,7 +40,6 @@ import org.springframework.beans.factory.annotation.Required;
 
 import com.gisgraphy.domain.repository.IAdmDao;
 import com.gisgraphy.domain.repository.ICountryDao;
-import com.gisgraphy.domain.repository.IOpenStreetMapDao;
 import com.gisgraphy.domain.valueobject.Constants;
 import com.gisgraphy.domain.valueobject.NameValueDTO;
 
@@ -51,14 +50,6 @@ import com.gisgraphy.domain.valueobject.NameValueDTO;
  */
 public class GeonamesAlternateNamesExtracter extends AbstractImporterProcessor {
 
-    public static final String ALTERNATE_NAMES_COUNTRY_FILENAME = "alternateNames-country.txt";
-
-    public static final String ALTERNATE_NAMES_ADM2_FILENAME = "alternateNames-adm2.txt";
-
-    public static final String ALTERNATE_NAMES_ADM1_FILENAME = "alternateNames-adm1.txt";
-    
-    public static final String ALTERNATE_NAMES_FEATURES_FILENAME = "alternateNames-features.txt";
-
     protected File adm1file;
 
     protected File adm2file;
@@ -66,8 +57,6 @@ public class GeonamesAlternateNamesExtracter extends AbstractImporterProcessor {
     protected File countryFile;
     
     protected File featuresFile;
-
-    
 
     protected OutputStreamWriter adm1fileOutputStreamWriter;
 
@@ -77,8 +66,6 @@ public class GeonamesAlternateNamesExtracter extends AbstractImporterProcessor {
     
     protected OutputStreamWriter featuresfileOutputStreamWriter;
 
-
-   
     @Autowired
     private IAdmDao admDao;
     
@@ -99,9 +86,6 @@ public class GeonamesAlternateNamesExtracter extends AbstractImporterProcessor {
 	super();
     }
     
-     
-    
-
     /*
      * (non-Javadoc)
      * 
@@ -253,13 +237,13 @@ public class GeonamesAlternateNamesExtracter extends AbstractImporterProcessor {
 
     protected void initFiles() {
 	adm1file = new File(importerConfig.getGeonamesDir()
-		+ ALTERNATE_NAMES_ADM1_FILENAME);
+		+ importerConfig.getAlternateNameAdm1FileName());
 	adm2file = new File(importerConfig.getGeonamesDir()
-		+ ALTERNATE_NAMES_ADM2_FILENAME);
+		+ importerConfig.getAlternateNameAdm2FileName());
 	countryFile = new File(importerConfig.getGeonamesDir()
-		+ ALTERNATE_NAMES_COUNTRY_FILENAME);
+		+ importerConfig.getAlternateNameCountryFileName());
 	featuresFile = new File(importerConfig.getGeonamesDir()
-		+ ALTERNATE_NAMES_FEATURES_FILENAME);
+		+ importerConfig.getAlternateNameFeaturesFileName());
 	try {
 	    adm1fileOutputStreamWriter = getWriter(adm1file);
 	    adm2fileOutputStreamWriter = getWriter(adm2file);
@@ -424,16 +408,16 @@ public class GeonamesAlternateNamesExtracter extends AbstractImporterProcessor {
     public List<NameValueDTO<Integer>> rollback() {
 	List<NameValueDTO<Integer>> deletedObjectInfo = new ArrayList<NameValueDTO<Integer>>();
 	adm1file = new File(importerConfig.getGeonamesDir()
-		+ ALTERNATE_NAMES_ADM1_FILENAME);
+		+ importerConfig.getAlternateNameAdm1FileName());
 	deleteFile(adm1file, deletedObjectInfo);
 	adm2file = new File(importerConfig.getGeonamesDir()
-		+ ALTERNATE_NAMES_ADM2_FILENAME);
+		+ importerConfig.getAlternateNameAdm2FileName());
 	deleteFile(adm2file, deletedObjectInfo);
 	countryFile = new File(importerConfig.getGeonamesDir()
-		+ ALTERNATE_NAMES_COUNTRY_FILENAME);
+		+ importerConfig.getAlternateNameCountryFileName());
 	deleteFile(countryFile, deletedObjectInfo);
 	featuresFile = new File(importerConfig.getGeonamesDir()
-		+ ALTERNATE_NAMES_FEATURES_FILENAME);
+		+ importerConfig.getAlternateNameFeaturesFileName());
 	deleteFile(featuresFile, deletedObjectInfo);
 	resetStatus();
 	return deletedObjectInfo;
@@ -450,14 +434,10 @@ public class GeonamesAlternateNamesExtracter extends AbstractImporterProcessor {
 	}
     }
 
-
-
     @Required
     public void setAdmDao(IAdmDao admDao) {
         this.admDao = admDao;
     }
-
-
 
 
     @Required

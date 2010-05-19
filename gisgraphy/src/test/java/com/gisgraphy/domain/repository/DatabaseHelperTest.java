@@ -78,7 +78,7 @@ public class DatabaseHelperTest extends AbstractTransactionalTestCase {
 	}
 
 	Assert.assertTrue("The file has not been process correctly", databaseHelper.execute(new File(file.getAbsolutePath()), false).isEmpty());
-	tempDir.delete();
+	Assert.assertTrue("the tempDir has not been deleted", GeolocTestHelper.DeleteNonEmptyDirectory(tempDir));
     }
 
     public void testExecuteFileFailureWithContinueOnError() throws Exception {
@@ -111,8 +111,7 @@ public class DatabaseHelperTest extends AbstractTransactionalTestCase {
 	}
 
 	Assert.assertFalse("The file has not been process correctly", databaseHelper.execute(new File(file.getAbsolutePath()), true).isEmpty());
-	file.delete();
-	tempDir.delete();
+	Assert.assertTrue("the tempDir has not been deleted", GeolocTestHelper.DeleteNonEmptyDirectory(tempDir));
     }
 
     @Test
@@ -122,8 +121,7 @@ public class DatabaseHelperTest extends AbstractTransactionalTestCase {
 	databaseHelper.generateSqlCreationSchemaFile(file);
 	assertFalse("the creation script should not contains 'drop'", isFileContains(file, "drop"));
 	assertTrue("the creation script should contains 'create'", isFileContains(file, "create"));
-	file.delete();
-	tempDir.delete();
+	Assert.assertTrue("the tempDir has not been deleted", GeolocTestHelper.DeleteNonEmptyDirectory(tempDir));
     }
 
     @Test
@@ -133,8 +131,7 @@ public class DatabaseHelperTest extends AbstractTransactionalTestCase {
 	databaseHelper.generateSQLDropSchemaFile(file);
 	assertTrue("the drop SQL script should 'drop'", isFileContains(file, "drop"));
 	assertFalse("the drop SQL script should contains 'create'", isFileContains(file, "create"));
-	file.delete();
-	tempDir.delete();
+	Assert.assertTrue("the tempDir has not been deleted", GeolocTestHelper.DeleteNonEmptyDirectory(tempDir));
     }
 
     @Test
@@ -148,8 +145,7 @@ public class DatabaseHelperTest extends AbstractTransactionalTestCase {
 	    assertFalse("The creation script to re-run import should not contains " + DatabaseHelper.TABLES_NAME_THAT_MUST_BE_KEPT_WHEN_RESETING_IMPORT[i], 
 		    isFileContains(file, DatabaseHelper.TABLES_NAME_THAT_MUST_BE_KEPT_WHEN_RESETING_IMPORT[i]));
 	}
-	file.delete();
-	tempDir.delete();
+	Assert.assertTrue("the tempDir has not been deleted", GeolocTestHelper.DeleteNonEmptyDirectory(tempDir));
     }
     
 
@@ -164,8 +160,7 @@ public class DatabaseHelperTest extends AbstractTransactionalTestCase {
 	    assertFalse("The drop script to re-run import should not contains " + DatabaseHelper.TABLES_NAME_THAT_MUST_BE_KEPT_WHEN_RESETING_IMPORT[i], 
 		    isFileContains(file, DatabaseHelper.TABLES_NAME_THAT_MUST_BE_KEPT_WHEN_RESETING_IMPORT[i]));
 	}
-	file.delete();
-	tempDir.delete();
+	Assert.assertTrue("the tempDir has not been deleted", GeolocTestHelper.DeleteNonEmptyDirectory(tempDir));
     }
     
     @Test
@@ -185,9 +180,7 @@ public class DatabaseHelperTest extends AbstractTransactionalTestCase {
 	int numberOfSequenceCreation = GeolocTestHelper.countLinesInFileThatStartsWith(fileCreate, "create sequence");
 	Assert.assertEquals("number of sequence deletion = "+numberOfSequenceDeletion+" but number of sequence creation="+numberOfSequenceCreation,numberOfSequenceDeletion,numberOfSequenceCreation );
 	
-	fileDrop.delete();
-	fileCreate.delete();
-	tempDir.delete();
+	Assert.assertTrue("the tempDir has not been deleted", GeolocTestHelper.DeleteNonEmptyDirectory(tempDir));
     }
     
     @Test

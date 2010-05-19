@@ -253,6 +253,10 @@
 		<property name="openstreetMapDownloadURL" value="${importer.openstreetmap.downloadURL}"/>
 		<property name="geonamesImporterEnabled" value="${importer.geonames.enabled}"/>
 		<property name="openstreetmapImporterEnabled" value="${importer.openstreetmap.enabled}"/>
+		<property name="alternateNameFeaturesFileName" value="${importerConfig.alternateNameFeaturesFileName}"/>
+		<property name="alternateNameAdm1FileName" value="${importerConfig.alternateNameAdm1FileName}"/>
+		<property name="alternateNameAdm2FileName" value="${importerConfig.alternateNameAdm2FileName}"/>
+		<property name="alternateNameCountryFileName" value="${importerConfig.alternateNameCountryFileName}"/>
 	</bean>
 	
 	 

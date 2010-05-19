@@ -22,6 +22,7 @@
  *******************************************************************************/
 package com.gisgraphy.domain.geoloc.importer;
 
+import static com.gisgraphy.domain.valueobject.Pagination.paginate;
 import static org.easymock.classextension.EasyMock.verify;
 
 import java.io.BufferedInputStream;
@@ -29,9 +30,11 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -59,6 +62,9 @@ import com.gisgraphy.domain.geoloc.entity.Forest;
 import com.gisgraphy.domain.geoloc.entity.GisFeature;
 import com.gisgraphy.domain.geoloc.entity.Language;
 import com.gisgraphy.domain.geoloc.service.fulltextsearch.AbstractIntegrationHttpSolrTestCase;
+import com.gisgraphy.domain.geoloc.service.fulltextsearch.FullTextFields;
+import com.gisgraphy.domain.geoloc.service.fulltextsearch.FullTextSearchException;
+import com.gisgraphy.domain.geoloc.service.fulltextsearch.FulltextQuery;
 import com.gisgraphy.domain.geoloc.service.fulltextsearch.IsolrClient;
 import com.gisgraphy.domain.repository.IAdmDao;
 import com.gisgraphy.domain.repository.IAlternateNameDao;
@@ -75,7 +81,13 @@ import com.gisgraphy.domain.valueobject.Constants;
 import com.gisgraphy.domain.valueobject.GISSource;
 import com.gisgraphy.domain.valueobject.ImporterStatus;
 import com.gisgraphy.domain.valueobject.ImporterStatusDto;
+import com.gisgraphy.domain.valueobject.Output;
+import com.gisgraphy.domain.valueobject.Pagination;
+import com.gisgraphy.domain.valueobject.Output.OutputFormat;
+import com.gisgraphy.domain.valueobject.Output.OutputStyle;
 import com.gisgraphy.helper.FileHelper;
+import com.gisgraphy.helper.URLUtils;
+import com.gisgraphy.test.FeedChecker;
 import com.gisgraphy.test.GeolocTestHelper;
 //test class that really must be splitted, refactored, and unit tested vs integration tested
 public class ImporterManagerTest extends AbstractIntegrationHttpSolrTestCase {
@@ -1150,7 +1162,152 @@ public class ImporterManagerTest extends AbstractIntegrationHttpSolrTestCase {
 			    .size());
 	}
 
-	// TODO v2 test some value
+	// TODO v2 test some value for meudon
+	
+	File tempDir = FileHelper.createTempDir(this.getClass()
+			.getSimpleName());
+		File file = new File(tempDir.getAbsolutePath()
+			+ System.getProperty("file.separator") + "serialize.txt");
+
+		OutputStream outputStream = null;
+		try {
+		    outputStream = new FileOutputStream(file);
+		} catch (FileNotFoundException e1) {
+		    fail();
+		}
+	try {
+	    Pagination pagination = paginate().from(1).to(10);
+	    Output output = Output.withFormat(OutputFormat.XML)
+		    .withLanguageCode("FR").withStyle(OutputStyle.FULL)
+		    .withIndentation();
+	    FulltextQuery fulltextQuery = new FulltextQuery("meudon",
+		    pagination, output, City.class, "fr").withSpellChecking();
+	    fullTextSearchEngine.executeAndSerialize(fulltextQuery,
+		    outputStream);
+	} catch (FullTextSearchException e) {
+	    fail("error during search : " + e.getMessage());
+	}
+
+	String content = "";
+	try {
+	    content = GeolocTestHelper.readFileAsString(file.getAbsolutePath());
+	} catch (IOException e) {
+	    fail("can not get content of file " + file.getAbsolutePath());
+	}
+	/*
+	FeedChecker.assertQ(
+			"The query return incorrect values",
+			content,
+			"//*[@numFound='1']",
+			"//*[@name='status'][.='0']"
+			// name
+			,
+			"//*[@name='" + FullTextFields.NAME.getValue()
+				+ "'][.='Saint-André']",
+			"//*[@name='" + FullTextFields.NAME.getValue()
+				+ FullTextFields.ALTERNATE_NAME_SUFFIX.getValue()
+				+ "'][./str[1]][.='cityalternate']",
+			"//*[@name='" + FullTextFields.NAME.getValue()
+				+ FullTextFields.ALTERNATE_NAME_DYNA_SUFFIX.getValue()
+				+ "FR'][./str[1]][.='cityalternateFR']"
+
+			,
+			"//*[@name='" + FullTextFields.ADM3NAME.getValue()
+				+ "'][.='admParent']"
+			// adm1
+			,
+			"//*[@name='" + FullTextFields.ADM1CODE.getValue()
+				+ "'][.='A1']",
+			"//*[@name='" + FullTextFields.ADM1NAME.getValue()
+				+ "'][.='admGrandGrandParent']",
+			"//*[@name='" + FullTextFields.ADM1NAME.getValue()
+				+ FullTextFields.ALTERNATE_NAME_SUFFIX.getValue()
+				+ "'][./str[1]='admGGPalternate']",
+			"//*[@name='" + FullTextFields.ADM1NAME.getValue()
+				+ FullTextFields.ALTERNATE_NAME_SUFFIX.getValue()
+				+ "'][./str[2]='admGGPalternate2']",
+			"//*[@name='" + FullTextFields.ADM1NAME.getValue()
+				+ FullTextFields.ALTERNATE_NAME_DYNA_SUFFIX.getValue()
+				+ "FR'][./str[1]][.='admGGPalternateFR']"
+			// adm2
+			,
+			"//*[@name='" + FullTextFields.ADM2CODE.getValue()
+				+ "'][.='B2']",
+			"//*[@name='" + FullTextFields.ADM2NAME.getValue()
+				+ "'][.='admGrandParent']",
+			"//*[@name='" + FullTextFields.ADM2NAME.getValue()
+				+ FullTextFields.ALTERNATE_NAME_SUFFIX.getValue()
+				+ "'][./str[1]][.='admGPalternate']",
+			"//*[@name='" + FullTextFields.ADM2NAME.getValue()
+				+ FullTextFields.ALTERNATE_NAME_DYNA_SUFFIX.getValue()
+				+ "FR'][./str[1]][.='admGPalternateFR']"
+			// adm3
+			,
+			"//*[@name='" + FullTextFields.ADM3CODE.getValue()
+				+ "'][.='C3']"
+			// country
+			,
+			"//*[@name='" + FullTextFields.COUNTRYCODE.getValue()
+				+ "'][.='FR']",
+			"//*[@name='" + FullTextFields.COUNTRYNAME.getValue()
+				+ "'][.='France']",
+			"//*[@name='" + FullTextFields.COUNTRYNAME.getValue()
+				+ FullTextFields.ALTERNATE_NAME_SUFFIX.getValue()
+				+ "'][./str[1]][.='francia']",
+			"//*[@name='" + FullTextFields.COUNTRYNAME.getValue()
+				+ FullTextFields.ALTERNATE_NAME_DYNA_SUFFIX.getValue()
+				+ "FR'][./str[1]][.='franciaFR']"
+
+			// property
+			, "//*[@name='" + FullTextFields.FEATURECLASS.getValue()
+				+ "'][.='P']",
+			"//*[@name='" + FullTextFields.FEATURECODE.getValue()
+				+ "'][.='PPL']", "//*[@name='"
+				+ FullTextFields.FEATUREID.getValue() + "'][.='1001']",
+			"//*[@name='" + FullTextFields.FULLY_QUALIFIED_NAME.getValue()
+				+ "'][.='" + paris.getFullyQualifiedName(false) + "']",
+			"//*[@name='" + FullTextFields.LAT.getValue() + "'][.='2.5']",
+			"//*[@name='" + FullTextFields.LONG.getValue() + "'][.='1.5']",
+			"//*[@name='" + FullTextFields.PLACETYPE.getValue()
+				+ "'][.='City']", "//*[@name='"
+				+ FullTextFields.POPULATION.getValue()
+				+ "'][.='10000000']", "//*[@name='"
+				+ FullTextFields.ZIPCODE.getValue() + "'][.='50263']"
+
+			, "//*[@name='" + FullTextFields.NAMEASCII.getValue()
+				+ "'][.='ascii']",
+			"//*[@name='" + FullTextFields.ELEVATION.getValue()
+				+ "'][.='13456']"
+			, "//*[@name='"
+				+ FullTextFields.GTOPO30.getValue() + "'][.='7654']",
+			"//*[@name='" + FullTextFields.TIMEZONE.getValue()
+				+ "'][.='Europe/Paris']"
+
+			, "//*[@name='" + FullTextFields.COUNTRY_FLAG_URL.getValue()
+				+ "'][.='"
+				+ URLUtils.createCountryFlagUrl(paris.getCountryCode())
+				+ "']"
+			, "//*[@name='"
+				+ FullTextFields.GOOGLE_MAP_URL.getValue()
+				+ "'][.='"
+				+ URLUtils.createGoogleMapUrl(paris.getLocation(),
+					paris.getName()) + "']", "//*[@name='"
+				+ FullTextFields.YAHOO_MAP_URL.getValue() + "'][.='"
+				+ URLUtils.createYahooMapUrl(paris.getLocation())
+				+ "']"
+			,//spellchecker fields
+			"//*[@name='" + FullTextFields.SPELLCHECK.getValue()
+				+ "']"
+			,"//*[@name='" + FullTextFields.SPELLCHECK_SUGGESTIONS.getValue()
+				+ "']"
+			,"//*[./arr[1]/str[1]/.='saint']"
+			,"//*[./arr[1]/str[1]/.='andré']"
+			,"//*[./arr[1]/str[1]/.='france']"
+		
+		);*/
+	
+	/*assertTrue("the tempDir has not been deleted", GeolocTestHelper
+			.DeleteNonEmptyDirectory(tempDir));*/
 	// language etc
 
 	// test fulltext
