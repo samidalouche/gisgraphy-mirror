@@ -298,6 +298,10 @@ remove the ability to search for 'no name street'
 			An error page is display if the importerMetadata directory is not available and we can't determine if the import is done or not
 			</action>
 			
+			<action dev="David Masclet" type="fix">
+			GeonamesAlternateNameImporter ignored Countrycode null and empty (no alternatename without countrycode was inserted)
+			</action>
+			
 			
 			
 		</release>

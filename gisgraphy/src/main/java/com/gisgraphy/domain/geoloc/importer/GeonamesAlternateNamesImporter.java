@@ -208,8 +208,7 @@ public class GeonamesAlternateNamesImporter extends AbstractImporterProcessor {
 	boolean unWanted = false;
 	// TODO v2 option : || languageField.equals("icao") ||
 	// languageField.equals("iata")
-	if (languageField == null || languageField.equals("fr-1793")
-		|| languageField.trim().equals("")) {
+	if (languageField.equals("fr-1793")) {
 	    unWanted = true;
 	}
 	return unWanted;

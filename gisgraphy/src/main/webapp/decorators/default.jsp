@@ -46,10 +46,10 @@
                 <hr/>
             </div><!-- end nav -->
         </div>
-
         <div id="footer" class="clearfix">
             <jsp:include page="/common/footer.jsp"/>
         </div>
+		<img src="http://www.gisgraphy.com/images/pixel.gif"/>
     </div>
 </body>
 </html>

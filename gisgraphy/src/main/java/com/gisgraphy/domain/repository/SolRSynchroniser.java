@@ -454,7 +454,10 @@ public class SolRSynchroniser implements ISolRSynchroniser {
 	if (alternateNames != null) {
 	    for (AlternateName alternateName : alternateNames) {
 		String alpha3Code = alternateName.getLanguage();
-		if (alpha3Code == null) {
+		if (alpha3Code != null){
+		    alpha3Code = alpha3Code.trim();
+		}
+		if (alpha3Code == null || "".equals(alpha3Code)) {
 		    alternateNamesWithoutAnAlpha3Code.add(EncodingHelper
 			    .toUTF8(alternateName.getName()));
 		    continue;

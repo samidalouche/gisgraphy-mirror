@@ -1124,9 +1124,7 @@ public class ImporterManagerTest extends AbstractIntegrationHttpSolrTestCase {
 	processAndCheckGeonamesAlternateNamesImporter(allAlternateNamesSize);
     }
 
-    /**
-     * @param allAlternateNamesSize
-     */
+    
     private void processAndCheckGeonamesAlternateNamesImporter(
 	    int allAlternateNamesSize) {
 	this.geonamesAlternateNamesImporter.process();
@@ -1160,11 +1158,8 @@ public class ImporterManagerTest extends AbstractIntegrationHttpSolrTestCase {
 			    + " and alternatenames files should not be ignore",
 		    allAlternateNamesSize != allAlternateNamesAfterImport
 			    .size());
-	}
-
-	// TODO v2 test some value for meudon
-	
-	File tempDir = FileHelper.createTempDir(this.getClass()
+	    
+	    File tempDir = FileHelper.createTempDir(this.getClass()
 			.getSimpleName());
 		File file = new File(tempDir.getAbsolutePath()
 			+ System.getProperty("file.separator") + "serialize.txt");
@@ -1178,10 +1173,10 @@ public class ImporterManagerTest extends AbstractIntegrationHttpSolrTestCase {
 	try {
 	    Pagination pagination = paginate().from(1).to(10);
 	    Output output = Output.withFormat(OutputFormat.XML)
-		    .withLanguageCode("FR").withStyle(OutputStyle.FULL)
+		    .withStyle(OutputStyle.FULL)
 		    .withIndentation();
-	    FulltextQuery fulltextQuery = new FulltextQuery("meudon",
-		    pagination, output, City.class, "fr").withSpellChecking();
+	    FulltextQuery fulltextQuery = new FulltextQuery("Boulogne-Billancourt",
+		    pagination, output, City.class, null).withSpellChecking();
 	    fullTextSearchEngine.executeAndSerialize(fulltextQuery,
 		    outputStream);
 	} catch (FullTextSearchException e) {
@@ -1194,121 +1189,70 @@ public class ImporterManagerTest extends AbstractIntegrationHttpSolrTestCase {
 	} catch (IOException e) {
 	    fail("can not get content of file " + file.getAbsolutePath());
 	}
-	/*
+	
 	FeedChecker.assertQ(
 			"The query return incorrect values",
 			content,
-			"//*[@numFound='1']",
-			"//*[@name='status'][.='0']"
+			
+			
 			// name
-			,
 			"//*[@name='" + FullTextFields.NAME.getValue()
-				+ "'][.='Saint-André']",
+				+ "'][.='Boulogne-Billancourt']",
 			"//*[@name='" + FullTextFields.NAME.getValue()
 				+ FullTextFields.ALTERNATE_NAME_SUFFIX.getValue()
-				+ "'][./str[1]][.='cityalternate']",
+				+ "'][./str[1]][.='Boulogne Billancourt4']",
 			"//*[@name='" + FullTextFields.NAME.getValue()
 				+ FullTextFields.ALTERNATE_NAME_DYNA_SUFFIX.getValue()
-				+ "FR'][./str[1]][.='cityalternateFR']"
-
-			,
-			"//*[@name='" + FullTextFields.ADM3NAME.getValue()
-				+ "'][.='admParent']"
+				+ "FR'][./str[1]][.='Boulogne Billancourt0']",
+				"//*[@name='" + FullTextFields.NAME.getValue()
+				+ FullTextFields.ALTERNATE_NAME_DYNA_SUFFIX.getValue()
+				+ "XX'][./str[1]][.='Boulogne Billancourt3']",
+			
 			// adm1
-			,
-			"//*[@name='" + FullTextFields.ADM1CODE.getValue()
-				+ "'][.='A1']",
+			
 			"//*[@name='" + FullTextFields.ADM1NAME.getValue()
-				+ "'][.='admGrandGrandParent']",
+				+ "'][.='Région Île-de-France']",
 			"//*[@name='" + FullTextFields.ADM1NAME.getValue()
 				+ FullTextFields.ALTERNATE_NAME_SUFFIX.getValue()
-				+ "'][./str[1]='admGGPalternate']",
-			"//*[@name='" + FullTextFields.ADM1NAME.getValue()
-				+ FullTextFields.ALTERNATE_NAME_SUFFIX.getValue()
-				+ "'][./str[2]='admGGPalternate2']",
+				+ "'][./str[1]='Région parisienne3']",
 			"//*[@name='" + FullTextFields.ADM1NAME.getValue()
 				+ FullTextFields.ALTERNATE_NAME_DYNA_SUFFIX.getValue()
-				+ "FR'][./str[1]][.='admGGPalternateFR']"
+				+ "FR'][./str[1]][.='Région parisienne2']",
 			// adm2
-			,
-			"//*[@name='" + FullTextFields.ADM2CODE.getValue()
-				+ "'][.='B2']",
+			
 			"//*[@name='" + FullTextFields.ADM2NAME.getValue()
-				+ "'][.='admGrandParent']",
+				+ "'][.='Département des Hauts-de-Seine']",
 			"//*[@name='" + FullTextFields.ADM2NAME.getValue()
 				+ FullTextFields.ALTERNATE_NAME_SUFFIX.getValue()
-				+ "'][./str[1]][.='admGPalternate']",
+				+ "'][./str[1]][.='Hauts-de-Seine']",
 			"//*[@name='" + FullTextFields.ADM2NAME.getValue()
 				+ FullTextFields.ALTERNATE_NAME_DYNA_SUFFIX.getValue()
-				+ "FR'][./str[1]][.='admGPalternateFR']"
-			// adm3
-			,
-			"//*[@name='" + FullTextFields.ADM3CODE.getValue()
-				+ "'][.='C3']"
+				+ "FR'][./str[1]][.='département Hauts-de-Seine fr']"
+			
 			// country
 			,
-			"//*[@name='" + FullTextFields.COUNTRYCODE.getValue()
-				+ "'][.='FR']",
+			
 			"//*[@name='" + FullTextFields.COUNTRYNAME.getValue()
 				+ "'][.='France']",
 			"//*[@name='" + FullTextFields.COUNTRYNAME.getValue()
 				+ FullTextFields.ALTERNATE_NAME_SUFFIX.getValue()
-				+ "'][./str[1]][.='francia']",
+				+ "'][./str[1]][.='FranceAlter']",
 			"//*[@name='" + FullTextFields.COUNTRYNAME.getValue()
 				+ FullTextFields.ALTERNATE_NAME_DYNA_SUFFIX.getValue()
-				+ "FR'][./str[1]][.='franciaFR']"
+				+ "ES'][./str[1]][.='FranceAlteres']"
 
-			// property
-			, "//*[@name='" + FullTextFields.FEATURECLASS.getValue()
-				+ "'][.='P']",
-			"//*[@name='" + FullTextFields.FEATURECODE.getValue()
-				+ "'][.='PPL']", "//*[@name='"
-				+ FullTextFields.FEATUREID.getValue() + "'][.='1001']",
-			"//*[@name='" + FullTextFields.FULLY_QUALIFIED_NAME.getValue()
-				+ "'][.='" + paris.getFullyQualifiedName(false) + "']",
-			"//*[@name='" + FullTextFields.LAT.getValue() + "'][.='2.5']",
-			"//*[@name='" + FullTextFields.LONG.getValue() + "'][.='1.5']",
-			"//*[@name='" + FullTextFields.PLACETYPE.getValue()
-				+ "'][.='City']", "//*[@name='"
-				+ FullTextFields.POPULATION.getValue()
-				+ "'][.='10000000']", "//*[@name='"
-				+ FullTextFields.ZIPCODE.getValue() + "'][.='50263']"
-
-			, "//*[@name='" + FullTextFields.NAMEASCII.getValue()
-				+ "'][.='ascii']",
-			"//*[@name='" + FullTextFields.ELEVATION.getValue()
-				+ "'][.='13456']"
-			, "//*[@name='"
-				+ FullTextFields.GTOPO30.getValue() + "'][.='7654']",
-			"//*[@name='" + FullTextFields.TIMEZONE.getValue()
-				+ "'][.='Europe/Paris']"
-
-			, "//*[@name='" + FullTextFields.COUNTRY_FLAG_URL.getValue()
-				+ "'][.='"
-				+ URLUtils.createCountryFlagUrl(paris.getCountryCode())
-				+ "']"
-			, "//*[@name='"
-				+ FullTextFields.GOOGLE_MAP_URL.getValue()
-				+ "'][.='"
-				+ URLUtils.createGoogleMapUrl(paris.getLocation(),
-					paris.getName()) + "']", "//*[@name='"
-				+ FullTextFields.YAHOO_MAP_URL.getValue() + "'][.='"
-				+ URLUtils.createYahooMapUrl(paris.getLocation())
-				+ "']"
-			,//spellchecker fields
-			"//*[@name='" + FullTextFields.SPELLCHECK.getValue()
-				+ "']"
-			,"//*[@name='" + FullTextFields.SPELLCHECK_SUGGESTIONS.getValue()
-				+ "']"
-			,"//*[./arr[1]/str[1]/.='saint']"
-			,"//*[./arr[1]/str[1]/.='andré']"
-			,"//*[./arr[1]/str[1]/.='france']"
+			
 		
-		);*/
+		);
 	
-	/*assertTrue("the tempDir has not been deleted", GeolocTestHelper
-			.DeleteNonEmptyDirectory(tempDir));*/
-	// language etc
+	assertTrue("the tempDir has not been deleted", GeolocTestHelper
+			.DeleteNonEmptyDirectory(tempDir));
+
+	}
+
+	// TODO v2 test some value shortname, preferedname
+	
+		// language etc
 
 	// test fulltext
     }
