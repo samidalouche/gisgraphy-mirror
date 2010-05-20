@@ -1,7 +1,7 @@
 #!/bin/bash
  	
 echo ""
-echo "Install A2Billing DataBase"
+echo "Install Gisgraphy"
 echo "-----------------------------"
 echo ""
 
