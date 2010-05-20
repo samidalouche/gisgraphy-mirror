@@ -29,7 +29,7 @@ com.gisgraphy.domain.geoloc.importer.ImporterManager importerManager = (com.gisg
 
 <ul class="glassList">
 <li><a href="http://www.gisgraphy.com/documentation/index.htm"><fmt:message key="global.read.docs" /></a></li>
-	<% if (!importerManager.isAlreadyDone()) { %>
+	<% try { if (!importerManager.isAlreadyDone()) { %>
    <li>
         <a href="<c:url value='/admin/importconfirm.html'/>"><fmt:message key="menu.admin.import"/></a>
     </li>
@@ -37,10 +37,19 @@ com.gisgraphy.domain.geoloc.importer.ImporterManager importerManager = (com.gisg
  <li>
          <fmt:message key="import.already.done"/> 
     </li>
-<%  }%>
+<%  } } catch (Exception e){
+%>
+<div class="tip yellowtip"><fmt:message key="import.metadatamissing"/></div>
+<%
+}
+%>
+	<li>
+	<a href="<c:url value='/admin/stats.html'/>"><fmt:message key="stats.title"/></a>
+	</li>
   <li>
         <fmt:message key="global.gohome"/>
     </li>
+    
 </ul>
 
 <iframe src="http://www.gisgraphy.com/news/getnews.php?version=<fmt:message key="gisgraphy.version"/>" 
