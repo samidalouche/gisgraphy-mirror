@@ -287,21 +287,24 @@ remove the ability to search for 'no name street'
 			</action>
 		
 		    <action dev="David Masclet" type="fix">
-			FIX bug :  display Search for streetnames in Russian fails  http://code.google.com/p/gisgraphy/issues/detail?id=13
+				FIX bug :  display Search for streetnames in Russian fails  http://code.google.com/p/gisgraphy/issues/detail?id=13
 			</action>
 			
 			<action dev="David Masclet" type="fix">
-			file will be extracted even if retrieve file is false
+				file will be extracted even if retrieve file is false
 			</action>
 			
 			<action dev="David Masclet" type="fix">
-			An error page is display if the importerMetadata directory is not available and we can't determine if the import is done or not
+				An error page is display if the importerMetadata directory is not available and we can't determine if the import is done or not
 			</action>
 			
 			<action dev="David Masclet" type="fix">
-			GeonamesAlternateNameImporter ignored Countrycode null and empty (no alternatename without countrycode was inserted)
+				GeonamesAlternateNameImporter ignored Countrycode null and empty (no alternatename without countrycode was inserted)
 			</action>
 			
+			<action dev="David Masclet" type="fix">
+				alternateName importer use extracted files, so alternatenames will be imported this order : country, adm1, adm2, others. and all the features will have the adm1 and adm2 and country alternatenames in solr (solr is not relationnal and we need to have alle the adm / countries alternate names first) 
+			</action>
 			
 			
 		</release>
