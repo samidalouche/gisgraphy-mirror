@@ -108,7 +108,7 @@ public class ImporterManagerTest extends AbstractIntegrationHttpSolrTestCase {
 
     private static final String ADM4_FILENAME_WITH_MISSING_FIELDS = "admin4CodesWithMissingFields.txt";
 
-    private static final String ALTERNATENAME_FILENAME_WITH_MISSING_FIELDS = "alternateNamesWithMissingFields.txt";
+    private static final String ALTERNATENAME_FEATURES_FILENAME_WITH_MISSING_FIELDS = "alternateNames-featuresWithMissingFields.txt";
 
     private static final String ADM2_FILENAME_WITH_BAD_FORMAT_GISFEATUREID = "admin2CodesWithBadFormatGisFeatureID.txt";
 
@@ -414,8 +414,6 @@ public class ImporterManagerTest extends AbstractIntegrationHttpSolrTestCase {
 	    this.importerConfig.setImportGisFeatureEmbededAlternateNames(false);
 	    importall();
 
-	} catch (ImporterException e) {
-	    fail(e.getCause() + " : " + e.getMessage());
 	} finally {
 	    // restore option
 	    importerConfig.setTryToDetectAdmIfNotFound(savedTTDOption);
@@ -1021,13 +1019,14 @@ public class ImporterManagerTest extends AbstractIntegrationHttpSolrTestCase {
 	}
     }
 
+    
     @Test
-    public void testImportAlternateNamesWithMissingRequiredFieldThrowsOptionsToTrueShouldThrows() {
+    public void testImportAlternateNamesWithMissingRequiredFieldThrowsOptionsToTrueShouldNotThrowsbeCauseItshouldBeFilteredByAlternateNameExtracter() {
 	// save option
 	boolean savedMRFOption = importerConfig.isMissingRequiredFieldThrows();
 	boolean savedIGFAOption = importerConfig
 		.isImportGisFeatureEmbededAlternateNames();
-	String savedFileName = importerConfig.getAlternateNamesFileName();
+	String savedFileName = importerConfig.getAlternateNameFeaturesFileName();
 	// force alternateNames to be imported from alternatenames file
 
 	importerConfig.setImportGisFeatureEmbededAlternateNames(false);
@@ -1040,11 +1039,13 @@ public class ImporterManagerTest extends AbstractIntegrationHttpSolrTestCase {
 	processAndCheckGeonamesAdm3Importer();
 	processAndCheckGeonamesAdm4Importer();
 	int allAlternateNamesSize = processAndCheckGeonamesFeatureImporter();
+	
+	processAndCheckGeonamesAlternateNamesExtracter();
 
+	this.importerConfig.setMissingRequiredFieldThrows(true);
 	// set option
 	this.importerConfig
-		.setAlternateNamesFileName(ALTERNATENAME_FILENAME_WITH_MISSING_FIELDS);
-	this.importerConfig.setMissingRequiredFieldThrows(true);
+	.setAlternateNameFeaturesFileName(ALTERNATENAME_FEATURES_FILENAME_WITH_MISSING_FIELDS);
 	try {
 	    processAndCheckGeonamesAlternateNamesImporter(allAlternateNamesSize);
 	    fail("the MissingRequiredFieldThrows option should be set to true and is "
@@ -1061,7 +1062,7 @@ public class ImporterManagerTest extends AbstractIntegrationHttpSolrTestCase {
 	    importerConfig.setMissingRequiredFieldThrows(savedMRFOption);
 	    importerConfig
 		    .setImportGisFeatureEmbededAlternateNames(savedIGFAOption);
-	    importerConfig.setAlternateNamesFileName(savedFileName);
+	    importerConfig.setAlternateNameFeaturesFileName(savedFileName);
 	}
     }
 
@@ -1087,7 +1088,7 @@ public class ImporterManagerTest extends AbstractIntegrationHttpSolrTestCase {
 
 	// set option
 	this.importerConfig
-		.setAlternateNamesFileName(ALTERNATENAME_FILENAME_WITH_MISSING_FIELDS);
+		.setAlternateNamesFileName(ALTERNATENAME_FEATURES_FILENAME_WITH_MISSING_FIELDS);
 	this.importerConfig.setMissingRequiredFieldThrows(false);
 	try {
 	    processAndCheckGeonamesAlternateNamesImporter(allAlternateNamesSize);

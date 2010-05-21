@@ -222,7 +222,6 @@ public class GeonamesAlternateNamesExtracter extends AbstractImporterProcessor {
 		if (!file.delete()){
 			 throw new RuntimeException("The file "+file.getAbsolutePath()+" exists but we can not delete it, to recreate it");    
 		}
-		return w;
 	    } 
 		o = new BufferedOutputStream(new FileOutputStream(file));
 		w = new OutputStreamWriter(o, Constants.CHARSET);

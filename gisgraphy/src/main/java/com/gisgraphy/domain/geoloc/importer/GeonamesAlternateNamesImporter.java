@@ -329,9 +329,15 @@ public class GeonamesAlternateNamesImporter extends AbstractImporterProcessor {
 			    + importerConfig.getAlternateNamesFileName());
 	    return new File[0];
 	}
-	File[] files = new File[1];
+	File[] files = new File[4];
 	files[0] = new File(importerConfig.getGeonamesDir()
-		+ importerConfig.getAlternateNamesFileName());
+		+ importerConfig.getAlternateNameCountryFileName());
+	files[1] = new File(importerConfig.getGeonamesDir()
+		+ importerConfig.getAlternateNameAdm1FileName());
+	files[2] = new File(importerConfig.getGeonamesDir()
+		+ importerConfig.getAlternateNameAdm2FileName());
+	files[3] = new File(importerConfig.getGeonamesDir()
+		+ importerConfig.getAlternateNameFeaturesFileName());
 	return files;
     }
 

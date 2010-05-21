@@ -22,6 +22,7 @@
  *******************************************************************************/
 package com.gisgraphy.domain.geoloc.importer;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.List;
 
@@ -160,6 +161,45 @@ public class GeonamesAlternateNamesImporterTest extends AbstractIntegrationHttpS
 	Assert.assertTrue(alternateNameImporter.shouldBeSkipped());
     }
     
+    @Test
+    public void testGetFilesShouldReturnEmptyArrayIfImportEmbededIsTrue(){
+	ImporterConfig importerConfig = new ImporterConfig();
+	importerConfig.setImportGisFeatureEmbededAlternateNames(true);
+	
+	GeonamesAlternateNamesImporter alternateNameImporter = new GeonamesAlternateNamesImporter();
+	alternateNameImporter.setImporterConfig(importerConfig);
+	
+	File[] files = alternateNameImporter.getFiles();
+	Assert.assertEquals("wrong number of files for alternateName importer when import embeded is true",0,files.length);
+    }
+    
+    @Test
+    public void testGetFilesShouldReturnExtractedFilesIfImportEmbededIsFalse(){
+	
+	String importerGeonamesDir = "./geonamesDir";
+	String alternateNameCountryFileName = "alternateNameCountryFileName";
+	String alternateNameAdm1FileName = "alternateNameAdm1FileName";
+	String alternateNameAdm2FileName = "alternateNameAdm2FileName";
+	String alternateNameFeaturesFileName = "alternateNameFeaturesFileName";
+	ImporterConfig importerConfig = new ImporterConfig();
+	importerConfig.setImportGisFeatureEmbededAlternateNames(false);
+	importerConfig.setGeonamesDir(importerGeonamesDir);
+	importerConfig.setAlternateNameCountryFileName(alternateNameCountryFileName);
+	importerConfig.setAlternateNameAdm1FileName(alternateNameAdm1FileName);
+	importerConfig.setAlternateNameAdm2FileName(alternateNameAdm2FileName);
+	importerConfig.setAlternateNameFeaturesFileName(alternateNameFeaturesFileName);
+	
+	
+	GeonamesAlternateNamesImporter alternateNameImporter = new GeonamesAlternateNamesImporter();
+	alternateNameImporter.setImporterConfig(importerConfig);
+	
+	File[] files = alternateNameImporter.getFiles();
+	Assert.assertEquals("wrong number of files for alternateName importer, it should be equals to the number of alternate names extracted files",4, files.length);
+	Assert.assertEquals("the first file return should be the alternate name country file",new File(importerConfig.getGeonamesDir()+alternateNameCountryFileName), files[0]);
+	Assert.assertEquals("the second file return should be the alternate name adm1 file",new File(importerConfig.getGeonamesDir()+alternateNameAdm1FileName), files[1]);
+	Assert.assertEquals("the third file return should be the alternate name adm2 file",new File(importerConfig.getGeonamesDir()+alternateNameAdm2FileName), files[2]);
+	Assert.assertEquals("the fourth file return should be the alternate name features file",new File(importerConfig.getGeonamesDir()+alternateNameFeaturesFileName), files[3]);
+    }
     
     public void setImporterConfig(ImporterConfig importerConfig) {
         this.importerConfig = importerConfig;
@@ -173,4 +213,6 @@ public class GeonamesAlternateNamesImporterTest extends AbstractIntegrationHttpS
     public void setSolRSynchroniser(ISolRSynchroniser solRSynchroniser) {
         this.solRSynchroniser = solRSynchroniser;
     }
+    
+    
 }

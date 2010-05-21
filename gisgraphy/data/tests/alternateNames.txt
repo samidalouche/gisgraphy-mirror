@@ -1,15 +1,3 @@
-# a country
-5	3017382	ES	FranceAlteres	1	0
-# a country without countrycode
-52	3017382		FranceAlter	1	0
-#an adm
-4	3012874	FR	Région parisienne2	1	1
-#an adm without countrycode
-42	3012874		Région parisienne3	1	1
-#an ADM2 with Countrycode
-125	3013657	FR	département Hauts-de-Seine fr	0	0
-#an ADM2 without Countrycode
-126	3013657		Hauts-de-Seine	0	0
 #city that have a no
 1	3037423	FR	alterantony	1	1
 #city that have already have a zipcode
@@ -28,3 +16,15 @@
 92	3031137		Boulogne Billancourt4	1	1
 #an unknow type of alternate
 12	3031137	XX	Boulogne Billancourt3	1	0
+# a country
+5	3017382	ES	FranceAlteres	1	0
+# a country without countrycode
+52	3017382		FranceAlter	1	0
+#an adm
+4	3012874	FR	Région parisienne2	1	1
+#an adm without countrycode
+42	3012874		Région parisienne3	1	1
+#an ADM2 with Countrycode
+125	3013657	FR	département Hauts-de-Seine fr	0	0
+#an ADM2 without Countrycode
+126	3013657		Hauts-de-Seine	0	0

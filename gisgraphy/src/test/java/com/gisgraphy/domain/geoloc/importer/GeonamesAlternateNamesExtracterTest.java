@@ -170,7 +170,7 @@ public class GeonamesAlternateNamesExtracterTest {
 	}
 
 	@Test
-	public void testProcessDataWithCountryFeatureIDShouldIgnoreTheLine() throws IOException {
+	public void testProcessDataWithCountryFeatureID() throws IOException {
 		String line = "1	1	FR	alterantony	1	1";
 		GeonamesAlternateNamesExtracter extracter = new GeonamesAlternateNamesExtracter() {
 			@Override
@@ -186,7 +186,7 @@ public class GeonamesAlternateNamesExtracterTest {
 	}
 
 	@Test
-	public void testProcessDataWithAdm1FeatureIDShouldIgnoreTheLine() throws IOException {
+	public void testProcessDataWithAdm1FeatureID() throws IOException {
 		String line = "1	1	FR	alterantony	1	1";
 		GeonamesAlternateNamesExtracter extracter = new GeonamesAlternateNamesExtracter() {
 			@Override
@@ -208,7 +208,7 @@ public class GeonamesAlternateNamesExtracterTest {
 	}
 
 	@Test
-	public void testProcessDataWithAdm2FeatureIDShouldIgnoreTheLine() throws IOException {
+	public void testProcessDataWithAdm2FeatureID() throws IOException {
 		String line = "1	1	FR	alterantony	1	1";
 		GeonamesAlternateNamesExtracter extracter = new GeonamesAlternateNamesExtracter() {
 			@Override
@@ -234,7 +234,7 @@ public class GeonamesAlternateNamesExtracterTest {
 	}
 
 	@Test
-	public void testProcessDataWithGenericFeatureIDShouldIgnoreTheLine() throws IOException {
+	public void testProcessDataWithGenericFeatureID() throws IOException {
 		String line = "1	1	FR	alterantony	1	1";
 		GeonamesAlternateNamesExtracter extracter = new GeonamesAlternateNamesExtracter() {
 			@Override
@@ -257,6 +257,29 @@ public class GeonamesAlternateNamesExtracterTest {
 		extracter.setCountryDao(createMockCountryDao());
 		extracter.processData(line);
 		verify(mockWriter);
+	}
+	
+	@Test
+	public void testProcessDataWithMissingField() throws IOException {
+		String line = "1		FR	alterantony	1	1";
+		GeonamesAlternateNamesExtracter extracter = new GeonamesAlternateNamesExtracter() {
+			@Override
+			protected boolean lineIsAnAlternateNameForCountry(Long featureId) {
+				return false;
+			}
+
+			@Override
+			protected boolean lineIsAnAlternateNameForAdm1(Long featureId) {
+				return false;
+			}
+
+			@Override
+			protected boolean lineIsAnAlternatNameForAdm2(Long featureId) {
+				return false;
+			}
+		};
+		
+		extracter.processData(line);
 	}
 
 	private OutputStreamWriter createMockWriter(String line) throws IOException {
