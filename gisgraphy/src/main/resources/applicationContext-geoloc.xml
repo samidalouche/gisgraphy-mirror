@@ -146,6 +146,7 @@
 		<property name="gisFeatureDao" ref="gisFeatureDao" />
 		<property name="alternateNameDao" ref="alternateNameDao" />
 		<property name="cityDao" ref="cityDao" />
+		<property name="admDao" ref="admDao" />
 		<property name="solRSynchroniser" ref="solRSynchroniser"/>
 		<property name="spellCheckerIndexer" ref="spellCheckerIndexer"/>
 	</bean>

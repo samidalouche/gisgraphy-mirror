@@ -43,6 +43,8 @@ import com.gisgraphy.service.IInternationalisationService;
 public class GeonamesDatabaseIndexer implements IImporterProcessor {
     
     
+    public static final String DEFAULT_CURRENT_FILENAME = "?";
+
     /**
      * The logger
      */
@@ -69,7 +71,7 @@ public class GeonamesDatabaseIndexer implements IImporterProcessor {
     
 
     public String getCurrentFileName() {
-	return currentDao == null ? "?" :this.currentDao.getPersistenceClass().getSimpleName();
+	return currentDao == null ? DEFAULT_CURRENT_FILENAME :this.currentDao.getPersistenceClass().getSimpleName();
     }
 
     public int getNumberOfLinesToProcess() {
@@ -109,12 +111,12 @@ public class GeonamesDatabaseIndexer implements IImporterProcessor {
 	    
 	this.status = ImporterStatus.PROCESSED;
 	this.statusMessage="";
+        this.currentDao = null;
 	} catch (Exception e) {
 	    this.status = ImporterStatus.ERROR;
 	    this.statusMessage = "The import is done but performance may not be optimal because an error occurred when creating spatial indexes for geonames in DAO "
 		    + getCurrentFileName() + "(maybe you haven't the SQL rights or the indexes are already created) : " + e.getCause();
-	    logger.error(statusMessage,e);
-	   // throw new ImporterException(statusMessage, e.getCause());
+	    throw new ImporterException(statusMessage, e.getCause());
 	} finally {
 	    try {
 		tearDown();
@@ -169,6 +171,7 @@ public class GeonamesDatabaseIndexer implements IImporterProcessor {
 	numberOfDaoThatHaveBeenIndexed = 0;
 	status = ImporterStatus.WAITING;
 	statusMessage = "";
+	currentDao = null;
     }
 
 }

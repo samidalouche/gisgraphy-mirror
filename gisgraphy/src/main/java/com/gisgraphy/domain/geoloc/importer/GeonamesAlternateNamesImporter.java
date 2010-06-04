@@ -33,6 +33,7 @@ import com.gisgraphy.domain.geoloc.entity.AlternateName;
 import com.gisgraphy.domain.geoloc.entity.GisFeature;
 import com.gisgraphy.domain.geoloc.entity.ZipCodeAware;
 import com.gisgraphy.domain.geoloc.service.fulltextsearch.spell.ISpellCheckerIndexer;
+import com.gisgraphy.domain.repository.IAdmDao;
 import com.gisgraphy.domain.repository.IAlternateNameDao;
 import com.gisgraphy.domain.repository.ICityDao;
 import com.gisgraphy.domain.repository.IGisFeatureDao;
@@ -50,6 +51,8 @@ public class GeonamesAlternateNamesImporter extends AbstractImporterProcessor {
     private IGisFeatureDao gisFeatureDao;
 
     private ICityDao cityDao;
+    
+    private IAdmDao admDao;
 
     private IAlternateNameDao alternateNameDao;
 
@@ -108,8 +111,14 @@ public class GeonamesAlternateNamesImporter extends AbstractImporterProcessor {
 		return;
 	    }
 	    // get the features
-	    gisFeature = this.gisFeatureDao.getByFeatureId(gisFeatureId);
-
+	   // to improve performance we first search in cities then adm and finally in all features
+	    gisFeature = cityDao.getByFeatureId(gisFeatureId);
+	    if (gisFeature == null){
+		gisFeature = this.admDao.getByFeatureId(gisFeatureId);
+	    }
+	    if (gisFeature == null){
+		gisFeature = this.gisFeatureDao.getByFeatureId(gisFeatureId);
+	    }
 	    if (gisFeature == null) {
 		return;
 	    }
@@ -307,6 +316,13 @@ public class GeonamesAlternateNamesImporter extends AbstractImporterProcessor {
     }
 
     
+    /**
+     * @param admDao the admDao to set
+     */
+    @Required
+    public void setAdmDao(IAdmDao admDao) {
+        this.admDao = admDao;
+    }
 
     @Override
     public boolean shouldBeSkipped() {
