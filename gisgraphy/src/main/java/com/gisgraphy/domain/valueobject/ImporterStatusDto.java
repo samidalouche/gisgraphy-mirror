@@ -40,11 +40,11 @@ public class ImporterStatusDto {
      */
     public static final String CSV_LINE_SEPARATOR = "\r\n";
     /**
-     * The csv field separator
+     * The csv field separator (we have chosen a very improbable one)
      * 
      * @see #toCSV()
      */
-    public static final String CSV_FIELD_SEPARATOR = ";";
+    public static final String CSV_FIELD_SEPARATOR = "ŝ";
     /**
      * the default value of the currentFile if it is null
      */
