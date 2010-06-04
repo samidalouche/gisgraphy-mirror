@@ -239,7 +239,6 @@ public class GisFeature {
      */
     @Column(nullable = false, name = LOCATION_COLUMN_NAME)
     @Type(type = "org.hibernatespatial.GeometryUserType")
-    // @Index(name = "locationIndex")
     public Point getLocation() {
 	return location;
     }
@@ -545,7 +544,7 @@ public class GisFeature {
      * @return The ASCII name of the current GisFeature
      */
     @Column(nullable = true, length = 200)
-    @Index(name = "gisFeatureAsciiNameIndex")
+    //@Index(name = "gisFeatureAsciiNameIndex")
     public String getAsciiName() {
 	return this.asciiName;
     }
@@ -621,7 +620,7 @@ public class GisFeature {
      * @return The UTF-8 name for the current GisFeature
      */
     @Column(nullable = false, length = 200)
-    @Index(name = "gisFeatureNameIndex")
+    //@Index(name = "gisFeatureNameIndex")
     public String getName() {
 	return name;
     }

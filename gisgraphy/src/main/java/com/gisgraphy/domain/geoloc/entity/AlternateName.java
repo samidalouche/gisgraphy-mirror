@@ -110,7 +110,7 @@ public class AlternateName {
     /**
      * @return The name of the current AlternateName
      */
-    @Index(name = "Alternatenameindex")
+    //@Index(name = "Alternatenameindex")
     @Column(nullable = false, length = 200)
     public String getName() {
 	return name;
