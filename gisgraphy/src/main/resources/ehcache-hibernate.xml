@@ -59,7 +59,7 @@
 		maxElementsInMemory="100" eternal="true" overflowToDisk="false" />	
 			
 		<cache name="com.gisgraphy.domain.geoloc.entity.Adm"
-		maxElementsInMemory="1000" eternal="true" overflowToDisk="false" />
+		maxElementsInMemory="10000" eternal="true" overflowToDisk="false" />
 		
 		<cache name="com.gisgraphy.domain.geoloc.entity.Adm.children"
 		maxElementsInMemory="2000" eternal="true" overflowToDisk="false" />
