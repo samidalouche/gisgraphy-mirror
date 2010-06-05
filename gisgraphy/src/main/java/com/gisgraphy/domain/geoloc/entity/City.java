@@ -144,7 +144,7 @@ public class City extends GisFeature implements ZipCodeAware {
     }
 
     /**
-     * Returns a name of the form : (adm1Name et adm2Name are printed)
+     * Returns a name with adm1Name and adm2Name added (if not null).
      * Paris(Zipcode), Département de Ville-De-Paris, Ile-De-France, (FR)
      * 
      * @param withCountry

@@ -86,7 +86,7 @@ public class UserManagerTest extends AbstractTransactionalTestCase {
 	return obj;
     }
 
-    // TODO why super.populate doesn't work
+    
     @Test
     public void testAddAndRemoveUser() throws Exception {
 	user = new User();

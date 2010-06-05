@@ -24,10 +24,11 @@ package com.gisgraphy;
 
 
 /**
- * Mother Class of all gisgraphy Exception
+ * Mother class of all gisgraphy Exception
  * 
  * @author <a href="mailto:david.masclet@gisgraphy.com">David Masclet</a>
  */
+//FIXME all gisgraphy exceptions should extends this
 public class GisgraphyException extends RuntimeException {
 
     /**
@@ -36,7 +37,7 @@ public class GisgraphyException extends RuntimeException {
     private static final long serialVersionUID = 5086776885839921918L;
 
     /**
-     * Default Constructor
+     * Default constructor
      */
     public GisgraphyException() {
 	super();

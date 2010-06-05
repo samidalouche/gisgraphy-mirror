@@ -46,8 +46,8 @@ import com.gisgraphy.helper.IntrospectionIgnoredField;
 /**
  * Represents a (sub) division of a {@link Country} (Region, Province, state,
  * Department, and so on)<br>
- * {@linkplain Adm} are in tree structure. An Adm can have some childs and Must
- * have parent if the Level is > 1 (an Adm with level 1 is to be a 'ROOT')
+ * {@linkplain Adm} are in tree structure. An Adm can have some children and MUST
+ * have a parent if the Level is > 1 (an Adm with level 1 is to be a 'ROOT' Adm)
  * 
  * @author <a href="mailto:david.masclet@gisgraphy.com">David Masclet</a>
  */
@@ -58,11 +58,11 @@ public class Adm extends GisFeature {
     /**
      * Constructor that populate the Adm with the gisFeature fields and set the
      * level<br>
-     * <u>note</u> the feature Class will be set to 'A' and The featureCode
-     * will be set according to the Level (ex : ADM + level)
+     * <u>note</u> The feature class will be set to 'A' and The feature code
+     * will be set according to the Level (ADM + level)
      * 
      * @param gisFeature
-     *                The gisFeature from which we want to populate the
+     *                The gisFeature we want to populate the
      *                {@linkplain Adm}
      * @param level
      *                The level of the Adm
@@ -76,8 +76,8 @@ public class Adm extends GisFeature {
 
     /**
      * Constructor that create an Adm for the specified level<br>
-     * <u>note</u> the featureClass will be set to 'A' and The featureCode will
-     * be set according to the Level (ex : ADM + level)
+     * <u>note</u> the feature class will be set to 'A' and The feature code will
+     * be set according to the Level (ADM + level)
      * 
      * @param level
      *                The level of the Adm
@@ -96,8 +96,8 @@ public class Adm extends GisFeature {
     }
 
     /**
-     * Check that the countryCode and the admXcode are correctly set according
-     * to the level of the {@linkplain Adm}
+     * Check that the country code is filled and the admXcode are correctly filled according
+     * to the level
      */
     @Transient
     public boolean isConsistentForLevel() {
@@ -138,11 +138,11 @@ public class Adm extends GisFeature {
     }
 
     /**
-     * Set the level and Check that 1<=level<=4. If Not throw an
+     * Set the level and Check that 1<= level<= 4. If it is not the case, throw an
      * {@link IllegalArgumentException}
      * 
      * @param level
-     *                The Level to Set
+     *                The Level to set
      * @throws IllegalArgumentException
      *                 If level is not correct
      */
@@ -160,19 +160,20 @@ public class Adm extends GisFeature {
      * set the current Adm as the Parent of the specified Child.
      * 
      * @param child
-     *                The child to add is not equals to the level of this Adm+1
+     *                The child to add 
+     * @throws IllegalArgumentException if the level of the child 
+     * is not equals to the level of this Adm +1
      */
     public void addChild(Adm child) {
 	if (child == null) {
-	    logger.info("Could not add a null child");
 	    throw new IllegalArgumentException("Could not add a null child to "
 		    + this);
 	}
 	if (child.getLevel() != getLevel() + 1) {
 	    throw new IllegalArgumentException("a child of level "
-		    + child.getLevel() + " : " + child
-		    + " should not be added to an Adm of level " + getLevel()
-		    + " : " + this.toString() + " but will be added");
+		    + child.getLevel() + " (" + child
+		    + ") should not be added to an Adm with level " + getLevel()
+		    + " : " + child + " but will be added");
 	}
 	List<Adm> currentChilds = getChildren();
 	if (currentChilds == null) {
@@ -202,10 +203,9 @@ public class Adm extends GisFeature {
     }
 
     /**
-     * Return the Adms of the higher Level
-     * 
-     * @return The Adms of the higher Level <br>
-     *         <b>Example</b> Returns the Adm(s) with level 2 if the current
+     * Return the Adms of a directly higher Level in the adm the tree structure
+     * @return The Adms of a directly higher Level <br>
+     * <b>Example</b> Returns the Adm(s) with level 2 if the current
      *         Adm has a level equals to 1
      */
     @OneToMany(cascade = { CascadeType.ALL }, mappedBy = "parent")
@@ -216,7 +216,7 @@ public class Adm extends GisFeature {
     }
 
     /**
-     * Set the Adms of a higher level
+     * Set the Adms of a directly higher level
      * 
      * @param children
      *                the children for the current Adm
@@ -272,7 +272,8 @@ public class Adm extends GisFeature {
     }
 
     /**
-     * Determine the Level from the given codes
+     * Determine what should be the level of 
+     * an Adm which have the provided codes
      * 
      * @param adm1Code
      *                The Adm1Code of the Adm to test
@@ -313,10 +314,11 @@ public class Adm extends GisFeature {
     }
 
     /**
-     * Determine the level from a featureClass and a featureCode.<br/> e.g :
+     * Determine what should be the level of an adm which have a the 
+     * specified featureClass and a featureCode.<br/> e.g :
      * featureClass=A and featureCode=ADM3 will return 3 .<br/> featureClass=P
-     * and featureCode=ADM4 will return 0 because P_ADM4 is not of ADM type this
-     * method is case sensitive
+     * and featureCode=ADM4 will return 0 because P_ADM4 is not of ADM type. This
+     * method is case sensitive.
      * 
      * @param featureClass
      *                The featureClass of the Adm to test

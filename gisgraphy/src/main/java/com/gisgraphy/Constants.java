@@ -28,9 +28,7 @@ package com.gisgraphy;
  * @author <a href="mailto:matt@raibledesigns.com">Matt Raible</a>
  */
 public class Constants {
-    // ~ Static fields/initializers
-    // =============================================
-
+    
     /**
      * The encryption algorithm key to be used for passwords
      */

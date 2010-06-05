@@ -137,7 +137,7 @@ public class SpatialProjectionTest extends AbstractIntegrationHttpSolrTestCase {
 		.testCallback(hibernateCallback);
 	assertEquals(1, cities.size());
 	assertEquals("bordeaux", cities.get(0).getName());
-	Double calculatedDist = p1.distance(p2.getLocation());
+	Double calculatedDist = p1.distanceTo(p2.getLocation());
 	Double retrieveDistance = cities.get(0).getDistance();
 	double percent = (Math.abs(calculatedDist - retrieveDistance) * 100)
 		/ Math.min(retrieveDistance, calculatedDist);

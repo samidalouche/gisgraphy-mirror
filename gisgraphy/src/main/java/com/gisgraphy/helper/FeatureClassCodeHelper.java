@@ -104,7 +104,6 @@ public enum FeatureClassCodeHelper {
      * @return true if the feature class and the feature code are for
      *         {@link Adm} Object
      */
-    @Transient
     public static boolean is_Adm(String featureClass, String featureCode) {
 	// TODO V2 why if this method is named isAdm =>test fails
 	if (featureCode != null

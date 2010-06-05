@@ -33,7 +33,7 @@ public class DatabaseInitializer implements InitializingBean {
 			} catch (RuntimeException e) {
 				throw new RuntimeException("The "+DatabaseHelper.NORMALIZE_TEXT_FUNCTION_NAME+" is not created. This function is required for the streetsearch engine and We can not create it (maybe the SQL user haven't the rights to create the function) : "+e.getCause().getMessage(),e);
 			}
-			logger.error("The "+DatabaseHelper.NORMALIZE_TEXT_FUNCTION_NAME+" has been created");
+			logger.info("The "+DatabaseHelper.NORMALIZE_TEXT_FUNCTION_NAME+" has been created");
     	}
 	}
 	

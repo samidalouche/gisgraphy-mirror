@@ -570,7 +570,7 @@ public class CityDaoTest extends AbstractIntegrationHttpSolrTestCase {
 	    List<GisFeatureDistance> results) {
 	Double lastOne = null;
 	for (GisFeatureDistance gisFeatureDistance : results) {
-	    double calculatedDist = p1.distance(gisFeatureDistance
+	    double calculatedDist = p1.distanceTo(gisFeatureDistance
 		    .getLocation());
 	    double retrieveDistance = gisFeatureDistance.getDistance();
 	    if (lastOne != null) {

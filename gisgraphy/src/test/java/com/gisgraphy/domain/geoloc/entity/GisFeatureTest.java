@@ -184,10 +184,10 @@ public class GisFeatureTest extends AbstractIntegrationHttpSolrTestCase {
 	GisFeature point2 = new GisFeature();
 	point2.setLocation(GeolocTestHelper.createPoint(49.017F, 2.467F));
 
-	assertEquals(Math.round(point1.distance(point2.getLocation())), Math
-		.round(point2.distance(point1.getLocation())));
+	assertEquals(Math.round(point1.distanceTo(point2.getLocation())), Math
+		.round(point2.distanceTo(point1.getLocation())));
 	assertEquals(22, Math
-		.round(point2.distance(point1.getLocation()) / 1000));
+		.round(point2.distanceTo(point1.getLocation()) / 1000));
     }
 
     public void testDistanceShouldHaveCorrectParameters() {
@@ -195,7 +195,7 @@ public class GisFeatureTest extends AbstractIntegrationHttpSolrTestCase {
 	point1.setLocation(GeolocTestHelper.createPoint(0F, 0F));
 
 	try {
-	    point1.distance(null);
+	    point1.distanceTo(null);
 	    fail("Distance for a null feature must throws");
 	} catch (RuntimeException e) {
 	}
@@ -204,14 +204,14 @@ public class GisFeatureTest extends AbstractIntegrationHttpSolrTestCase {
 	// point2.setLocation(this.geolocTestHelper.createPoint(1F, 1F));
 
 	try {
-	    point1.distance(point2.getLocation());
+	    point1.distanceTo(point2.getLocation());
 	    fail("Distance with a null location must throws");
 	} catch (RuntimeException e) {
 	}
 
 	point1.setLocation(null);
 	try {
-	    point1.distance(point2.getLocation());
+	    point1.distanceTo(point2.getLocation());
 	    fail("Distance with a null location must throws");
 	} catch (RuntimeException e) {
 	}

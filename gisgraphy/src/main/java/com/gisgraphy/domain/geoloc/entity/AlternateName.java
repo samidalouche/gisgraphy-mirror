@@ -68,10 +68,12 @@ public class AlternateName {
 
     /**
      * @param name
-     *                The name of the alternateName
+     *                The name of the alternate name
      * @param source
-     *                From which source the alternateName come From
-     */
+     *                what is the source the alternate name 
+     * @see AlternateNameSource
+     * 
+     **/                
     public AlternateName(String name, AlternateNameSource source) {
 	super();
 	this.name = name;
@@ -88,7 +90,7 @@ public class AlternateName {
     /**
      * The datastore id
      * 
-     * @return The DatastoreId, it is not a domain value, just a technical One
+     * @return The datastore id, it is not a domain value, just a technical One
      */
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "AlternateName")
@@ -108,7 +110,7 @@ public class AlternateName {
     }
 
     /**
-     * @return The name of the current AlternateName
+     * @return The name of the current alternate name
      */
     //@Index(name = "Alternatenameindex")
     @Column(nullable = false, length = 200)
@@ -117,7 +119,7 @@ public class AlternateName {
     }
 
     /**
-     * Set the name of the current AlternateName
+     * Set the name of the current alternate name
      * 
      * @param name
      *                The name to set
@@ -127,9 +129,9 @@ public class AlternateName {
     }
 
     /**
-     * The GisFeature, the AlternateName refers To
+     * The GisFeature, the Alternate name refers to
      * 
-     * @return the GisFeature, the AlternateName refers To
+     * @return the GisFeature, the AlternateName refers to
      */
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(nullable = false, name = "gisFeature")
@@ -140,10 +142,10 @@ public class AlternateName {
     }
 
     /**
-     * Set The GisFeature, the AlternateName refers To
+     * Set the gisFeature, the alternate name refers to
      * 
      * @param gisFeature
-     *                The GisFeature, the AlternateName refers To
+     *                The GisFeature, the alternate name refers to
      */
     public void setGisFeature(GisFeature gisFeature) {
 	this.gisFeature = gisFeature;
@@ -152,9 +154,9 @@ public class AlternateName {
     /**
      * It tells from which files / gazetteers it has been imported
      * 
-     * @return The source from which the AlternateName come From (from the
-     *         AlternateName file, from the dump of the country file, a personal
-     *         add )
+     * @return The source from which the Alternate name come From (from the
+     *         alternate name file, from the dump of the country file, a personal
+     *         add,...)
      * @see AlternateNameSource
      */
     @Enumerated(EnumType.STRING)
@@ -164,15 +166,15 @@ public class AlternateName {
     }
 
     /**
-     * Set the source from which the AlternateName come From
+     * Set the source from which the alternate name come from
      */
     public void setSource(AlternateNameSource source) {
 	this.source = source;
     }
 
     /**
-     * Returns the alternateNameId. The alternatenameid could be null if the
-     * alternateName come from the Country dump file.
+     * Returns the alternate name id. The id could be null if the
+     * alternate name come from the country dump file.
      * 
      * @return The alternateNameId
      */
@@ -181,20 +183,20 @@ public class AlternateName {
     }
 
     /**
-     * Set the AlternateNameId
+     * Set the alternateName id
      * 
      * @param alternateNameId
-     *                The AlternateNameId to set
+     *                The id to set
      */
     public void setAlternateNameId(Integer alternateNameId) {
 	this.alternateNameId = alternateNameId;
     }
 
     /**
-     * Whether the AlternateName is the preferred name for The
+     * Whether the alternate name is the preferred name for The
      * {@link GisFeature}
      * 
-     * @return true if the AlternateName is the preferred name for the
+     * @return true if the alternate name is the preferred name for the
      *         {@link GisFeature}
      */
     public boolean isPreferredName() {
@@ -202,30 +204,29 @@ public class AlternateName {
     }
 
     /**
-     * Set the AlternateName as a preferred name or Not
+     * Set the alternate name as a preferred name or Not
      * 
      * @param isPreferredName
-     *                The preferred Name property
+     *                The preferred name property
      */
     public void setPreferredName(boolean isPreferredName) {
 	this.isPreferredName = isPreferredName;
     }
 
     /**
-     * Whether the AlternateName is a short name for The {@link GisFeature}
+     * Whether the alternate name is a short name
      * 
-     * @return true if the AlternateName is a short name for the
-     *         {@link GisFeature}
+     * @return true if the Alternate name is a short name
      */
     public boolean isShortName() {
 	return isShortName;
     }
 
     /**
-     * Set the AlternateName as a short name or Not
+     * Set the Alternate name as a short name or Not
      * 
      * @param isShortName
-     *                The short Name property
+     *                The short name property
      */
     public void setShortName(boolean isShortName) {
 	this.isShortName = isShortName;
@@ -241,11 +242,11 @@ public class AlternateName {
     }
 
     /**
-     * Set the the iso639 Alpha2 or alpha 3 LanguageCode for the current
-     * AlternateName
+     * Set the the iso 639 alpha2 or alpha 3 languageCode for the current
+     * alternate name
      * 
      * @param language
-     *                the language to set, it will be automaticaly upercased
+     *                The language to set, it will be automaticaly upercased
      */
     public void setLanguage(String language) {
 	this.language = language == null ? language : language.toUpperCase();

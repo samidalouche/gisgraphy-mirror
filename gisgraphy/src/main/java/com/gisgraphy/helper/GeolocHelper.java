@@ -173,7 +173,6 @@ public class GeolocHelper {
      *                The second JTS point
      * @return The calculated distance
      */
-    // TODO v2 unit helper
     public static double distance(Point point1, Point point2) {
 	Assert.isTrue(point1 != null && point2 != null,
 		"Can not calculate distance for null point");

@@ -219,7 +219,6 @@ public class OpenStreetMapImporterTest extends AbstractIntegrationHttpSolrTestCa
     		
     		@Override
     		protected File[] getFiles() {
-    			// TODO Auto-generated method stub
     			return new File[]{};
     		}
     	};

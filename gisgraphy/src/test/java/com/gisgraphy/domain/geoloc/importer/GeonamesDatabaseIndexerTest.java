@@ -18,8 +18,7 @@ public class GeonamesDatabaseIndexerTest extends AbstractTransactionalTestCase {
 	assertEquals("statusMessage should be empty if the process is ok","", geonamesDatabaseIndexer.getStatusMessage());
 	ImporterStatusDto status = new ImporterStatusDto(geonamesDatabaseIndexer);
 	assertEquals(100, status.getPercent());
-	assertNull("curentFileName should be null at the end of the process", geonamesDatabaseIndexer.getCurrentFileName());
-	Assert.assertEquals("curentFileName should be null at the end of the process",GeonamesDatabaseIndexer.DEFAULT_CURRENT_FILENAME, status.getCurrentFileName());
+	Assert.assertEquals("curentFileName should be the default one at the end of the process",GeonamesDatabaseIndexer.DEFAULT_CURRENT_FILENAME, status.getCurrentFileName());
     }
     
     @Test

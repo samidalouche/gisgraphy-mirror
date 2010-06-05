@@ -73,14 +73,14 @@ import com.vividsolutions.jts.geom.Point;
  * {@link ImporterConfig#isSyncAdmCodesWithLinkedAdmOnes()} in the
  * env.properties file : Gisgraphy try to detect and correct errors in the CSV
  * files. If an error is detected or wrong Adm code are set, the Adm for this
- * GisFeature may not be the one that will be found from the Code in The CSV
- * file : if syncAdmCodesWithLinkedAdmOnes is set to false, the Adm1Code will be
+ * GisFeature may not be the one that will be found from the Code in the CSV
+ * file. If syncAdmCodesWithLinkedAdmOnes is set to false, the Adm1Code will be
  * set with the value of the CSV file (even if the no {@linkplain Adm} are
  * found).<br>
  * If syncAdmCodesWithLinkedAdmOnes is set to true then the Adm1Code will always
  * be the same as the {@link #getAdm()}.getAdm1Code<br>
- * It depends on what you expect for Adm1Code : redondance
- * (syncAdmCodesWithLinkedAdmOnes=true) or the CSV data
+ * It depends on what you expect for Adm1Code : ADM values
+ * (syncAdmCodesWithLinkedAdmOnes=true) or the CSV one
  * (syncAdmCodesWithLinkedAdmOnes=false)
  * 
  * @see ImporterConfig
@@ -176,7 +176,7 @@ public class GisFeature {
     /**
      * The datastore id
      * 
-     * @return The DatastoreId, it is not a domain value, just a technical One
+     * @return The datastoreId, it is not a domain value, just a technical One
      */
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "gisFeatureSequence")
@@ -185,8 +185,9 @@ public class GisFeature {
     }
 
     /**
-     * @return the country from the CountryCode. Return null if the countryCode
+     * @return the country from the country code. Return null if the country Code
      *         is null or if no country is found
+     * @see #getCountryCode()
      */
     @Transient
     public Country getCountry() {
@@ -217,19 +218,19 @@ public class GisFeature {
      * point.
      * 
      * @param point
-     *                the JTS point from which we want to calculate the distance
+     *                the JTS point we want to calculate the distance from
      * @return the calculated distance
      * @see GeolocHelper#distance(Point, Point)
      */
     @Transient
-    public double distance(Point point) {
+    public double distanceTo(Point point) {
 	return GeolocHelper.distance(this.location, point);
 
     }
 
     /**
      * Returns The JTS location point of the current GisFeature : The Geometry
-     * representation for the latitude, longitude. The Return type is a JTS
+     * representation of the latitude, longitude. The Return type is a JTS
      * point. The Location is calculate from the 4326 {@link SRID}
      * 
      * @see SRID
@@ -244,7 +245,7 @@ public class GisFeature {
     }
 
     /**
-     * @return Returns the longitude (east-West) from the Location
+     * @return Returns the longitude (east-west) from the Location
      *         {@link #getLocation()}.
      * @see #getLongitude()
      * @see #getLocation()
@@ -261,7 +262,7 @@ public class GisFeature {
     /**
      * The modification date of the feature. The date must match the
      * {@link Constants#GIS_DATE_PATTERN} This fields is not updated when saving
-     * or updating a GisFeature : This fields is to track change in the
+     * or updating a GisFeature. This fields is to track changes in the
      * gazetteers, not in the Datastore.
      * 
      * @return The modification date of the feature
@@ -272,7 +273,7 @@ public class GisFeature {
 
     /**
      * Returns the Adm1Code for this feature. The only goal to have the Adm1Code
-     * directly in the GisFeature is for performance reason :<br>
+     * directly in the GisFeature is for performance reasons :<br>
      * It allows to have the adm1Code without loading all the Adm tree. See
      * Important Notes for admXcode for {@link GisFeature}
      * 
@@ -287,7 +288,7 @@ public class GisFeature {
     /**
      * @see #getAdm1Code()
      * @param adm1Code
-     *                the adm1code to set
+     *                The adm1code to set
      */
     public void setAdm1Code(String adm1Code) {
 	this.adm1Code = adm1Code;
@@ -295,7 +296,7 @@ public class GisFeature {
 
     /**
      * Returns the Adm2Code for this feature. The only goal to have the Adm2Code
-     * directly in the GisFeature is for performance reason :<br>
+     * directly in the GisFeature is for performance reasons :<br>
      * It allows to have the adm2Code without loading all the Adm tree. See
      * Important Notes for admXcode for {@link GisFeature}
      * 
@@ -318,7 +319,7 @@ public class GisFeature {
 
     /**
      * Returns the Adm3Code for this feature. The only goal to have the Adm3Code
-     * directly in the GisFeature is for performance reason :<br>
+     * directly in the GisFeature is for performance reasons :<br>
      * It allows to have the adm3Code without loading all the Adm tree. See
      * Important Notes for admXcode for {@link GisFeature}
      * 
@@ -341,7 +342,7 @@ public class GisFeature {
 
     /**
      * Returns the Adm4Code for this feature. The only goal to have the Adm4Code
-     * directly in the GisFeature is for performance reason :<br>
+     * directly in the GisFeature is for performance reasons :<br>
      * It allows to have the adm4Code without loading the all Adm tree. See
      * Important Notes for admXcode for {@link GisFeature}
      * 
@@ -365,7 +366,7 @@ public class GisFeature {
     /**
      * Returns the name of the Adm of level 1 that this GisFeature is linked to.
      * The only goal to have it directly in the gisFeature is for performance
-     * reason :<br>
+     * reasons :<br>
      * It allows to have it without loading all the Adm tree
      * 
      * @return The name of the Adm of level 1 that this GisFeature is linked to
@@ -391,7 +392,7 @@ public class GisFeature {
     /**
      * Returns the name of the Adm of level 2 that this GisFeature is linked to.
      * The only goal to have it directly in the gisFeature is for performance
-     * reason :<br>
+     * reasons :<br>
      * it allow to retrieve it without loading all the Adm tree
      * 
      * @return The name of the Adm of level 2 that this GisFeature is linked to
@@ -417,7 +418,7 @@ public class GisFeature {
     /**
      * Returns the name of the Adm of level 3 that this GisFeature is linked to.
      * The only goal to have it directly in the gisFeature is for performance
-     * reason :<br>
+     * reasons :<br>
      * It allows to have it without loading all the Adm tree
      * 
      * @return The name of the Adm of level 3 that this GisFeature is linked to
@@ -443,7 +444,7 @@ public class GisFeature {
     /**
      * Returns the name of the Adm of level 4 that this GisFeature is linked to.
      * The only goal to have it directly in the gisFeature is for performance
-     * reason :<br>
+     * reasons :<br>
      * It allows to have it without loading all the Adm tree
      * 
      * @return The name of the Adm of level 4 that this GisFeature is linked to
@@ -507,7 +508,7 @@ public class GisFeature {
     }
 
     /**
-     * Do a double set : add the AlternateName to the current GisFeature and set
+     * Do a double set : add the alternate name to the current GisFeature and set
      * this GisFeature as the GisFeature of the specified AlternateName
      * 
      * @param alternateName
@@ -524,9 +525,9 @@ public class GisFeature {
     }
 
     /**
-     * Do a double set : add (not replace !)the AlternateNames to the current
+     * Do a double set : add (not replace !) the AlternateNames to the current
      * GisFeature and for each alternatenames : set the current GisFeature as
-     * the GisFeature of the AlternateNames
+     * the GisFeature of the Alternate Names
      * 
      * @param alternateNames
      *                The alternateNames list to add
@@ -601,7 +602,7 @@ public class GisFeature {
     }
 
     /**
-     * @return The average elevation of 30'x30' (ca 900mx900m) area in meters
+     * @return The average elevation of 30'x30' (900mx900m) area in meters
      */
     public Integer getGtopo30() {
 	return gtopo30;
@@ -609,7 +610,7 @@ public class GisFeature {
 
     /**
      * @param gtopo30
-     *                The average elevation of 30'x30' (ca 900mx900m) area to
+     *                The average elevation of 30'x30' (900mx900m) area to
      *                set in meters
      */
     public void setGtopo30(Integer gtopo30) {
@@ -702,8 +703,8 @@ public class GisFeature {
      * @param modificationDate
      *                The Date of the Last Modification. This fields is not
      *                updated when saving or updating a GisFeature : This fields
-     *                is to track change in the gazetteers, not in the
-     *                Datastore. The date should match the
+     *                is to track changes in the gazetteers, not in the
+     *                datastore. The date should match the
      *                {@link Constants#GIS_DATE_PATTERN}
      * @see #getModificationDate()
      */
@@ -723,7 +724,7 @@ public class GisFeature {
 
     /**
      * @return The featureId for this GisFeature. it is a 'Domain value' not a
-     *         datastore one A featureId is unique and mandatory
+     *         datastore one. A featureId is unique and mandatory
      */
     @Index(name = "gisFeatureIdIndex")
     @Column(unique = true, nullable = false)
@@ -807,9 +808,9 @@ public class GisFeature {
     }
 
     /**
-     * @return the featureCode for the current GisFeature. A feature Code
-     *         represents a specific Feature type. GisGraphy regroup some
-     *         featureCode in an abstract Level called 'GisType'. A GisType
+     * @return The featureCode for the current GisFeature. A feature code
+     *         represents a specific feature type. GisGraphy regroup some
+     *         feature codes in an abstract Level called 'place type'. A place type
      *         regroup several featurecode.
      * @see FeatureCode
      */
@@ -847,10 +848,10 @@ public class GisFeature {
 		}
 	    }
 	    if (gisFeature.getAsciiName() != null) {
-		this.setAsciiName(gisFeature.getAsciiName().trim());
+	    	this.setAsciiName(gisFeature.getAsciiName().trim());
 	    }
 	    if (gisFeature.getCountryCode() != null) {
-		this.setCountryCode(gisFeature.getCountryCode().toUpperCase());
+	    	this.setCountryCode(gisFeature.getCountryCode().toUpperCase());
 	    }
 	    this.setElevation(gisFeature.getElevation());
 	    this.setFeatureClass(gisFeature.getFeatureClass());
@@ -868,7 +869,8 @@ public class GisFeature {
 
     /**
      * @param featureCode
-     *                The feature Code for this GisFeature * <u>Note</u> The
+     *                The feature Code for this GisFeature 
+     * <u>Note</u> The
      *                featureCode will automaticaly be uppercased
      * @see #getFeatureCode()
      */

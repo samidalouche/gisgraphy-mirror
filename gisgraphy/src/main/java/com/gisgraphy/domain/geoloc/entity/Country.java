@@ -37,8 +37,8 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.Index;
 
 /**
- * A Country (as defined by ISO 3166). A country always has an ISO 3166 alpha2,
- * alpha3 and numeric code, but may, or may not have other names (FIPS, etc).
+ * A Country (as defined by ISO 3166). A country always has an ISO 3166 alpha-2,
+ * alpha-3 and numeric code, but may, or may not have other names (FIPS, etc).
  * The list of countries has been imported from Geonames Country List. Codes are
  * written in upper case !
  * 
@@ -71,15 +71,15 @@ public class Country extends GisFeature implements Serializable,
     }
 
     /**
-     * Construct a country with the iso3166Alpha2Code, iso3166Alpha3Code, and
-     * iso3166NumericCode
+     * Construct a country with the iso 3166 alpha-2 code, iso 3166 alpha-3 code, and
+     * iso 3166 numeric code
      * 
      * @param iso3166Alpha2Code
-     *                The iso3166Alpha2Code for this Country
+     *                The iso 3166 alpha 2 code for this Country
      * @param iso3166Alpha3Code
-     *                The iso3166Alpha3Code for this Country
+     *                The iso 3166 alpha3 code for this Country
      * @param iso3166NumericCode
-     *                The iso3166NumericCode for this Country <u>NOTE</u> : The
+     *                The iso 3166 numeric code for this Country <u>NOTE</u> : The
      *                iso3166AlphaX codes will be automatically uppercased
      */
     public Country(String iso3166Alpha2Code, String iso3166Alpha3Code,
@@ -135,7 +135,7 @@ public class Country extends GisFeature implements Serializable,
      */
     private int iso3166NumericCode;
 
-    // TODO v2
+    // TODO v3
     // private List<Country> neighbourCountries = new ArrayList<Country>();
     /**
      * @see #getPhonePrefix()
@@ -158,7 +158,7 @@ public class Country extends GisFeature implements Serializable,
      */
 
     /**
-     * Adds a spoken language to the country. The language is described by its
+     * Add a spoken language to the country. The language is described by its
      * Alpha2 Code.
      * 
      * @param lang
@@ -195,17 +195,17 @@ public class Country extends GisFeature implements Serializable,
     }
 
     /**
-     * Country area in Square Km
+     * Country area in square Km
      * 
-     * @return Country area in Square Km
+     * @return The country area in square Km
      */
     public Double getArea() {
 	return this.area;
     }
 
     /**
-     * Returns the ISO 4217 Currency from the curencycode. The code is not
-     * imported but it is processed :
+     * Returns the ISO 4217 Currency from the currency code. The code is not
+     * imported but processed :
      * {@link Currency#getInstance(java.util.Locale)} Important : some
      * currencies are NOT recognized by
      * {@link Currency#getInstance(java.util.Locale)}.
@@ -215,19 +215,19 @@ public class Country extends GisFeature implements Serializable,
      */
     @Transient
     public Currency getCurrency() {
-	Currency c = null;
+	Currency currency = null;
 	if (this.currencyCode != null) {
 	    try {
-		c = Currency.getInstance(this.currencyCode);
+		currency = Currency.getInstance(this.currencyCode);
 	    } catch (RuntimeException e) {
-		logger.warn(" has a wrong currencycode" + getCountryCode());
+	    	logger.warn("Got a wrong currencycode" + getCountryCode());
 	    }
 	}
-	return c;
+	return currency;
     }
 
     /**
-     * ISO 4217 Currency Code when possible. However, for some countries, there
+     * ISO 4217 currency code when possible. However, for some countries, there
      * is no official ISO 4217 code, like Guernsey (GGP), and the information
      * can be null sometimes when we're not sure of the currency (United States
      * Minor Outlying Islands). This field is not unique, because some countries
@@ -240,7 +240,7 @@ public class Country extends GisFeature implements Serializable,
      * @see <a
      *      href="http://en.wikipedia.org/wiki/United_States_Minor_Outlying_Islands">
      *      United States Minor Outlying Islands</a>
-     * @return The ISO 4217 Currency Codes
+     * @return The ISO 4217 currency code
      */
     @Column(unique = false, nullable = true)
     public String getCurrencyCode() {
@@ -248,10 +248,10 @@ public class Country extends GisFeature implements Serializable,
     }
 
     /**
-     * FIXME : This field is not supported yet The equivalent fips Code. This is
+     * This field is not supported yet. The equivalent fips Code. This is
      * the same as the FIPS code, except that sometimes, there is no FIPS code
      * for some entity (Aaland Islands), even if it is the same country than
-     * another one (finland). So in that case, aaland island equivalent fips
+     * another one (finland). So in that case, Aaland island equivalent fips
      * code will be set to FI
      * 
      * @return The equivalent fips Code
@@ -261,9 +261,9 @@ public class Country extends GisFeature implements Serializable,
     }
 
     /**
-     * THe FIPS 10.4 country code This field can be null in some circonstances
-     * (when there is an ISO Code and no FIPS code, for instance).Note that
-     * these codes are not the same as the ISO 3166 codes used by the U.N. and
+     * The FIPS 10.4 country code. This field can be null in some cases
+     * (when there is an ISO Code and no FIPS code, for instance). Note that
+     * these code is not the same as the ISO 3166 codes used by the U.N. and
      * for Internet top-level country code domains.
      * 
      * @see <a href="http://en.wikipedia.org/wiki/List_of_FIPS_country_codes">
@@ -277,9 +277,9 @@ public class Country extends GisFeature implements Serializable,
     }
 
     /**
-     * The ISO 3166 alpha-2 letter code. We don't use the CountryCode of
+     * The ISO 3166 alpha-2 letter code(should be in upper case). We don't use the country code of the
      * GisFeature because we want that fields as mandatory and the GisFeature
-     * one is not
+     * one is not 
      * 
      * @see <a href="http://en.wikipedia.org/wiki/ISO_3166"> ISO 3166 </a>
      * @return Returns the iso3166Alpha2Code.
@@ -302,7 +302,7 @@ public class Country extends GisFeature implements Serializable,
     }
 
     /**
-     * @return The ISO 3166 Numeric Code
+     * @return The ISO 3166 numeric code
      */
     @Column(unique = true, nullable = false)
     @Index(name = "countryIso3166NumericCodeIndex")
@@ -316,16 +316,16 @@ public class Country extends GisFeature implements Serializable,
      */
 
     /**
-     * The Phone Prefix (e.g : +33..)
+     * The Phone Prefix (e.g : 33..) without '+'
      * 
-     * @return The Phone Prefix
+     * @return The phone prefix
      */
     public String getPhonePrefix() {
 	return this.phonePrefix;
     }
 
     /**
-     * @return The Postal Code Mask (ex : #####)
+     * @return The postal Code Mask (ex : #####)
      */
     public String getPostalCodeMask() {
 	return this.postalCodeMask;
@@ -396,14 +396,12 @@ public class Country extends GisFeature implements Serializable,
     }
 
     /**
-     * Set the Iso3166Alpha2Code and the countryCode of the associated
-     * GisFeature <u>NOTE</u> : The Code will be automaticaly uppercased, and
+     * Set the iso3166 alpha-2 code. <u>NOTE</u> : The Code will be automaticaly uppercased, and
      * the gisfeature code will be set automatically
      * 
-     * @see GisFeature#setCountryCode(String)
      * @see #getIso3166Alpha2Code()
      * @param isoCode
-     *                The iso3166Alpha2Code to set in upper case.
+     *                The iso3166 alpha-2 code to set in upper case.
      */
     public void setIso3166Alpha2Code(String isoCode) {
 	if (isoCode != null) {
@@ -415,7 +413,7 @@ public class Country extends GisFeature implements Serializable,
     }
 
     /**
-     * <u>Note</u> : The Code will be automaticaly uppercased
+     * <u>Note</u> : The code will be automaticaly uppercased
      * 
      * @see #getIso3166Alpha3Code()
      * @param iso3166Alpha3Code
@@ -433,7 +431,7 @@ public class Country extends GisFeature implements Serializable,
     /**
      * @see #getIso3166NumericCode()
      * @param iso3166NumericCode
-     *                The iso3166NumericCode to set.
+     *                The iso 3166 numeric code to set.
      */
     public void setIso3166NumericCode(int iso3166NumericCode) {
 	this.iso3166NumericCode = iso3166NumericCode;
@@ -495,7 +493,7 @@ public class Country extends GisFeature implements Serializable,
 	this.capitalName = capitalName;
     }
 
-    // TODO v2 continent importer
+    // TODO v3 continent importer
     /**
      * Returns The name of the continent this country belongs to
      * 
@@ -514,7 +512,7 @@ public class Country extends GisFeature implements Serializable,
 
     /**
      * Returns The name of the currency for this country. The name is not
-     * processed for currency code but imported from files.
+     * processed but imported from file.
      * 
      * @return The name of the currency
      */
@@ -531,8 +529,8 @@ public class Country extends GisFeature implements Serializable,
 
     /**
      * Returns The regexp that every Zipcode for this country matches. it is
-     * useful to test if a zipcode is valid. this field is imported from files
-     * and is not tested. please report any problems.
+     * useful to test if a zipcode is valid. this field is imported from file
+     * and is not tested. Please report any problems.
      * 
      * @see #getPostalCodeMask()
      * @return The regexp that every zipcode for this country matches
@@ -572,9 +570,9 @@ public class Country extends GisFeature implements Serializable,
     public int compareTo(Country country) {
 	if (getName() == null) {
 	    if (country.getName() == null) {
-		return 0;
+	    	return 0;
 	    } else {
-		return -1;
+	    	return -1;
 	    }
 	}
 	return getName().compareTo(country.getName());

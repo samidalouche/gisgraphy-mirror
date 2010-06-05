@@ -37,7 +37,7 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.Index;
 
 /**
- * Represents a language
+ * Represents a spoken language
  * 
  * @author <a href="mailto:david.masclet@gisgraphy.com">David Masclet</a>
  * @see <a href="http://en.wikipedia.org/wiki/List_of_languages">List Of
@@ -74,11 +74,11 @@ public class Language {
 
     /**
      * @param iso639LanguageName
-     *                The iso 639 LanguageName for the current language
+     *                The iso 639 Language name for the current language
      * @param iso639Alpha2LanguageCode
-     *                The iso 639 alpha 2 code for the current language
+     *                The iso 639 alpha-2 code for the current language
      * @param iso639Alpha3LanguageCode
-     *                The iso 639 alpha 3 code for the current language
+     *                The iso 639 alpha-3 code for the current language
      */
     public Language(String iso639LanguageName, String iso639Alpha2LanguageCode,
 	    String iso639Alpha3LanguageCode) {
@@ -99,7 +99,7 @@ public class Language {
     }
 
     /**
-     * @return The iso 639 Alpha2 letter code, if available
+     * @return The iso 639 Alpha-2 letter code, if available
      */
     @Column(unique = true, nullable = true)
     @Index(name = "iso639Alpha2LanguageCode")
@@ -117,7 +117,7 @@ public class Language {
     }
 
     /**
-     * @return official ISO name
+     * @return official ISO 639 name
      */
     @Column(unique = true, nullable = false)
     public String getIso639LanguageName() {

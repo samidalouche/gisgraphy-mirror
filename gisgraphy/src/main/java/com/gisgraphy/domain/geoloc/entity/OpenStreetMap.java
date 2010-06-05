@@ -39,13 +39,14 @@ import org.hibernate.annotations.Type;
 
 import com.gisgraphy.domain.geoloc.service.fulltextsearch.StreetSearchMode;
 import com.gisgraphy.domain.geoloc.service.geoloc.street.StreetType;
+import com.gisgraphy.domain.valueobject.GisgraphyConfig;
 import com.gisgraphy.domain.valueobject.SRID;
 import com.gisgraphy.helper.IntrospectionIgnoredField;
 import com.vividsolutions.jts.geom.LineString;
 import com.vividsolutions.jts.geom.Point;
 
 /**
- * Represents a {@link OpenStreetMap}.
+ * Represents a street in OpenStreetMap. it is different from {@link Street} that represent a street in Geonames.
  * 
  * @author <a href="mailto:david.masclet@gisgraphy.com">David Masclet</a>
  */
@@ -59,17 +60,18 @@ public class OpenStreetMap {
     /**
      * Name of the column that is equals to to_tsvector(
      * {@link #FULLTEXTSEARCH_COLUMN_NAME} It is used to do Fulltext search with
-     * the postgres text search module (to use the index) This value should be
+     * the postgres text search module (to use the index). This value should be
      * change if the getter and the setter of the {@link #textSearchName} change
      */
     public static final String FULLTEXTSEARCH_VECTOR_COLUMN_NAME = "textsearchVector";
 
     /**
-     * Name of the column that is equals to to_tsvector(
+     * (Experimental) Name of the column that is equals to to_tsvector(
      * {@link #PARTIALSEARCH_COLUMN_NAME} It is used to do Fulltext search with
      * the postgres text search module (to use the index) This value should be
      * change if the getter and the setter of the {@link #partialSearchName}
      * change
+     * @see GisgraphyConfig#PARTIAL_SEARH_EXPERIMENTAL
      */
     public static final String PARTIALSEARCH_VECTOR_COLUMN_NAME = "partialsearchVector";
 
@@ -110,7 +112,6 @@ public class OpenStreetMap {
      * Needed by CGLib
      */
     public OpenStreetMap() {
-	super();
     }
 
     @IntrospectionIgnoredField
@@ -140,10 +141,11 @@ public class OpenStreetMap {
     private String textSearchName;
 
     /**
-     * This String is used to search for a part of a street name
+     * (Experimental) This String is used to search for a part of a street name
      * 
      * @see StreetSearchMode#CONTAINS
      * @return the partialSearchName
+     * @see GisgraphyConfig#PARTIAL_SEARH_EXPERIMENTAL
      */
     @Column(unique = false, nullable = true, columnDefinition = "text")
     public String getPartialSearchName() {

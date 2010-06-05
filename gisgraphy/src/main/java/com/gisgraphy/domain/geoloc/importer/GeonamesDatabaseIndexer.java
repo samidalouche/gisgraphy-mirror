@@ -75,7 +75,7 @@ public class GeonamesDatabaseIndexer implements IImporterProcessor {
     }
 
     public int getNumberOfLinesToProcess() {
-	return currentDao == null ? 0 :this.daos.length;
+	return this.daos == null ? 0 :this.daos.length;
     }
 
     public int getReadFileLine() {
@@ -111,7 +111,7 @@ public class GeonamesDatabaseIndexer implements IImporterProcessor {
 	    
 	this.status = ImporterStatus.PROCESSED;
 	this.statusMessage="";
-        this.currentDao = null;
+    this.currentDao = null;
 	} catch (Exception e) {
 	    this.status = ImporterStatus.ERROR;
 	    this.statusMessage = "The import is done but performance may not be optimal because an error occurred when creating spatial indexes for geonames in DAO "

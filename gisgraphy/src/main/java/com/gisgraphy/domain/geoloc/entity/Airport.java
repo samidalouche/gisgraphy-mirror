@@ -40,7 +40,7 @@ public class Airport extends GisFeature {
     /**
      * Override the GisFeature value.<br>
      * Default to true;<br>
-     * If this field is set to false, then the object won't be synchronized with
+     * If set to false, then the object won't be synchronized with
      * the fullText search engine
      */
     @Override

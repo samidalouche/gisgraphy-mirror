@@ -78,7 +78,6 @@ public class EncodingHelper {
      * To replace accented characters in a String by unaccented equivalents.
      * source code from lucene ISOLatin1AccentFilter
      */
-    //TODO tests
     public final static String removeAccents(String input) {
 	final StringBuffer output = new StringBuffer();
 	for (int i = 0; i < input.length(); i++) {

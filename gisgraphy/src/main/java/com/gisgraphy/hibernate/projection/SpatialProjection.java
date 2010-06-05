@@ -89,7 +89,6 @@ public class SpatialProjection {
 		 */
 		public String toSqlString(Criteria criteria, int position, CriteriaQuery criteriaQuery) throws HibernateException {
 			String columnName = criteriaQuery.getColumn(criteria, lineStringColumnName);
-			//TODO point.toString
 			String pointAsString = new StringBuffer("GeometryFromText( 'POINT(")
 			.append(point.getX()).append(" ").append(point.getY()).append(")',").append(SRID.WGS84_SRID.getSRID()).append(")").toString();
 			

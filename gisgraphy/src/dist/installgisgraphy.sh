@@ -8,7 +8,7 @@ function check_psql_installed {
 	if [[ $? != 0 ]]
 	then
 		echo "Postgres does not seems to be installed"
-		read -p "Do you want to install Postgres [Y/n] " installpsql
+		read -p "Do you want to install Postgres (it is not necessary if you you postgres on an other serveur) [Y/n] " installpsql
 
 		if [[ $installpsql == "Y" || $installpsql == "y" || $installpsql == "" ]]
 		then
