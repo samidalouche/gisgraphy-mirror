@@ -8,7 +8,7 @@
 
 <div class="tip yellowtip">
 <@s.text name="import.free.disk.space">
-	<@s.param>45 GO</@s.param>
+	<@s.param>70 GO</@s.param>
 </@s.text>
 </div>
 <#if !DownloadDirectoryAccessible>
