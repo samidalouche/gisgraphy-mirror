@@ -1166,6 +1166,21 @@ public enum FeatureCode {
 	    return new City();
 	}
     },
+    P_PPLA2 {
+	public GisFeature getObject() {
+	    return new City();
+	}
+    },
+    P_PPLA3 {
+	public GisFeature getObject() {
+	    return new City();
+	}
+    },
+    P_PPLA4 {
+	public GisFeature getObject() {
+	    return new City();
+	}
+    },
     P_PPLC {
 	public GisFeature getObject() {
 	    return new City();
