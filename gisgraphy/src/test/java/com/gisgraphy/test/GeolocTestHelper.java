@@ -52,6 +52,7 @@ import com.gisgraphy.domain.geoloc.entity.CitySubdivision;
 import com.gisgraphy.domain.geoloc.entity.Country;
 import com.gisgraphy.domain.geoloc.entity.GisFeature;
 import com.gisgraphy.domain.geoloc.entity.OpenStreetMap;
+import com.gisgraphy.domain.geoloc.entity.ZipCode;
 import com.gisgraphy.domain.geoloc.service.geoloc.street.StreetType;
 import com.gisgraphy.domain.repository.IAdmDao;
 import com.gisgraphy.domain.repository.ICityDao;
@@ -276,8 +277,8 @@ public class GeolocTestHelper {
 	gisFeature.addAlternateName(alternateNamecity);
 	gisFeature.addAlternateName(alternateNamecityFR);
 	City paris = new City(gisFeature);
-	paris.setZipCode("50263");
-
+	paris.addZipCode(new ZipCode("50263"));
+	
 	paris.setAsciiName("ascii");
 	paris.setFeatureClass("P");
 	paris.setFeatureCode("PPL");
@@ -437,7 +438,8 @@ public class GeolocTestHelper {
 	city.setPopulation(1000000);
 	city.setSource(GISSource.PERSONAL);
 	city.setTimezone("gmt+1");
-	city.setZipCode("3456");
+	city.addZipCode(new ZipCode("3456"));
+	city.addZipCode(new ZipCode("3457"));
 
 	return new GisFeatureDistance(city, 3.6D);
 
@@ -473,34 +475,41 @@ public class GeolocTestHelper {
     }
     
     public static GisFeatureDistance createFullFilledGisFeatureDistanceForCitySubdivision() {
-	CitySubdivision citySubdivision = new CitySubdivision();
-	citySubdivision.setAdm1Code("A1");
-	citySubdivision.setAdm2Code("B2");
-	citySubdivision.setAdm3Code("C3");
-	citySubdivision.setAdm4Code("D4");
-
-	citySubdivision.setAdm1Name("adm1 name");
-	citySubdivision.setAdm2Name("adm2 name");
-	citySubdivision.setAdm3Name("adm3 name");
-	citySubdivision.setAdm4Name("adm4 name");
-
-	citySubdivision.setAsciiName("ascii");
-	citySubdivision.setCountryCode("FR");
-	citySubdivision.setElevation(3);
-	citySubdivision.setFeatureClass("P");
-	citySubdivision.setFeatureCode("PPL");
-	citySubdivision.setFeatureId(1000L);
-	citySubdivision.setGtopo30(30);
-	citySubdivision.setLocation(createPoint(2F, 4F));
-	citySubdivision.setName("a name");
-	citySubdivision.setPopulation(1000000);
-	citySubdivision.setSource(GISSource.PERSONAL);
-	citySubdivision.setTimezone("gmt+1");
-	citySubdivision.setZipCode("3456");
+	CitySubdivision citySubdivision = createCitySubdivision();
 
 	return new GisFeatureDistance(citySubdivision, 3D);
 
     }
+
+
+	public static CitySubdivision createCitySubdivision() {
+		CitySubdivision citySubdivision = new CitySubdivision();
+		citySubdivision.setAdm1Code("A1");
+		citySubdivision.setAdm2Code("B2");
+		citySubdivision.setAdm3Code("C3");
+		citySubdivision.setAdm4Code("D4");
+
+		citySubdivision.setAdm1Name("adm1 name");
+		citySubdivision.setAdm2Name("adm2 name");
+		citySubdivision.setAdm3Name("adm3 name");
+		citySubdivision.setAdm4Name("adm4 name");
+
+		citySubdivision.setAsciiName("ascii");
+		citySubdivision.setCountryCode("FR");
+		citySubdivision.setElevation(3);
+		citySubdivision.setFeatureClass("P");
+		citySubdivision.setFeatureCode("PPL");
+		citySubdivision.setFeatureId(1000L);
+		citySubdivision.setGtopo30(30);
+		citySubdivision.setLocation(createPoint(2F, 4F));
+		citySubdivision.setName("a name");
+		citySubdivision.setPopulation(1000000);
+		citySubdivision.setSource(GISSource.PERSONAL);
+		citySubdivision.setTimezone("gmt+1");
+		citySubdivision.addZipCode(new ZipCode("3456"));
+		citySubdivision.addZipCode(new ZipCode("7890"));
+		return citySubdivision;
+	}
     
     public static Country createFullFilledCountry() {
 	Country country = createCountryForFrance();
@@ -654,7 +663,7 @@ public class GeolocTestHelper {
 	City city = new City(gisFeature);
 	city.setFeatureClass("P");
 	city.setFeatureCode("PPL");
-	city.setZipCode("75000");
+	city.addZipCode(new ZipCode("75000"));
 	return city;
     }
 

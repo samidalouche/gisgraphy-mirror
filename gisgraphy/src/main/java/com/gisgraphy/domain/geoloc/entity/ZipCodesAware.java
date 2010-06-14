@@ -22,28 +22,12 @@
  *******************************************************************************/
 package com.gisgraphy.domain.geoloc.entity;
 
-import org.hibernate.annotations.Index;
+import java.util.List;
 
 /**
  * @author <a href="mailto:david.masclet@gisgraphy.com">David Masclet</a>
- *         Interface for Class that have a zipCode field
+ *         Interface to "tag" Class that have zip Codes ({@link City} {@link CitySubdivision},...) 
  */
-public interface ZipCodeAware {
-
-    public static final String SETTER_METHOD_NAME = "setZipCode";
-
-    /**
-     * Set The zipCode for the city
-     * 
-     * @param zipCode
-     *                The zipCode for the City
-     */
-    public void setZipCode(String zipCode);
-
-    /**
-     * @return The zipCode for The city
-     */
-    @Index(name = "gisFeatureZipCode")
-    public String getZipCode();
+public interface ZipCodesAware {
 
 }

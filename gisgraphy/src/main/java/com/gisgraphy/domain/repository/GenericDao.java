@@ -293,7 +293,7 @@ public class GenericDao<T, PK extends Serializable> extends HibernateDaoSupport
 
 			String queryString = "DELETE "
 				+ persistentClass.getSimpleName();
-
+			
 			Query qry = session.createQuery(queryString);
 			Integer deleted = Integer.valueOf(qry.executeUpdate());
 			return deleted;

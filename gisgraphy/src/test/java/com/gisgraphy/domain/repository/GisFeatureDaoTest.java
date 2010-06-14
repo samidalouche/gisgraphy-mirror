@@ -35,7 +35,7 @@ import com.gisgraphy.domain.geoloc.entity.Adm;
 import com.gisgraphy.domain.geoloc.entity.AlternateName;
 import com.gisgraphy.domain.geoloc.entity.City;
 import com.gisgraphy.domain.geoloc.entity.GisFeature;
-import com.gisgraphy.domain.geoloc.entity.ZipCodeAware;
+import com.gisgraphy.domain.geoloc.entity.ZipCode;
 import com.gisgraphy.domain.geoloc.importer.ImporterConfig;
 import com.gisgraphy.domain.geoloc.service.fulltextsearch.AbstractIntegrationHttpSolrTestCase;
 import com.gisgraphy.domain.valueobject.AlternateNameSource;
@@ -90,7 +90,7 @@ public class GisFeatureDaoTest extends AbstractIntegrationHttpSolrTestCase {
 	this.gisFeatureDao.remove(retrievedParis);
 
 	// check city is removed
-	ZipCodeAware retrievedParisafterRemove = this.cityDao.get(id);
+	City retrievedParisafterRemove = this.cityDao.get(id);
 	assertEquals(null, retrievedParisafterRemove);
 
 	// check gisFeature is remove
@@ -118,7 +118,7 @@ public class GisFeatureDaoTest extends AbstractIntegrationHttpSolrTestCase {
 	// savedParis.setGisFeature(null);
 	// check city is removed
 
-	ZipCodeAware retrievedParisafterRemove = this.cityDao.get(id);
+	City retrievedParisafterRemove = this.cityDao.get(id);
 	assertEquals(null, retrievedParisafterRemove);
 
 	// check gisFeature is remove
@@ -508,7 +508,7 @@ public class GisFeatureDaoTest extends AbstractIntegrationHttpSolrTestCase {
 	alternateName.setSource(AlternateNameSource.ALTERNATENAMES_FILE);
 	gisFeature.addAlternateName(alternateName);
 	City paris = new City(gisFeature);
-	paris.setZipCode("50263");
+	paris.addZipCode(new ZipCode("50263"));
 
 	Adm admParent = GeolocTestHelper.createAdm("admparent", "FR", "A1",
 		"B2", "C3", null, null, 3);
@@ -758,7 +758,7 @@ public class GisFeatureDaoTest extends AbstractIntegrationHttpSolrTestCase {
 	alternateName.setSource(AlternateNameSource.ALTERNATENAMES_FILE);
 	gisFeature.addAlternateName(alternateName);
 	City paris = new City(gisFeature);
-	paris.setZipCode("50263");
+	paris.addZipCode(new ZipCode("50263"));
 
 	// create ADM
 	GisFeature gisAdm = GeolocTestHelper.createGisFeatureForAdm(
@@ -771,7 +771,7 @@ public class GisFeatureDaoTest extends AbstractIntegrationHttpSolrTestCase {
 	GisFeature gisFeature2 = GeolocTestHelper.createCity("mytown", 1.5F,
 		2F, featureId2);
 	City paris2 = new City(gisFeature2);
-	paris2.setZipCode("50264");
+	paris2.addZipCode(new ZipCode("50264"));
 
 	// save cities and check it is saved
 	this.gisFeatureDao.save(paris);

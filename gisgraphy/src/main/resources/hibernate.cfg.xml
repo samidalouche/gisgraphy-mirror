@@ -34,8 +34,8 @@
 			-->
 
 			<!-- display -->
-			<property name="hibernate.format_sql" >false</property>
 			<property name="hibernate.show_sql" >false</property>
+			<property name="hibernate.format_sql" >false</property>
 			<property name="hibernate.jdbc.batch_size">20</property>
 			<property name="hibernate.hbm2ddl.auto">update</property> 
 			
@@ -144,6 +144,7 @@
         <mapping class="com.gisgraphy.domain.geoloc.entity.Vineyard"/>
         <mapping class="com.gisgraphy.domain.geoloc.entity.Volcano"/>
         <mapping class="com.gisgraphy.domain.geoloc.entity.WaterBody"/>
+         <mapping class="com.gisgraphy.domain.geoloc.entity.ZipCode"/>
         <mapping class="com.gisgraphy.domain.geoloc.entity.Zoo"/>
         <mapping class="com.gisgraphy.stats.StatsUsage"/>
              

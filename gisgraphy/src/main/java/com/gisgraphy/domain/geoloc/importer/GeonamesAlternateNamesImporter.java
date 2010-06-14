@@ -31,7 +31,8 @@ import org.springframework.beans.factory.annotation.Required;
 
 import com.gisgraphy.domain.geoloc.entity.AlternateName;
 import com.gisgraphy.domain.geoloc.entity.GisFeature;
-import com.gisgraphy.domain.geoloc.entity.ZipCodeAware;
+import com.gisgraphy.domain.geoloc.entity.ZipCode;
+import com.gisgraphy.domain.geoloc.entity.ZipCodesAware;
 import com.gisgraphy.domain.geoloc.service.fulltextsearch.spell.ISpellCheckerIndexer;
 import com.gisgraphy.domain.repository.IAdmDao;
 import com.gisgraphy.domain.repository.IAlternateNameDao;
@@ -144,35 +145,17 @@ public class GeonamesAlternateNamesImporter extends AbstractImporterProcessor {
 	    // it is a zip code :set and save gisfeature
 	    if (!isEmptyField(fields, 3, false)) {
 		// if it is a city we update the city
-
-		try {
-		    if (gisFeature instanceof ZipCodeAware) {
-			ZipCodeAware zipCodeAware = (ZipCodeAware) gisFeature;
-			String zipCode = zipCodeAware.getZipCode();
-			// for log purpose
-			if (zipCode != null 
-				&& !zipCode.equals(new Integer(fields[3]))) {
-			    logger.warn("gisFeature " + gisFeature
-				    + " already has a zip code : " + zipCode
-				    + " and will be replaced by " + fields[3]);
-			}
-			zipCodeAware.setZipCode(fields[3]);
+		    if (!(gisFeature instanceof ZipCodesAware)) {
+		    	logger.error("We've got a zipCode for a feature but the " +
+						"feature is not 'zipCodes aware'," +
+						" that mean that zipcode is added but the field" +
+						" will not be added in the feed of the web service");
+		    } 
+		    gisFeature.addZipCode(new ZipCode(fields[3]));
 			// Hibernate will save the feature according to his
 			// class even if it is cast in an other class
-			this.gisFeatureDao.save((GisFeature) zipCodeAware);
+			this.gisFeatureDao.save(gisFeature);
 			return;
-		    } else {
-			logger
-				.warn("We've got a zipCode for a feature but the feature is not 'zipCode aware'");
-		    }
-
-		} catch (ClassCastException cce) {
-		    logger.warn("We ve got a zip code for gisFeature "
-			    + gisFeature
-			    + "but we can not cast it to ZipCodeAware");
-		    return;
-		}
-		return;
 	    } else {
 		logger.warn("could not set ZipCode for GisFeature["
 			+ gisFeatureId + "] because zipCode is null");

@@ -37,6 +37,8 @@ import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.PropertyException;
 
+import junit.framework.Assert;
+
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -111,10 +113,12 @@ public class GisFeatureDistanceTest extends AbstractIntegrationHttpSolrTestCase 
 	    ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
 	    m.marshal(result, outputStream);
 	    FeedChecker.checkGisFeatureDistanceJAXBMapping(result, outputStream.toString(Constants.CHARSET),"");
+	    for (String zipCode: result.getZipCodes()){
 	    FeedChecker.assertQ("Zipcode should be output if The GisFeature is a city",
 		    outputStream.toString(Constants.CHARSET), "/"
 			    + Constants.GISFEATUREDISTANCE_JAXB_NAME
-			    + "/zipCode[.='" + result.getZipCode() + "']");
+			    + "/zipCode[.='" + zipCode + "']");
+	    }
 	} catch (PropertyException e) {
 	    fail(e.getMessage());
 	} catch (JAXBException e) {
@@ -164,10 +168,11 @@ public class GisFeatureDistanceTest extends AbstractIntegrationHttpSolrTestCase 
 	    ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
 	    m.marshal(result, outputStream);
 	    FeedChecker.checkGisFeatureDistanceJAXBMapping(result, outputStream.toString(Constants.CHARSET),"");
-	    FeedChecker.assertQ("Zipcode should be output if The GisFeature is a city",
+	    for (int i=0;i< result.getZipCodes().size();i++){
+	    FeedChecker.assertQ("Zipcode should be output if The GisFeature is a citysubdivision",
 		    outputStream.toString(Constants.CHARSET), "/"
 			    + Constants.GISFEATUREDISTANCE_JAXB_NAME
-			    + "/zipCode[.='" + result.getZipCode() + "']");
+			    + "/zipCode[.='" + result.getZipCodes().get(i) + "']");}
 	} catch (PropertyException e) {
 	    fail(e.getMessage());
 	} catch (JAXBException e) {
@@ -249,7 +254,17 @@ public class GisFeatureDistanceTest extends AbstractIntegrationHttpSolrTestCase 
     }
     
 
-   
+   @Test
+   public void testEqualsShouldTakeFeatureIdIntoAccout(){
+	Long featureId = 123L;
+	GisFeatureDistance gisFeatureDistance = GisFeatureDistance.
+							GisFeatureDistanceBuilder.gisFeatureDistance()
+							.withFeatureId(featureId).build();
+	GisFeatureDistance gisFeatureDistanceEquals = GisFeatureDistance.GisFeatureDistanceBuilder.gisFeatureDistance().withFeatureId(featureId).build();
+	GisFeatureDistance gisFeatureDistanceNotEquals = GisFeatureDistance.GisFeatureDistanceBuilder.gisFeatureDistance().withFeatureId(featureId+1).build();
+	Assert.assertEquals("gisFeaturedistance with the same featureid should be equals", gisFeatureDistance, gisFeatureDistanceEquals);
+	Assert.assertFalse("gisFeaturedistance without the same featureid should not be equals", gisFeatureDistance.equals(gisFeatureDistanceNotEquals));
+   }
 
     private List<String> inspectGisFeatureDistance(){
 	Class<?> clazzParent = GisFeatureDistance.class;

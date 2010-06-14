@@ -102,7 +102,7 @@ public class GisFeature {
 	    .getLogger(GisFeature.class);
 
     /**
-     * Default Constructor
+     * Default Constructor, needed by cgLib
      */
     public GisFeature() {
 	super();
@@ -172,6 +172,8 @@ public class GisFeature {
 
     @IntrospectionIgnoredField
     private GISSource source;
+    
+    private List<ZipCode> zipCodes;
 
     /**
      * The datastore id
@@ -538,7 +540,6 @@ public class GisFeature {
 		addAlternateName(alternateName);
 	    }
 	}
-	;
     }
 
     /**
@@ -864,6 +865,12 @@ public class GisFeature {
 	    this.setPopulation(gisFeature.getPopulation());
 	    this.setSource(gisFeature.getSource());
 	    this.setTimezone(gisFeature.getTimezone());
+	    List<ZipCode> zipCodes = gisFeature.getZipCodes();
+		if (zipCodes!= null){
+			for (ZipCode zipCode : zipCodes){
+				this.addZipCode(zipCode);
+			}
+		}
 	}
     }
 
@@ -984,4 +991,62 @@ public class GisFeature {
 		+ "]";
     }
 
+  //TODO tests zip
+    /**
+     * Do a double set : add the zip code to the current GisFeature and set
+     * this GisFeature as the GisFeature of the zipcode
+     * @param zipCode the zip code to add
+     */
+	public void addZipCode(ZipCode zipCode) {
+		List<ZipCode> actualZipCodes = getZipCodes();
+		if (actualZipCodes == null) {
+			actualZipCodes = new ArrayList<ZipCode>();
+		}
+		actualZipCodes.add(zipCode);
+		this.setZipCodes(actualZipCodes);
+		zipCode.setGisFeature(this);
+
+	}
+
+	/**
+     * Do a double set : add the zip codes to the current GisFeature and set
+     * this GisFeature as the GisFeature of the zipcodes
+     *  * @param zipCodes the zip codes to add
+     */
+	//TODO tests zip with null, and so on
+	public void addZipCodes(List<ZipCode> zipCodes) {
+		if (zipCodes != null) {
+		    for (ZipCode zipCode : zipCodes) {
+			addZipCode(zipCode);
+		    }
+		}
+	}
+
+	 /**
+     * @return the zip codes for the city
+     */
+	@OneToMany(cascade = { CascadeType.ALL }, mappedBy = "gisFeature")
+	@Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+	@Fetch(FetchMode.SELECT)
+	//TODO tests zip
+	public List<ZipCode> getZipCodes() {
+		return zipCodes;
+	}
+
+	 /**
+     * Set The zipCodes for the city. IMPORTANT : if you set the zipCodes, you should do a double set 
+     * : that means that you should set the gisfeature property for all the zip codes, if you don't 
+     * you will get problems when saving entity in the datastore. Please use this method
+     * you should prefer the methods {@link #addZipCode(ZipCode)} and {@link #addZipCodes(List)}
+     *  that do it automatically.
+     * 
+     * @param zipCode
+     *                The zip codes for the City
+     */
+	//TODO tests zip
+	public void setZipCodes(List<ZipCode> zipCodes) {
+		this.zipCodes = zipCodes;
+	}
+    
+    
 }

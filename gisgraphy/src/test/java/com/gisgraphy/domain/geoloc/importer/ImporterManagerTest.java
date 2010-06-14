@@ -334,14 +334,8 @@ public class ImporterManagerTest extends AbstractIntegrationHttpSolrTestCase {
 
     @Test
     public void testImportWithoutEmbededAlternateNamesShouldProcessAndIgnoreEmbededAlternateNames() {
-	try {
 	    this.importerConfig.setImportGisFeatureEmbededAlternateNames(false);
 	    importall();
-
-	} catch (ImporterException e) {
-	    fail(e.getCause() + " : " + e.getMessage());
-	}
-
     }
 
     @Test
@@ -1714,21 +1708,21 @@ public class ImporterManagerTest extends AbstractIntegrationHttpSolrTestCase {
 	City cityWithNoZipCode = this.cityDao.getByFeatureId(0000001L);
 	assertNotNull("the city with no zip code should not be null",
 		cityWithNoZipCode);
-	assertNull("city with FeatureId 0000001 should not have zipcode",
-		cityWithNoZipCode.getZipCode());
+	assertTrue("city with FeatureId 0000001 should not have zipcode",
+		cityWithNoZipCode.getZipCodes().isEmpty());
 	// city with one zipCode
 	City cityWithOneZipCode = this.cityDao.getByFeatureId(2974678L);
 	assertNotNull("the city with one zip code should not be null",
 		cityWithOneZipCode);
 	assertEquals("city with FeatureId 2974678 should have a zipcode",
-		"02310", cityWithOneZipCode.getZipCode());
+		"02310", cityWithOneZipCode.getZipCodes().get(0).getCode());
 	// city with two zipcode
 	City cityWithTwoZipCode = this.cityDao.getByFeatureId(3015490L);
 	assertNotNull("the city with two zip code should not be null",
 		cityWithTwoZipCode);
-	assertNull(
+	assertTrue(
 		"The city with featureId 3015490 should not have a zipcode because it must be ambiguous",
-		cityWithTwoZipCode.getZipCode());
+		cityWithTwoZipCode.getZipCodes().isEmpty());
 
 	// TODO test pplx have a zipcode
 

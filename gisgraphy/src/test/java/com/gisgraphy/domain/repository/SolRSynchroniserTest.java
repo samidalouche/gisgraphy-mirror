@@ -53,7 +53,7 @@ import com.gisgraphy.domain.geoloc.entity.AlternateName;
 import com.gisgraphy.domain.geoloc.entity.City;
 import com.gisgraphy.domain.geoloc.entity.Country;
 import com.gisgraphy.domain.geoloc.entity.Language;
-import com.gisgraphy.domain.geoloc.entity.ZipCodeAware;
+import com.gisgraphy.domain.geoloc.entity.ZipCode;
 import com.gisgraphy.domain.geoloc.entity.event.GisFeatureDeleteAllEvent;
 import com.gisgraphy.domain.geoloc.entity.event.GisFeatureDeletedEvent;
 import com.gisgraphy.domain.geoloc.entity.event.GisFeatureStoredEvent;
@@ -635,34 +635,7 @@ public class SolRSynchroniserTest extends AbstractIntegrationHttpSolrTestCase {
 			.getFieldValue(FullTextFields.FEATUREID.getValue()));
     }
     
-    @Test
-    public void testZipCodeShouldBeSynchronisedIfFeatureIsACity() {
-	// create one city
-	Long featureId = 1001L;
-	City paris = GeolocTestHelper.createCity("Saint-André", 1.5F, 2F,
-		featureId);
-
-	paris.setZipCode("50263");
-
-	// save city and check it is saved
-	ZipCodeAware saved = this.cityDao.save(paris);
-	assertNotNull(this.cityDao.getByFeatureId(featureId));
-
-	// commit changes
-	this.solRSynchroniser.commit();
-
-
-	// test zipcode
-	List<City> zipResults = this.cityDao.listFromText("50263", false);
-	assertTrue(
-		"zipcode should be found even if alternatenames are excluded'",
-		zipResults.size() == 1);
-	assertEquals(
-		"zipcode should be found even if alternatenames are excluded'",
-		saved, zipResults.get(0));
-
-    }
-
+   
     @Test
     public void testSynchronize() {
 	Long featureId = 1001L;
@@ -783,10 +756,14 @@ public class SolRSynchroniserTest extends AbstractIntegrationHttpSolrTestCase {
 		"//*[@name='" + FullTextFields.PLACETYPE.getValue()
 			+ "'][.='City']", "//*[@name='"
 			+ FullTextFields.POPULATION.getValue()
-			+ "'][.='10000000']", "//*[@name='"
-			+ FullTextFields.ZIPCODE.getValue() + "'][.='50263']"
-
-		, "//*[@name='" + FullTextFields.NAMEASCII.getValue()
+			+ "'][.='10000000']",
+			"//*[@name='" + FullTextFields.ZIPCODE.getValue()
+			+ "'][./str[1][.='"+paris.getZipCodes().get(0).getCode()+"']]"
+		, 
+		"//*[@name='" + FullTextFields.ZIPCODE.getValue()
+		+ "'][./str[2][.='"+paris.getZipCodes().get(1).getCode()+"']]"
+		, 
+		"//*[@name='" + FullTextFields.NAMEASCII.getValue()
 			+ "'][.='ascii']",
 		"//*[@name='" + FullTextFields.ELEVATION.getValue()
 			+ "'][.='13456']"

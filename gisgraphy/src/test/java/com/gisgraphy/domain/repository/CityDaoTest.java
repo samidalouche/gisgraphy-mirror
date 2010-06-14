@@ -27,12 +27,14 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
+import junit.framework.Assert;
+
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Required;
 
 import com.gisgraphy.domain.geoloc.entity.City;
 import com.gisgraphy.domain.geoloc.entity.GisFeature;
-import com.gisgraphy.domain.geoloc.entity.ZipCodeAware;
+import com.gisgraphy.domain.geoloc.entity.ZipCode;
 import com.gisgraphy.domain.geoloc.service.fulltextsearch.AbstractIntegrationHttpSolrTestCase;
 import com.gisgraphy.domain.valueobject.GisFeatureDistance;
 import com.gisgraphy.helper.URLUtils;
@@ -50,12 +52,10 @@ public class CityDaoTest extends AbstractIntegrationHttpSolrTestCase {
     @Resource
     private GeolocTestHelper geolocTestHelper;
 
-    public CityDaoTest() {
-    }
-
+    
     // it is the genericDaotest apply to a city
 
-    @Test
+   @Test
     public void testGetAllShouldRetrieveAllTheCityInTheDataStore() {
 	int nbToInsert = 2;
 	for (int i = 0; i < nbToInsert; i++) {
@@ -202,7 +202,7 @@ public class CityDaoTest extends AbstractIntegrationHttpSolrTestCase {
 
     @Test
     public void testGetShouldRetrieveNullIfTheSpecifiedIdDoesntExists() {
-	ZipCodeAware city = this.cityDao.get(100000L);
+	City city = this.cityDao.get(100000L);
 	assertEquals(null, city);
     }
 
@@ -232,7 +232,7 @@ public class CityDaoTest extends AbstractIntegrationHttpSolrTestCase {
     @Test
     public void testListByNameShouldRetrieveTheCorrectCity() {
 	City paris = GeolocTestHelper.createCityWithAlternateNames("paris", 3);
-	ZipCodeAware savedParis = this.cityDao.save(paris);
+	City savedParis = this.cityDao.save(paris);
 	List<City> results = this.cityDao.listByName("paris");
 	assertNotNull(results);
 	assertEquals(1, results.size());
@@ -259,7 +259,7 @@ public class CityDaoTest extends AbstractIntegrationHttpSolrTestCase {
 	// remove city
 	this.cityDao.remove(savedParis);
 	// check city is removed
-	ZipCodeAware retrievedParisafterRemove = this.cityDao.get(id);
+	City retrievedParisafterRemove = this.cityDao.get(id);
 	assertNull(retrievedParisafterRemove);
     }
 
@@ -282,7 +282,7 @@ public class CityDaoTest extends AbstractIntegrationHttpSolrTestCase {
 	this.cityDao.remove(savedParis);
 
 	// check city is removed
-	ZipCodeAware retrievedParisafterRemove = this.cityDao.get(id);
+	City retrievedParisafterRemove = this.cityDao.get(id);
 	assertEquals(null, retrievedParisafterRemove);
 
 	// check gisFeature is remove
@@ -318,7 +318,6 @@ public class CityDaoTest extends AbstractIntegrationHttpSolrTestCase {
 	p1.setAdm4Code("D4");
 	p1.setAdm4Name("adm");
 
-	cityDao.save(p1);
 
 	this.cityDao.save(p1);
 	List<GisFeatureDistance> results = this.cityDao
@@ -347,7 +346,10 @@ public class CityDaoTest extends AbstractIntegrationHttpSolrTestCase {
 	assertEquals(p1.getElevation(), gisFeatureDistance.getElevation());
 	assertEquals(p1.getGtopo30(), gisFeatureDistance.getGtopo30());
 	assertEquals(p1.getTimezone(), gisFeatureDistance.getTimezone());
-	assertEquals(p1.getZipCode(), gisFeatureDistance.getZipCode());
+	assertEquals("gisfeatureDistance should have the same number of zipCodes as the original features",p1.getZipCodes().size(),
+			gisFeatureDistance.getZipCodes().size());
+	assertTrue(gisFeatureDistance.getZipCodes().contains(p1.getZipCodes().get(0).getCode()));
+	assertTrue(gisFeatureDistance.getZipCodes().contains(p1.getZipCodes().get(1).getCode()));
 	assertEquals("City", gisFeatureDistance.getPlaceType());
 	// check transcient field
 	assertEquals(URLUtils.createCountryFlagUrl(p1.getCountryCode()),
@@ -647,26 +649,26 @@ public class CityDaoTest extends AbstractIntegrationHttpSolrTestCase {
     public void testListByZipCodeShouldReturnCorrectValues() {
 	City city1 = GeolocTestHelper.createCity("paris", 48.86667F, 2.3333F,
 		1L);
-	city1.setZipCode("75000");
+	city1.addZipCode(new ZipCode("75003"));
 	city1.setCountryCode("FR");
 	City city2 = GeolocTestHelper.createCity("paris2", 48.86667F, 2.3333F,
 		2L);
-	city1.setZipCode("75000");
-	city1.setCountryCode("EN");
+	city2.addZipCode(new ZipCode("75003"));
+	city2.setCountryCode("EN");
 	this.cityDao.save(city1);
 	this.cityDao.save(city2);
-	List<City> results = this.cityDao.listByZipCode("75000", null);
+	List<City> results = this.cityDao.listByZipCode("75003", null);
 	assertEquals(2, results.size());
-	results = this.cityDao.listByZipCode("75001", null);
+	results = this.cityDao.listByZipCode("75004", null);
 	assertNotNull(results);
 	assertEquals(0, results.size());
-	results = this.cityDao.listByZipCode("75000", "fr");
+	results = this.cityDao.listByZipCode("75003", "fr");
 	assertEquals(
 		"ListByZipCode should be case insensitive for countrycode", 1,
 		results.size());
 
     }
-    
+    @Test
     public void testCreateGISTIndexForLocationColumnShouldNotThrow(){
 	cityDao.createGISTIndexForLocationColumn();
     }

@@ -38,7 +38,8 @@ import com.gisgraphy.domain.geoloc.entity.Adm;
 import com.gisgraphy.domain.geoloc.entity.AlternateName;
 import com.gisgraphy.domain.geoloc.entity.Country;
 import com.gisgraphy.domain.geoloc.entity.GisFeature;
-import com.gisgraphy.domain.geoloc.entity.ZipCodeAware;
+import com.gisgraphy.domain.geoloc.entity.ZipCode;
+import com.gisgraphy.domain.geoloc.entity.ZipCodesAware;
 import com.gisgraphy.domain.repository.IAdmDao;
 import com.gisgraphy.domain.repository.IAlternateNameDao;
 import com.gisgraphy.domain.repository.ICityDao;
@@ -382,12 +383,14 @@ public class GeonamesFeatureImporter extends AbstractImporterProcessor {
 		    + " have an entry in " + FeatureCode.class.getSimpleName()
 		    + " : " + featureObject.getClass().getSimpleName());
 	    featureObject.populate(gisFeature);
-	    if (featureObject instanceof ZipCodeAware) {
+	    if (featureObject instanceof ZipCodesAware) {
 		logger.debug(featureObject + " is zipCode Aware");
-		ZipCodeAware zipCodeAware = (ZipCodeAware) featureObject;
 		// zipcode
-		zipCodeAware.setZipCode(findZipCode(fields));
-		this.gisFeatureDao.save((GisFeature) zipCodeAware);
+		String foundZipCode = findZipCode(fields);
+		if (foundZipCode != null){
+			featureObject.addZipCode(new ZipCode(foundZipCode));//todo tests zip we should take embeded option into account
+		}
+		this.gisFeatureDao.save(featureObject);
 	    }
 	    this.gisFeatureDao.save(featureObject);
 	} else {

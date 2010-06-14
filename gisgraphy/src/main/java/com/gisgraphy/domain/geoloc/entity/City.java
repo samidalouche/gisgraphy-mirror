@@ -22,12 +22,18 @@
  *******************************************************************************/
 package com.gisgraphy.domain.geoloc.entity;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.OneToMany;
 import javax.persistence.Transient;
 
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
-import org.hibernate.annotations.Index;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 /**
  * Represents a city Object
@@ -36,147 +42,117 @@ import org.hibernate.annotations.Index;
  */
 @Entity
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-public class City extends GisFeature implements ZipCodeAware {
+public class City extends GisFeature implements ZipCodesAware {
 
-    private String zipCode;
+	
 
-    /**
-     * Constructor that populate the {@link City} with the gisFeature fields<br>
-     * 
-     * @param gisFeature
-     *                The gisFeature from which we want to populate the
-     *                {@linkplain City}
-     */
-    public City(GisFeature gisFeature) {
-	super(gisFeature);
-    }
-
-    /**
-     * Override the gisFeature value.<br>
-     * Default to true;<br>
-     * If this field is set to false, then the object won't be synchronized with
-     * the fullText search engine
-     */
-    @Override
-    @Transient
-    public boolean isFullTextSearchable() {
-	return true;
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see com.gisgraphy.domain.geoloc.entity.ZipCodeAware#setZipCode(java.lang.Integer)
-     */
-    public void setZipCode(String zipCode) {
-	this.zipCode = zipCode;
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see com.gisgraphy.domain.geoloc.entity.ZipCodeAware#getZipCode()
-     */
-    @Index(name = "cityZipCode")
-    public String getZipCode() {
-	return zipCode;
-    }
-
-    /**
-     * Default constructor (Needed by CGLib)
-     */
-    public City() {
-	super();
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see com.gisgraphy.domain.geoloc.entity.GisFeature#hashCode()
-     */
-    @Override
-    public int hashCode() {
-	final int PRIME = 31;
-	int result = super.hashCode();
-	result = PRIME * result
-		+ ((getFeatureId() == null) ? 0 : getFeatureId().hashCode());
-	return result;
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see com.gisgraphy.domain.geoloc.entity.GisFeature#equals(java.lang.Object)
-     */
-    @Override
-    public boolean equals(Object obj) {
-	if (this == obj) {
-	    return true;
-	}
-	if (!super.equals(obj)) {
-	    return false;
-	}
-	if (getClass() != obj.getClass()) {
-	    return false;
-	}
-	final City other = (City) obj;
-	if (getFeatureId() == null) {
-	    if (other.getFeatureId() != null) {
-		return false;
-	    }
-	} else if (!getFeatureId().equals(other.getFeatureId())) {
-	    return false;
-	}
-	return true;
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see com.gisgraphy.domain.geoloc.entity.GisFeature#populate(com.gisgraphy.domain.geoloc.entity.GisFeature)
-     */
-    @Override
-    public void populate(GisFeature gisFeature) {
-	super.populate(gisFeature);
-	if (gisFeature instanceof ZipCodeAware) {
-	    this.setZipCode(((ZipCodeAware) gisFeature).getZipCode());
-	}
-    }
-
-    /**
-     * Returns a name with adm1Name and adm2Name added (if not null).
-     * Paris(Zipcode), Département de Ville-De-Paris, Ile-De-France, (FR)
-     * 
-     * @param withCountry
-     *                Whether the country information should be added
-     * @return a name with the Administrative division and Country
-     */
-    @Transient
-    @Override
-    public String getFullyQualifiedName(boolean withCountry) {
-	StringBuilder completeCityName = new StringBuilder();
-	completeCityName.append(getName());
-	if (zipCode != null) {
-	    completeCityName.append(" (");
-	    completeCityName.append(getZipCode());
-	    completeCityName.append(")");
-	}
-	if (getAdm2Name() != null && !getAdm2Name().trim().equals("")) {
-	    completeCityName.append(", " + getAdm2Name());
-	}
-	if (getAdm1Name() != null && !getAdm1Name().trim().equals("")) {
-	    completeCityName.append(", " + getAdm1Name());
+	/**
+	 * Constructor that populate the {@link City} with the gisFeature fields<br>
+	 * 
+	 * @param gisFeature
+	 *                The gisFeature from which we want to populate the
+	 *                {@linkplain City}
+	 */
+	public City(GisFeature gisFeature) {
+		super(gisFeature);
 	}
 
-	if (withCountry) {
-	    Country countryObj = getCountry();
-	    if (countryObj != null && countryObj.getName() != null
-		    && !countryObj.getName().trim().equals("")) {
-		completeCityName.append(" , " + countryObj.getName() + "");
-	    }
+	/**
+	 * Override the gisFeature value.<br>
+	 * Default to true;<br>
+	 * If this field is set to false, then the object won't be synchronized with
+	 * the fullText search engine
+	 */
+	@Override
+	@Transient
+	public boolean isFullTextSearchable() {
+		return true;
 	}
 
-	return completeCityName.toString();
-    }
+	/**
+	 * Default constructor (Needed by CGLib)
+	 */
+	public City() {
+		super();
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.gisgraphy.domain.geoloc.entity.GisFeature#hashCode()
+	 */
+	@Override
+	public int hashCode() {
+		final int PRIME = 31;
+		int result = super.hashCode();
+		result = PRIME * result + ((getFeatureId() == null) ? 0 : getFeatureId().hashCode());
+		return result;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.gisgraphy.domain.geoloc.entity.GisFeature#equals(java.lang.Object)
+	 */
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) {
+			return true;
+		}
+		if (!super.equals(obj)) {
+			return false;
+		}
+		if (getClass() != obj.getClass()) {
+			return false;
+		}
+		final City other = (City) obj;
+		if (getFeatureId() == null) {
+			if (other.getFeatureId() != null) {
+				return false;
+			}
+		} else if (!getFeatureId().equals(other.getFeatureId())) {
+			return false;
+		}
+		return true;
+	}
+
+	
+	/**
+	 * Returns a name with adm1Name and adm2Name added (if not null).
+	 * Paris(Zipcode), Département de Ville-De-Paris, Ile-De-France, (FR)
+	 * 
+	 * @param withCountry
+	 *                Whether the country information should be added
+	 * @return a name with the Administrative division and Country
+	 */
+	@Transient
+	@Override
+	public String getFullyQualifiedName(boolean withCountry) {
+		StringBuilder completeCityName = new StringBuilder();
+		completeCityName.append(getName());
+		List<ZipCode> zipCodes = getZipCodes();
+		if (zipCodes != null && zipCodes.size() == 1) {
+			completeCityName.append(" (");
+			completeCityName.append(zipCodes.get(0));
+			completeCityName.append(")");
+		}
+		if (getAdm2Name() != null && !getAdm2Name().trim().equals("")) {
+			completeCityName.append(", " + getAdm2Name());
+		}
+		if (getAdm1Name() != null && !getAdm1Name().trim().equals("")) {
+			completeCityName.append(", " + getAdm1Name());
+		}
+
+		if (withCountry) {
+			Country countryObj = getCountry();
+			if (countryObj != null && countryObj.getName() != null && !countryObj.getName().trim().equals("")) {
+				completeCityName.append(" , " + countryObj.getName() + "");
+			}
+		}
+
+		return completeCityName.toString();
+	}
+
+	
 
 }

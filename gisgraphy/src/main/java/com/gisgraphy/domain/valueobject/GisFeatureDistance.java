@@ -22,9 +22,15 @@
  *******************************************************************************/
 package com.gisgraphy.domain.valueobject;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.persistence.Transient;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlList;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
@@ -34,7 +40,8 @@ import org.slf4j.LoggerFactory;
 import com.gisgraphy.domain.geoloc.entity.Adm;
 import com.gisgraphy.domain.geoloc.entity.Country;
 import com.gisgraphy.domain.geoloc.entity.GisFeature;
-import com.gisgraphy.domain.geoloc.entity.ZipCodeAware;
+import com.gisgraphy.domain.geoloc.entity.ZipCode;
+import com.gisgraphy.domain.geoloc.entity.ZipCodesAware;
 import com.gisgraphy.helper.URLUtils;
 import com.vividsolutions.jts.geom.Point;
 
@@ -167,8 +174,8 @@ public class GisFeatureDistance {
 	    return this;
 	}
 
-	public GisFeatureDistanceBuilder withZipCode(String zipCode) {
-	    gisFeatureDistance.zipCode = zipCode;
+	public GisFeatureDistanceBuilder withZipCodes(List<String> zipCodes) {
+	    gisFeatureDistance.zipCodes = zipCodes;
 	    return this;
 	}
 	
@@ -315,8 +322,9 @@ public class GisFeatureDistance {
     private Double lng;
 
     private String placeType;
-
-    private String zipCode;
+   
+    @XmlElement(name="zipCode")
+    private List<String> zipCodes;
 
     private String google_map_url;
 
@@ -395,13 +403,20 @@ public class GisFeatureDistance {
 	    this.name = gisFeature.getName().trim();
 	    this.population = gisFeature.getPopulation();
 	    this.timezone = gisFeature.getTimezone();
-	    if (gisFeature instanceof ZipCodeAware) {
-		this.zipCode = ((ZipCodeAware) gisFeature).getZipCode();
+	    if (gisFeature instanceof ZipCodesAware) {
+	    this.zipCodes = new ArrayList<String>();//TODO tests zip without zipcode
+		List<ZipCode> gisFeatureZipCodes = gisFeature.getZipCodes();
+			if (gisFeatureZipCodes != null){
+				for (ZipCode zipCode :gisFeatureZipCodes){
+					this.zipCodes.add(zipCode.getCode());
+			    }
+			}
 	    }
 	    this.placeType = gisFeature.getClass().getSimpleName()
 		    .toLowerCase();
 	    updateFields();
-	}
+	    }
+	
     }
     
     
@@ -641,8 +656,18 @@ public class GisFeatureDistance {
     /**
      * @return the zipCode
      */
-    public String getZipCode() {
-	return this.zipCode;
+    public List<String> getZipCodes() {
+	return this.zipCodes;
+    }
+    
+    /**
+     * @return the zipCode
+     */
+    public void addZipCode(String zipCode) {
+	 if (this.zipCodes == null){
+		this.zipCodes = new ArrayList<String>();
+	 }
+	 this.zipCodes.add(zipCode);//todo tests zip test this and remove builder.
     }
 
     /**
@@ -777,5 +802,36 @@ public class GisFeatureDistance {
     public String getPostalCodeMask() {
         return postalCodeMask;
     }
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#hashCode()
+	 */
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((featureId == null) ? 0 : featureId.hashCode());
+		return result;
+	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		final GisFeatureDistance other = (GisFeatureDistance) obj;
+		if (featureId == null) {
+			if (other.featureId != null)
+				return false;
+		} else if (!featureId.equals(other.featureId))
+			return false;
+		return true;
+	}
 
 }

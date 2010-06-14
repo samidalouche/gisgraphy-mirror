@@ -45,6 +45,7 @@ import org.junit.Test;
 import com.gisgraphy.domain.geoloc.entity.AlternateName;
 import com.gisgraphy.domain.geoloc.entity.City;
 import com.gisgraphy.domain.geoloc.entity.GisFeature;
+import com.gisgraphy.domain.geoloc.entity.ZipCode;
 import com.gisgraphy.domain.geoloc.service.fulltextsearch.spell.ISpellCheckerIndexer;
 import com.gisgraphy.domain.geoloc.service.fulltextsearch.spell.SpellCheckerConfig;
 import com.gisgraphy.domain.repository.ICityDao;
@@ -216,7 +217,7 @@ public class FulltextSearchEngineTest extends
 	alternateName.setSource(AlternateNameSource.ALTERNATENAMES_FILE);
 	gisFeature.addAlternateName(alternateName);
 	City paris = new City(gisFeature);
-	paris.setZipCode("50263");
+	paris.addZipCode(new ZipCode("50263"));
 
 	// save cities and check it is saved
 	this.cityDao.save(paris);

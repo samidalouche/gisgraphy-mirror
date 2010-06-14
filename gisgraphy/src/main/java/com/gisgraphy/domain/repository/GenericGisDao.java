@@ -33,10 +33,17 @@ import org.apache.solr.client.solrj.SolrServerException;
 import org.apache.solr.client.solrj.response.QueryResponse;
 import org.apache.solr.common.SolrDocument;
 import org.hibernate.Criteria;
+import org.hibernate.FetchMode;
+import org.hibernate.Hibernate;
+import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.hibernate.Session;
+import org.hibernate.criterion.CriteriaQuery;
 import org.hibernate.criterion.Projection;
+import org.hibernate.criterion.ProjectionList;
+import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
+import org.hibernate.criterion.SimpleProjection;
 import org.hibernate.type.CustomType;
 import org.hibernate.type.Type;
 import org.hibernatespatial.GeometryUserType;
@@ -47,6 +54,7 @@ import org.springframework.orm.hibernate3.HibernateCallback;
 import org.springframework.util.Assert;
 
 import com.gisgraphy.domain.geoloc.entity.GisFeature;
+import com.gisgraphy.domain.geoloc.entity.ZipCodesAware;
 import com.gisgraphy.domain.geoloc.entity.event.EventManager;
 import com.gisgraphy.domain.geoloc.entity.event.GisFeatureDeleteAllEvent;
 import com.gisgraphy.domain.geoloc.entity.event.GisFeatureDeletedEvent;
@@ -64,6 +72,7 @@ import com.gisgraphy.hibernate.criterion.ProjectionOrder;
 import com.gisgraphy.hibernate.criterion.ResultTransformerUtil;
 import com.gisgraphy.hibernate.projection.ProjectionBean;
 import com.gisgraphy.hibernate.projection.SpatialProjection;
+import com.ibm.icu.lang.UCharacter.JoiningType;
 import com.vividsolutions.jts.geom.Point;
 
 /**
@@ -189,6 +198,7 @@ public class GenericGisDao<T extends GisFeature> extends
 			    throws PersistenceException {
 			Criteria criteria = session
 				.createCriteria(requiredClass);
+			
 			if (maxResults > 0) {
 			    criteria = criteria.setMaxResults(maxResults);
 			}
@@ -199,11 +209,25 @@ public class GenericGisDao<T extends GisFeature> extends
 				distance));
 			List<String> fieldList = IntrospectionHelper
 				.getFieldsAsList(requiredClass);
-
-			Projection projections = ProjectionBean.fieldList(
+			ProjectionList projections = ProjectionBean.fieldList(
 				fieldList,true).add(
 				SpatialProjection.distance_sphere(point,GisFeature.LOCATION_COLUMN_NAME).as(
 					"distance"));
+			boolean hasZipCodes = ZipCodesAware.class.isAssignableFrom(requiredClass);
+			if (hasZipCodes){
+				final Criteria zipCriteria = criteria.createCriteria("zipCodes","zipr");
+				projections.add(new SimpleProjection(){
+					public Type[] getTypes(Criteria criteria, CriteriaQuery criteriaQuery) throws HibernateException {
+						return new Type[] { Hibernate.STRING };
+					};
+					
+					public String toSqlString(Criteria criteria, int position, CriteriaQuery criteriaQuery) throws HibernateException {
+						String zipCodeColumn =  criteriaQuery.getColumn(zipCriteria, "code");
+						return zipCodeColumn+" as y"+position+"_";
+					}
+					
+				},"zipCodes");
+			}
 			criteria.setProjection(projections);
 			if (pointId != 0) {
 			    // remove The From Point
@@ -211,18 +235,19 @@ public class GenericGisDao<T extends GisFeature> extends
 				    pointId));
 			}
 			criteria.addOrder(new ProjectionOrder("distance"));
-			criteria.setCacheable(true);
-			// List<Object[]> queryResults =testCriteria.list();
-			List<?> queryResults = criteria.list();
 
+			//criteria.setCacheable(true);
+			List<?> queryResults = criteria.list();
+			
+			String[] aliasList = (String[]) ArrayUtils
+				.add(
+					IntrospectionHelper
+						.getFieldsAsArray(requiredClass),
+					"distance");
 			List<GisFeatureDistance> results = ResultTransformerUtil
 				.transformToGisFeatureDistance(
-					(String[]) ArrayUtils
-						.add(
-							IntrospectionHelper
-								.getFieldsAsArray(requiredClass),
-							"distance"),
-					queryResults);
+						aliasList,
+					queryResults,hasZipCodes);
 			return results;
 		    }
 		});

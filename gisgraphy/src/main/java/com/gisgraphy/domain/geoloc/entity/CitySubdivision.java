@@ -22,11 +22,17 @@
  *******************************************************************************/
 package com.gisgraphy.domain.geoloc.entity;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.OneToMany;
 
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
-import org.hibernate.annotations.Index;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 /**
  * Represents a city subdivision Object
@@ -35,8 +41,8 @@ import org.hibernate.annotations.Index;
  */
 @Entity
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-public class CitySubdivision extends GisFeature implements ZipCodeAware {
-    private String zipCode;
+public class CitySubdivision extends GisFeature implements ZipCodesAware {
+    private List<ZipCode> zipCodes;
 
     /**
      * Constructor that populate the {@link CitySubdivision} with the gisFeature
@@ -50,24 +56,6 @@ public class CitySubdivision extends GisFeature implements ZipCodeAware {
 	super(gisFeature);
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see com.gisgraphy.domain.geoloc.entity.ZipCodeAware#setZipCode(java.lang.Integer)
-     */
-    public void setZipCode(String zipCode) {
-	this.zipCode = zipCode;
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see com.gisgraphy.domain.geoloc.entity.ZipCodeAware#getZipCode()
-     */
-    @Index(name = "citySubdivisionZipCode")
-    public String getZipCode() {
-	return zipCode;
-    }
 
     /**
      * Default constructor (Needed by CGLib)
@@ -116,18 +104,5 @@ public class CitySubdivision extends GisFeature implements ZipCodeAware {
 	}
 	return true;
     }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see com.gisgraphy.domain.geoloc.entity.GisFeature#populate(com.gisgraphy.domain.geoloc.entity.GisFeature)
-     */
-    @Override
-    public void populate(GisFeature gisFeature) {
-	super.populate(gisFeature);
-	if (gisFeature instanceof ZipCodeAware) {
-	    this.setZipCode(((ZipCodeAware) gisFeature).getZipCode());
-	}
-    }
-
+    
 }

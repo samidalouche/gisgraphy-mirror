@@ -64,7 +64,7 @@ public class CityDao extends GenericGisDao<City> implements ICityDao {
 			    throws PersistenceException {
 			String queryString = "from "
 				+ City.class.getSimpleName()
-				+ " as c where c.zipCode= ?";
+				+ " as c left outer join c.zipCodes z where z.code = ?";
 			if (countrycode != null) {
 			    queryString = queryString + " and c.countryCode=?";
 			}

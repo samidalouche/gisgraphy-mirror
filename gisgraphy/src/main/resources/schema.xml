@@ -328,7 +328,7 @@ Full (alternatenames for adm and country): Long + country_alternate_name_, adm1_
   <!-- Country specific fields -->
   <!--Medium --><field name="level" type="integer" indexed="false" stored="true"/>
  
-  <!--Short  --><field name="zipcode" type="string" indexed="true" stored="true"/>
+  <!--Short  --><field name="zipcode" type="string" indexed="true" stored="true"  multiValued="true"/>
   <!--Medium --><field name="name_ascii" type="text" indexed="false" stored="true"/>
   <!--Long  --><field name="name_alternate" type="text" indexed="false" stored="true" multiValued="true"/><!-- alternatename without lang to be retrieved independently from those with languages -->
   <!--Long  --><dynamicField name="name_alternate_*"  type="text"  indexed="false"  stored="true" multiValued="true"/><!--alternatenames with lang -->

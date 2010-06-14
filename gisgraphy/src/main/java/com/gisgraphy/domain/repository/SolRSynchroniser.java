@@ -38,7 +38,8 @@ import com.gisgraphy.domain.geoloc.entity.AlternateName;
 import com.gisgraphy.domain.geoloc.entity.Country;
 import com.gisgraphy.domain.geoloc.entity.GisFeature;
 import com.gisgraphy.domain.geoloc.entity.Language;
-import com.gisgraphy.domain.geoloc.entity.ZipCodeAware;
+import com.gisgraphy.domain.geoloc.entity.ZipCode;
+import com.gisgraphy.domain.geoloc.entity.ZipCodesAware;
 import com.gisgraphy.domain.geoloc.entity.event.GisFeatureDeleteAllEvent;
 import com.gisgraphy.domain.geoloc.entity.event.GisFeatureDeletedEvent;
 import com.gisgraphy.domain.geoloc.entity.event.GisFeatureStoredEvent;
@@ -351,20 +352,15 @@ public class SolRSynchroniser implements ISolRSynchroniser {
 			    }
 			    adm = adm.getParent();
 			}
-
-			if (gisFeature instanceof ZipCodeAware) {
-			    try {
-				ZipCodeAware city = (ZipCodeAware) gisFeature;
-				if (city.getZipCode() != null) {
-				    ex.setField(FullTextFields.ZIPCODE.getValue(), city
-					    .getZipCode());
+				List<ZipCode> zipCodes =gisFeature.getZipCodes();
+				if (zipCodes != null) {
+					List<String> zipCodesToAdd = new ArrayList<String>();
+					for (ZipCode zipCode:zipCodes){
+						zipCodesToAdd.add(zipCode.getCode().trim());
+					}
+				    ex.setField(FullTextFields.ZIPCODE.getValue(),zipCodesToAdd);
 				}
-			    } catch (ClassCastException cce) {
-				logger
-					.warn(gisFeature
-						+ " is of a zipcodeAware features but but we can not cast it to ZipCodeAware");
-			    }
-			}
+			   
 
 			// No prefix for cities
 
@@ -437,7 +433,7 @@ public class SolRSynchroniser implements ISolRSynchroniser {
 	    
 	    
 	} catch (Exception e) {
-	  throw new GisgraphyCommunicationException("Can not synchronise SolR : can not synchronize  "+gisfeatureCreatedEventEvent.getGisFeature(),e.getCause());
+	  throw new GisgraphyCommunicationException("Can not synchronise SolR : can not synchronize  "+gisfeatureCreatedEventEvent.getGisFeature()+":" +e,e.getCause());
 	}
     }
 

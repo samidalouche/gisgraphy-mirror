@@ -160,12 +160,7 @@ public class GeocodingActionTest {
     public void executeWithCityAndCountryWithOneCityMatches() throws Exception{
 	GeocodingAction action = new GeocodingAction();
 	
-	SolrResponseDto cityFound1 =  EasyMock.createMock(SolrResponseDto.class);
-	EasyMock.expect(cityFound1.getLat()).andStubReturn(23D);
-	EasyMock.expect(cityFound1.getLng()).andStubReturn(30D);
-	EasyMock.expect(cityFound1.getName()).andStubReturn("cityName");
-	EasyMock.expect(cityFound1.getZipcode()).andStubReturn("zip");
-	EasyMock.replay(cityFound1);
+	SolrResponseDto cityFound1 = createCityFound1();
 	
 	List<SolrResponseDto> results = new ArrayList<SolrResponseDto>();
 	results.add(cityFound1);
@@ -187,28 +182,79 @@ public class GeocodingActionTest {
 	action.setCity(cityNameSearched);
 	action.setCountryCode(countryCode);
 	Assert.assertEquals(Action.SUCCESS,action.execute());
-	Assert.assertEquals("cityName (zip)",action.getCity());
+	Assert.assertEquals(action.buildCityDisplayName(cityFound1),action.getCity());
 	Assert.assertEquals(results,action.getAmbiguousCities());
 	Assert.assertTrue(action.isCityFound());
     }
+
+	private SolrResponseDto createCityFound1() {
+		SolrResponseDto cityFound1 =  EasyMock.createMock(SolrResponseDto.class);
+		EasyMock.expect(cityFound1.getLat()).andStubReturn(23D);
+		EasyMock.expect(cityFound1.getLng()).andStubReturn(30D);
+		String cityNameFound = "cityName";
+		String zipCode= "zip";
+		EasyMock.expect(cityFound1.getName()).andStubReturn(cityNameFound);
+		List<String> zipCodes = new ArrayList<String>();
+		zipCodes.add(zipCode);
+		EasyMock.expect(cityFound1.getZipcodes()).andStubReturn(zipCodes);
+		EasyMock.replay(cityFound1);
+		return cityFound1;
+	}
     
+    @Test
+    public void testBuildCityDisplayNameWithCityWithOneZipCode(){
+    	GeocodingAction action = new GeocodingAction();
+    	SolrResponseDto solrResponseDto = createCityFound1();
+    	String displayName = action.buildCityDisplayName(solrResponseDto);
+    	Assert.assertEquals(solrResponseDto.getName()+" ("+solrResponseDto.getZipcodes().get(0)+")", displayName);
+    }
+    
+    @Test
+    public void testBuildCityDisplayNameWithCityWithMoreThanOneZipCode(){
+    	GeocodingAction action = new GeocodingAction();
+    	SolrResponseDto cityFound1 =  EasyMock.createMock(SolrResponseDto.class);
+		EasyMock.expect(cityFound1.getLat()).andStubReturn(23D);
+		EasyMock.expect(cityFound1.getLng()).andStubReturn(30D);
+		String cityNameFound = "cityName";
+		EasyMock.expect(cityFound1.getName()).andStubReturn(cityNameFound);
+		List<String> zipCodes = new ArrayList<String>();
+		zipCodes.add("zip1");
+		zipCodes.add("zip2");
+		EasyMock.expect(cityFound1.getZipcodes()).andStubReturn(zipCodes);
+		EasyMock.replay(cityFound1);
+    	String displayName = action.buildCityDisplayName(cityFound1);
+    	Assert.assertEquals(cityFound1.getName(), displayName);
+    }
+    
+
+    @Test
+    public void testBuildCityDisplayNameWithCityWithoutZipCode(){
+    	GeocodingAction action = new GeocodingAction();
+    	SolrResponseDto cityFound1 =  EasyMock.createMock(SolrResponseDto.class);
+		EasyMock.expect(cityFound1.getLat()).andStubReturn(23D);
+		EasyMock.expect(cityFound1.getLng()).andStubReturn(30D);
+		String cityNameFound = "cityName";
+		EasyMock.expect(cityFound1.getName()).andStubReturn(cityNameFound);
+		List<String> zipCodes = new ArrayList<String>();
+		EasyMock.expect(cityFound1.getZipcodes()).andStubReturn(zipCodes);
+		EasyMock.replay(cityFound1);
+    	String displayName = action.buildCityDisplayName(cityFound1);
+    	Assert.assertEquals(cityFound1.getName(), displayName);
+    }
     
     @Test
     public void executeWithCityAndCountryWithMoreThanOneCityMatches() throws Exception{
 	GeocodingAction action = new GeocodingAction();
 	
-	SolrResponseDto cityFound1 =  EasyMock.createMock(SolrResponseDto.class);
-	EasyMock.expect(cityFound1.getLat()).andStubReturn(23D);
-	EasyMock.expect(cityFound1.getLng()).andStubReturn(30D);
-	EasyMock.expect(cityFound1.getName()).andStubReturn("cityName");
-	EasyMock.expect(cityFound1.getZipcode()).andStubReturn("zip");
-	EasyMock.replay(cityFound1);
+	SolrResponseDto cityFound1 =  createCityFound1();
 	
 	SolrResponseDto cityFound2 =  EasyMock.createMock(SolrResponseDto.class);
 	EasyMock.expect(cityFound2.getLat()).andStubReturn(24D);
 	EasyMock.expect(cityFound2.getLng()).andStubReturn(31D);
 	EasyMock.expect(cityFound2.getName()).andStubReturn("cityName2");
-	EasyMock.expect(cityFound2.getZipcode()).andStubReturn("zip2");
+	List<String> zipCodes2 = new ArrayList<String>();
+	zipCodes2.add("zip2");
+	EasyMock.expect(cityFound2.getZipcodes()).andStubReturn(zipCodes2);
 	EasyMock.replay(cityFound2);
 	
 	
@@ -241,46 +287,12 @@ public class GeocodingActionTest {
     @Test
     public void executeWithAmbiguousCities() throws Exception{
 	GeocodingAction action = new GeocodingAction();
-	
-	SolrResponseDto cityFound1 =  EasyMock.createMock(SolrResponseDto.class);
-	EasyMock.expect(cityFound1.getLat()).andStubReturn(23D);
-	EasyMock.expect(cityFound1.getLng()).andStubReturn(30D);
-	EasyMock.expect(cityFound1.getName()).andStubReturn("cityName");
-	EasyMock.expect(cityFound1.getZipcode()).andStubReturn("zip");
-	EasyMock.replay(cityFound1);
-	
-	SolrResponseDto cityFound2 =  EasyMock.createMock(SolrResponseDto.class);
-	EasyMock.expect(cityFound2.getLat()).andStubReturn(24D);
-	EasyMock.expect(cityFound2.getLng()).andStubReturn(31D);
-	EasyMock.expect(cityFound2.getName()).andStubReturn("cityName2");
-	EasyMock.expect(cityFound2.getZipcode()).andStubReturn("zip2");
-	EasyMock.replay(cityFound2);
-	
-	
-	List<SolrResponseDto> results = new ArrayList<SolrResponseDto>();
-	results.add(cityFound1);
-	results.add(cityFound2);
-	
-	FulltextResultsDto fulltextResultsDto = EasyMock.createMock(FulltextResultsDto.class);
-	EasyMock.expect(fulltextResultsDto.getResults()).andStubReturn(results);
-	EasyMock.replay(fulltextResultsDto);
-	
-	IFullTextSearchEngine fullTextSearchEngine = EasyMock.createMock(IFullTextSearchEngine.class);
-	String countryCode = "FR";
-	String cityNameSearched = "city";
-	FulltextQuery query = new FulltextQuery(cityNameSearched,
-		Pagination.DEFAULT_PAGINATION, Output.DEFAULT_OUTPUT,
-		City.class, countryCode);
-	EasyMock.expect(fullTextSearchEngine.executeQuery(query)).andStubReturn(fulltextResultsDto);
-	EasyMock.replay(fullTextSearchEngine);
-	action.setFullTextSearchEngine(fullTextSearchEngine);
-	
 	action.setCity(null);
-	action.setAmbiguousCity(results.get(0).getName());
+	action.setAmbiguousCity("");
 	Assert.assertEquals(Action.SUCCESS,action.execute());
-	Assert.assertEquals(null,action.getCity());
-	Assert.assertEquals(null,action.getAmbiguousCities());
-	Assert.assertFalse(action.isCityFound());
+	Assert.assertEquals("city should be null if ambiguous city is not",null,action.getCity());
+	Assert.assertEquals("ambiguous cities should be null because ambiguousCity is not",null,action.getAmbiguousCities());
+	Assert.assertFalse("isCityfound should be true because ambiguous city is set",action.isCityFound());
     }
     
     @Test

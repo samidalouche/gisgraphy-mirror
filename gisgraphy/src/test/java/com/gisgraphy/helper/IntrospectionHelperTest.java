@@ -65,7 +65,7 @@ public class IntrospectionHelperTest  {
     public void getGisFeatureFieldsAsListShouldExploreSubClass() {
 	List<String> fields = IntrospectionHelper
 		.getFieldsAsList(City.class);
-	assertEquals(20, fields.size());
+	assertEquals(19, fields.size());
 	assertTrue(fields.contains("featureId"));
 	assertTrue(fields.contains("name"));
 	assertTrue(fields.contains("asciiName"));
@@ -85,7 +85,6 @@ public class IntrospectionHelperTest  {
 	assertTrue(fields.contains("elevation"));
 	assertTrue(fields.contains("gtopo30"));
 	assertTrue(fields.contains("timezone"));
-	assertTrue(fields.contains("zipCode"));
     }
 
     @Test
@@ -106,7 +105,7 @@ public class IntrospectionHelperTest  {
     public void getGisFeatureFieldsAsArrayShouldExploreSubClass() {
 	String[] fields = IntrospectionHelper
 		.getFieldsAsArray(City.class);
-	assertEquals(20, fields.length);
+	assertEquals(19, fields.length);//TODO do with a subclass
     }
 
     @Test
@@ -116,10 +115,7 @@ public class IntrospectionHelperTest  {
 	fields = IntrospectionHelper
 		.getFieldsAsArray(GisFeature.class);
 	assertEquals(19, fields.length);
-	fields = IntrospectionHelper.getFieldsAsArray(City.class);
-	fields = IntrospectionHelper.getFieldsAsArray(City.class);
-	assertEquals(20, fields.length);
-    }
+	}
 
     @Test
     public void clearCache() {
@@ -139,10 +135,6 @@ public class IntrospectionHelperTest  {
 	fields = IntrospectionHelper
 		.getFieldsAsList(GisFeature.class);
 	assertEquals(19, fields.size());
-	fields = IntrospectionHelper.getFieldsAsList(City.class);
-	fields = IntrospectionHelper.getFieldsAsList(City.class);
-	assertEquals(20, fields.size());
-
     }
 
 }

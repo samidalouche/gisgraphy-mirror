@@ -55,18 +55,28 @@ public class GeocodingAction extends ActionSupport implements
      */
     private static final long serialVersionUID = 1L;
 
+    /**
+     * The cities in case that more than one result match 
+     */
     private List<SolrResponseDto> ambiguousCities;
 
+    /**
+     * the name of the city chosen in the ambiguous cities list 
+     */
     private String ambiguousCity;
 
+    /**
+     * th search field value
+     */
     private String city;
 
     private String lng;
 
     private String lat;
 
-    public String jsonFeed;
-
+    /**
+     * whether the city has been found (no more ambiguous)
+     */
     private boolean cityFound = false;
 
     private IFullTextSearchEngine fullTextSearchEngine;
@@ -103,10 +113,7 @@ public class GeocodingAction extends ActionSupport implements
 		    SolrResponseDto cityfound = ambiguousCities.get(0);
 		    lat = cityfound.getLat().toString();
 		    lng = cityfound.getLng().toString();
-		    city = cityfound.getName();
-		    if (cityfound.getZipcode() != null) {
-			city = city + " (" + cityfound.getZipcode() + ")";
-		    }
+		    city = buildCityDisplayName(cityfound); 
 		    cityFound = true;
 		    return Action.SUCCESS;
 		} else {
@@ -124,6 +131,15 @@ public class GeocodingAction extends ActionSupport implements
 
 	return Action.SUCCESS;
     }
+
+	protected String buildCityDisplayName(SolrResponseDto cityfound) {
+		String diplayName = cityfound.getName();
+		List<String> zipcodes = cityfound.getZipcodes();
+		if (zipcodes != null && zipcodes.size()==1) {
+			diplayName = cityfound.getName() + " (" + zipcodes.get(0) + ")";
+		}
+		return diplayName;
+	}
 
     public String getLatLongJson() {
 	if (ambiguousCities == null) {

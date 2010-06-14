@@ -358,7 +358,7 @@
      If no qt is defined, the requestHandler that declares default="true"
      will be used.
   -->
-   <!-- search in name, zipcode admXname, an countryname-->
+   <!-- search in name, zipcodes admXname, an countryname-->
   <requestHandler name="standard" class="solr.DisMaxRequestHandler" >
     <lst name="defaults">
      <str name="echoParams">none</str>
@@ -380,7 +380,7 @@
    	 </arr>
      </requestHandler>
      
-      <!-- search in name, zipcode admXname, an countryname for a specific typed :
+      <!-- search in name, zipcodes admXname, an countryname for a specific typed :
        - use typed to search across multiple boost field for a specific type
        - use advanced to search multiple field without boost
       
@@ -406,7 +406,7 @@
    	 </arr>
      </requestHandler>
      
-     <!-- search zipcode or featureId (a country can be specified) -->
+     <!-- search zipcodes or featureId (a country can be specified) -->
      <requestHandler name="numeric" class="solr.DisMaxRequestHandler" >
     <lst name="defaults">
      <str name="echoParams">none</str>
@@ -425,7 +425,7 @@
      </lst>
      </requestHandler>
      
-      <!-- search in name and zipcode -->
+      <!-- search in name and zipcodes -->
      <requestHandler name="simple" class="solr.DisMaxRequestHandler" >
     <lst name="defaults">
      <str name="echoParams">none</str>
@@ -454,7 +454,7 @@
    	 </arr>
   </requestHandler>
      
-      <!-- search in name zipcode and alternatenames -->
+      <!-- search in name zipcodes and alternatenames -->
      <requestHandler name="deep" class="solr.DisMaxRequestHandler" >
     <lst name="defaults">
      <str name="echoParams">none</str>

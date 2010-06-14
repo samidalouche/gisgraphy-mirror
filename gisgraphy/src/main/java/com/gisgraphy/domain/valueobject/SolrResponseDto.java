@@ -52,6 +52,7 @@ public class SolrResponseDto {
     /**
      * Create a {@link SolrResponseDto} from a {@link SolrDocument}
      */
+    //TODO maybe a unit test is missing here
     public SolrResponseDto(SolrDocument solrDocument) {
 	super();
 	if (solrDocument != null) {
@@ -97,7 +98,7 @@ public class SolrResponseDto {
 		    FullTextFields.ADM3NAME.getValue());
 	    this.adm4_name = getFieldAsString(solrDocument,
 		    FullTextFields.ADM4NAME.getValue());
-	    this.zipcode = getFieldAsString(solrDocument,
+	    this.zipcodes = getFieldsToList(solrDocument,
 		    FullTextFields.ZIPCODE.getValue());
 	    this.country_name = getFieldAsString(solrDocument,
 		    FullTextFields.COUNTRYNAME.getValue());
@@ -310,7 +311,7 @@ public class SolrResponseDto {
 
     private String adm3_name;
     private String adm4_name;
-    private String zipcode;
+    private List<String> zipcodes;
     private String country_code;
 
     private String country_name;
@@ -513,8 +514,8 @@ public class SolrResponseDto {
     /**
      * @return the zipcode
      */
-    public String getZipcode() {
-	return zipcode;
+    public List<String> getZipcodes() {
+	return zipcodes;
     }
 
     /**

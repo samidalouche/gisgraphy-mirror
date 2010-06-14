@@ -12,10 +12,17 @@
 package com.gisgraphy.hibernate.criterion;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import org.hibernate.transform.AliasToBeanResultTransformer;
+import org.hibernate.transform.DistinctRootEntityResultTransformer;
+import org.hibernate.transform.ResultTransformer;
 
 import com.gisgraphy.domain.valueobject.GisFeatureDistance;
 import com.gisgraphy.domain.valueobject.StreetDistance;
@@ -27,64 +34,73 @@ import com.gisgraphy.domain.valueobject.StreetDistance;
  */
 public class ResultTransformerUtil<T> {
 
-    /**
-     * Transform to bean. See bug
-     * http://opensource.atlassian.com/projects/hibernate/browse/HHH-2463
-     * 
-     * @param aliasList
-     *                the alias list
-     * @param resultList
-     *                the result list
-     * 
-     * @return the list of GisFeatureDistance
-     */
-    public static List<GisFeatureDistance> transformToGisFeatureDistance(
-	    String aliasList[], List<?> resultList) {
-	List<GisFeatureDistance> transformList = new ArrayList<GisFeatureDistance>();
-	if (aliasList != null && !resultList.isEmpty()) {
-	    AliasToBeanResultTransformer tr = new AliasToBeanResultTransformer(
-		    GisFeatureDistance.class);
-	    Iterator<?> it = resultList.iterator();
-	    Object[] obj;
-	    while (it.hasNext()) {
-		obj = (Object[]) it.next();
-		GisFeatureDistance gisFeatureDistance = (GisFeatureDistance) tr
-			.transformTuple(obj, aliasList);
-		gisFeatureDistance.updateFields();
-		transformList.add(gisFeatureDistance);
-	    }
+	/**
+	 * Transform to bean. See bug
+	 * http://opensource.atlassian.com/projects/hibernate/browse/HHH-2463
+	 * 
+	 * @param aliasList
+	 *                the alias list
+	 * @param resultList
+	 *                the result list
+	 * 
+	 * @return the list of GisFeatureDistance
+	 */
+	//TODO tests zip test
+	public static List<GisFeatureDistance> transformToGisFeatureDistance(String aliasList[], List<?> resultList, boolean withZipCode) {
+		List<GisFeatureDistance> results = new ArrayList<GisFeatureDistance>();
+		if (aliasList != null && !resultList.isEmpty()) {
+			ResultTransformer tr = new AliasToBeanResultTransformer(GisFeatureDistance.class);
+			Iterator<?> it = resultList.iterator();
+			Object[] obj;
+			while (it.hasNext()) {
+				obj = (Object[]) it.next();
+				GisFeatureDistance gisFeatureDistance = (GisFeatureDistance) tr.transformTuple(obj, aliasList);
+				int indexInList = results.indexOf(gisFeatureDistance);
+				if (indexInList == -1) {
+					gisFeatureDistance.updateFields();
+					if (withZipCode) {
+						gisFeatureDistance.addZipCode((String) obj[obj.length - 1]);
+					}
+					results.add(gisFeatureDistance);
+				} else {
+					//gisfeaturedistance is already in the list,
+					//so the tuple is here due to the joiture, we update the zipcode
+					if (withZipCode) {
+						GisFeatureDistance gisFeatureDistanceInList = results.get(indexInList);
+						gisFeatureDistanceInList.addZipCode((String) obj[obj.length - 1]);
+					}
+				}
+			}
+		}
+
+		return results;
 	}
-	return transformList;
-    }
-    
-    /**
-     * Transform to bean. See bug
-     * http://opensource.atlassian.com/projects/hibernate/browse/HHH-2463
-     * 
-     * @param aliasList
-     *                the alias list
-     * @param resultList
-     *                the result list
-     * 
-     * @return the list of {@link StreetDistance}
-     */
-    public static List<StreetDistance> transformToStreetDistance(
-	    String aliasList[], List<?> resultList) {
-	List<StreetDistance> transformList = new ArrayList<StreetDistance>();
-	if (aliasList != null && !resultList.isEmpty()) {
-	    AliasToBeanResultTransformer tr = new AliasToBeanResultTransformer(
-		    StreetDistance.class);
-	    Iterator<?> it = resultList.iterator();
-	    Object[] obj;
-	    while (it.hasNext()) {
-		obj = (Object[]) it.next();
-		StreetDistance streetDistance = (StreetDistance) tr
-			.transformTuple(obj, aliasList);
-		streetDistance.updateFields();
-		transformList.add(streetDistance);
-	    }
+
+	/**
+	 * Transform to bean. See bug
+	 * http://opensource.atlassian.com/projects/hibernate/browse/HHH-2463
+	 * 
+	 * @param aliasList
+	 *                the alias list
+	 * @param resultList
+	 *                the result list
+	 * 
+	 * @return the list of {@link StreetDistance}
+	 */
+	public static List<StreetDistance> transformToStreetDistance(String aliasList[], List<?> resultList) {
+		List<StreetDistance> transformList = new ArrayList<StreetDistance>();
+		if (aliasList != null && !resultList.isEmpty()) {
+			AliasToBeanResultTransformer tr = new AliasToBeanResultTransformer(StreetDistance.class);
+			Iterator<?> it = resultList.iterator();
+			Object[] obj;
+			while (it.hasNext()) {
+				obj = (Object[]) it.next();
+				StreetDistance streetDistance = (StreetDistance) tr.transformTuple(obj, aliasList);
+				streetDistance.updateFields();
+				transformList.add(streetDistance);
+			}
+		}
+		return transformList;
 	}
-	return transformList;
-    }
 
 }
