@@ -306,6 +306,9 @@ remove the ability to search for 'no name street'
 				alternateName importer use extracted files, so alternatenames will be imported this order : country, adm1, adm2, others. and all the features will have the adm1 and adm2 and country alternatenames in solr (solr is not relationnal and we need to have alle the adm / countries alternate names first) 
 			</action>
 			
+			<action dev="David Masclet" type="update">
+				zipcode is not a field anymore, but a list associated to gisfeature
+			</action>
 			
 		</release>
 	</body>
