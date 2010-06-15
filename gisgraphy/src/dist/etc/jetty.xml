@@ -101,9 +101,9 @@
            <Item>
              <New id="DefaultHandler" class="org.mortbay.jetty.handler.DefaultHandler"/>
            </Item>
-           <Item>
+         <!--  <Item>
              <New id="RequestLog" class="org.mortbay.jetty.handler.RequestLogHandler"/>
-           </Item>
+           </Item>-->
          </Array>
         </Set>
       </New>
@@ -183,7 +183,7 @@
     <!-- contexts configuration (see $(jetty.home)/contexts/test.xml -->
     <!-- for an example).                                            -->
     <!-- =========================================================== -->
-    <Ref id="RequestLog">
+   <!-- <Ref id="RequestLog">
       <Set name="requestLog">
         <New id="RequestLogImpl" class="org.mortbay.jetty.NCSARequestLog">
           <Arg><SystemProperty name="jetty.logs" default="./logs"/>/yyyy_mm_dd.request.log</Arg>
@@ -193,7 +193,7 @@
           <Set name="LogTimeZone">GMT</Set>
         </New>
       </Set>
-    </Ref>
+    </Ref>-->
 
     <!-- =========================================================== -->
     <!-- extra options                                               -->

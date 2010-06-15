@@ -290,7 +290,7 @@ public class GenericDao<T, PK extends Serializable> extends HibernateDaoSupport
 
 		    public Object doInHibernate(Session session)
 			    throws PersistenceException {
-
+			//TODO zipcodes and alternatename are not deleted in cascade
 			String queryString = "DELETE "
 				+ persistentClass.getSimpleName();
 			

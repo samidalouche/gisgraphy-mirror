@@ -383,15 +383,11 @@ public class GeonamesFeatureImporter extends AbstractImporterProcessor {
 		    + " have an entry in " + FeatureCode.class.getSimpleName()
 		    + " : " + featureObject.getClass().getSimpleName());
 	    featureObject.populate(gisFeature);
-	    if (featureObject instanceof ZipCodesAware) {
-		logger.debug(featureObject + " is zipCode Aware");
 		// zipcode
 		String foundZipCode = findZipCode(fields);
 		if (foundZipCode != null){
-			featureObject.addZipCode(new ZipCode(foundZipCode));//todo tests zip we should take embeded option into account
+			featureObject.addZipCode(new ZipCode(foundZipCode));//TODO tests zip we should take embeded option into account
 		}
-		this.gisFeatureDao.save(featureObject);
-	    }
 	    this.gisFeatureDao.save(featureObject);
 	} else {
 	    logger.debug(featureClass + "_" + featureCode

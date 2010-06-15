@@ -14,7 +14,7 @@
       <param name="file" value="./logs/gisgraphy-importer.log"/>
         <layout class="org.apache.log4j.PatternLayout">
             <param name="ConversionPattern"
-                value="[%p] [%c] (%t,%x) : %m%n"/>
+                value="[%p] [%c] [%d{dd MMM yyyy HH:mm:ss,SSS}] (%t,%x) : %m%n"/>
         </layout>
     </appender>
     

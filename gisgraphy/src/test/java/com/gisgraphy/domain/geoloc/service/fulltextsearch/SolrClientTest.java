@@ -113,7 +113,6 @@ public class SolrClientTest {
 	    tester.addFilter(SolrDispatchFilter.class, "/*", 0);
 	    tester.setContextPath(fulltextContext);
 
-	    // TODO v2 remove deprecated
 	    String separator = System.getProperty("file.separator");
 	    tester.setResourceBase("target" + separator + "classes" + separator
 		    + "solradmin");
@@ -157,7 +156,6 @@ public class SolrClientTest {
 	    tester.addFilter(SolrDispatchFilter.class, "/*", 0);
 	    tester.setContextPath(fulltextContext);
 
-	    // TODO v2 a solrdir for test
 	    // TODO v2 remove deprecated
 	    tester.addServlet(SolrServlet.class, "/select/*");
 	    String separator = System.getProperty("file.separator");

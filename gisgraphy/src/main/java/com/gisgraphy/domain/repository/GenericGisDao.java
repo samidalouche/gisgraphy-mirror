@@ -236,7 +236,7 @@ public class GenericGisDao<T extends GisFeature> extends
 			}
 			criteria.addOrder(new ProjectionOrder("distance"));
 
-			//criteria.setCacheable(true);
+			criteria.setCacheable(true);
 			List<?> queryResults = criteria.list();
 			
 			String[] aliasList = (String[]) ArrayUtils

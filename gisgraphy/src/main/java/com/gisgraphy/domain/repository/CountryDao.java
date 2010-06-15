@@ -164,7 +164,7 @@ public class CountryDao extends GenericGisDao<Country> implements ICountryDao {
 	}
     }
 
-    // todo v2 getneighboors and set neighboors en post import des polygon de
+    // TODO v2 getneighboors and set neighboors en post import des polygon de
     // country
     /*
      * (non-Javadoc)

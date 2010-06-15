@@ -133,7 +133,6 @@ public abstract class AbstractIntegrationHttpSolrTestCase extends
 	    tester.addFilter(SolrDispatchFilter.class, "/*", 0);
 	    tester.setContextPath(FULLTEXT_SEARCH_ENGINE_CONTEXT);
 
-	    // TODO v2 a solrdir for test
 	    // TODO v2 remove deprecated
 	    tester.addServlet(SolrServlet.class, "/select/*");
 

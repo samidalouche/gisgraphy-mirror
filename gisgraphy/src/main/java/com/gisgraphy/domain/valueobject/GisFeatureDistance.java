@@ -403,7 +403,6 @@ public class GisFeatureDistance {
 	    this.name = gisFeature.getName().trim();
 	    this.population = gisFeature.getPopulation();
 	    this.timezone = gisFeature.getTimezone();
-	    if (gisFeature instanceof ZipCodesAware) {
 	    this.zipCodes = new ArrayList<String>();//TODO tests zip without zipcode
 		List<ZipCode> gisFeatureZipCodes = gisFeature.getZipCodes();
 			if (gisFeatureZipCodes != null){
@@ -411,7 +410,6 @@ public class GisFeatureDistance {
 					this.zipCodes.add(zipCode.getCode());
 			    }
 			}
-	    }
 	    this.placeType = gisFeature.getClass().getSimpleName()
 		    .toLowerCase();
 	    updateFields();
@@ -667,7 +665,7 @@ public class GisFeatureDistance {
 	 if (this.zipCodes == null){
 		this.zipCodes = new ArrayList<String>();
 	 }
-	 this.zipCodes.add(zipCode);//todo tests zip test this and remove builder.
+	 this.zipCodes.add(zipCode);//TODO tests zip test this and remove builder.
     }
 
     /**

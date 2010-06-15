@@ -26,6 +26,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import junit.framework.Assert;
+
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Required;
 
@@ -234,7 +236,23 @@ public class GisFeatureTest extends AbstractIntegrationHttpSolrTestCase {
 	City city1 = GeolocTestHelper.createCity("name", 1.5F, 1.6F, 2L);
 	city1.addZipCode(new ZipCode("10000"));
 	assertTrue(city1.toString().startsWith(City.class.getSimpleName()));
-
+    }
+    
+    @Test
+    public void testAddZipCodesShouldDoADoubleSet(){
+	GisFeature gisFeature = new GisFeature();
+	gisFeature.setFeatureId(3L);
+	ZipCode zipCode1 = new ZipCode("zip1");
+	ZipCode zipCode2 = new ZipCode("zip2");
+	List<ZipCode> zipCodes = new ArrayList<ZipCode>();
+	zipCodes.add(zipCode1);
+	zipCodes.add(zipCode2);
+	gisFeature.addZipCodes(zipCodes);
+	Assert.assertEquals("all the zipcodes of the list should be added",zipCodes.size(), gisFeature.getZipCodes().size());
+	Assert.assertTrue("zipCode1 is missing", gisFeature.getZipCodes().contains(zipCode1));
+	Assert.assertTrue("zipCode2 is missing", gisFeature.getZipCodes().contains(zipCode2));
+	Assert.assertEquals("A double set should be done, gisfeature should be set in the the zipCode entity",
+		gisFeature.getFeatureId(), gisFeature.getZipCodes().get(0).getGisFeature().getFeatureId() );
     }
 
     @Required
