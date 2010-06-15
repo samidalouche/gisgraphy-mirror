@@ -146,7 +146,7 @@ public class GeonamesAlternateNamesImporter extends AbstractImporterProcessor {
 	    if (!isEmptyField(fields, 3, false)) {
 		// if it is a city we update the city
 		    if (!(gisFeature instanceof ZipCodesAware)) {
-		    	logger.error("We've got a zipCode for a feature but the " +
+		    	logger.error("We've got a zipCode for a feature ("+gisFeature+")but the " +
 						"feature is not 'zipCodes aware'," +
 						" that mean that zipcode is added but the field" +
 						" will not be added in the feed of the web service");
