@@ -110,14 +110,12 @@ delete from UnderSea;
 delete from Vineyard;
 delete from Volcano;
 delete from WaterBody;
+delete from ZipCode;
 delete from Zoo;
 
 
 
 -- usage : psql -UYOURUSER -f /path/to/file/resetdb.sql
-
-
--- we must delete the table because of foreign key constraint 
 
 
 
@@ -225,6 +223,7 @@ DROP TABLE  UnderSea CASCADE;
 DROP TABLE  Vineyard CASCADE;
 DROP TABLE  Volcano CASCADE;
 DROP TABLE  WaterBody CASCADE;
+DROP TABLE  ZipCode CASCADE;
 DROP TABLE  Zoo CASCADE;
 
 VACUUM FULL ANALYZE;
