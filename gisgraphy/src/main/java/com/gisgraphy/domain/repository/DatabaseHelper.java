@@ -117,9 +117,9 @@ public class DatabaseHelper extends HibernateDaoSupport implements IDatabaseHelp
 	/* (non-Javadoc)
 	 * @see com.gisgraphy.domain.repository.IDatabaseHelper#generateSqlCreationSchemaFile(java.io.File)
 	 */
-	public void generateSqlCreationSchemaFile(File outputFileName){
+	public void generateSqlCreationSchemaFile(File outputFile){
 	    logger.info("Will generate file to create tables");
-	   createSqlSchemaFile(outputFileName,true,false,false);
+	   createSqlSchemaFile(outputFile,true,false,false);
 	}
 	
 	/* (non-Javadoc)
