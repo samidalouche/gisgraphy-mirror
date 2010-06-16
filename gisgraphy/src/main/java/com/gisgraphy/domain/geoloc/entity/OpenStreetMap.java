@@ -63,7 +63,7 @@ public class OpenStreetMap {
      * the postgres text search module (to use the index). This value should be
      * change if the getter and the setter of the {@link #textSearchName} change
      */
-    public static final String FULLTEXTSEARCH_VECTOR_COLUMN_NAME = "textsearchVector";
+    public static final String FULLTEXTSEARCH_VECTOR_PROPERTY_NAME = "textsearchVector";
 
     /**
      * (Experimental) Name of the column that is equals to to_tsvector(
@@ -73,7 +73,7 @@ public class OpenStreetMap {
      * change
      * @see GisgraphyConfig#PARTIAL_SEARH_EXPERIMENTAL
      */
-    public static final String PARTIALSEARCH_VECTOR_COLUMN_NAME = "partialsearchVector";
+    public static final String PARTIALSEARCH_VECTOR_PROPERTY_NAME = "partialsearchVector";
 
     /**
      * Name of the field property in hibernate. This is a string that is used

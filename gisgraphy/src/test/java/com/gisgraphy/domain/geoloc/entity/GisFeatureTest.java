@@ -254,6 +254,18 @@ public class GisFeatureTest extends AbstractIntegrationHttpSolrTestCase {
 	Assert.assertEquals("A double set should be done, gisfeature should be set in the the zipCode entity",
 		gisFeature.getFeatureId(), gisFeature.getZipCodes().get(0).getGisFeature().getFeatureId() );
     }
+    
+    @Test
+    public void testAddZipCodeShouldDoADoubleSet(){
+	GisFeature gisFeature = new GisFeature();
+	gisFeature.setFeatureId(3L);
+	ZipCode zipCode1 = new ZipCode("zip2");
+	gisFeature.addZipCode(zipCode1);
+	Assert.assertEquals("all the zipcodes of the list should be added",1, gisFeature.getZipCodes().size());
+	Assert.assertTrue("zipCode1 is missing", gisFeature.getZipCodes().contains(zipCode1));
+	Assert.assertEquals("A double set should be done, gisfeature should be set in the the zipCode entity",
+		gisFeature.getFeatureId(), gisFeature.getZipCodes().get(0).getGisFeature().getFeatureId() );
+    }
 
     @Required
     public void setCityDao(ICityDao cityDao) {

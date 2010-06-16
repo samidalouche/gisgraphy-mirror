@@ -90,7 +90,7 @@ public class OpenStreetMapImporterTest extends AbstractIntegrationHttpSolrTestCa
 	if (GisgraphyConfig.PARTIAL_SEARH_EXPERIMENTAL){
 		assertEquals("The partialSearchName is not correct",StringHelper.transformStringForPartialWordIndexation(openStreetMap.getName(), StringHelper.WHITESPACE_CHAR_DELIMITER), openStreetMap.getPartialSearchName());
 	}
-	assertEquals("The textSearchName is not correct",StringHelper.transformStringForFulltextIndexation(openStreetMap.getName()), openStreetMap.getTextSearchName());
+	assertNull("The textSearchName should be null because teardown should clear it", openStreetMap.getTextSearchName());
 	assertEquals("The shape is not correct ",GeolocHelper.convertFromHEXEWKBToGeometry("01020000000200000009B254CD6218024038E22428D9EF484075C93846B217024090A8AB96CFEF4840").toString(), openStreetMap.getShape().toString());
     }
 
@@ -126,6 +126,19 @@ public class OpenStreetMapImporterTest extends AbstractIntegrationHttpSolrTestCa
     
     @Test
     public void testImportWithErrors(){
+	OpenStreetMapImporter importer = createImporterThatThrows();
+	try {
+	    importer.process();
+	    fail("The import should have failed");
+	} catch (Exception ignore) {
+	    //ok
+	}
+	Assert.assertNotNull("status message is not set",importer.getStatusMessage() );
+	Assert.assertFalse("status message should not be empty",importer.getStatusMessage().trim().length()==0 );
+	Assert.assertEquals(ImporterStatus.ERROR, importer.getStatus());
+    }
+
+    private OpenStreetMapImporter createImporterThatThrows() {
 	OpenStreetMapImporter importer = new OpenStreetMapImporter(){
 	    @Override
 	    public boolean shouldBeSkipped() {
@@ -152,15 +165,7 @@ public class OpenStreetMapImporterTest extends AbstractIntegrationHttpSolrTestCa
 	importer.setOpenStreetMapDao(dao);
 	importer.setImporterConfig(this.openStreetMapImporter.importerConfig);
 	importer.setTransactionManager(openStreetMapImporter.transactionManager);
-	try {
-	    importer.process();
-	    fail("The import should have failed");
-	} catch (Exception ignore) {
-	    //ok
-	}
-	Assert.assertNotNull("status message is not set",importer.getStatusMessage() );
-	Assert.assertFalse("status message should not be empty",importer.getStatusMessage().trim().length()==0 );
-	Assert.assertEquals(ImporterStatus.ERROR, importer.getStatus());
+	return importer;
     }
     
     @Test
@@ -234,6 +239,31 @@ public class OpenStreetMapImporterTest extends AbstractIntegrationHttpSolrTestCa
     
     public void setOpenStreetMapImporter(OpenStreetMapImporter openStreetMapImporter) {
         this.openStreetMapImporter = openStreetMapImporter;
+    }
+    
+    @Test
+    public void testTearDown(){
+	OpenStreetMapImporter importer = new OpenStreetMapImporter(){
+	    //simulate an error
+	    public boolean shouldBeSkipped() {throw new RuntimeException("errormessage");};
+	};
+	IOpenStreetMapDao dao = createMock(IOpenStreetMapDao.class);
+	dao.clearTextSearchName();
+	EasyMock.replay(dao);
+	importer.setOpenStreetMapDao(dao);
+	
+	IInternationalisationService internationalisationService = createMock(IInternationalisationService.class);
+    	expect(internationalisationService.getString("import.openstreetmap.cleanDatabase")).andStubReturn("localizedString");
+    	replay(internationalisationService);
+    	importer.setInternationalisationService(internationalisationService);
+	
+	    try {
+		importer.process();
+	    } catch (Exception ignore) {
+		
+	    }
+	    Assert.assertTrue(importer.getStatusMessage().contains("errormessage"));
+	    org.easymock.EasyMock.verify(dao);
     }
 
 }

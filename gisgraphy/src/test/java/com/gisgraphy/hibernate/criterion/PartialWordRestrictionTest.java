@@ -70,7 +70,7 @@ public class PartialWordRestrictionTest extends AbstractIntegrationHttpSolrTestC
 		
 		Projection projection = ProjectionBean.fieldList(fieldList, true);
 		testCriteria.setProjection(projection).add(
-			new PartialWordSearchRestriction(OpenStreetMap.PARTIALSEARCH_VECTOR_COLUMN_NAME, "elys"))//case sensitive accent
+			new PartialWordSearchRestriction(OpenStreetMap.PARTIALSEARCH_VECTOR_PROPERTY_NAME, "elys"))//case sensitive accent
 			.setResultTransformer(
 				Transformers.aliasToBean(_OpenstreetmapDTO.class));
 
@@ -101,7 +101,7 @@ public class PartialWordRestrictionTest extends AbstractIntegrationHttpSolrTestC
 		
 		Projection projection = ProjectionBean.fieldList(fieldList, true);
 		testCriteria.setProjection(projection).add(
-			new PartialWordSearchRestriction(OpenStreetMap.PARTIALSEARCH_VECTOR_COLUMN_NAME, "mps ely"))
+			new PartialWordSearchRestriction(OpenStreetMap.PARTIALSEARCH_VECTOR_PROPERTY_NAME, "mps ely"))
 			.setResultTransformer(
 				Transformers.aliasToBean(_OpenstreetmapDTO.class));
 
@@ -132,7 +132,7 @@ public class PartialWordRestrictionTest extends AbstractIntegrationHttpSolrTestC
 		
 		Projection projection = ProjectionBean.fieldList(fieldList, true);
 		testCriteria.setProjection(projection).add(
-			new PartialWordSearchRestriction(OpenStreetMap.PARTIALSEARCH_VECTOR_COLUMN_NAME, "elysees champs"))//wrong word
+			new PartialWordSearchRestriction(OpenStreetMap.PARTIALSEARCH_VECTOR_PROPERTY_NAME, "elysees champs"))//wrong word
 			.setResultTransformer(
 				Transformers.aliasToBean(_OpenstreetmapDTO.class));
 

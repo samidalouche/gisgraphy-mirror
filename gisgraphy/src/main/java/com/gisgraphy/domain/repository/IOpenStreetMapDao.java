@@ -97,6 +97,14 @@ public interface IOpenStreetMapDao extends IDao<OpenStreetMap, java.lang.Long> {
      */
     public void createFulltextIndexes();
     
+    
+    /**
+     * clear the value of the textsearchname column, 
+     * the textsearchname column is used to calculate
+     * textsearchvector and is unused after the calculation
+     */
+    public void clearTextSearchName();
+    
     /**
      * @return the number of streets based on the highest gid 
      */

@@ -268,6 +268,22 @@ public class OpenStreetMapDaoTest extends AbstractIntegrationHttpSolrTestCase{
     }
     
     @Test
+    public void testclearTextSearchName(){
+	OpenStreetMap streetOSM = GeolocTestHelper.createOpenStreetMapForPeterMartinStreet();
+	String partialSearchName = "partial";
+	streetOSM.setTextSearchName(partialSearchName);
+    	openStreetMapDao.save(streetOSM);
+    	OpenStreetMap streetWithPartialSearchNameRetrieved =openStreetMapDao.getByGid(streetOSM.getGid());
+    	assertEquals("partialsearchName should be persist",partialSearchName,streetWithPartialSearchNameRetrieved.getTextSearchName());
+    	openStreetMapDao.clearTextSearchName();
+    	//we clear cache
+    	openStreetMapDao.flushAndClear();
+    	OpenStreetMap streetWithOutPartailSearchNameRetrieved =openStreetMapDao.getByGid(streetOSM.getGid());
+    	assertNull("partialsearchName should be null after clearTextSearchName has been called",streetWithOutPartailSearchNameRetrieved.getTextSearchName());
+    }
+    
+    
+    @Test
     public void testCreateSpatialIndexesShouldNotThrow(){
     	openStreetMapDao.createSpatialIndexes();
     }

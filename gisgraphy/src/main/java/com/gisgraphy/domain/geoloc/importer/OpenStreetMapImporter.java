@@ -224,4 +224,18 @@ public class OpenStreetMapImporter extends AbstractImporterProcessor {
         this.openStreetMapDao = openStreetMapDao;
     }
     
+    @Override
+    //TODO test
+    protected void tearDown() {
+        super.tearDown();
+        String savedMessage =this.statusMessage;
+        this.statusMessage=internationalisationService.getString("import.openstreetmap.cleanDatabase"); 
+        try {
+            openStreetMapDao.clearTextSearchName();
+        } finally{
+            //we restore message in case of error
+        this.statusMessage=savedMessage;
+        }
+    }
+    
 }
