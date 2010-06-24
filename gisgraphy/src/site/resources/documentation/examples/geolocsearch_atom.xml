@@ -1,13 +1,43 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<feed xmlns="http://purl.org/atom/ns#" xmlns:slash="http://purl.org/rss/1.0/modules/slash/" xmlns:apple-wallpapers="http://www.apple.com/ilife/wallpapers" xmlns:g-custom="http://base.google.com/cns/1.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:creativeCommons="http://backend.userland.com/creativeCommonsRssModule" xmlns:taxo="http://purl.org/rss/1.0/modules/taxonomy/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:sy="http://purl.org/rss/1.0/modules/syndication/" xmlns:g-core="http://base.google.com/ns/1.0" xmlns:cc="http://web.resource.org/cc/" xmlns:media="http://search.yahoo.com/mrss/" xmlns:opensearch="http://a9.com/-/spec/opensearch/1.1/" xmlns:georss="http://www.georss.org/georss/" xmlns:geo="http://www.w3.org/2003/01/geo/wgs84_pos#" version="0.3">
+<feed xmlns="http://purl.org/atom/ns#" xmlns:taxo="http://purl.org/rss/1.0/modules/taxonomy/" xmlns:georss="http://www.georss.org/georss/" xmlns:opensearch="http://a9.com/-/spec/opensearch/1.1/" xmlns:media="http://search.yahoo.com/mrss/" xmlns:slash="http://purl.org/rss/1.0/modules/slash/" xmlns:sy="http://purl.org/rss/1.0/modules/syndication/" xmlns:cc="http://web.resource.org/cc/" xmlns:g-custom="http://base.google.com/cns/1.0" xmlns:g-core="http://base.google.com/ns/1.0" xmlns:apple-wallpapers="http://www.apple.com/ilife/wallpapers" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:creativeCommons="http://backend.userland.com/creativeCommonsRssModule" xmlns:geo="http://www.w3.org/2003/01/geo/wgs84_pos#" xmlns:dc="http://purl.org/dc/elements/1.1/" version="0.3">
   <title>Gisgraphy</title>
   <link rel="alternate" href="Gisgraphy" />
   <tagline>Gisgraphy search</tagline>
   <entry>
     <title>Paris</title>
-    <link rel="alternate" href="http://services.gisgraphy.com/displayfeature.html?featureId=2988507" />
+    <link rel="alternate" href="http://services.gisgraphy.com/displayfeature.html?featureId=2968815" />
 
     <author>
+      <name>davidMasclet@gisgraphy.com</name>
+    </author>
+    <summary type="application/xml" mode="escaped">Paris</summary>
+    <dc:creator>davidMasclet@gisgraphy.com</dc:creator>
+    <opensearch:itemsPerPage>10</opensearch:itemsPerPage>
+    <opensearch:totalResults>10</opensearch:totalResults>
+
+    <opensearch:startIndex>1</opensearch:startIndex>
+    <georss:point>48.85340118408203 2.348599910736084</georss:point>
+  </entry>
+  <entry>
+    <title>Paris</title>
+    <link rel="alternate" href="http://services.gisgraphy.com/displayfeature.html?featureId=2988506" />
+    <author>
+
+      <name>davidMasclet@gisgraphy.com</name>
+    </author>
+    <summary type="application/xml" mode="escaped">Paris</summary>
+    <dc:creator>davidMasclet@gisgraphy.com</dc:creator>
+    <opensearch:itemsPerPage>10</opensearch:itemsPerPage>
+    <opensearch:totalResults>10</opensearch:totalResults>
+
+    <opensearch:startIndex>1</opensearch:startIndex>
+    <georss:point>48.853389739990234 2.348639965057373</georss:point>
+  </entry>
+  <entry>
+    <title>Paris</title>
+    <link rel="alternate" href="http://services.gisgraphy.com/displayfeature.html?featureId=2988507" />
+    <author>
+
       <name>davidMasclet@gisgraphy.com</name>
     </author>
     <summary type="application/xml" mode="escaped">Paris</summary>
@@ -19,139 +49,109 @@
     <georss:point>48.85340881347656 2.34879994392395</georss:point>
   </entry>
   <entry>
-    <title>Vanves</title>
-    <link rel="alternate" href="http://services.gisgraphy.com/displayfeature.html?featureId=2970761" />
+    <title>Point zéro</title>
+    <link rel="alternate" href="http://services.gisgraphy.com/displayfeature.html?featureId=6269275" />
     <author>
 
       <name>davidMasclet@gisgraphy.com</name>
     </author>
-    <summary type="application/xml" mode="escaped">Vanves</summary>
+    <summary type="application/xml" mode="escaped">Point zéro</summary>
     <dc:creator>davidMasclet@gisgraphy.com</dc:creator>
     <opensearch:itemsPerPage>10</opensearch:itemsPerPage>
     <opensearch:totalResults>10</opensearch:totalResults>
 
     <opensearch:startIndex>1</opensearch:startIndex>
-    <georss:point>48.83333206176758 2.299999952316284</georss:point>
+    <georss:point>48.853328704833984 2.3488199710845947</georss:point>
   </entry>
   <entry>
-    <title>Gentilly</title>
-    <link rel="alternate" href="http://services.gisgraphy.com/displayfeature.html?featureId=3016292" />
+    <title>Notre Dame</title>
+    <link rel="alternate" href="http://services.gisgraphy.com/displayfeature.html?featureId=6693877" />
     <author>
 
       <name>davidMasclet@gisgraphy.com</name>
     </author>
-    <summary type="application/xml" mode="escaped">Gentilly</summary>
+    <summary type="application/xml" mode="escaped">Notre Dame</summary>
     <dc:creator>davidMasclet@gisgraphy.com</dc:creator>
     <opensearch:itemsPerPage>10</opensearch:itemsPerPage>
     <opensearch:totalResults>10</opensearch:totalResults>
 
     <opensearch:startIndex>1</opensearch:startIndex>
-    <georss:point>48.81666564941406 2.3333332538604736</georss:point>
+    <georss:point>48.85356140136719 2.3487799167633057</georss:point>
   </entry>
   <entry>
-    <title>Le Kremlin-Bicêtre</title>
-    <link rel="alternate" href="http://services.gisgraphy.com/displayfeature.html?featureId=3003737" />
+    <title>Pont au Double</title>
+    <link rel="alternate" href="http://services.gisgraphy.com/displayfeature.html?featureId=6696087" />
     <author>
 
       <name>davidMasclet@gisgraphy.com</name>
     </author>
-    <summary type="application/xml" mode="escaped">Le Kremlin-Bicêtre</summary>
+    <summary type="application/xml" mode="escaped">Pont au Double</summary>
     <dc:creator>davidMasclet@gisgraphy.com</dc:creator>
     <opensearch:itemsPerPage>10</opensearch:itemsPerPage>
     <opensearch:totalResults>10</opensearch:totalResults>
 
     <opensearch:startIndex>1</opensearch:startIndex>
-    <georss:point>48.81666564941406 2.366666793823242</georss:point>
+    <georss:point>48.85258102416992 2.348449945449829</georss:point>
   </entry>
   <entry>
-    <title>Montrouge</title>
-    <link rel="alternate" href="http://services.gisgraphy.com/displayfeature.html?featureId=2992017" />
+    <title>Notre Dame de Paris</title>
+    <link rel="alternate" href="http://services.gisgraphy.com/displayfeature.html?featureId=6269274" />
     <author>
 
       <name>davidMasclet@gisgraphy.com</name>
     </author>
-    <summary type="application/xml" mode="escaped">Montrouge</summary>
+    <summary type="application/xml" mode="escaped">Notre Dame de Paris</summary>
     <dc:creator>davidMasclet@gisgraphy.com</dc:creator>
     <opensearch:itemsPerPage>10</opensearch:itemsPerPage>
     <opensearch:totalResults>10</opensearch:totalResults>
 
     <opensearch:startIndex>1</opensearch:startIndex>
-    <georss:point>48.81666564941406 2.316666603088379</georss:point>
+    <georss:point>48.85295867919922 2.350069999694824</georss:point>
   </entry>
   <entry>
-    <title>Ivry-sur-Seine</title>
-    <link rel="alternate" href="http://services.gisgraphy.com/displayfeature.html?featureId=3012621" />
+    <title>Petit Pont</title>
+    <link rel="alternate" href="http://services.gisgraphy.com/displayfeature.html?featureId=6696086" />
     <author>
 
       <name>davidMasclet@gisgraphy.com</name>
     </author>
-    <summary type="application/xml" mode="escaped">Ivry-sur-Seine</summary>
+    <summary type="application/xml" mode="escaped">Petit Pont</summary>
     <dc:creator>davidMasclet@gisgraphy.com</dc:creator>
     <opensearch:itemsPerPage>10</opensearch:itemsPerPage>
     <opensearch:totalResults>10</opensearch:totalResults>
 
     <opensearch:startIndex>1</opensearch:startIndex>
-    <georss:point>48.81666564941406 2.383333206176758</georss:point>
+    <georss:point>48.85327911376953 2.346940040588379</georss:point>
   </entry>
   <entry>
-    <title>Le Pré-Saint-Gervais</title>
-    <link rel="alternate" href="http://services.gisgraphy.com/displayfeature.html?featureId=3002499" />
+    <title>Le Notre Dame Hotel</title>
+    <link rel="alternate" href="http://services.gisgraphy.com/displayfeature.html?featureId=6488543" />
     <author>
 
       <name>davidMasclet@gisgraphy.com</name>
     </author>
-    <summary type="application/xml" mode="escaped">Le Pré-Saint-Gervais</summary>
+    <summary type="application/xml" mode="escaped">Le Notre Dame Hotel</summary>
     <dc:creator>davidMasclet@gisgraphy.com</dc:creator>
     <opensearch:itemsPerPage>10</opensearch:itemsPerPage>
     <opensearch:totalResults>10</opensearch:totalResults>
 
     <opensearch:startIndex>1</opensearch:startIndex>
-    <georss:point>48.88333511352539 2.4000000953674316</georss:point>
+    <georss:point>48.85300827026367 2.3467800617218018</georss:point>
   </entry>
   <entry>
-    <title>Bagnolet</title>
-    <link rel="alternate" href="http://services.gisgraphy.com/displayfeature.html?featureId=3035403" />
+    <title>Eglise Saint-Julien-le-Pauvre</title>
+    <link rel="alternate" href="http://services.gisgraphy.com/displayfeature.html?featureId=6696081" />
     <author>
 
       <name>davidMasclet@gisgraphy.com</name>
     </author>
-    <summary type="application/xml" mode="escaped">Bagnolet</summary>
+    <summary type="application/xml" mode="escaped">Eglise Saint-Julien-le-Pauvre</summary>
     <dc:creator>davidMasclet@gisgraphy.com</dc:creator>
     <opensearch:itemsPerPage>10</opensearch:itemsPerPage>
     <opensearch:totalResults>10</opensearch:totalResults>
 
     <opensearch:startIndex>1</opensearch:startIndex>
-    <georss:point>48.86666488647461 2.4166667461395264</georss:point>
-  </entry>
-  <entry>
-    <title>Saint-Ouen</title>
-    <link rel="alternate" href="http://services.gisgraphy.com/displayfeature.html?featureId=2977824" />
-    <author>
-
-      <name>davidMasclet@gisgraphy.com</name>
-    </author>
-    <summary type="application/xml" mode="escaped">Saint-Ouen</summary>
-    <dc:creator>davidMasclet@gisgraphy.com</dc:creator>
-    <opensearch:itemsPerPage>10</opensearch:itemsPerPage>
-    <opensearch:totalResults>10</opensearch:totalResults>
-
-    <opensearch:startIndex>1</opensearch:startIndex>
-    <georss:point>48.900001525878906 2.3333332538604736</georss:point>
-  </entry>
-  <entry>
-    <title>La Plaine-Saint-Denis</title>
-    <link rel="alternate" href="http://services.gisgraphy.com/displayfeature.html?featureId=3007263" />
-    <author>
-
-      <name>davidMasclet@gisgraphy.com</name>
-    </author>
-    <summary type="application/xml" mode="escaped">La Plaine-Saint-Denis</summary>
-    <dc:creator>davidMasclet@gisgraphy.com</dc:creator>
-    <opensearch:itemsPerPage>10</opensearch:itemsPerPage>
-    <opensearch:totalResults>10</opensearch:totalResults>
-
-    <opensearch:startIndex>1</opensearch:startIndex>
-    <georss:point>48.900001525878906 2.366666793823242</georss:point>
+    <georss:point>48.852020263671875 2.3470699787139893</georss:point>
   </entry>
 </feed>
 
