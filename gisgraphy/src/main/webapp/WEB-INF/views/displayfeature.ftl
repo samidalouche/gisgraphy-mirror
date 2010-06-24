@@ -33,7 +33,12 @@
 					<li><@s.text name="global.FeatureClass"/> : ${result.feature_class}</li>
 					<li><@s.text name="global.FeatureCode"/> : ${result.feature_code}</li>
 					<li><@s.text name="global.FullyQualifedName"/> : ${result.fully_qualified_name}</li>
-					<#if result.zipcode??><li><@s.text name="global.zipCode"/> : ${result.zipcode}</li></#if>
+					<#if !result.zipcodes.empty><li><@s.text name="global.zipCode"/> : 
+
+<@s.iterator value="result.zipcodes" status="zipcodetatus" id="zipcode">
+							${zipcode}<@s.if test="!#zipcodetatus.last">, </@s.if>  
+					</@s.iterator>
+</li></#if>
 					<#if result.name_ascii??><li><@s.text name="global.asciiName"/> : ${result.name_ascii}</li></#if>
 					<#if result.population??><li><@s.text name="global.population"/> : ${result.population}</li></#if>
 					<#if result.elevation??><li><@s.text name="global.elevation"/> : ${result.elevation} meter</li></#if>
