@@ -189,7 +189,7 @@ Gisgraphy is a free and open source framework. Gisgraphy goal is to provide tool
 <li> I ve got a project in an other language than java and I want to offer a city fullText search, and open a popup if more than one result match</li>
 <li> I ve got a java project and i need Spring Dao and services / hibernate Mapping for geoloc</li>
 <li> I want to import all the features of Geonames for United state and use them in Python </li>
-<li> Get the zipcode of washington</li>
+<li> Get the zipcodes of washington</li>
 <li> Find all the forests around Paris and their distances, with a radius of 30 km in spanish, order by distance</li>
 <li> Find all the city that match 'Paris' and paginate from 1 to 1O with scoring.</li>
 <li> Find all the lake of Ireland in JSON format and limit the search to 5 results.</li>
@@ -1147,7 +1147,7 @@ use the alpha2 code when possible, only use the alpha3 code when no alpha2 code 
 <a name="outputstyleverbosity"></a>
 <li>The output style verbosity (optional) : Determines the output verbosity. 4 styles are available :<br/><br/>
 <ul>
-<li>Short : feature_id, name, fully_qualified_name, zipcode (if city), placetype, country_code, country_name</li>
+<li>Short : feature_id, name, fully_qualified_name, zipcode (if city or city subdivision), placetype, country_code, country_name</li>
 <li>Medium (default) : Short + lat, lon, feature_class, feature_code, population, fips,</li>
 <li>Medium (if country) continent, currency_code, currency_name, fips_code, isoalpha2_country_code, isoalpha3_country_code, postal_code_mask, postal_code_regex,
  phone_prefix, spoken_languages, tld, capital_name, area</li>
@@ -1256,7 +1256,7 @@ Here is a description of all the output fields :<br/>
 <tr><td>placetype</td><td>The <a href="placetype.htm">place Type</a> of the Feature</td><td>SHORT</td></tr>
 <tr><td>country_code</td><td>The <a href="http://en.wikipedia.org/wiki/ISO_3166">ISO 3166</a> country code</td><td>SHORT</td></tr>
 <tr><td>country_name</td><td>The name of the country the features belongs to</td><td>SHORT</td></tr>
-<tr><td>zipcode</td><td>The zipcode (only for city plactetype)</td><td>SHORT</td></tr>
+<tr><td>zipcode</td><td>The zipcodes (only for city and citysubdivision plactetype)</td><td>SHORT</td></tr>
 <tr><td>google_map_url</td><td>The URL to get the location on <a href="http://maps.google.com/">Google Map</a></td><td>MEDIUM</td></tr>
 <tr><td>yahoo_map_url</td><td>The URL to get the location on <a href="http://maps.yahoo.com/">Yahoo Map</a></td><td>MEDIUM</td></tr>
 <tr><td>country_flag_url</td><td>The relative URL to get the country flag image</td><td>MEDIUM</td></tr>
@@ -1269,8 +1269,6 @@ Here is a description of all the output fields :<br/>
 <tr><td>gtopo30</td><td>Average elevation of 30'x30' (ca 900mx900m) area in meters</td><td>MEDIUM</td></tr>
 <tr><td>lat</td><td>The latitude (north-south)</td><td>MEDIUM</td></tr>
 <tr><td>lng</td><td>The longitude (east-West)</td><td>MEDIUM</td></tr>
-
-
 <tr><td>continent</td><td>The continent the country belongs (only for country placetype)</td><td>MEDIUM</td></tr>
 <tr><td>currency_code</td><td>The ISO 4217 Currency from the curencycode (only for country placetype)</td><td>MEDIUM</td></tr>
 <tr><td>currency_name</td><td>The name of the curency of the country (only for country placetype)</td><td>MEDIUM</td></tr>
@@ -1535,7 +1533,7 @@ Here is a description of all the output fields, some fields are specific to cert
 <tr><td>timezone</td><td>The time zone (e.g : Europe/Paris)</td><td>All placetype</td></tr>
 <tr><td>gtopo30</td><td>Average elevation of 30'x30' (ca 900mx900m) area in meters</td><td>All placetype</td></tr>
 <tr><td>elevation</td><td>The elevation in meters</td><td>All placetype</td></tr>
-<tr><td>zipcode</td><td>The zipcode (only for city plactetype)</td><td>City,CitySubdivision</td></tr>
+<tr><td>zipcode</td><td>The zipcodes (only for city and city subdivision), one node by zipcode</td><td>City,CitySubdivision, </td></tr>
 <tr><td>level</td><td>The level of the Administrative division (1-4)</td><td>Adm</td></tr>
 <tr><td>area</td><td>The area of the country</td><td>Country</td></tr>
 

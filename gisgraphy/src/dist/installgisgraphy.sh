@@ -6,7 +6,7 @@ postgres_default_user="postgres"
 postgres_default_database="gisgraphy"
 
 
-postgres_Password=
+postgres_password=
 postgres_server=
 postgres_user=
 
@@ -74,7 +74,7 @@ sudo -p "Enter password for root (unix) user : " echo ""
 echo "please enter the password for the postgres (unix) user"
 sudo -p "Enter password for root (unix) user : " passwd postgres
 read -p "Please enter the postgres (database) user password : " postgresPassword
-postgres_Password = $postgresPassword
+postgres_password = $postgresPassword
 echo "please enter the postgres (unix) user password"
 su - postgres -c "echo \" \""
 su - postgres -c "psql -d template1 -c \"alter user postgres with password '$postgresPassword'\""
@@ -91,32 +91,40 @@ function create_and_configure_database {
 	read -p "Please enter the IP or the host name of the postgres serveur [$postgres_default_server] " postgres_server_typed
 		if [[  $postgres_server_typed == "" ]]
 		then
-			postgres_server=$postgres_default_server		
+			postgres_server=$postgres_default_server
+		else 
+			postgres_server=$postgres_server_typed		
 		fi
 
 	read -p "Please enter the name of the postgres user you want to use [$postgres_default_user] " postgres_user_typed
 		if [[ $postgres_user_typed == "" ]]
 		then
-			postgres_user=$postgres_default_user	
+			postgres_user=$postgres_default_user
+		else 
+			postgres_user=$postgres_user_typed		
 		fi
 
-	read -p "Please enter the name of the postgres user you want to use [The sql password you've type before] " postgres_password_typed
+	read -p "Please enter the name of the postgres password you want to use [The sql password you've type before] " postgres_password_typed
 		if [[ $postgres_password_typed == "" ]]
 		then
-			postgres_password=$postgres_Password	
+			postgres_password=$postgresPassword	
+		else 
+			postgres_password=$postgres_password_typed
 		fi
 
 	read -p "Please enter the name of the database [$postgres_default_database] " postgres_database_typed
 		if [[ $postgres_database_typed == "" ]]
 		then
-			postgres_database=$postgres_default_database	
+			postgres_database=$postgres_default_database
+		else
+			postgres_database=$postgres_database_typed
 		fi
 
 echo "creating the gisgraphy database"
-#psql -U $postgres_user  -h $postgres_server -c "CREATE DATABASE $postgres_database WITH TEMPLATE = template1 ENCODING = 'UTF8';"
+psql -U $postgres_user  -h $postgres_server -c "CREATE DATABASE $postgres_database WITH TEMPLATE = template1 ENCODING = 'UTF8';"
 echo "create plpgsql lang"
 createlang -U $postgres_user -h $postgres_server plpgsql $postgres_database 
-
+echo "initializing Postgis function"
 if [ -e "/usr/share/postgresql-$postgres_version-postgis/lwpostgis.sql" ] 
 then 
 	psql -U $postgres_user -h $postgres_server -d  $postgres_database -f /usr/share/postgresql-$postgres_version-postgis/lwpostgis.sql 
@@ -137,6 +145,19 @@ then
  psql -U $postgres_user -h $postgres_server -d  $postgres_database -f /usr/share/postgresql/$postgres_version/contrib/spatial_ref_sys.sql
 fi
 
+echo "creating Tables..."
+psql -U $postgres_user -h $postgres_server -d  $postgres_database -f ./sql/create_tables.sql
+
+echo "inserting administration users"
+psql -U $postgres_user -h $postgres_server -d  $postgres_database -f ./sql/insert_users.sql
+
+echo "#################################################"	 
+echo "####   Summary of database settings      ########"
+echo "#################################################"
+echo ""
+echo "Postres server : $postgres_server"
+echo "Postres user : $postgres_user"
+echo "Postres password : $postgres_password"
 
 
 }

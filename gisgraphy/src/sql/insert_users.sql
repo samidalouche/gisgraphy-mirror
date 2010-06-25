@@ -1,4 +1,6 @@
--- usage : psql -UYOURUSER -f /path/to/file/insert_users.sql
+-- usage : psql -UYOURUSER -d DATABASE -f /path/to/file/insert_users.sql
+-- this insert two user : an admin one (login : admin / password : admin) and a simple user (login : user / password : user)
+--/!\ for security reasons, PLEASE, change the USER password by loging with the admin user on the admin interface : http://localhost:8080/admin/users.html,  after running this script. 
 
 SET client_encoding = 'UTF8';
 SET standard_conforming_strings = off;
