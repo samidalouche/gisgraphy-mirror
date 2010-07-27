@@ -31,19 +31,13 @@
 
     <menu ref="parent"/>
     <menu name="Gisgraphy project" collapse="false">
-	 <item name="About me" href="/aboutme.htm"/>
      <item name="Home" href="/index.htm"/>
-     <item name="Download Gisgraphy" href="/download/index.htm"/>
-     <item name="Download Data" href="/download/download_data.htm"/>
-     
-     <item name="Installation guide" href="/documentation/installation/index.htm"/>
-     <item name="User guide" href="/documentation/index.htm"/>
+	 <item name="About me" href="/aboutme.htm"/>
+
+    
      <item name="Give feedbacks" href="/feedback/index.htm"/>
      <item name="Donations - Benefactors" href="/benefactors.htm"/>
 
-     <item name="Contact" href="mailto:davidmasclet@gisgraphy.com"/>
-     <item name="Dump" href="/dump.htm"/>
-     <item name="osm2gisgraphycsv" href="/osm2gisgraphycsv.htm"/>
      
      <item name="Features plan / status" href="/features.htm"/>
      <item name="Who use gisgraphy" href="/whouse.htm"/>
@@ -53,29 +47,38 @@
  
      <item name="About geonames" href="http://www.geonames.org/about.html" />
      <item name="About openstreetmap" href="http://www.openstreetmap.org/" />
+     <item name="osm2gisgraphycsv" href="/osm2gisgraphycsv.htm"/>
      </menu>
-        
-    <menu name="Free GIS WebServices" collapse="false">
-     <item name="worldwide geocoding" href="http://services.gisgraphy.com/public/geocoding_worldwide.html"/>
-     <item name="worldwide reverse geocoding" href="http://services.gisgraphy.com/public/reverse_geocoding_worldwide.html"/>
-     <item name="street search" href="http://services.gisgraphy.com/public/streetSearch.html"/>
-     <item name="geolocalisation services" href="http://services.gisgraphy.com/ajaxgeolocsearch.html"/>
-     <item name="fulltext services" href="http://services.gisgraphy.com/ajaxfulltextsearch.html"/>
-	</menu>
-	
-    <menu name="Getting help" collapse="false">
+     
+      <menu name="Download" collapse="false">
+          <item name="Download Gisgraphy" href="/download/index.htm"/>
+     	  <item name="Download Data" href="/download/download_data.htm"/>
+   		  <item name="Dump" href="/dump.htm"/>
+     </menu>
+     
+     <menu name="Getting help" collapse="false">
       <item name="User guide" href="/documentation/index.htm"/>
       <item name="Installation" href="/documentation/installation/index.htm"/>
+      <item name="Client librairies" href="/documentation/clientLibrairies.htm"/>
       <item name="Forum" href="/forum/"/>
-      <item name="geocoding" href="/documentation/index.htm#streetservice"/>
-      <item name="Fulltext" href="/documentation/index.htm#fulltextservice"/>
-      <item name="Geolocalisation" href="/documentation/index.htm#geolocservice"/>
+      <item name="Contact" href="mailto:davidmasclet@gisgraphy.com"/>
+      
       <item name="opensearch" href="/documentation/addons.htm#opensearch"/>
       <item name="FAQ" href="/faq.html"/>
       <item name="Glossary" href="/glossary.html"/>
       <item name="Placetypes available" href="/placetype.htm"/>
       <item name="Screenshots" href="/screenshots.htm"/>
 	</menu>
+        
+    <menu name="Free GIS WebServices" collapse="false">
+     <item name="Worldwide geocoding" href="http://services.gisgraphy.com/public/geocoding_worldwide.html"/>
+     <item name="Worldwide reverse geocoding" href="http://services.gisgraphy.com/public/reverse_geocoding_worldwide.html"/>
+     <item name="Street search" href="http://services.gisgraphy.com/public/streetSearch.html"/>
+     <item name="Geolocalisation services" href="http://services.gisgraphy.com/ajaxgeolocsearch.html"/>
+     <item name="Fulltext services" href="http://services.gisgraphy.com/ajaxfulltextsearch.html"/>
+	</menu>
+	
+    
  	  
       
      

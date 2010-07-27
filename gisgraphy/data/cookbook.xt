@@ -130,16 +130,16 @@ NameVirtualHost *:80
 JkWorkersFile /etc/apache2/workers.properties
  #-------------------------------------------
   vim /etc/apache2/sites-available/000-default
-  
   <VirtualHost *:80 >
         ServerAdmin davidmasclet@gisgraphy.com
         ServerName www.gisgraphy.com
         DocumentRoot /var/www/
-        
-        ErrorDocument 404 /404.php
-        ErrorDocument 403 /403.php
-        ErrorDocument 500 /500.php
-        
+
+        ErrorDocument 404 /404.htm
+        ErrorDocument 403 /403.htm
+        ErrorDocument 500 /500.htm
+        ErrorDocument 503 /500.htm
+
         <Directory />
                 AllowOverride None
                 Options FollowSymLinks
@@ -148,10 +148,18 @@ JkWorkersFile /etc/apache2/workers.properties
         </Directory>
         <Directory /var/www/>
                 Options Indexes FollowSymLinks MultiViews
-                AllowOverride None
+                AllowOverride All
                 Order allow,deny
                 allow from all
         </Directory>
+
+AddType application/x-httpd-php .htm
+
+<FilesMatch "\.htm$">
+php_value auto_prepend_file "header.inc"
+php_value auto_append_file "footer.inc"
+</FilesMatch>
+
 
         ErrorLog /var/log/apache2/error.log
 
@@ -162,16 +170,8 @@ JkWorkersFile /etc/apache2/workers.properties
         CustomLog /var/log/apache2/access.log combined
         ServerSignature On
 
-    Alias /doc/ "/usr/share/doc/"
-    <Directory "/usr/share/doc/">
-        Options Indexes MultiViews FollowSymLinks
-        AllowOverride None
-        Order deny,allow
-        Deny from all
-        Allow from 127.0.0.0/255.0.0.0 ::1/128
-    </Directory>
-
 </VirtualHost>
+
   
   
   

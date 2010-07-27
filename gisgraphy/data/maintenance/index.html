@@ -1,44 +1,49 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xml:lang="en" xmlns="http://www.w3.org/1999/xhtml"><head>
-
-        		<meta name="verify-v1" content="xwCE0WgHVkDpMjxu6nlGpUUB+n2Bplv7bW9r18TZ3jE=">
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <meta name="generator" content="Gisgraphy">
-        <link rel="icon" href="http://services.gisgraphy.com/images/favicon.ico">
-        <title>Géocoding mondial | Gisgraphy Free Geolocalisation Services</title>
-		<link rel="stylesheet" type="text/css" media="all" href="media/theme.css">
-			<link rel="search" type="application/opensearchdescription+xml" title="Gisgraphy" href="http://services.gisgraphy.com/static/gisgraphy_opensearch_fulltext.xml">
-     			   <meta name="Description" content="Worldwide geocoding free webservices and street search for openstreetmap. Pagination, indentation, several languages are supported">
-		<meta name="heading" content="maintenance">
-    <style type="text/css">
+<html xml:lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="generator" content="Gisgraphy">
+<link rel="icon" href="http://services.gisgraphy.com/images/favicon.ico">
+<title>Gisgraphy - Maintenance</title>
+<link rel="stylesheet" type="text/css" media="all"
+	href="media/theme.css">
+<style type="text/css">
 #maintenanceinfo {
-text-align:center;
-font-size : 25px;
-line-height : 2em;
-}
-#countdown {
-font-size : 40px;
-color : red;
-}
-h1 {
-font-size : 60px;
-}
-body{
-background : url("./media/background.gif") repeat-x scroll left top white
+	text-align: center;
+	font-size: 25px;
+	line-height: 2em;
 }
 
-</style></head><body>
-    <div id="page">
-        <div id="header" class="clearfix">
-            <div id="branding">
-   				 <h1><a href="http://services.gisgraphy.com/"><img src="media/logo_70.png" alt="Free Geolocalisation Services" class="imgAlign">Gisgraphy is currently unavailable</a></h1>
-    			 <div id="tagline">Importer, et webservices de geolocalisation pour Geonames et Openstreetmap.</div>
-			</div>
-        </div>
-		<div id="content" class="clearfix">
-		<div class="divider"><div></div></div>
-            <div id="main">
-<script type="text/javascript">
+#countdown {
+	font-size: 40px;
+	color: red;
+}
+
+h1 {
+	font-size: 60px;
+}
+
+body {
+	background: url("./media/background.gif") repeat-x scroll left top white
+}
+</style>
+</head>
+<body>
+<div id="page">
+<div id="header" class="clearfix">
+<div id="branding">
+<h1><a href="http://services.gisgraphy.com/"><img
+	src="media/logo_70.png" alt="Free Geolocalisation Services"
+	class="imgAlign">Gisgraphy is currently unavailable</a></h1>
+<div id="tagline">Importer, et webservices de geolocalisation pour
+Geonames et Openstreetmap.</div>
+</div>
+</div>
+<div id="content" class="clearfix">
+<div class="divider">
+<div></div>
+</div>
+<div id="main"><script type="text/javascript">
 
 var month = '7'; // 1 through 12 or '*' within the next month, '0' for the current month
 var day = '27';   // day of month or + day offset
@@ -65,13 +70,15 @@ if (dow >0) toDate.setDate(toDate.getDate()+(dow-1-toDate.getDay())%7);
 toDate.setHours(hour);toDate.setMinutes(min-(tz*60));toDate.setSeconds(0);var fromDate = new Date();fromDate.setMinutes(fromDate.getMinutes() + fromDate.getTimezoneOffset());var diffDate = new Date(0);diffDate.setMilliseconds(toDate - fromDate);return Math.floor(diffDate.valueOf()/1000);}
 function displayCountdown(countdn,cd) {if (countdn < 0) document.getElementById(cd).innerHTML = "The maintenance should be finished, but is not :("; else {var secs = countdn % 60; if (secs < 10) secs = '0'+secs;var countdn1 = (countdn - secs) / 60;var mins = countdn1 % 60; if (mins < 10) mins = '0'+mins;countdn1 = (countdn1 - mins) / 60;var hours = countdn1 % 24;var days = (countdn1 - hours) / 24;document.getElementById(cd).innerHTML = days+' day + '+hours+' : '+mins+' : '+secs;setTimeout('displayCountdown('+(countdn-1)+',\''+cd+'\');',999);}}
 start();
-</script>
-            <br>
+</script> <br/>
 <div id="maintenanceinfo">
-     <h1>Maintenance</h1>
-The installation of the new version is currently in progress..., thanks for your comprehension. Site will be available on july the 28th at 12:00 GMT so in :
-<br/><br/>
+<h1>Maintenance</h1>
+The installation of the new version is currently in progress..., thanks
+for your comprehension. Site will be back on july the 28th at 12:00
+GMT so in : <br />
+<br />
 <div id="countdown"></div>
 </div>
 </div>
-</body></html>
+</body>
+</html>

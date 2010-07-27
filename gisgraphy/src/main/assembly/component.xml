@@ -115,6 +115,13 @@
 			</includes>
 		</fileSet>
 		<fileSet>
+			<directory>src/main/webapp/scripts/</directory>
+			<outputDirectory>client/javascript/</outputDirectory>
+			<includes>
+				<include>gisgraphyapi.js</include>
+			</includes>
+		</fileSet>
+		<fileSet>
 			<directory>target/site/apidocs</directory>
 			<outputDirectory>docs/apidocs</outputDirectory>
 		</fileSet>

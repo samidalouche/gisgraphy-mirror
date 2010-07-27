@@ -20,7 +20,7 @@
       <question>Is it possible to import geonames and not openstreetmap dataset and the opposite?</question>
       <answer>
         <p>
-          yes! just choose the dataset(s) you are interested in on the confirm import page. If you want to import an other dataset later, a <a href="http://www.gisgraphy.com/forum/viewtopic.php?f=3&t=219">workaround is possible</a>
+          yes! just choose the dataset(s) you are interested in on the confirm import page. If you want to import an other dataset later, a <a href="http://www.gisgraphy.com/forum/viewtopic.php?f=3&amp;t=219">workaround is possible</a>
         </p>
       </answer>
     </faq>
