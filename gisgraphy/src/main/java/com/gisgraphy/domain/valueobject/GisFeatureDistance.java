@@ -658,8 +658,10 @@ public class GisFeatureDistance {
 	return this.zipCodes;
     }
     
+   
     /**
-     * @return the zipCode
+     * add a zipcode to the list of zipcode
+     * @param zipCode the zipcode to add
      */
     public void addZipCode(String zipCode) {
 	 if (this.zipCodes == null){
