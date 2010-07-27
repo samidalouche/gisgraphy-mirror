@@ -7,13 +7,16 @@ format
 tests
 upload maven repo
 
+modifier http://www.gisgraphy.com/news/getnews.php to tell new version and obsolete
 site
 save feedbacks
+mettre page maintenance
 dist
-check javadoc
+check javadoc 
 install
 upload doc
 migration guide / changes
+upload dist
 link to dist in download page
 re-process sitemaps
 update gisgraphy sitemap
