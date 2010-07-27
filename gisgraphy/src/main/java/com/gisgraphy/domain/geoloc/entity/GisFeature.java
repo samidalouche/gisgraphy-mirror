@@ -1040,7 +1040,7 @@ public class GisFeature {
      * you should prefer the methods {@link #addZipCode(ZipCode)} and {@link #addZipCodes(List)}
      *  that do it automatically.
      * 
-     * @param zipCode
+     * @param zipCodes
      *                The zip codes for the City
      */
 	//TODO tests zip
