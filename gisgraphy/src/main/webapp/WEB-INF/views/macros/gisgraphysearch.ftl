@@ -168,7 +168,7 @@
 				 <@s.text name="search.requestTime"/> ${streetResponseDTO.QTime/1000}  <@s.text name="search.secondUnit"/>. </div>
 				<#if streetResponseDTO.result.size()!=0>
 				<br/>
-				<@s.url id="showAllOnMapsURL" value="street/streetsearch" includeParams="all" forceAddSchemeHostAndPort="true" escapeAmp="false" />			
+				<@s.url id="showAllOnMapsURL" value="/street/streetsearch" includeParams="all" forceAddSchemeHostAndPort="true" escapeAmp="false" />			
 			&nbsp;&nbsp;<a href="http://maps.google.fr/maps?q=${showAllOnMapsURL?url('UTF-8')}%26format%3DATOM" target="_blank"><img src="/images/map_go.png" alt="map"/> <@s.text name="search.viewResultsOnMap"/></a>
 					<#list streetResponseDTO.result as result>
 	 				<div class="bodyResults">
