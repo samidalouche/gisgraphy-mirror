@@ -16,4 +16,7 @@ psql -U postgres -h 127.0.0.1 -d gisgraphy -f ./THEFILE
 Dumps will only inject datas, it will not create the database and tables (see installation guide).
 Gisgraphy users and role will be added, ignore warnning if the users are already sets.
 
+On unix you can inject the zipped dump directly : 
+unzip -c dump_localhost_geonames.sql.zip | psql -U postgres -d gisgraphy -W -h127.0.0.1
+
 Hope it helps!
