@@ -493,7 +493,6 @@ public class Country extends GisFeature implements Serializable,
 	this.capitalName = capitalName;
     }
 
-    // TODO v3 continent importer
     /**
      * Returns The name of the continent this country belongs to
      * 
