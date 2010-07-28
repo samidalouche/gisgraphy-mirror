@@ -43,7 +43,7 @@ h4:before {
 <body>
 
 <div><h1>Environement setup for Macintosh</h1>
-Before install and launch Gisgraphy, you must setup java, postgres, and  postgis. it is not, properly speaking, the installation of gisgraphy, and if you already have postgres, postgis and java installed (you needs JVM &gt;= 1.5) , you can go directly to the gisgraphy installation guide
+Before install and launch Gisgraphy, you must setup java, postgres, and  postgis. it is not, properly speaking, the installation of gisgraphy, and if you already have postgres, postgis and java installed (you needs JVM &gt;= 1.5) , you can go directly to the gisgraphy <a href="installgisgraphy.htm">installation guide</a> 
 
 <h2>Install and configure java / JVM</h2>
 <div class="tip greentip">
@@ -110,16 +110,15 @@ The JVM is now well installed
 If you already have Postgresql AND Postgis installed, you can skip this section
 </div>
 <h3>Install the package</h3>
-To install Postgres and postgis, you need to download some package backport from unix. Note that you need to install the package in the order bellow:
+To install Postgres and postgis, you need to download some package backport from unix. Note that you need to downlaod and install the package in the order bellow:
 <ul>
 <li><a href="http://www.kyngchaos.com/files/software/unixport/PROJ_Framework-4.7.0-2.dmg">PROJ_Framework 4.7.0-2</a></li>
 <li><a href="http://www.kyngchaos.com/files/software/unixport/GEOS_Framework-3.2.0-1.dmg">GEOS_Framework 3.2.0-1</a></li>
 <li><a href="http://www.kyngchaos.com/files/software/unixport/PostgreSQL-8.4.3-1.dmg">PostgreSQL 8.4.3-1</a></li>
 <li><a href="http://www.kyngchaos.com/files/software/unixport/PostGIS-1.5.1-1.dmg">PostGIS 1.5.1-1</a></li>
 </ul>
-Then you need to double click on it and run the installer.
 <br/><br/>
-to make the installation easier, you can run the following lines in a terminal, it will download and install Postgres and Postgis automatically :
+To make the installation easier, you can run the following lines in a terminal it is in the Applications -> Utilities folder), it will download and install Postgres and Postgis automatically :
 <div class=code>
 <pre>
 
@@ -149,49 +148,45 @@ to make the installation easier, you can run the following lines in a terminal, 
  </div>
 <br/>
 <br/>
+
+<div>
+
+Postgres need a lot of memory, on mac you need to increase it :
+<div class=code>
+<pre>
+sudo sysctl -w kern.sysv.shmall=65536
+sudo sysctl -w kern.sysv.shmmax=16777216
+
+ </pre>
+</div>
+
+To make these values stick across reboots, add them to /etc/sysctl.conf, like this:
+<div class=code>
+<pre>
+kern.sysv.shmall=65536
+kern.sysv.shmmax=16777216
+</pre>
+</div>
+</div>
+
 Then you need to create a directory  and give the correct rights :
 <div class=code>
 <pre>
-
+#you need to log in as "postgres" in order to initialise the database
+su -l postgres
 #create a directory to hold postgres data
 mkdir /usr/local/pgsql/data
 #give the correct rights
 chown postgres /usr/local/pgsql/data
-#you need to log in as “postgres” in order to initialise the database
-su -l postgres
 #create the Database structure
 /usr/local/pgsql/bin/initdb -D /usr/local/pgsql/data
 #launch postgres
+sudo bash
 /usr/local/pgsql/bin/pg_ctl -D /usr/local/pgsql/data -l logfile start
 
  </pre>
 </div>
 
-<h3>Configure Postgis</h3>
-<div> Here are the command to install a Database and init the Gisgraphy database</div> 
-
-<div class=code>
-<pre>
-# create the database
-psql -U <i>YOURUSER</i>  -h <i>YOURIP</i> -c  "CREATE DATABASE gisgraphy ENCODING = 'UTF8';"
-
-#create language
-createlang -U YOURUSER -h YOURIP plpgsql gisgraphy 
-
-#create postgis function
-psql -U YOURUSER -h YOURIP -d gisgraphy -f /usr/share/postgresql-YOURPOSTGRESVERSION-postgis/lwpostgis.sql
-psql -U YOURUSER -h YOURIP -d gisgraphy -f /usr/share/postgresql-YOURPOSTGRESVERSION-postgis/spatial_ref_sys.sql
-
-
-</pre>
-Where YOURUSER is a postgresql user with admin rights,YOURIP is the ip adress of your server(127.0.0.1 in most case) and YOURPOSTGRESVERSION is your postgres version (8.3 in this tutorial) <br/>
-</div>
-
-<div class="tip greentip">
-On centOs, and on other Linux/unix distributions, the path to scripts must be change from '/usr/share/' to '/usr/share/pgsql/contrib/'.<br/>
-For postgres 8.4 on ubuntu lucid the files are spatial_ref_sys.sql and 'postgis.sql' and they are located in '/usr/share/postgresql/8.4/contrib/'
-
-</div>
 
 <h3>Configure the postgres user / password</h3>
 By default the postgres user can connect to postgres with the same password as the Unix one, but we'd like that postgres ask for a password and not use the UNIX one
@@ -240,6 +235,35 @@ we must restart postresql to take our changes into account :<br/>
 Close your postgres 's session, and type :
 <div class=code><pre>pg_ctl reload</div>
 </ul>
+
+
+
+<h3>Configure Postgis</h3>
+<div> Here are the command to install a Database and init the Gisgraphy database</div> 
+
+<div class=code>
+<pre>
+# create the database
+psql -U <i>YOURUSER</i>  -h <i>YOURIP</i> -c  "CREATE DATABASE gisgraphy ENCODING = 'UTF8';"
+
+#create language
+createlang -U YOURUSER -h YOURIP plpgsql gisgraphy 
+
+#create postgis function
+psql -U YOURUSER -h YOURIP -d gisgraphy -f /usr/share/postgresql-YOURPOSTGRESVERSION-postgis/lwpostgis.sql
+psql -U YOURUSER -h YOURIP -d gisgraphy -f /usr/share/postgresql-YOURPOSTGRESVERSION-postgis/spatial_ref_sys.sql
+
+
+</pre>
+Where YOURUSER is a postgresql user with admin rights,YOURIP is the ip adress of your server(127.0.0.1 in most case) and YOURPOSTGRESVERSION is your postgres version (8.3 in this tutorial) <br/>
+</div>
+
+<div class="tip greentip">
+On centOs, and on other Linux/unix distributions, the path to scripts must be change from '/usr/share/' to '/usr/share/pgsql/contrib/'.<br/>
+For postgres 8.4 on ubuntu lucid the files are spatial_ref_sys.sql and 'postgis.sql' and they are located in '/usr/share/postgresql/8.4/contrib/'
+
+</div>
+
 <div class="tip greentip">
 Tips : Install PGAdmin. It will be more user friendly than command line. 
 <br/>
