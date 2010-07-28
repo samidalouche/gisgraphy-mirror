@@ -46,71 +46,22 @@ h4:before {
 Before install and launch Gisgraphy, you must setup java, postgres, and  postgis. it is not, properly speaking, the installation of gisgraphy, and if you already have postgres, postgis and java installed (you needs JVM &gt;= 1.5) , you can go directly to the gisgraphy <a href="installgisgraphy.htm">installation guide</a> 
 
 <h2>Install and configure java / JVM</h2>
-<div class="tip greentip">
-If you already have Java installed, you can skip this section
+<div>
+Since Mac OS 8, Java is installed. You just have to check that you have, at least, java 5.0. if it is note the case updat your Mac OS.
 </div>
-<h3>Install Java</h3>
-Open a shell and type : 
-<div class="code">
-sudo apt-get install sun-java6-bin sun-java6-fonts sun-java6-javadb sun-java6-jdk sun-java6-jre sun-java6-source ia32-sun-java6-bin
-</div> 
-Valid screen (tab + OK) :<br/>
-<a href="images/jvm2.jpg" ><img src="images/thumb/jvm2.jpg" class="imagethumb" /></a>
-<br/>
-Accept the license (TAB to select 'yes' + OK) : <br/>
-<a href="images/jvm.jpg" ><img src="images/thumb/jvm.jpg" class="imagethumb" /></a>
-<br/>
-<br/>
- <div class="tip greentip">
+<div class="tip greentip">
 To see if Java is correctly installed, open a shell and type :
 <div class="code">
 java -version
 </div>
-<br/>
-You should see : 
-<div class="code">
-<pre>
-java version "1.6.0_06"
-Java(TM) SE Runtime Environment (build 1.6.0_06-b02)
-Java HotSpot(TM) 64-Bit Server VM (build 10.0-b22, mixed mode)
-</pre>
 </div>
-</div>
-<br/>
-We will now configure the Java.
-
-<h3>Configure Java</h3>
-<br/>
-Open a shell and type :
-<div class="code">sudo update-java-alternatives --set ia32-java-6-sun</div>
-<br/>
-You may have this message if you are on a 64 bits machine :
-Impossible de find alternative « /usr/lib/jvm/ia32-java-6-sun/jre/plugin/i386/ns7/libjavaplugin_oji.so ". thats not important. that's because there is no applet in 64 bits.
-
- <div class="tip greentip">
- To see if java is well configured type "ls -l  /etc/alternatives/java" you should see "/usr/lib/jvm/java-6-sun/jre/bin/java" 
- </div>
- <br/>
- We now need to add a JAVA_HOME environement variable  : 
- <ul>
- <li>add this line to .bashrc in your home directoy</li>
- <div class="code">
- export JAVA_HOME=/usr/lib/jvm/java-6-sun-1.6.0.06/
- </div>
- <br/>
- <li>execute "source ~/.bashrc" in a shell to take the changes into account.</li>
- </ul>
- <br/>
-
- Type "echo $JAVA_HOME" to check it is well set : /usr/lib/jvm/java-6-sun-1.6.0.06/<br/><br/>
-The JVM is now well installed
 <br/><br/>
 <h2>Install postgresql and postgis</h2>
 <div class="tip greentip">
 If you already have Postgresql AND Postgis installed, you can skip this section
 </div>
 <h3>Install the package</h3>
-To install Postgres and postgis, you need to download some package backport from unix. Note that you need to downlaod and install the package in the order bellow:
+To install Postgres and postgis, you need to download some package backport from unix. Note that you need to download and install the package in the order bellow:
 <ul>
 <li><a href="http://www.kyngchaos.com/files/software/unixport/PROJ_Framework-4.7.0-2.dmg">PROJ_Framework 4.7.0-2</a></li>
 <li><a href="http://www.kyngchaos.com/files/software/unixport/GEOS_Framework-3.2.0-1.dmg">GEOS_Framework 3.2.0-1</a></li>
@@ -118,11 +69,10 @@ To install Postgres and postgis, you need to download some package backport from
 <li><a href="http://www.kyngchaos.com/files/software/unixport/PostGIS-1.5.1-1.dmg">PostGIS 1.5.1-1</a></li>
 </ul>
 <br/><br/>
-To make the installation easier, you can run the following lines in a terminal it is in the Applications -> Utilities folder), it will download and install Postgres and Postgis automatically :
+To make the installation easier, you can run the following lines in a terminal (it is in the Applications -> Utilities folder), it will download and install Postgres and Postgis automatically :
 <div class=code>
 <pre>
-
-	mkdir tempinstall
+    mkdir tempinstall
     cd tempinstall
     curl -O http://www.kyngchaos.com/files/software/unixport/PROJ_Framework-4.7.0-2.dmg
     hdiutil attach PROJ_Framework-4.7.0-2.dmg
@@ -148,19 +98,18 @@ To make the installation easier, you can run the following lines in a terminal i
  </div>
 <br/>
 <br/>
-
+You can see installation note <a href="http://www.kyngchaos.com/software:postgres" target="_blank">here</a>
 <div>
-
-Postgres need a lot of memory, on mac you need to increase it :
+<h3>Configure memory</h3>
+Postgres need a lot of shared memory to run on Macintosh(<a href="http://www.spy-hill.net/help/apple/SharedMemory.html" target="_blank">read more</a>), so you need to increase it. run the following lines in a terminal (it is in the Applications -> Utilities folder) :
 <div class=code>
 <pre>
 sudo sysctl -w kern.sysv.shmall=65536
 sudo sysctl -w kern.sysv.shmmax=16777216
-
- </pre>
+</pre>
 </div>
 
-To make these values stick across reboots, add them to /etc/sysctl.conf, like this:
+But this value will be back to their default values when you will startup your Mac. To make these values stick across reboots, add those lines to /etc/sysctl.conf, like this:
 <div class=code>
 <pre>
 kern.sysv.shmall=65536
@@ -168,23 +117,23 @@ kern.sysv.shmmax=16777216
 </pre>
 </div>
 </div>
-
-Then you need to create a directory  and give the correct rights :
+<h3>Initialize the server</h3>
+Then you need to create a directory, give the correct rights and use this folder to store the database :
 <div class=code>
 <pre>
 #you need to log in as "postgres" in order to initialise the database
 su -l postgres
 #create a directory to hold postgres data
 mkdir /usr/local/pgsql/data
-#give the correct rights
-chown postgres /usr/local/pgsql/data
 #create the Database structure
-/usr/local/pgsql/bin/initdb -D /usr/local/pgsql/data
+/usr/local/pgsql/bin/initdb -D /usr/local/pgsql/data --encoding=UTF8
 #launch postgres
-sudo bash
 /usr/local/pgsql/bin/pg_ctl -D /usr/local/pgsql/data -l logfile start
-
  </pre>
+</div>
+
+<div class="tip yellowtip">
+if you got the following message : "Cannot allocate memory", That's probably because there is something wrong with the step "Configure memory".
 </div>
 
 
@@ -216,7 +165,7 @@ host   all     all    127.0.0.1         255.255.255.255   ident sameuser
 <li>Define the postgres (postgresql) user's password</li>
 Connect to postgres to change the postgresql password :
 <div class=code>psql -d template1 -c "alter user postgres with password '<i>YOURPASSWORD</i>'"</div>
-
+Where 'YOURPASSWORD' is the password you wish to use for the user postgres<br/><br/>
 now you've changed the password for your postgresql user, we have to tell postgresql to use this password
 <br/><br/>
 <li>Update postgres conf </li>
@@ -231,11 +180,10 @@ host   all     all    127.0.0.1         255.255.255.255   password
 </div>
 
 <li>Restart postgres</li>
-we must restart postresql to take our changes into account :<br/>
+we must restart postgresql to take our changes into account :<br/>
 Close your postgres 's session, and type :
 <div class=code><pre>pg_ctl reload</div>
 </ul>
-
 
 
 <h3>Configure Postgis</h3>
@@ -244,10 +192,10 @@ Close your postgres 's session, and type :
 <div class=code>
 <pre>
 # create the database
-psql -U <i>YOURUSER</i>  -h <i>YOURIP</i> -c  "CREATE DATABASE gisgraphy ENCODING = 'UTF8';"
+psql -U <i>postgres</i>  -h <i>YOURIP</i> -c  "CREATE DATABASE gisgraphy ENCODING = 'UTF8';"
 
 #create language
-createlang -U YOURUSER -h YOURIP plpgsql gisgraphy 
+createlang -U postgres -h YOURIP plpgsql gisgraphy 
 
 #create postgis function
 psql -U YOURUSER -h YOURIP -d gisgraphy -f /usr/share/postgresql-YOURPOSTGRESVERSION-postgis/lwpostgis.sql
@@ -274,9 +222,9 @@ In order to know if Postgis is correctly install, open a PostgreSQL connection o
 <li><code>select postgis_full_version () ;</code> It will give you the Postgis version </li>
 </ul>
 </div>
-<h2>Define Linux settings</h2>
+<h2>Define Environnement settings</h2>
 <div>
-unix system define a maximum number of files that can be open. solr open a large number of files. to avoid message like "Too many open files" you must increase this limit.
+Macintosh systems define a maximum number of files that can be open. solr open a large number of files. to avoid message like "Too many open files" you must increase this limit.
 open a shell and type 
 <div class="code">
 <pre>

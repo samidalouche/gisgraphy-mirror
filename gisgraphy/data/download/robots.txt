@@ -1,5 +1,0 @@
-User-agent: *
-Disallow: /openstreetmap/
-Disallow: /dump/
-Disallow: /snapshots/
-Disallow: /geonames/

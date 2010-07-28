@@ -172,7 +172,7 @@ host   all     all    127.0.0.1         255.255.255.255   ident sameuser
 <li>Define the postgres (postgresql) user's password</li>
 Connect to postgres to change the postgresql password :
 <div class=code>psql -d template1 -c "alter user postgres with password '<i>YOURPASSWORD</i>'"</div>
-
+Where 'YOURPASSWORD' is the password you wish to use for the user postgres<br/><br/>
 now you've changed the password for your postgresql user, we have to tell postgresql to use this password
 <br/><br/>
 <li>Update postgres conf </li>
