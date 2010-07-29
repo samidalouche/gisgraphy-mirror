@@ -122,6 +122,8 @@ Then you need to create a directory, give the correct rights and use this folder
 <div class=code>
 <pre>
 #you need to log in as "postgres" in order to initialise the database
+#Change postgres (unix) user :
+sudo passwd postgres
 su -l postgres
 #create a directory to hold postgres data
 mkdir /usr/local/pgsql/data
@@ -140,9 +142,7 @@ if you got the following message : "Cannot allocate memory", That's probably bec
 <h3>Configure the postgres user / password</h3>
 By default the postgres user can connect to postgres with the same password as the Unix one, but we'd like that postgres ask for a password and not use the UNIX one
 <ul>
-<li>Change postgres (unix) user :</li>
 
-<div class=code>sudo passwd postgres</div>
 
 <li>Log to Unix with user 'postgres' :</li> 
 
@@ -151,21 +151,15 @@ By default the postgres user can connect to postgres with the same password as t
 and give the new password you've just type
 <br/>
 <br/>
-<li>Check postgresql conf :</li>
-
-<div class=code>vim /usr/local/pgsql/data/pg_hba.conf</div>
-and edit it in order to have (at least) those 2 lines 
-<div class=code>
-<pre>
-local  all     all                                        ident sameuser
-host   all     all    127.0.0.1         255.255.255.255   ident sameuser
-</pre>
-</div>
 
 <li>Define the postgres (postgresql) user's password</li>
 Connect to postgres to change the postgresql password :
 <div class=code>psql -d template1 -c "alter user postgres with password '<i>YOURPASSWORD</i>'"</div>
 Where 'YOURPASSWORD' is the password you wish to use for the user postgres<br/><br/>
+
+<div class="tip yellowtip">
+if you got the following message : psql command not found, you have to had the path to your PATH : "setenv PATH ${PATH}:/usr/local/pgsql/bin" or "export PATH=$PATH:/usr/local/pgsql/bin"
+</div>
 now you've changed the password for your postgresql user, we have to tell postgresql to use this password
 <br/><br/>
 <li>Update postgres conf </li>
@@ -181,8 +175,8 @@ host   all     all    127.0.0.1         255.255.255.255   password
 
 <li>Restart postgres</li>
 we must restart postgresql to take our changes into account :<br/>
-Close your postgres 's session, and type :
-<div class=code><pre>pg_ctl reload</div>
+as postgres (unix)'s user, type :
+<div class=code><pre>/usr/local/pgsql/bin/pg_ctl -D /usr/local/pgsql/data reload</div>
 </ul>
 
 
@@ -198,8 +192,8 @@ psql -U <i>postgres</i>  -h <i>YOURIP</i> -c  "CREATE DATABASE gisgraphy ENCODIN
 createlang -U postgres -h YOURIP plpgsql gisgraphy 
 
 #create postgis function
-psql -U YOURUSER -h YOURIP -d gisgraphy -f /usr/share/postgresql-YOURPOSTGRESVERSION-postgis/lwpostgis.sql
-psql -U YOURUSER -h YOURIP -d gisgraphy -f /usr/share/postgresql-YOURPOSTGRESVERSION-postgis/spatial_ref_sys.sql
+psql -U YOURUSER -h YOURIP -d gisgraphy -f /usr/local/pgsql/share/contrib/postgis.sql
+psql -U YOURUSER -h YOURIP -d gisgraphy -f /usr/local/pgsql/share/contrib/spatial_ref_sys.sql
 
 
 </pre>
