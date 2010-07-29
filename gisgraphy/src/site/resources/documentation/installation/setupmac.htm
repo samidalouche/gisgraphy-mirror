@@ -192,8 +192,8 @@ psql -U <i>postgres</i>  -h <i>YOURIP</i> -c  "CREATE DATABASE gisgraphy ENCODIN
 createlang -U postgres -h YOURIP plpgsql gisgraphy 
 
 #create postgis function
-psql -U YOURUSER -h YOURIP -d gisgraphy -f /usr/local/pgsql/share/contrib/postgis.sql
-psql -U YOURUSER -h YOURIP -d gisgraphy -f /usr/local/pgsql/share/contrib/spatial_ref_sys.sql
+psql -U YOURUSER -h YOURIP -d gisgraphy -f /usr/local/pgsql/share/contrib/postgis-1.5/postgis.sql
+psql -U YOURUSER -h YOURIP -d gisgraphy -f /usr/local/pgsql/share/contrib/postgis-1.5/spatial_ref_sys.sql
 
 
 </pre>
