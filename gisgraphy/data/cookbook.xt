@@ -168,7 +168,7 @@ php_value auto_append_file "footer.inc"
         LogLevel warn
 
         CustomLog /var/log/apache2/access.log combined
-        ServerSignature On
+        ServerSignature Off
 
 </VirtualHost>
 
@@ -176,16 +176,16 @@ php_value auto_append_file "footer.inc"
   
   
   vim /etc/apache2/sites-available/services
-  
-<virtualHost *:80 >
+  <virtualHost *:80 >
 ServerName services.gisgraphy.com
 ServerAdmin davidmasclet@gisgraphy.com
 
 ErrorDocument 403 "You don't have permission to access this, or you've reached the maximum number of requests allowed. (you'll be block for a short period)"
 
 CustomLog /var/log/apache2/access-services.log combined
-
 ErrorLog /var/log/apache2/error-services.log
+
+ServerSignature Off
 
 JkMount /* default
 DirectoryIndex index.jsp index.html
@@ -195,6 +195,7 @@ Order allow,deny
 allow from all
 </LocationMatch>
 </VirtualHost>
+
 
 vim /etc/apache2/sites-available/download
 
@@ -239,6 +240,42 @@ vim /etc/apache2/sites-available/download
 
 
 </VirtualHost>
+
+vim /etc/apache2/sites-available/maintenance
+<VirtualHost *:80 >
+        ServerAdmin davidmasclet@gisgraphy.com
+        ServerName raphael.gisgraphy.com
+        #ServerName www.gisgraphy.com
+        #ServerAlias download.gisgraphy.com
+        #ServerAlias services.gisgraphy.com
+        DocumentRoot /var/www-maintenance/
+
+        <Directory />
+                AllowOverride None
+                Options FollowSymLinks
+                Order allow,deny
+                Allow from all
+        </Directory>
+
+        <Directory /var/www-maintenance/>
+                Options Indexes FollowSymLinks MultiViews
+                Order allow,deny
+                allow from all
+        </Directory>
+
+
+
+
+       #LogLevel warn
+
+        CustomLog /var/log/apache2/access-maintenance.log combined
+        ErrorLog /var/log/apache2/error-maintenance.log
+
+        ServerSignature Off
+
+
+</VirtualHost>
+
 
 
 ###########################

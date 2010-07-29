@@ -43,7 +43,7 @@ h4:before {
 <body>
 
 <div><h1>Environement setup for Linux</h1>
-Before install and launch Gisgraphy, you must setup java, postgres, and  postgis. it is not, properly speaking, the installation of gisgraphy, and if you already have postgres, postgis and java installed (you needs JVM &gt;= 1.5) , you can go directly to the gisgraphy <a href="installgisgraphy.htm">installation guide</a>
+Before install and launch Gisgraphy, you must setup java, postgres, and  postgis. it is not, properly speaking, the installation of Gisgraphy, and if you already have postgres, postgis and java installed (you needs JVM &gt;= 1.5) , you can go directly to the gisgraphy <a href="installgisgraphy.htm">installation guide</a>
 
 <h2>Install and configure java / JVM</h2>
 <div class="tip greentip">
@@ -161,7 +161,7 @@ and give the new password you've just type
 <li>Check postgresql conf :</li>
 
 <div class=code>vim /etc/postgresql/8.3/main/pg_hba.conf</div>
-and edit it in order to have (at least) those 2 lines 
+and edit it in order to have (at least) those 2 lines (at the beginning of the file) : 
 <div class=code>
 <pre>
 local  all     all                                        ident sameuser
@@ -173,12 +173,12 @@ host   all     all    127.0.0.1         255.255.255.255   ident sameuser
 Connect to postgres to change the postgresql password :
 <div class=code>psql -d template1 -c "alter user postgres with password '<i>YOURPASSWORD</i>'"</div>
 Where 'YOURPASSWORD' is the password you wish to use for the user postgres<br/><br/>
-now you've changed the password for your postgresql user, we have to tell postgresql to use this password
+Now you've changed the password for your postgresql user, we have to tell postgresql to use this password
 <br/><br/>
 <li>Update postgres conf </li>
 Open a shell and Type : 
 <div class=code> vim /etc/postgresql/8.3/main/pg_hba.conf</div>
-and edit in order to have (at least) those two lines :
+And edit in order to have (at least) those two lines :
 <div class=code>
 <pre>
 local  all     all                                        password
@@ -187,7 +187,7 @@ host   all     all    127.0.0.1         255.255.255.255   password
 </div>
 
 <li>Restart postgres</li>
-we must restart postresql to take our changes into account :<br/>
+We must restart postresql to take our changes into account :<br/>
 Close your postgres 's Linux session, type :
  <div class=code>exit</div>
 Restart postgres : 
@@ -205,7 +205,7 @@ In order to know if Postgis is correctly install, open a PostgreSQL connection o
 </div>
 <h2>Define Linux settings</h2>
 <div>
-unix system define a maximum number of files that can be open. solr open a large number of files. to avoid message like "Too many open files" you must increase this limit.
+Unix system define a maximum number of files that can be open. solr open a large number of files. to avoid message like "Too many open files" you must increase this limit.
 open a shell and type 
 <div class="code">
 <pre>
@@ -213,7 +213,7 @@ sudo ulimit -n6000
 </pre>
 </div>
 <br/>
-will set the maximum number of open files to 6000.
+that will set the maximum number of open files to 6000.
 <br/>
 Sometimes this is not enough. and you have to edit the /etc/security/limits.conf file and add the two following lines :
 <div class="code">
@@ -222,9 +222,9 @@ Sometimes this is not enough. and you have to edit the /etc/security/limits.conf
 * soft nofile 20000
 </pre>
 </div>
-then close and re-open your unix session to take changes into account.<br/><br/>
+Then close and re-open your unix session to take changes into account.<br/><br/>
 <div class="tip greentip">
-type <code>ulimit -aH</code> in a shell to check if the value has been set
+Type <code>ulimit -aH</code> in a shell to check if the value has been set
 </div>
 <br/>
 <h2>And now...</h2>
