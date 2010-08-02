@@ -61,7 +61,7 @@ public class ResultTransformerUtil<T> {
 					gisFeatureDistance.updateFields();
 					results.add(gisFeatureDistance);
 					if (featureIdToZipCodesMap != null){
-					    gisFeatureDistance.setZipCodes(featureIdToZipCodesMap.get(gisFeatureDistance.getFeatureId()));
+					    gisFeatureDistance.setZipCodes(featureIdToZipCodesMap.get(gisFeatureDistance.getId()));
 					}
 				}
 			}

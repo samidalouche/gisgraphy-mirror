@@ -55,7 +55,8 @@ import com.vividsolutions.jts.geom.Point;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class GisFeatureDistance {
 
-    public static class GisFeatureDistanceBuilder {
+
+	public static class GisFeatureDistanceBuilder {
 
 	public static GisFeatureDistanceBuilder gisFeatureDistance() {
 	    return new GisFeatureDistanceBuilder();
@@ -72,6 +73,11 @@ public class GisFeatureDistance {
 	    return gisFeatureDistance;
 	}
 
+	public GisFeatureDistanceBuilder withId(Long id) {
+	    gisFeatureDistance.id = id;
+	    return this;
+	}
+	
 	public GisFeatureDistanceBuilder withName(String name) {
 	    gisFeatureDistance.name = name;
 	    return this;
@@ -273,6 +279,10 @@ public class GisFeatureDistance {
 
     @XmlTransient
     @Transient
+    private Long id;
+    
+    @XmlTransient
+    @Transient
     private GisFeature gisFeature;
 
     @XmlTransient
@@ -377,7 +387,8 @@ public class GisFeatureDistance {
 	this.distance = distance;
 	this.gisFeature = gisFeature;
 	if (gisFeature != null) {
-
+		
+		this.id= gisFeature.getId();
 	    this.adm1Code = gisFeature.getAdm1Code();
 	    this.adm2Code = gisFeature.getAdm2Code();
 	    this.adm3Code = gisFeature.getAdm3Code();
@@ -841,6 +852,13 @@ public class GisFeatureDistance {
 		} else if (!featureId.equals(other.featureId))
 			return false;
 		return true;
+	}
+
+	/**
+	 * @return the id
+	 */
+	public Long getId() {
+		return id;
 	}
 
 }

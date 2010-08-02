@@ -121,7 +121,7 @@ public class GisFeature {
 	populate(gisFeature);
     }
 
-    @IntrospectionIgnoredField
+   // @IntrospectionIgnoredField
     private Long id;
 
     private Long featureId;

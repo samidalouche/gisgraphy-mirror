@@ -39,7 +39,6 @@ import org.hibernate.FetchMode;
 import org.hibernate.Hibernate;
 import org.hibernate.HibernateException;
 import org.hibernate.Query;
-import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.hibernate.criterion.CriteriaQuery;
 import org.hibernate.criterion.Projection;
@@ -53,7 +52,6 @@ import org.hibernatespatial.GeometryUserType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Required;
-import org.springframework.jdbc.object.SqlQuery;
 import org.springframework.orm.hibernate3.HibernateCallback;
 import org.springframework.util.Assert;
 
@@ -198,7 +196,7 @@ public class GenericGisDao<T extends GisFeature> extends
 	Assert.notNull(point);
 	return (List<GisFeatureDistance>) this.getHibernateTemplate().execute(
 		new HibernateCallback() {
-		    
+
 		    public Object doInHibernate(Session session)
 			    throws PersistenceException {
 			Criteria criteria = session
@@ -222,8 +220,7 @@ public class GenericGisDao<T extends GisFeature> extends
 			criteria.setProjection(projections);
 			if (pointId != 0) {
 			    // remove The From Point
-			    criteria = criteria.add(Restrictions.ne("id",
-				    pointId));
+			    criteria = criteria.add(Restrictions.not(Restrictions.idEq(pointId)));
 			}
 			criteria.addOrder(new ProjectionOrder("distance"));
 
@@ -236,37 +233,37 @@ public class GenericGisDao<T extends GisFeature> extends
 						.getFieldsAsArray(requiredClass),
 					"distance");
 			
-			int featureIdPropertyIndexInAliasList=0;
+			int idPropertyIndexInAliasList=0;
 			for (int i=0;i<aliasList.length;i++){
-			    if (aliasList[i]=="featureId"){
-				featureIdPropertyIndexInAliasList = i;
+			    if (aliasList[i]=="id"){
+				idPropertyIndexInAliasList = i;
 				break;
 			    }
 			}
 			
 			
 			boolean hasZipCodesProperty = ZipCodesAware.class.isAssignableFrom(requiredClass);
-			Map<Long, List<String>> featureIdToZipCodesMap = null;
+			Map<Long, List<String>> idToZipCodesMap = null;
 			if (hasZipCodesProperty && queryResults.size()>0){
-			List<Long> featureIds = new ArrayList<Long>();
+			List<Long> ids = new ArrayList<Long>();
 			for (Object[] tuple: queryResults){
-			    featureIds.add((Long)tuple[featureIdPropertyIndexInAliasList]);
+			    ids.add((Long)tuple[idPropertyIndexInAliasList]);
 			}
-			String zipCodeQuery = "select code as code,gisfeature as gisfeature FROM "+ZipCode.class.getSimpleName().toLowerCase() +" zip where zip.gisfeature in (select id from  "+requiredClass.getSimpleName()+ " e where e.featureid in (:featureids))" ;
-			Query qry = session.createSQLQuery(zipCodeQuery).addScalar("code", Hibernate.STRING).addScalar("gisfeature", Hibernate.LONG);
+			String zipCodeQuery = "SELECT code as code,gisfeature as id FROM "+ZipCode.class.getSimpleName().toLowerCase() +" zip where zip.gisfeature in (:ids)" ;
+			Query qry = session.createSQLQuery(zipCodeQuery).addScalar("code", Hibernate.STRING).addScalar("id", Hibernate.LONG);
 			qry.setCacheable(true);
 
-			qry.setParameterList("featureids", featureIds);
+			qry.setParameterList("ids", ids);
 			List<Object[]> zipCodes = (List<Object[]>) qry.list();
 			
 			if (zipCodes.size() > 0) {
-			    featureIdToZipCodesMap = new HashMap<Long, List<String>>();
+			    idToZipCodesMap = new HashMap<Long, List<String>>();
 			    for (Object[] zipCode : zipCodes){
-				Long featureIdFromZipcode = (Long)zipCode[1];
-				List<String> zipCodesFromMap  = featureIdToZipCodesMap.get(featureIdFromZipcode);
+				Long idFromZipcode = (Long) zipCode[1];
+				List<String> zipCodesFromMap  = idToZipCodesMap.get(idFromZipcode);
 				if (zipCodesFromMap == null){
 				    List<String> zipCodesToAdd = new ArrayList<String>();
-				    featureIdToZipCodesMap.put(featureIdFromZipcode, zipCodesToAdd);
+				    idToZipCodesMap.put(idFromZipcode, zipCodesToAdd);
 				    zipCodesFromMap = zipCodesToAdd;
 				} 
 				zipCodesFromMap.add((String)zipCode[0]);
@@ -277,7 +274,7 @@ public class GenericGisDao<T extends GisFeature> extends
 			List<GisFeatureDistance> results = ResultTransformerUtil
 			.transformToGisFeatureDistance(
 					aliasList,
-				queryResults,featureIdToZipCodesMap);
+				queryResults,idToZipCodesMap);
 			return results;
 		    }
 		});
