@@ -39,6 +39,7 @@ import org.hibernate.FetchMode;
 import org.hibernate.Hibernate;
 import org.hibernate.HibernateException;
 import org.hibernate.Query;
+import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.hibernate.criterion.CriteriaQuery;
 import org.hibernate.criterion.Projection;
@@ -52,6 +53,7 @@ import org.hibernatespatial.GeometryUserType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Required;
+import org.springframework.jdbc.object.SqlQuery;
 import org.springframework.orm.hibernate3.HibernateCallback;
 import org.springframework.util.Assert;
 
@@ -196,7 +198,7 @@ public class GenericGisDao<T extends GisFeature> extends
 	Assert.notNull(point);
 	return (List<GisFeatureDistance>) this.getHibernateTemplate().execute(
 		new HibernateCallback() {
-
+		    
 		    public Object doInHibernate(Session session)
 			    throws PersistenceException {
 			Criteria criteria = session
@@ -217,20 +219,6 @@ public class GenericGisDao<T extends GisFeature> extends
 				SpatialProjection.distance_sphere(point,GisFeature.LOCATION_COLUMN_NAME).as(
 					"distance"));
 			
-			/*if (hasZipCodesProperty){
-				final Criteria zipCriteria = criteria.createCriteria("zipCodes","zipr");
-				projections.add(new SimpleProjection(){
-					public Type[] getTypes(Criteria criteria, CriteriaQuery criteriaQuery) throws HibernateException {
-						return new Type[] { Hibernate.STRING };
-					};
-					
-					public String toSqlString(Criteria criteria, int position, CriteriaQuery criteriaQuery) throws HibernateException {
-						String zipCodeColumn =  criteriaQuery.getColumn(zipCriteria, "code");
-						return zipCodeColumn+" as y"+position+"_";
-					}
-					
-				},"zipCodes");
-			}*/
 			criteria.setProjection(projections);
 			if (pointId != 0) {
 			    // remove The From Point
@@ -264,24 +252,24 @@ public class GenericGisDao<T extends GisFeature> extends
 			for (Object[] tuple: queryResults){
 			    featureIds.add((Long)tuple[featureIdPropertyIndexInAliasList]);
 			}
-			String zipCodeQuery = "FROM "+ZipCode.class.getSimpleName()+" zip where zip.gisFeature.id in (select id from  "+requiredClass.getSimpleName()+ " e where e.featureId in (:featureids))" ;
-			Query qry = session.createQuery(zipCodeQuery);
+			String zipCodeQuery = "select code as code,gisfeature as gisfeature FROM "+ZipCode.class.getSimpleName().toLowerCase() +" zip where zip.gisfeature in (select id from  "+requiredClass.getSimpleName()+ " e where e.featureid in (:featureids))" ;
+			Query qry = session.createSQLQuery(zipCodeQuery).addScalar("code", Hibernate.STRING).addScalar("gisfeature", Hibernate.LONG);
 			qry.setCacheable(true);
 
 			qry.setParameterList("featureids", featureIds);
-			List<ZipCode> zipCodes = (List<ZipCode>) qry.list();
+			List<Object[]> zipCodes = (List<Object[]>) qry.list();
 			
-			if (zipCodes.size() >=0) {
+			if (zipCodes.size() > 0) {
 			    featureIdToZipCodesMap = new HashMap<Long, List<String>>();
-			    for (ZipCode zipCode : zipCodes){
-				Long featureIdFromZipcode = zipCode.getGisFeature().getFeatureId();
+			    for (Object[] zipCode : zipCodes){
+				Long featureIdFromZipcode = (Long)zipCode[1];
 				List<String> zipCodesFromMap  = featureIdToZipCodesMap.get(featureIdFromZipcode);
 				if (zipCodesFromMap == null){
 				    List<String> zipCodesToAdd = new ArrayList<String>();
 				    featureIdToZipCodesMap.put(featureIdFromZipcode, zipCodesToAdd);
 				    zipCodesFromMap = zipCodesToAdd;
 				} 
-				zipCodesFromMap.add(zipCode.getCode());
+				zipCodesFromMap.add((String)zipCode[0]);
 			    }
 			}
 			
