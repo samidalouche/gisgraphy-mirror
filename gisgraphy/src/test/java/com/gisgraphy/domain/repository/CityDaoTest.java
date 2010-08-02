@@ -312,7 +312,7 @@ public class CityDaoTest extends AbstractIntegrationHttpSolrTestCase {
     }
 
     @Test
-    public void testgetNearestAndDistanceFromShouldReturnAfullFilledDTO() {
+    public void testGetNearestAndDistanceFromShouldReturnAfullFilledDTO() {
 	City p1 = geolocTestHelper
 		.createAndSaveCityWithFullAdmTreeAndCountry(1L);
 	p1.setAdm4Code("D4");
@@ -363,6 +363,26 @@ public class CityDaoTest extends AbstractIntegrationHttpSolrTestCase {
 
 	checkDistancePercentError(p1, results);
 
+    }
+    
+    @Test
+    public void testGetNearestAndDistanceFromShouldPaginateWhenThereIsMoreThanOneZipCodes() {
+	City p1 = GeolocTestHelper.createCity("paris", 48.86667F, 2.3333F, 1L);
+	City p2 = GeolocTestHelper.createCity("vanves", 48.82F, 2.289F, 2L);
+	City p3 = GeolocTestHelper.createCity("goussainville", 49.01667F,
+		2.46667F, 3L);
+	p2.addZipCode(new ZipCode("75000"));
+	p2.addZipCode(new ZipCode("75001"));
+	p2.addZipCode(new ZipCode("75002"));
+	this.cityDao.save(p1);
+	this.cityDao.save(p2);
+	this.cityDao.save(p3);
+	List<GisFeatureDistance> results = this.cityDao
+		.getNearestAndDistanceFrom(p1.getLocation(), 1000000, 1, 2);
+	assertEquals(2, results.size());
+	// check values and sorted
+	assertEquals(p1.getName(), results.get(0).getName());
+	assertEquals(p2.getName(), results.get(1).getName());
     }
 
     @Test

@@ -23,7 +23,9 @@
 package com.gisgraphy.domain.repository;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.persistence.PersistenceException;
 
@@ -54,6 +56,7 @@ import org.springframework.orm.hibernate3.HibernateCallback;
 import org.springframework.util.Assert;
 
 import com.gisgraphy.domain.geoloc.entity.GisFeature;
+import com.gisgraphy.domain.geoloc.entity.ZipCode;
 import com.gisgraphy.domain.geoloc.entity.ZipCodesAware;
 import com.gisgraphy.domain.geoloc.entity.event.EventManager;
 import com.gisgraphy.domain.geoloc.entity.event.GisFeatureDeleteAllEvent;
@@ -213,8 +216,8 @@ public class GenericGisDao<T extends GisFeature> extends
 				fieldList,true).add(
 				SpatialProjection.distance_sphere(point,GisFeature.LOCATION_COLUMN_NAME).as(
 					"distance"));
-			boolean hasZipCodes = ZipCodesAware.class.isAssignableFrom(requiredClass);
-			if (hasZipCodes){
+			
+			/*if (hasZipCodesProperty){
 				final Criteria zipCriteria = criteria.createCriteria("zipCodes","zipr");
 				projections.add(new SimpleProjection(){
 					public Type[] getTypes(Criteria criteria, CriteriaQuery criteriaQuery) throws HibernateException {
@@ -227,7 +230,7 @@ public class GenericGisDao<T extends GisFeature> extends
 					}
 					
 				},"zipCodes");
-			}
+			}*/
 			criteria.setProjection(projections);
 			if (pointId != 0) {
 			    // remove The From Point
@@ -237,17 +240,56 @@ public class GenericGisDao<T extends GisFeature> extends
 			criteria.addOrder(new ProjectionOrder("distance"));
 
 			criteria.setCacheable(true);
-			List<?> queryResults = criteria.list();
+			List<Object[]> queryResults = criteria.list();
 			
 			String[] aliasList = (String[]) ArrayUtils
 				.add(
 					IntrospectionHelper
 						.getFieldsAsArray(requiredClass),
 					"distance");
+			
+			int featureIdPropertyIndexInAliasList=0;
+			for (int i=0;i<aliasList.length;i++){
+			    if (aliasList[i]=="featureId"){
+				featureIdPropertyIndexInAliasList = i;
+				break;
+			    }
+			}
+			
+			
+			boolean hasZipCodesProperty = ZipCodesAware.class.isAssignableFrom(requiredClass);
+			Map<Long, List<String>> featureIdToZipCodesMap = null;
+			if (hasZipCodesProperty && queryResults.size()>0){
+			List<Long> featureIds = new ArrayList<Long>();
+			for (Object[] tuple: queryResults){
+			    featureIds.add((Long)tuple[featureIdPropertyIndexInAliasList]);
+			}
+			String zipCodeQuery = "FROM "+ZipCode.class.getSimpleName()+" zip where zip.gisFeature.id in (select id from  "+requiredClass.getSimpleName()+ " e where e.featureId in (:featureids))" ;
+			Query qry = session.createQuery(zipCodeQuery);
+			qry.setCacheable(true);
+
+			qry.setParameterList("featureids", featureIds);
+			List<ZipCode> zipCodes = (List<ZipCode>) qry.list();
+			
+			if (zipCodes.size() >=0) {
+			    featureIdToZipCodesMap = new HashMap<Long, List<String>>();
+			    for (ZipCode zipCode : zipCodes){
+				Long featureIdFromZipcode = zipCode.getGisFeature().getFeatureId();
+				List<String> zipCodesFromMap  = featureIdToZipCodesMap.get(featureIdFromZipcode);
+				if (zipCodesFromMap == null){
+				    List<String> zipCodesToAdd = new ArrayList<String>();
+				    featureIdToZipCodesMap.put(featureIdFromZipcode, zipCodesToAdd);
+				    zipCodesFromMap = zipCodesToAdd;
+				} 
+				zipCodesFromMap.add(zipCode.getCode());
+			    }
+			}
+			
+			}
 			List<GisFeatureDistance> results = ResultTransformerUtil
-				.transformToGisFeatureDistance(
-						aliasList,
-					queryResults,hasZipCodes);
+			.transformToGisFeatureDistance(
+					aliasList,
+				queryResults,featureIdToZipCodesMap);
 			return results;
 		    }
 		});

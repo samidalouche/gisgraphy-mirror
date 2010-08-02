@@ -40,11 +40,7 @@ public class RetryOnErrorTemplateTest {
 	RetryOnErrorTemplate<String> retryOnError = new RetryOnErrorTemplate<String>() {
 	    @Override
 	    public String tryThat() throws Exception {
-
-		if (true) {
 		    throw new GisgraphyCommunicationException();
-		}
-		return "will never be return";
 	    }
 	};
 	try {

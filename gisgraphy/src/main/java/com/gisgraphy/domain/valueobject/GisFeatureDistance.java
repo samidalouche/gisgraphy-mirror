@@ -669,6 +669,15 @@ public class GisFeatureDistance {
 	 }
 	 this.zipCodes.add(zipCode);//TODO tests zip test this and remove builder.
     }
+    
+
+    /**
+     * Set the zipcodes
+     * @param zipCodes the zipcodes to add
+     */
+    public void setZipCodes(List<String> zipCodes) { 
+	 this.zipCodes = zipCodes;//TODO tests zip test this and remove builder.
+    }
 
     /**
      * @return the placeType

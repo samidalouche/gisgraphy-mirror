@@ -34,6 +34,7 @@ import javax.persistence.SequenceGenerator;
 
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
+import org.hibernate.annotations.Index;
 
 /**
  * Represents a {@link ZipCode}.
@@ -118,6 +119,7 @@ public class ZipCode {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(nullable = true, name = "gisFeature")
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+    @Index(name = "zipcodefeatureidindex")
     public GisFeature getGisFeature(){
     	return this.gisFeature;
     }

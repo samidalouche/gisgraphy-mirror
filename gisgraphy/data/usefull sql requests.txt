@@ -103,9 +103,9 @@ select countrycode||'.zip' from country_work order by id ;
         this_.location as y4_,
         this_.countryCode as y5_,
         this_.length as y6_,
-        distance_sphere(GeometryFromText( 'POINT(  6.941274642944336 50.915584564208984)',4326),ST_line_interpolate_point(this_.shape),
-        st_line_locate_point((this_.shape),GeometryFromText( 'POINT(  6.941274642944336 50.915584564208984)',4326))
-        )) as y7_
+        distance_sphere(GeometryFromText( 'POINT(  6.941274642944336 50.915584564208984)',4326),line_interpolate_point(this_.shape,
+        st_line_locate_point((this_.shape),GeometryFromText( 'POINT(  6.941274642944336 50.915584564208984)',4326)
+        )))as y7_
     from
         OpenStreetMap this_ 
     where

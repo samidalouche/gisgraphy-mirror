@@ -46,28 +46,22 @@ public class ResultTransformerUtil<T> {
 	 * @return the list of GisFeatureDistance
 	 */
 	//TODO tests zip test
-	public static List<GisFeatureDistance> transformToGisFeatureDistance(String aliasList[], List<?> resultList, boolean withZipCode) {
+	public static List<GisFeatureDistance> transformToGisFeatureDistance(String aliasList[], List<?> resultList, Map<Long, List<String>> featureIdToZipCodesMap) {
 		List<GisFeatureDistance> results = new ArrayList<GisFeatureDistance>();
 		if (aliasList != null && !resultList.isEmpty()) {
 			ResultTransformer tr = new AliasToBeanResultTransformer(GisFeatureDistance.class);
 			Iterator<?> it = resultList.iterator();
 			Object[] obj;
+			GisFeatureDistance gisFeatureDistance;
 			while (it.hasNext()) {
 				obj = (Object[]) it.next();
-				GisFeatureDistance gisFeatureDistance = (GisFeatureDistance) tr.transformTuple(obj, aliasList);
+				gisFeatureDistance = (GisFeatureDistance) tr.transformTuple(obj, aliasList);
 				int indexInList = results.indexOf(gisFeatureDistance);
 				if (indexInList == -1) {
 					gisFeatureDistance.updateFields();
-					if (withZipCode) {
-						gisFeatureDistance.addZipCode((String) obj[obj.length - 1]);
-					}
 					results.add(gisFeatureDistance);
-				} else {
-					//gisfeaturedistance is already in the list,
-					//so the tuple is here due to the joiture, we update the zipcode
-					if (withZipCode) {
-						GisFeatureDistance gisFeatureDistanceInList = results.get(indexInList);
-						gisFeatureDistanceInList.addZipCode((String) obj[obj.length - 1]);
+					if (featureIdToZipCodesMap != null){
+					    gisFeatureDistance.setZipCodes(featureIdToZipCodesMap.get(gisFeatureDistance.getFeatureId()));
 					}
 				}
 			}

@@ -126,13 +126,8 @@ public class GeonamesAdm2Importer extends AbstractImporterProcessor {
 	    // try to get the parent Adm1
 
 	    Adm adm1 = null;
-	    if (false) {
-		adm1 = this.admDao.suggestMostAccurateAdm(countryCode,
-			adm1Code, null, null, null, null);
-		logger.debug("suggested Adm=" + adm1);
-	    } else {
+	   
 		adm1 = this.admDao.getAdm1(countryCode, adm1Code);
-	    }
 
 	    // if found add to Adm1Childs
 	    if (adm1 == null) {
