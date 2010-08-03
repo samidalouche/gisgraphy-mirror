@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <results xmlns="http://gisgraphy.com">
+	<numFound>10</numFound>
+	<QTime>379</QTime>
 	<result>
 		<distance>0.0</distance>
 		<name>Paris</name>
@@ -283,6 +285,4 @@
 
 		<country_flag_url>/images/flags/FR.png</country_flag_url>
 	</result>
-	<numFound>10</numFound>
-	<QTime>379</QTime>
 </results>
