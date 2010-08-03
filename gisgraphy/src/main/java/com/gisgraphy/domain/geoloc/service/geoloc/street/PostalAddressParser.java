@@ -51,7 +51,7 @@ public class PostalAddressParser {
      * @return the object with the field extracting
      */
     public Address parse(String address,String countryCode){
-	List<Pattern> patterns = AddressRegexpsByCountryCode.get(countryCode);
+	List<Pattern> patterns = AddressRegexpsByCountryCode.get(countryCode.toLowerCase());
 	if (patterns == null){
 	    throw new RuntimeException("Can not get regexp for "+countryCode);
 	}
@@ -62,8 +62,7 @@ public class PostalAddressParser {
 	      String streetName = matcher.group(2).trim();
 	      String zipCode = matcher.group(3).trim();
 	      String city = matcher.group(4).trim();
-	      
-	     return createAdressFromnumberStreetZipCity(streetNumber,streetName,zipCode,city);
+	     return createAdressFromNumberStreetZipCity(streetNumber,streetName,zipCode,city);
 	           
 	   }
 	}
@@ -72,7 +71,7 @@ public class PostalAddressParser {
     }
 
     
-    protected Address createAdressFromnumberStreetZipCity(String streetNumber,String streetName,String zipCode,String city){
+    protected Address createAdressFromNumberStreetZipCity(String streetNumber,String streetName,String zipCode,String city){
 	Address address = new Address();
 	address.setStreetNumber(streetNumber);
 	address.setStreetName(streetName);
