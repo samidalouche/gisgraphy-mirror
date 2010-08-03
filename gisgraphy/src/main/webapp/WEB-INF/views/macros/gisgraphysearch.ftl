@@ -261,8 +261,7 @@
 			{
 			  try{	
 			  navigator.geolocation.getCurrentPosition(fillPosition);
-			 } catch (e) {
-			alert(e);}
+			 } catch (e) {}
 			}
 			displayMyPositionLink();
 			</script>
