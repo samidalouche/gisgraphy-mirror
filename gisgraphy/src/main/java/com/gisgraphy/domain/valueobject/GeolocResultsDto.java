@@ -41,11 +41,10 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class GeolocResultsDto {
 
+    private int numFound = 0;
+    private Long QTime = null;
     private List<GisFeatureDistance> result;
 
-    private int numFound = 0;
-
-    private Long QTime = null;
 
     /**
      * @param result
