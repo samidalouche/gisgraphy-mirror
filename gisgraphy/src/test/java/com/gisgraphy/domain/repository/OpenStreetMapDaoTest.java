@@ -89,7 +89,6 @@ public class OpenStreetMapDaoTest extends AbstractIntegrationHttpSolrTestCase{
 	
 	//we create a multilineString a little bit closest than the first one 
 	OpenStreetMap streetOSM2 = new OpenStreetMap();
-	String[] wktLineStrings2={"LINESTRING (6.9416088 50.9154239,6.9410001 50.9154734)"};
 	LineString shape2 = GeolocHelper.createLineString("LINESTRING (6.9416088 50.9154239,6.9410001 50.9154734)");
 	shape2.setSRID(SRID.WGS84_SRID.getSRID());
 	

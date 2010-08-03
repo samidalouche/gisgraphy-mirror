@@ -40,9 +40,9 @@ public class DistanceOrderTest  {
 		criteriaQuery.getSQLAlias((Criteria) EasyMock.anyObject()))
 		.andReturn("alias ").once();
 	EasyMock.replay(criteriaQuery);
-	DistanceOrder dorder = new DistanceOrder(GeolocTestHelper.createPoint(
+	DistanceOrder distanceOrder = new DistanceOrder(GeolocTestHelper.createPoint(
 		3F, 4F), true);
-	String sqlString = dorder.toSqlString(null, criteriaQuery);
+	String sqlString = distanceOrder.toSqlString(null, criteriaQuery);
 	assertTrue(sqlString.contains("asc"));
 	assertTrue(sqlString.contains("distance_sphere"));
 	EasyMock.verify(criteriaQuery);

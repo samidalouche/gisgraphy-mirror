@@ -49,8 +49,8 @@ import com.gisgraphy.domain.geoloc.entity.Adm;
 import com.gisgraphy.helper.FeatureClassCodeHelper;
 
 /**
- * @author <a href="mailto:david.masclet@gisgraphy.com">David Masclet</a> Useful
- *         methods for importer
+ * Useful methods for importer
+ * @author <a href="mailto:david.masclet@gisgraphy.com">David Masclet</a> 
  */
 public class ImporterHelper {
 

@@ -30,27 +30,16 @@ import org.hibernate.criterion.Criterion;
 import org.hibernate.engine.TypedValue;
 
 import com.gisgraphy.domain.geoloc.entity.GisFeature;
-import com.gisgraphy.helper.GeolocHelper;
-import com.vividsolutions.jts.geom.Point;
 import com.vividsolutions.jts.geom.Polygon;
 
 /**
  * An implementation of the <code>Criterion</code> interface that implements
- * distance restriction
+ *  restriction for a psql intersects restriction
  * 
  * @author <a href="mailto:david.masclet@gisgraphy.com">David Masclet</a>
  */
 public class IntersectsRestriction implements Criterion {
 
-    /**
-     * Point we have to calculate the distance from
-     */
-    private Point point = null;
-
-    /**
-     * The distance restriction
-     */
-    private double distance;
 
     private Polygon polygon;
 
@@ -60,15 +49,18 @@ public class IntersectsRestriction implements Criterion {
 
     private static final long serialVersionUID = 1L;
 
+
     /**
-     * @param point
-     *                Point we have to calculate the distance from
-     * @param distance
-     *                The distance restriction
-     * @param useIndex
-     *                Wether we must use index or not
+     * @param columnName the name of the column that hold GIS information (typically shape column)
+     * @param polygon The shape we want to see if the column data intersects
      */
     public IntersectsRestriction(String columnName, Polygon polygon) {
+	if (columnName == null){
+	    throw new IllegalArgumentException("collumname is required  for IntersectsRestriction");
+	}
+	if (polygon == null){
+	    throw new IllegalArgumentException("polygon is required  for IntersectsRestriction");
+	}
 	this.columnName = columnName;
 	this.polygon = polygon;
     }
