@@ -1,2 +1,2 @@
 it has been reported that on unix/linux,unzip files sometimes makes errors. if y
-ou've got some problems, please use the one given here (the unzip file above)
+ou've got some problems, please use the one given here (the unzip file above). if you are on Mac, please use stuffit expander
