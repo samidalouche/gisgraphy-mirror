@@ -46,7 +46,6 @@ public class FulltextResultsDto {
 
     private final static List<SolrResponseDto> DEFAULT_RESULTS = new ArrayList<SolrResponseDto>();
 
-    private List<SolrResponseDto> results = DEFAULT_RESULTS;
 
     private long numFound = 0;
 
@@ -58,10 +57,11 @@ public class FulltextResultsDto {
 
     private int QTime = 0;
 
-
     private int resultsSize = 0;
 
     private Float maxScore = 0F;
+
+    private List<SolrResponseDto> results = DEFAULT_RESULTS;
 
     /**
      * @param response
