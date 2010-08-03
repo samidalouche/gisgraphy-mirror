@@ -98,7 +98,7 @@ To make the installation easier, you can run the following lines in a terminal (
  </div>
 <div>
 <br/>
-You can see installation note <a href="http://www.kyngchaos.com/software:postgres" target="_blank">here</a>
+
 <br/><br/>
 <h3>Configure memory</h3>
 Postgres need a lot of shared memory to run on Macintosh (<a href="http://www.spy-hill.net/help/apple/SharedMemory.html" target="_blank">read more</a>), so you need to increase it. Run the following lines in a terminal (it is in the Applications -> Utilities folder) :
@@ -118,7 +118,7 @@ kern.sysv.shmmax=16777216
 </div>
 </div>
 <h3>Initialize the server</h3>
-Then you need to create a directory, give the correct rights and use this folder to store the database :
+Some times The installation is partial ( it is a <a href="http://www.kyngchaos.com/software:postgres" target="_blank">known issue</a>) and you need to create a directory, give the correct rights and use this folder to store the database :
 <div class=code>
 <pre>
 #Change postgres (mac) user :
@@ -149,7 +149,7 @@ And give the new password you've given at the last step.
 <br/>
 
 <li>Define the postgres (postgresql) user's password</li>
-<div class=code>psql -d template1 -c "alter user postgres with password '<i>YOURPASSWORD</i>'"</div>
+<div class=code>/usr/local/pgsql/bin/psql -d template1 -c "alter user postgres with password '<i>YOURPASSWORD</i>'"</div>
 Where 'YOURPASSWORD' is the password you wish to use for the user postgres of postgreSQL<br/><br/>
 
 <div class="tip yellowtip">

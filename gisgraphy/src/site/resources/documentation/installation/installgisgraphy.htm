@@ -60,15 +60,15 @@ Before install and launch Gisgraphy, you must setup java (you needs JVM &gt;= 1.
 <div class=code>
 <pre>
 #create tables;
-psql -U<i>YOURUSER</i> -d gisgraphy -f /path/to/file/create_tables.sql
+psql -U<i>YOURUSER</i> -d gisgraphy -h YOURIP -f /path/to/file/create_tables.sql
  
 </pre> 
-Where YOURUSER is a postgresql user with admin rights,YOURIP is the ip adress of your server(127.0.0.1 in most case) and YOURPOSTGRESVERSION is your postgres version (8.3 in this tutorial) <br/>
+Where YOURUSER is a postgresql user with admin rights, YOURIP is the ip adress of your server(127.0.0.1 in most case) <br/>
 </div>
 <br/>
 Then insert users (...for the admin interface,... you don't have to log to use gisgraphy webservices) in the database. A script called insert-users.sql is provided with two default users: one with admin rights and one with simple rights.
 <div class="code">
-psql -U<i>YOURPOSTGRESQLUSER</i> -d gisgraphy -f /path/to/file/insert_users.sql <br/>
+psql -U<i>YOURPOSTGRESQLUSER</i> -d gisgraphy -h YOURIP -f /path/to/file/insert_users.sql <br/>
 </div>
 <br/>
 <div class="tip greentip">
