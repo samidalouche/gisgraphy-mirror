@@ -22,17 +22,10 @@
  *******************************************************************************/
 package com.gisgraphy.domain.geoloc.entity;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.OneToMany;
 
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
 
 /**
  * Represents a city subdivision Object
@@ -42,8 +35,7 @@ import org.hibernate.annotations.FetchMode;
 @Entity
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 public class CitySubdivision extends GisFeature implements ZipCodesAware {
-    private List<ZipCode> zipCodes;
-
+    
     /**
      * Constructor that populate the {@link CitySubdivision} with the gisFeature
      * fields<br>

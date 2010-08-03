@@ -13,7 +13,7 @@
 			</action>
 		</release>
 
-		<release version="2.0" date="2008-09-02"
+		<release version="2.0" date="2010-08-03"
 			description="second release">
 			<action dev="David Masclet" type="update">
 				Add the ability to import openstreetmap database and use them in a web services

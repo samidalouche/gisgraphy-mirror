@@ -41,7 +41,7 @@
         <p>
           The import is long because :
           <ul>
-          <li>There are a lot of features to import (more than 34 Millions)</li> 
+          <li>There are a lot of features to import (more than 42 Millions)</li> 
           <li>Gisgraphy try to do error correction to detect the correct ADM, and a lot of request is made to the database for each line. this is the "price to pay" to have a parent/child ADM tree</li>
           <li>for each feature or alternate names imported, the fulltext engine is synchronized</li>
           </ul>  
