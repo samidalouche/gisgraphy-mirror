@@ -256,6 +256,7 @@ public class ImporterManager implements IImporterManager {
 	    }
 	    importerStatusListDao.delete();
 	    this.inProgress = false;
+	    tempDir.delete();
 	return warningAndErrorMessage;
 
     }

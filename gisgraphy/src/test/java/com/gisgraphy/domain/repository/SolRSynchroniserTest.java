@@ -959,6 +959,10 @@ public class SolRSynchroniserTest extends AbstractIntegrationHttpSolrTestCase {
 			+ "'][.='"+adm.getAdm2Code()+"']"
 		
 	);
+
+	// delete temp dir
+	assertTrue("the tempDir has not been deleted", GeolocTestHelper
+		.DeleteNonEmptyDirectory(tempDir));
     }
 
     private QueryResponse searchInFulltextSearchEngine(String searchWords) {

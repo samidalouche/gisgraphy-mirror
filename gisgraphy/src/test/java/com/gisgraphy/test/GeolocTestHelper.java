@@ -317,6 +317,7 @@ public class GeolocTestHelper {
 		}
 	    }
 	}
+	path.delete();
 	return (path.delete());
     }
 

@@ -167,7 +167,7 @@ public class DatabaseHelper extends HibernateDaoSupport implements IDatabaseHelp
 	    FileLineFilter filter = new FileLineFilter(DatabaseHelper.TABLES_NAME_THAT_MUST_BE_KEPT_WHEN_RESETING_IMPORT);
 	    filter.filter(fileToBeFiltered, outputFile);
 	    fileToBeFiltered.delete();
-	    
+	    tempDir.delete();
 	}
 
 	public void generateSqlDropSchemaFileToRerunImport(File outputFile) {
@@ -178,6 +178,7 @@ public class DatabaseHelper extends HibernateDaoSupport implements IDatabaseHelp
 	    FileLineFilter filter = new FileLineFilter(DatabaseHelper.TABLES_NAME_THAT_MUST_BE_KEPT_WHEN_RESETING_IMPORT);
 	    filter.filter(fileToBeFiltered, outputFile);
 	    fileToBeFiltered.delete();
+	    tempDir.delete();
 	}
 
 	/* (non-Javadoc)

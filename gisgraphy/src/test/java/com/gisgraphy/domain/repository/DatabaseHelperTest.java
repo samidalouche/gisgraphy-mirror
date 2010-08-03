@@ -48,6 +48,7 @@ public class DatabaseHelperTest extends AbstractTransactionalTestCase {
 	databaseHelper.dropNormalize_textFunction();
     }
 
+    @Test
     public void testExecuteFileSuccess() throws Exception {
 	File tempDir = FileHelper.createTempDir(this.getClass().getSimpleName());
 	File file = new File(tempDir.getAbsolutePath() + System.getProperty("file.separator") + "sqlErrorFile.sql");
@@ -81,6 +82,7 @@ public class DatabaseHelperTest extends AbstractTransactionalTestCase {
 	Assert.assertTrue("the tempDir has not been deleted", GeolocTestHelper.DeleteNonEmptyDirectory(tempDir));
     }
 
+    @Test
     public void testExecuteFileFailureWithContinueOnError() throws Exception {
 	File tempDir = FileHelper.createTempDir(this.getClass().getSimpleName());
 	File file = new File(tempDir.getAbsolutePath() + System.getProperty("file.separator") + "sqlErrorFile.sql");
@@ -184,7 +186,7 @@ public class DatabaseHelperTest extends AbstractTransactionalTestCase {
     }
     
     @Test
-    public void testExecuteSqlDropSchemaFileToRerunImportAndCreateShouldNotThrows() throws Exception{
+    public void testExecuteSqlDropSchemaFileToRerunImportAndCreateShouldNotThrows() throws Exception {
 	File tempDir = FileHelper.createTempDir(this.getClass().getSimpleName());
 	File fileDrop = new File(tempDir.getAbsolutePath() + System.getProperty("file.separator") + "dropTablesToRerunImport.sql");
 	databaseHelper.generateSqlDropSchemaFileToRerunImport(fileDrop);
@@ -195,6 +197,7 @@ public class DatabaseHelperTest extends AbstractTransactionalTestCase {
 	List<String> createErrors = databaseHelper.execute(fileCreate,true);
 	Assert.assertTrue("the drop Database script has generate "+dropErrors.size()+" errors : "+concatenateErrors(dropErrors),dropErrors.isEmpty());
 	Assert.assertTrue("the create Database script has generate "+createErrors.size()+" errors : "+concatenateErrors(createErrors),createErrors.isEmpty());
+	Assert.assertTrue("the tempDir has not been deleted", GeolocTestHelper.DeleteNonEmptyDirectory(tempDir));
     }
     
     private String concatenateErrors(List<String> errorsList){
