@@ -7,7 +7,7 @@
     <script type="text/javascript" src="<c:url value='/scripts/selectbox.js'/>"></script>
 </head>
 
-<s:form name="userForm" action="saveUser" method="post" validate="true">
+<s:form name="userForm" action="saveUser" method="post" validate="false">
     <li style="display: none">
         <s:hidden key="user.id"/>
         <s:hidden key="user.version"/>
