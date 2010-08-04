@@ -22,7 +22,6 @@
  *******************************************************************************/
 package com.gisgraphy.domain.geoloc.entity;
 
-import java.util.List;
 
 /**
  * @author <a href="mailto:david.masclet@gisgraphy.com">David Masclet</a>

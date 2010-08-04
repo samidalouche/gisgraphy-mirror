@@ -39,7 +39,6 @@ import com.gisgraphy.domain.geoloc.entity.Country;
 import com.gisgraphy.domain.geoloc.entity.GisFeature;
 import com.gisgraphy.domain.geoloc.entity.Language;
 import com.gisgraphy.domain.geoloc.entity.ZipCode;
-import com.gisgraphy.domain.geoloc.entity.ZipCodesAware;
 import com.gisgraphy.domain.geoloc.entity.event.GisFeatureDeleteAllEvent;
 import com.gisgraphy.domain.geoloc.entity.event.GisFeatureDeletedEvent;
 import com.gisgraphy.domain.geoloc.entity.event.GisFeatureStoredEvent;

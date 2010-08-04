@@ -39,7 +39,6 @@ import com.gisgraphy.domain.geoloc.entity.AlternateName;
 import com.gisgraphy.domain.geoloc.entity.Country;
 import com.gisgraphy.domain.geoloc.entity.GisFeature;
 import com.gisgraphy.domain.geoloc.entity.ZipCode;
-import com.gisgraphy.domain.geoloc.entity.ZipCodesAware;
 import com.gisgraphy.domain.repository.IAdmDao;
 import com.gisgraphy.domain.repository.IAlternateNameDao;
 import com.gisgraphy.domain.repository.ICityDao;

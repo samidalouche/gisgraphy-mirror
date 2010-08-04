@@ -34,7 +34,6 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.criterion.Projection;
 import org.hibernate.criterion.Restrictions;
-import org.hibernatespatial.criterion.SpatialRestrictions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

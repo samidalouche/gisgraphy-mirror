@@ -86,7 +86,6 @@ import com.gisgraphy.domain.valueobject.Pagination;
 import com.gisgraphy.domain.valueobject.Output.OutputFormat;
 import com.gisgraphy.domain.valueobject.Output.OutputStyle;
 import com.gisgraphy.helper.FileHelper;
-import com.gisgraphy.helper.URLUtils;
 import com.gisgraphy.test.FeedChecker;
 import com.gisgraphy.test.GeolocTestHelper;
 //test class that really must be splitted, refactored, and unit tested vs integration tested

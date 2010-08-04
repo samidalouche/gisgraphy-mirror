@@ -34,7 +34,6 @@ import javax.persistence.SequenceGenerator;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.Index;
-import org.hibernate.annotations.IndexColumn;
 import org.hibernate.annotations.Type;
 
 import com.gisgraphy.domain.geoloc.service.fulltextsearch.StreetSearchMode;

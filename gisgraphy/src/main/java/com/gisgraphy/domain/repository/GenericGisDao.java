@@ -35,17 +35,11 @@ import org.apache.solr.client.solrj.SolrServerException;
 import org.apache.solr.client.solrj.response.QueryResponse;
 import org.apache.solr.common.SolrDocument;
 import org.hibernate.Criteria;
-import org.hibernate.FetchMode;
 import org.hibernate.Hibernate;
-import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.hibernate.Session;
-import org.hibernate.criterion.CriteriaQuery;
-import org.hibernate.criterion.Projection;
 import org.hibernate.criterion.ProjectionList;
-import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
-import org.hibernate.criterion.SimpleProjection;
 import org.hibernate.type.CustomType;
 import org.hibernate.type.Type;
 import org.hibernatespatial.GeometryUserType;
@@ -75,7 +69,6 @@ import com.gisgraphy.hibernate.criterion.ProjectionOrder;
 import com.gisgraphy.hibernate.criterion.ResultTransformerUtil;
 import com.gisgraphy.hibernate.projection.ProjectionBean;
 import com.gisgraphy.hibernate.projection.SpatialProjection;
-import com.ibm.icu.lang.UCharacter.JoiningType;
 import com.vividsolutions.jts.geom.Point;
 
 /**

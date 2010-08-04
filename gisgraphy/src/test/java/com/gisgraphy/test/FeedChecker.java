@@ -43,7 +43,6 @@ import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
 
 import com.gisgraphy.domain.geoloc.entity.City;
-import com.gisgraphy.domain.geoloc.entity.ZipCodesAware;
 import com.gisgraphy.domain.valueobject.Constants;
 import com.gisgraphy.domain.valueobject.GeolocResultsDto;
 import com.gisgraphy.domain.valueobject.GisFeatureDistance;

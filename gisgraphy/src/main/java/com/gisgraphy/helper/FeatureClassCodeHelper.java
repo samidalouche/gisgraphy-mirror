@@ -22,8 +22,6 @@
  *******************************************************************************/
 package com.gisgraphy.helper;
 
-import javax.persistence.Transient;
-
 import com.gisgraphy.domain.geoloc.entity.Adm;
 import com.gisgraphy.domain.geoloc.entity.City;
 import com.gisgraphy.domain.geoloc.entity.Country;
