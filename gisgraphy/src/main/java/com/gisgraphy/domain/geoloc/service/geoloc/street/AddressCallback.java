@@ -32,7 +32,7 @@ public interface AddressCallback {
      * create an address from an array of string 
      * @param strings a list of string, the signification of each strings depends on the country
      * e.g : for france the first one will be the number, for us, it will be the street name, and so on 
-     * @return
+     * @return the full filled address
      */
     public Address createAdresss(String...strings);
 }
