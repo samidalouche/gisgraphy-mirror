@@ -214,7 +214,12 @@ public class OpenStreetMapFileRetrieverTest {
     
     @Test
     public void StatusShouldBeEqualsToSkipedIfRetrieveFileIsFalse(){
-	OpenStreetMapFileRetriever openStreetMapFileRetriever = new OpenStreetMapFileRetriever();
+	OpenStreetMapFileRetriever openStreetMapFileRetriever = new OpenStreetMapFileRetriever(){
+	    @Override
+	    public void decompressFiles() throws IOException {
+	       return;
+	    }
+	};
 	openStreetMapFileRetriever.setInternationalisationService(createMockInternationalisationService());
 	ImporterConfig importerConfig = new ImporterConfig();
 	importerConfig.setOpenstreetmapImporterEnabled(false);

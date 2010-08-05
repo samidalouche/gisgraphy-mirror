@@ -514,7 +514,7 @@ public abstract class AbstractImporterProcessor implements IImporterProcessor {
      * 
      * @see com.gisgraphy.domain.geoloc.importer.IGeonamesProcessor#getReadFileLine()
      */
-    public int getReadFileLine() {
+    public long getReadFileLine() {
 	return this.readFileLine;
     }
 
@@ -523,7 +523,7 @@ public abstract class AbstractImporterProcessor implements IImporterProcessor {
      * 
      * @see com.gisgraphy.domain.geoloc.importer.IGeonamesProcessor#getTotalReadedLine()
      */
-    public int getTotalReadLine() {
+    public long getTotalReadLine() {
 	return this.totalReadLine;
     }
 
@@ -589,7 +589,7 @@ public abstract class AbstractImporterProcessor implements IImporterProcessor {
      * 
      * @see com.gisgraphy.domain.geoloc.importer.IGeonamesProcessor#getNumberOfLinesToProcess()
      */
-    public int getNumberOfLinesToProcess() {
+    public long getNumberOfLinesToProcess() {
 	if (this.numberOfLinesToProcess == 0 && this.status == ImporterStatus.PROCESSING) {
 	    // it may not have been calculated yet
 	    this.numberOfLinesToProcess = countLines();

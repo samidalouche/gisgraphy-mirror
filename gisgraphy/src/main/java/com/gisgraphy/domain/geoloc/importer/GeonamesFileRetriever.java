@@ -26,6 +26,7 @@
 package com.gisgraphy.domain.geoloc.importer;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -56,6 +57,8 @@ public class GeonamesFileRetriever extends AbstractFileRetriever {
 	return importerConfig.getGeonamesDownloadURL();
     }
 
+
+    
     /*
      * (non-Javadoc)
      * 
@@ -63,8 +66,8 @@ public class GeonamesFileRetriever extends AbstractFileRetriever {
      * com.gisgraphy.domain.geoloc.importer.AbstractFileRetriever#decompressFiles
      * ()
      */
-    public void decompressFiles() {
-	File[] filesToUnZip = ImporterHelper.listZipFiles(getDownloadDirectory());
+    public void decompressFiles() throws IOException  {
+	File[] filesToUnZip = getFilesToDecompress();
 	for (int i = 0; i < filesToUnZip.length; i++) {
 	    ImporterHelper.unzipFile(filesToUnZip[i]);
 	}
@@ -95,6 +98,11 @@ public class GeonamesFileRetriever extends AbstractFileRetriever {
     @Override
     List<String> getFilesToDownload() {
 	return importerConfig.getGeonamesDownloadFilesListFromOption();
+    }
+
+    @Override
+    public File[] getFilesToDecompress() throws IOException {
+	return ImporterHelper.listZipFiles(getDownloadDirectory());
     }
 
 }

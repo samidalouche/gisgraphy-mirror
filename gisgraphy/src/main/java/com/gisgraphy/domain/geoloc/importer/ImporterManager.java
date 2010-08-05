@@ -149,7 +149,7 @@ public class ImporterManager implements IImporterManager {
 	    }
 	} catch (RuntimeException e) {
 	    logger.error("Can not retrieve or process statusDtoList : "
-		    + e.getMessage());
+		    + e.getMessage(),e);
 	    return new ArrayList<ImporterStatusDto>();
 	}
     }

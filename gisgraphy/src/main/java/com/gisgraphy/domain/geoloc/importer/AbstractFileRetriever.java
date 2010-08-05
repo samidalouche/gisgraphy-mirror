@@ -61,6 +61,8 @@ public abstract class AbstractFileRetriever implements IImporterProcessor {
 
     protected String statusMessage = "";
     
+    private long fileSizeToDownloadCached =0;
+    
     
     /**
      * The logger
@@ -129,6 +131,12 @@ public abstract class AbstractFileRetriever implements IImporterProcessor {
      * @throws IOException
      */
     public abstract void decompressFiles() throws IOException ;
+    
+    /**
+     * return an array of file that are to be decompressed
+     * @throws IOException
+     */
+    public abstract File[] getFilesToDecompress() throws IOException ;
 
     /** 
      * @return The directory where the file should be downloaded
@@ -147,12 +155,35 @@ public abstract class AbstractFileRetriever implements IImporterProcessor {
      * 
      * @see com.gisgraphy.domain.geoloc.importer.IGeonamesProcessor#getReadFileLine()
      */
-    public int getReadFileLine() {
-	return 0;
+    public long getReadFileLine() {
+	File file = new File( getDownloadDirectory() + this.currentFileName);
+	if (!file.exists() || !file.isFile()){
+	    return 0;
+	}
+	return new Long(file.length());
     }
 
-    public int getTotalReadLine() {
-	return this.fileIndex;
+    /* (non-Javadoc)
+     * @see com.gisgraphy.domain.geoloc.importer.IImporterProcessor#getTotalReadLine()
+     */
+    public long getTotalReadLine() {
+	if (ImporterStatus.SKIPPED.equals(status) || ImporterStatus.WAITING.equals(status)){
+	    return 0;
+	}
+	File[] downloadedFiles;
+	try {
+	    downloadedFiles = getFilesToDecompress();
+	} catch (IOException e) {
+	    logger.error("Can not retrieve files to decompress to calculate alredy downloaded file "+ e.getMessage(),e);
+	   return -1;
+	}
+	long cumulatedSize = 0;
+	for (File file : downloadedFiles) {
+	    if (file.exists() && file.isFile()){
+		cumulatedSize = cumulatedSize+file.length();
+	    }
+	}
+	return cumulatedSize;
     }
 
     /*
@@ -161,15 +192,27 @@ public abstract class AbstractFileRetriever implements IImporterProcessor {
      * @see com.gisgraphy.domain.geoloc.importer.IGeonamesProcessor#getCurrentFile()
      */
     public String getCurrentFileName() {
-
 	if (this.currentFileName != null) {
 	    return this.currentFileName;
 	}
 	return "?";
     }
 
-    public int getNumberOfLinesToProcess() {
-	return this.numberOfFileToDownload;
+    public long getNumberOfLinesToProcess() {
+	if (fileSizeToDownloadCached==0){
+	List<String> downloadFileList = getFilesToDownload();
+	long cumulatedSize = 0;
+	for (String file : downloadFileList) {
+	    long size = ImporterHelper.getHttpFileSize((getDownloadBaseUrl()
+		    + file));
+	    if (size !=-1){
+		cumulatedSize = cumulatedSize +size;
+	    }
+	}
+	fileSizeToDownloadCached = cumulatedSize;
+	}
+	return fileSizeToDownloadCached;
+	
     }
 
     public ImporterStatus getStatus() {

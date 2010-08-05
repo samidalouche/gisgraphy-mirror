@@ -59,9 +59,9 @@ public class OpenStreetMapFulltextBuilder implements IImporterProcessor {
 	
 	protected ImporterStatus status = ImporterStatus.WAITING;
 
-	private int lineProcessed = 0;
+	private long lineProcessed = 0;
 
-	private int numberOfLinesToProcess = 0;
+	private long numberOfLinesToProcess = 0;
 
 
 	private String statusMessage;
@@ -97,11 +97,11 @@ public class OpenStreetMapFulltextBuilder implements IImporterProcessor {
 		return this.getClass().getSimpleName();
 	}
 
-	public int getNumberOfLinesToProcess() {
+	public long getNumberOfLinesToProcess() {
 		return numberOfLinesToProcess;
 	}
 
-	public int getReadFileLine() {
+	public long getReadFileLine() {
 		return lineProcessed;
 	}
 
@@ -113,7 +113,7 @@ public class OpenStreetMapFulltextBuilder implements IImporterProcessor {
 		return statusMessage;
 	}
 
-	public int getTotalReadLine() {
+	public long getTotalReadLine() {
 		return lineProcessed;
 	}
 

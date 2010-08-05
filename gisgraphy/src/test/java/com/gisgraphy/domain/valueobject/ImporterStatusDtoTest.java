@@ -35,15 +35,15 @@ public class ImporterStatusDtoTest {
 
     private static final String STATUS_MESSAGE = "message";
 
-    private static final int TOTAL_READ_LINE = 3;
+    private static final long TOTAL_READ_LINE = 3L;
 
-    private static final int TOTAL_LINE_TO_PROCESS = 10;
+    private static final long TOTAL_LINE_TO_PROCESS = 10L;
 
     private static final String CURRENT_FILE_NAME = "currentFileName";
 
     private static final String PROCESSOR_NAME = "processorName";
 
-    private static final int CURRENT_LINE = 2;
+    private static final long CURRENT_LINE = 2L;
 
     private final static String EXPECTEDCSV = PROCESSOR_NAME
 	    + ImporterStatusDto.CSV_FIELD_SEPARATOR + CURRENT_FILE_NAME
@@ -113,7 +113,7 @@ public class ImporterStatusDtoTest {
 	EasyMock.expect(processor.getNumberOfLinesToProcess()).andReturn(
 		TOTAL_LINE_TO_PROCESS);
 	EasyMock.expect(processor.getReadFileLine()).andReturn(CURRENT_LINE);
-	EasyMock.expect(processor.getTotalReadLine()).andReturn(3);
+	EasyMock.expect(processor.getTotalReadLine()).andReturn(3L);
 	EasyMock.expect(processor.getStatusMessage()).andReturn(STATUS_MESSAGE);
 	EasyMock.expect(processor.getStatus()).andReturn(
 		ImporterStatus.PROCESSING);

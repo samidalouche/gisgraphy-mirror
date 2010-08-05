@@ -146,8 +146,8 @@ public class OpenStreetMapImporterTest extends AbstractIntegrationHttpSolrTestCa
 	    }
 	    
 	    @Override
-	    public int getNumberOfLinesToProcess() {
-	        return 2;
+	    public long getNumberOfLinesToProcess() {
+	        return 2L;
 	    }
 	    
 	    @Override
@@ -213,7 +213,7 @@ public class OpenStreetMapImporterTest extends AbstractIntegrationHttpSolrTestCa
     		}
     		
     		@Override
-    		public int getNumberOfLinesToProcess() {
+    		public long getNumberOfLinesToProcess() {
     			return 0;
     		}
     		

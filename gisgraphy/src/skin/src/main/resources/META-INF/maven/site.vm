@@ -364,6 +364,13 @@
 		<a href="http://appfuse.org/"><img src="/images/externallogos/appfuse.gif" class="logo"/></a>
 	</div>
     </div>
+
+<div id="feedback-box">
+<a id="feedback" title="Please give us some feedbacks" href="/feedback/">
+<img class="feedback" width="81" height="81" border="0" alt="feedbacks" src="/images/feedbacks.gif"/>
+</a>
+</div>
+
 <script type="text/javascript">
 var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
 document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));

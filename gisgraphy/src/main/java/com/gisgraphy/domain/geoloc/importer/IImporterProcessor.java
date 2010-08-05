@@ -44,14 +44,14 @@ public interface IImporterProcessor {
      * 
      * @see #getTotalReadLine()
      */
-    public int getReadFileLine();
+    public long getReadFileLine();
 
     /**
      * The number of read line for all the processed file
      * 
      * @see #getReadFileLine()
      */
-    public int getTotalReadLine();
+    public long getTotalReadLine();
 
     /**
      * @return The name of the file currently processed or null if no file is
@@ -63,7 +63,7 @@ public interface IImporterProcessor {
      * @return The number of line the processor will process. (it is not the
      *         number of lines left!)
      */
-    public int getNumberOfLinesToProcess();
+    public long getNumberOfLinesToProcess();
 
     /**
      * @return The current status of the importer

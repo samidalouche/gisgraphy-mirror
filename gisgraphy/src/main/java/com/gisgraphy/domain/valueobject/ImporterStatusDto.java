@@ -76,8 +76,8 @@ public class ImporterStatusDto {
      * @param status
      */
     public ImporterStatusDto(String processorName, String currentFileName,
-	    int currentLine, int numberOfLineToProcess,
-	    int numberOfLineProcessed, String statusMessage,
+	    long currentLine, long numberOfLineToProcess,
+	    long numberOfLineProcessed, String statusMessage,
 	    ImporterStatus status) {
 	super();
 	this.processorName = processorName;

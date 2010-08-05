@@ -240,9 +240,9 @@ public class ImporterManagerTest extends AbstractIntegrationHttpSolrTestCase {
 	EasyMock.expect(processor1.getStatus()).andReturn(
 		ImporterStatus.PROCESSED);
 	EasyMock.expect(processor1.getStatusMessage()).andReturn("message");
-	EasyMock.expect(processor1.getTotalReadLine()).andReturn(3);
-	EasyMock.expect(processor1.getReadFileLine()).andReturn(1);
-	EasyMock.expect(processor1.getNumberOfLinesToProcess()).andReturn(5);
+	EasyMock.expect(processor1.getTotalReadLine()).andReturn(3L);
+	EasyMock.expect(processor1.getReadFileLine()).andReturn(1L);
+	EasyMock.expect(processor1.getNumberOfLinesToProcess()).andReturn(5L);
 	processor1.resetStatus();
 	EasyMock.expectLastCall();
 	EasyMock.replay(processor1);
@@ -258,9 +258,9 @@ public class ImporterManagerTest extends AbstractIntegrationHttpSolrTestCase {
 	EasyMock.expect(processor2.getStatus()).andReturn(
 		ImporterStatus.PROCESSED);
 	EasyMock.expect(processor2.getStatusMessage()).andReturn("message");
-	EasyMock.expect(processor2.getTotalReadLine()).andReturn(3);
-	EasyMock.expect(processor2.getReadFileLine()).andReturn(1);
-	EasyMock.expect(processor2.getNumberOfLinesToProcess()).andReturn(5);
+	EasyMock.expect(processor2.getTotalReadLine()).andReturn(3L);
+	EasyMock.expect(processor2.getReadFileLine()).andReturn(1L);
+	EasyMock.expect(processor2.getNumberOfLinesToProcess()).andReturn(5L);
 	processor2.resetStatus();
 	EasyMock.expectLastCall();
 	EasyMock.replay(processor2);

@@ -125,3 +125,16 @@ margin:auto auto;
 text-align: center;
 width:100%;
 }
+.feedback {
+background:url("/images/feedbacks.gif") repeat scroll 0 0 transparent;
+border:0 none;
+height:81px;
+width:81px;
+}
+
+#feedback-box {
+bottom:0 !important;
+position:fixed !important;
+right:0 !important;
+z-index:10001 !important;
+}

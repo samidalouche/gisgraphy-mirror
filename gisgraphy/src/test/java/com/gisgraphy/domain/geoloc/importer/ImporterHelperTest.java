@@ -39,7 +39,11 @@ import com.gisgraphy.test.GeolocTestHelper;
 
 public class ImporterHelperTest {
 
-	
+	@Test
+	public void testGetHTTPFileSize(){
+	    Assert.assertEquals(1150,ImporterHelper.getHttpFileSize("http://www.gisgraphy.com/favicon.ico"));
+	    Assert.assertEquals(-1,ImporterHelper.getHttpFileSize("http://www.gisgraphy.com/FileThatNotExists"));
+	}
 	
     @Test
     public void virtualizeADMDshouldChangeADMDTOADMXAccordingToTheAdmcodes() {

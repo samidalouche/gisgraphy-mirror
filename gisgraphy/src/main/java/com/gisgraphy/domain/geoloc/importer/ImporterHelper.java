@@ -42,6 +42,14 @@ import java.util.regex.Pattern;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
+import javax.management.RuntimeErrorException;
+
+import org.apache.commons.httpclient.Header;
+import org.apache.commons.httpclient.HttpClient;
+import org.apache.commons.httpclient.HttpException;
+import org.apache.commons.httpclient.MultiThreadedHttpConnectionManager;
+import org.apache.commons.httpclient.methods.GetMethod;
+import org.apache.commons.httpclient.methods.HeadMethod;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -174,6 +182,39 @@ public class ImporterHelper {
 	return files == null ? new File[0] : files;
     }
 
+    
+    /**
+     * @param URL the HTTP URL
+     * @return The size of the HTTP file using HTTP head method.
+     */
+    public static long getHttpFileSize(String URL){
+	long statusCode = -1;
+	HeadMethod headMethod = new HeadMethod(URL);
+	MultiThreadedHttpConnectionManager connectionManager = 
+  		new MultiThreadedHttpConnectionManager();
+  	HttpClient client = new HttpClient(connectionManager);
+
+    try {
+	statusCode = client.executeMethod(headMethod);
+	Header[] contentLengthHeaders = headMethod.getResponseHeaders("Content-Length");
+	if (contentLengthHeaders.length ==1){
+	    logger.error("HTTP file "+URL+" = "+contentLengthHeaders[0].getValue());
+	    return new Long(contentLengthHeaders[0].getValue());
+	} else if (contentLengthHeaders.length <= 0){
+	    return -1L;
+	}
+    } catch (HttpException e) {
+	throw new RuntimeException("can not execute head method for "+URL+" : "+e.getMessage(),e);
+    } catch (IOException e) {
+	throw new RuntimeException("can not execute head method for "+URL+" : "+e.getMessage(),e);
+    } finally {
+        headMethod.releaseConnection();
+    }
+    return statusCode;
+
+	
+	
+    }
     /**
      * @param address
      *            the address of the file to be downloaded
@@ -195,11 +236,11 @@ public class ImporterHelper {
 		//manage most frequent error code and Gisgraphy specific one
 		switch (responseCode) {
 		case 509:
-		    throw new RuntimeException("Sorry, there is too many users connected, this site has limmited resources, please try again later");
+		    throw new RuntimeException("Sorry, there is too many users connected for "+address+", this site has limmited resources, please try again later");
 		case 500:
-		    throw new RuntimeException("Sorry, the server return an 500 status code, an internal error has occured");
+		    throw new RuntimeException("Sorry, the server return an 500 status code for "+address+", an internal error has occured");
 		case 404:
-		    throw new RuntimeException("Sorry, the server return an 404 status code, the file probably not exists");
+		    throw new RuntimeException("Sorry, the server return an 404 status code for "+address+", the file probably not exists or the URL is not correct");
 		default:
 		    break;
 		}

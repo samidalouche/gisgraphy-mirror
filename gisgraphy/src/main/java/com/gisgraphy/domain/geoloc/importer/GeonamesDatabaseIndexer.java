@@ -74,11 +74,11 @@ public class GeonamesDatabaseIndexer implements IImporterProcessor {
 	return currentDao == null ? DEFAULT_CURRENT_FILENAME :this.currentDao.getPersistenceClass().getSimpleName();
     }
 
-    public int getNumberOfLinesToProcess() {
+    public long getNumberOfLinesToProcess() {
 	return this.daos == null ? 0 :this.daos.length;
     }
 
-    public int getReadFileLine() {
+    public long getReadFileLine() {
 	return numberOfDaoThatHaveBeenIndexed;
     }
 
@@ -90,7 +90,7 @@ public class GeonamesDatabaseIndexer implements IImporterProcessor {
 	return statusMessage;
     }
 
-    public int getTotalReadLine() {
+    public long getTotalReadLine() {
 	return numberOfDaoThatHaveBeenIndexed;
     }
 
