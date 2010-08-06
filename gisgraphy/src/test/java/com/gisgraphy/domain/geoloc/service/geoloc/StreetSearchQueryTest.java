@@ -49,6 +49,7 @@ import com.gisgraphy.domain.valueobject.Pagination;
 import com.gisgraphy.domain.valueobject.Output.OutputFormat;
 import com.gisgraphy.domain.valueobject.Output.OutputStyle;
 import com.gisgraphy.helper.GeolocHelper;
+import com.gisgraphy.servlet.GeolocServlet;
 import com.gisgraphy.servlet.GisgraphyServlet;
 import com.gisgraphy.servlet.StreetServlet;
 import com.gisgraphy.test.GeolocTestHelper;
@@ -579,6 +580,34 @@ public class StreetSearchQueryTest  {
 	    query = new StreetSearchQuery(request);
 	    assertEquals("Radius should accept point as decimal separator",
 		    1.4D, query.getRadius(), 0.1);
+	    
+	    
+	 // distanceField default value
+	    request = GeolocTestHelper.createMockHttpServletRequestForGeoloc();
+	    query = new StreetSearchQuery(request);
+	    assertTrue("By default distanceField should be true",
+		     query.hasDistanceField());
+	    
+	 // distanceField case insensitive
+	    request = GeolocTestHelper.createMockHttpServletRequestForGeoloc();
+	    request.setParameter(GeolocServlet.DISTANCE_PARAMETER, "falSE");
+	    query = new StreetSearchQuery(request);
+	    assertFalse("distanceField should be set when specified",
+		     query.hasDistanceField());
+	    
+	    // distanceField with off value
+	    request = GeolocTestHelper.createMockHttpServletRequestForGeoloc();
+	    request.setParameter(GeolocServlet.DISTANCE_PARAMETER, "oFF");
+	    query = new StreetSearchQuery(request);
+	    assertFalse("distanceField should take off value into account",
+			     query.hasDistanceField());
+	    
+	    // distanceField with wrong value
+	    request = GeolocTestHelper.createMockHttpServletRequestForGeoloc();
+	    request.setParameter(GeolocServlet.DISTANCE_PARAMETER, "wrong value");
+	    query = new StreetSearchQuery(request);
+	    assertTrue("distanceField should be kept to his default value if specified with wrong value",
+			     query.hasDistanceField());
 
 	} finally {
 	    GisgraphyConfig.defaultGeolocSearchPlaceTypeClass = savedDefaultType;

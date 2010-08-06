@@ -84,6 +84,8 @@ public interface IGisDao<T> extends IDao<T, java.lang.Long> {
      *                The GisFeature from which we want to find GIS Object
      * @param distance
      *                distance The radius in meters
+     * @param includeDistance 
+     * 				Field whether or not we should process calculate the distance
      * @return A List of GisFeatureDistance with the nearest elements or an
      *         emptylist (never return null), ordered by distance. <u>note</u>
      *         the specified gisFeature will not be included into results the
@@ -91,7 +93,7 @@ public interface IGisDao<T> extends IDao<T, java.lang.Long> {
      * @see GisFeatureDistance
      */
     public List<GisFeatureDistance> getNearestAndDistanceFromGisFeature(
-	    final GisFeature gisFeature, final double distance);
+	    final GisFeature gisFeature, final double distance,boolean includeDistanceField);
 
     /**
      * @param gisFeature
@@ -104,6 +106,8 @@ public interface IGisDao<T> extends IDao<T, java.lang.Long> {
      * @param maxResults
      *                The Maximum number of results to retrieve (for
      *                pagination), if <= 0 : it will not be taken into acount
+     * @param includeDistance 
+     * 				Field whether or not we should process calculate the distance
      * @return A List of GisFeatureDistance with the nearest elements or an
      *         emptylist (never return null), ordered by distance. <u>note</u>
      *         the specified gisFeature will not be included into results the
@@ -113,7 +117,7 @@ public interface IGisDao<T> extends IDao<T, java.lang.Long> {
      */
     public List<GisFeatureDistance> getNearestAndDistanceFromGisFeature(
 	    final GisFeature gisFeature, final double distance,
-	    final int firstResult, final int maxResults);
+	    final int firstResult, final int maxResults, final boolean includeDistanceField);
 
     /**
      * same as
@@ -144,6 +148,8 @@ public interface IGisDao<T> extends IDao<T, java.lang.Long> {
      * @param maxResults
      *                The Maximum number of results to retrieve (for
      *                pagination), if <= 0 : it will not be taken into acount
+     * @param includeDistance 
+     * 				Field whether or not we should process calculate the distance
      * @return A List of GisFeatureDistance with the nearest elements or an
      *         emptylist (never return null), ordered by distance. <u>note</u>
      *         the specified gisFeature will not be included into results the
@@ -153,7 +159,7 @@ public interface IGisDao<T> extends IDao<T, java.lang.Long> {
      */
     public List<GisFeatureDistance> getNearestAndDistanceFrom(
 	    final Point point, final double distance, final int firstResult,
-	    final int maxResults);
+	    final int maxResults,final boolean includeDistanceField );
 
     /**
      * retrieve the Objects with the specified name (not the ASCII one)

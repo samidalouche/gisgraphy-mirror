@@ -342,12 +342,12 @@ public class GisFeatureDaoTest extends AbstractIntegrationHttpSolrTestCase {
 	this.cityDao.save(p3);
 
 	List<GisFeatureDistance> results = this.gisFeatureDao
-		.getNearestAndDistanceFromGisFeature(p1, 1000000,
+		.getNearestAndDistanceFromGisFeature(p1, 1000000,true,
 			GisFeature.class);
 	assertEquals(2, results.size());
 
 	results = this.gisFeatureDao.getNearestAndDistanceFromGisFeature(p1,
-		1000000, City.class);
+		1000000,true, City.class);
 	assertEquals(2, results.size());
 
 	GisFeature p4 = GeolocTestHelper.createGisFeature("test", 49.01668F,
@@ -355,11 +355,11 @@ public class GisFeatureDaoTest extends AbstractIntegrationHttpSolrTestCase {
 	this.gisFeatureDao.save(p4);
 
 	results = this.gisFeatureDao.getNearestAndDistanceFromGisFeature(p1,
-		1000000, GisFeature.class);
+		1000000, true,GisFeature.class);
 	assertEquals(3, results.size());
 
 	results = this.gisFeatureDao.getNearestAndDistanceFromGisFeature(p1,
-		1000000, City.class);
+		1000000,true, City.class);
 	assertEquals(2, results.size());
 
     }
@@ -369,7 +369,7 @@ public class GisFeatureDaoTest extends AbstractIntegrationHttpSolrTestCase {
 
 	try {
 	    this.gisFeatureDao.getNearestAndDistanceFromGisFeature(null,
-		    1000000, GisFeature.class);
+		    1000000,true, GisFeature.class);
 	    fail("getNearestAndDistanceFromGisFeature should throws if gisFeature is null");
 	} catch (IllegalArgumentException e) {
 
@@ -390,31 +390,59 @@ public class GisFeatureDaoTest extends AbstractIntegrationHttpSolrTestCase {
 	this.gisFeatureDao.save(p3);
 	// for city dao
 	List<GisFeatureDistance> results = this.gisFeatureDao
-		.getNearestAndDistanceFromGisFeature(p1, 1000000, 1, 5);
+		.getNearestAndDistanceFromGisFeature(p1, 1000000, 1, 5,true);
 	assertEquals(2, results.size());
 	assertEquals(p3.getName(), results.get(0).getName());
 	assertEquals(p2.getName(), results.get(1).getName());
 
 	results = this.gisFeatureDao.getNearestAndDistanceFromGisFeature(p1,
-		1000000, 2, 5, City.class);
+		1000000, 2, 5, true,City.class);
 	assertEquals(1, results.size());
 	assertEquals(p2.getName(), results.get(0).getName());
 
 	results = this.gisFeatureDao.getNearestAndDistanceFromGisFeature(p1,
-		1000000, 1, 1, City.class);
+		1000000, 1, 1, true,City.class);
 	assertEquals(1, results.size());
 	assertEquals(p3.getName(), results.get(0).getName());
 
 	results = this.gisFeatureDao.getNearestAndDistanceFromGisFeature(p1,
-		1000000, 0, 1, City.class);
+		1000000, 0, 1,true, City.class);
 	assertEquals(1, results.size());
 	assertEquals(p3.getName(), results.get(0).getName());
 
 	results = this.gisFeatureDao.getNearestAndDistanceFromGisFeature(p1,
-		1000000, 1, 0, City.class);
+		1000000, 1, 0,true, City.class);
 	assertEquals(2, results.size());
 	assertEquals(p3.getName(), results.get(0).getName());
 	assertEquals(p2.getName(), results.get(1).getName());
+
+    }
+    
+    @Test
+    public void testgetNearestAndDistanceFromGisFeatureShouldNotCalculateTheDistanceIfincludeDistanceFieldIsFalse() {
+	City p1 = GeolocTestHelper.createCity("paris", 48.86667F, 2.3333F, 1L);
+	City p2 = GeolocTestHelper.createCity("bordeaux", 44.83333F, -0.56667F,
+		3L);
+	City p3 = GeolocTestHelper.createCity("goussainville", 49.01667F,
+		2.46667F, 2L);
+
+	this.gisFeatureDao.save(p1);
+	this.gisFeatureDao.save(p2);
+	this.gisFeatureDao.save(p3);
+	// for city dao
+	List<GisFeatureDistance> results = this.gisFeatureDao
+		.getNearestAndDistanceFromGisFeature(p1, 1000000, 1, 5,true);
+	assertEquals(2, results.size());
+	assertEquals(p3.getName(), results.get(0).getName());
+	assertEquals(p2.getName(), results.get(1).getName());
+
+
+	results = this.gisFeatureDao.getNearestAndDistanceFromGisFeature(p1,
+		1000000, 1, 0, false, City.class);
+	assertEquals(2, results.size());
+	
+	assertNull("The distance should be null if includeDistanceField is false", results.get(0).getDistance());
+	assertNull("The distance should be null if includeDistanceField is false", results.get(1).getDistance());
 
     }
 
@@ -431,12 +459,12 @@ public class GisFeatureDaoTest extends AbstractIntegrationHttpSolrTestCase {
 	this.cityDao.save(p3);
 
 	List<GisFeatureDistance> results = this.gisFeatureDao
-		.getNearestAndDistanceFrom(p1.getLocation(), 1000000,
+		.getNearestAndDistanceFrom(p1.getLocation(), 1000000,true,
 			GisFeature.class);
 	assertEquals(3, results.size());
 
 	results = this.gisFeatureDao.getNearestAndDistanceFrom(
-		p1.getLocation(), 1000000, City.class);
+		p1.getLocation(), 1000000, true,City.class);
 	assertEquals(3, results.size());
 
 	GisFeature p4 = GeolocTestHelper.createGisFeature("test", 49.01668F,
@@ -444,11 +472,11 @@ public class GisFeatureDaoTest extends AbstractIntegrationHttpSolrTestCase {
 	this.gisFeatureDao.save(p4);
 
 	results = this.gisFeatureDao.getNearestAndDistanceFrom(
-		p1.getLocation(), 1000000, GisFeature.class);
+		p1.getLocation(), 1000000, true,GisFeature.class);
 	assertEquals(4, results.size());
 
 	results = this.gisFeatureDao.getNearestAndDistanceFrom(
-		p1.getLocation(), 1000000, City.class);
+		p1.getLocation(), 1000000, true, City.class);
 	assertEquals(3, results.size());
 
     }
@@ -466,34 +494,57 @@ public class GisFeatureDaoTest extends AbstractIntegrationHttpSolrTestCase {
 	this.gisFeatureDao.save(p3);
 	// for city dao
 	List<GisFeatureDistance> results = this.gisFeatureDao
-		.getNearestAndDistanceFrom(p1.getLocation(), 1000000, 1, 5);
+		.getNearestAndDistanceFrom(p1.getLocation(), 1000000, 1, 5, true);
 	assertEquals(3, results.size());
 	assertEquals(p1.getName(), results.get(0).getName());
 	assertEquals(p3.getName(), results.get(1).getName());
 	assertEquals(p2.getName(), results.get(2).getName());
 
 	results = this.gisFeatureDao.getNearestAndDistanceFrom(
-		p1.getLocation(), 1000000, 2, 5, City.class);
+		p1.getLocation(), 1000000, 2, 5, true,City.class);
 	assertEquals(2, results.size());
 	assertEquals(p3.getName(), results.get(0).getName());
 	assertEquals(p2.getName(), results.get(1).getName());
 
 	results = this.gisFeatureDao.getNearestAndDistanceFrom(
-		p1.getLocation(), 1000000, 1, 1, City.class);
+		p1.getLocation(), 1000000, 1, 1, true,City.class);
 	assertEquals(1, results.size());
 	assertEquals(p1.getName(), results.get(0).getName());
 
 	results = this.gisFeatureDao.getNearestAndDistanceFrom(
-		p1.getLocation(), 1000000, 0, 1, City.class);
+		p1.getLocation(), 1000000, 0, 1,true, City.class);
 	assertEquals(1, results.size());
 	assertEquals(p1.getName(), results.get(0).getName());
 
 	results = this.gisFeatureDao.getNearestAndDistanceFrom(
-		p1.getLocation(), 1000000, 1, 0, City.class);
+		p1.getLocation(), 1000000, 1, 0, true,City.class);
 	assertEquals(3, results.size());
 	assertEquals(p1.getName(), results.get(0).getName());
 	assertEquals(p3.getName(), results.get(1).getName());
 	assertEquals(p2.getName(), results.get(2).getName());
+
+    }
+    
+    
+    @Test
+    public void testgetNearestAndDistanceFromhouldNotCalculateTheDistanceIfincludeDistanceFieldIsFalse() {
+	City p1 = GeolocTestHelper.createCity("paris", 48.86667F, 2.3333F, 1L);
+	City p2 = GeolocTestHelper.createCity("bordeaux", 44.83333F, -0.56667F,
+		3L);
+	City p3 = GeolocTestHelper.createCity("goussainville", 49.01667F,
+		2.46667F, 2L);
+
+	this.gisFeatureDao.save(p1);
+	this.gisFeatureDao.save(p2);
+	this.gisFeatureDao.save(p3);
+		
+
+	List<GisFeatureDistance> results = this.gisFeatureDao.getNearestAndDistanceFrom(
+		p1.getLocation(), 1000000, 0, 4, false,City.class);
+	assertEquals(3, results.size());
+	assertNull("The distance should be null if includeDistanceField is false", results.get(0).getDistance());
+	assertNull("The distance should be null if includeDistanceField is false", results.get(1).getDistance());
+	assertNull("The distance should be null if includeDistanceField is false", results.get(2).getDistance());
 
     }
 

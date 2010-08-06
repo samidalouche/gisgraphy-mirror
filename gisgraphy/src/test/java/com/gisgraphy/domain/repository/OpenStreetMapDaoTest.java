@@ -70,7 +70,7 @@ public class OpenStreetMapDaoTest extends AbstractIntegrationHttpSolrTestCase{
   @Test
   public void testGetNearestAndDistanceFromShouldNotAcceptNullStreetSearchModeIfNameIsNotNull() {
 	 try {
-		openStreetMapDao.getNearestAndDistanceFrom(GeolocHelper.createPoint(30.1F, 30.1F), 10000, 1, 1, null, null,"john keN",null);
+		openStreetMapDao.getNearestAndDistanceFrom(GeolocHelper.createPoint(30.1F, 30.1F), 10000, 1, 1, null, null,"john keN",null,true);
 		fail("getNearestAndDistanceFrom should not accept a null streetSearchmode if name is not null");
 	} catch (IllegalArgumentException e) {
 		//ok
@@ -114,7 +114,7 @@ public class OpenStreetMapDaoTest extends AbstractIntegrationHttpSolrTestCase{
 	
 	Point searchPoint = GeolocHelper.createPoint(6.9412748F, 50.9155829F);
 	
-	List<StreetDistance> nearestStreet = openStreetMapDao.getNearestAndDistanceFrom(searchPoint, 10000, 1, 1, null,null, null,null);
+	List<StreetDistance> nearestStreet = openStreetMapDao.getNearestAndDistanceFrom(searchPoint, 10000, 1, 1, null,null, null,null,true);
 	assertEquals(1,nearestStreet.size());
 	assertEquals("the street is not the expected one, there is probably a problem with the distance",streetOSM2.getGid(),nearestStreet.get(0).getGid());
 	//test distance 
@@ -125,54 +125,57 @@ public class OpenStreetMapDaoTest extends AbstractIntegrationHttpSolrTestCase{
 	//the following line test the distance when the middle of the street is taken with distance_sphere
 	//Assert.assertEquals(GeolocHelper.distance(searchPoint, nearestStreet.get(0).getLocation()), nearestStreet.get(0).getDistance().longValue(),5);
 	
+	//test hasdistance field
+	nearestStreet = openStreetMapDao.getNearestAndDistanceFrom(searchPoint, 10000, 1, 1, null,null, null,null,false);
+	Assert.assertNull("When includeDistance distance should not be included ",nearestStreet.get(0).getDistance());
 	
 	//test streettype
-	assertEquals(0,openStreetMapDao.getNearestAndDistanceFrom(searchPoint, 10000, 1, 1, StreetType.UNCLASSIFIED,null, null,null).size());
-	nearestStreet = openStreetMapDao.getNearestAndDistanceFrom(searchPoint, 10000, 1, 1, StreetType.FOOTWAY,null, null,null);
+	assertEquals(0,openStreetMapDao.getNearestAndDistanceFrom(searchPoint, 10000, 1, 1, StreetType.UNCLASSIFIED,null, null,null,true).size());
+	nearestStreet = openStreetMapDao.getNearestAndDistanceFrom(searchPoint, 10000, 1, 1, StreetType.FOOTWAY,null, null,null,true);
 	assertEquals(1,nearestStreet.size());
 	assertEquals(streetOSM2.getGid(),nearestStreet.get(0).getGid());
 	
 	//test name in full text
-	nearestStreet = openStreetMapDao.getNearestAndDistanceFrom(searchPoint, 10000, 1, 1, null, null,"keN",StreetSearchMode.FULLTEXT);
+	nearestStreet = openStreetMapDao.getNearestAndDistanceFrom(searchPoint, 10000, 1, 1, null, null,"keN",StreetSearchMode.FULLTEXT,true);
 	assertEquals("the street name should not match if a part of the name is given and street search mode is "+StreetSearchMode.FULLTEXT,0,nearestStreet.size());
 	
-	nearestStreet = openStreetMapDao.getNearestAndDistanceFrom(searchPoint, 10000, 1, 1, null, null,"Kenedy",StreetSearchMode.FULLTEXT);
+	nearestStreet = openStreetMapDao.getNearestAndDistanceFrom(searchPoint, 10000, 1, 1, null, null,"Kenedy",StreetSearchMode.FULLTEXT,true);
 	assertEquals("the street name should  match if a name is given with an entire word and street search mode is "+StreetSearchMode.FULLTEXT,1,nearestStreet.size());
 	
-	nearestStreet = openStreetMapDao.getNearestAndDistanceFrom(searchPoint, 10000, 1, 1, null, null,"Kenedy john",StreetSearchMode.FULLTEXT);
+	nearestStreet = openStreetMapDao.getNearestAndDistanceFrom(searchPoint, 10000, 1, 1, null, null,"Kenedy john",StreetSearchMode.FULLTEXT,true);
 	assertEquals("the street name should match if a name is given with more than one entire word and street search mode is "+StreetSearchMode.FULLTEXT,1,nearestStreet.size());
 	
 	
-	nearestStreet = openStreetMapDao.getNearestAndDistanceFrom(searchPoint, 10000, 1, 1, null, null,"Kenedy smith",StreetSearchMode.FULLTEXT);
+	nearestStreet = openStreetMapDao.getNearestAndDistanceFrom(searchPoint, 10000, 1, 1, null, null,"Kenedy smith",StreetSearchMode.FULLTEXT,true);
 	assertEquals("the street name should not match if only one word is given and street search mode is "+StreetSearchMode.FULLTEXT,0,nearestStreet.size());
 	
 	
 	//test name with contains
-	assertEquals(0,openStreetMapDao.getNearestAndDistanceFrom(searchPoint, 10000, 1, 1, null,null, "unknow name",StreetSearchMode.CONTAINS).size());
-	nearestStreet = openStreetMapDao.getNearestAndDistanceFrom(searchPoint, 10000, 1, 1, null, null,"John",StreetSearchMode.CONTAINS);
+	assertEquals(0,openStreetMapDao.getNearestAndDistanceFrom(searchPoint, 10000, 1, 1, null,null, "unknow name",StreetSearchMode.CONTAINS,true).size());
+	nearestStreet = openStreetMapDao.getNearestAndDistanceFrom(searchPoint, 10000, 1, 1, null, null,"John",StreetSearchMode.CONTAINS,true);
 	assertEquals(1,nearestStreet.size());
 	assertEquals(streetOSM2.getGid(),nearestStreet.get(0).getGid());
 	
-	nearestStreet = openStreetMapDao.getNearestAndDistanceFrom(searchPoint, 10000, 1, 1, null, null,"john keN",StreetSearchMode.CONTAINS);
+	nearestStreet = openStreetMapDao.getNearestAndDistanceFrom(searchPoint, 10000, 1, 1, null, null,"john keN",StreetSearchMode.CONTAINS,true);
 	assertEquals("the name should be case insensitive",1,nearestStreet.size());
 	assertEquals(streetOSM2.getGid(),nearestStreet.get(0).getGid());
 	
-	nearestStreet = openStreetMapDao.getNearestAndDistanceFrom(searchPoint, 10000, 1, 1, null, null,"keN",StreetSearchMode.CONTAINS);
+	nearestStreet = openStreetMapDao.getNearestAndDistanceFrom(searchPoint, 10000, 1, 1, null, null,"keN",StreetSearchMode.CONTAINS,true);
 	assertEquals("the street name should match if a part of the name is given and street search mode is "+StreetSearchMode.CONTAINS,1,nearestStreet.size());
 
 	
 	//test OneWay
-	assertEquals(0,openStreetMapDao.getNearestAndDistanceFrom(searchPoint, 10000, 1, 1, null,true, null,null).size());
-	nearestStreet = openStreetMapDao.getNearestAndDistanceFrom(searchPoint, 10000, 1, 1, null,false,null,null);
+	assertEquals(0,openStreetMapDao.getNearestAndDistanceFrom(searchPoint, 10000, 1, 1, null,true, null,null,true).size());
+	nearestStreet = openStreetMapDao.getNearestAndDistanceFrom(searchPoint, 10000, 1, 1, null,false,null,null,true);
 	assertEquals(1,nearestStreet.size());
 	assertEquals(streetOSM2.getGid(),nearestStreet.get(0).getGid());
 	
 	//test pagination
-	nearestStreet = openStreetMapDao.getNearestAndDistanceFrom(searchPoint, 10000, 1, 2, null,null, null,null);
+	nearestStreet = openStreetMapDao.getNearestAndDistanceFrom(searchPoint, 10000, 1, 2, null,null, null,null,true);
 	assertEquals(2,nearestStreet.size());
 	
 	//test Order
-	nearestStreet = openStreetMapDao.getNearestAndDistanceFrom(searchPoint, 10000, 1, 2, null,null, null,null);
+	nearestStreet = openStreetMapDao.getNearestAndDistanceFrom(searchPoint, 10000, 1, 2, null,null, null,null,true);
 	assertEquals(2,nearestStreet.size());
 	Double firstDist = nearestStreet.get(0).getDistance();
 	Double secondDist = nearestStreet.get(1).getDistance();
@@ -254,7 +257,7 @@ public class OpenStreetMapDaoTest extends AbstractIntegrationHttpSolrTestCase{
     	    	
     	Point searchPoint = GeolocHelper.createPoint(30.1F, 30.1F);
     	
-    	List<StreetDistance> nearestStreet = openStreetMapDao.getNearestAndDistanceFrom(searchPoint, 10000, 1, 1, null, null,"John",StreetSearchMode.CONTAINS);
+    	List<StreetDistance> nearestStreet = openStreetMapDao.getNearestAndDistanceFrom(searchPoint, 10000, 1, 1, null, null,"John",StreetSearchMode.CONTAINS,true);
     	assertEquals(0,nearestStreet.size());
     	
     	int numberOfLineUpdated = openStreetMapDao.updateTS_vectorColumnForStreetNameSearch();

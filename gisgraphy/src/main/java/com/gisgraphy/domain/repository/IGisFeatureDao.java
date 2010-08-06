@@ -77,6 +77,7 @@ public interface IGisFeatureDao extends IGisDao<GisFeature> {
     public List<GisFeatureDistance> getNearestAndDistanceFromGisFeature(
 	    final GisFeature gisFeature, final double distance,
 	    final int firstResult, final int maxResults,
+	    boolean includeDistanceField,
 	    final Class<? extends GisFeature> requiredClass);
 
     /**
@@ -97,6 +98,7 @@ public interface IGisFeatureDao extends IGisDao<GisFeature> {
      */
     public List<GisFeatureDistance> getNearestAndDistanceFromGisFeature(
 	    final GisFeature gisFeature, final double distance,
+	    boolean includeDistanceField,
 	    final Class<? extends GisFeature> requiredClass);
 
     /**
@@ -123,6 +125,7 @@ public interface IGisFeatureDao extends IGisDao<GisFeature> {
     public List<GisFeatureDistance> getNearestAndDistanceFrom(
 	    final Point point, final double distance, final int firstResult,
 	    final int maxResults,
+	    final boolean includeDistanceField,
 	    final Class<? extends GisFeature> requiredClass);
 
     /**
@@ -143,6 +146,7 @@ public interface IGisFeatureDao extends IGisDao<GisFeature> {
      */
     public List<GisFeatureDistance> getNearestAndDistanceFrom(
 	    final Point point, final double distance,
+	    final boolean includeDistanceField,
 	    final Class<? extends GisFeature> requiredClass);
 
     /**

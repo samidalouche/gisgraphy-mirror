@@ -116,6 +116,7 @@ public class GeolocQuery extends AbstractGisQuery {
 
     private Point point;
     private double radius = DEFAULT_RADIUS;
+    private boolean distanceField = true;
 
     /**
      * @param req
@@ -203,6 +204,14 @@ public class GeolocQuery extends AbstractGisQuery {
 		.getClassEntityFromString(req
 			.getParameter(GeolocServlet.PLACETYPE_PARAMETER));
 
+	//distance field
+	if ("false".equalsIgnoreCase(req
+		.getParameter(GeolocServlet.DISTANCE_PARAMETER))
+		|| "off".equalsIgnoreCase(req
+			.getParameter(GeolocServlet.DISTANCE_PARAMETER))) {
+	    withDistanceField(false);
+	}
+	
 	this.pagination = pagination;
 	this.placeType = clazz == null ? GisgraphyConfig.defaultGeolocSearchPlaceTypeClass
 		: clazz;
@@ -366,5 +375,23 @@ public class GeolocQuery extends AbstractGisQuery {
     public int getMaxLimitResult() {
 	return GeolocServlet.DEFAULT_MAX_RESULTS;
     }
+
+    /**
+     * @return true if the distance should be calculate or not
+     */
+    public boolean hasDistanceField() {
+        return distanceField;
+    }
+
+    /**
+     * @param distanceField If the distance should be include or not
+     * @return Whether the distance field should be output 
+     */
+    public GeolocQuery withDistanceField(boolean distanceField) {
+        this.distanceField = distanceField;
+        return this;
+    }
+    
+    
 
 }

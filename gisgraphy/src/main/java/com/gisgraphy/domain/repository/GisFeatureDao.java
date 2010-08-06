@@ -71,10 +71,12 @@ public class GisFeatureDao extends GenericGisDao<GisFeature> implements
      */
     public List<GisFeatureDistance> getNearestAndDistanceFromGisFeature(
 	    GisFeature gisFeature, double distance, int firstResult,
-	    int maxResults, Class<? extends GisFeature> requiredClass) {
+	    int maxResults,
+	    boolean includeDistanceField,
+	    Class<? extends GisFeature> requiredClass) {
 	Assert.notNull(gisFeature, "can not get nearest for a null gisFeature");
 	return getNearestAndDistanceFrom(gisFeature.getLocation(), gisFeature
-		.getId(), distance, firstResult, maxResults, requiredClass);
+		.getId(), distance, firstResult, maxResults, includeDistanceField, requiredClass);
     }
 
     /*
@@ -85,10 +87,11 @@ public class GisFeatureDao extends GenericGisDao<GisFeature> implements
      */
     public List<GisFeatureDistance> getNearestAndDistanceFromGisFeature(
 	    GisFeature gisFeature, double distance,
+	    boolean includeDistanceField,
 	    Class<? extends GisFeature> requiredClass) {
 	Assert.notNull(gisFeature, "can not get nearest for a null gisFeature");
 	return getNearestAndDistanceFromGisFeature(gisFeature, distance, -1,
-		-1, requiredClass);
+		-1, includeDistanceField,requiredClass);
     }
 
     /*
@@ -99,9 +102,10 @@ public class GisFeatureDao extends GenericGisDao<GisFeature> implements
      */
     public List<GisFeatureDistance> getNearestAndDistanceFrom(Point point,
 	    double distance, int firstResult, int maxResults,
+	    boolean includeDistanceField,
 	    Class<? extends GisFeature> requiredClass) {
 	return getNearestAndDistanceFrom(point, 0L, distance, firstResult,
-		maxResults, requiredClass);
+		maxResults, includeDistanceField, requiredClass);
     }
 
     /*
@@ -111,8 +115,8 @@ public class GisFeatureDao extends GenericGisDao<GisFeature> implements
      *      double, java.lang.Class)
      */
     public List<GisFeatureDistance> getNearestAndDistanceFrom(Point point,
-	    double distance, Class<? extends GisFeature> requiredClass) {
-	return getNearestAndDistanceFrom(point, distance, -1, -1, requiredClass);
+	    double distance, boolean includeDistanceField, Class<? extends GisFeature> requiredClass) {
+	return getNearestAndDistanceFrom(point, distance, -1, -1, includeDistanceField, requiredClass);
     }
 
     /*

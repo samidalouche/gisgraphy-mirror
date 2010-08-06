@@ -26,6 +26,7 @@
 package com.gisgraphy.domain.geoloc.service.geoloc;
 
 import static com.gisgraphy.domain.valueobject.Pagination.paginate;
+import static org.junit.Assert.assertTrue;
 import junit.framework.TestCase;
 
 import org.junit.Assert;
@@ -450,6 +451,33 @@ public class GeolocQueryTest extends TestCase {
 	    query = new GeolocQuery(request);
 	    assertEquals("Radius should accept point as decimal separator",
 		    1.4D, query.getRadius(), 0.1);
+	    
+	 // distanceField default value
+	    request = GeolocTestHelper.createMockHttpServletRequestForGeoloc();
+	    query = new GeolocQuery(request);
+	    assertTrue("By default distanceField should be true",
+		     query.hasDistanceField());
+	    
+	 // distanceField case insensitive
+	    request = GeolocTestHelper.createMockHttpServletRequestForGeoloc();
+	    request.setParameter(GeolocServlet.DISTANCE_PARAMETER, "falSE");
+	    query = new GeolocQuery(request);
+	    assertFalse("distanceField should be set when specified",
+		     query.hasDistanceField());
+	    
+	    // distanceField with off value
+	    request = GeolocTestHelper.createMockHttpServletRequestForGeoloc();
+	    request.setParameter(GeolocServlet.DISTANCE_PARAMETER, "oFF");
+	    query = new GeolocQuery(request);
+	    assertFalse("distanceField should take off value into account",
+		     query.hasDistanceField());
+	    
+	 // distanceField with wrong value
+	    request = GeolocTestHelper.createMockHttpServletRequestForGeoloc();
+	    request.setParameter(GeolocServlet.DISTANCE_PARAMETER, "wrong value");
+	    query = new StreetSearchQuery(request);
+	    assertTrue("distanceField should be kept to his default value if specified with wrong value",
+			     query.hasDistanceField());
 
 	} finally {
 	    GisgraphyConfig.defaultGeolocSearchPlaceTypeClass = savedDefaultType;
@@ -570,6 +598,14 @@ public class GeolocQueryTest extends TestCase {
 	} finally {
 	    GisgraphyConfig.defaultGeolocSearchPlaceTypeClass = savedDefaultType;
 	}
+    }
+    
+    @Test
+    public void testDistanceField(){
+	GeolocQuery query = new GeolocQuery(GENERIC_POINT);
+	Assert.assertTrue("by default distanceField should be true", query.hasDistanceField());
+	query.withDistanceField(false);
+	assertFalse("distance field setter is broken", query.hasDistanceField());
     }
 
 

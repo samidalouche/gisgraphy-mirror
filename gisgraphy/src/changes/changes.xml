@@ -311,5 +311,21 @@ remove the ability to search for 'no name street'
 			</action>
 			
 		</release>
+		
+		<release version="2.1" date="2010-08-03"
+			description="second release">
+			<action dev="David Masclet" type="fix">
+				opensearch module won't send 404 anymore
+			</action>
+			
+			<action dev="David Masclet" type="add">
+				Add the ability to retrieve geoloc or street without Distance 
+			</action>
+			
+			<action dev="David Masclet" type="add">
+			 download files for the importer have a more precise progression bar, that checks the file size instead of the number of files  
+			</action>
+			
+			</release>
 	</body>
 </document>

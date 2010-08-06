@@ -52,6 +52,8 @@ public interface IOpenStreetMapDao extends IDao<OpenStreetMap, java.lang.Long> {
      * @param name
      *                the name the street name must contains
      * 
+     * @param streetSearchMode if we search in fulltext or contain mode
+     * @param includeDistanceField if we have to calculate the distance or not
      * @return A List of StreetDistance with the nearest elements or an
      *         empty list (never return null), ordered by distance.
      * @see StreetDistance
@@ -59,7 +61,9 @@ public interface IOpenStreetMapDao extends IDao<OpenStreetMap, java.lang.Long> {
     public List<StreetDistance> getNearestAndDistanceFrom(
 	    final Point point, final double distance,
 	    final int firstResult, final int maxResults,
-	    final StreetType streetType,Boolean oneWay, final String name,final StreetSearchMode streetSearchMode) ;
+	    final StreetType streetType,Boolean oneWay, final String name,
+	    final StreetSearchMode streetSearchMode,
+	    final boolean includeDistanceField) ;
     
     /**
      * @param gid the gid of the openstreetmap entity we want to retrieve

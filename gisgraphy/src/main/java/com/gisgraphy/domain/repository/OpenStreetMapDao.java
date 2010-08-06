@@ -33,6 +33,7 @@ import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.criterion.Projection;
+import org.hibernate.criterion.ProjectionList;
 import org.hibernate.criterion.Restrictions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -89,7 +90,7 @@ public class OpenStreetMapDao extends GenericDao<OpenStreetMap, Long> implements
     public List<StreetDistance> getNearestAndDistanceFrom(
 	    final Point point, final double distance,
 	    final int firstResult, final int maxResults,
-	    final StreetType streetType, final Boolean oneWay ,final String name, final StreetSearchMode streetSearchMode) {
+	    final StreetType streetType, final Boolean oneWay ,final String name, final StreetSearchMode streetSearchMode,final boolean includeDistanceField) {
 	
 	Assert.notNull(point);
 	if (name != null && streetSearchMode==null){
@@ -106,14 +107,21 @@ public class OpenStreetMapDao extends GenericDao<OpenStreetMap, Long> implements
 			List<String> fieldList = IntrospectionHelper
 				.getFieldsAsList(OpenStreetMap.class);
 
-			Projection projections = ProjectionBean.fieldList(
-				fieldList,false).add(
+			ProjectionList projections = ProjectionBean.fieldList(
+				fieldList,false);
+				if (includeDistanceField){
+				    if (includeDistanceField){
+				projections.add(
 //				SpatialProjection.distance_sphere(point, GisFeature.LOCATION_COLUMN_NAME).as(
 //					"distance"));
 						SpatialProjection.distance_pointToLine(point, OpenStreetMap.SHAPE_COLUMN_NAME).as(
 						"distance"));
+				}
+				}
 			criteria.setProjection(projections);
-			criteria.addOrder(new ProjectionOrder("distance"));
+			if (includeDistanceField){
+			    criteria.addOrder(new ProjectionOrder("distance"));
+			}
 			if (maxResults > 0) {
 			    criteria = criteria.setMaxResults(maxResults);
 			}
@@ -145,13 +153,20 @@ public class OpenStreetMapDao extends GenericDao<OpenStreetMap, Long> implements
 			List<?> queryResults = criteria.list();
 			
 			if (queryResults != null && queryResults.size()!=0){
+			    String[] propertiesNameArray ;
+			    if (includeDistanceField){
+			propertiesNameArray = (String[]) ArrayUtils
+			    	.add(
+			    		IntrospectionHelper
+			    			.getFieldsAsArray(OpenStreetMap.class),
+			    		"distance");
+			    } else  {
+				propertiesNameArray = IntrospectionHelper
+	    			.getFieldsAsArray(OpenStreetMap.class);
+			    }
 			List<StreetDistance> results = ResultTransformerUtil
 				.transformToStreetDistance(
-					(String[]) ArrayUtils
-						.add(
-							IntrospectionHelper
-								.getFieldsAsArray(OpenStreetMap.class),
-							"distance"),
+					propertiesNameArray,
 					queryResults);
 			return results;
 			} else {

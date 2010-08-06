@@ -115,9 +115,9 @@ public class GenericGisDao<T extends GisFeature> extends
      */
     public List<GisFeatureDistance> getNearestAndDistanceFromGisFeature(
 	    final GisFeature gisFeature, final double distance,
-	    final int firstResult, final int maxResults) {
+	    final int firstResult, final int maxResults, boolean includeDistanceField) {
 	return getNearestAndDistanceFrom(gisFeature.getLocation(), gisFeature
-		.getId(), distance, firstResult, maxResults, persistentClass);
+		.getId(), distance, firstResult, maxResults, includeDistanceField, persistentClass);
     }
 
     /*
@@ -127,9 +127,9 @@ public class GenericGisDao<T extends GisFeature> extends
      *      double)
      */
     public List<GisFeatureDistance> getNearestAndDistanceFromGisFeature(
-	    GisFeature gisFeature, double distance) {
+	    GisFeature gisFeature, double distance, boolean includeDistanceField) {
 	return getNearestAndDistanceFrom(gisFeature.getLocation(), gisFeature
-		.getId(), distance, -1, -1, persistentClass);
+		.getId(), distance, -1, -1, includeDistanceField, persistentClass);
     }
 
     /*
@@ -140,7 +140,7 @@ public class GenericGisDao<T extends GisFeature> extends
      */
     public List<GisFeatureDistance> getNearestAndDistanceFrom(Point point,
 	    double distance) {
-	return getNearestAndDistanceFrom(point, 0L, distance, -1, -1,
+	return getNearestAndDistanceFrom(point, 0L, distance, -1, -1, true,
 		persistentClass);
     }
 
@@ -151,13 +151,13 @@ public class GenericGisDao<T extends GisFeature> extends
      *      double, int, int)
      */
     public List<GisFeatureDistance> getNearestAndDistanceFrom(Point point,
-	    double distance, int firstResult, int maxResults) {
+	    double distance, int firstResult, int maxResults, boolean includeDistanceField) {
 	return getNearestAndDistanceFrom(point, 0L, distance, firstResult,
-		maxResults, persistentClass);
+		maxResults,includeDistanceField, persistentClass);
     }
 
     /**
-     * base method for all findNearest* /**
+     * base method for all findNearest* 
      * 
      * @param point
      *                The point from which we want to find GIS Object
@@ -185,6 +185,7 @@ public class GenericGisDao<T extends GisFeature> extends
     protected List<GisFeatureDistance> getNearestAndDistanceFrom(
 	    final Point point, final Long pointId, final double distance,
 	    final int firstResult, final int maxResults,
+	    final boolean includeDistanceField,
 	    final Class<? extends GisFeature> requiredClass) {
 	Assert.notNull(point);
 	return (List<GisFeatureDistance>) this.getHibernateTemplate().execute(
@@ -206,26 +207,35 @@ public class GenericGisDao<T extends GisFeature> extends
 			List<String> fieldList = IntrospectionHelper
 				.getFieldsAsList(requiredClass);
 			ProjectionList projections = ProjectionBean.fieldList(
-				fieldList,true).add(
+				fieldList,true);
+			if (includeDistanceField){
+			    projections.add(
 				SpatialProjection.distance_sphere(point,GisFeature.LOCATION_COLUMN_NAME).as(
 					"distance"));
-			
+			}
 			criteria.setProjection(projections);
 			if (pointId != 0) {
 			    // remove The From Point
 			    criteria = criteria.add(Restrictions.not(Restrictions.idEq(pointId)));
 			}
-			criteria.addOrder(new ProjectionOrder("distance"));
-
+			if (includeDistanceField){
+			    criteria.addOrder(new ProjectionOrder("distance"));
+			}
+			
 			criteria.setCacheable(true);
 			List<Object[]> queryResults = criteria.list();
 			
-			String[] aliasList = (String[]) ArrayUtils
+			String[] aliasList;
+			if (includeDistanceField){
+			aliasList = (String[]) ArrayUtils
 				.add(
 					IntrospectionHelper
 						.getFieldsAsArray(requiredClass),
 					"distance");
-			
+			} else {
+			    aliasList = IntrospectionHelper
+				.getFieldsAsArray(requiredClass);
+			}
 			int idPropertyIndexInAliasList=0;
 			for (int i=0;i<aliasList.length;i++){
 			    if (aliasList[i]=="id"){

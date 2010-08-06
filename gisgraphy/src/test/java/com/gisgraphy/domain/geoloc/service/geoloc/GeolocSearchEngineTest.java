@@ -177,6 +177,33 @@ public class GeolocSearchEngineTest extends AbstractIntegrationHttpSolrTestCase 
 	assertEquals(p3.getName(), results.getResult().get(1).getName());
 	assertEquals(p2.getName(), results.getResult().get(2).getName());
     }
+    
+    @Test
+    public void testExecuteQueryShouldNotReturnTheDistanceFieldIfDistanceFieldIsFalse() {
+	City p1 = GeolocTestHelper.createCity("paris", 48.86667F, 2.3333F, 1L);
+	// N 48° 52' 0'' 2° 20' 0'' E
+	City p2 = GeolocTestHelper.createCity("bordeaux", 44.83333F, -0.56667F,
+		3L);
+	// N 44 50 0 ; 0 34 0 W
+	City p3 = GeolocTestHelper.createCity("goussainville", 49.01667F,
+		2.46667F, 2L);
+	// N49° 1' 0'' E 2° 28' 0''
+
+	this.cityDao.save(p1);
+	this.cityDao.save(p2);
+	this.cityDao.save(p3);
+
+	Pagination pagination = paginate().from(1).to(15);
+	Output output = Output.withFormat(OutputFormat.XML).withIndentation();
+	GeolocQuery query = new GeolocQuery(p1.getLocation(), 1000001,
+		pagination, output, City.class);
+	query.withDistanceField(false);
+	GeolocResultsDto results = geolocSearchEngine.executeQuery(query);
+	assertEquals(3, results.getResult().size());
+	assertNull("Distance should not be null if withDistance is false", results.getResult().get(0).getDistance());
+	assertNull("Distance should not be null if withDistance is false", results.getResult().get(1).getDistance());
+	assertNull("Distance should not be null if withDistance is false", results.getResult().get(2).getDistance());
+    }
 
     @Test
     public void testExecuteQueryShouldReturnsAnEmptyListIfThereIsNoResults() {
