@@ -22,6 +22,9 @@
  *******************************************************************************/
 package com.gisgraphy.webapp.action;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.apache.struts2.ServletActionContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -60,6 +63,16 @@ public class GeolocSearchAction extends SearchAction {
     public String radius;
 
     private String placetype;
+    
+    private boolean distance = true;
+
+    public boolean isDistance() {
+        return distance;
+    }
+
+    public void setDistance(boolean distance) {
+        this.distance = distance;
+    }
 
     /**
      * @return Wether the search has been done and the results should be
@@ -91,7 +104,7 @@ public class GeolocSearchAction extends SearchAction {
     /**
      * Execute a GeolocSearch from the request parameters
      * 
-     * @return SUCCESS if the search is successfull
+     * @return SUCCESS if the search is successful
      * @throws Exception
      *                 in case of errors
      */

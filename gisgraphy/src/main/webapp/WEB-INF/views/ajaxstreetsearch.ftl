@@ -65,8 +65,6 @@
 			<@s.textfield name="radius" required="true" size="10" theme="simple" />
 			<br/>
 		</span>
-
-
 		<div class="clear"></div>
 		<span class="searchfield">
 			<span class="searchfieldlabel"><@s.text name="global.streettype"/> : </span>
@@ -85,6 +83,17 @@
 		</span>
 		<br/>
 		<div class="clear"></div>
+		<br/>
+		<div class="clear"></div>
+		<span class="advancedsearchcat"><@s.text name="search.outputSpecs"/></span>
+		<hr/>
+		<span class="searchfield">
+			<span class="searchfieldlabel"><@s.text name="search.includeDistance"/></span> : <@s.radio name="distance" list="%{#@java.util.LinkedHashMap@{'true' : getText('global.yes'), 'false': getText('global.no')}}"  />
+		<div class="clear"></div><br/>
+		<@s.text name="search.includeDistance.resultNotSorted"/>
+		</span>
+		<div class="clear"></div>
+
 	</fieldset>
 	</div>
 	</@s.form>

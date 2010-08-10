@@ -869,12 +869,23 @@ in Both mode the given name is case insensitive and accent insensitive.
 
 
 <br/>
+<a name="distancestreet"></a>
+<li>Distance field : Wether (or not) we want the distance field to be filled. this option is usefull when we don't care about the distance (e.g : we search for name) to improve the performances. Off course, the resultq won't be sorted by distance.</li>
+<br/>
+
+
+<div class="tip greentip">
+If you use a checkbox in a form to indent the results, the value will be "on" or "off", so for a simple use : the value for the  web service can be "true" or "on".<br/>
+this option is only available for gisgraphy >=2.1
+</div>
+
+<br/>
 <a name="indentstreet"></a>
 <li>The indentation (optional) : indents the results. Default to false. the possible values are true|false (or "on" when used with the rest service <a href="#indentongeoloc">see</a></li>
 <br/>
 
-<div class="tip greentip" name="indentongeoloc">
-If you use a checkbox in a form to indent the results, the value will be "on" or "off", so for a simple use : the value of indent, for the geoloc web service can be "true" or "on".
+<div class="tip greentip" >
+If you use a checkbox in a form to indent the results, the value will be "on" or "off", so for a simple use : the value of indent, for the web service can be "true" or "on".
 </div>
 
 
@@ -908,12 +919,12 @@ Here is a summary of the Web parameters mapping : <br/>
 <tr><td>Start pagination index</td><td>from</td></tr>
 <tr><td>End pagination index</td><td>to</td></tr>
 <tr><td>Output format</td><td>format</td></tr>
+<tr><td>Distance field (version >= 2.1)></td><td>distance</td></tr>
 <tr><td>Indent</td><td>indent</td></tr>
 </table>
 <br/>
 <div class="code">
 Examples : <br/>
-<!--TODO OSM -->
 http://localhost:8080/street/streetsearch?lat=4.5&lng=5.7&radius=5000&from=1&to=10&format=xml&name=strip&mode=fulltext&indent=true<br/><br/>
 http://localhost:8080/street/streetsearch?lat=4.5&lng=5.7<br/><br/>
 </div>
@@ -921,7 +932,7 @@ http://localhost:8080/street/streetsearch?lat=4.5&lng=5.7<br/><br/>
 
 <br/>
 <div class="tip yellowtip">
-Actually, the webservice limits the number of results to 50.
+Actually, the webservice limits the number of results to 50. but it can be changed (at compilation time)
 </div>
 <br/>
 
@@ -963,7 +974,7 @@ type are group by type. here is a list of type a street can have :
 </ul>
 
 
-<a name="sreetserviceoutputfieldsdescription"></a>
+<a name="streetserviceoutputfieldsdescription"></a>
 <div align="right"><a href="#top">[top]</a></div>
 <h3>Output fields description</h3>
 Here is a description of all the output fields,  :<br/>
@@ -1034,32 +1045,6 @@ You can output results to an OutputStream (useful for servlet use) or a String.
 <br/> It is possible to create a query directly from a HTTP servlet request
 <br/>
 <!-- end street-->
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -1439,6 +1424,19 @@ See a full list and explanation of placetype : <a href="placetype.htm">here</a>.
 </div>
 <br/>
 
+
+<br/>
+<a name="distancegeoloc"></a>
+<li>Distance field : Wether (or not) we want the distance field to be filled. this option is usefull when we don't care about the distance, to improve the performances. Off course, the resultq won't be sorted by distance</li>
+<br/>
+
+
+<div class="tip greentip">
+If you use a checkbox in a form to indent the results, the value will be "on" or "off", so for a simple use : the value for the  web service can be "true" or "on".<br/>
+this option is only available for gisgraphy >=2.1
+</div>
+
+
 <br/>
 <a name="indentgeoloc"></a>
 <li>The indentation (optional) : indents the results. Default to false. the possible values are true|false (or "on" when used with the rest service <a href="#indentongeoloc">see</a></li>
@@ -1476,6 +1474,7 @@ Here is a summary of the Web parameters mapping : <br/>
 <tr><td>End pagination index</td><td>to</td></tr>
 <tr><td>Output format</td><td>format</td></tr>
 <tr><td>Placetype</td><td>placetype</td></tr>
+<tr><td>Distance field (version >= 2.1)</td><td>distance</td></tr>
 <tr><td>Indent</td><td>indent</td></tr>
 </table>
 <br/>

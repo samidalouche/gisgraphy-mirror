@@ -349,7 +349,7 @@ public class GeolocQuery extends AbstractGisQuery {
 	} else {
 	    asString += this.placeType.getSimpleName();
 	}
-	asString += " with " + getOutput() + " and " + pagination;
+	asString += " with " + getOutput() + " and " + pagination +" and distance = "+distanceField;
 	return asString;
     }
 

@@ -238,7 +238,7 @@ public class StreetSearchQuery extends GeolocQuery {
 	String asString = "StreetSearchQuery (lat='"
 		+ getPoint().getY() + "',long='" + getPoint().getX() + "') and name="+this.name+" and streetsearchmode="+this.streetSearchMode+" and radius="
 		+ getRadius() + " for streetType="+streetType+" and oneWay="+this.oneWay;
-	asString += " with " + getOutput() + " and " + pagination;
+	asString += " with " + getOutput() + " and " + pagination +" and distance = "+this.hasDistanceField();
 	return asString;
     }
 

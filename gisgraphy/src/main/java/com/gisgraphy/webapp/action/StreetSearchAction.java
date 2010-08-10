@@ -68,6 +68,16 @@ public class StreetSearchAction extends SearchAction {
     private String streetType;
     
     private String name;
+    
+    private boolean distance = true;
+
+    public boolean isDistance() {
+        return distance;
+    }
+
+    public void setDistance(boolean distance) {
+        this.distance = distance;
+    }
 
     /**
      * @return Wether the search has been done and the results should be

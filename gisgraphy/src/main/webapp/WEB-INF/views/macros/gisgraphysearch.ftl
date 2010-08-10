@@ -110,7 +110,7 @@
 							<@s.url id="featureURL" action="displayfeature" includeParams="none" >
 				  					<@s.param name="featureId" value="${result.featureId?c}" />
 				 				</@s.url>
-								<div class="resultheaderleft"><a href="${featureURL}">${result.name} (${result.countryCode})</a> : ${result.distance} <@s.text name="search.unit.meter"/></div>
+								<div class="resultheaderleft"><a href="${featureURL}">${result.name} (${result.countryCode})</a> <#if result.distance??>: ${result.distance} <@s.text name="search.unit.meter"/></#if></div>
 								<div class="resultheaderright"><@s.text name="${result.featureClass}_${result.featureCode}"/></div>
 						</div>
 					
@@ -179,7 +179,7 @@
 							<@s.url id="streetURL" action="displaystreet" includeParams="none" namespace="/public" >
 				  					<@s.param name="gid" value="${result.gid?c}" />
 				 				</@s.url>
-								<div class="resultheaderleft"><a href="${streetURL}"><#if result.name??>${result.name}<#else><@s.text name="global.street.noname" /></#if> </a> <@s.text name="global.at"/> ${result.distance} <@s.text name="search.unit.meter"/></div>
+								<div class="resultheaderleft"><a href="${streetURL}"><#if result.name??>${result.name}<#else><@s.text name="global.street.noname" /></#if> </a> <#if result.distance??><@s.text name="global.at"/> ${result.distance} <@s.text name="search.unit.meter"/></#if></div>
 								<div class="resultheaderright"><#if result.streetType??><@s.text name="${result.streetType}" /></#if></div>
 						</div>
 					

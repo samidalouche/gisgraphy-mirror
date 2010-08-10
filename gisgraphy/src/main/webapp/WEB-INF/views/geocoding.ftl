@@ -74,7 +74,7 @@
 
 			setStreetNameCorrectState = function(){
 				if ($('lat').value != '' && $('lng').value != '' ){
-					streetNameAutocompleter.serviceUrl="/street/streetsearch?format=json&lat="+$('lat').value+"&lng="+$('lng').value+"&mode=contains";
+					streetNameAutocompleter.serviceUrl="/street/streetsearch?format=json&lat="+$('lat').value+"&lng="+$('lng').value+"&mode=contains&distance=false";
 					$('streetSearchLnk').href=streetSearchBaseUrl+"?lat="+$('lat').value+"&lng="+$('lng').value+"&autosubmit=true";
 					$('viewAllStreetLink').show();
 					$('streetname').enable();

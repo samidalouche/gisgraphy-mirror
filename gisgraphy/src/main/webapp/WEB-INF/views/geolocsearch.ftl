@@ -74,6 +74,12 @@
 		</span>
 		<div class="clear"></div>
 		<span class="searchfield">
+			<span class="searchfieldlabel"><@s.text name="search.includeDistance"/></span> : <@s.radio name="distance" list="%{#@java.util.LinkedHashMap@{'true' : getText('global.yes'), 'false': getText('global.no')}}"  />
+		</span>
+		<div class="clear"></div><br/>
+		<@s.text name="search.includeDistance.resultNotSorted"/>
+		<div class="clear"></div>
+		<span class="searchfield">
 			<span class="searchfieldlabel"><@s.text name="search.indent"/> : </span><@s.checkbox label="Indent output" labelposition="left" name="indent" theme="simple" />
 		</span>
 		<div class="clear"></div>
