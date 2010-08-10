@@ -301,7 +301,7 @@ public class OpenStreetMapDao extends GenericDao<OpenStreetMap, Long> implements
 			});
    }
     
-    public void clearTextSearchName() {
+    public void clearPartialSearchName() {
 	 this.getHibernateTemplate().execute(
 			 new HibernateCallback() {
 
@@ -309,7 +309,7 @@ public class OpenStreetMapDao extends GenericDao<OpenStreetMap, Long> implements
 				    throws PersistenceException {
 				session.flush();
 				logger.info("will clear textSearchName");
-				String clearTextSearchNameQueryString = "Update openstreetmap set  "+OpenStreetMap.FULLTEXTSEARCH_PROPERTY_NAME.toLowerCase()+"= null";  
+				String clearTextSearchNameQueryString = "Update openstreetmap set  "+OpenStreetMap.PARTIALSEARCH_COLUMN_NAME.toLowerCase()+"= null";  
 				Query fulltextIndexQuery = session.createSQLQuery(clearTextSearchNameQueryString);
 				fulltextIndexQuery.executeUpdate();
 				

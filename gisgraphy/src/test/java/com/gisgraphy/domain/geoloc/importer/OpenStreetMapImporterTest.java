@@ -90,7 +90,6 @@ public class OpenStreetMapImporterTest extends AbstractIntegrationHttpSolrTestCa
 	if (GisgraphyConfig.PARTIAL_SEARH_EXPERIMENTAL){
 		assertEquals("The partialSearchName is not correct",StringHelper.transformStringForPartialWordIndexation(openStreetMap.getName(), StringHelper.WHITESPACE_CHAR_DELIMITER), openStreetMap.getPartialSearchName());
 	}
-	assertNull("The textSearchName should be null because teardown should clear it", openStreetMap.getTextSearchName());
 	assertEquals("The shape is not correct ",GeolocHelper.convertFromHEXEWKBToGeometry("01020000000200000009B254CD6218024038E22428D9EF484075C93846B217024090A8AB96CFEF4840").toString(), openStreetMap.getShape().toString());
     }
 
@@ -243,12 +242,13 @@ public class OpenStreetMapImporterTest extends AbstractIntegrationHttpSolrTestCa
     
     @Test
     public void testTearDown(){
+	if (GisgraphyConfig.PARTIAL_SEARH_EXPERIMENTAL){
 	OpenStreetMapImporter importer = new OpenStreetMapImporter(){
 	    //simulate an error
 	    public boolean shouldBeSkipped() {throw new RuntimeException("errormessage");};
 	};
 	IOpenStreetMapDao dao = createMock(IOpenStreetMapDao.class);
-	dao.clearTextSearchName();
+	dao.clearPartialSearchName();
 	EasyMock.replay(dao);
 	importer.setOpenStreetMapDao(dao);
 	
@@ -265,5 +265,5 @@ public class OpenStreetMapImporterTest extends AbstractIntegrationHttpSolrTestCa
 	    Assert.assertTrue(importer.getStatusMessage().contains("errormessage"));
 	    org.easymock.EasyMock.verify(dao);
     }
-
+    }
 }

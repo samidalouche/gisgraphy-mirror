@@ -31,6 +31,7 @@ import org.hibernate.FlushMode;
 import com.gisgraphy.domain.geoloc.entity.OpenStreetMap;
 import com.gisgraphy.domain.geoloc.service.geoloc.street.StreetType;
 import com.gisgraphy.domain.repository.IOpenStreetMapDao;
+import com.gisgraphy.domain.valueobject.GisgraphyConfig;
 import com.gisgraphy.domain.valueobject.NameValueDTO;
 import com.gisgraphy.helper.GeolocHelper;
 import com.gisgraphy.helper.StringHelper;
@@ -231,7 +232,9 @@ public class OpenStreetMapImporter extends AbstractImporterProcessor {
         String savedMessage =this.statusMessage;
         this.statusMessage=internationalisationService.getString("import.openstreetmap.cleanDatabase"); 
         try {
-            openStreetMapDao.clearTextSearchName();
+            if (GisgraphyConfig.PARTIAL_SEARH_EXPERIMENTAL){
+        	openStreetMapDao.clearPartialSearchName();
+            }
         } finally{
             //we restore message in case of error
         this.statusMessage=savedMessage;

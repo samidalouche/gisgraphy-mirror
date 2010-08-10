@@ -78,7 +78,7 @@ public class OpenStreetMap {
      * Name of the field property in hibernate. This is a string that is used
      * for fulltext and contains search without postgres fulltext engine. this
      * fields will have the name without accent and special char This value
-     * should be change if the getter and the setter of the
+     * should be changed if the getter and the setter of the
      * {@link #getTextsearchVector()} change
      * 
      * @see StreetSearchMode#FULLTEXT
@@ -101,6 +101,7 @@ public class OpenStreetMap {
      * with postgres fulltext engine This value should be change if the getter
      * and the setter of the {@link #getPartialsearchVector()} change
      * 
+     * @see GisgraphyConfig#PARTIAL_SEARH_EXPERIMENTAL
      * @see StreetSearchMode#CONTAINS
      */
     public static final String PARTIALSEARCH_COLUMN_NAME = "partialsearchname";
