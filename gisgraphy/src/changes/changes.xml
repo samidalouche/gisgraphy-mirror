@@ -310,10 +310,8 @@ remove the ability to search for 'no name street'
 				zipcode is not a field anymore, but a list associated to gisfeature
 			</action>
 			
-		</release>
 		
-		<release version="2.1" date="2010-08-03"
-			description="second release">
+		
 			<action dev="David Masclet" type="fix">
 				opensearch module won't send 404 anymore
 			</action>
@@ -324,6 +322,12 @@ remove the ability to search for 'no name street'
 			
 			<action dev="David Masclet" type="add">
 			 download files for the importer have a more precise progression bar, that checks the file size instead of the number of files  
+			</action>
+			<release version="2.1" date="2010-08-03"
+			description="improvements of v2.0">
+			
+			<action dev="David Masclet" type="add">
+				Update displayfeatures page with some country fields 
 			</action>
 			
 			</release>

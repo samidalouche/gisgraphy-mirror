@@ -45,6 +45,20 @@
 					<#if result.elevation??><li><@s.text name="global.elevation"/> : ${result.elevation} meter</li></#if>
 					<#if result.gtopo30??><li><@s.text name="global.gtopo30"/> : ${result.gtopo30}</li></#if>
 					<#if result.timezone??><li><@s.text name="global.timeZone"/> : ${result.timezone}</li></#if>
+					<#if result.continent??><li><@s.text name="global.continent"/> : ${result.continent}</li></#if>
+					<#if result.currency_code??><li><@s.text name="global.currency_code"/> : ${result.currency_code}</li></#if>
+					<#if result.currency_name??><li><@s.text name="global.currency_name"/> : ${result.currency_name}</li></#if>
+					<#if result.fips_code??><li><@s.text name="global.fips_code"/> : ${result.fips_code}</li></#if>
+					<#if result.isoalpha2_country_code??><li><@s.text name="global.isoalpha2_country_code"/> : ${result.isoalpha2_country_code}</li></#if>
+					<#if result.isoalpha3_country_code??><li><@s.text name="global.isoalpha3_country_code"/> : ${result.isoalpha3_country_code}</li></#if>
+					<#if result.postal_code_mask??><li><@s.text name="global.postal_code_mask"/> : ${result.postal_code_mask}</li></#if>
+					<#if result.postal_code_regex??><li><@s.text name="global.postal_code_regex"/> : ${result.postal_code_regex}</li></#if>
+					<#if result.phone_prefix??><li><@s.text name="global.phone_prefix"/> : ${result.phone_prefix}</li></#if>
+					<#if result.spoken_languages??><li><@s.text name="global.spoken_languages"/> : ${result.spoken_languages}</li></#if>
+					<#if result.tld??><li><@s.text name="global.tld"/> : ${result.tld}</li></#if>
+					<#if result.capital_name??><li><@s.text name="global.capital_name"/> : ${result.capital_name}</li></#if>
+					<#if result.area??><li><@s.text name="global.area"/> : ${result.area} km²</li></#if>
+					<#if result.level??><li><@s.text name="global.level"/> : ${result.level}</li></#if>
 					</ul>
 					<br/>
 
