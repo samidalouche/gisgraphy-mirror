@@ -392,9 +392,14 @@ public class SolRSynchroniser implements ISolRSynchroniser {
 				    .getPostalCodeRegex());
 			    ex.setField(FullTextFields.PHONE_PREFIX.getValue(), country
 				    .getPhonePrefix());
-			    for (Language language : country.getSpokenLanguages()) {
-				ex.setField(FullTextFields.SPOKEN_LANGUAGES.getValue(),
-					language.getIso639LanguageName());
+			    List<Language> spokenLanguages = country.getSpokenLanguages();
+			    if (spokenLanguages.size() > 0){
+				    List<String> languagesToAdd= new ArrayList<String>();
+					for (Language language : spokenLanguages) {
+					languagesToAdd.add(language.getIso639LanguageName());
+				    }
+					ex.setField(FullTextFields.SPOKEN_LANGUAGES.getValue(),
+							languagesToAdd);
 			    }
 			    ex.setField(FullTextFields.TLD.getValue(), country.getTld());
 			    ex.setField(FullTextFields.CAPITAL_NAME.getValue(), country

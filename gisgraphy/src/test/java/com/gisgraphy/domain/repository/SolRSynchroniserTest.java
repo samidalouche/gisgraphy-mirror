@@ -810,7 +810,13 @@ public class SolRSynchroniserTest extends AbstractIntegrationHttpSolrTestCase {
 	Language savedLang = languageDao.save(lang);
 	Language retrievedLang = languageDao.get(savedLang.getId());
 	assertEquals(savedLang, retrievedLang);
+	
+	Language lang2 = new Language("english", "EN", "ENG");
+	Language savedLang2 = languageDao.save(lang2);
+	Language retrievedLang2 = languageDao.get(savedLang2.getId());
+	assertEquals(savedLang2, retrievedLang2);
 
+	country.addSpokenLanguage(lang2);
 	country.addSpokenLanguage(lang);
 	
 	AlternateName alternateNameLocalized = new AlternateName("alternateFR",AlternateNameSource.ALTERNATENAMES_FILE);
@@ -882,7 +888,10 @@ public class SolRSynchroniserTest extends AbstractIntegrationHttpSolrTestCase {
 		"//*[@name='" + FullTextFields.PHONE_PREFIX.getValue()
 			+ "'][.='"+country.getPhonePrefix()+"']",
 		"//*[@name='" + FullTextFields.SPOKEN_LANGUAGES.getValue()
-			+ "'][./str[1]][.='"+country.getSpokenLanguages().get(0).getIso639LanguageName()+"']",
+			+ "'][./str[1][.='"+country.getSpokenLanguages().get(0).getIso639LanguageName()+"']]"
+		, "//*[@name='" + FullTextFields.SPOKEN_LANGUAGES.getValue()
+		+ "'][./str[2][.='"+country.getSpokenLanguages().get(1).getIso639LanguageName()+"']]"
+		, 
 		"//*[@name='" + FullTextFields.TLD.getValue()
 			+ "'][.='"+country.getTld()+"']",
 		"//*[@name='" + FullTextFields.AREA.getValue()
