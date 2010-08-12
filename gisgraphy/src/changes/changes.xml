@@ -309,8 +309,6 @@ remove the ability to search for 'no name street'
 			<action dev="David Masclet" type="update">
 				zipcode is not a field anymore, but a list associated to gisfeature
 			</action>
-			
-		
 		
 			<action dev="David Masclet" type="fix">
 				opensearch module won't send 404 anymore
@@ -329,6 +327,12 @@ remove the ability to search for 'no name street'
 			<action dev="David Masclet" type="add">
 				Update displayfeatures page with some country fields 
 			</action>
+			
+			
+			<action dev="David Masclet" type="fix">
+				there was only one spoken languages for fulltext webservice http://code.google.com/p/gisgraphy/issues/detail?id=15
+			</action>
+			
 			
 			</release>
 	</body>
