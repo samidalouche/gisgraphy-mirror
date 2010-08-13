@@ -1,0 +1,1 @@
+Using google's map api is not an option since it requires to include a map displaying the reverse geocoding result, and all we need is the street name. 
