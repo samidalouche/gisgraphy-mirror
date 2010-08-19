@@ -127,4 +127,21 @@ select countrycode||'.zip' from country_work order by id ;
 		select * from (select n.id from nodes n, node_tags nt where n.id=nt.node_id and nt.k='boundary') as idwithKeqname , node_tags nt2 where nt2.node_id=idwithKeqname.id and nt2.k='boundary'
 		an other beter way
 		--select n.*,nt2.v as name,nt.v as boundary from nodes n, node_tags nt, node_tags nt2 where n.id=nt.node_id and (nt.k='boundary' and nt2.k='name') and nt2.node_id=nt.node_id
- 
+ =================================================================
+ city
+ =================================================================
+  select
+       
+        this_.name as y1_,
+        distance_sphere(GeometryFromText( 'POINT(  6.941274642944336 50.915584564208984)',4326),this_.location)
+        as y7_
+    from
+        city this_ 
+    where
+        (
+            this_.location && GeometryFromText(
+            'POLYGON ((6.813893151085821 50.82575085046631, 7.068656448914179 50.82575085046631, 7.068656448914179 51.00541494953369, 6.813893151085821 51.00541494953369, 6.813893151085821 50.82575085046631))',4326))
+
+         
+    order by
+        (y7_) asc limit 1
