@@ -81,9 +81,6 @@ public interface IGisFeatureDao extends IGisDao<GisFeature> {
 	    final Class<? extends GisFeature> requiredClass);
 
     /**
-     * same as
-     * {@link #getNearestAndDistanceFromGisFeature(GisFeature, double, int, int, Class)}
-     * but without paginate
      * 
      * @param gisFeature
      *                The GisFeature from which we want to find GIS Object
@@ -129,9 +126,6 @@ public interface IGisFeatureDao extends IGisDao<GisFeature> {
 	    final Class<? extends GisFeature> requiredClass);
 
     /**
-     * same as
-     * {@link #getNearestAndDistanceFrom(Point, double, int, int, Class)} but
-     * without paginate
      * 
      * @param point
      *                The point from which we want to find GIS Object

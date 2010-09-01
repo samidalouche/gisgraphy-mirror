@@ -76,15 +76,12 @@ public interface IGisDao<T> extends IDao<T, java.lang.Long> {
     public T getEager(final Long id);
 
     /**
-     * same as
-     * {@link #getNearestAndDistanceFromGisFeature(GisFeature, double, int, int)}but
-     * without paginate
      * 
      * @param gisFeature
      *                The GisFeature from which we want to find GIS Object
      * @param distance
      *                distance The radius in meters
-     * @param includeDistance 
+     * @param includeDistanceField 
      * 				Field whether or not we should process calculate the distance
      * @return A List of GisFeatureDistance with the nearest elements or an
      *         emptylist (never return null), ordered by distance. <u>note</u>
@@ -106,7 +103,7 @@ public interface IGisDao<T> extends IDao<T, java.lang.Long> {
      * @param maxResults
      *                The Maximum number of results to retrieve (for
      *                pagination), if <= 0 : it will not be taken into acount
-     * @param includeDistance 
+     * @param includeDistanceField
      * 				Field whether or not we should process calculate the distance
      * @return A List of GisFeatureDistance with the nearest elements or an
      *         emptylist (never return null), ordered by distance. <u>note</u>
@@ -121,7 +118,7 @@ public interface IGisDao<T> extends IDao<T, java.lang.Long> {
 
     /**
      * same as
-     * {@link #getNearestAndDistanceFromGisFeature(GisFeature, double, int, int)}but
+     * {@link #getNearestAndDistanceFromGisFeature(GisFeature, double, int, int, boolean) but
      * without paginate
      * 
      * @param point
@@ -148,7 +145,7 @@ public interface IGisDao<T> extends IDao<T, java.lang.Long> {
      * @param maxResults
      *                The Maximum number of results to retrieve (for
      *                pagination), if <= 0 : it will not be taken into acount
-     * @param includeDistance 
+     * @param includeDistanceField 
      * 				Field whether or not we should process calculate the distance
      * @return A List of GisFeatureDistance with the nearest elements or an
      *         emptylist (never return null), ordered by distance. <u>note</u>
