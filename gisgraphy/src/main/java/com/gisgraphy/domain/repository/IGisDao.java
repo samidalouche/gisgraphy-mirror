@@ -118,7 +118,7 @@ public interface IGisDao<T> extends IDao<T, java.lang.Long> {
 
     /**
      * same as
-     * {@link #getNearestAndDistanceFromGisFeature(GisFeature, double, int, int, boolean) but
+     * {@link #getNearestAndDistanceFromGisFeature(GisFeature, double, int, int, boolean)} but
      * without paginate
      * 
      * @param point
