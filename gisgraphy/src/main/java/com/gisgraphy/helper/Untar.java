@@ -108,7 +108,10 @@ public class Untar {
 		if (tarEntry.isDirectory()) {
 		    destPath.mkdir();
 		} else {
-		    currentFileNameIntoArchiveExtracted= tarEntry.getName();
+		    if (!destPath.getParentFile().exists()) {
+			destPath.getParentFile().mkdirs();
+		    }
+		    currentFileNameIntoArchiveExtracted = tarEntry.getName();
 		    logger.info("untar: untar " + tarEntry.getName() + " to " + destPath);
 		    FileOutputStream fout = new FileOutputStream(destPath);
 		    try {
@@ -121,7 +124,7 @@ public class Untar {
 		tarEntry = tin.getNextEntry();
 	    }
 	} finally {
-	    currentFileNameIntoArchiveExtracted =null;
+	    currentFileNameIntoArchiveExtracted = null;
 	    if (tin != null) {
 		tin.close();
 	    }
@@ -130,6 +133,6 @@ public class Untar {
     }
 
     public String getCurrentFileNameIntoArchiveExtracted() {
-        return currentFileNameIntoArchiveExtracted;
+	return currentFileNameIntoArchiveExtracted;
     }
 }
