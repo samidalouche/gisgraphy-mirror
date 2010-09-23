@@ -490,6 +490,7 @@ public class GisFeatureDistance {
 			featureClass + "_" + featureCode).getObject()
 			.getClass().getSimpleName();
 	    } catch (RuntimeException e) {
+		logger.warn("no feature code for "+featureClass + "_" + featureCode);
 	    }
 	}
     }

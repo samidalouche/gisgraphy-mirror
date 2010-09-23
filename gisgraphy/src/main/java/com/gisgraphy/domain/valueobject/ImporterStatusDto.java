@@ -126,7 +126,12 @@ public class ImporterStatusDto {
 	this.numberOfLineToProcess = Integer.valueOf(fields[3]);
 	this.numberOfLineProcessed = Integer.valueOf(fields[4]);
 	this.statusMessage = fields[5];
-	this.status = ImporterStatus.valueOf(fields[6]);
+	try {
+	    this.status = ImporterStatus.valueOf(fields[6]);
+	} catch (Exception e) {
+	    
+	   
+	}
 	calculateFields();
     }
 
