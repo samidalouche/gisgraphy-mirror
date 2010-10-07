@@ -15,7 +15,7 @@ dist
 check javadoc 
 install
 upload doc
-migration guide / changes / update date
+migration guide / changes / update date of release
 upload dist
 link to dist in download page
 re-process sitemaps

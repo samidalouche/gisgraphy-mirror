@@ -289,6 +289,34 @@ public class FulltextSearchEngineTest extends
 	    fail("error during search : " + e.getMessage());
 	}
     }
+    
+    @Test
+    public void testSearchShouldBeMinusSignInsensitive() {
+	City city = GeolocTestHelper.createCity("Saint André", 1.5F, 2F, 1001L);
+	this.cityDao.save(city);
+	assertNotNull(this.cityDao.getByFeatureId(1001L));
+	// commit changes
+	this.solRSynchroniser.commit();
+
+	try {
+	    Pagination pagination = paginate().from(1).to(10);
+	    Output output = Output.withFormat(OutputFormat.XML)
+		    .withLanguageCode("FR").withStyle(OutputStyle.SHORT)
+		    .withIndentation();
+	    FulltextQuery fulltextQuery = new FulltextQuery("Saint-André",
+		    pagination, output, City.class, "fr");
+	    String result = fullTextSearchEngine
+		    .executeQueryToString(fulltextQuery);
+	    FeedChecker.assertQ("The query return incorrect values", result,
+		    "//*[@numFound='1']", "//*[@name='status'][.='0']",
+		    "//*[@name='"
+			    + FullTextFields.FULLY_QUALIFIED_NAME.getValue()
+			    + "'][.='" + city.getFullyQualifiedName(false)
+			    + "']");
+	} catch (FullTextSearchException e) {
+	    fail("error during search : " + e.getMessage());
+	}
+    }
 
     @Test
     public void testExecuteQueryToStringShouldTakeSpellCheckerIntoAccount() {
