@@ -303,6 +303,9 @@
 				</executions>
 
 				<configuration>
+				 <descriptorRefs>
+          				  <descriptorRef>jar-with-dependencies</descriptorRef>
+         		 </descriptorRefs>
 					<descriptors>
 						<descriptor>
 							src/main/assembly/dist.xml
