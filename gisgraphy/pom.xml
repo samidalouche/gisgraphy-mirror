@@ -301,8 +301,12 @@
 						</goals>
 					</execution>
 				</executions>
-
 				<configuration>
+				 <archive>
+		            <manifest>
+        		      <mainClass>com.gisgraphy.Launch</mainClass>
+            		</manifest>
+          		</archive>
 				 <descriptorRefs>
           				  <descriptorRef>jar-with-dependencies</descriptorRef>
          		 </descriptorRefs>
@@ -1372,7 +1376,7 @@
 			<properties>
 				<jdbc.url><![CDATA[jdbc:postgresql://localhost/gisgraphy]]></jdbc.url>
 				<jdbc.username>postgres</jdbc.username>
-				<jdbc.password>mdppostgres</jdbc.password>
+				<jdbc.password></jdbc.password>
 				<config.directory>
 					${basedir}/etc/import
 				</config.directory>
@@ -1389,7 +1393,7 @@
 				<config.directory>${basedir}/etc/prod</config.directory>
 				<jdbc.url><![CDATA[jdbc:postgresql://localhost/gisgraphy]]></jdbc.url>
 				<jdbc.username>postgres</jdbc.username>
-				<jdbc.password></jdbc.password>
+				<jdbc.password>mdppostgres</jdbc.password>
 				<maven.test.skip>true</maven.test.skip>
 				<resetdb>false</resetdb>
 				<hbm2ddl.drop>false</hbm2ddl.drop>
