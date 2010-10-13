@@ -26,6 +26,7 @@
 package com.gisgraphy.domain.valueobject;
 
 import org.dom4j.io.OutputFormat;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 /**
  * @author <a href="mailto:david.masclet@gisgraphy.com">David Masclet</a> Some
@@ -178,6 +179,23 @@ public class Constants {
 	    "classpath:/applicationContext-service.xml",
 	    "classpath:/WEB-INF/applicationContext-struts.xml",
 	    "classpath:**/applicationContext*.xml" };
+    
+    /**
+     * application context files to start classpath in a non 
+     * web context, (note that : javax.servlet should be added in the classpath)
+     * then you can start 
+     * 
+     *  new ClassPathXmlApplicationContext(Constants.APPLICATION_CONTEXT_NAMES_NON_WEB);
+     */
+    public final static String[] APPLICATION_CONTEXT_NAMES_NON_WEB= new String[] {
+
+	    "classpath:/applicationContext.xml",
+		    "classpath:/applicationContext-resources.xml",
+		    "classpath:/applicationContext-repository.xml",
+		    "classpath:/applicationContext-geoloc.xml",
+		    "classpath:/applicationContext-dao.xml",
+		    "classpath:/applicationContext-service.xml",
+		    "classpath:**/applicationContext*.xml" };
 
     /**
      * An Array of the ApplicationContext names for tests
