@@ -84,33 +84,6 @@ public class City extends GisFeature implements ZipCodesAware {
 		return result;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.gisgraphy.domain.geoloc.entity.GisFeature#equals(java.lang.Object)
-	 */
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj) {
-			return true;
-		}
-		if (!super.equals(obj)) {
-			return false;
-		}
-		if (getClass() != obj.getClass()) {
-			return false;
-		}
-		final City other = (City) obj;
-		if (getFeatureId() == null) {
-			if (other.getFeatureId() != null) {
-				return false;
-			}
-		} else if (!getFeatureId().equals(other.getFeatureId())) {
-			return false;
-		}
-		return true;
-	}
-
 	
 	/**
 	 * Returns a name with adm1Name and adm2Name added (if not null).

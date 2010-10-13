@@ -70,31 +70,5 @@ public class CitySubdivision extends GisFeature implements ZipCodesAware {
 	return result;
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see com.gisgraphy.domain.geoloc.entity.GisFeature#equals(java.lang.Object)
-     */
-    @Override
-    public boolean equals(Object obj) {
-	if (this == obj) {
-	    return true;
-	}
-	if (!super.equals(obj)) {
-	    return false;
-	}
-	if (getClass() != obj.getClass()) {
-	    return false;
-	}
-	final CitySubdivision other = (CitySubdivision) obj;
-	if (getFeatureId() == null) {
-	    if (other.getFeatureId() != null) {
-		return false;
-	    }
-	} else if (!getFeatureId().equals(other.getFeatureId())) {
-	    return false;
-	}
-	return true;
-    }
-    
+       
 }
