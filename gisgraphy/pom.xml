@@ -302,14 +302,14 @@
 					</execution>
 				</executions>
 				<configuration>
-				 <archive>
+				<!--  <archive>
 		            <manifest>
         		      <mainClass>com.gisgraphy.Launch</mainClass>
             		</manifest>
           		</archive>
 				 <descriptorRefs>
           				  <descriptorRef>jar-with-dependencies</descriptorRef>
-         		 </descriptorRefs>
+         		 </descriptorRefs>-->
 					<descriptors>
 						<descriptor>
 							src/main/assembly/dist.xml
@@ -1210,12 +1210,13 @@
 			<artifactId>spring-test</artifactId>
 			<version>${spring.version}</version>
 			<optional>true</optional>
+			<scope>test</scope>
 		</dependency>
-		<dependency>
+		<!-- <dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-webmvc</artifactId>
 			<version>${spring.version}</version>
-		</dependency>
+		</dependency>-->
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring</artifactId>
@@ -1675,7 +1676,7 @@
 			org.dbunit.dataset.datatype.DefaultDataTypeFactory
 		</dbunit.dataTypeFactoryName>
 		<dbunit.operation.type>CLEAN_INSERT</dbunit.operation.type>
-		<config.directory>${basedir}/etc/test</config.directory>
+		<config.directory>${basedir}/src/main/resources</config.directory>
 
 		<hibernate.dialect>
 			org.hibernatespatial.postgis.PostgisDialectNG
