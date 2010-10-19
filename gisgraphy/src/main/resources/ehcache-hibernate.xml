@@ -90,7 +90,7 @@
 		maxElementsInMemory="200" eternal="false" overflowToDisk="false" />
 
 	<cache name="org.hibernate.cache.UpdateTimestampsCache"
-		maxElementsInMemory="200" eternal="false" overflowToDisk="false" />	
+		maxElementsInMemory="200" eternal="true" overflowToDisk="false" />	
 		
         
     <!-- See http://ehcache.sourceforge.net/documentation/#mozTocId258426 for how to configure caching for your objects -->
