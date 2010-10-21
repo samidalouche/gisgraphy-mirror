@@ -296,7 +296,7 @@ public class FulltextQuery extends AbstractGisQuery {
 	} else {
 	    asString += this.placeType.getSimpleName();
 	}
-	asString += " with " + getOutput() + " and " + pagination;
+	asString += " with " + getOutput() + " and " + pagination +" for countrycode "+countryCode;
 	return asString;
     }
 
