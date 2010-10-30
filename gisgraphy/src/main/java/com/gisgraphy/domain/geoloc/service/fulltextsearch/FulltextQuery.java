@@ -100,7 +100,10 @@ public class FulltextQuery extends AbstractGisQuery {
      */
     public FulltextQuery(HttpServletRequest req) {
 	super();
-	this.query = req.getParameter(FulltextServlet.QUERY_PARAMETER);
+	String httpQueryParameter = req.getParameter(FulltextServlet.QUERY_PARAMETER);
+	if (httpQueryParameter != null){
+		this.query = httpQueryParameter.trim();
+	}
 	if (query == null || "".equals(query.trim())) {
 	    throw new FullTextSearchException("query is not specified or empty");
 	}
@@ -196,12 +199,13 @@ public class FulltextQuery extends AbstractGisQuery {
 	    Class<? extends GisFeature> placeType, String countryCode) {
 	super(pagination, output);
 	Assert.notNull(query, "Query must not be empty");
+	
 	Assert.isTrue(!"".equals(query.trim()), "Query must not be empty");
 	if (query.length() > FulltextQuery.QUERY_MAX_LENGTH) {
 	    throw new IllegalArgumentException("query is limited to "
 		    + FulltextQuery.QUERY_MAX_LENGTH + "characters");
 	}
-	this.query = query;
+	this.query = query.trim();
 	withPlaceType(placeType);
 	limitToCountryCode(countryCode);
     }
@@ -217,7 +221,7 @@ public class FulltextQuery extends AbstractGisQuery {
 	super();
 	Assert.notNull(query, "Query must not be null");
 	Assert.isTrue(!"".equals(query.trim()), "Query must not be empty");
-	this.query = query;
+	this.query = query.trim(); 
     }
 
     /**

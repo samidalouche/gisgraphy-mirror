@@ -341,5 +341,13 @@ remove the ability to search for 'no name street'
 			<action dev="David Masclet" type="fix">
 				malformed encoding properties when import data : \xxxxx
 			</action>
+			
+			<action dev="David Masclet" type="fix">
+				fulltext query terms are trimed 
+			</action>
+			
+			<action dev="David Masclet" type="fix">
+				fulltext search with featureID with space at the begining or at the end doesn't fail anymore
+			</action>
 	</body>
 </document>

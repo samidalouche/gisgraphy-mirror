@@ -32,6 +32,7 @@ import java.util.HashMap;
 import javax.annotation.Resource;
 
 import org.apache.commons.lang.RandomStringUtils;
+import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.mock.web.MockHttpServletRequest;
 
@@ -87,6 +88,13 @@ public class FulltextQueryTest extends AbstractIntegrationHttpSolrTestCase {
 	assertEquals(OutputStyle.FULL, query.getOutputStyle());
 	assertEquals(City.class, query.getPlaceType());
 	assertEquals("query", query.getQuery());
+	
+	//test trim
+	request = GeolocTestHelper.createMockHttpServletRequestForFullText();
+	request.setParameter(FulltextServlet.FROM_PARAMETER, " "+request.getParameter(FulltextServlet.QUERY_PARAMETER)+" ");
+	query = new FulltextQuery(request);
+	Assert.assertTrue("query parameter shoud be trimed",!query.getQuery().endsWith(" "));
+	Assert.assertTrue("query parameter shoud be trimed",!query.getQuery().startsWith(" "));
 
 	// test first pagination index
 	// with no value specified
@@ -420,24 +428,36 @@ public class FulltextQueryTest extends AbstractIntegrationHttpSolrTestCase {
     }
 
     @Test
-    public void testFulltextQueryWithEmptyQueryThrows() {
-	Pagination pagination = paginate().from(2).to(7);
-	Output output = Output.withFormat(OutputFormat.JSON).withLanguageCode(
-		"FR").withStyle(OutputStyle.FULL);
-	try {
-	    new FulltextQuery(" ", pagination, output, Adm.class, "FR");
-	    fail("empty query should throws");
-	} catch (IllegalArgumentException e) {
+	public void testFulltextQueryWithEmptyQueryThrows() {
+		Pagination pagination = paginate().from(2).to(7);
+		Output output = Output.withFormat(OutputFormat.JSON).withLanguageCode("FR").withStyle(OutputStyle.FULL);
+		try {
+			new FulltextQuery(" ", pagination, output, Adm.class, "FR");
+			fail("empty query should throws");
+		} catch (IllegalArgumentException e) {
 
+		}
+
+		try {
+			new FulltextQuery(" ");
+			fail("Empty query should throws");
+		} catch (RuntimeException e) {
+
+		}
 	}
-
-	try {
-	    new FulltextQuery(" ");
-	    fail("Empty query should throws");
-	} catch (RuntimeException e) {
-
+    @Test
+	public void testFulltextQueryWithPaginationShouldTrim() {
+		Pagination pagination = paginate().from(2).to(7);
+		Output output = Output.withFormat(OutputFormat.JSON).withLanguageCode("FR").withStyle(OutputStyle.FULL);
+			FulltextQuery query = new FulltextQuery(" t ", pagination, output, Adm.class, "FR");
+			Assert.assertEquals("t", query.getQuery());
 	}
-    }
+    
+    @Test
+	public void testFulltextQueryShouldTrim() {
+			FulltextQuery query = new FulltextQuery(" t ");
+			Assert.assertEquals("t", query.getQuery());
+	}
 
     @Test
     public void testWithPaginationShouldBeSetToDefaultPaginationIfNull() {
