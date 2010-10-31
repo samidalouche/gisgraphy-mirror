@@ -50,6 +50,8 @@ import org.apache.commons.httpclient.HttpException;
 import org.apache.commons.httpclient.MultiThreadedHttpConnectionManager;
 import org.apache.commons.httpclient.methods.GetMethod;
 import org.apache.commons.httpclient.methods.HeadMethod;
+import org.apache.commons.httpclient.params.HttpClientParams;
+import org.apache.commons.httpclient.params.HttpParams;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -84,6 +86,16 @@ public class ImporterHelper {
     public static final String TAR_BZ2_FILE_ACCEPT_REGEX_STRING = ".*(.tar.bz2)";
 
     protected static final Logger logger = LoggerFactory.getLogger(ImporterHelper.class);
+    
+    private static HttpClientParams params = new HttpClientParams(){{
+  		setConnectionManagerTimeout(2000);
+  		setSoTimeout(2000);
+  	}
+  	};
+    private static MultiThreadedHttpConnectionManager connectionManager = 	new MultiThreadedHttpConnectionManager();
+  	private static HttpClient client = new HttpClient(connectionManager){{
+  		setParams(params);
+  	}};
 
     public static FileFilter countryFileFilter = new FileFilter() {
 	public boolean accept(File file) {
@@ -188,14 +200,10 @@ public class ImporterHelper {
      * @return The size of the HTTP file using HTTP head method.
      */
     public static long getHttpFileSize(String URL){
-	long statusCode = -1;
 	HeadMethod headMethod = new HeadMethod(URL);
-	MultiThreadedHttpConnectionManager connectionManager = 
-  		new MultiThreadedHttpConnectionManager();
-  	HttpClient client = new HttpClient(connectionManager);
-
+	
     try {
-	statusCode = client.executeMethod(headMethod);
+    	client.executeMethod(headMethod);
 	Header[] contentLengthHeaders = headMethod.getResponseHeaders("Content-Length");
 	if (contentLengthHeaders.length ==1){
 	    logger.error("HTTP file "+URL+" = "+contentLengthHeaders[0].getValue());
@@ -204,13 +212,13 @@ public class ImporterHelper {
 	    return -1L;
 	}
     } catch (HttpException e) {
-	throw new RuntimeException("can not execute head method for "+URL+" : "+e.getMessage(),e);
+	logger.error("can not execute head method for "+URL+" : "+e.getMessage(),e);
     } catch (IOException e) {
-	throw new RuntimeException("can not execute head method for "+URL+" : "+e.getMessage(),e);
+    	logger.error("can not execute head method for "+URL+" : "+e.getMessage(),e);
     } finally {
         headMethod.releaseConnection();
     }
-    return statusCode;
+    return -1;
 
 	
 	

@@ -193,6 +193,26 @@ public class ImporterStatusDtoTest {
     
     }
     
+    @Test
+    public void percentShouldUnknowIfNumberOfLineToProcessedEquals0(){
+	ImporterStatusDto importerStatusDto = new ImporterStatusDto(
+		PROCESSOR_NAME, CURRENT_FILE_NAME, CURRENT_LINE,
+		-1, 0, STATUS_MESSAGE,
+		ImporterStatus.PROCESSING);
+	assertEquals(ImporterStatus.UNKNOW, importerStatusDto.getStatus());
+	assertEquals(0, importerStatusDto.getPercent());
+	assertEquals(0, importerStatusDto.getNumberOfLinelefts());
+	
+	importerStatusDto = new ImporterStatusDto(
+			PROCESSOR_NAME, CURRENT_FILE_NAME, CURRENT_LINE,
+			0, -1, STATUS_MESSAGE,
+			ImporterStatus.PROCESSING);
+		assertEquals(ImporterStatus.UNKNOW, importerStatusDto.getStatus());
+		assertEquals(0, importerStatusDto.getPercent());
+		assertEquals(0, importerStatusDto.getNumberOfLinelefts());
+    
+    }
+    
    
 
 }

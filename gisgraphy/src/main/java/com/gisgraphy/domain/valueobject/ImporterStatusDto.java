@@ -136,6 +136,12 @@ public class ImporterStatusDto {
     }
 
     private void calculateFields() {
+    	if (numberOfLineToProcess <0 || numberOfLineProcessed < 0){
+    		status=ImporterStatus.UNKNOW;//todo test
+    		this.numberOfLinelefts = 0;
+    		this.percent = 0;
+    		return;
+    	}
 	this.numberOfLinelefts = (this.numberOfLineToProcess - this.numberOfLineProcessed);
 	if (numberOfLineToProcess != 0) {
 	    this.percent = new Long((numberOfLineProcessed * 100)

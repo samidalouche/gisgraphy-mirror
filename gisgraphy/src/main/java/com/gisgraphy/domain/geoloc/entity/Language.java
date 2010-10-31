@@ -119,7 +119,7 @@ public class Language {
     /**
      * @return official ISO 639 name
      */
-    @Column(unique = true, nullable = false)
+    @Column(unique = false, nullable = false)
     public String getIso639LanguageName() {
 	return this.iso639LanguageName;
     }

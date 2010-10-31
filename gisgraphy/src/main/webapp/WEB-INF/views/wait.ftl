@@ -60,6 +60,8 @@
 	</@s.iterator>
 	</blockquote>
 	<br/><br/>
+	 <@s.text name="import.unknowstatus.info" />
+	 <br/><br/>
     <p/>
     <@s.url id="thisUrl" action="import" includeParams="all" />
     <@s.text name="import.refreshText"/> <a href="${thisUrl}"><@s.text name="global.refresh"/></a>.
