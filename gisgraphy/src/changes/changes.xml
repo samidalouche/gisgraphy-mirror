@@ -353,6 +353,10 @@ remove the ability to search for 'no name street'
 			<action dev="David Masclet" type="fix">
 				set a connection timeout for retrieving remote http file size, so if no internet connection is found, the satus page won't fail
 			</action>
+			
+			<action dev="David Masclet" type="add">
+				importer have status 'unknow' if we can not determine the progression
+			</action>
 			</release>
 	</body>
 </document>
