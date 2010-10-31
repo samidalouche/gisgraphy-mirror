@@ -1,5 +1,8 @@
  1\ Migration guide for version 2.0
- 	1.1\From Gisgraphy 1.0 and Gisgraphy 2.0 :
+ 	1.1\From Gisgraphy 2.0 to Gisgraphy 2.1 :
+ 	   All is compatible
+       just run the sql "ALTER TABLE "language" DROP CONSTRAINT language_iso639languagename_key;", see http://www.gisgraphy.com/forum/viewtopic.php?f=3&t=261 for more details
+ 	1.2\From Gisgraphy 1.0 to Gisgraphy 2.0 :
  		Drop database, and recreate all tables with the provided scripts in ths sql directory
         Unfortunatly there is too much changes (improvements) and it is necessary to re-run an import.
         if you want to keep the usage statistique, backup the statsusage table.

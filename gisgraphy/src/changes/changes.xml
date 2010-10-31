@@ -336,8 +336,12 @@ remove the ability to search for 'no name street'
 			
 			</release>
 			
-			<release version="2.1" date="2010-10-07"
+			<release version="2.1" date="2010-10-31"
 			description="second release">
+			<action dev="David Masclet" type="fix">
+			Take the fact that now language name is not unique anymore 
+			</action>
+			
 			<action dev="David Masclet" type="fix">
 				malformed encoding properties when import data : \xxxxx
 			</action>
