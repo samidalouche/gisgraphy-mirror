@@ -321,23 +321,10 @@ remove the ability to search for 'no name street'
 			<action dev="David Masclet" type="add">
 			 download files for the importer have a more precise progression bar, that checks the file size instead of the number of files  
 			</action>
-			<release version="2.1" date="2010-08-03"
+			</release>
+			<release version="2.1" date="2010-10-31"
 			description="improvements of v2.0">
 			
-			<action dev="David Masclet" type="add">
-				Update displayfeatures page with some country fields 
-			</action>
-			
-			
-			<action dev="David Masclet" type="fix">
-				there was only one spoken languages for fulltext webservice http://code.google.com/p/gisgraphy/issues/detail?id=15
-			</action>
-			
-			
-			</release>
-			
-			<release version="2.1" date="2010-10-31"
-			description="second release">
 			<action dev="David Masclet" type="fix">
 			Take the fact that now language name is not unique anymore 
 			</action>
@@ -359,8 +346,20 @@ remove the ability to search for 'no name street'
 			</action>
 			
 			<action dev="David Masclet" type="add">
-				importer have status 'unknow' if we can not determine the progression
+				importer have status 'unknow' if we can not determine the progression of an importer
 			</action>
+			
+			<action dev="David Masclet" type="add">
+				Update displayfeatures page with some country fields 
+			</action>
+			
+			
+			<action dev="David Masclet" type="fix">
+				there was only one spoken languages for fulltext webservice http://code.google.com/p/gisgraphy/issues/detail?id=15
+			</action>
+			
+			
 			</release>
+			
 	</body>
 </document>
