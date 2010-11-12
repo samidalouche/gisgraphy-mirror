@@ -22,25 +22,18 @@
  *******************************************************************************/
 package com.gisgraphy.domain.geoloc.service.fulltextsearch;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
-
 import java.util.logging.Level;
 
 import org.apache.commons.httpclient.MultiThreadedHttpConnectionManager;
-import org.apache.jasper.servlet.JspServlet;
-import org.apache.solr.servlet.SolrDispatchFilter;
-import org.apache.solr.servlet.SolrServlet;
-import org.apache.solr.servlet.SolrUpdateServlet;
 import org.junit.Assert;
 import org.junit.Test;
-import org.mortbay.jetty.testing.ServletTester;
 
-public class SolrClientTest {
+public class SolrClientTest extends AbstractIntegrationHttpSolrTestCase {
+	
+	
 
     @Test
-    public void constructorShouldNotAcceptNullParameters() {
+    public void testConstructorShouldNotAcceptNullParameters() {
 	try {
 	    new SolrClient(null, new MultiThreadedHttpConnectionManager());
 	    fail("solrClient constructor does not accept null URL");
@@ -54,79 +47,32 @@ public class SolrClientTest {
     }
     
     @Test
-    public void constructorShouldAddEndingSlashIfNotPresent() {
+    public void testConstructorShouldAddEndingSlashIfNotPresent() {
 	    IsolrClient client = new SolrClient("http://127.0.0.1/solr", new MultiThreadedHttpConnectionManager());
 	    Assert.assertTrue("SolrClient should add a '/' if not present ", client.getURL().equals("http://127.0.0.1/solr/"));
     }
     
     @Test
-    public void bindToUrlShouldAddEndingSlashIfNotPresent() {
+    public void testBindToUrlShouldAddEndingSlashIfNotPresent() {
 	    IsolrClient client = new SolrClient("http://127.0.0.2/solr", new MultiThreadedHttpConnectionManager());
 	    client.bindToUrl("http://127.0.0.2/solr");
 	    Assert.assertTrue("SolrClient should add a '/' if not present ", client.getURL().equals("http://127.0.0.2/solr/"));
     }
 
     @Test
-    public void isALive() throws Exception {
-	ServletTester tester = null;
-	try {
-	    tester = new ServletTester();
-	    String fulltextContext = "/solr";
-	    tester.addFilter(SolrDispatchFilter.class, "/*", 0);
-	    tester.setContextPath(fulltextContext);
-
-	    // TODO v2 remove deprecated
-	    tester.addServlet(SolrServlet.class, "/select/*");
-	    String separator = System.getProperty("file.separator");
-	    tester.setResourceBase("target" + separator + "classes" + separator
-		    + "solradmin");
-	    tester.addServlet("org.mortbay.jetty.servlet.DefaultServlet", "/");
-	    tester.addServlet(JspServlet.class, "*.jsp");
-
-	    tester.addServlet(SolrUpdateServlet.class, "/update/*");
-
-	    String fulltextSearchUrl = tester.createSocketConnector(true)
-		    + fulltextContext;
-	    tester.start();
-	    IsolrClient clientAlive = new SolrClient("http://nowhere.tld/solr",
+    public void testIsALive() throws Exception {
+		    IsolrClient clientAlive = new SolrClient("http://nowhere.tld/solr",
 		    new MultiThreadedHttpConnectionManager());
 	    assertFalse(clientAlive.isServerAlive());
-	    clientAlive.bindToUrl(fulltextSearchUrl);
+	    clientAlive.bindToUrl(AbstractIntegrationHttpSolrTestCase.fulltextSearchUrlBinded);
 	    assertTrue(clientAlive.isServerAlive());
-	} finally {
-	    if (tester != null) {
-		try {
-		    tester.stop();
-		} catch (Exception e) {
-		}
-	    }
-	}
-
     }
     
     @Test
-    public void setSolRLogLevel() throws Exception {
-	ServletTester tester = null;
-	try {
-	    tester = new ServletTester();
-	    String fulltextContext = "/solr";
-	    tester.addFilter(SolrDispatchFilter.class, "/*", 0);
-	    tester.setContextPath(fulltextContext);
-
-	    String separator = System.getProperty("file.separator");
-	    tester.setResourceBase("target" + separator + "classes" + separator
-		    + "solradmin");
-	    tester.addServlet("org.mortbay.jetty.servlet.DefaultServlet", "/");
-	    tester.addServlet(JspServlet.class, "*.jsp");
-
-
-	    String fulltextSearchUrl = tester.createSocketConnector(true)
-		    + fulltextContext;
-	    tester.start();
-	    IsolrClient client = new SolrClient(fulltextSearchUrl,
+    public void testSetSolRLogLevel() throws Exception {
+	    IsolrClient client = new SolrClient(AbstractIntegrationHttpSolrTestCase.fulltextSearchUrlBinded,
 		    new MultiThreadedHttpConnectionManager());
 	    assertTrue(client.isServerAlive());
-	    client.setSolRLogLevel(Level.OFF);
 	    client.setSolRLogLevel(Level.CONFIG);
 	    client.setSolRLogLevel(Level.FINE);
 	    client.setSolRLogLevel(Level.FINER);
@@ -135,62 +81,21 @@ public class SolrClientTest {
 	    client.setSolRLogLevel(Level.SEVERE);
 	    client.setSolRLogLevel(Level.WARNING);
 	    client.setSolRLogLevel(Level.ALL);
-	} finally {
-	    if (tester != null) {
-		try {
-		    tester.stop();
-		} catch (Exception e) {
-		}
-	    }
-	}
-
+	    client.setSolRLogLevel(Level.OFF);
     }
     
 
     @Test
-    public void bindToURL() {
-	ServletTester tester = null;
-	try {
-	    tester = new ServletTester();
-	    String fulltextContext = "/solr";
-	    tester.addFilter(SolrDispatchFilter.class, "/*", 0);
-	    tester.setContextPath(fulltextContext);
-
-	    // TODO v2 remove deprecated
-	    tester.addServlet(SolrServlet.class, "/select/*");
-	    String separator = System.getProperty("file.separator");
-	    tester.setResourceBase("target" + separator + "classes" + separator
-		    + "solradmin");
-	    tester.addServlet("org.mortbay.jetty.servlet.DefaultServlet", "/");
-	    tester.addServlet(JspServlet.class, "*.jsp");
-
-	    tester.addServlet(SolrUpdateServlet.class, "/update/*");
-
-	    String fulltextSearchUrl = null;
-	    try {
-		fulltextSearchUrl = tester.createSocketConnector(true)
-			+ fulltextContext;
-		tester.start();
-	    } catch (Exception e) {
-		fail(e.getMessage());
-	    }
-	    IsolrClient clientAlive = new SolrClient("http://nowhere.tld/solr",
+    public void testBindToURL() {
+		    IsolrClient clientAlive = new SolrClient("http://nowhere.tld/solr",
 		    new MultiThreadedHttpConnectionManager());
-	    clientAlive.bindToUrl(fulltextSearchUrl);
+	    clientAlive.bindToUrl(AbstractIntegrationHttpSolrTestCase.fulltextSearchUrlBinded);
 	    try {
 		clientAlive.bindToUrl("http://nowhere.tld:4747solr");
 		fail("BindToUrl should throw for malformedUrl");
 	    } catch (Exception e) {
 	    }
 
-	} finally {
-	    if (tester != null) {
-		try {
-		    tester.stop();
-		} catch (Exception e) {
-		}
-	    }
-	}
 
     }
 

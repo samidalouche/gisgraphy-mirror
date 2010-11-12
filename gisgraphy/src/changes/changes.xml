@@ -361,5 +361,16 @@ remove the ability to search for 'no name street'
 			
 			</release>
 			
+						<release version="3.0" date="2010-XX"
+			description="improvements of v2.1">
+
+			
+			<action dev="David Masclet" type="add">
+				migrate to solr 1.4
+			</action>
+			
+			
+			</release>
+			
 	</body>
 </document>

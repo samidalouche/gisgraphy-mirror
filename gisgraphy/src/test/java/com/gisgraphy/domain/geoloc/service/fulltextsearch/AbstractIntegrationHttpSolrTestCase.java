@@ -15,13 +15,15 @@
 package com.gisgraphy.domain.geoloc.service.fulltextsearch;
 
 import java.io.File;
+import java.util.Random;
+import java.util.logging.Level;
 
-import org.apache.jasper.servlet.JspServlet;
-import org.apache.solr.servlet.SolrDispatchFilter;
-import org.apache.solr.servlet.SolrServlet;
-import org.apache.solr.servlet.SolrUpdateServlet;
 import org.apache.solr.util.TestHarness;
+import org.mortbay.jetty.Connector;
+import org.mortbay.jetty.Server;
+import org.mortbay.jetty.nio.SelectChannelConnector;
 import org.mortbay.jetty.testing.ServletTester;
+import org.mortbay.jetty.webapp.WebAppContext;
 import org.springframework.beans.factory.annotation.Required;
 
 import com.gisgraphy.domain.repository.AbstractTransactionalTestCase;
@@ -82,7 +84,7 @@ public abstract class AbstractIntegrationHttpSolrTestCase extends
     /**
      * the URL of the fulltextSearchUrl
      */
-    protected String fulltextSearchUrl;
+    public static String fulltextSearchUrlBinded;
 
     protected ISolRSynchroniser solRSynchroniser;
 
@@ -96,6 +98,13 @@ public abstract class AbstractIntegrationHttpSolrTestCase extends
      * The directory used to story the index managed by the TestHarness h
      */
     protected File dataDir;
+    
+    /**
+     * @return a port beetween 49152 and 65535
+     */
+    private int generatePort(){
+    	return 49152 + new Random().nextInt(65535-49152);
+    }
 
     /**
      * Initializes things your test might need
@@ -123,37 +132,38 @@ public abstract class AbstractIntegrationHttpSolrTestCase extends
 			+ System.getProperty(solrDataDirPropertyName) + " to " + solrDataDirValue);
 		System.setProperty(solrDataDirPropertyName, solrDataDirValue);
 
-		logger.info("System property" + solrDataDirPropertyName + " is now : "
+		logger.info("System property " + solrDataDirPropertyName + " is now : "
 			+ System.getProperty(solrDataDirPropertyName));
 	    } else {
 		logger.info(solrDataDirPropertyName + "=" + System.getProperty("file.encoding"));
 	    }
-	    tester = new ServletTester();
+	    
+	    String jetty_default=new java.io.File("./start.jar").exists()?".":"./src/dist/";;
+	    String jetty_home = System.getProperty("jetty.home",jetty_default);
 
-	    tester.addFilter(SolrDispatchFilter.class, "/*", 0);
-	    tester.setContextPath(FULLTEXT_SEARCH_ENGINE_CONTEXT);
+	    Server server = new Server();
+	    int port = generatePort();
+	    Connector connector=new SelectChannelConnector();
+	    connector.setPort(Integer.getInteger("jetty.port",port).intValue());
+	    server.setConnectors(new Connector[]{connector});
+	    
+	    WebAppContext webapp = new WebAppContext();
+	    webapp.setContextPath(FULLTEXT_SEARCH_ENGINE_CONTEXT);
+	    webapp.setWar(jetty_home+"webapps/solr.war");
+	    webapp.setDefaultsDescriptor(jetty_home+"etc/webdefault.xml");
+	    
+	    server.setHandler(webapp);
+	    server.setStopAtShutdown(true);
+	    logger.info("will start jetty on "+port);
+	    serverStarted = true;
+	    server.start();
+	    fulltextSearchUrlBinded=("http://localhost:"+port
+	    + FULLTEXT_SEARCH_ENGINE_CONTEXT);
 
-	    // TODO v2 remove deprecated
-	    tester.addServlet(SolrServlet.class, "/select/*");
-
-	    tester.setResourceBase("target" + separator + "classes" + separator
-		    + "solradmin");
-	    tester.addServlet("org.mortbay.jetty.servlet.DefaultServlet", "/");
-	    tester.addServlet(JspServlet.class, "*.jsp");
-
-	    tester.addServlet(SolrUpdateServlet.class, "/update/*");
-
-	    fulltextSearchUrl = tester.createSocketConnector(true)
-		    + FULLTEXT_SEARCH_ENGINE_CONTEXT;
-	    tester.start();
-
+	    this.solrClient.bindToUrl(fulltextSearchUrlBinded);
 	    // set log to off
 	    // comment this line to see solr logs
-	    tester
-		    .getResponses("GET /solr/admin/action.jsp?log=OFF HTTP/1.0\r\n\r\n");
-
-	    this.solrClient.bindToUrl(fulltextSearchUrl);
-	    serverStarted = true;
+	    this.solrClient.setSolRLogLevel(Level.OFF);
 	}
 	if (isMustStartServlet()) {
 	    this.solRSynchroniser.deleteAll();
@@ -196,5 +206,8 @@ public abstract class AbstractIntegrationHttpSolrTestCase extends
     public void setSolrClient(IsolrClient solrClient) {
 	this.solrClient = solrClient;
     }
+
+
+	
 
 }

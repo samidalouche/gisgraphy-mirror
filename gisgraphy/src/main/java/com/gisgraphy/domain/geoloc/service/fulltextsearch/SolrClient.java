@@ -34,6 +34,7 @@ import javax.xml.xpath.XPathFactory;
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.MultiThreadedHttpConnectionManager;
 import org.apache.commons.httpclient.methods.GetMethod;
+import org.apache.commons.httpclient.methods.PostMethod;
 import org.apache.solr.client.solrj.SolrServer;
 import org.apache.solr.client.solrj.impl.CommonsHttpSolrServer;
 import org.apache.solr.client.solrj.response.SolrPingResponse;
@@ -51,7 +52,6 @@ import org.springframework.util.Assert;
  */
 public class SolrClient implements IsolrClient {
 
-    private static final String NEEDED_STRING_TO_CONSIDER_LOG_LEVEL_OK = "Succeeded";
 
     protected static final Logger logger = LoggerFactory
 	    .getLogger(SolrClient.class);
@@ -106,7 +106,7 @@ public class SolrClient implements IsolrClient {
 		    .info("fulltextSearchUrl for FullTextSearchEngine is changed to "
 			    + solrUrl);
 	} catch (Exception e) {
-	    throw new RuntimeException("Error connecting to Solr!");
+	    throw new RuntimeException("Error connecting to Solr to "+solrUrl);
 	}
     }
 
@@ -156,16 +156,18 @@ public class SolrClient implements IsolrClient {
     public void setSolRLogLevel(Level level) {
 	Assert.notNull(level, "you can not specify a null level");
 	Assert.notNull(multiThreadedHttpConnectionManager,"httpconnectionManager should not be null, can not set log level");
-	Assert.notNull(multiThreadedHttpConnectionManager,"Solr URL should not be null, can not set log level");
+	Assert.notNull(URL,"Solr URL should not be null, can not set log level");
 	HttpClient client = new HttpClient(multiThreadedHttpConnectionManager);
-	GetMethod method = new GetMethod(this.URL+"admin/action.jsp?log="+level.toString().toUpperCase());
+	PostMethod method = new PostMethod(this.URL+"admin/logging");
+	method.setParameter("root",level.toString().toUpperCase());
+	method.setParameter("submit","set");
 	 try {
 	            try {
-			client.executeMethod(method);
+			int responseCode = client.executeMethod(method);
 			logger.info("Set solr log Level to "+level);
 			String responseBody = method.getResponseBodyAsString();
-			if (!responseBody.contains(NEEDED_STRING_TO_CONSIDER_LOG_LEVEL_OK)){
-			    throw new RuntimeException("Can not set solr log level to "+level+" because response code is not OK : "+responseBody);
+			if (responseCode >= 500){
+			    throw new RuntimeException("Can not set solr log level to "+level+" because response code is not OK ("+responseCode+"): "+responseBody);
 			}
 		    } catch (Exception e) {
 			throw new RuntimeException("Can not set solr log level to "+level,e);

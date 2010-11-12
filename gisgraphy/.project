@@ -1,46 +1,30 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <projectDescription>
-	<name>gisgraphy</name>
-	<comment>Gisgraphy goal is to provide tools to use free GIS Data on the Web. 
-   Actually it manage Geonames and OpenStreetMap (34 million entries).
+  <name>gisgraphy</name>
+  <comment>Gisgraphy goal is to provide tools to use free GIS Data on the Web. 
+   Actually it manage Geonames and OpenStreetMap (42 million entries).
    it provides an importer to inject the data into a strongly typed Postgres / Postgis database and use them via webservices :
    worldwide geocoding, worldwide reverse geocoding, fulltext and find nearby.
    Results can be output in XML, Atom, RSS, JSON, PHP, Ruby, and Python.</comment>
-	<projects>
-	</projects>
-	<buildSpec>
-		<buildCommand>
-			<name>org.python.pydev.PyDevBuilder</name>
-			<arguments>
-			</arguments>
-		</buildCommand>
-		<buildCommand>
-			<name>org.eclipse.jdt.core.javabuilder</name>
-			<arguments>
-			</arguments>
-		</buildCommand>
-		<buildCommand>
-			<name>org.eclipse.wst.common.project.facet.core.builder</name>
-			<arguments>
-			</arguments>
-		</buildCommand>
-		<buildCommand>
-			<name>org.eclipse.wst.validation.validationbuilder</name>
-			<arguments>
-			</arguments>
-		</buildCommand>
-		<buildCommand>
-			<name>org.springframework.ide.eclipse.core.springbuilder</name>
-			<arguments>
-			</arguments>
-		</buildCommand>
-	</buildSpec>
-	<natures>
-		<nature>org.eclipse.wst.common.project.facet.core.nature</nature>
-		<nature>org.eclipse.jdt.core.javanature</nature>
-		<nature>org.eclipse.wst.common.modulecore.ModuleCoreNature</nature>
-		<nature>org.eclipse.jem.workbench.JavaEMFNature</nature>
-		<nature>org.springframework.ide.eclipse.core.springnature</nature>
-		<nature>org.python.pydev.pythonNature</nature>
-	</natures>
+  <projects/>
+  <buildSpec>
+    <buildCommand>
+      <name>org.eclipse.jdt.core.javabuilder</name>
+    </buildCommand>
+    <buildCommand>
+      <name>org.eclipse.wst.common.project.facet.core.builder</name>
+    </buildCommand>
+    <buildCommand>
+      <name>org.eclipse.wst.validation.validationbuilder</name>
+    </buildCommand>
+    <buildCommand>
+      <name>org.springframework.ide.eclipse.core.springbuilder</name>
+    </buildCommand>
+  </buildSpec>
+  <natures>
+    <nature>org.eclipse.wst.common.project.facet.core.nature</nature>
+    <nature>org.eclipse.jdt.core.javanature</nature>
+    <nature>org.eclipse.wst.common.modulecore.ModuleCoreNature</nature>
+    <nature>org.eclipse.jem.workbench.JavaEMFNature</nature>
+    <nature>org.springframework.ide.eclipse.core.springnature</nature>
+  </natures>
 </projectDescription>

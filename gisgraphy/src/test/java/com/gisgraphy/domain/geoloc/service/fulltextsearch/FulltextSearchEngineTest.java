@@ -404,11 +404,10 @@ public class FulltextSearchEngineTest extends
 			    + "'][.='" + city.getFullyQualifiedName(false)
 			    + "']", "//*[@name='"
 			    + FullTextFields.SPELLCHECK.getValue() + "']",
-		    "//*[@name='"
-			    + FullTextFields.SPELLCHECK_SUGGESTIONS.getValue()
-			    + "']"
-			    ,"//*[./arr[1]/str[1]/.='saint']"
-				,"//*[./arr[1]/str[1]/.='andré']"
+		"//*[@name='" + FullTextFields.SPELLCHECK_SUGGESTIONS.getValue()
+				+ "']"
+			,"//*[@name='" + FullTextFields.SPELLCHECK_SUGGESTIONS.getValue()
+				+ "'][./lst[1][@name='Saint-André'][./arr[1]/str[1]/.='saint']]"
 
 	    );
 	} catch (FullTextSearchException e) {
@@ -526,13 +525,11 @@ public class FulltextSearchEngineTest extends
 		    .executeQuery(fulltextQuery);
 	    Map<String, Suggestion> suggestionMap = result.getSuggestionMap();
 	    assertNotNull("suggestionMap should never be null",suggestionMap);
-	    assertEquals(2, suggestionMap.size());
-	    String[] keys =  suggestionMap.keySet().toArray(new String[2]);
-	    assertEquals("Saint", keys[0]);
-	    assertEquals("Andr", keys[1]);
+	    assertEquals(1, suggestionMap.size());
+	    String[] keys =  suggestionMap.keySet().toArray(new String[1]);
+	    assertEquals("Saint-André", keys[0]);
 	    assertNotNull(suggestionMap.get(keys[0]));
-	    assertNotNull(suggestionMap.get(keys[1]));
-	    assertEquals("saint andré", result.getSpellCheckProposal());
+	    assertEquals("saint", result.getSpellCheckProposal());
 	    assertNotNull(result.getCollatedResult());
 	    assertFalse(result.getCollatedResult().startsWith(" "));
 	    assertFalse(result.getCollatedResult().endsWith(" "));
@@ -572,13 +569,11 @@ public class FulltextSearchEngineTest extends
 		    .executeQuery(fulltextQuery);
 	    Map<String, Suggestion> suggestionMap = result.getSuggestionMap();
 	    assertNotNull("suggestionMap should never be null",suggestionMap);
-	    assertEquals(2, suggestionMap.size());
-	    String[] keys =  suggestionMap.keySet().toArray(new String[2]);
-	    assertEquals("Saint", keys[0]);
-	    assertEquals("Andr", keys[1]);
+	    assertEquals(1, suggestionMap.size());
+	    String[] keys =  suggestionMap.keySet().toArray(new String[1]);
+	    assertEquals("Saint-André", keys[0]);
 	    assertNotNull(suggestionMap.get(keys[0]));
-	    assertNotNull(suggestionMap.get(keys[1]));
-	    assertEquals("saint andré", result.getSpellCheckProposal());
+	    assertEquals("saint", result.getSpellCheckProposal());
 	    assertNull(result.getCollatedResult());
 	} catch (FullTextSearchException e) {
 	    fail("error during search : " + e.getMessage());

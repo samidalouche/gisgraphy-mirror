@@ -788,9 +788,10 @@ public class SolRSynchroniserTest extends AbstractIntegrationHttpSolrTestCase {
 			+ "']"
 		,"//*[@name='" + FullTextFields.SPELLCHECK_SUGGESTIONS.getValue()
 			+ "']"
-		,"//*[./arr[1]/str[1]/.='saint']"
-		,"//*[./arr[1]/str[1]/.='andré']"
-		,"//*[./arr[1]/str[1]/.='france']"
+		,"//*[@name='" + FullTextFields.SPELLCHECK_SUGGESTIONS.getValue()
+			+ "'][./lst[1][@name='Saint-André'][./arr[1]/str[1]/.='saint']]"
+		,"//*[@name='" + FullTextFields.SPELLCHECK_SUGGESTIONS.getValue()
+			+ "'][./lst[2][@name='France'][./arr[1]/str[1]/.='france']]"
 	
 	);
 
