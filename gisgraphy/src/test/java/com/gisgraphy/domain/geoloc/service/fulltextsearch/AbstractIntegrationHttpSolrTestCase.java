@@ -22,7 +22,6 @@ import org.apache.solr.util.TestHarness;
 import org.mortbay.jetty.Connector;
 import org.mortbay.jetty.Server;
 import org.mortbay.jetty.nio.SelectChannelConnector;
-import org.mortbay.jetty.testing.ServletTester;
 import org.mortbay.jetty.webapp.WebAppContext;
 import org.springframework.beans.factory.annotation.Required;
 
@@ -40,43 +39,9 @@ public abstract class AbstractIntegrationHttpSolrTestCase extends
 
     private static boolean serverStarted = false;
 
-    /**
-     * Harness initialized by initTestHarness.
-     * <p>
-     * For use in test methods as needed.
-     * </p>
-     */
-    protected TestHarness h;
-    /**
-     * LocalRequestFactory initialized by initTestHarness using sensible
-     * defaults.
-     * <p>
-     * For use in test methods as needed.
-     * </p>
-     */
-    protected TestHarness.LocalRequestFactory lrf;
+   
 
-    /**
-     * Subclasses must define this method to return the name of the schema.xml
-     * they wish to use.
-     */
-    public String getSchemaFile() {
-	return "schema.xml";
-    }
-
-    /**
-     * Subclasses must define this method to return the name of the
-     * solrconfig.xml they wish to use.
-     */
-    public String getSolrConfigFile() {
-	return "solrconfig.xml";
-    }
-
-    /**
-     * the solr server for tests
-     */
-    protected ServletTester tester;
-
+   
     protected boolean isMustStartServlet() {
 	return true;
     }
@@ -102,7 +67,7 @@ public abstract class AbstractIntegrationHttpSolrTestCase extends
     /**
      * @return a port beetween 49152 and 65535
      */
-    private int generatePort(){
+    private int generateRandomPort(){
     	return 49152 + new Random().nextInt(65535-49152);
     }
 
@@ -142,7 +107,7 @@ public abstract class AbstractIntegrationHttpSolrTestCase extends
 	    String jetty_home = System.getProperty("jetty.home",jetty_default);
 
 	    Server server = new Server();
-	    int port = generatePort();
+	    int port = generateRandomPort();
 	    Connector connector=new SelectChannelConnector();
 	    connector.setPort(Integer.getInteger("jetty.port",port).intValue());
 	    server.setConnectors(new Connector[]{connector});
