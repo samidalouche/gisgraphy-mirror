@@ -369,6 +369,14 @@ remove the ability to search for 'no name street'
 				migrate to solr 1.4
 			</action>
 			
+			<action dev="David Masclet" type="update">
+				fulltext search do not use hack when countrycode or placetype is specify
+			</action>
+			
+			<action dev="David Masclet" type="remove">
+				remove requesthandler typed in solrConfig.xml
+			</action>
+			
 			
 			</release>
 			

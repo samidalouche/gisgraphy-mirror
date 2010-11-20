@@ -344,8 +344,6 @@ Full (alternatenames for adm and country): Long + country_alternate_name_, adm1_
   <!--Medium  --><field name="feature_class" type="string" indexed="true" stored="true"/>
   <!--Medium  --><field name="feature_code" type="string" indexed="true" stored="true"/>
   <!--Short  --><field name="placetype" type="string" indexed="true" stored="true"/><!-- this field is used for extended search, extended search is useful when we want to search across multiple boost fields with a typed -->
-  <!--not exported  --><field name="placetypeclass" type="string" indexed="true" stored="false"/><!-- this field is used for typed search, typed search is useful when we want to search across multiple boost fields with a typed for a single phrase,
-   this fields is the placetype+class to avoid search result to be retrieve, i.e if we search for new york city all the city will be retrieve -->
 
    
    

@@ -120,9 +120,6 @@ public class StreetSearchQueryTest  {
 
     @Test
     public void streetSearchQueryFromAnHttpServletRequest() {
-	Class<? extends GisFeature> savedDefaultType = GisgraphyConfig.defaultGeolocSearchPlaceTypeClass;
-	try {
-	    GisgraphyConfig.defaultGeolocSearchPlaceTypeClass = Country.class;
 	    MockHttpServletRequest request = GeolocTestHelper
 		    .createMockHttpServletRequestForStreetGeoloc();
 	    StreetSearchQuery query = new StreetSearchQuery(request);
@@ -609,9 +606,7 @@ public class StreetSearchQueryTest  {
 	    assertTrue("distanceField should be kept to his default value if specified with wrong value",
 			     query.hasDistanceField());
 
-	} finally {
-	    GisgraphyConfig.defaultGeolocSearchPlaceTypeClass = savedDefaultType;
-	}
+
     }
 
     @Test

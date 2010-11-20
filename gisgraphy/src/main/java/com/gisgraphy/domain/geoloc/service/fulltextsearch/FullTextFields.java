@@ -39,8 +39,6 @@ public enum FullTextFields {
 	ALL_NAME("all_name"),
 	FULLY_QUALIFIED_NAME("fully_qualified_name"),
 	PLACETYPE("placetype"),
-	PLACETYPECLASS("placetypeclass"),
-	PLACETYPECLASS_SUFFIX("class"),
 	POPULATION("population"),
 	LAT("lat"),
 	LONG("lng"),

@@ -540,11 +540,16 @@ public class FulltextQueryTest extends AbstractIntegrationHttpSolrTestCase {
 		.getParameterValue(), parameters
 		.get(Constants.OUTPUT_FORMAT_PARAMETER));
 	assertEquals("wrong query type parameter found",
-		Constants.SolrQueryType.typed.toString(), parameters
+		Constants.SolrQueryType.advanced.toString(), parameters
 			.get(Constants.QT_PARAMETER));
-	assertEquals("wrong query parameter found",
-		"Saint-André France Admclass ", parameters
-			.get(Constants.QUERY_PARAMETER));
+	assertTrue("wrong query parameter found '"+FullTextFields.PLACETYPE.getValue()+":' expected in query but was "+parameters
+			.get(Constants.QUERY_PARAMETER),
+		parameters
+			.get(Constants.QUERY_PARAMETER).contains(FullTextFields.PLACETYPE.getValue()+":"));
+	assertTrue("wrong query parameter found '"+FullTextFields.COUNTRYCODE.getValue()+":' expected in query but was "+parameters
+			.get(Constants.QUERY_PARAMETER),
+			parameters
+				.get(Constants.QUERY_PARAMETER).contains(FullTextFields.COUNTRYCODE.getValue()+":"));
     }
 
     @Test
@@ -579,11 +584,16 @@ public class FulltextQueryTest extends AbstractIntegrationHttpSolrTestCase {
 	assertEquals("wrong stylesheet", Constants.GEORSS_STYLESHEET,
 		parameters.get(Constants.STYLESHEET_PARAMETER));
 	assertEquals("wrong query type parameter found",
-		Constants.SolrQueryType.typed.toString(), parameters
+		Constants.SolrQueryType.advanced.toString(), parameters
 			.get(Constants.QT_PARAMETER));
-	assertEquals("wrong query parameter found",
-		"Saint-André France Admclass ", parameters
-			.get(Constants.QUERY_PARAMETER));
+	assertTrue("wrong query parameter found '"+FullTextFields.PLACETYPE.getValue()+":' expected in query but was "+parameters
+			.get(Constants.QUERY_PARAMETER),
+		parameters
+			.get(Constants.QUERY_PARAMETER).contains(FullTextFields.PLACETYPE.getValue()+":"));
+	assertTrue("wrong query parameter found '"+FullTextFields.COUNTRYCODE.getValue()+":' expected in query but was "+parameters
+			.get(Constants.QUERY_PARAMETER),
+			parameters
+				.get(Constants.QUERY_PARAMETER).contains(FullTextFields.COUNTRYCODE.getValue()+":"));
     }
 
     @Test
@@ -617,11 +627,16 @@ public class FulltextQueryTest extends AbstractIntegrationHttpSolrTestCase {
 	assertEquals("wrong stylesheet", Constants.ATOM_STYLESHEET, parameters
 		.get(Constants.STYLESHEET_PARAMETER));
 	assertEquals("wrong query type parameter found",
-		Constants.SolrQueryType.typed.toString(), parameters
+		Constants.SolrQueryType.advanced.toString(), parameters
 			.get(Constants.QT_PARAMETER));
-	assertEquals("wrong query parameter found",
-		"Saint-André France Admclass ", parameters
-			.get(Constants.QUERY_PARAMETER));
+	assertTrue("wrong query parameter found '"+FullTextFields.PLACETYPE.getValue()+":' expected in query but was "+parameters
+			.get(Constants.QUERY_PARAMETER),
+		parameters
+			.get(Constants.QUERY_PARAMETER).contains(FullTextFields.PLACETYPE.getValue()+":"));
+	assertTrue("wrong query parameter found '"+FullTextFields.COUNTRYCODE.getValue()+":' expected in query but was "+parameters
+			.get(Constants.QUERY_PARAMETER),
+			parameters
+				.get(Constants.QUERY_PARAMETER).contains(FullTextFields.COUNTRYCODE.getValue()+":"));
     }
     
     @Test

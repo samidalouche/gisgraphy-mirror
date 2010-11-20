@@ -158,7 +158,7 @@ public class Constants {
      * All the Query type in the Gisgraphy solr config file
      */
     public enum SolrQueryType {
-	standard, typed, numeric, simple, deep, advanced,spellcheck
+	standard, numeric, simple, deep, advanced,spellcheck
     };
 
     /**
@@ -213,30 +213,7 @@ public class Constants {
 	    "classpath:/applicationContext-test.xml",
 	    "classpath:/applicationContext-dao-test.xml" };
 
-    /**
-     * A String of the ApplicationContext names
-     */
-    public final static String APPLICATION_CONTEXT_NAMES_STRING = new StringBuffer(
-	    "classpath:/applicationContext.xml,").append(
-	    "classpath:/applicationContext-resources.xml,").append(
-	    "classpath:/applicationContext-repository.xml,").append(
-	    "classpath:/applicationContext-geoloc.xml,").append(
-	    "classpath:/applicationContext-dao.xml,").toString();
-
-    /**
-     * A String of the ApplicationContext names used for tests
-     */
-    public final static String APPLICATION_CONTEXT_NAMES_STRING_FOR_TESTS = new StringBuffer(
-	    "classpath:/applicationContext-test.xml,").append(
-	    "classpath:/applicationContext.xml,").append(
-	    "classpath:/applicationContext-resources.xml,").append(
-	    "classpath:/applicationContext-repository.xml,").append(
-	    "classpath:/applicationContext-geoloc.xml,").append(
-	    "classpath:/applicationContext-dao.xml,").append(
-	    "classpath:/applicationContext-service.xml,").append(
-	    "Classpath:/WEB-INF/applicationContext-struts.xml,").append(
-	    "classpath:/applicationContext-dao-test.xml").toString();
-
+   
     /**
      * The node name for {@link GisFeatureDistance} node in JAXB
      */

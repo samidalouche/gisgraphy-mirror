@@ -380,31 +380,7 @@
    	 </arr>
      </requestHandler>
      
-      <!-- search in name, zipcodes admXname, an countryname for a specific typed :
-       - use typed to search across multiple boost field for a specific type
-       - use advanced to search multiple field without boost
-      
-      -->
-     <requestHandler name="typed" class="solr.DisMaxRequestHandler" >
-    <lst name="defaults">
-     <str name="echoParams">none</str>
-     <str name="echoHandler">false</str>
-	
-     <str name="qf">
-        all_name^1.1 iso_all_name^1 zipcode^1.1 all_adm1_name^0.5 all_adm2_name^0.5 all_country_name^0.5 placetypeclass^2
-     </str>
-     <str name="pf">
-		name^1.1
-     </str>
-	 
-	 <str name="bf">
-        population^2.0
-     </str>
-     </lst>
-     <arr name="last-components">
-      <str>spellcheck</str>
-   	 </arr>
-     </requestHandler>
+    
      
      <!-- search zipcodes or featureId (a country can be specified) -->
      <requestHandler name="numeric" class="solr.DisMaxRequestHandler" >

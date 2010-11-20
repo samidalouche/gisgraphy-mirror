@@ -144,7 +144,7 @@ public class FulltextSearchEngineTest extends
     }
 
     @Test
-    public void testExecuteQueryWithAnNnullQuerythrows() {
+    public void testExecuteQueryWithAnNullQuerythrows() {
 	try {
 	    fullTextSearchEngine.executeQuery(null);
 	    fail("executeAndSerialize does not accept null query");
@@ -376,7 +376,7 @@ public class FulltextSearchEngineTest extends
 
     @Test
     public void testExecuteQueryToStringShouldTakeSpellCheckerIntoAccount() {
-	City city = GeolocTestHelper.createCity("Saint-André", 1.5F, 2F, 1001L);
+	City city = GeolocTestHelper.createCity("Saint Andre", 1.5F, 2F, 1001L);
 	this.cityDao.save(city);
 	assertNotNull(this.cityDao.getByFeatureId(1001L));
 	// commit changes
@@ -393,8 +393,9 @@ public class FulltextSearchEngineTest extends
 	    Output output = Output.withFormat(OutputFormat.XML)
 		    .withLanguageCode("FR").withStyle(OutputStyle.SHORT)
 		    .withIndentation();
-	    FulltextQuery fulltextQuery = new FulltextQuery("Saint-André",
+	    FulltextQuery fulltextQuery = new FulltextQuery("Saint André",
 		    pagination, output, City.class, "fr").withSpellChecking();
+	    fulltextQuery.toQueryString();
 	    String result = fullTextSearchEngine
 		    .executeQueryToString(fulltextQuery);
 	    FeedChecker.assertQ("The query return incorrect values", result,
@@ -407,7 +408,7 @@ public class FulltextSearchEngineTest extends
 		"//*[@name='" + FullTextFields.SPELLCHECK_SUGGESTIONS.getValue()
 				+ "']"
 			,"//*[@name='" + FullTextFields.SPELLCHECK_SUGGESTIONS.getValue()
-				+ "'][./lst[1][@name='Saint-André'][./arr[1]/str[1]/.='saint']]"
+				+ "'][./lst[1][@name='andré'][./arr[1]/str[1]/.='andre']]"
 
 	    );
 	} catch (FullTextSearchException e) {
@@ -499,7 +500,7 @@ public class FulltextSearchEngineTest extends
     
     @Test
     public void testExecuteQueryWithSpellCheckingAndWithSpellResults() {
-	City city = GeolocTestHelper.createCity("Saint-André", 1.5F, 2F, 1001L);
+	City city = GeolocTestHelper.createCity("Saint-Andre", 1.5F, 2F, 1001L);
 	this.cityDao.save(city);
 	assertNotNull(this.cityDao.getByFeatureId(1001L));
 	// commit changes
@@ -527,9 +528,9 @@ public class FulltextSearchEngineTest extends
 	    assertNotNull("suggestionMap should never be null",suggestionMap);
 	    assertEquals(1, suggestionMap.size());
 	    String[] keys =  suggestionMap.keySet().toArray(new String[1]);
-	    assertEquals("Saint-André", keys[0]);
+	    assertEquals("andré", keys[0]);
 	    assertNotNull(suggestionMap.get(keys[0]));
-	    assertEquals("saint", result.getSpellCheckProposal());
+	    assertEquals("andre", result.getSpellCheckProposal());
 	    assertNotNull(result.getCollatedResult());
 	    assertFalse(result.getCollatedResult().startsWith(" "));
 	    assertFalse(result.getCollatedResult().endsWith(" "));
@@ -543,7 +544,7 @@ public class FulltextSearchEngineTest extends
     
     @Test
     public void testExecuteQueryWithSpellCheckingAndWithSpellResultsAndWithoutCollate() {
-	City city = GeolocTestHelper.createCity("Saint-André", 1.5F, 2F, 1001L);
+	City city = GeolocTestHelper.createCity("Saint-Andre", 1.5F, 2F, 1001L);
 	this.cityDao.save(city);
 	assertNotNull(this.cityDao.getByFeatureId(1001L));
 	// commit changes
@@ -571,9 +572,9 @@ public class FulltextSearchEngineTest extends
 	    assertNotNull("suggestionMap should never be null",suggestionMap);
 	    assertEquals(1, suggestionMap.size());
 	    String[] keys =  suggestionMap.keySet().toArray(new String[1]);
-	    assertEquals("Saint-André", keys[0]);
+	    assertEquals("andré", keys[0]);
 	    assertNotNull(suggestionMap.get(keys[0]));
-	    assertEquals("saint", result.getSpellCheckProposal());
+	    assertEquals("andre", result.getSpellCheckProposal());
 	    assertNull(result.getCollatedResult());
 	} catch (FullTextSearchException e) {
 	    fail("error during search : " + e.getMessage());

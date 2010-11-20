@@ -306,8 +306,6 @@ public class SolRSynchroniser implements ISolRSynchroniser {
 			String placetype = ClassNameHelper.stripEnhancerClass(gisFeature
 				.getClass().getSimpleName());
 			ex.setField(FullTextFields.PLACETYPE.getValue(), placetype);
-			ex.setField(FullTextFields.PLACETYPECLASS.getValue(), placetype
-				+ FullTextFields.PLACETYPECLASS_SUFFIX.getValue());
 			ex.setField(FullTextFields.POPULATION.getValue(), gisFeature
 				.getPopulation());
 			ex.setField(FullTextFields.FULLY_QUALIFIED_NAME.getValue(),

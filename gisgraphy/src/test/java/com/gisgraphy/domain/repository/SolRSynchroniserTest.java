@@ -664,7 +664,7 @@ public class SolRSynchroniserTest extends AbstractIntegrationHttpSolrTestCase {
 	    Output output = Output.withFormat(OutputFormat.XML)
 		    .withLanguageCode("FR").withStyle(OutputStyle.FULL)
 		    .withIndentation();
-	    FulltextQuery fulltextQuery = new FulltextQuery("Saint-André",
+	    FulltextQuery fulltextQuery = new FulltextQuery("Saint-Andre",
 		    pagination, output, City.class, "fr").withSpellChecking();
 	    fullTextSearchEngine.executeAndSerialize(fulltextQuery,
 		    outputStream);
@@ -789,9 +789,8 @@ public class SolRSynchroniserTest extends AbstractIntegrationHttpSolrTestCase {
 		,"//*[@name='" + FullTextFields.SPELLCHECK_SUGGESTIONS.getValue()
 			+ "']"
 		,"//*[@name='" + FullTextFields.SPELLCHECK_SUGGESTIONS.getValue()
-			+ "'][./lst[1][@name='Saint-André'][./arr[1]/str[1]/.='saint']]"
-		,"//*[@name='" + FullTextFields.SPELLCHECK_SUGGESTIONS.getValue()
-			+ "'][./lst[2][@name='France'][./arr[1]/str[1]/.='france']]"
+			+ "'][./lst[1][@name='andre'][./arr[1]/str[1]/.='andré']]"
+		
 	
 	);
 
