@@ -511,8 +511,9 @@ public class FulltextQueryTest extends AbstractIntegrationHttpSolrTestCase {
 	assertEquals(Adm.class, fulltextQuery.getPlaceType());
     }
 
+    
     @Test
-    public void testToQueryStringShouldreturnCorrectParams() {
+    public void testToQueryStringShouldreturnCorrectParamsForBasicQuery() {
 	Country france = GeolocTestHelper.createCountryForFrance();
 	Country saved = countryDao.save(france);
 	assertNotNull(saved);
@@ -520,7 +521,142 @@ public class FulltextQueryTest extends AbstractIntegrationHttpSolrTestCase {
 	Pagination pagination = paginate().from(3).to(10);
 	Output output = Output.withFormat(OutputFormat.JSON).withLanguageCode(
 		"FR").withStyle(OutputStyle.SHORT).withIndentation();
-	FulltextQuery fulltextQuery = new FulltextQuery("Saint-André",
+	String searchTerm = "Saint-André";
+	FulltextQuery fulltextQuery = new FulltextQuery(searchTerm,
+		pagination, output, null, null);
+	// split parameters
+	HashMap<String, String> parameters = GeolocTestHelper.splitURLParams(
+		fulltextQuery.toQueryString(), "&");
+	// check parameters
+	assertEquals(Output.OutputStyle.SHORT.getFieldList("FR"), parameters
+		.get(Constants.FL_PARAMETER));
+	assertEquals("wrong indent parameter found", "on", parameters
+		.get(Constants.INDENT_PARAMETER));
+	assertEquals("wrong echoparams parameter found", "none", parameters
+		.get(Constants.ECHOPARAMS_PARAMETER));
+	assertEquals("wrong start parameter found", "2", parameters
+		.get(Constants.START_PARAMETER));
+	assertEquals("wrong rows parameter found", "8", parameters
+		.get(Constants.ROWS_PARAMETER));
+	assertEquals("wrong output format parameter found", OutputFormat.JSON
+		.getParameterValue(), parameters
+		.get(Constants.OUTPUT_FORMAT_PARAMETER));
+	assertEquals("wrong query type parameter found",
+		Constants.SolrQueryType.standard.toString(), parameters
+			.get(Constants.QT_PARAMETER));
+	assertEquals("wrong query parameter found ",searchTerm,
+		parameters
+			.get(Constants.QUERY_PARAMETER));
+	assertNull("spellchecker query should not be set when standard query",parameters
+		.get(Constants.SPELLCHECKER_QUERY_PARAMETER));   
+	}
+    
+    @Test
+    public void testToQueryStringShouldreturnCorrectParamsForBasicNumericQuery() {
+	Country france = GeolocTestHelper.createCountryForFrance();
+	Country saved = countryDao.save(france);
+	assertNotNull(saved);
+	assertNotNull(saved.getId());
+	Pagination pagination = paginate().from(3).to(10);
+	Output output = Output.withFormat(OutputFormat.JSON).withLanguageCode(
+		"FR").withStyle(OutputStyle.SHORT).withIndentation();
+	String searchTerm = "1001";
+	FulltextQuery fulltextQuery = new FulltextQuery(searchTerm,
+		pagination, output, null, null);
+	// split parameters
+	HashMap<String, String> parameters = GeolocTestHelper.splitURLParams(
+		fulltextQuery.toQueryString(), "&");
+	// check parameters
+	assertEquals(Output.OutputStyle.SHORT.getFieldList("FR"), parameters
+		.get(Constants.FL_PARAMETER));
+	assertEquals("wrong indent parameter found", "on", parameters
+		.get(Constants.INDENT_PARAMETER));
+	assertEquals("wrong echoparams parameter found", "none", parameters
+		.get(Constants.ECHOPARAMS_PARAMETER));
+	assertEquals("wrong start parameter found", "2", parameters
+		.get(Constants.START_PARAMETER));
+	assertEquals("wrong rows parameter found", "8", parameters
+		.get(Constants.ROWS_PARAMETER));
+	assertEquals("wrong output format parameter found", OutputFormat.JSON
+		.getParameterValue(), parameters
+		.get(Constants.OUTPUT_FORMAT_PARAMETER));
+	assertEquals("wrong query type parameter found",
+		Constants.SolrQueryType.standard.toString(), parameters
+			.get(Constants.QT_PARAMETER));
+	assertEquals("wrong query parameter found ",searchTerm,
+		parameters
+			.get(Constants.QUERY_PARAMETER));
+	assertEquals("wrong query parameter",searchTerm,
+	parameters
+		.get(Constants.QUERY_PARAMETER));
+	
+	assertNull("spellchecker query should not be set when standard query",parameters
+		.get(Constants.SPELLCHECKER_QUERY_PARAMETER));    }
+    
+    
+    @Test
+    public void testToQueryStringShouldreturnCorrectParamsForAdvancedNumericQuery() {
+	Country france = GeolocTestHelper.createCountryForFrance();
+	Country saved = countryDao.save(france);
+	assertNotNull(saved);
+	assertNotNull(saved.getId());
+	Pagination pagination = paginate().from(3).to(10);
+	    Output output = Output.withFormat(OutputFormat.JSON)
+		    .withLanguageCode("FR").withStyle(OutputStyle.SHORT)
+		    .withIndentation();
+	    FulltextQuery fulltextQuery = new FulltextQuery("1001",
+		    pagination, output, City.class, "FR");
+	// split parameters
+	HashMap<String, String> parameters = GeolocTestHelper.splitURLParams(
+		fulltextQuery.toQueryString(), "&");
+	// check parameters
+	assertEquals(Output.OutputStyle.SHORT.getFieldList("FR"), parameters
+		.get(Constants.FL_PARAMETER));
+	assertEquals("wrong indent parameter found", "on", parameters
+		.get(Constants.INDENT_PARAMETER));
+	assertEquals("wrong echoparams parameter found", "none", parameters
+		.get(Constants.ECHOPARAMS_PARAMETER));
+	assertEquals("wrong start parameter found", "2", parameters
+		.get(Constants.START_PARAMETER));
+	assertEquals("wrong rows parameter found", "8", parameters
+		.get(Constants.ROWS_PARAMETER));
+	assertEquals("wrong output format parameter found", OutputFormat.JSON
+		.getParameterValue(), parameters
+		.get(Constants.OUTPUT_FORMAT_PARAMETER));
+	assertEquals("wrong query type parameter found",
+		Constants.SolrQueryType.advanced.toString(), parameters
+			.get(Constants.QT_PARAMETER));
+	assertTrue("wrong query parameter found '"+FullTextFields.PLACETYPE.getValue()+":' is expected in query but was "+parameters
+			.get(Constants.QUERY_PARAMETER),
+		parameters
+			.get(Constants.QUERY_PARAMETER).contains(FullTextFields.PLACETYPE.getValue()+":"));
+
+
+	assertTrue("wrong nested parameter found, actual : "+parameters
+		.get(Constants.QUERY_PARAMETER),
+	parameters
+		.get(Constants.QUERY_PARAMETER).contains(String.format(FulltextQuery.NESTED_QUERY_NUMERIC_TEMPLATE, "1001")));
+	
+	
+	assertTrue("wrong query parameter found '"+FullTextFields.COUNTRYCODE.getValue()+":' is expected in query but was "+parameters
+			.get(Constants.QUERY_PARAMETER),
+			parameters
+				.get(Constants.QUERY_PARAMETER).contains(FullTextFields.COUNTRYCODE.getValue()+":"));
+	assertNull("spellchecker query should not be set when standard query",parameters
+		.get(Constants.SPELLCHECKER_QUERY_PARAMETER));    }
+
+    
+    @Test
+    public void testToQueryStringShouldreturnCorrectParamsForAdvancedNonNumeric() {
+	Country france = GeolocTestHelper.createCountryForFrance();
+	Country saved = countryDao.save(france);
+	assertNotNull(saved);
+	assertNotNull(saved.getId());
+	Pagination pagination = paginate().from(3).to(10);
+	Output output = Output.withFormat(OutputFormat.JSON).withLanguageCode(
+		"FR").withStyle(OutputStyle.SHORT).withIndentation();
+	String searchTerm = "Saint-André";
+	FulltextQuery fulltextQuery = new FulltextQuery(searchTerm,
 		pagination, output, Adm.class, "fr");
 	// split parameters
 	HashMap<String, String> parameters = GeolocTestHelper.splitURLParams(
@@ -542,6 +678,10 @@ public class FulltextQueryTest extends AbstractIntegrationHttpSolrTestCase {
 	assertEquals("wrong query type parameter found",
 		Constants.SolrQueryType.advanced.toString(), parameters
 			.get(Constants.QT_PARAMETER));
+	assertTrue("wrong nested parameter found actual : "+parameters
+		.get(Constants.QUERY_PARAMETER),
+		parameters
+			.get(Constants.QUERY_PARAMETER).contains(String.format(FulltextQuery.NESTED_QUERY_TEMPLATE, searchTerm)));
 	assertTrue("wrong query parameter found '"+FullTextFields.PLACETYPE.getValue()+":' expected in query but was "+parameters
 			.get(Constants.QUERY_PARAMETER),
 		parameters
@@ -550,6 +690,8 @@ public class FulltextQueryTest extends AbstractIntegrationHttpSolrTestCase {
 			.get(Constants.QUERY_PARAMETER),
 			parameters
 				.get(Constants.QUERY_PARAMETER).contains(FullTextFields.COUNTRYCODE.getValue()+":"));
+	assertNotNull("spellchecker query should not be set when standard query",parameters
+		.get(Constants.SPELLCHECKER_QUERY_PARAMETER));  
     }
 
     @Test

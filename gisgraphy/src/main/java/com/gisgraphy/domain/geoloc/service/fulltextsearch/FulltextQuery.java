@@ -25,8 +25,6 @@
  */
 package com.gisgraphy.domain.geoloc.service.fulltextsearch;
 
-import java.net.URLEncoder;
-
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.solr.client.solrj.util.ClientUtils;
@@ -34,12 +32,10 @@ import org.apache.solr.common.params.ModifiableSolrParams;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Configurable;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 
-import com.gisgraphy.domain.geoloc.entity.Country;
 import com.gisgraphy.domain.geoloc.entity.GisFeature;
 import com.gisgraphy.domain.geoloc.service.AbstractGisQuery;
 import com.gisgraphy.domain.geoloc.service.fulltextsearch.spell.SpellCheckerConfig;
@@ -65,8 +61,8 @@ import com.gisgraphy.servlet.GisgraphyServlet;
 @Component
 public class FulltextQuery extends AbstractGisQuery {
 	
-	private String NESTED_QUERY_TEMPLATE= "_query_:\"{!dismax qf='all_name^1.1 iso_all_name^1 zipcode^1.1 all_adm1_name^0.5 all_adm2_name^0.5 all_country_name^0.5' pf=name^1.1 bf=population^2.0}%s\"";
-
+	protected static final String NESTED_QUERY_TEMPLATE= "_query_:\"{!dismax qf='all_name^1.1 iso_all_name^1 zipcode^1.1 all_adm1_name^0.5 all_adm2_name^0.5 all_country_name^0.5' pf=name^1.1 bf=population^2.0}%s\"";
+	protected static final String NESTED_QUERY_NUMERIC_TEMPLATE="_query_:\"{!dismax qf=' feature_id^1.1 zipcode^1.1 all_country_name^0.5' pf=name^1.1 bf=population^2.0}%s\"";
     public final static int QUERY_MAX_LENGTH = 200;
     
     /**
@@ -348,7 +344,7 @@ public class FulltextQuery extends AbstractGisQuery {
      */
     public ModifiableSolrParams parameterize() {
 	ModifiableSolrParams parameters = new ModifiableSolrParams();
-	StringBuffer query = new StringBuffer(String.format(NESTED_QUERY_TEMPLATE,getQuery()));
+	
 	parameters.set(Constants.INDENT_PARAMETER, isOutputIndented() ? "on"
 		: "off");
 	parameters.set(Constants.ECHOPARAMS_PARAMETER, "none");
@@ -378,36 +374,48 @@ public class FulltextQuery extends AbstractGisQuery {
 	} else {
 	    parameters.set(Constants.FL_PARAMETER, getOutput().getFields());
 	}
-
-	parameters.set(Constants.QT_PARAMETER, Constants.SolrQueryType.advanced
-		.toString());
-	if (this.countryCode != null) {
-	    query.append(" AND ").append(FullTextFields.COUNTRYCODE.getValue()+":"+countryCode);
-
-	}
+	boolean isAdvancedQuery = (this.countryCode!=null || this.placeType != null);
 	boolean isNumericQuery = isNumericQuery();
-	if (isNumericQuery) {
-	    // we overide the query type
-	    parameters.set(Constants.QT_PARAMETER,
-		    Constants.SolrQueryType.numeric.toString());
+	StringBuffer query ;
+	if (isAdvancedQuery){
+	    if (isNumericQuery){
+		 query = new StringBuffer(String.format(NESTED_QUERY_NUMERIC_TEMPLATE,getQuery()));
+	    } else {
+		query = new StringBuffer(String.format(NESTED_QUERY_TEMPLATE,getQuery()));
+		
+	    }
+	    parameters.set(Constants.QT_PARAMETER, Constants.SolrQueryType.advanced
+			.toString());
+	    if (this.countryCode != null) {
+		    query.append(" AND ").append(FullTextFields.COUNTRYCODE.getValue()+":"+countryCode);
+
+		}
+	    if (this.placeType != null) {
+		    query.append(" AND ").append(FullTextFields.PLACETYPE.getValue()+":"+placeType.getSimpleName())
+			    .append(" ");
+		}
+	    parameters.set(Constants.QUERY_PARAMETER, query.toString());
+	}  else if (isNumericQuery) {
+	    parameters.set(Constants.QT_PARAMETER, Constants.SolrQueryType.standard
+			.toString());
 	    parameters.set(Constants.QUERY_PARAMETER, getQuery());
-	} else if (this.placeType != null) {
-	    /*parameters.set(Constants.QT_PARAMETER,
-		    Constants.SolrQueryType.typed.toString());*/
-	    query.append(" AND ").append(FullTextFields.PLACETYPE.getValue()+":"+placeType.getSimpleName())
-		    .append(" ");
-	    // we add the query param
-	    
-	}
-	if (isNumericQuery){
-		parameters.set(Constants.QUERY_PARAMETER, getQuery());
 	} else {
-		parameters.set(Constants.QUERY_PARAMETER, query.toString());
+		    // we overide the query type
+		    parameters.set(Constants.QT_PARAMETER,
+			    Constants.SolrQueryType.standard.toString());
+		    parameters.set(Constants.QUERY_PARAMETER, getQuery());
 	}
+
+	
+	
+	
+	
 	
 	if (SpellCheckerConfig.enabled && this.hasSpellChecking()&& !isNumericQuery){
 		parameters.set(Constants.SPELLCHECKER_ENABLED_PARAMETER,"true");
-		parameters.set(Constants.SPELLCHECKER_QUERY_PARAMETER, getQuery());
+		if(isAdvancedQuery){
+		    parameters.set(Constants.SPELLCHECKER_QUERY_PARAMETER, getQuery());
+		}
 		parameters.set(Constants.SPELLCHECKER_COLLATE_RESULTS_PARAMETER,SpellCheckerConfig.collateResults);
 		parameters.set(Constants.SPELLCHECKER_NUMBER_OF_SUGGESTION_PARAMETER,SpellCheckerConfig.numberOfSuggestion);
 		parameters.set(Constants.SPELLCHECKER_DICTIONARY_NAME_PARAMETER,SpellCheckerConfig.spellcheckerDictionaryName.toString());

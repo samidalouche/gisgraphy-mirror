@@ -56,7 +56,6 @@ public class IntersectsRestrictionTest extends AbstractIntegrationHttpSolrTestCa
     @SuppressWarnings("unchecked")
     @Test
     public void testPartialWordRestriction() {
-    GisgraphyConfig.PARTIAL_SEARH_EXPERIMENTAL=true;
 	OpenStreetMap streetOSM = createAndSaveStreet();
 	
 	HibernateCallback hibernateCallbackSuccess = new HibernateCallback() {

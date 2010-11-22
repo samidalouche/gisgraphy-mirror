@@ -183,7 +183,7 @@
 					<dataTypeFactoryName>
 						${dbunit.dataTypeFactoryName}
 					</dataTypeFactoryName>
-					<driver>${jdbc.driverClassName}</driver>
+					<driver>${driverClassName}</driver>
 					<username>${jdbc.username}</username>
 					<password>${jdbc.password}</password>
 					<url>${jdbc.url}</url>
@@ -398,11 +398,6 @@
 			</testResource>
 			<testResource>
 				<directory>src/main/webapp/</directory>
-				<filtering>false</filtering>
-			</testResource>
-			<testResource>
-				<!-- for jstester -->
-				<directory>src/main/webapp/scripts</directory>
 				<filtering>false</filtering>
 			</testResource>
 		</testResources>
@@ -1453,9 +1448,9 @@
 				<jdbc.groupId>com.oracle</jdbc.groupId>
 				<jdbc.artifactId>ojdbc14</jdbc.artifactId>
 				<jdbc.version>10.2.0.2.0</jdbc.version>
-				<jdbc.driverClassName>
+				<driverClassName>
 					oracle.jdbc.OracleDriver
-				</jdbc.driverClassName>
+				</driverClassName>
 				<jdbc.url><![CDATA[jdbc:oracle:thin:@localhost:1521:XE]]></jdbc.url>
 				<jdbc.username>system</jdbc.username>
 				<jdbc.password>system</jdbc.password>
@@ -1470,9 +1465,9 @@
 				<jdbc.groupId>mysql</jdbc.groupId>
 				<jdbc.artifactId>mysql-connector-java</jdbc.artifactId>
 				<jdbc.version>5.0.5</jdbc.version>
-				<jdbc.driverClassName>
+				<driverClassName>
 					com.mysql.jdbc.Driver
-				</jdbc.driverClassName>
+				</driverClassName>
 				<jdbc.url><![CDATA[jdbc:mysql://localhost/gisgraphy?createDatabaseIfNotExist=true&amp;useUnicode=true&amp;characterEncoding=utf-8]]></jdbc.url>
 				<jdbc.username>root</jdbc.username>
 				<jdbc.password></jdbc.password>
@@ -1493,9 +1488,9 @@
 				<jdbc.groupId>postgresql</jdbc.groupId>
 				<jdbc.artifactId>postgresql</jdbc.artifactId>
 				<jdbc.version>8.1-407.jdbc3</jdbc.version>
-				<jdbc.driverClassName>
+				<driverClassName>
 					org.postgresql.Driver
-				</jdbc.driverClassName>
+				</driverClassName>
 				<jdbc.url><![CDATA[jdbc:postgresql://localhost/gisgraphy_tests]]></jdbc.url>
 				<jdbc.username>postgres</jdbc.username>
 				<jdbc.password>mdppostgres</jdbc.password>
@@ -1565,9 +1560,9 @@
 		<!-- http://confluence.atlassian.com/display/KB/CSP-17478+-++Error+connecting+to+a+Postgres+dabatase+when+converting+Confluence+default+database+to+PG -->
 		<!--<jdbc.version>8.3-603.jdbc3</jdbc.version>-->
 		<jdbc.version>8.1-407.jdbc3</jdbc.version>
-		<jdbc.driverClassName>
+		<driverClassName>
 			org.postgresql.Driver
-		</jdbc.driverClassName>
+		</driverClassName>
 		<jdbc.url><![CDATA[jdbc:postgresql://localhost/gisgraphy]]></jdbc.url>
 		<resetdb>true</resetdb>
 		<hbm2ddl.drop>true</hbm2ddl.drop>

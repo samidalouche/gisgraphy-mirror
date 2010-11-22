@@ -3,7 +3,7 @@
 
     <!--database>
         <jndi-name>jdbc/appfuse</jndi-name>
-        <driver type="${jdbc.driverClassName}">
+        <driver type="${driverClassName}">
             <url>${jdbc.url}</url>
             <user>${jdbc.username}</user>
             <password>${jdbc.password}</password>

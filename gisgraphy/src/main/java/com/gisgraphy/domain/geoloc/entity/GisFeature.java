@@ -61,6 +61,7 @@ import com.gisgraphy.domain.valueobject.FeatureCode;
 import com.gisgraphy.domain.valueobject.GISSource;
 import com.gisgraphy.domain.valueobject.SRID;
 import com.gisgraphy.helper.FeatureClassCodeHelper;
+import com.gisgraphy.helper.GisFeatureHelper;
 import com.gisgraphy.helper.GeolocHelper;
 import com.gisgraphy.helper.IntrospectionIgnoredField;
 import com.vividsolutions.jts.geom.Point;
@@ -90,11 +91,7 @@ import com.vividsolutions.jts.geom.Point;
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 @SequenceGenerator(name = "gisFeatureSequence", sequenceName = "gisfeature_sequence")
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
-@Configurable
 public class GisFeature {
-
-    @Autowired
-    public ICountryDao countryDao;
 
     public static final String LOCATION_COLUMN_NAME = "location";
 
@@ -193,11 +190,7 @@ public class GisFeature {
      */
     @Transient
     public Country getCountry() {
-	Country country = null;
-	if (countryCode != null) {
-	    country = countryDao.getByIso3166Alpha2Code(countryCode);
-	}
-	return country;
+	return GisFeatureHelper.getInstance().getCountry(getCountryCode());
     }
 
     /**
@@ -949,24 +942,7 @@ public class GisFeature {
      */
     @Transient
     public String getFullyQualifiedName(boolean withCountry) {
-	StringBuilder completeCityName = new StringBuilder();
-	completeCityName.append(getName());
-	if (adm2Name != null && !adm2Name.trim().equals("")) {
-	    completeCityName.append(", " + adm2Name);
-	}
-	if (adm1Name != null && !adm1Name.trim().equals("")) {
-	    completeCityName.append(", " + adm1Name);
-	}
-
-	if (withCountry) {
-	    Country countryObj = getCountry();
-	    if (countryObj != null && countryObj.getName() != null
-		    && !countryObj.getName().trim().equals("")) {
-		completeCityName.append(" , " + countryObj.getName() + "");
-	    }
-	}
-
-	return completeCityName.toString();
+	return GisFeatureHelper.getInstance().getFullyQualifiedName(this, withCountry);
     }
     
     /**
