@@ -261,24 +261,7 @@ public class ImporterManager implements IImporterManager {
 
     }
 
-    /**
-     * @param deletedObjectInfo
-     * @param importer
-     */
-    @Transactional(propagation = Propagation.REQUIRES_NEW)
-    private void rollbackInTransaction(
-	    List<NameValueDTO<Integer>> deletedObjectInfo,
-	    IImporterProcessor importer) {
-	deletedObjectInfo.addAll(importer.rollback());
-    }
-
-    private void setCommitFlushModeForAllDaos() {
-	for (IGisDao<? extends GisFeature> gisDao : iDaos) {
-	    gisDao.setFlushMode(FlushMode.COMMIT);
-	}
-    }
-
-    /**
+   /**
      * 
      */
     private void resetFullTextSearchEngine() {
