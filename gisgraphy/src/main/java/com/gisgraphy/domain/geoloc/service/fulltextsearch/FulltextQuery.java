@@ -62,7 +62,7 @@ import com.gisgraphy.servlet.GisgraphyServlet;
 public class FulltextQuery extends AbstractGisQuery {
 	
 	protected static final String NESTED_QUERY_TEMPLATE= "_query_:\"{!dismax qf='all_name^1.1 iso_all_name^1 zipcode^1.1 all_adm1_name^0.5 all_adm2_name^0.5 all_country_name^0.5' pf=name^1.1 bf=population^2.0}%s\"";
-	protected static final String NESTED_QUERY_NUMERIC_TEMPLATE="_query_:\"{!dismax qf=' feature_id^1.1 zipcode^1.1 all_country_name^0.5' pf=name^1.1 bf=population^2.0}%s\"";
+	protected static final String NESTED_QUERY_NUMERIC_TEMPLATE="_query_:\"{!dismax qf='feature_id^1.1 all_name^1.1 iso_all_name^1 zipcode^1.1 all_adm1_name^0.5 all_adm2_name^0.5 all_country_name^0.5' pf=name^1.1 bf=population^2.0}%s\"";
     public final static int QUERY_MAX_LENGTH = 200;
     
     /**
