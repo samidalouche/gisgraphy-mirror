@@ -71,7 +71,7 @@
 					</dependency>
 				</dependencies>
 			</plugin>
-			<plugin>
+			<!-- <plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>aspectj-maven-plugin</artifactId>
 				<version>1.0-beta-2</version>
@@ -94,7 +94,7 @@
 						</goals>
 					</execution>
 				</executions>
-			</plugin>
+			</plugin>-->
 			<plugin>
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>2.0.2</version>
@@ -322,7 +322,7 @@
 				</configuration>
 			</plugin>
 			<!-- aspectJ plugin -->
-			<plugin>
+			<!-- <plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>aspectj-maven-plugin</artifactId>
 				<configuration>
@@ -339,11 +339,11 @@
 					<execution>
 						<goals>
 							<goal>compile</goal>
-							<!-- <goal>test-compile</goal> -->
+						
 						</goals>
 					</execution>
 				</executions>
-			</plugin>
+			</plugin>-->
 		</plugins>
 		<resources>
 			<resource>
@@ -493,11 +493,11 @@
 			<artifactId>${jdbc.artifactId}</artifactId>
 			<version>${jdbc.version}</version>
 		</dependency>
-		<dependency>
+		<!-- <dependency>
 			<groupId>aspectj</groupId>
 			<artifactId>aspectjrt</artifactId>
 			<version>${aspectj.version}</version>
-		</dependency>
+		</dependency>-->
 		<!-- cglib -->
 		<dependency>
 			<groupId>cglib</groupId>

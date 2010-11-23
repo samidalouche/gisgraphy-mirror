@@ -46,7 +46,7 @@ public interface UserDao extends GenericDao<User, Long> {
      * @throws org.acegisecurity.userdetails.UsernameNotFoundException
      *                 thrown when user not found in database
      */
-    @Transactional
+   // @Transactional
     UserDetails loadUserByUsername(String username)
 	    throws UsernameNotFoundException;
 

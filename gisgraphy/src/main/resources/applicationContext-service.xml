@@ -27,10 +27,10 @@
     </bean>
     
     <!-- Fix bug in Spring 2.0.6: http://issues.appfuse.org/browse/APF-887 -->
-    <bean class="org.springframework.transaction.aspectj.AnnotationTransactionAspect" factory-method="aspectOf" dependency-check="none" lazy-init="false">
+   <!-- <bean class="org.springframework.transaction.aspectj.AnnotationTransactionAspect" factory-method="aspectOf" dependency-check="none" lazy-init="false">
         <property name="transactionManager" ref="transactionManager"/>
     </bean>
-    
+ -->   
    
     <tx:advice id="txAdvice">
         <tx:attributes>

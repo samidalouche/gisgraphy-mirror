@@ -98,7 +98,8 @@ public class StatsUsageServiceImpl implements IStatsUsageService {
 
     }
 
-    @Transactional
+  //  @Transactional
+    //TODO transaction manually (no need aspectj here
     public void flush(StatsUsageType statsUsageType) {
 	StatsUsage statsUsage = statsUsageDao.getByUsageType(statsUsageType);
 	statsUsage.setUsage(counterMap.get(statsUsageType.toString()));
