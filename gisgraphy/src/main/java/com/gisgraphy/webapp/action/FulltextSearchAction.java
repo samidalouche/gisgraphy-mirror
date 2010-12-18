@@ -39,6 +39,7 @@ import com.gisgraphy.domain.repository.IAlternateNameDao;
 import com.gisgraphy.domain.valueobject.FulltextResultsDto;
 import com.gisgraphy.domain.valueobject.GisgraphyServiceType;
 import com.gisgraphy.domain.valueobject.Output;
+import com.gisgraphy.domain.valueobject.OutputFormatHelper;
 import com.gisgraphy.domain.valueobject.Output.OutputFormat;
 import com.gisgraphy.domain.valueobject.Output.OutputStyle;
 
@@ -165,7 +166,7 @@ public class FulltextSearchAction extends SearchAction {
      * @return the available formats for fulltext search
      */
     public OutputFormat[] getFormats() {
-	return OutputFormat.listByService(GisgraphyServiceType.FULLTEXT);
+	return OutputFormatHelper.listByService(GisgraphyServiceType.FULLTEXT);
     }
 
     /**

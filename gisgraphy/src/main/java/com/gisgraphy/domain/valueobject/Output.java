@@ -25,10 +25,8 @@
  */
 package com.gisgraphy.domain.valueobject;
 
-import org.apache.commons.lang.NotImplementedException;
 
 import com.gisgraphy.domain.geoloc.service.errors.IoutputFormatVisitor;
-import com.gisgraphy.domain.geoloc.service.errors.UnsupportedFormatException;
 import com.gisgraphy.domain.geoloc.service.fulltextsearch.FullTextFields;
 import com.gisgraphy.domain.geoloc.service.geoloc.GeolocErrorVisitor;
 
@@ -41,7 +39,7 @@ import com.gisgraphy.domain.geoloc.service.geoloc.GeolocErrorVisitor;
 public class Output {
 
     /**
-     * All the possible fulltext search output format, all the OUTPUFORMAT enum
+     * All the possible output format, 
      * should be in uppercase
      */
     public enum OutputFormat {
@@ -79,13 +77,7 @@ public class Output {
 		return visitor.visitXML(this);
 	    }
 	    
-	    /* (non-Javadoc)
-	     * @see com.gisgraphy.domain.valueobject.Output.OutputFormat#isSupported(com.gisgraphy.domain.valueobject.Output.OutputFormat, com.gisgraphy.domain.valueobject.GisgraphyServiceType)
-	     */
-	    @Override
-	    public boolean isSupported(GisgraphyServiceType gisgraphyServiceType) {
-	       return true;
-	    }
+	   
 
 	},
 	JSON {
@@ -118,14 +110,7 @@ public class Output {
 	    public String accept(IoutputFormatVisitor visitor) {
 		return visitor.visitJSON(this);
 	    }
-	    
-	    /* (non-Javadoc)
-	     * @see com.gisgraphy.domain.valueobject.Output.OutputFormat#isSupported(com.gisgraphy.domain.valueobject.Output.OutputFormat, com.gisgraphy.domain.valueobject.GisgraphyServiceType)
-	     */
-	    @Override
-	    public boolean isSupported(GisgraphyServiceType gisgraphyServiceType) {
-	       return true;
-	    }
+	   
 	},
 	PYTHON {
 	    /*
@@ -158,13 +143,7 @@ public class Output {
 		return visitor.visitPYTHON(this);
 	    }
 	    
-	    /* (non-Javadoc)
-	     * @see com.gisgraphy.domain.valueobject.Output.OutputFormat#isSupported(com.gisgraphy.domain.valueobject.Output.OutputFormat, com.gisgraphy.domain.valueobject.GisgraphyServiceType)
-	     */
-	    @Override
-	    public boolean isSupported(GisgraphyServiceType gisgraphyServiceType) {
-	       return gisgraphyServiceType == GisgraphyServiceType.FULLTEXT;
-	    }
+	   
 	},
 	PHP {
 	    /*
@@ -197,13 +176,7 @@ public class Output {
 		return visitor.visitPHP(this);
 	    }
 	    
-	    /* (non-Javadoc)
-	     * @see com.gisgraphy.domain.valueobject.Output.OutputFormat#isSupported(com.gisgraphy.domain.valueobject.Output.OutputFormat, com.gisgraphy.domain.valueobject.GisgraphyServiceType)
-	     */
-	    @Override
-	    public boolean isSupported(GisgraphyServiceType gisgraphyServiceType) {
-	       return gisgraphyServiceType == GisgraphyServiceType.FULLTEXT;
-	    }
+	    
 	},
 	ATOM {
 	    /*
@@ -236,13 +209,7 @@ public class Output {
 		return visitor.visitATOM(this);
 	    }
 	    
-	    /* (non-Javadoc)
-	     * @see com.gisgraphy.domain.valueobject.Output.OutputFormat#isSupported(com.gisgraphy.domain.valueobject.Output.OutputFormat, com.gisgraphy.domain.valueobject.GisgraphyServiceType)
-	     */
-	    @Override
-	    public boolean isSupported(GisgraphyServiceType gisgraphyServiceType) {
-	       return true;
-	    }
+	   
 	},
 	GEORSS {
 	    /*
@@ -275,13 +242,40 @@ public class Output {
 		return visitor.visitGEORSS(this);
 	    }
 	    
-	    /* (non-Javadoc)
-	     * @see com.gisgraphy.domain.valueobject.Output.OutputFormat#isSupported(com.gisgraphy.domain.valueobject.Output.OutputFormat, com.gisgraphy.domain.valueobject.GisgraphyServiceType)
+	    
+	},
+	UNSUPPORTED {
+	    /*
+	     * (non-Javadoc)
+	     * 
+	     * @see com.gisgraphy.domain.geoloc.service.Output.OutputFormat#getParameterValue()
 	     */
 	    @Override
-	    public boolean isSupported(GisgraphyServiceType gisgraphyServiceType) {
-	       return true;
+	    public String getParameterValue() {
+		return "";
 	    }
+
+	    /*
+	     * (non-Javadoc)
+	     * 
+	     * @see com.gisgraphy.domain.valueobject.Output.OutputFormat#getContentType()
+	     */
+	    @Override
+	    public String getContentType() {
+		return "";
+	    }
+
+	    /*
+	     * (non-Javadoc)
+	     * 
+	     * @see com.gisgraphy.domain.valueobject.Output.OutputFormat#accept(com.gisgraphy.domain.geoloc.service.errors.IoutputFormatVisitor)
+	     */
+	    @Override
+	    public String accept(IoutputFormatVisitor visitor) {
+		return visitor.visitUNSUPPORTED(this);
+	    }
+	    
+	    
 	},
 	RUBY {
 	    /*
@@ -314,13 +308,8 @@ public class Output {
 		return visitor.visitRUBY(this);
 	    }
 	    
-	    /* (non-Javadoc)
-	     * @see com.gisgraphy.domain.valueobject.Output.OutputFormat#isSupported(com.gisgraphy.domain.valueobject.Output.OutputFormat, com.gisgraphy.domain.valueobject.GisgraphyServiceType)
-	     */
-	    @Override
-	    public boolean isSupported(GisgraphyServiceType gisgraphyServiceType) {
-	       return gisgraphyServiceType == GisgraphyServiceType.FULLTEXT;
-	    }
+	    
+	   
 	};
 
 	/**
@@ -359,65 +348,7 @@ public class Output {
 
 	}
 
-	/**
-	 * @param format
-	 *                the format to check
-	 * @param serviceType
-	 *                the service type we'd like to know if the format is
-	 *                applicable
-	 * @return the format if the format is applicable for the service or the
-	 *         default one.
-	 * @throws UnsupportedFormatException
-	 *                 if the service is not implemented by the algorithm
-	 */
-	public static OutputFormat getDefaultForServiceIfNotSupported(OutputFormat format,
-		GisgraphyServiceType serviceType) {
-	    switch (serviceType) {
-	    case FULLTEXT:
-		// fulltext accept all formats
-		return format.isSupported(serviceType)==true?format:getDefault();
-	    case GEOLOC:
-		return format.isSupported(serviceType)==true?format:getDefault();
-	    case STREET:
-		return format.isSupported(serviceType)==true?format:getDefault();
-	    default:
-		throw new UnsupportedFormatException("The service type "
-			+ serviceType + "is not implemented");
-	    }
-	}
-
-	/**
-	 * @param serviceType the type of service we'd like to know if the format is supported
-	 * @return true if the format is supported by the specified {@link GisgraphyServiceType}
-	 */
-	public abstract boolean isSupported(GisgraphyServiceType serviceType);
 	
-	/**
-	 * @param serviceType
-	 *                the service type we'd like to know all the formats
-	 * @return the formats for the specified service
-	 * @throws NotImplementedException
-	 *                 if the service is not implemented by the algorithm
-	 */
-	public static OutputFormat[] listByService(
-		GisgraphyServiceType serviceType) {
-	    switch (serviceType) {
-	    case FULLTEXT:
-		// fulltext accept all formats
-		return OutputFormat.values();
-	    case GEOLOC:
-		OutputFormat[] resultGeoloc = { OutputFormat.XML, OutputFormat.JSON, OutputFormat.ATOM, OutputFormat.GEORSS };
-		return resultGeoloc;
-		
-	    case STREET:
-		OutputFormat[] resultStreet = { OutputFormat.XML, OutputFormat.JSON, OutputFormat.ATOM, OutputFormat.GEORSS };
-		return resultStreet;
-	    default:
-		throw new NotImplementedException("The service type "
-			+ serviceType + "is not implemented");
-	    }
-
-	}
 	
 	public static final String RSS_VERSION = "rss_2.0";
 	

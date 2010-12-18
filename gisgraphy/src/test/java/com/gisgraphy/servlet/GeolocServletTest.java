@@ -39,6 +39,7 @@ import com.gisgraphy.domain.geoloc.service.fulltextsearch.AbstractIntegrationHtt
 import com.gisgraphy.domain.geoloc.service.geoloc.IGeolocSearchEngine;
 import com.gisgraphy.domain.valueobject.Constants;
 import com.gisgraphy.domain.valueobject.GisgraphyServiceType;
+import com.gisgraphy.domain.valueobject.OutputFormatHelper;
 import com.gisgraphy.domain.valueobject.Output.OutputFormat;
 import com.gisgraphy.test.FeedChecker;
 
@@ -101,7 +102,7 @@ public class GeolocServletTest extends AbstractIntegrationHttpSolrTestCase {
 		// result = get.getResponseBodyAsString();
 		
 		Header contentType = get.getResponseHeader("Content-Type");
-		OutputFormat expectedformat = format.isSupported(GisgraphyServiceType.GEOLOC)?format:OutputFormat.getDefault();
+		OutputFormat expectedformat = OutputFormatHelper.getDefaultForServiceIfNotSupported(format,GisgraphyServiceType.GEOLOC);
 		assertTrue(contentType.getValue().equals(
 			expectedformat.getContentType()));
 
@@ -134,7 +135,7 @@ public class GeolocServletTest extends AbstractIntegrationHttpSolrTestCase {
 		// result = get.getResponseBodyAsString();
 		
 		Header contentType = get.getResponseHeader("Content-Type");
-		OutputFormat expectedformat = format.isSupported(GisgraphyServiceType.GEOLOC)?format:OutputFormat.getDefault();
+		OutputFormat expectedformat = OutputFormatHelper.getDefaultForServiceIfNotSupported(format,GisgraphyServiceType.GEOLOC);
 		assertEquals("The content-type is not correct",expectedformat.getContentType(),contentType.getValue());
 
 	    } catch (IOException e) {

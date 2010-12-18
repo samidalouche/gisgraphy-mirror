@@ -87,6 +87,13 @@ public interface IoutputFormatVisitor {
     String visitGEORSS(OutputFormat format);
     
     /**
+     * @param format
+     *                The OutputFormat
+     * @return the String in the UNSUPPORTED format
+     */
+    String visitUNSUPPORTED(OutputFormat format);
+    
+    /**
      * @return the errorMessage
      */
     public String getErrorMessage();

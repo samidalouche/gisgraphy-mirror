@@ -35,6 +35,7 @@ import com.gisgraphy.domain.geoloc.service.geoloc.IGeolocSearchEngine;
 import com.gisgraphy.domain.valueobject.GeolocResultsDto;
 import com.gisgraphy.domain.valueobject.GisgraphyConfig;
 import com.gisgraphy.domain.valueobject.GisgraphyServiceType;
+import com.gisgraphy.domain.valueobject.OutputFormatHelper;
 import com.gisgraphy.domain.valueobject.Output.OutputFormat;
 
 /**
@@ -130,7 +131,7 @@ public class GeolocSearchAction extends SearchAction {
      * @return the available formats for fulltext
      */
     public OutputFormat[] getFormats() {
-	return OutputFormat.listByService(GisgraphyServiceType.GEOLOC);
+	return OutputFormatHelper.listByService(GisgraphyServiceType.GEOLOC);
     }
 
     /**

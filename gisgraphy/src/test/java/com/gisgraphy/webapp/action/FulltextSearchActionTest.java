@@ -44,8 +44,8 @@ import com.gisgraphy.domain.geoloc.service.fulltextsearch.spell.SpellCheckerConf
 import com.gisgraphy.domain.repository.IAlternateNameDao;
 import com.gisgraphy.domain.valueobject.FulltextResultsDto;
 import com.gisgraphy.domain.valueobject.GisgraphyServiceType;
+import com.gisgraphy.domain.valueobject.OutputFormatHelper;
 import com.gisgraphy.domain.valueobject.SolrResponseDto;
-import com.gisgraphy.domain.valueobject.Output.OutputFormat;
 import com.gisgraphy.domain.valueobject.Output.OutputStyle;
 
 public class FulltextSearchActionTest {
@@ -170,7 +170,7 @@ public class FulltextSearchActionTest {
 
     @Test
     public void getFormatsShouldReturnFormatForFullText() {
-	Assert.assertEquals(Arrays.asList(OutputFormat
+	Assert.assertEquals(Arrays.asList(OutputFormatHelper
 		.listByService(GisgraphyServiceType.FULLTEXT)), Arrays
 		.asList(action.getFormats()));
 

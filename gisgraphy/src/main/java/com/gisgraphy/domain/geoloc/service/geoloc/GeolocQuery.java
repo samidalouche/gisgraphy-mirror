@@ -32,6 +32,7 @@ import com.gisgraphy.domain.geoloc.service.AbstractGisQuery;
 import com.gisgraphy.domain.valueobject.GisgraphyConfig;
 import com.gisgraphy.domain.valueobject.GisgraphyServiceType;
 import com.gisgraphy.domain.valueobject.Output;
+import com.gisgraphy.domain.valueobject.OutputFormatHelper;
 import com.gisgraphy.domain.valueobject.Pagination;
 import com.gisgraphy.domain.valueobject.Output.OutputFormat;
 import com.gisgraphy.helper.GeolocHelper;
@@ -188,7 +189,7 @@ public class GeolocQuery extends AbstractGisQuery {
 	// output format
 	OutputFormat format = OutputFormat.getFromString(req
 		.getParameter(GisgraphyServlet.FORMAT_PARAMETER));
-	format = OutputFormat.getDefaultForServiceIfNotSupported(format, GisgraphyServiceType.GEOLOC);
+	format = OutputFormatHelper.getDefaultForServiceIfNotSupported(format, GisgraphyServiceType.GEOLOC);
 	Output output = Output.withFormat(format);
 
 	// indent

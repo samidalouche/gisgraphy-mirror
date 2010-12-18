@@ -33,6 +33,7 @@ import org.junit.Test;
 import com.gisgraphy.domain.geoloc.service.errors.UnsupportedFormatException;
 import com.gisgraphy.domain.valueobject.Constants;
 import com.gisgraphy.domain.valueobject.GisgraphyServiceType;
+import com.gisgraphy.domain.valueobject.OutputFormatHelper;
 import com.gisgraphy.domain.valueobject.StreetSearchResultsDto;
 import com.gisgraphy.domain.valueobject.Output.OutputFormat;
 import com.gisgraphy.test.FeedChecker;
@@ -43,11 +44,9 @@ public class StreetSearchResultsDtoSerializerTest {
     
     @Test
     public void serializeshouldThrowAnUnsupportedFormatExceptionWhenFormatIsNotSupported(){
-	OutputFormat outputFormatMocked = EasyMock.createMock(OutputFormat.class);
-	EasyMock.expect(outputFormatMocked.isSupported(GisgraphyServiceType.STREET)).andReturn(false);
 	StreetSearchResultsDtoSerializer serializer = new StreetSearchResultsDtoSerializer();
 	try {
-	    serializer.serialize(new ByteArrayOutputStream(), outputFormatMocked, new StreetSearchResultsDto(), false, 1);
+	    serializer.serialize(new ByteArrayOutputStream(), OutputFormat.UNSUPPORTED, new StreetSearchResultsDto(), false, 1);
 	    fail("An UnsupportedFormatException should be throw when the format is not supported");
 	} catch (UnsupportedFormatException e) {
 	   //ok

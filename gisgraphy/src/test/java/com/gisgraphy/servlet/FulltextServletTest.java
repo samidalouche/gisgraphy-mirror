@@ -103,9 +103,10 @@ public class FulltextServletTest extends AbstractIntegrationHttpSolrTestCase {
 		// result = get.getResponseBodyAsString();
 
 		Header contentType = get.getResponseHeader("Content-Type");
+		if (format != OutputFormat.UNSUPPORTED){
 		assertTrue(contentType.getValue().equals(
 			format.getContentType()));
-
+		}
 	    } catch (IOException e) {
 		fail("An exception has occured " + e.getMessage());
 	    } finally {

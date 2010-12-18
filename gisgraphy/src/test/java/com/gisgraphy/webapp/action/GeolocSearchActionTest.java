@@ -44,7 +44,7 @@ import com.gisgraphy.domain.valueobject.GeolocResultsDto;
 import com.gisgraphy.domain.valueobject.GisFeatureDistance;
 import com.gisgraphy.domain.valueobject.GisgraphyConfig;
 import com.gisgraphy.domain.valueobject.GisgraphyServiceType;
-import com.gisgraphy.domain.valueobject.Output.OutputFormat;
+import com.gisgraphy.domain.valueobject.OutputFormatHelper;
 import com.gisgraphy.servlet.GeolocServlet;
 
 public class GeolocSearchActionTest {
@@ -176,7 +176,7 @@ public class GeolocSearchActionTest {
 
     @Test
     public void getFormatsShouldReturnFormatForGeoloc() {
-	Assert.assertEquals(Arrays.asList(OutputFormat
+	Assert.assertEquals(Arrays.asList(OutputFormatHelper
 		.listByService(GisgraphyServiceType.GEOLOC)), Arrays
 		.asList(action.getFormats()));
 

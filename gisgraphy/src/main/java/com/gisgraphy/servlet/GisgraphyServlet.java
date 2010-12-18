@@ -35,6 +35,7 @@ import org.slf4j.LoggerFactory;
 
 import com.gisgraphy.domain.geoloc.service.errors.IoutputFormatVisitor;
 import com.gisgraphy.domain.valueobject.GisgraphyServiceType;
+import com.gisgraphy.domain.valueobject.OutputFormatHelper;
 import com.gisgraphy.domain.valueobject.Output.OutputFormat;
 
 /**
@@ -84,7 +85,7 @@ public abstract class  GisgraphyServlet extends HttpServlet {
 	OutputFormat format;
 	String formatParam = req.getParameter(GisgraphyServlet.FORMAT_PARAMETER);
 	format = OutputFormat.getFromString(formatParam);
-	format = OutputFormat.getDefaultForServiceIfNotSupported(format, getGisgraphyServiceType());
+	format = OutputFormatHelper.getDefaultForServiceIfNotSupported(format, getGisgraphyServiceType());
 	resp.setHeader("content-type", format.getContentType());
 	return format;
     }

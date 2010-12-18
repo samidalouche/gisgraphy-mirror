@@ -48,6 +48,7 @@ import com.gisgraphy.domain.valueobject.Constants;
 import com.gisgraphy.domain.valueobject.GeolocResultsDto;
 import com.gisgraphy.domain.valueobject.GisFeatureDistance;
 import com.gisgraphy.domain.valueobject.GisgraphyServiceType;
+import com.gisgraphy.domain.valueobject.OutputFormatHelper;
 import com.gisgraphy.domain.valueobject.Pagination;
 import com.gisgraphy.domain.valueobject.Output.OutputFormat;
 import com.sun.syndication.feed.module.georss.GeoRSSModule;
@@ -117,7 +118,7 @@ public class GeolocResultsDtoSerializer implements
      */
     public void serialize(OutputStream outputStream, OutputFormat outputFormat,
 	    GeolocResultsDto geolocResultsDto, boolean indent,int startPaginationIndex) {
-	if (!outputFormat.isSupported(GisgraphyServiceType.GEOLOC)) {
+	if (!OutputFormatHelper.isSupported(outputFormat,GisgraphyServiceType.GEOLOC)) {
 	    throw new UnsupportedFormatException(outputFormat
 		    + " is not applicable for Geoloc");
 	} 
@@ -136,8 +137,6 @@ public class GeolocResultsDtoSerializer implements
 	    serializeToXML(outputStream,
 		    geolocResultsDto,indent);
 	}
-	
-	return;
     }
     
     private void serializeToXML(OutputStream outputStream,

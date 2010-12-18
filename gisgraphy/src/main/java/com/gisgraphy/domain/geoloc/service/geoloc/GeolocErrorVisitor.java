@@ -118,6 +118,13 @@ public class GeolocErrorVisitor implements IoutputFormatVisitor {
     public String visitGEORSS(OutputFormat outputFormat) {
 	return visitXML(outputFormat);
     }
+    
+    /* (non-Javadoc)
+     * @see com.gisgraphy.domain.geoloc.service.errors.IoutputFormatVisitor#visitUNSUPPORTED(com.gisgraphy.domain.valueobject.Output.OutputFormat)
+     */
+    public String visitUNSUPPORTED(OutputFormat format) {
+		return "";
+	}
 
 
     /* (non-Javadoc)
