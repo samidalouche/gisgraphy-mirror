@@ -35,9 +35,9 @@ import com.gisgraphy.domain.geoloc.service.geoloc.IStreetSearchEngine;
 import com.gisgraphy.domain.geoloc.service.geoloc.StreetSearchQuery;
 import com.gisgraphy.domain.geoloc.service.geoloc.street.StreetType;
 import com.gisgraphy.domain.valueobject.GisgraphyServiceType;
+import com.gisgraphy.domain.valueobject.OutputFormat;
 import com.gisgraphy.domain.valueobject.OutputFormatHelper;
 import com.gisgraphy.domain.valueobject.StreetSearchResultsDto;
-import com.gisgraphy.domain.valueobject.Output.OutputFormat;
 
 /**
  * Street search Action
@@ -147,7 +147,7 @@ public class StreetSearchAction extends SearchAction {
      * @return the available formats for fulltext
      */
     public OutputFormat[] getFormats() {
-	return OutputFormatHelper.listByService(GisgraphyServiceType.STREET);
+	return OutputFormatHelper.listFormatByService(GisgraphyServiceType.STREET);
     }
 
    public Map<String, String> getNameOptions(){

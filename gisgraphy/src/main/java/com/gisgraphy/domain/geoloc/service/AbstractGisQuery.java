@@ -26,8 +26,8 @@
 package com.gisgraphy.domain.geoloc.service;
 
 import com.gisgraphy.domain.valueobject.Output;
+import com.gisgraphy.domain.valueobject.OutputFormat;
 import com.gisgraphy.domain.valueobject.Pagination;
-import com.gisgraphy.domain.valueobject.Output.OutputFormat;
 import com.gisgraphy.domain.valueobject.Output.OutputStyle;
 
 /**

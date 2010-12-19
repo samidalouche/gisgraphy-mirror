@@ -32,7 +32,7 @@ import org.junit.Test;
 import com.gisgraphy.domain.geoloc.service.errors.UnsupportedFormatException;
 import com.gisgraphy.domain.valueobject.Constants;
 import com.gisgraphy.domain.valueobject.GeolocResultsDto;
-import com.gisgraphy.domain.valueobject.Output.OutputFormat;
+import com.gisgraphy.domain.valueobject.OutputFormat;
 import com.gisgraphy.test.FeedChecker;
 import com.gisgraphy.test.GeolocTestHelper;
 

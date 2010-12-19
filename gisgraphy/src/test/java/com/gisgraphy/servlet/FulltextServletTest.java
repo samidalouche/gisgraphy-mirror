@@ -39,7 +39,7 @@ import com.gisgraphy.domain.geoloc.service.fulltextsearch.AbstractIntegrationHtt
 import com.gisgraphy.domain.geoloc.service.fulltextsearch.IFullTextSearchEngine;
 import com.gisgraphy.domain.valueobject.Constants;
 import com.gisgraphy.domain.valueobject.GisgraphyServiceType;
-import com.gisgraphy.domain.valueobject.Output.OutputFormat;
+import com.gisgraphy.domain.valueobject.OutputFormat;
 import com.gisgraphy.test.FeedChecker;
 
 public class FulltextServletTest extends AbstractIntegrationHttpSolrTestCase {

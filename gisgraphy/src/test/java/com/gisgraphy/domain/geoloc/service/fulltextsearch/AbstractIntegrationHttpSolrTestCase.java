@@ -18,7 +18,6 @@ import java.io.File;
 import java.util.Random;
 import java.util.logging.Level;
 
-import org.apache.solr.util.TestHarness;
 import org.mortbay.jetty.Connector;
 import org.mortbay.jetty.Server;
 import org.mortbay.jetty.nio.SelectChannelConnector;

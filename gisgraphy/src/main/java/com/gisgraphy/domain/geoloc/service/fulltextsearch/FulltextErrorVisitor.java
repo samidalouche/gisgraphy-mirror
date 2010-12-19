@@ -26,7 +26,7 @@
 package com.gisgraphy.domain.geoloc.service.fulltextsearch;
 
 import com.gisgraphy.domain.geoloc.service.errors.IoutputFormatVisitor;
-import com.gisgraphy.domain.valueobject.Output.OutputFormat;
+import com.gisgraphy.domain.valueobject.OutputFormat;
 
 /**
  * Visitor (visitor pattern) to return error message according to the format for

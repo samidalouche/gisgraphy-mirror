@@ -377,6 +377,10 @@ remove the ability to search for 'no name street'
 				remove requesthandler typed in solrConfig.xml
 			</action>
 			
+			<action dev="David Masclet" type="update">
+				extract ouputformat enum because we get method that are not directly in relation with format,(that doesn't allow reuse)
+			</action>
+			
 			
 			</release>
 			

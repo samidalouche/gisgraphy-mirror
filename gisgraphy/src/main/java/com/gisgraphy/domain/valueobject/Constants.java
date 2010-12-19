@@ -26,7 +26,6 @@
 package com.gisgraphy.domain.valueobject;
 
 import org.dom4j.io.OutputFormat;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 /**
  * @author <a href="mailto:david.masclet@gisgraphy.com">David Masclet</a> Some

@@ -39,14 +39,11 @@ import org.springframework.mock.web.MockHttpServletRequest;
 
 import com.gisgraphy.domain.geoloc.entity.Adm;
 import com.gisgraphy.domain.geoloc.entity.City;
-import com.gisgraphy.domain.geoloc.entity.Country;
-import com.gisgraphy.domain.geoloc.entity.GisFeature;
 import com.gisgraphy.domain.geoloc.service.fulltextsearch.StreetSearchMode;
 import com.gisgraphy.domain.geoloc.service.geoloc.street.StreetType;
-import com.gisgraphy.domain.valueobject.GisgraphyConfig;
 import com.gisgraphy.domain.valueobject.Output;
+import com.gisgraphy.domain.valueobject.OutputFormat;
 import com.gisgraphy.domain.valueobject.Pagination;
-import com.gisgraphy.domain.valueobject.Output.OutputFormat;
 import com.gisgraphy.domain.valueobject.Output.OutputStyle;
 import com.gisgraphy.helper.GeolocHelper;
 import com.gisgraphy.servlet.GeolocServlet;

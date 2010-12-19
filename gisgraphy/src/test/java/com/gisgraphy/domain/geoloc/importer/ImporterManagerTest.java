@@ -49,7 +49,6 @@ import java.util.logging.Level;
 import junit.framework.Assert;
 
 import org.easymock.classextension.EasyMock;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -83,8 +82,8 @@ import com.gisgraphy.domain.valueobject.GISSource;
 import com.gisgraphy.domain.valueobject.ImporterStatus;
 import com.gisgraphy.domain.valueobject.ImporterStatusDto;
 import com.gisgraphy.domain.valueobject.Output;
+import com.gisgraphy.domain.valueobject.OutputFormat;
 import com.gisgraphy.domain.valueobject.Pagination;
-import com.gisgraphy.domain.valueobject.Output.OutputFormat;
 import com.gisgraphy.domain.valueobject.Output.OutputStyle;
 import com.gisgraphy.helper.FileHelper;
 import com.gisgraphy.test.FeedChecker;

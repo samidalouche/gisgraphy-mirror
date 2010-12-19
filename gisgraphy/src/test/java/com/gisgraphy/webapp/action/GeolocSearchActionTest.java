@@ -177,7 +177,7 @@ public class GeolocSearchActionTest {
     @Test
     public void getFormatsShouldReturnFormatForGeoloc() {
 	Assert.assertEquals(Arrays.asList(OutputFormatHelper
-		.listByService(GisgraphyServiceType.GEOLOC)), Arrays
+		.listFormatByService(GisgraphyServiceType.GEOLOC)), Arrays
 		.asList(action.getFormats()));
 
     }

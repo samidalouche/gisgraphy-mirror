@@ -32,7 +32,6 @@ import org.apache.commons.lang.NotImplementedException;
 import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.hibernate.Session;
-import org.hibernate.criterion.Projection;
 import org.hibernate.criterion.ProjectionList;
 import org.hibernate.criterion.Restrictions;
 import org.slf4j.Logger;

@@ -22,12 +22,8 @@
  *******************************************************************************/
 package com.gisgraphy.domain.valueobject;
 
-import static com.gisgraphy.domain.valueobject.OutputFormatHelper.isSupported;
-
 import org.junit.Assert;
 import org.junit.Test;
-
-import com.gisgraphy.domain.valueobject.Output.OutputFormat;
 
 public class OutputFormatTest  {
 
@@ -46,24 +42,4 @@ public class OutputFormatTest  {
     }
 
    
-    @Test
-    public void isSupportedShouldReturnCorrectValues() {
-	for (OutputFormat format : OutputFormat.values()) {
-		if (format == OutputFormat.UNSUPPORTED){
-			Assert.assertFalse(isSupported(format,GisgraphyServiceType.FULLTEXT));
-		} else {
-			Assert.assertTrue(isSupported(format,GisgraphyServiceType.FULLTEXT));
-		}
-	}
-
-	for (OutputFormat format : OutputFormat.values()) {
-	    if (format == OutputFormat.XML || format == OutputFormat.JSON || format == OutputFormat.GEORSS || format == OutputFormat.ATOM) {
-		Assert.assertTrue(isSupported(format,GisgraphyServiceType.GEOLOC));
-		Assert.assertTrue(isSupported(format,GisgraphyServiceType.STREET));
-	    } else {
-		Assert.assertFalse(isSupported(format,GisgraphyServiceType.GEOLOC));
-		Assert.assertFalse(isSupported(format,GisgraphyServiceType.STREET));
-	    }
-	}
-    }
 }

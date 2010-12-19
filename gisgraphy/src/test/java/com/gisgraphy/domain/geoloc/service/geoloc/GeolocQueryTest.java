@@ -26,7 +26,6 @@
 package com.gisgraphy.domain.geoloc.service.geoloc;
 
 import static com.gisgraphy.domain.valueobject.Pagination.paginate;
-import static org.junit.Assert.assertTrue;
 import junit.framework.TestCase;
 
 import org.junit.Assert;
@@ -39,8 +38,8 @@ import com.gisgraphy.domain.geoloc.entity.Country;
 import com.gisgraphy.domain.geoloc.entity.GisFeature;
 import com.gisgraphy.domain.valueobject.GisgraphyConfig;
 import com.gisgraphy.domain.valueobject.Output;
+import com.gisgraphy.domain.valueobject.OutputFormat;
 import com.gisgraphy.domain.valueobject.Pagination;
-import com.gisgraphy.domain.valueobject.Output.OutputFormat;
 import com.gisgraphy.domain.valueobject.Output.OutputStyle;
 import com.gisgraphy.helper.GeolocHelper;
 import com.gisgraphy.servlet.GeolocServlet;

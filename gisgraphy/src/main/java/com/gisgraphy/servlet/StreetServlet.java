@@ -41,7 +41,7 @@ import com.gisgraphy.domain.geoloc.service.geoloc.StreetSearchErrorVisitor;
 import com.gisgraphy.domain.geoloc.service.geoloc.StreetSearchQuery;
 import com.gisgraphy.domain.valueobject.Constants;
 import com.gisgraphy.domain.valueobject.GisgraphyServiceType;
-import com.gisgraphy.domain.valueobject.Output.OutputFormat;
+import com.gisgraphy.domain.valueobject.OutputFormat;
 import com.gisgraphy.helper.HTMLHelper;
 
 /**

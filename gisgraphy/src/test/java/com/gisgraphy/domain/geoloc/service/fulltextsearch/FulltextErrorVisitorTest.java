@@ -31,7 +31,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.gisgraphy.domain.geoloc.service.errors.IoutputFormatVisitor;
-import com.gisgraphy.domain.valueobject.Output.OutputFormat;
+import com.gisgraphy.domain.valueobject.OutputFormat;
 import com.gisgraphy.test.FeedChecker;
 
 

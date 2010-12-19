@@ -3,7 +3,6 @@ package com.gisgraphy.domain.valueobject;
 import org.apache.commons.lang.NotImplementedException;
 
 import com.gisgraphy.domain.geoloc.service.errors.UnsupportedFormatException;
-import com.gisgraphy.domain.valueobject.Output.OutputFormat;
 
 public class OutputFormatHelper {
 
@@ -14,7 +13,7 @@ public class OutputFormatHelper {
 	 * @throws NotImplementedException
 	 *                 if the service is not implemented by the algorithm
 	 */
-	public static OutputFormat[] listByService(
+	public static OutputFormat[] listFormatByService(
 		GisgraphyServiceType serviceType) {
 	    switch (serviceType) {
 	    case FULLTEXT:
@@ -50,11 +49,11 @@ public class OutputFormatHelper {
 	    switch (serviceType) {
 	    case FULLTEXT:
 		// fulltext accept all formats
-		return isSupported(format,serviceType)==true?format:OutputFormat.getDefault();
+		return isFormatSupported(format,serviceType)==true?format:OutputFormat.getDefault();
 	    case GEOLOC:
-		return isSupported(format,serviceType)==true?format:OutputFormat.getDefault();
+		return isFormatSupported(format,serviceType)==true?format:OutputFormat.getDefault();
 	    case STREET:
-		return isSupported(format,serviceType)==true?format:OutputFormat.getDefault();
+		return isFormatSupported(format,serviceType)==true?format:OutputFormat.getDefault();
 	    default:
 		throw new UnsupportedFormatException("The service type "
 			+ serviceType + "is not implemented");
@@ -66,7 +65,7 @@ public class OutputFormatHelper {
 	 * @param outputFormat the output format
 	 * @return true if the format is supported by the specified {@link GisgraphyServiceType}
 	 */
-	public static boolean isSupported(OutputFormat outputFormat,GisgraphyServiceType serviceType){
+	public static boolean isFormatSupported(OutputFormat outputFormat,GisgraphyServiceType serviceType){
 		if (outputFormat == OutputFormat.XML){
 			return true;
 		} else if (outputFormat == OutputFormat.JSON){

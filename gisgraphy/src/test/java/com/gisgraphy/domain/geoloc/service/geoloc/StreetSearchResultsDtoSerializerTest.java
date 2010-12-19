@@ -27,15 +27,12 @@ import static org.junit.Assert.fail;
 import java.io.ByteArrayOutputStream;
 import java.io.UnsupportedEncodingException;
 
-import org.easymock.classextension.EasyMock;
 import org.junit.Test;
 
 import com.gisgraphy.domain.geoloc.service.errors.UnsupportedFormatException;
 import com.gisgraphy.domain.valueobject.Constants;
-import com.gisgraphy.domain.valueobject.GisgraphyServiceType;
-import com.gisgraphy.domain.valueobject.OutputFormatHelper;
+import com.gisgraphy.domain.valueobject.OutputFormat;
 import com.gisgraphy.domain.valueobject.StreetSearchResultsDto;
-import com.gisgraphy.domain.valueobject.Output.OutputFormat;
 import com.gisgraphy.test.FeedChecker;
 import com.gisgraphy.test.GeolocTestHelper;
 

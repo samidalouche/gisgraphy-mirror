@@ -22,7 +22,7 @@
  *******************************************************************************/
 package com.gisgraphy.domain.geoloc.service.errors;
 
-import com.gisgraphy.domain.valueobject.Output.OutputFormat;
+import com.gisgraphy.domain.valueobject.OutputFormat;
 
 /**
  * Visitao (visitor Pattern) for the outputFormat enum

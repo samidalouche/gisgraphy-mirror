@@ -1,21 +1,19 @@
 package com.gisgraphy.domain.valueobject;
 
-import static com.gisgraphy.domain.valueobject.OutputFormatHelper.isSupported;
+import static com.gisgraphy.domain.valueobject.OutputFormatHelper.isFormatSupported;
 
 import java.util.Arrays;
 
 import org.junit.Assert;
 import org.junit.Test;
 
-import com.gisgraphy.domain.valueobject.Output.OutputFormat;
-
 
 public class OutputFormatHelperTest {
 	 @Test
-	    public void getListByServiceShouldImplementsAllGisgraphyService() {
+	    public void getListFormatByServiceShouldImplementsAllGisgraphyService() {
 		for (GisgraphyServiceType serviceType : GisgraphyServiceType.values()) {
 		    try {
-			OutputFormatHelper.listByService(serviceType);
+			OutputFormatHelper.listFormatByService(serviceType);
 		    } catch (Exception e) {
 			Assert.fail(e.getMessage());
 		    }
@@ -23,14 +21,14 @@ public class OutputFormatHelperTest {
 	    }
 
 	    @Test
-	    public void getListByServiceShouldReturnCorrectValues() {
+	    public void getListFormatByServiceShouldReturnCorrectValues() {
 		Assert.assertEquals(Arrays.asList(OutputFormat.values()), Arrays
 			.asList(OutputFormatHelper
-				.listByService(GisgraphyServiceType.FULLTEXT)));
+				.listFormatByService(GisgraphyServiceType.FULLTEXT)));
 		OutputFormat[] expected = { OutputFormat.XML, OutputFormat.JSON,
 			OutputFormat.ATOM, OutputFormat.GEORSS };
 		Assert.assertEquals(Arrays.asList(expected), Arrays.asList(OutputFormatHelper
-			.listByService(GisgraphyServiceType.GEOLOC)));
+			.listFormatByService(GisgraphyServiceType.GEOLOC)));
 
 	    }
 	    
@@ -65,7 +63,7 @@ public class OutputFormatHelperTest {
 		//street
 		for (GisgraphyServiceType serviceType : GisgraphyServiceType.values()){
 		for (OutputFormat format : OutputFormat.values()) {
-		   if (isSupported(format,serviceType)){
+		   if (isFormatSupported(format,serviceType)){
 		    Assert.assertEquals(format, OutputFormatHelper
 			    .getDefaultForServiceIfNotSupported(format,
 				    serviceType));
@@ -74,6 +72,28 @@ public class OutputFormatHelperTest {
 		       Assert.assertEquals(OutputFormat.getDefault(), OutputFormatHelper.getDefaultForServiceIfNotSupported(format, serviceType));
 		   }
 		}
+		}
+	    }
+	    
+
+	    @Test
+	    public void isFormatSupportedShouldReturnCorrectValues() {
+		for (OutputFormat format : OutputFormat.values()) {
+			if (format == OutputFormat.UNSUPPORTED){
+				Assert.assertFalse(isFormatSupported(format,GisgraphyServiceType.FULLTEXT));
+			} else {
+				Assert.assertTrue(isFormatSupported(format,GisgraphyServiceType.FULLTEXT));
+			}
+		}
+
+		for (OutputFormat format : OutputFormat.values()) {
+		    if (format == OutputFormat.XML || format == OutputFormat.JSON || format == OutputFormat.GEORSS || format == OutputFormat.ATOM) {
+			Assert.assertTrue(isFormatSupported(format,GisgraphyServiceType.GEOLOC));
+			Assert.assertTrue(isFormatSupported(format,GisgraphyServiceType.STREET));
+		    } else {
+			Assert.assertFalse(isFormatSupported(format,GisgraphyServiceType.GEOLOC));
+			Assert.assertFalse(isFormatSupported(format,GisgraphyServiceType.STREET));
+		    }
 		}
 	    }
 

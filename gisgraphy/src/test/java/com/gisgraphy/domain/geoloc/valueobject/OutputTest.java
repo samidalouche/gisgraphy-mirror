@@ -32,7 +32,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import com.gisgraphy.domain.valueobject.Output;
-import com.gisgraphy.domain.valueobject.Output.OutputFormat;
+import com.gisgraphy.domain.valueobject.OutputFormat;
 import com.gisgraphy.domain.valueobject.Output.OutputStyle;
 
 public class OutputTest  {

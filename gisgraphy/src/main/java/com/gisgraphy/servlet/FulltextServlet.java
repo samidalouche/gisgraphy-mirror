@@ -40,7 +40,7 @@ import com.gisgraphy.domain.geoloc.service.fulltextsearch.FulltextQuery;
 import com.gisgraphy.domain.geoloc.service.fulltextsearch.IFullTextSearchEngine;
 import com.gisgraphy.domain.valueobject.Constants;
 import com.gisgraphy.domain.valueobject.GisgraphyServiceType;
-import com.gisgraphy.domain.valueobject.Output.OutputFormat;
+import com.gisgraphy.domain.valueobject.OutputFormat;
 import com.gisgraphy.helper.EncodingHelper;
 import com.gisgraphy.helper.HTMLHelper;
 

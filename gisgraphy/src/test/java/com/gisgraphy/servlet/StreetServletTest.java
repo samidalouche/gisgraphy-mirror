@@ -39,8 +39,8 @@ import com.gisgraphy.domain.geoloc.service.fulltextsearch.AbstractIntegrationHtt
 import com.gisgraphy.domain.geoloc.service.geoloc.IStreetSearchEngine;
 import com.gisgraphy.domain.valueobject.Constants;
 import com.gisgraphy.domain.valueobject.GisgraphyServiceType;
+import com.gisgraphy.domain.valueobject.OutputFormat;
 import com.gisgraphy.domain.valueobject.OutputFormatHelper;
-import com.gisgraphy.domain.valueobject.Output.OutputFormat;
 import com.gisgraphy.test.FeedChecker;
 
 public class StreetServletTest extends AbstractIntegrationHttpSolrTestCase {

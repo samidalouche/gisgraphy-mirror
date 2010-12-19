@@ -171,7 +171,7 @@ public class FulltextSearchActionTest {
     @Test
     public void getFormatsShouldReturnFormatForFullText() {
 	Assert.assertEquals(Arrays.asList(OutputFormatHelper
-		.listByService(GisgraphyServiceType.FULLTEXT)), Arrays
+		.listFormatByService(GisgraphyServiceType.FULLTEXT)), Arrays
 		.asList(action.getFormats()));
 
     }

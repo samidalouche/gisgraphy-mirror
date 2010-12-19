@@ -47,11 +47,11 @@ import com.gisgraphy.domain.geoloc.service.errors.UnsupportedFormatException;
 import com.gisgraphy.domain.valueobject.Constants;
 import com.gisgraphy.domain.valueobject.GeolocResultsDto;
 import com.gisgraphy.domain.valueobject.GisgraphyServiceType;
+import com.gisgraphy.domain.valueobject.OutputFormat;
 import com.gisgraphy.domain.valueobject.OutputFormatHelper;
 import com.gisgraphy.domain.valueobject.Pagination;
 import com.gisgraphy.domain.valueobject.StreetDistance;
 import com.gisgraphy.domain.valueobject.StreetSearchResultsDto;
-import com.gisgraphy.domain.valueobject.Output.OutputFormat;
 import com.sun.syndication.feed.module.georss.GeoRSSModule;
 import com.sun.syndication.feed.module.georss.gml.GMLModuleImpl;
 import com.sun.syndication.feed.module.opensearch.OpenSearchModule;
@@ -112,7 +112,7 @@ public class StreetSearchResultsDtoSerializer implements
 
     public void serialize(OutputStream outputStream, OutputFormat outputFormat,
 	    StreetSearchResultsDto streetSearchResultsDto, boolean indent,int startPaginationIndex) {
-	if (!OutputFormatHelper.isSupported(outputFormat,GisgraphyServiceType.STREET)) {
+	if (!OutputFormatHelper.isFormatSupported(outputFormat,GisgraphyServiceType.STREET)) {
 	    throw new UnsupportedFormatException(outputFormat
 		    + " is not applicable for street search");
 	} 
