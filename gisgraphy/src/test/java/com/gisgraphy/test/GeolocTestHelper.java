@@ -354,6 +354,7 @@ public class GeolocTestHelper {
 	gisFeature.setPopulation(1000000);
 	gisFeature.setSource(GISSource.PERSONAL);
 	gisFeature.setTimezone("gmt+1");
+	gisFeature.addZipCode(new ZipCode("75000"));
 
 	return new GisFeatureDistance(gisFeature, 3.6D);
 

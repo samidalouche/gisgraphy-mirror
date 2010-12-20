@@ -112,12 +112,13 @@ public class GisFeatureDistanceTest extends AbstractIntegrationHttpSolrTestCase 
 		    .createFullFilledGisFeatureDistanceForCity();
 	    ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
 	    m.marshal(result, outputStream);
-	    FeedChecker.checkGisFeatureDistanceJAXBMapping(result, outputStream.toString(Constants.CHARSET),"");
+	    String resultAsString = outputStream.toString(Constants.CHARSET);
+	    FeedChecker.checkGisFeatureDistanceJAXBMapping(result, resultAsString,"");
 	    for (String zipCode: result.getZipCodes()){
 	    FeedChecker.assertQ("Zipcode should be output if The GisFeature is a city",
-		    outputStream.toString(Constants.CHARSET), "/"
+		    resultAsString, "/"
 			    + Constants.GISFEATUREDISTANCE_JAXB_NAME
-			    + "/zipCode[.='" + zipCode + "']");
+			    + "/zipCodes/zipCode[.='" + zipCode + "']");
 	    }
 	} catch (PropertyException e) {
 	    fail(e.getMessage());
@@ -154,34 +155,7 @@ public class GisFeatureDistanceTest extends AbstractIntegrationHttpSolrTestCase 
 	}
     }
     
-    @Test
-    public void testGisFeatureDistanceShouldHaveZipCodeIfGisFeatureIsCitySubdivision() {
-	GisFeatureDistance result = null;
-	try {
-	    JAXBContext context = JAXBContext
-		    .newInstance(GisFeatureDistance.class);
-	    Marshaller m = context.createMarshaller();
-	    m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
-	    result = GeolocTestHelper
-		    .createFullFilledGisFeatureDistanceForCitySubdivision();
-	    
-	    ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-	    m.marshal(result, outputStream);
-	    FeedChecker.checkGisFeatureDistanceJAXBMapping(result, outputStream.toString(Constants.CHARSET),"");
-	    for (int i=0;i< result.getZipCodes().size();i++){
-	    FeedChecker.assertQ("Zipcode should be output if The GisFeature is a citysubdivision",
-		    outputStream.toString(Constants.CHARSET), "/"
-			    + Constants.GISFEATUREDISTANCE_JAXB_NAME
-			    + "/zipCode[.='" + result.getZipCodes().get(i) + "']");}
-	} catch (PropertyException e) {
-	    fail(e.getMessage());
-	} catch (JAXBException e) {
-	    fail(e.getMessage());
-	} catch (UnsupportedEncodingException e) {
-	    fail("unsupported encoding for " + Constants.CHARSET);
-	}
-    }
-    
+   
     @Test
     public void testGisFeatureDistanceShouldHaveCountryInfosAndCalculatedFieldsWhenConstructWithConstructorCountry() {
 	GisFeatureDistance result = null;

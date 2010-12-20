@@ -101,7 +101,7 @@ public class SpellCheckerIndexerTest extends
 	    }
 	    fail("dictionnary name that are not defined in solrConfig.xml should not be accepted");
 	} catch (Exception e) {
-	    System.err.println(e);
+	  logger.error(e);
 	}
 
     }

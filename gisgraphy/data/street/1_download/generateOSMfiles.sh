@@ -13,7 +13,8 @@ urlFileName="urls.txt"
 donTReDownloadFile="true"
 typeset -i OK=0
 typeset -i KO=1
-postgisPath="/usr/share/postgresql-8.3-postgis/"
+postgres_version="8.4";
+postgisPath="/usr/share/postgresql-$postgres_version-postgis/"
 postgislwFileName="lwpostgis.sql"
 postgisSpatialRefSysFileName="spatial_ref_sys.sql"
 
@@ -175,8 +176,29 @@ function init_database {
 	createlang -U $pgUser -h $pgHost plpgsql $databaseName 
 	
 	echo "runingPostgis files ..."
-	psql_runSQLFileOnDatabase $postgisPath$postgislwFileName
-	psql_runSQLFileOnDatabase $postgisPath$postgisSpatialRefSysFileName
+	echo "initializing Postgis function"
+	if [ -e "/usr/share/postgresql-$postgres_version-postgis/lwpostgis.sql" ] 
+	then 
+		psql -U $pgUser -h $pgHost -d  $databaseName -f /usr/share/postgresql-$postgres_version-postgis/lwpostgis.sql 
+	fi
+
+	if [ -e /usr/share/postgresql-$postgres_version-postgis/spatial_ref_sys.sql ] 
+	then 
+		psql -U $pgUser -h $pgHost -d  $databaseName -f /usr/share/postgresql-$postgres_version-postgis/spatial_ref_sys.sql 
+	fi
+
+	if [ -e /usr/share/postgresql/$postgres_version/contrib/postgis.sql ] 
+	then 
+		psql -U $pgUser -h $pgHost -d  $databaseName -f /usr/share/postgresql/$postgres_version/contrib/postgis.sql
+	fi
+
+	if [ -e /usr/share/postgresql/$postgres_version/contrib/postgis.sql ] 
+	then
+ 		psql -U $pgUser -h $pgHost -d  $databaseName -f /usr/share/postgresql/$postgres_version/contrib/spatial_ref_sys.sql
+	fi
+	
+	#psql_runSQLFileOnDatabase $postgisPath$postgislwFileName
+	#psql_runSQLFileOnDatabase $postgisPath$postgisSpatialRefSysFileName
 }
 
 function importFiles {
@@ -193,16 +215,16 @@ do
 	then
 		if [[ $tablecreated -eq 0 ]]
 		then
-			echo "will create the table $tableName"
+			echo "will create table $tableName"
 			` shp2pgsql -p $shapefile -g $geometryColumnName $tableName $databaseName |psql -U$pgUser -d $databaseName -h$pgHost `
 			echo "will add the countrycode column to $tableName"
 			psql_runSQLcommandOnDatabase "ALTER TABLE $tableName ADD COLUMN countrycode character varying(3);"
 			echo "will increase size of type column"
-			psql_runSQLcommandOnDatabase "ALTER TABLE osm ALTER "type" TYPE character varying(255);"
+			psql_runSQLcommandOnDatabase "ALTER TABLE $tableName ALTER "type" TYPE character varying(255);"
 			echo "will increase size of name column"
-			psql_runSQLcommandOnDatabase "ALTER TABLE osm ALTER "name" TYPE character varying(255);"
+			psql_runSQLcommandOnDatabase "ALTER TABLE $tableName ALTER "name" TYPE character varying(255);"
 			echo "will increase size of oneway column"
-			psql_runSQLcommandOnDatabase "ALTER TABLE osm ALTER "oneway" TYPE character varying(255);"
+			psql_runSQLcommandOnDatabase "ALTER TABLE $tableName ALTER "oneway" TYPE character varying(255);"
 
 			tablecreated=1;
 		fi
@@ -220,7 +242,7 @@ done
 
 function clean_data {
 	echo "process linemerge"
-	psql_runSQLcommandOnDatabase "ALTER TABLE osm DROP CONSTRAINT enforce_geotype_shape;"
+	psql_runSQLcommandOnDatabase "ALTER TABLE $tableName DROP CONSTRAINT enforce_geotype_shape;"
 	psql_runSQLcommandOnDatabase "UPDATE $tableName set $geometryColumnName = LineMerge($geometryColumnName)"
 
 	echo "clean type"

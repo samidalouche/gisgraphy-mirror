@@ -381,6 +381,10 @@ remove the ability to search for 'no name street'
 				extract ouputformat enum because we get method that are not directly in relation with format,(that doesn't allow reuse)
 			</action>
 			
+			<action dev="David Masclet" type="update">
+				Geoloc result feed format change : Zipcodes in geoloc result is now wrap around a &lt;zipCodes&gt; element in XML e.g: &lt;zipCodes&gt;&lt;zipCode&gt;75000&lt;/zipCode&gt;&lt;zipCode&gt;75001&lt;/zipCode&gt;&lt;/zipCodes&gt;
+			</action>
+			
 			
 			</release>
 			

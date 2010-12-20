@@ -6,6 +6,13 @@ import com.gisgraphy.domain.geoloc.service.errors.UnsupportedFormatException;
 
 public class OutputFormatHelper {
 
+    private final static OutputFormat[] FULLTEXTSEARCH_SUPPORTED_FORMAT =  { OutputFormat.XML, OutputFormat.JSON,
+		OutputFormat.ATOM, OutputFormat.GEORSS,OutputFormat.PHP,OutputFormat.PYTHON,OutputFormat.RUBY };
+    
+    private final static OutputFormat[] GEOLOCSEARCH_SUPPORTED_FORMAT = { OutputFormat.XML, OutputFormat.JSON, OutputFormat.ATOM, OutputFormat.GEORSS };
+    
+    private final static OutputFormat[] STREETSEARCH_SUPPORTED_FORMAT = { OutputFormat.XML, OutputFormat.JSON, OutputFormat.ATOM, OutputFormat.GEORSS };
+    
 	/**
 	 * @param serviceType
 	 *                the service type we'd like to know all the formats
@@ -17,15 +24,12 @@ public class OutputFormatHelper {
 		GisgraphyServiceType serviceType) {
 	    switch (serviceType) {
 	    case FULLTEXT:
-		// fulltext accept all formats
-		return OutputFormat.values();
+		return FULLTEXTSEARCH_SUPPORTED_FORMAT;
 	    case GEOLOC:
-		OutputFormat[] resultGeoloc = { OutputFormat.XML, OutputFormat.JSON, OutputFormat.ATOM, OutputFormat.GEORSS };
-		return resultGeoloc;
+		return GEOLOCSEARCH_SUPPORTED_FORMAT;
 		
 	    case STREET:
-		OutputFormat[] resultStreet = { OutputFormat.XML, OutputFormat.JSON, OutputFormat.ATOM, OutputFormat.GEORSS };
-		return resultStreet;
+		return STREETSEARCH_SUPPORTED_FORMAT;
 	    default:
 		throw new NotImplementedException("The service type "
 			+ serviceType + "is not implemented");
@@ -66,23 +70,11 @@ public class OutputFormatHelper {
 	 * @return true if the format is supported by the specified {@link GisgraphyServiceType}
 	 */
 	public static boolean isFormatSupported(OutputFormat outputFormat,GisgraphyServiceType serviceType){
-		if (outputFormat == OutputFormat.XML){
+		for (OutputFormat format : listFormatByService(serviceType)){
+		    if (format == outputFormat){
 			return true;
-		} else if (outputFormat == OutputFormat.JSON){
-			return true;
-		}  else if (outputFormat == OutputFormat.PHP){
-			return serviceType == GisgraphyServiceType.FULLTEXT;
-		} else if (outputFormat == OutputFormat.PYTHON){
-			return serviceType == GisgraphyServiceType.FULLTEXT;
-		} else if (outputFormat == OutputFormat.RUBY){
-			return serviceType == GisgraphyServiceType.FULLTEXT;
-		} else if (outputFormat == OutputFormat.GEORSS){
-			return true;
-		} else if (outputFormat == OutputFormat.ATOM){
-			return true;
-		} else {
-			return false;
-		}
+		    }
+		} return false;
 	}
 
 }

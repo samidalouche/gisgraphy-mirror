@@ -28,7 +28,10 @@ import java.util.List;
 import javax.persistence.Transient;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlElementWrapper;
+import javax.xml.bind.annotation.XmlElements;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
@@ -330,7 +333,11 @@ public class GisFeatureDistance {
 
     private String placeType;
    
-    @XmlElement(name="zipCode")
+//    @XmlElement(name="zipCode")
+    @XmlElementWrapper(name="zipCodes")
+    @XmlElements({
+    @XmlElement(name="zipCode") }
+    )
     private List<String> zipCodes;
 
     private String google_map_url;

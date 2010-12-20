@@ -22,13 +22,16 @@ public class OutputFormatHelperTest {
 
 	    @Test
 	    public void getListFormatByServiceShouldReturnCorrectValues() {
-		Assert.assertEquals(Arrays.asList(OutputFormat.values()), Arrays
-			.asList(OutputFormatHelper
-				.listFormatByService(GisgraphyServiceType.FULLTEXT)));
+		OutputFormat[] expectedFulltext = { OutputFormat.XML, OutputFormat.JSON,
+			OutputFormat.ATOM, OutputFormat.GEORSS,OutputFormat.PHP,OutputFormat.PYTHON,OutputFormat.RUBY };
 		OutputFormat[] expected = { OutputFormat.XML, OutputFormat.JSON,
 			OutputFormat.ATOM, OutputFormat.GEORSS };
+		Assert.assertEquals(Arrays.asList(expectedFulltext), Arrays.asList(OutputFormatHelper
+			.listFormatByService(GisgraphyServiceType.FULLTEXT)));
 		Assert.assertEquals(Arrays.asList(expected), Arrays.asList(OutputFormatHelper
 			.listFormatByService(GisgraphyServiceType.GEOLOC)));
+		Assert.assertEquals(Arrays.asList(expected), Arrays.asList(OutputFormatHelper
+			.listFormatByService(GisgraphyServiceType.STREET)));
 
 	    }
 	    

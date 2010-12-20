@@ -68,8 +68,9 @@ public class GeolocResultsDtoSerializerTest {
 	    ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
 	    geolocResultsDtoSerializer.serialize(byteArrayOutputStream,
 		    OutputFormat.JSON, geolocResultsDto,true,1);
+	    String ResultAsString = byteArrayOutputStream.toString(Constants.CHARSET);
 	    FeedChecker.checkGeolocResultsDtoJSON(geolocResultsDto, 
-		    byteArrayOutputStream.toString(Constants.CHARSET));
+		    ResultAsString);
     }
     
     @Test

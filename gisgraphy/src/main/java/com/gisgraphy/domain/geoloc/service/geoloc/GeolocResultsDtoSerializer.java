@@ -51,6 +51,8 @@ import com.gisgraphy.domain.valueobject.GisgraphyServiceType;
 import com.gisgraphy.domain.valueobject.OutputFormat;
 import com.gisgraphy.domain.valueobject.OutputFormatHelper;
 import com.gisgraphy.domain.valueobject.Pagination;
+import com.gisgraphy.domain.valueobject.StreetSearchResultsDto;
+import com.gisgraphy.serializer.UniversalSerializer;
 import com.sun.syndication.feed.module.georss.GeoRSSModule;
 import com.sun.syndication.feed.module.georss.gml.GMLModuleImpl;
 import com.sun.syndication.feed.module.opensearch.OpenSearchModule;
@@ -142,9 +144,7 @@ public class GeolocResultsDtoSerializer implements
     private void serializeToXML(OutputStream outputStream,
 	    GeolocResultsDto geolocResultsDto,boolean indent) {
 	 try {
-		Marshaller m = contextForList.createMarshaller();
-		m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, indent);
-		m.marshal(geolocResultsDto, outputStream);
+	     UniversalSerializer.getInstance().write(outputStream, geolocResultsDto, indent, null, com.gisgraphy.serializer.OutputFormat.XML);
 	    } catch (Exception e) {
 		throw new ServiceException(e);
 	    }
@@ -152,31 +152,14 @@ public class GeolocResultsDtoSerializer implements
     
     private void serializeToJSON(OutputStream outputStream,
 	    GeolocResultsDto geolocResultsDto,boolean indent){
-    /*
-     * JSONArray jsonArray =
-     * JSONArray.fromObject(results,this.jsonConfig ); int indentFactor =
-     * query.isOutputIndented()?DEFAULT_INDENT_FACTOR:0;
-     * jsonArray.toString(indentFactor);
-     */
-    // for performance reason json is not indented
-    JSON json = JSONSerializer.toJSON(geolocResultsDto, jsonConfig);
-    final Writer writer;
-    try {
-	writer = new OutputStreamWriter(outputStream, Constants.CHARSET);
-    } catch (UnsupportedEncodingException e) {
-	throw new GeolocSearchException("unknow encoding "
-		+ Constants.CHARSET, e);
-    }
-
-    json.write(writer);
-    try {
-	if (writer != null){
-	writer.flush();
-	}
-    } catch (Exception e) {
-	throw new GisgraphyCommunicationException("error during flush : "+e.getCause(), e);
-    }
+	try {
+	     UniversalSerializer.getInstance().write(outputStream, geolocResultsDto, indent, null, com.gisgraphy.serializer.OutputFormat.JSON);
+	    } catch (Exception e) {
+		throw new ServiceException(e);
+	    }
+    
 }
+
 
     @SuppressWarnings("unchecked")
     private void serializeToFeed(OutputStream outputStream,

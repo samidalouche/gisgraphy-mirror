@@ -54,7 +54,7 @@ public class InternationalisationService implements IInternationalisationService
        try {
      return this.resourceBundle.getMessage(key, null,locale);
     } catch (NoSuchMessageException e) {
-	System.err.println(e.getMessage());
+	logger.warn("can not finfd message "+key+" in bundle");
 	return key;
     }
        
@@ -68,7 +68,7 @@ public class InternationalisationService implements IInternationalisationService
 	 try {
 	     return this.resourceBundle.getMessage(key, params, locale);
 	    } catch (NoSuchMessageException e) {
-		System.err.println(e.getMessage());
+		logger.warn("can not finfd message "+key+" in bundle");
 		return key;
 	    }
         
