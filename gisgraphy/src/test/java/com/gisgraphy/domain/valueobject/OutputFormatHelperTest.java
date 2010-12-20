@@ -25,9 +25,9 @@ public class OutputFormatHelperTest {
 	    @Test
 	    public void getListFormatByServiceShouldReturnCorrectValues() {
 		OutputFormat[] expectedFulltext = { OutputFormat.XML, OutputFormat.JSON,
-			OutputFormat.ATOM, OutputFormat.GEORSS,OutputFormat.PHP,OutputFormat.PYTHON,OutputFormat.RUBY };
+			OutputFormat.ATOM, OutputFormat.GEORSS,OutputFormat.PHP,OutputFormat.PYTHON,OutputFormat.RUBY, };
 		OutputFormat[] expected = { OutputFormat.XML, OutputFormat.JSON,
-			OutputFormat.ATOM, OutputFormat.GEORSS };
+			OutputFormat.ATOM, OutputFormat.GEORSS,OutputFormat.PHP,OutputFormat.RUBY,OutputFormat.PYTHON };
 		Assert.assertEquals(Arrays.asList(expectedFulltext), Arrays.asList(OutputFormatHelper
 			.listFormatByService(GisgraphyServiceType.FULLTEXT)));
 		Assert.assertEquals(Arrays.asList(expected), Arrays.asList(OutputFormatHelper
@@ -92,7 +92,7 @@ public class OutputFormatHelperTest {
 		}
 
 		for (OutputFormat format : OutputFormat.values()) {
-		    if (format == OutputFormat.XML || format == OutputFormat.JSON || format == OutputFormat.GEORSS || format == OutputFormat.ATOM) {
+		    if (format == OutputFormat.XML || format == OutputFormat.JSON || format == OutputFormat.GEORSS || format == OutputFormat.ATOM || format == OutputFormat.PHP || format == OutputFormat.PYTHON || format == OutputFormat.RUBY) {
 			Assert.assertTrue(isFormatSupported(format,GisgraphyServiceType.GEOLOC));
 			Assert.assertTrue(isFormatSupported(format,GisgraphyServiceType.STREET));
 		    } else {

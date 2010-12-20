@@ -33,9 +33,6 @@ import java.util.List;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 
-import net.sf.json.JsonConfig;
-import net.sf.json.util.PropertyFilter;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -69,12 +66,6 @@ import com.sun.syndication.io.SyndFeedOutput;
 public class GeolocResultsDtoSerializer implements
 	IGeolocResultsDtoSerializer {
     
-    private static JAXBContext contextForList;
-
-    /**
-     * Json filter, to not serialize all the properties
-     */
-    protected JsonConfig jsonConfig = new JsonConfig();
     
     /**
      * The logger
@@ -82,28 +73,7 @@ public class GeolocResultsDtoSerializer implements
     protected static final Logger logger = LoggerFactory
 	    .getLogger(GeolocResultsDtoSerializer.class);
 
-    /**
-     * Default Constructor
-     */
-    public GeolocResultsDtoSerializer() {
-	super();
-	try {
-	    contextForList = JAXBContext.newInstance(GeolocResultsDto.class);
-	    jsonConfig.setIgnoreTransientFields(true);// does not seems to
-	    // work
-	    jsonConfig.setJsonPropertyFilter(new PropertyFilter() {
-		public boolean apply(Object source, String name, Object value) {
-		    if (name.contains("location")
-			    || name.contains("gisFeature")) {
-			return true;
-		    }
-		    return false;
-		}
-	    });
-	} catch (JAXBException e) {
-	    throw new GeolocSearchException(e.getMessage(), e.getCause());
-	}
-    }
+  
 
     /*
      * (non-Javadoc)
@@ -121,51 +91,29 @@ public class GeolocResultsDtoSerializer implements
 		    + " is not applicable for Geoloc");
 	} 
 	   
-	else if (outputFormat == OutputFormat.JSON) {
-	    serializeToJSON(outputStream,
-		    geolocResultsDto,indent);
+	else if (outputFormat == OutputFormat.JSON || outputFormat == OutputFormat.PHP || outputFormat == OutputFormat.PYTHON  || outputFormat == OutputFormat.RUBY || outputFormat == OutputFormat.XML) {
+		serializeWithUniveraslSerializer(outputStream, geolocResultsDto,  indent, outputFormat);
 	} else 	if (outputFormat==OutputFormat.ATOM){
 	    serializeToFeed(outputStream,geolocResultsDto,OutputFormat.ATOM_VERSION, startPaginationIndex);
 	}
 	else if (outputFormat==OutputFormat.GEORSS) {
 	    serializeToFeed(outputStream,geolocResultsDto,OutputFormat.RSS_VERSION, startPaginationIndex);
-	}else if (outputFormat==OutputFormat.YAML) {
-	    serializeToYAML(outputStream,geolocResultsDto,OutputFormat.YAML);
 	}
 	else {
-	    //default
-	    serializeToXML(outputStream,
-		    geolocResultsDto,indent);
+		serializeWithUniveraslSerializer(outputStream, geolocResultsDto,  indent, OutputFormat.XML);
 	}
     }
     
-    private void serializeToYAML(OutputStream outputStream, GeolocResultsDto geolocResultsDto, OutputFormat yaml) {
+    private void serializeWithUniveraslSerializer(OutputStream outputStream, GeolocResultsDto geolocResultsDto,boolean indent, OutputFormat format) {
 	 try {
-	     UniversalSerializer.getInstance().write(outputStream, geolocResultsDto,  false,null, com.gisgraphy.serializer.OutputFormat.YAML);
+	     UniversalSerializer.getInstance().write(outputStream, geolocResultsDto,  indent,null, format);
 	    } catch (Exception e) {
 		throw new ServiceException(e);
 	    }
 	
     }
-
-    private void serializeToXML(OutputStream outputStream,
-	    GeolocResultsDto geolocResultsDto,boolean indent) {
-	 try {
-	     UniversalSerializer.getInstance().write(outputStream, geolocResultsDto, indent, null, com.gisgraphy.serializer.OutputFormat.XML);
-	    } catch (Exception e) {
-		throw new ServiceException(e);
-	    }
-    }
     
-    private void serializeToJSON(OutputStream outputStream,
-	    GeolocResultsDto geolocResultsDto,boolean indent){
-	try {
-	     UniversalSerializer.getInstance().write(outputStream, geolocResultsDto, indent, null, com.gisgraphy.serializer.OutputFormat.JSON);
-	    } catch (Exception e) {
-		throw new ServiceException(e);
-	    }
-    
-}
+   
 
 
     @SuppressWarnings("unchecked")

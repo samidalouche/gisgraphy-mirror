@@ -70,12 +70,6 @@ import com.sun.syndication.io.SyndFeedOutput;
 public class StreetSearchResultsDtoSerializer implements
 	IStreetSearchResultsDtoSerializer {
     
-    private static JAXBContext contextForList;
-
-    /**
-     * Json filter, to not serialize all the properties
-     */
-    protected JsonConfig jsonConfig = new JsonConfig();
     
     /**
      * The logger
@@ -83,28 +77,7 @@ public class StreetSearchResultsDtoSerializer implements
     protected static final Logger logger = LoggerFactory
 	    .getLogger(StreetSearchResultsDtoSerializer.class);
 
-    /**
-     * Default Constructor
-     */
-    public StreetSearchResultsDtoSerializer() {
-	super();
-	try {
-	    contextForList = JAXBContext.newInstance(StreetSearchResultsDto.class);
-	    jsonConfig.setIgnoreTransientFields(true);// does not seems to
-	    // work
-	    jsonConfig.setJsonPropertyFilter(new PropertyFilter() {
-		public boolean apply(Object source, String name, Object value) {
-		    if (name.contains("location")
-			    || name.contains("gisFeature")) {
-			return true;
-		    }
-		    return false;
-		}
-	    });
-	} catch (JAXBException e) {
-	    throw new StreetSearchException(e.getMessage(), e.getCause());
-	}
-    }
+    
 
    
 
@@ -115,10 +88,9 @@ public class StreetSearchResultsDtoSerializer implements
 		    + " is not applicable for street search");
 	} 
 	   
-	else if (outputFormat == OutputFormat.JSON) {
-	    serializeToJSON(outputStream,
-		    streetSearchResultsDto,indent);
-	} else 	if (outputFormat==OutputFormat.ATOM){
+	else if (outputFormat == OutputFormat.JSON || outputFormat == OutputFormat.PHP || outputFormat == OutputFormat.PYTHON  || outputFormat == OutputFormat.RUBY || outputFormat == OutputFormat.XML) {
+		serializeWithUniveraslSerializer(outputStream, streetSearchResultsDto,  indent, outputFormat);
+	}else 	if (outputFormat==OutputFormat.ATOM){
 	    serializeToFeed(outputStream,streetSearchResultsDto,OutputFormat.ATOM_VERSION, startPaginationIndex);
 	}
 	else if (outputFormat==OutputFormat.GEORSS) {
@@ -126,31 +98,20 @@ public class StreetSearchResultsDtoSerializer implements
 	}
 	else {
 	    //default
-	    serializeToXML(outputStream,
-		    streetSearchResultsDto,indent);
+		serializeWithUniveraslSerializer(outputStream, streetSearchResultsDto,  indent, OutputFormat.XML);
 	}
-	
-	return;
     }
     
-    private void serializeToXML(OutputStream outputStream,
-	    StreetSearchResultsDto streetSearchResultsDto,boolean indent) {
-	 try {
-	     UniversalSerializer.getInstance().write(outputStream, streetSearchResultsDto, indent, null, com.gisgraphy.serializer.OutputFormat.XML);
-	    } catch (Exception e) {
-		throw new ServiceException(e);
-	    }
-    }
+    private void serializeWithUniveraslSerializer(OutputStream outputStream, StreetSearchResultsDto streetSearchResultsDto,boolean indent, OutputFormat format) {
+   	 try {
+   	     UniversalSerializer.getInstance().write(outputStream, streetSearchResultsDto,  indent,null, format);
+   	    } catch (Exception e) {
+   		throw new ServiceException(e);
+   	    }
+   	
+       }
     
-    private void serializeToJSON(OutputStream outputStream,
-	    StreetSearchResultsDto streetSearchResultsDto,boolean indent){
-	try {
-	     UniversalSerializer.getInstance().write(outputStream, streetSearchResultsDto, indent, null, com.gisgraphy.serializer.OutputFormat.JSON);
-	    } catch (Exception e) {
-		throw new ServiceException(e);
-	    }
-    
-}
+   
 
     @SuppressWarnings("unchecked")
     private void serializeToFeed(OutputStream outputStream,

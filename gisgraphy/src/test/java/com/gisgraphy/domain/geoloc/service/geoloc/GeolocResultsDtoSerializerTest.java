@@ -43,7 +43,7 @@ public class GeolocResultsDtoSerializerTest {
 	IGeolocResultsDtoSerializer geolocResultsDtoSerializer = new GeolocResultsDtoSerializer();
 	try {
 	    geolocResultsDtoSerializer.serialize(new ByteArrayOutputStream(),
-		    OutputFormat.RUBY, new GeolocResultsDto(),true,1);
+		    OutputFormat.UNSUPPORTED, new GeolocResultsDto(),true,1);
 	    fail();
 	} catch (UnsupportedFormatException e) {
 	    //ok
@@ -96,12 +96,32 @@ public class GeolocResultsDtoSerializerTest {
     }
     
     @Test
-    public void testSerializeShouldSerializeInYAML() throws UnsupportedEncodingException {
+    public void testSerializeShouldSerializeInPHP() throws UnsupportedEncodingException {
 	IGeolocResultsDtoSerializer geolocResultsDtoSerializer = new GeolocResultsDtoSerializer();
 	    GeolocResultsDto geolocResultsDto = GeolocTestHelper.createGeolocResultsDto(310L);
 	    ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
 	    geolocResultsDtoSerializer.serialize(byteArrayOutputStream,
-		    OutputFormat.YAML, geolocResultsDto,false,1);
+		    OutputFormat.PHP, geolocResultsDto,false,1);
+	  System.out.println(byteArrayOutputStream.toString(Constants.CHARSET));
+    }
+    
+    @Test
+    public void testSerializeShouldSerializeInPython() throws UnsupportedEncodingException {
+	IGeolocResultsDtoSerializer geolocResultsDtoSerializer = new GeolocResultsDtoSerializer();
+	    GeolocResultsDto geolocResultsDto = GeolocTestHelper.createGeolocResultsDto(310L);
+	    ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+	    geolocResultsDtoSerializer.serialize(byteArrayOutputStream,
+		    OutputFormat.PYTHON, geolocResultsDto,false,1);
+	  System.out.println(byteArrayOutputStream.toString(Constants.CHARSET));
+    }
+    
+    @Test
+    public void testSerializeShouldSerializeInRuby() throws UnsupportedEncodingException {
+	IGeolocResultsDtoSerializer geolocResultsDtoSerializer = new GeolocResultsDtoSerializer();
+	    GeolocResultsDto geolocResultsDto = GeolocTestHelper.createGeolocResultsDto(310L);
+	    ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+	    geolocResultsDtoSerializer.serialize(byteArrayOutputStream,
+		    OutputFormat.RUBY, geolocResultsDto,false,1);
 	  System.out.println(byteArrayOutputStream.toString(Constants.CHARSET));
     }
     

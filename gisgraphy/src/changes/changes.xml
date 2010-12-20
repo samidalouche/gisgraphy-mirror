@@ -385,6 +385,10 @@ remove the ability to search for 'no name street'
 				Geoloc result feed format change : Zipcodes in geoloc result is now wrap around a &lt;zipCodes&gt; element in XML e.g: &lt;zipCodes&gt;&lt;zipCode&gt;75000&lt;/zipCode&gt;&lt;zipCode&gt;75001&lt;/zipCode&gt;&lt;/zipCodes&gt;
 			</action>
 			
+			<action dev="David Masclet" type="add">
+				streetsearch and geoloc search can now output ruby, php, and python
+			</action>
+			
 			
 			</release>
 			

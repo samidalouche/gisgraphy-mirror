@@ -246,7 +246,7 @@
     <dependent-module deploy-path="/WEB-INF/lib" handle="module:/classpath/var/M2_REPO/org/freemarker/freemarker/2.3.15/freemarker-2.3.15.jar">
       <dependency-type>uses</dependency-type>
     </dependent-module>
-    <dependent-module deploy-path="/WEB-INF/lib" handle="module:/classpath/lib//home/dmasclet/Bureau/jdk1.6.0_18/lib/tools.jar">
+    <dependent-module deploy-path="/WEB-INF/lib" handle="module:/classpath/lib//usr/lib/jvm/java-6-sun-1.6.0.16/lib/tools.jar">
       <dependency-type>uses</dependency-type>
     </dependent-module>
     <dependent-module deploy-path="/WEB-INF/lib" handle="module:/classpath/var/M2_REPO/org/apache/struts/struts2-spring-plugin/2.1.8/struts2-spring-plugin-2.1.8.jar">

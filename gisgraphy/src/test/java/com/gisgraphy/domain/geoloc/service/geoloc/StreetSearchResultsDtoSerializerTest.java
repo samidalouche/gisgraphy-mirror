@@ -94,4 +94,34 @@ public class StreetSearchResultsDtoSerializerTest {
 		    byteArrayOutputStream.toString(Constants.CHARSET));
     }
     
+    @Test
+    public void serializeShouldSerializeInPHP() throws UnsupportedEncodingException {
+	IStreetSearchResultsDtoSerializer streetSearchResultsDtoSerializer = new StreetSearchResultsDtoSerializer();
+	   StreetSearchResultsDto streetSearchResultsDto = GeolocTestHelper.createStreetSearchResultsDto();
+	    ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+	    streetSearchResultsDtoSerializer.serialize(byteArrayOutputStream,
+		    OutputFormat.PHP, streetSearchResultsDto,true,1);
+	    System.out.println(byteArrayOutputStream.toString(Constants.CHARSET));
+    }
+    
+    @Test
+    public void serializeShouldSerializeInPython() throws UnsupportedEncodingException {
+	IStreetSearchResultsDtoSerializer streetSearchResultsDtoSerializer = new StreetSearchResultsDtoSerializer();
+	   StreetSearchResultsDto streetSearchResultsDto = GeolocTestHelper.createStreetSearchResultsDto();
+	    ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+	    streetSearchResultsDtoSerializer.serialize(byteArrayOutputStream,
+		    OutputFormat.PYTHON, streetSearchResultsDto,true,1);
+	   System.out.println(byteArrayOutputStream.toString(Constants.CHARSET));
+    }
+    
+    @Test
+    public void serializeShouldSerializeInRuby() throws UnsupportedEncodingException {
+	IStreetSearchResultsDtoSerializer streetSearchResultsDtoSerializer = new StreetSearchResultsDtoSerializer();
+	   StreetSearchResultsDto streetSearchResultsDto = GeolocTestHelper.createStreetSearchResultsDto();
+	    ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+	    streetSearchResultsDtoSerializer.serialize(byteArrayOutputStream,
+		    OutputFormat.RUBY, streetSearchResultsDto,true,1);
+	    System.out.println(byteArrayOutputStream.toString(Constants.CHARSET));
+    }
+    
 }
