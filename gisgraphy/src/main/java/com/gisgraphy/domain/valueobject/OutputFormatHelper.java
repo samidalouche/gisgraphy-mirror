@@ -3,13 +3,14 @@ package com.gisgraphy.domain.valueobject;
 import org.apache.commons.lang.NotImplementedException;
 
 import com.gisgraphy.domain.geoloc.service.errors.UnsupportedFormatException;
+import com.gisgraphy.serializer.OutputFormat;
 
 public class OutputFormatHelper {
 
     private final static OutputFormat[] FULLTEXTSEARCH_SUPPORTED_FORMAT =  { OutputFormat.XML, OutputFormat.JSON,
 		OutputFormat.ATOM, OutputFormat.GEORSS,OutputFormat.PHP,OutputFormat.PYTHON,OutputFormat.RUBY };
     
-    private final static OutputFormat[] GEOLOCSEARCH_SUPPORTED_FORMAT = { OutputFormat.XML, OutputFormat.JSON, OutputFormat.ATOM, OutputFormat.GEORSS };
+    private final static OutputFormat[] GEOLOCSEARCH_SUPPORTED_FORMAT = { OutputFormat.XML, OutputFormat.JSON, OutputFormat.ATOM, OutputFormat.GEORSS,OutputFormat.YAML };
     
     private final static OutputFormat[] STREETSEARCH_SUPPORTED_FORMAT = { OutputFormat.XML, OutputFormat.JSON, OutputFormat.ATOM, OutputFormat.GEORSS };
     

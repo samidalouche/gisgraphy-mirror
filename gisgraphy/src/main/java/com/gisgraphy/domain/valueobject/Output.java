@@ -27,6 +27,7 @@ package com.gisgraphy.domain.valueobject;
 
 
 import com.gisgraphy.domain.geoloc.service.fulltextsearch.FullTextFields;
+import com.gisgraphy.serializer.OutputFormat;
 
 /**
  * Represent an output specification.

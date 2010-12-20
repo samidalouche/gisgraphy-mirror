@@ -25,6 +25,8 @@ package com.gisgraphy.domain.valueobject;
 import org.junit.Assert;
 import org.junit.Test;
 
+import com.gisgraphy.serializer.OutputFormat;
+
 public class OutputFormatTest  {
 
     @Test

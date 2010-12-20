@@ -39,9 +39,9 @@ import com.gisgraphy.domain.repository.IAlternateNameDao;
 import com.gisgraphy.domain.valueobject.FulltextResultsDto;
 import com.gisgraphy.domain.valueobject.GisgraphyServiceType;
 import com.gisgraphy.domain.valueobject.Output;
-import com.gisgraphy.domain.valueobject.OutputFormat;
 import com.gisgraphy.domain.valueobject.OutputFormatHelper;
 import com.gisgraphy.domain.valueobject.Output.OutputStyle;
+import com.gisgraphy.serializer.OutputFormat;
 
 /**
  * fulltext search Action

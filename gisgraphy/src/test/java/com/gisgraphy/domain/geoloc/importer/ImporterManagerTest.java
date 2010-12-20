@@ -82,10 +82,10 @@ import com.gisgraphy.domain.valueobject.GISSource;
 import com.gisgraphy.domain.valueobject.ImporterStatus;
 import com.gisgraphy.domain.valueobject.ImporterStatusDto;
 import com.gisgraphy.domain.valueobject.Output;
-import com.gisgraphy.domain.valueobject.OutputFormat;
 import com.gisgraphy.domain.valueobject.Pagination;
 import com.gisgraphy.domain.valueobject.Output.OutputStyle;
 import com.gisgraphy.helper.FileHelper;
+import com.gisgraphy.serializer.OutputFormat;
 import com.gisgraphy.test.FeedChecker;
 import com.gisgraphy.test.GeolocTestHelper;
 //test class that really must be splitted, refactored, and unit tested vs integration tested

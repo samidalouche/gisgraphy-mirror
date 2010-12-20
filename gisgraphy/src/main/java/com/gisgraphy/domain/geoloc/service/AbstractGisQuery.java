@@ -26,9 +26,9 @@
 package com.gisgraphy.domain.geoloc.service;
 
 import com.gisgraphy.domain.valueobject.Output;
-import com.gisgraphy.domain.valueobject.OutputFormat;
 import com.gisgraphy.domain.valueobject.Pagination;
 import com.gisgraphy.domain.valueobject.Output.OutputStyle;
+import com.gisgraphy.serializer.OutputFormat;
 
 /**
  * An abstract query for all GisQuery. define {@link Output},

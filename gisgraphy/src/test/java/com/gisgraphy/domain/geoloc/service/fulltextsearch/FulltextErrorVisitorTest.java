@@ -30,8 +30,8 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.gisgraphy.domain.geoloc.service.errors.IoutputFormatVisitor;
-import com.gisgraphy.domain.valueobject.OutputFormat;
+import com.gisgraphy.serializer.IoutputFormatVisitor;
+import com.gisgraphy.serializer.OutputFormat;
 import com.gisgraphy.test.FeedChecker;
 
 

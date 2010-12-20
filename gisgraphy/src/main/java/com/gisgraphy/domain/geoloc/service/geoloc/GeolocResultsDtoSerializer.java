@@ -32,10 +32,7 @@ import java.util.List;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
-import javax.xml.bind.Marshaller;
 
-import net.sf.json.JSON;
-import net.sf.json.JSONSerializer;
 import net.sf.json.JsonConfig;
 import net.sf.json.util.PropertyFilter;
 
@@ -48,10 +45,9 @@ import com.gisgraphy.domain.valueobject.Constants;
 import com.gisgraphy.domain.valueobject.GeolocResultsDto;
 import com.gisgraphy.domain.valueobject.GisFeatureDistance;
 import com.gisgraphy.domain.valueobject.GisgraphyServiceType;
-import com.gisgraphy.domain.valueobject.OutputFormat;
 import com.gisgraphy.domain.valueobject.OutputFormatHelper;
 import com.gisgraphy.domain.valueobject.Pagination;
-import com.gisgraphy.domain.valueobject.StreetSearchResultsDto;
+import com.gisgraphy.serializer.OutputFormat;
 import com.gisgraphy.serializer.UniversalSerializer;
 import com.sun.syndication.feed.module.georss.GeoRSSModule;
 import com.sun.syndication.feed.module.georss.gml.GMLModuleImpl;
@@ -133,6 +129,8 @@ public class GeolocResultsDtoSerializer implements
 	}
 	else if (outputFormat==OutputFormat.GEORSS) {
 	    serializeToFeed(outputStream,geolocResultsDto,OutputFormat.RSS_VERSION, startPaginationIndex);
+	}else if (outputFormat==OutputFormat.YAML) {
+	    serializeToYAML(outputStream,geolocResultsDto,OutputFormat.YAML);
 	}
 	else {
 	    //default
@@ -141,6 +139,15 @@ public class GeolocResultsDtoSerializer implements
 	}
     }
     
+    private void serializeToYAML(OutputStream outputStream, GeolocResultsDto geolocResultsDto, OutputFormat yaml) {
+	 try {
+	     UniversalSerializer.getInstance().write(outputStream, geolocResultsDto,  false,null, com.gisgraphy.serializer.OutputFormat.YAML);
+	    } catch (Exception e) {
+		throw new ServiceException(e);
+	    }
+	
+    }
+
     private void serializeToXML(OutputStream outputStream,
 	    GeolocResultsDto geolocResultsDto,boolean indent) {
 	 try {

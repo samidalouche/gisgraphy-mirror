@@ -34,14 +34,14 @@ import org.slf4j.LoggerFactory;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
-import com.gisgraphy.domain.geoloc.service.errors.IoutputFormatVisitor;
 import com.gisgraphy.domain.geoloc.service.geoloc.GeolocErrorVisitor;
 import com.gisgraphy.domain.geoloc.service.geoloc.GeolocQuery;
 import com.gisgraphy.domain.geoloc.service.geoloc.IGeolocSearchEngine;
 import com.gisgraphy.domain.valueobject.Constants;
 import com.gisgraphy.domain.valueobject.GisgraphyServiceType;
-import com.gisgraphy.domain.valueobject.OutputFormat;
 import com.gisgraphy.helper.HTMLHelper;
+import com.gisgraphy.serializer.IoutputFormatVisitor;
+import com.gisgraphy.serializer.OutputFormat;
 
 /**
  * Provides a servlet Wrapper around The Gisgraphy geoloc Service, it Maps web

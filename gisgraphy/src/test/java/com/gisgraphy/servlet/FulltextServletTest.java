@@ -39,7 +39,8 @@ import com.gisgraphy.domain.geoloc.service.fulltextsearch.AbstractIntegrationHtt
 import com.gisgraphy.domain.geoloc.service.fulltextsearch.IFullTextSearchEngine;
 import com.gisgraphy.domain.valueobject.Constants;
 import com.gisgraphy.domain.valueobject.GisgraphyServiceType;
-import com.gisgraphy.domain.valueobject.OutputFormat;
+import com.gisgraphy.domain.valueobject.OutputFormatHelper;
+import com.gisgraphy.serializer.OutputFormat;
 import com.gisgraphy.test.FeedChecker;
 
 public class FulltextServletTest extends AbstractIntegrationHttpSolrTestCase {
@@ -103,7 +104,7 @@ public class FulltextServletTest extends AbstractIntegrationHttpSolrTestCase {
 		// result = get.getResponseBodyAsString();
 
 		Header contentType = get.getResponseHeader("Content-Type");
-		if (format != OutputFormat.UNSUPPORTED){
+		if (OutputFormatHelper.isFormatSupported(format, GisgraphyServiceType.FULLTEXT)){
 		assertTrue(contentType.getValue().equals(
 			format.getContentType()));
 		}

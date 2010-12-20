@@ -25,8 +25,8 @@
  */
 package com.gisgraphy.domain.geoloc.service.geoloc;
 
-import com.gisgraphy.domain.geoloc.service.errors.IoutputFormatVisitor;
-import com.gisgraphy.domain.valueobject.OutputFormat;
+import com.gisgraphy.serializer.IoutputFormatVisitor;
+import com.gisgraphy.serializer.OutputFormat;
 
 /**
  * Visitor (visitor pattern) to return error message according to the format for
@@ -134,6 +134,10 @@ public class StreetSearchErrorVisitor implements IoutputFormatVisitor {
      */
     public String getErrorMessage() {
         return errorMessage;
+    }
+
+    public String visitYAML(OutputFormat format) {
+	return "error";
     }
 
 }

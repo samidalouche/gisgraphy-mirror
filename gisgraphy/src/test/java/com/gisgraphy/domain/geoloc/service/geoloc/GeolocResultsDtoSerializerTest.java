@@ -32,7 +32,7 @@ import org.junit.Test;
 import com.gisgraphy.domain.geoloc.service.errors.UnsupportedFormatException;
 import com.gisgraphy.domain.valueobject.Constants;
 import com.gisgraphy.domain.valueobject.GeolocResultsDto;
-import com.gisgraphy.domain.valueobject.OutputFormat;
+import com.gisgraphy.serializer.OutputFormat;
 import com.gisgraphy.test.FeedChecker;
 import com.gisgraphy.test.GeolocTestHelper;
 
@@ -93,6 +93,16 @@ public class GeolocResultsDtoSerializerTest {
 		    OutputFormat.ATOM, geolocResultsDto,true,1);
 	    FeedChecker.checkGeolocResultsDtoATOM(geolocResultsDto, 
 		    byteArrayOutputStream.toString(Constants.CHARSET));
+    }
+    
+    @Test
+    public void testSerializeShouldSerializeInYAML() throws UnsupportedEncodingException {
+	IGeolocResultsDtoSerializer geolocResultsDtoSerializer = new GeolocResultsDtoSerializer();
+	    GeolocResultsDto geolocResultsDto = GeolocTestHelper.createGeolocResultsDto(310L);
+	    ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+	    geolocResultsDtoSerializer.serialize(byteArrayOutputStream,
+		    OutputFormat.YAML, geolocResultsDto,false,1);
+	  System.out.println(byteArrayOutputStream.toString(Constants.CHARSET));
     }
     
     

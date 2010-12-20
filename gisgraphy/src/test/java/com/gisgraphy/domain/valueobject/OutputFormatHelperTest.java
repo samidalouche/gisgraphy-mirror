@@ -7,6 +7,8 @@ import java.util.Arrays;
 import org.junit.Assert;
 import org.junit.Test;
 
+import com.gisgraphy.serializer.OutputFormat;
+
 
 public class OutputFormatHelperTest {
 	 @Test
@@ -53,7 +55,7 @@ public class OutputFormatHelperTest {
 	    public void getDefaultForServiceIfNotSupportedShouldReturnsCorrectValues() {
 		// fulltext service allows all formats
 		for (OutputFormat format : OutputFormat.values()) {
-			if (format ==OutputFormat.UNSUPPORTED){
+			if (format ==OutputFormat.UNSUPPORTED || format == OutputFormat.YAML){
 				 Assert.assertEquals(OutputFormat.getDefault(), OutputFormatHelper
 						    .getDefaultForServiceIfNotSupported(format,
 							    GisgraphyServiceType.FULLTEXT));
@@ -82,7 +84,7 @@ public class OutputFormatHelperTest {
 	    @Test
 	    public void isFormatSupportedShouldReturnCorrectValues() {
 		for (OutputFormat format : OutputFormat.values()) {
-			if (format == OutputFormat.UNSUPPORTED){
+			if (format == OutputFormat.UNSUPPORTED ||format == OutputFormat.YAML){
 				Assert.assertFalse(isFormatSupported(format,GisgraphyServiceType.FULLTEXT));
 			} else {
 				Assert.assertTrue(isFormatSupported(format,GisgraphyServiceType.FULLTEXT));

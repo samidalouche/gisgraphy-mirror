@@ -43,10 +43,10 @@ import com.gisgraphy.domain.repository.ICountryDao;
 import com.gisgraphy.domain.valueobject.Constants;
 import com.gisgraphy.domain.valueobject.GisgraphyConfig;
 import com.gisgraphy.domain.valueobject.Output;
-import com.gisgraphy.domain.valueobject.OutputFormat;
 import com.gisgraphy.domain.valueobject.Pagination;
 import com.gisgraphy.domain.valueobject.Output.OutputStyle;
 import com.gisgraphy.helper.GeolocHelper;
+import com.gisgraphy.serializer.OutputFormat;
 import com.gisgraphy.servlet.FulltextServlet;
 import com.gisgraphy.servlet.GisgraphyServlet;
 

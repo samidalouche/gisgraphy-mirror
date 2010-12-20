@@ -33,10 +33,10 @@ import javax.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.gisgraphy.domain.geoloc.service.errors.IoutputFormatVisitor;
 import com.gisgraphy.domain.valueobject.GisgraphyServiceType;
-import com.gisgraphy.domain.valueobject.OutputFormat;
 import com.gisgraphy.domain.valueobject.OutputFormatHelper;
+import com.gisgraphy.serializer.IoutputFormatVisitor;
+import com.gisgraphy.serializer.OutputFormat;
 
 /**
  * provides utility function for Gisgraphy Service

@@ -34,15 +34,15 @@ import org.slf4j.LoggerFactory;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
-import com.gisgraphy.domain.geoloc.service.errors.IoutputFormatVisitor;
 import com.gisgraphy.domain.geoloc.service.fulltextsearch.FulltextErrorVisitor;
 import com.gisgraphy.domain.geoloc.service.fulltextsearch.FulltextQuery;
 import com.gisgraphy.domain.geoloc.service.fulltextsearch.IFullTextSearchEngine;
 import com.gisgraphy.domain.valueobject.Constants;
 import com.gisgraphy.domain.valueobject.GisgraphyServiceType;
-import com.gisgraphy.domain.valueobject.OutputFormat;
 import com.gisgraphy.helper.EncodingHelper;
 import com.gisgraphy.helper.HTMLHelper;
+import com.gisgraphy.serializer.IoutputFormatVisitor;
+import com.gisgraphy.serializer.OutputFormat;
 
 /**
  * Provides a servlet Wrapper around The Gisgraphy fulltext Service

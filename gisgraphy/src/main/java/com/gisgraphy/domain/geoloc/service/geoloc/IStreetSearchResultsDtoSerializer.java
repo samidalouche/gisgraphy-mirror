@@ -24,8 +24,8 @@ package com.gisgraphy.domain.geoloc.service.geoloc;
 
 import java.io.OutputStream;
 
-import com.gisgraphy.domain.valueobject.OutputFormat;
 import com.gisgraphy.domain.valueobject.StreetSearchResultsDto;
+import com.gisgraphy.serializer.OutputFormat;
 
 public interface IStreetSearchResultsDtoSerializer {
 
