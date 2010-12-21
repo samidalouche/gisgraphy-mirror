@@ -1,10 +1,7 @@
 package com.gisgraphy.helper;
 
-import static org.junit.Assert.*;
-
 import org.easymock.classextension.EasyMock;
 import org.junit.Test;
-import org.springframework.test.AbstractTransactionalDataSourceSpringContextTests;
 
 import com.gisgraphy.domain.geoloc.entity.Country;
 import com.gisgraphy.domain.geoloc.entity.GisFeature;

@@ -51,18 +51,15 @@ import org.hibernate.annotations.Index;
 import org.hibernate.annotations.Type;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Configurable;
 
 import com.gisgraphy.domain.geoloc.importer.ImporterConfig;
-import com.gisgraphy.domain.repository.ICountryDao;
 import com.gisgraphy.domain.valueobject.Constants;
 import com.gisgraphy.domain.valueobject.FeatureCode;
 import com.gisgraphy.domain.valueobject.GISSource;
 import com.gisgraphy.domain.valueobject.SRID;
 import com.gisgraphy.helper.FeatureClassCodeHelper;
-import com.gisgraphy.helper.GisFeatureHelper;
 import com.gisgraphy.helper.GeolocHelper;
+import com.gisgraphy.helper.GisFeatureHelper;
 import com.gisgraphy.helper.IntrospectionIgnoredField;
 import com.vividsolutions.jts.geom.Point;
 

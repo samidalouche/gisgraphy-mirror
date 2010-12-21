@@ -27,10 +27,13 @@ package com.gisgraphy.domain.geoloc.service.geoloc;
 
 import java.io.ByteArrayOutputStream;
 import java.io.OutputStream;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 
+import org.apache.commons.collections.map.HashedMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.Assert;
@@ -41,6 +44,7 @@ import com.gisgraphy.domain.repository.IGisDao;
 import com.gisgraphy.domain.repository.IRepositoryStrategy;
 import com.gisgraphy.domain.valueobject.GeolocResultsDto;
 import com.gisgraphy.domain.valueobject.GisFeatureDistance;
+import com.gisgraphy.serializer.UniversalSerializerConstant;
 import com.gisgraphy.service.IStatsUsageService;
 import com.gisgraphy.stats.StatsUsageType;
 
@@ -116,7 +120,10 @@ public class GeolocSearchEngine implements IGeolocSearchEngine {
 	Assert.notNull(outputStream,
 		"Can not serialize into a null outputStream");
 	GeolocResultsDto geolocResultsDto = executeQuery(query);
-	geolocResultsDtoSerializer.serialize(outputStream, query.getOutputFormat(), geolocResultsDto, query.isOutputIndented(),query.getFirstPaginationIndex());
+	Map<String, Object> extraParameter = new HashMap<String, Object>();
+	extraParameter.put(GeolocResultsDtoSerializer.START_PAGINATION_INDEX_EXTRA_PARAMETER, query.getFirstPaginationIndex());
+	extraParameter.put(UniversalSerializerConstant.CALLBACK_METHOD_NAME, query.getCallback());
+	geolocResultsDtoSerializer.serialize(outputStream, query.getOutputFormat(), geolocResultsDto, query.isOutputIndented(),extraParameter);
     }
 
     /*

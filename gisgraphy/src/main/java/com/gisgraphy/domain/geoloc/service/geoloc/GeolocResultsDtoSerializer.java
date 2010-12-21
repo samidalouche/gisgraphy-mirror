@@ -29,9 +29,7 @@ import java.io.UnsupportedEncodingException;
 import java.io.Writer;
 import java.util.ArrayList;
 import java.util.List;
-
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBException;
+import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -66,6 +64,8 @@ import com.sun.syndication.io.SyndFeedOutput;
 public class GeolocResultsDtoSerializer implements
 	IGeolocResultsDtoSerializer {
     
+    public final static String START_PAGINATION_INDEX_EXTRA_PARAMETER = "startPaginationIndex";
+    
     
     /**
      * The logger
@@ -85,28 +85,40 @@ public class GeolocResultsDtoSerializer implements
      * com.gisgraphy.domain.valueobject.GeolocResultsDto)
      */
     public void serialize(OutputStream outputStream, OutputFormat outputFormat,
-	    GeolocResultsDto geolocResultsDto, boolean indent,int startPaginationIndex) {
+	    GeolocResultsDto geolocResultsDto, boolean indent,Map<String,Object> extraParameters) {
 	if (!OutputFormatHelper.isFormatSupported(outputFormat,GisgraphyServiceType.GEOLOC)) {
 	    throw new UnsupportedFormatException(outputFormat
 		    + " is not applicable for Geoloc");
 	} 
 	   
 	else if (outputFormat == OutputFormat.JSON || outputFormat == OutputFormat.PHP || outputFormat == OutputFormat.PYTHON  || outputFormat == OutputFormat.RUBY || outputFormat == OutputFormat.XML) {
-		serializeWithUniveraslSerializer(outputStream, geolocResultsDto,  indent, outputFormat);
+		serializeWithUniveraslSerializer(outputStream, geolocResultsDto,  indent, outputFormat,extraParameters);
 	} else 	if (outputFormat==OutputFormat.ATOM){
+	   int  startPaginationIndex = getStartPaginationIndex(extraParameters);
 	    serializeToFeed(outputStream,geolocResultsDto,OutputFormat.ATOM_VERSION, startPaginationIndex);
 	}
 	else if (outputFormat==OutputFormat.GEORSS) {
+	    int  startPaginationIndex = getStartPaginationIndex(extraParameters);
 	    serializeToFeed(outputStream,geolocResultsDto,OutputFormat.RSS_VERSION, startPaginationIndex);
 	}
 	else {
-		serializeWithUniveraslSerializer(outputStream, geolocResultsDto,  indent, OutputFormat.XML);
+		serializeWithUniveraslSerializer(outputStream, geolocResultsDto,  indent, OutputFormat.XML,extraParameters);
 	}
     }
+
+    private int getStartPaginationIndex(Map<String, Object> extraParameters) {
+	if (extraParameters!= null){
+	Object startPaginationIndexObject = extraParameters.get(START_PAGINATION_INDEX_EXTRA_PARAMETER);
+	if (startPaginationIndexObject != null && startPaginationIndexObject instanceof Integer){
+	    return (Integer) startPaginationIndexObject;
+	}
+	}
+	return 1;
+    }
     
-    private void serializeWithUniveraslSerializer(OutputStream outputStream, GeolocResultsDto geolocResultsDto,boolean indent, OutputFormat format) {
+    private void serializeWithUniveraslSerializer(OutputStream outputStream, GeolocResultsDto geolocResultsDto,boolean indent, OutputFormat format,Map<String,Object> extraParameters) {
 	 try {
-	     UniversalSerializer.getInstance().write(outputStream, geolocResultsDto,  indent,null, format);
+	     UniversalSerializer.getInstance().write(outputStream, geolocResultsDto,  indent,extraParameters, format);
 	    } catch (Exception e) {
 		throw new ServiceException(e);
 	    }

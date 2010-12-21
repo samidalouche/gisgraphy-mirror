@@ -602,6 +602,26 @@ public class StreetSearchQueryTest  {
 	    query = new StreetSearchQuery(request);
 	    assertTrue("distanceField should be kept to his default value if specified with wrong value",
 			     query.hasDistanceField());
+	    
+	    //callback not set
+	    request = GeolocTestHelper.createMockHttpServletRequestForGeoloc();
+	    query = new StreetSearchQuery(request);
+	    assertNull("callback should be null when not set",
+		     query.getCallback());
+	    
+	    //callback set with non alpha value
+	    request = GeolocTestHelper.createMockHttpServletRequestForGeoloc();
+	    request.setParameter(GeolocServlet.CALLBACK_PARAMETER, "doit(");
+	    query = new StreetSearchQuery(request);
+	    assertNull("callback should not be set when not alphanumeric",
+		     query.getCallback());
+	    
+	    //callback set with alpha value
+	    request = GeolocTestHelper.createMockHttpServletRequestForGeoloc();
+	    request.setParameter(GeolocServlet.CALLBACK_PARAMETER, "doit");
+	    query = new StreetSearchQuery(request);
+	    assertEquals("callback should not be set when alphanumeric",
+		     "doit",query.getCallback());
 
 
     }
@@ -725,10 +745,30 @@ public class StreetSearchQueryTest  {
     	assertNull("Name ShouldNot Be considered for Empty String", query.getName());
     	
     	
-    	
-    	
-    	
         }
+    
+    
+    @Test
+    public void testCallbackOk() {
+	StreetSearchQuery query = new StreetSearchQuery(GENERIC_POINT);
+	String callback ="doit";
+	query.withCallback(callback);
+	assertEquals(callback,query.getCallback() );
+    }
+    @Test
+    public void testCallbackKOBecauseNonAlphanumeric() {
+	StreetSearchQuery query = new StreetSearchQuery(GENERIC_POINT);
+	String callback ="doit(";
+	query.withCallback(callback);
+	assertNull("callback should be alphanumeric",query.getCallback() );
+    }
+    
+    @Test
+    public void testCallbackKOBecauseNnull() {
+	StreetSearchQuery query = new StreetSearchQuery(GENERIC_POINT);
+	query.withCallback(null);
+	assertNull("callback should not be null",query.getCallback() );
+    }
 
    @Test
    public void testToString(){

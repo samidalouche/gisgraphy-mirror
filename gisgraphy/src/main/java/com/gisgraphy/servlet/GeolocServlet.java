@@ -56,6 +56,7 @@ public class GeolocServlet extends GisgraphyServlet {
     public static final String LONG_PARAMETER = "lng";
     public static final String RADIUS_PARAMETER = "radius";
     public static final String DISTANCE_PARAMETER = "distance";
+    public static final String CALLBACK_PARAMETER = "callback";
     public static final int DEFAULT_MAX_RESULTS = 10;
     
 

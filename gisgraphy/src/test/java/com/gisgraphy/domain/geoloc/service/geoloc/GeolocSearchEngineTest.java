@@ -32,6 +32,7 @@ import java.io.IOException;
 
 import javax.annotation.Resource;
 
+import org.junit.Assert;
 import org.junit.Test;
 
 import com.gisgraphy.domain.geoloc.entity.City;
@@ -344,5 +345,92 @@ public class GeolocSearchEngineTest extends AbstractIntegrationHttpSolrTestCase 
 	    fail("executeAndSerialize does not accept null outputStream and must throws an IllegalArgumentException, not GeolocServiceException");
 	}
     }
+    
+    @Test
+    public void testExecuteQueryShouldTakeCallbackParameterIntoAccountForScriptLanguage() {
+		City p1 = GeolocTestHelper.createCity("paris", 48.86667F, 2.3333F, 1L);
+		// N 48° 52' 0'' 2° 20' 0'' E
+		City p2 = GeolocTestHelper.createCity("bordeaux", 44.83333F, -0.56667F,
+			3L);
+		// N 44 50 0 ; 0 34 0 W
+		City p3 = GeolocTestHelper.createCity("goussainville", 49.01667F,
+			2.46667F, 2L);
+		// N49° 1' 0'' E 2° 28' 0''
+
+		this.cityDao.save(p1);
+		this.cityDao.save(p2);
+		this.cityDao.save(p3);
+
+		Pagination pagination = paginate().from(1).to(15);
+		Output output = Output.withFormat(OutputFormat.JSON).withIndentation();
+		GeolocQuery query = new GeolocQuery(p1.getLocation(), 1000001,
+			pagination, output, City.class);
+		query.withCallback("doit");
+		
+
+	String content = geolocSearchEngine.executeQueryToString(query);
+	Assert.assertTrue(content.startsWith("doit("));
+	Assert.assertTrue(content.endsWith(");"));
+	
+    }
+    
+    @Test
+    public void testExecuteQueryShouldTakeCallbackParameterIntoAccountForScriptLanguageWhenNoResult() {
+	City p1 = GeolocTestHelper.createCity("paris", 48.86667F, 2.3333F, 1L);
+	// N 48° 52' 0'' 2° 20' 0'' E
+	City p2 = GeolocTestHelper.createCity("bordeaux", 44.83333F, -0.56667F,
+		3L);
+	// N 44 50 0 ; 0 34 0 W
+	City p3 = GeolocTestHelper.createCity("goussainville", 49.01667F,
+		2.46667F, 2L);
+	// N49° 1' 0'' E 2° 28' 0''
+
+	this.cityDao.save(p1);
+	this.cityDao.save(p2);
+	this.cityDao.save(p3);
+
+	Pagination pagination = paginate().from(15).to(20);
+	Output output = Output.withFormat(OutputFormat.JSON).withIndentation();
+	GeolocQuery query = new GeolocQuery(p1.getLocation(), 1000001,
+		pagination, output, City.class);
+	query.withCallback("doit");
+	
+
+       String content = geolocSearchEngine.executeQueryToString(query);
+       Assert.assertTrue(content.startsWith("doit("));
+       Assert.assertTrue(content.endsWith(");"));
+
+	
+    }
+    
+    @Test
+    public void testExecuteQueryShouldNotTakeCallbackParameterIntoAccountForXML() {
+	City p1 = GeolocTestHelper.createCity("paris", 48.86667F, 2.3333F, 1L);
+	// N 48° 52' 0'' 2° 20' 0'' E
+	City p2 = GeolocTestHelper.createCity("bordeaux", 44.83333F, -0.56667F,
+		3L);
+	// N 44 50 0 ; 0 34 0 W
+	City p3 = GeolocTestHelper.createCity("goussainville", 49.01667F,
+		2.46667F, 2L);
+	// N49° 1' 0'' E 2° 28' 0''
+
+	this.cityDao.save(p1);
+	this.cityDao.save(p2);
+	this.cityDao.save(p3);
+
+	Pagination pagination = paginate().from(1).to(15);
+	Output output = Output.withFormat(OutputFormat.XML).withIndentation();
+	GeolocQuery query = new GeolocQuery(p1.getLocation(), 1000001,
+		pagination, output, City.class);
+	query.withCallback("doit");
+	
+
+	String content = geolocSearchEngine.executeQueryToString(query);
+	Assert.assertFalse(content.startsWith("doit("));
+	Assert.assertFalse(content.endsWith(");"));
+
+	
+    }
+
 
 }

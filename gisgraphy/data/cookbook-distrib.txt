@@ -6,6 +6,7 @@ change year and version in pom.xml
 format
 tests
 upload maven repo
+refaire les feed d'exemples
 
 modifier http://www.gisgraphy.com/news/getnews.php to tell new version and obsolete
 site

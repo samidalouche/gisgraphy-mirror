@@ -49,6 +49,8 @@ import com.vividsolutions.jts.geom.Point;
  */
 public class GeolocQuery extends AbstractGisQuery {
 
+   
+
     /* (non-Javadoc)
      * @see java.lang.Object#hashCode()
      */
@@ -211,6 +213,10 @@ public class GeolocQuery extends AbstractGisQuery {
 		|| "off".equalsIgnoreCase(req
 			.getParameter(GeolocServlet.DISTANCE_PARAMETER))) {
 	    withDistanceField(false);
+	}
+	
+	if (req.getParameter(GeolocServlet.CALLBACK_PARAMETER)!=null){
+	    withCallback(req.getParameter(GeolocServlet.CALLBACK_PARAMETER));
 	}
 	
 	this.pagination = pagination;

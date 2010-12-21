@@ -870,14 +870,26 @@ in Both mode the given name is case insensitive and accent insensitive.
 <a name="startindexstreet"></a>
 <li>Start pagination index (optional) : The first pagination index. Numbered from 1. If the number is < 1 or not specified, it will be set to the default value : 1.</li>
 <br/>
-<a name="endindexgeoloc"></a>
+<a name="endindexstreet"></a>
 <li>End pagination Index (optional) : The last pagination index. if < 1 or not specified, it will be set to startindex + 50.</li>
+<br/>
+
+<a name="callbackstreet"></a>
+<li>The callback method name (optional), use to wrap the content into a method name, must be alphanumeric and operate only for script outputformat (json,php,ruby,python)
+<br/> Examples : 
+<ul>
+<li>doIt (will output "doIt(RESULT_FEED);" then if you evaluate the string the method will be called implicitly)</li>
+</ul>
+</li>
 <br/>
 <a name="outputformatstreet"></a>
 <li>The output format (optional) : The formats available are :<br/>
 <ul>
 <li>XML (Default) : <a href="./examples/streetsearch.xml">Example</a></li>
 <li>JSON  : <a href="./examples/streetsearch.json">Example</a></li>
+<li>Python</li>
+<li>Ruby </li>
+<li>PHP</li>
 <li>ATOM : <a href="./examples/streetsearch_atom.xml">Example</a></li>
 <li>GEORSS : <a href="./examples/streetsearch_georss.xml">Example</a></li>
 </ul>
@@ -934,6 +946,7 @@ Here is a summary of the Web parameters mapping : <br/>
 <tr><td>Radius</td><td>radius</td></tr>
 <tr><td>Start pagination index</td><td>from</td></tr>
 <tr><td>End pagination index</td><td>to</td></tr>
+<tr><td>Callback method name</td><td>callback</td></tr>
 <tr><td>Output format</td><td>format</td></tr>
 <tr><td>Distance field </td><td>distance</td></tr>
 <tr><td>Indent</td><td>indent</td></tr>
@@ -1443,11 +1456,22 @@ The following languages are supported :
 <a name="endindexgeoloc"></a>
 <li>End pagination Index (optional) : The last pagination index. if < 1 or not specified, it will be set to startindex + 10.</li>
 <br/>
+<a name="callbackgeoloc"></a>
+<li>The callback method name (optional), use to wrap the content into a method name, must be alphanumeric and operate only for script outputformat (json,php,ruby,python)
+<br/> Examples : 
+<ul>
+<li>doIt (will output "doIt(RESULT_FEED);" then if you evaluate the string the method will be called implicitly)</li>
+</ul>
+</li>
+<br/>
 <a name="outputformatgeoloc"></a>
 <li>The output format (optional) : The formats available are :<br/>
 <ul>
 <li>XML (Default) : <a href="./examples/geolocsearch.xml">Example</a></li>
 <li>JSON  : <a href="./examples/geolocsearch.json">Example</a></li>
+<li>Python</li>
+<li>Ruby </li>
+<li>PHP</li>
 <li>ATOM : <a href="./examples/geolocsearch_atom.xml">Example</a></li>
 <li>GEORSS : <a href="./examples/geolocsearch_georss.xml">Example</a></li>
 </ul>
@@ -1518,7 +1542,8 @@ Here is a summary of the Web parameters mapping : <br/>
 <tr><td>Radius</td><td>radius</td></tr>
 <tr><td>Start pagination index</td><td>from</td></tr>
 <tr><td>End pagination index</td><td>to</td></tr>
-<tr><td>Output format</td><td>format</td></tr>
+<tr><td>Callback method name</td><td>callback</td></tr>
+<tr><td>Output format</td><td>callback</td></tr>
 <tr><td>Placetype</td><td>placetype</td></tr>
 <tr><td>Distance field </td><td>distance</td></tr>
 <tr><td>Indent</td><td>indent</td></tr>

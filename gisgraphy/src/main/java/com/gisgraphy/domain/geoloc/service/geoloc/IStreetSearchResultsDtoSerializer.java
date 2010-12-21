@@ -23,6 +23,7 @@
 package com.gisgraphy.domain.geoloc.service.geoloc;
 
 import java.io.OutputStream;
+import java.util.Map;
 
 import com.gisgraphy.domain.valueobject.StreetSearchResultsDto;
 import com.gisgraphy.serializer.OutputFormat;
@@ -35,9 +36,10 @@ public interface IStreetSearchResultsDtoSerializer {
      * @param outputFormat the outputFormat we'd like to serialize the geolocResultsDto
      * @param streetSearchResultsDto the geolocResultsDto to serialize
      * @param indent whether the stream should be indented (if the format support indentation)
-     * @param startPaginationIndex the pagination index (needed for RSS and ATOM)
+     *  @param extraParameters a map that contains named parameters (callback method, startpaginationindex, needed for RSS and ATOM)
+     * the parameters can be use for a certain format but not for all)
      */
     public abstract void serialize(OutputStream outputStream,OutputFormat outputFormat,
-	    StreetSearchResultsDto streetSearchResultsDto,boolean indent,int startPaginationIndex);
+	    StreetSearchResultsDto streetSearchResultsDto,boolean indent,Map<String,Object> extraParameters);
 
 }

@@ -477,6 +477,26 @@ public class GeolocQueryTest extends TestCase {
 	    query = new StreetSearchQuery(request);
 	    assertTrue("distanceField should be kept to his default value if specified with wrong value",
 			     query.hasDistanceField());
+	    
+	    //callback not set
+	    request = GeolocTestHelper.createMockHttpServletRequestForGeoloc();
+	    query = new GeolocQuery(request);
+	    assertNull("callback should be null when not set",
+		     query.getCallback());
+	    
+	    //callback set with non alpha value
+	    request = GeolocTestHelper.createMockHttpServletRequestForGeoloc();
+	    request.setParameter(GeolocServlet.CALLBACK_PARAMETER, "doit(");
+	    query = new GeolocQuery(request);
+	    assertNull("callback should not be set when not alphanumeric",
+		     query.getCallback());
+	    
+	    //callback set with alpha value
+	    request = GeolocTestHelper.createMockHttpServletRequestForGeoloc();
+	    request.setParameter(GeolocServlet.CALLBACK_PARAMETER, "doit");
+	    query = new GeolocQuery(request);
+	    assertEquals("callback should not be set when alphanumeric",
+		     "doit",query.getCallback());
 
 	} finally {
 	    GisgraphyConfig.defaultGeolocSearchPlaceTypeClass = savedDefaultType;
@@ -605,6 +625,28 @@ public class GeolocQueryTest extends TestCase {
 	Assert.assertTrue("by default distanceField should be true", query.hasDistanceField());
 	query.withDistanceField(false);
 	assertFalse("distance field setter is broken", query.hasDistanceField());
+    }
+    
+    @Test
+    public void testCallbackOk() {
+	GeolocQuery query = new GeolocQuery(GENERIC_POINT);
+	String callback ="doit";
+	query.withCallback(callback);
+	assertEquals(callback,query.getCallback() );
+    }
+    @Test
+    public void testCallbackKOBecauseNonAlphanumeric() {
+	GeolocQuery query = new GeolocQuery(GENERIC_POINT);
+	String callback ="doit(";
+	query.withCallback(callback);
+	assertNull("callback should be alphanumeric",query.getCallback() );
+    }
+    
+    @Test
+    public void testCallbackKOBecauseNnull() {
+	GeolocQuery query = new GeolocQuery(GENERIC_POINT);
+	query.withCallback(null);
+	assertNull("callback should not be null",query.getCallback() );
     }
 
 

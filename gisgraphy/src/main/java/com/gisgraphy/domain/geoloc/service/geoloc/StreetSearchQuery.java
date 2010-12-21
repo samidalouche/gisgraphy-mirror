@@ -24,6 +24,7 @@ package com.gisgraphy.domain.geoloc.service.geoloc;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.gisgraphy.domain.geoloc.entity.GisFeature;
 import com.gisgraphy.domain.geoloc.service.fulltextsearch.StreetSearchMode;
 import com.gisgraphy.domain.geoloc.service.geoloc.street.StreetType;
 import com.gisgraphy.domain.valueobject.Output;
@@ -39,6 +40,32 @@ import com.vividsolutions.jts.geom.Point;
  */
 public class StreetSearchQuery extends GeolocQuery {
     
+    /**
+     * @param point
+     * @param radius
+     * @param pagination
+     * @param output
+     * @param placeType
+     */
+    public StreetSearchQuery(Point point, double radius, Pagination pagination, Output output, Class<? extends GisFeature> placeType) {
+	super(point, radius, pagination, output, placeType);
+    }
+
+    /**
+     * @param point
+     * @param radius
+     */
+    public StreetSearchQuery(Point point, double radius) {
+	super(point, radius);
+    }
+
+    /**
+     * @param point
+     */
+    public StreetSearchQuery(Point point) {
+	super(point);
+    }
+
     public final static int NAME_MAX_LENGTH = 200;
 
     private StreetType streetType = null;

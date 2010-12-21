@@ -389,6 +389,10 @@ remove the ability to search for 'no name street'
 				streetsearch and geoloc search can now output ruby, php, and python
 			</action>
 			
+			<action dev="David Masclet" type="add">
+				possibility to add a callback method for script output (php, ruby, python, json) for street and geoloc search
+			</action>
+			
 			
 			</release>
 			

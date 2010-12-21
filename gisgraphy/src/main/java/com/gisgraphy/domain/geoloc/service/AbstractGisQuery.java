@@ -25,6 +25,10 @@
  */
 package com.gisgraphy.domain.geoloc.service;
 
+import java.util.regex.Pattern;
+
+import org.apache.log4j.Logger;
+
 import com.gisgraphy.domain.valueobject.Output;
 import com.gisgraphy.domain.valueobject.Pagination;
 import com.gisgraphy.domain.valueobject.Output.OutputStyle;
@@ -37,6 +41,12 @@ import com.gisgraphy.serializer.OutputFormat;
  * @author <a href="mailto:david.masclet@gisgraphy.com">David Masclet</a>
  */
 public abstract class AbstractGisQuery {
+    
+    private String callback ; 
+    
+    private static Pattern callbackValidationPattern = Pattern.compile("\\w+");
+    
+    private static Logger logger = Logger.getLogger(AbstractGisQuery.class); 
 
     /* (non-Javadoc)
      * @see java.lang.Object#hashCode()
@@ -150,12 +160,28 @@ public abstract class AbstractGisQuery {
      * @param output
      *                The {@link Output} Object to set. If the output is null :
      *                the {@link Output#DEFAULT_OUTPUT} is used
+     * @return the current object to chain setters
      */
     public AbstractGisQuery withOutput(Output output) {
 	if (output == null) {
 	    this.output = Output.DEFAULT_OUTPUT;
 	} else {
 	    this.output = output;
+	}
+	return this;
+    }
+    
+    /**
+     * @param callback the callback function name, it is use for script language (python, json, ruby, ...)
+     * the result will be wrap with callback(DATA);
+     * the callback should be alphanumeric, if not it won't be set
+     * @return the current object to chain setters
+     */
+    public AbstractGisQuery withCallback(String callback){
+	if (callback!=null && callbackValidationPattern.matcher(callback).matches()){
+	    this.callback= callback;
+	} else { 
+	    logger.warn("wrong callback specify : "+callback+", callback method sould be alphanumeric");
 	}
 	return this;
     }
@@ -215,8 +241,15 @@ public abstract class AbstractGisQuery {
     @Override
     public String toString() {
 	String asString = this.getClass().getSimpleName() + " with "
-		+ getOutput() + " and " + pagination;
+		+ getOutput() + " and " + pagination +" and callback="+this.callback;
 	return asString;
+    }
+
+    /**
+     * @return the callback method name
+     */
+    public String getCallback() {
+        return callback;
     }
 
 }

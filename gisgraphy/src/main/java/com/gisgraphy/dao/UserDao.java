@@ -26,7 +26,6 @@ import java.util.List;
 
 import org.acegisecurity.userdetails.UserDetails;
 import org.acegisecurity.userdetails.UsernameNotFoundException;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.gisgraphy.model.User;
 

@@ -26,7 +26,10 @@ import static org.junit.Assert.fail;
 
 import java.io.ByteArrayOutputStream;
 import java.io.UnsupportedEncodingException;
+import java.util.HashMap;
+import java.util.Map;
 
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import com.gisgraphy.domain.geoloc.service.errors.UnsupportedFormatException;
@@ -37,13 +40,21 @@ import com.gisgraphy.test.FeedChecker;
 import com.gisgraphy.test.GeolocTestHelper;
 
 public class GeolocResultsDtoSerializerTest {
+    
+    Map<String, Object> extraParameter = new HashMap<String, Object>(){
+	{
+	    put(GeolocResultsDtoSerializer.START_PAGINATION_INDEX_EXTRA_PARAMETER, 1);
+	}
+    };
+    
+   
 
     @Test
     public void testSerializeShouldThrowIfTheformatisNotSupported() {
 	IGeolocResultsDtoSerializer geolocResultsDtoSerializer = new GeolocResultsDtoSerializer();
 	try {
 	    geolocResultsDtoSerializer.serialize(new ByteArrayOutputStream(),
-		    OutputFormat.UNSUPPORTED, new GeolocResultsDto(),true,1);
+		    OutputFormat.UNSUPPORTED, new GeolocResultsDto(),true,extraParameter);
 	    fail();
 	} catch (UnsupportedFormatException e) {
 	    //ok
@@ -56,7 +67,7 @@ public class GeolocResultsDtoSerializerTest {
 	    GeolocResultsDto geolocResultsDto = GeolocTestHelper.createGeolocResultsDto(310L);
 	    ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
 	    geolocResultsDtoSerializer.serialize(byteArrayOutputStream,
-		    OutputFormat.XML, geolocResultsDto,true,1);
+		    OutputFormat.XML, geolocResultsDto,true,extraParameter);
 	    FeedChecker.checkGeolocResultsDtoJAXBMapping(geolocResultsDto, 
 		    byteArrayOutputStream.toString(Constants.CHARSET));
     }
@@ -67,7 +78,7 @@ public class GeolocResultsDtoSerializerTest {
 	    GeolocResultsDto geolocResultsDto = GeolocTestHelper.createGeolocResultsDto(310L);
 	    ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
 	    geolocResultsDtoSerializer.serialize(byteArrayOutputStream,
-		    OutputFormat.JSON, geolocResultsDto,true,1);
+		    OutputFormat.JSON, geolocResultsDto,true,extraParameter);
 	    String ResultAsString = byteArrayOutputStream.toString(Constants.CHARSET);
 	    FeedChecker.checkGeolocResultsDtoJSON(geolocResultsDto, 
 		    ResultAsString);
@@ -79,7 +90,7 @@ public class GeolocResultsDtoSerializerTest {
 	    GeolocResultsDto geolocResultsDto = GeolocTestHelper.createGeolocResultsDto(310L);
 	    ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
 	    geolocResultsDtoSerializer.serialize(byteArrayOutputStream,
-		    OutputFormat.GEORSS, geolocResultsDto,true,1);
+		    OutputFormat.GEORSS, geolocResultsDto,true,extraParameter);
 	    FeedChecker.checkGeolocResultsDtoGEORSS(geolocResultsDto, 
 		    byteArrayOutputStream.toString(Constants.CHARSET));
     }
@@ -90,7 +101,7 @@ public class GeolocResultsDtoSerializerTest {
 	    GeolocResultsDto geolocResultsDto = GeolocTestHelper.createGeolocResultsDto(310L);
 	    ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
 	    geolocResultsDtoSerializer.serialize(byteArrayOutputStream,
-		    OutputFormat.ATOM, geolocResultsDto,true,1);
+		    OutputFormat.ATOM, geolocResultsDto,true,extraParameter);
 	    FeedChecker.checkGeolocResultsDtoATOM(geolocResultsDto, 
 		    byteArrayOutputStream.toString(Constants.CHARSET));
     }
@@ -101,7 +112,7 @@ public class GeolocResultsDtoSerializerTest {
 	    GeolocResultsDto geolocResultsDto = GeolocTestHelper.createGeolocResultsDto(310L);
 	    ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
 	    geolocResultsDtoSerializer.serialize(byteArrayOutputStream,
-		    OutputFormat.PHP, geolocResultsDto,false,1);
+		    OutputFormat.PHP, geolocResultsDto,false,extraParameter);
 	  System.out.println(byteArrayOutputStream.toString(Constants.CHARSET));
     }
     
@@ -111,7 +122,7 @@ public class GeolocResultsDtoSerializerTest {
 	    GeolocResultsDto geolocResultsDto = GeolocTestHelper.createGeolocResultsDto(310L);
 	    ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
 	    geolocResultsDtoSerializer.serialize(byteArrayOutputStream,
-		    OutputFormat.PYTHON, geolocResultsDto,false,1);
+		    OutputFormat.PYTHON, geolocResultsDto,false,extraParameter);
 	  System.out.println(byteArrayOutputStream.toString(Constants.CHARSET));
     }
     
@@ -121,7 +132,7 @@ public class GeolocResultsDtoSerializerTest {
 	    GeolocResultsDto geolocResultsDto = GeolocTestHelper.createGeolocResultsDto(310L);
 	    ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
 	    geolocResultsDtoSerializer.serialize(byteArrayOutputStream,
-		    OutputFormat.RUBY, geolocResultsDto,false,1);
+		    OutputFormat.RUBY, geolocResultsDto,false,extraParameter);
 	  System.out.println(byteArrayOutputStream.toString(Constants.CHARSET));
     }
     

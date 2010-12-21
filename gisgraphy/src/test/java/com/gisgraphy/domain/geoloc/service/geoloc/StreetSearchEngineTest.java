@@ -32,6 +32,8 @@ import java.io.IOException;
 
 import javax.annotation.Resource;
 
+import net.sf.jstester.util.Assert;
+
 import org.junit.Test;
 
 import com.gisgraphy.domain.geoloc.entity.OpenStreetMap;
@@ -165,9 +167,60 @@ public class StreetSearchEngineTest extends AbstractIntegrationHttpSolrTestCase 
 		+ Constants.GEOLOCRESULTSDTO_JAXB_NAME + "/"
 		+ Constants.GISFEATUREDISTANCE_JAXB_NAME + "[1]/name[.='"
 		+ street.getName() + "']");
+    }
+    
 
+    @Test
+    public void testExecuteQueryShouldTakeCallbackParameterIntoAccountForScriptLanguage() {
+	OpenStreetMap street = GeolocTestHelper.createOpenStreetMapForJohnKenedyStreet();
+
+	this.openStreetMapDao.save(street);
+
+	Pagination pagination = paginate().from(1).to(15);
+	Output output = Output.withFormat(OutputFormat.PHP).withIndentation();
+	StreetSearchQuery query = new StreetSearchQuery(street.getLocation(),10000,pagination,output,street.getStreetType(),street.getOneWay(),null,null);
+	query.withCallback("doit");
+	
+	String content = streetSearchEngine.executeQueryToString(query);
+	Assert.assertTrue(content.startsWith("doit("));
+	Assert.assertTrue(content.endsWith(");"));
 	
     }
+    
+    @Test
+    public void testExecuteQueryShouldTakeCallbackParameterIntoAccountForScriptLanguageWhenNoResult() {
+	OpenStreetMap street = GeolocTestHelper.createOpenStreetMapForJohnKenedyStreet();
+
+	this.openStreetMapDao.save(street);
+
+	Pagination pagination = paginate().from(20).to(25);
+	Output output = Output.withFormat(OutputFormat.PHP).withIndentation();
+	StreetSearchQuery query = new StreetSearchQuery(street.getLocation(),1,pagination,output,street.getStreetType(),street.getOneWay(),null,null);
+	query.withCallback("doit");
+	
+	String content = streetSearchEngine.executeQueryToString(query);
+	Assert.assertTrue(content.startsWith("doit("));
+	Assert.assertTrue(content.endsWith(");"));
+	
+    }
+    
+    @Test
+    public void testExecuteQueryShouldNotTakeCallbackParameterIntoAccountForXML() {
+	OpenStreetMap street = GeolocTestHelper.createOpenStreetMapForJohnKenedyStreet();
+
+	this.openStreetMapDao.save(street);
+
+	Pagination pagination = paginate().from(1).to(15);
+	Output output = Output.withFormat(OutputFormat.XML).withIndentation();
+	StreetSearchQuery query = new StreetSearchQuery(street.getLocation(),10000,pagination,output,street.getStreetType(),street.getOneWay(),null,null);
+	query.withCallback("doit");
+	
+	String content = streetSearchEngine.executeQueryToString(query);
+	Assert.assertFalse(content.startsWith("doit("));
+	Assert.assertFalse(content.endsWith(");"));
+	
+    }
+
 
     @Test
     public void testExecuteQueryShouldReturnsAValidDTOOrderedByDistance() {

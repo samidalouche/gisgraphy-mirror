@@ -27,10 +27,13 @@ package com.gisgraphy.domain.geoloc.service.geoloc;
 
 import java.io.ByteArrayOutputStream;
 import java.io.OutputStream;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 
+import org.codehaus.jackson.JsonParser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.Assert;
@@ -39,6 +42,7 @@ import com.gisgraphy.domain.geoloc.service.ServiceException;
 import com.gisgraphy.domain.repository.IOpenStreetMapDao;
 import com.gisgraphy.domain.valueobject.StreetDistance;
 import com.gisgraphy.domain.valueobject.StreetSearchResultsDto;
+import com.gisgraphy.serializer.UniversalSerializerConstant;
 import com.gisgraphy.service.IStatsUsageService;
 import com.gisgraphy.stats.StatsUsageType;
 
@@ -98,9 +102,12 @@ public class StreetSearchEngine implements IStreetSearchEngine {
 	Assert.notNull(outputStream,
 		"Can not serialize into a null outputStream");
 	StreetSearchResultsDto streetSearchResultsDto = executeQuery(query);
+	Map<String, Object> extraParameter = new HashMap<String, Object>();
+	extraParameter.put(StreetSearchResultsDtoSerializer.START_PAGINATION_INDEX_EXTRA_PARAMETER, query.getFirstPaginationIndex());
+	extraParameter.put(UniversalSerializerConstant.CALLBACK_METHOD_NAME, query.getCallback());
 	streetSearchResultsDtoSerializer.serialize(outputStream, query
 		.getOutputFormat(), streetSearchResultsDto, query.isOutputIndented(),
-		query.getFirstPaginationIndex());
+		extraParameter);
 	}
 
     /*

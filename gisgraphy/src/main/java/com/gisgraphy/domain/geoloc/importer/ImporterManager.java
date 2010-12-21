@@ -28,13 +28,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 
-import org.hibernate.FlushMode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Required;
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.gisgraphy.domain.geoloc.entity.GisFeature;
 import com.gisgraphy.domain.geoloc.service.fulltextsearch.IsolrClient;
@@ -43,7 +40,6 @@ import com.gisgraphy.domain.repository.IGisDao;
 import com.gisgraphy.domain.repository.IImporterStatusListDao;
 import com.gisgraphy.domain.repository.ISolRSynchroniser;
 import com.gisgraphy.domain.valueobject.ImporterStatusDto;
-import com.gisgraphy.domain.valueobject.NameValueDTO;
 import com.gisgraphy.helper.FileHelper;
 
 /**

@@ -26,6 +26,8 @@ import static org.junit.Assert.fail;
 
 import java.io.ByteArrayOutputStream;
 import java.io.UnsupportedEncodingException;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.junit.Test;
 
@@ -37,13 +39,19 @@ import com.gisgraphy.test.FeedChecker;
 import com.gisgraphy.test.GeolocTestHelper;
 
 public class StreetSearchResultsDtoSerializerTest {
+    
+    Map<String, Object> extraParameter = new HashMap<String, Object>(){
+	{
+	    put(GeolocResultsDtoSerializer.START_PAGINATION_INDEX_EXTRA_PARAMETER, 1);
+	}
+    };
 
     
     @Test
     public void serializeshouldThrowAnUnsupportedFormatExceptionWhenFormatIsNotSupported(){
 	StreetSearchResultsDtoSerializer serializer = new StreetSearchResultsDtoSerializer();
 	try {
-	    serializer.serialize(new ByteArrayOutputStream(), OutputFormat.UNSUPPORTED, new StreetSearchResultsDto(), false, 1);
+	    serializer.serialize(new ByteArrayOutputStream(), OutputFormat.UNSUPPORTED, new StreetSearchResultsDto(), false, extraParameter);
 	    fail("An UnsupportedFormatException should be throw when the format is not supported");
 	} catch (UnsupportedFormatException e) {
 	   //ok
@@ -56,7 +64,7 @@ public class StreetSearchResultsDtoSerializerTest {
 	    StreetSearchResultsDto streetSearchResultsDto = GeolocTestHelper.createStreetSearchResultsDto();
 	    ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
 	    streetSearchResultsDtoSerializer.serialize(byteArrayOutputStream,
-		    OutputFormat.XML, streetSearchResultsDto,true,1);
+		    OutputFormat.XML, streetSearchResultsDto,true,extraParameter);
 	    FeedChecker.checkStreetSearchResultsDtoJAXBMapping(streetSearchResultsDto, 
 		    byteArrayOutputStream);
     }
@@ -67,7 +75,7 @@ public class StreetSearchResultsDtoSerializerTest {
 	    StreetSearchResultsDto streetSearchResultsDto = GeolocTestHelper.createStreetSearchResultsDto();
 	    ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
 	    streetSearchResultsDtoSerializer.serialize(byteArrayOutputStream,
-		    OutputFormat.JSON, streetSearchResultsDto,true,1);
+		    OutputFormat.JSON, streetSearchResultsDto,true,extraParameter);
 	    FeedChecker.checkStreetSearchResultsDtoJSON(streetSearchResultsDto, 
 		    byteArrayOutputStream.toString(Constants.CHARSET));
     }
@@ -78,7 +86,7 @@ public class StreetSearchResultsDtoSerializerTest {
 	   StreetSearchResultsDto streetSearchResultsDto = GeolocTestHelper.createStreetSearchResultsDto();
 	    ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
 	    streetSearchResultsDtoSerializer.serialize(byteArrayOutputStream,
-		    OutputFormat.GEORSS, streetSearchResultsDto,true,1);
+		    OutputFormat.GEORSS, streetSearchResultsDto,true,extraParameter);
 	    FeedChecker.checkStreetSearchResultsDtoGEORSS(streetSearchResultsDto, 
 		    byteArrayOutputStream.toString(Constants.CHARSET));
     }
@@ -89,7 +97,7 @@ public class StreetSearchResultsDtoSerializerTest {
 	   StreetSearchResultsDto streetSearchResultsDto = GeolocTestHelper.createStreetSearchResultsDto();
 	    ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
 	    streetSearchResultsDtoSerializer.serialize(byteArrayOutputStream,
-		    OutputFormat.ATOM, streetSearchResultsDto,true,1);
+		    OutputFormat.ATOM, streetSearchResultsDto,true,extraParameter);
 	    FeedChecker.checkStreetSearchResultsDtoATOM(streetSearchResultsDto, 
 		    byteArrayOutputStream.toString(Constants.CHARSET));
     }
@@ -100,7 +108,7 @@ public class StreetSearchResultsDtoSerializerTest {
 	   StreetSearchResultsDto streetSearchResultsDto = GeolocTestHelper.createStreetSearchResultsDto();
 	    ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
 	    streetSearchResultsDtoSerializer.serialize(byteArrayOutputStream,
-		    OutputFormat.PHP, streetSearchResultsDto,true,1);
+		    OutputFormat.PHP, streetSearchResultsDto,true,extraParameter);
 	    System.out.println(byteArrayOutputStream.toString(Constants.CHARSET));
     }
     
@@ -110,7 +118,7 @@ public class StreetSearchResultsDtoSerializerTest {
 	   StreetSearchResultsDto streetSearchResultsDto = GeolocTestHelper.createStreetSearchResultsDto();
 	    ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
 	    streetSearchResultsDtoSerializer.serialize(byteArrayOutputStream,
-		    OutputFormat.PYTHON, streetSearchResultsDto,true,1);
+		    OutputFormat.PYTHON, streetSearchResultsDto,true,extraParameter);
 	   System.out.println(byteArrayOutputStream.toString(Constants.CHARSET));
     }
     
@@ -120,7 +128,7 @@ public class StreetSearchResultsDtoSerializerTest {
 	   StreetSearchResultsDto streetSearchResultsDto = GeolocTestHelper.createStreetSearchResultsDto();
 	    ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
 	    streetSearchResultsDtoSerializer.serialize(byteArrayOutputStream,
-		    OutputFormat.RUBY, streetSearchResultsDto,true,1);
+		    OutputFormat.RUBY, streetSearchResultsDto,true,extraParameter);
 	    System.out.println(byteArrayOutputStream.toString(Constants.CHARSET));
     }
     

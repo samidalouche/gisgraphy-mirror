@@ -23,6 +23,7 @@
 package com.gisgraphy.domain.geoloc.service.geoloc;
 
 import java.io.OutputStream;
+import java.util.Map;
 
 import com.gisgraphy.domain.valueobject.GeolocResultsDto;
 import com.gisgraphy.serializer.OutputFormat;
@@ -35,9 +36,10 @@ public interface IGeolocResultsDtoSerializer {
      * @param outputFormat the outputFormat we'd like to serialize the geolocResultsDto
      * @param geolocResultsDto the geolocResultsDto to serialize
      * @param indent whether the stream should be indented (if the format support indentation)
-     * @param startPaginationIndex the pagination index (needed for RSS and ATOM)
+     * @param extraParameters a map that contains named parameters (callback method, startpaginationindex, needed for RSS and ATOM)
+     * the parameters can be use for a certain format but not for all)
      */
     public abstract void serialize(OutputStream outputStream,OutputFormat outputFormat,
-	    GeolocResultsDto geolocResultsDto,boolean indent,int startPaginationIndex);
+	    GeolocResultsDto geolocResultsDto,boolean indent,Map<String,Object> extraParameters);
 
 }

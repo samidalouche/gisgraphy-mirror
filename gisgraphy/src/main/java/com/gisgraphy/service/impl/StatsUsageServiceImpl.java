@@ -28,7 +28,6 @@ import java.util.Map;
 import javax.annotation.PostConstruct;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.gisgraphy.domain.repository.IStatsUsageDao;
 import com.gisgraphy.service.IStatsUsageService;
