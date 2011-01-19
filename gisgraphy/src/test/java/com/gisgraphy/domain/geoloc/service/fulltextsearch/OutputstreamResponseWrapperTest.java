@@ -25,6 +25,7 @@
  */
 package com.gisgraphy.domain.geoloc.service.fulltextsearch;
 
+import static com.gisgraphy.domain.geoloc.service.fulltextsearch.FulltextQuery.ONLY_CITY_PLACETYPE;
 import static com.gisgraphy.domain.valueobject.Pagination.paginate;
 
 import java.io.File;
@@ -98,7 +99,7 @@ public class OutputstreamResponseWrapperTest extends
 		    .withLanguageCode("FR").withStyle(OutputStyle.SHORT)
 		    .withIndentation();
 	    FulltextQuery fulltextQuery = new FulltextQuery("Saint-André",
-		    pagination, output, City.class, "fr");
+		    pagination, output, ONLY_CITY_PLACETYPE, "fr");
 	    server.query(fulltextQuery.parameterize());
 	} catch (MalformedURLException e) {
 	    fail();

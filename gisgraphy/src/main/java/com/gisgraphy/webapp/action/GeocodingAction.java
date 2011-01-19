@@ -30,6 +30,7 @@ import org.springframework.beans.factory.annotation.Required;
 
 import com.gisgraphy.domain.geoloc.entity.City;
 import com.gisgraphy.domain.geoloc.entity.Country;
+import com.gisgraphy.domain.geoloc.entity.GisFeature;
 import com.gisgraphy.domain.geoloc.service.fulltextsearch.FulltextQuery;
 import com.gisgraphy.domain.geoloc.service.fulltextsearch.IFullTextSearchEngine;
 import com.gisgraphy.domain.repository.ICountryDao;
@@ -103,7 +104,7 @@ public class GeocodingAction extends ActionSupport implements
 		}
 		FulltextQuery fulltextQuery = new FulltextQuery(city,
 			Pagination.DEFAULT_PAGINATION, Output.DEFAULT_OUTPUT,
-			City.class, getCountryCode());
+			FulltextQuery.ONLY_CITY_PLACETYPE, getCountryCode());
 		ambiguousCities = fullTextSearchEngine.executeQuery(
 			fulltextQuery).getResults();
 		int numberOfPossibleCitiesThatMatches = ambiguousCities.size();

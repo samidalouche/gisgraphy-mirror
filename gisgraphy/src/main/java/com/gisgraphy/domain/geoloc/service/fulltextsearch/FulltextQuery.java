@@ -36,6 +36,8 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 
+import com.gisgraphy.domain.geoloc.entity.Adm;
+import com.gisgraphy.domain.geoloc.entity.City;
 import com.gisgraphy.domain.geoloc.entity.GisFeature;
 import com.gisgraphy.domain.geoloc.service.AbstractGisQuery;
 import com.gisgraphy.domain.geoloc.service.fulltextsearch.spell.SpellCheckerConfig;
@@ -60,7 +62,14 @@ import com.gisgraphy.servlet.GisgraphyServlet;
  */
 @Component
 public class FulltextQuery extends AbstractGisQuery {
-	
+	/**
+	 * convenence placetype for only city
+	 */
+	public final static Class[] ONLY_CITY_PLACETYPE = new Class[]{City.class};
+	/**
+	 * convenence placetype for only adm
+	 */
+	public final static Class[] ONLY_ADM_PLACETYPE = new Class[]{Adm.class};
 	protected static final String NESTED_QUERY_TEMPLATE= "_query_:\"{!dismax qf='all_name^1.1 iso_all_name^1 zipcode^1.1 all_adm1_name^0.5 all_adm2_name^0.5 all_country_name^0.5' pf=name^1.1 bf=population^2.0}%s\"";
 	protected static final String NESTED_QUERY_NUMERIC_TEMPLATE="_query_:\"{!dismax qf='feature_id^1.1 all_name^1.1 iso_all_name^1 zipcode^1.1 all_adm1_name^0.5 all_adm2_name^0.5 all_country_name^0.5' pf=name^1.1 bf=population^2.0}%s\"";
     public final static int QUERY_MAX_LENGTH = 200;
@@ -82,7 +91,7 @@ public class FulltextQuery extends AbstractGisQuery {
     /**
      * The type of GIS to search , if null : search for all place type.
      */
-    private Class<? extends GisFeature> placeType = null;
+    private Class<? extends GisFeature>[] placeTypes = null;
 
     @Autowired
     @Qualifier("countryDao")
@@ -142,9 +151,17 @@ public class FulltextQuery extends AbstractGisQuery {
 		languageparam).withStyle(style);
 
 	// placetype
-	Class<? extends GisFeature> clazz = GeolocHelper
-		.getClassEntityFromString(req
-			.getParameter(FulltextServlet.PLACETYPE_PARAMETER));
+	String[] placetypeParameters = req
+		.getParameterValues(FulltextServlet.PLACETYPE_PARAMETER);
+	Class<? extends GisFeature>[] clazzs = null;
+	if (placetypeParameters!=null){
+		clazzs = new Class[placetypeParameters.length]; 
+		for (int i=0;i<placetypeParameters.length;i++){
+			Class<? extends GisFeature> classEntityFromString = GeolocHelper.getClassEntityFromString(placetypeParameters[i]);
+				clazzs[i]= classEntityFromString;
+		}
+	}
+	
 
 	// countrycode
 	String countrycodeParam = req
@@ -171,7 +188,7 @@ public class FulltextQuery extends AbstractGisQuery {
 	}
 
 	this.pagination = pagination;
-	this.placeType = clazz;
+	withPlaceTypes(clazzs);
 	this.output = output;
     }
 
@@ -195,7 +212,7 @@ public class FulltextQuery extends AbstractGisQuery {
      *                 empty string
      */
     public FulltextQuery(String query, Pagination pagination, Output output,
-	    Class<? extends GisFeature> placeType, String countryCode) {
+	    Class<? extends GisFeature>[] placeType, String countryCode) {
 	super(pagination, output);
 	Assert.notNull(query, "Query must not be empty");
 	
@@ -205,7 +222,7 @@ public class FulltextQuery extends AbstractGisQuery {
 		    + FulltextQuery.QUERY_MAX_LENGTH + "characters");
 	}
 	this.query = query.trim();
-	withPlaceType(placeType);
+	withPlaceTypes(placeType);
 	limitToCountryCode(countryCode);
     }
 
@@ -268,20 +285,23 @@ public class FulltextQuery extends AbstractGisQuery {
     }
 
     /**
-     * @return the placeType : it limits the search to an object of a specifict
-     *         class
+     * @return the placeType : it limits the search to object of one or more specifics
+     *         class, if the array contains null values it is the responsibility
+     *                 of the client to take it into account
      */
-    public Class<? extends GisFeature> getPlaceType() {
-	return this.placeType;
+    public Class<? extends GisFeature>[] getPlaceType() {
+	return this.placeTypes;
     }
 
     /**
-     * @param placeType
-     *                The placeType to set, if null, search for all placetype
+     * @param placeTypes
+     *                The placeTypes to set, if null, search for all placetype, 
+     *                if the array contains null values it is the responsibility
+     *                 of the client to take it into account
      * @return The current query to chain methods
      */
-    public FulltextQuery withPlaceType(Class<? extends GisFeature> placeType) {
-	this.placeType = placeType;
+    public FulltextQuery withPlaceTypes(Class<? extends GisFeature>[] placeTypes) {
+	this.placeTypes = placeTypes;
 	return this;
     }
 
@@ -292,16 +312,20 @@ public class FulltextQuery extends AbstractGisQuery {
      */
     @Override
     public String toString() {
-	String asString = "FullTextQuery '" + this.query
-		+ "' for ";
-	if (this.placeType == null) {
-	    asString += "all placeType";
-	} else {
-	    asString += this.placeType.getSimpleName();
+	String asString = "FullTextQuery '" + this.query + "' for ";
+		if (this.placeTypes == null) {
+			asString += "all placeType";
+		} else {
+			for (int i = 0; i < this.placeTypes.length; i++) {
+				asString += this.placeTypes[i].getSimpleName();
+				if (i != this.placeTypes.length - 1) {
+					asString += " and ";
+				}
+			}
+		}
+		asString += " with " + getOutput() + " and " + pagination + " for countrycode " + countryCode;
+		return asString;
 	}
-	asString += " with " + getOutput() + " and " + pagination +" for countrycode "+countryCode;
-	return asString;
-    }
 
     
     
@@ -374,7 +398,7 @@ public class FulltextQuery extends AbstractGisQuery {
 	} else {
 	    parameters.set(Constants.FL_PARAMETER, getOutput().getFields());
 	}
-	boolean isAdvancedQuery = (this.countryCode!=null || this.placeType != null);
+	boolean isAdvancedQuery = (this.countryCode!=null || this.placeTypes != null);
 	boolean isNumericQuery = isNumericQuery();
 	StringBuffer query ;
 	if (isAdvancedQuery){
@@ -390,9 +414,13 @@ public class FulltextQuery extends AbstractGisQuery {
 		    query.append(" AND ").append(FullTextFields.COUNTRYCODE.getValue()+":"+countryCode);
 
 		}
-	    if (this.placeType != null) {
-		    query.append(" AND ").append(FullTextFields.PLACETYPE.getValue()+":"+placeType.getSimpleName())
-			    .append(" ");
+	    if (this.placeTypes != null) {
+	    	for (int i=0;i< this.placeTypes.length;i++){
+	    		if (placeTypes[i]!=null){
+	    		 query.append(" AND ").append(FullTextFields.PLACETYPE.getValue()+":"+placeTypes[i].getSimpleName())
+				    .append(" ");
+	    		}
+	    	}
 		}
 	    parameters.set(Constants.QUERY_PARAMETER, query.toString());
 	}  else if (isNumericQuery) {
@@ -406,8 +434,6 @@ public class FulltextQuery extends AbstractGisQuery {
 		    parameters.set(Constants.QUERY_PARAMETER, getQuery());
 	}
 
-	
-	
 	
 	
 	
@@ -439,7 +465,7 @@ public class FulltextQuery extends AbstractGisQuery {
 	result = prime * result
 		+ ((countryCode == null) ? 0 : countryCode.hashCode());
 	result = prime * result
-		+ ((placeType == null) ? 0 : placeType.hashCode());
+		+ ((placeTypes == null) ? 0 : placeTypes.hashCode());
 	result = prime * result + ((query == null) ? 0 : query.hashCode());
 	result = prime * result + (spellchecking ? 1231 : 1237);
 	return result;
@@ -462,10 +488,10 @@ public class FulltextQuery extends AbstractGisQuery {
 		return false;
 	} else if (!countryCode.equals(other.countryCode))
 	    return false;
-	if (placeType == null) {
-	    if (other.placeType != null)
+	if (placeTypes == null) {
+	    if (other.placeTypes != null)
 		return false;
-	} else if (!placeType.equals(other.placeType))
+	} else if (!placeTypes.equals(other.placeTypes))
 	    return false;
 	if (query == null) {
 	    if (other.query != null)

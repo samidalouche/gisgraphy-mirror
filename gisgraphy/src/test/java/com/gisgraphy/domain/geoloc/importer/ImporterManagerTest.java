@@ -1170,7 +1170,7 @@ public class ImporterManagerTest extends AbstractIntegrationHttpSolrTestCase {
 		    .withStyle(OutputStyle.FULL)
 		    .withIndentation();
 	    FulltextQuery fulltextQuery = new FulltextQuery("Boulogne-Billancourt",
-		    pagination, output, City.class, null).withSpellChecking();
+		    pagination, output, FulltextQuery.ONLY_CITY_PLACETYPE, null).withSpellChecking();
 	    fullTextSearchEngine.executeAndSerialize(fulltextQuery,
 		    outputStream);
 	} catch (FullTextSearchException e) {

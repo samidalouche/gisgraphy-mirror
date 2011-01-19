@@ -146,7 +146,7 @@ public class GeocodingActionTest {
 	String cityName = "city";
 	FulltextQuery query = new FulltextQuery(cityName,
 		Pagination.DEFAULT_PAGINATION, Output.DEFAULT_OUTPUT,
-		City.class, countryCode);
+		FulltextQuery.ONLY_CITY_PLACETYPE, countryCode);
 	EasyMock.expect(fullTextSearchEngine.executeQuery(query)).andStubReturn(new FulltextResultsDto());
 	EasyMock.replay(fullTextSearchEngine);
 	action.setFullTextSearchEngine(fullTextSearchEngine);
@@ -174,7 +174,7 @@ public class GeocodingActionTest {
 	String cityNameSearched = "city";
 	FulltextQuery query = new FulltextQuery(cityNameSearched,
 		Pagination.DEFAULT_PAGINATION, Output.DEFAULT_OUTPUT,
-		City.class, countryCode);
+		FulltextQuery.ONLY_CITY_PLACETYPE, countryCode);
 	EasyMock.expect(fullTextSearchEngine.executeQuery(query)).andStubReturn(fulltextResultsDto);
 	EasyMock.replay(fullTextSearchEngine);
 	action.setFullTextSearchEngine(fullTextSearchEngine);
@@ -271,7 +271,7 @@ public class GeocodingActionTest {
 	String cityNameSearched = "city";
 	FulltextQuery query = new FulltextQuery(cityNameSearched,
 		Pagination.DEFAULT_PAGINATION, Output.DEFAULT_OUTPUT,
-		City.class, countryCode);
+		FulltextQuery.ONLY_CITY_PLACETYPE, countryCode);
 	EasyMock.expect(fullTextSearchEngine.executeQuery(query)).andStubReturn(fulltextResultsDto);
 	EasyMock.replay(fullTextSearchEngine);
 	action.setFullTextSearchEngine(fullTextSearchEngine);
@@ -314,7 +314,7 @@ public class GeocodingActionTest {
 	String cityNameSearched = "city";
 	FulltextQuery query = new FulltextQuery(cityNameSearched,
 		Pagination.DEFAULT_PAGINATION, Output.DEFAULT_OUTPUT,
-		City.class, countryCode);
+		FulltextQuery.ONLY_CITY_PLACETYPE, countryCode);
 	EasyMock.expect(fullTextSearchEngine.executeQuery(query)).andThrow(new RuntimeException());
 	EasyMock.replay(fullTextSearchEngine);
 	action.setFullTextSearchEngine(fullTextSearchEngine);

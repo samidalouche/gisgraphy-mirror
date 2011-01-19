@@ -25,6 +25,8 @@
  */
 package com.gisgraphy.domain.geoloc.service.fulltextsearch;
 
+import static com.gisgraphy.domain.geoloc.service.fulltextsearch.FulltextQuery.ONLY_ADM_PLACETYPE;
+import static com.gisgraphy.domain.geoloc.service.fulltextsearch.FulltextQuery.ONLY_CITY_PLACETYPE;
 import static com.gisgraphy.domain.valueobject.Pagination.paginate;
 
 import java.util.HashMap;
@@ -61,10 +63,10 @@ public class FulltextQueryTest extends AbstractIntegrationHttpSolrTestCase {
 	Output output = Output.withFormat(OutputFormat.JSON).withLanguageCode(
 		"FR").withStyle(OutputStyle.FULL).withIndentation();
 	FulltextQuery fulltextQuery = new FulltextQuery("text", pagination,
-		output, Adm.class, "fr");
+		output, ONLY_ADM_PLACETYPE, "fr");
 	assertEquals(pagination, fulltextQuery.getPagination());
 	assertEquals(output, fulltextQuery.getOutput());
-	assertEquals(Adm.class, fulltextQuery.getPlaceType());
+	assertEquals(ONLY_ADM_PLACETYPE, fulltextQuery.getPlaceType());
 	assertEquals("text", fulltextQuery.getQuery());
 	assertTrue(fulltextQuery.isOutputIndented());
 	assertEquals("fr", fulltextQuery.getCountryCode());
@@ -86,7 +88,7 @@ public class FulltextQueryTest extends AbstractIntegrationHttpSolrTestCase {
 	assertEquals(OutputFormat.XML, query.getOutputFormat());
 	assertEquals("FR", query.getOutputLanguage());
 	assertEquals(OutputStyle.FULL, query.getOutputStyle());
-	assertEquals(City.class, query.getPlaceType());
+	assertEquals(City.class, query.getPlaceType()[0]);
 	assertEquals("query", query.getQuery());
 	
 	//test trim
@@ -240,18 +242,21 @@ public class FulltextQueryTest extends AbstractIntegrationHttpSolrTestCase {
 		.getPlaceType());
 	// with wrong value
 	request = GeolocTestHelper.createMockHttpServletRequestForFullText();
+	request.removeParameter(FulltextServlet.PLACETYPE_PARAMETER);
 	request.setParameter(FulltextServlet.PLACETYPE_PARAMETER, "unk");
 	query = new FulltextQuery(request);
 	assertNull("When wrong " + FulltextServlet.PLACETYPE_PARAMETER
 		+ " is specified, the  parameter should be set null ", query
-		.getPlaceType());
+		.getPlaceType()[0]);
 	// test case sensitive
 	request = GeolocTestHelper.createMockHttpServletRequestForFullText();
 	request.setParameter(FulltextServlet.FORMAT_PARAMETER, "city");
 	query = new FulltextQuery(request);
 	assertEquals(FulltextServlet.PLACETYPE_PARAMETER
 		+ " should be case insensitive  ", City.class, query
-		.getPlaceType());
+		.getPlaceType()[0]);
+	
+	//TODO 1 with several values
 
 	// test output style
 	// with no value specified
@@ -405,7 +410,7 @@ public class FulltextQueryTest extends AbstractIntegrationHttpSolrTestCase {
 	try {
 	    new FulltextQuery(RandomStringUtils
 		    .random(FulltextQuery.QUERY_MAX_LENGTH) + 1, pagination,
-		    output, Adm.class, "FR");
+		    output,ONLY_ADM_PLACETYPE, "FR");
 	    fail("query must have a maximmum length of "
 		    + FulltextQuery.QUERY_MAX_LENGTH);
 	} catch (IllegalArgumentException e) {
@@ -420,7 +425,7 @@ public class FulltextQueryTest extends AbstractIntegrationHttpSolrTestCase {
 	Output output = Output.withFormat(OutputFormat.JSON).withLanguageCode(
 		"FR").withStyle(OutputStyle.FULL);
 	try {
-	    new FulltextQuery(null, pagination, output, Adm.class, "FR");
+	    new FulltextQuery(null, pagination, output, ONLY_ADM_PLACETYPE, "FR");
 	    fail("Null query should throws");
 	} catch (IllegalArgumentException e) {
 
@@ -432,7 +437,7 @@ public class FulltextQueryTest extends AbstractIntegrationHttpSolrTestCase {
 		Pagination pagination = paginate().from(2).to(7);
 		Output output = Output.withFormat(OutputFormat.JSON).withLanguageCode("FR").withStyle(OutputStyle.FULL);
 		try {
-			new FulltextQuery(" ", pagination, output, Adm.class, "FR");
+			new FulltextQuery(" ", pagination, output, ONLY_ADM_PLACETYPE, "FR");
 			fail("empty query should throws");
 		} catch (IllegalArgumentException e) {
 
@@ -449,7 +454,7 @@ public class FulltextQueryTest extends AbstractIntegrationHttpSolrTestCase {
 	public void testFulltextQueryWithPaginationShouldTrim() {
 		Pagination pagination = paginate().from(2).to(7);
 		Output output = Output.withFormat(OutputFormat.JSON).withLanguageCode("FR").withStyle(OutputStyle.FULL);
-			FulltextQuery query = new FulltextQuery(" t ", pagination, output, Adm.class, "FR");
+			FulltextQuery query = new FulltextQuery(" t ", pagination, output, ONLY_ADM_PLACETYPE, "FR");
 			Assert.assertEquals("t", query.getQuery());
 	}
     
@@ -489,7 +494,7 @@ public class FulltextQueryTest extends AbstractIntegrationHttpSolrTestCase {
 
     @Test
     public void testWithPlaceTypeShouldBeSetToNullIfNull() {
-	assertNull(new FulltextQuery("text").withPlaceType(null).getPlaceType());
+	assertNull(new FulltextQuery("text").withPlaceTypes(null).getPlaceType());
     }
 
     public void testLimitToCountryCodeShouldSetTheCountryCode() {
@@ -507,8 +512,8 @@ public class FulltextQueryTest extends AbstractIntegrationHttpSolrTestCase {
     @Test
     public void testWithPlaceTypeShouldSetTheplaceType() {
 	FulltextQuery fulltextQuery = new FulltextQuery("text");
-	fulltextQuery.withPlaceType(Adm.class);
-	assertEquals(Adm.class, fulltextQuery.getPlaceType());
+	fulltextQuery.withPlaceTypes(ONLY_ADM_PLACETYPE);
+	assertEquals(ONLY_ADM_PLACETYPE, fulltextQuery.getPlaceType());
     }
 
     
@@ -605,7 +610,7 @@ public class FulltextQueryTest extends AbstractIntegrationHttpSolrTestCase {
 		    .withLanguageCode("FR").withStyle(OutputStyle.SHORT)
 		    .withIndentation();
 	    FulltextQuery fulltextQuery = new FulltextQuery("1001",
-		    pagination, output, City.class, "FR");
+		    pagination, output, ONLY_CITY_PLACETYPE, "FR");
 	// split parameters
 	HashMap<String, String> parameters = GeolocTestHelper.splitURLParams(
 		fulltextQuery.toQueryString(), "&");
@@ -657,7 +662,7 @@ public class FulltextQueryTest extends AbstractIntegrationHttpSolrTestCase {
 		"FR").withStyle(OutputStyle.SHORT).withIndentation();
 	String searchTerm = "Saint-André";
 	FulltextQuery fulltextQuery = new FulltextQuery(searchTerm,
-		pagination, output, Adm.class, "fr");
+		pagination, output, ONLY_ADM_PLACETYPE, "fr");
 	// split parameters
 	HashMap<String, String> parameters = GeolocTestHelper.splitURLParams(
 		fulltextQuery.toQueryString(), "&");
@@ -705,7 +710,7 @@ public class FulltextQueryTest extends AbstractIntegrationHttpSolrTestCase {
 		.withLanguageCode("FR").withStyle(OutputStyle.SHORT)
 		.withIndentation();
 	FulltextQuery fulltextQuery = new FulltextQuery("Saint-André",
-		pagination, output, Adm.class, "fr");
+		pagination, output, ONLY_ADM_PLACETYPE, "fr");
 	// split parameters
 	HashMap<String, String> parameters = GeolocTestHelper.splitURLParams(
 		fulltextQuery.toQueryString(), "&");
@@ -748,7 +753,7 @@ public class FulltextQueryTest extends AbstractIntegrationHttpSolrTestCase {
 	Output output = Output.withFormat(OutputFormat.ATOM).withLanguageCode(
 		"FR").withStyle(OutputStyle.SHORT).withIndentation();
 	FulltextQuery fulltextQuery = new FulltextQuery("Saint-André",
-		pagination, output, Adm.class, "fr");
+		pagination, output, ONLY_ADM_PLACETYPE, "fr");
 	// split parameters
 	HashMap<String, String> parameters = GeolocTestHelper.splitURLParams(
 		fulltextQuery.toQueryString(), "&");
@@ -795,7 +800,7 @@ public class FulltextQueryTest extends AbstractIntegrationHttpSolrTestCase {
 	Output output = Output.withFormat(OutputFormat.ATOM).withLanguageCode(
 		"FR").withStyle(OutputStyle.SHORT).withIndentation();
 	FulltextQuery fulltextQuery = new FulltextQuery("Saint-André",
-		pagination, output, Adm.class, "fr").withSpellChecking();
+		pagination, output, ONLY_ADM_PLACETYPE, "fr").withSpellChecking();
 	// split parameters
 	HashMap<String, String> parameters = GeolocTestHelper.splitURLParams(
 		fulltextQuery.toQueryString(), "&");
@@ -806,7 +811,7 @@ public class FulltextQueryTest extends AbstractIntegrationHttpSolrTestCase {
 	//active spellchecker and re test
 	SpellCheckerConfig.enabled = true;
 	fulltextQuery = new FulltextQuery("Saint-André",
-			pagination, output, Adm.class, "fr").withSpellChecking();
+			pagination, output, ONLY_ADM_PLACETYPE, "fr").withSpellChecking();
 	parameters = GeolocTestHelper.splitURLParams(
 			fulltextQuery.toQueryString(), "&");
 	assertTrue("the fulltextquery should have spellchecking enabled when spellchecker is enabled", fulltextQuery.hasSpellChecking());

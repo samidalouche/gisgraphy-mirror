@@ -393,6 +393,10 @@ remove the ability to search for 'no name street'
 				possibility to add a callback method for script output (php, ruby, python, json) for street and geoloc search
 			</action>
 			
+			<action dev="David Masclet" type="add">
+				possibility to add several placetype for the fulltext search.
+			</action>
+			
 			
 			</release>
 			

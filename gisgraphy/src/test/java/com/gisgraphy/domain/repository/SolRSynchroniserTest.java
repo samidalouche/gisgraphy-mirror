@@ -22,6 +22,8 @@
  *******************************************************************************/
 package com.gisgraphy.domain.repository;
 
+import static com.gisgraphy.domain.geoloc.service.fulltextsearch.FulltextQuery.ONLY_ADM_PLACETYPE;
+import static com.gisgraphy.domain.geoloc.service.fulltextsearch.FulltextQuery.ONLY_CITY_PLACETYPE;
 import static com.gisgraphy.domain.valueobject.Pagination.paginate;
 import static org.easymock.EasyMock.expect;
 import static org.easymock.classextension.EasyMock.createMock;
@@ -52,6 +54,7 @@ import com.gisgraphy.domain.geoloc.entity.Adm;
 import com.gisgraphy.domain.geoloc.entity.AlternateName;
 import com.gisgraphy.domain.geoloc.entity.City;
 import com.gisgraphy.domain.geoloc.entity.Country;
+import com.gisgraphy.domain.geoloc.entity.GisFeature;
 import com.gisgraphy.domain.geoloc.entity.Language;
 import com.gisgraphy.domain.geoloc.entity.event.GisFeatureDeleteAllEvent;
 import com.gisgraphy.domain.geoloc.entity.event.GisFeatureDeletedEvent;
@@ -665,7 +668,7 @@ public class SolRSynchroniserTest extends AbstractIntegrationHttpSolrTestCase {
 		    .withLanguageCode("FR").withStyle(OutputStyle.FULL)
 		    .withIndentation();
 	    FulltextQuery fulltextQuery = new FulltextQuery("Saint-Andre",
-		    pagination, output, City.class, "fr").withSpellChecking();
+		    pagination, output, ONLY_CITY_PLACETYPE, "fr").withSpellChecking();
 	    fullTextSearchEngine.executeAndSerialize(fulltextQuery,
 		    outputStream);
 	} catch (FullTextSearchException e) {
@@ -848,7 +851,7 @@ public class SolRSynchroniserTest extends AbstractIntegrationHttpSolrTestCase {
 		    .withLanguageCode("FR").withStyle(OutputStyle.FULL)
 		    .withIndentation();
 	    FulltextQuery fulltextQuery = new FulltextQuery(CountryName,
-		    pagination, output, Country.class,null).withoutSpellChecking();
+		    pagination, output, new Class[]{Country.class},null).withoutSpellChecking();
 	    fullTextSearchEngine.executeAndSerialize(fulltextQuery,
 		    outputStream);
 	} catch (FullTextSearchException e) {
@@ -939,7 +942,7 @@ public class SolRSynchroniserTest extends AbstractIntegrationHttpSolrTestCase {
 		    .withLanguageCode("FR").withStyle(OutputStyle.FULL)
 		    .withIndentation();
 	    FulltextQuery fulltextQuery = new FulltextQuery(adm.getName(),
-		    pagination, output, Adm.class,null).withoutSpellChecking();
+		    pagination, output, ONLY_ADM_PLACETYPE,null).withoutSpellChecking();
 	    fullTextSearchEngine.executeAndSerialize(fulltextQuery,
 		    outputStream);
 	} catch (FullTextSearchException e) {
