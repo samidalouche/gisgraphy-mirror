@@ -29,7 +29,9 @@ import static com.gisgraphy.domain.geoloc.service.fulltextsearch.FulltextQuery.O
 import static com.gisgraphy.domain.geoloc.service.fulltextsearch.FulltextQuery.ONLY_CITY_PLACETYPE;
 import static com.gisgraphy.domain.valueobject.Pagination.paginate;
 
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 
 import javax.annotation.Resource;
 
@@ -41,6 +43,7 @@ import org.springframework.mock.web.MockHttpServletRequest;
 import com.gisgraphy.domain.geoloc.entity.Adm;
 import com.gisgraphy.domain.geoloc.entity.City;
 import com.gisgraphy.domain.geoloc.entity.Country;
+import com.gisgraphy.domain.geoloc.entity.GisFeature;
 import com.gisgraphy.domain.geoloc.service.fulltextsearch.spell.SpellCheckerConfig;
 import com.gisgraphy.domain.repository.ICountryDao;
 import com.gisgraphy.domain.valueobject.Constants;
@@ -250,13 +253,39 @@ public class FulltextQueryTest extends AbstractIntegrationHttpSolrTestCase {
 		.getPlaceType()[0]);
 	// test case sensitive
 	request = GeolocTestHelper.createMockHttpServletRequestForFullText();
-	request.setParameter(FulltextServlet.FORMAT_PARAMETER, "city");
+	request.setParameter(FulltextServlet.PLACETYPE_PARAMETER, "ciTy");
 	query = new FulltextQuery(request);
 	assertEquals(FulltextServlet.PLACETYPE_PARAMETER
 		+ " should be case insensitive  ", City.class, query
 		.getPlaceType()[0]);
 	
-	//TODO 1 with several values
+	// test with multipleplacetype
+	request = GeolocTestHelper.createMockHttpServletRequestForFullText();
+	request.setParameter(FulltextServlet.PLACETYPE_PARAMETER, new String[]{"city","adm"});
+	query = new FulltextQuery(request);
+	assertEquals(FulltextServlet.PLACETYPE_PARAMETER
+		+ " should accept several placetype  ",2, query
+		.getPlaceType().length);
+	List<Class<? extends GisFeature>> placetypeList = Arrays.asList(query.getPlaceType());
+
+	assertTrue(FulltextServlet.PLACETYPE_PARAMETER
+			+ " should accept several placetype  ", placetypeList.contains(City.class));
+	assertTrue(FulltextServlet.PLACETYPE_PARAMETER
+			+ " should accept several placetype  ", placetypeList.contains(Adm.class));
+	
+	// test with multipleplacetype with wrong values
+	request = GeolocTestHelper.createMockHttpServletRequestForFullText();
+	request.setParameter(FulltextServlet.PLACETYPE_PARAMETER, new String[]{"city","unk"});
+	query = new FulltextQuery(request);
+	assertEquals(FulltextServlet.PLACETYPE_PARAMETER
+		+ " should accept several placetype  ",2, query
+		.getPlaceType().length);
+	placetypeList = Arrays.asList(query.getPlaceType());
+
+	assertTrue(FulltextServlet.PLACETYPE_PARAMETER
+			+ " should accept several placetype  ", placetypeList.contains(City.class));
+	assertTrue(FulltextServlet.PLACETYPE_PARAMETER
+			+ " should accept several placetype  ", placetypeList.contains(null));
 
 	// test output style
 	// with no value specified

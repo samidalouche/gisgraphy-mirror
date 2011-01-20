@@ -43,12 +43,14 @@ import org.apache.solr.client.solrj.response.SpellCheckResponse.Suggestion;
 import org.easymock.classextension.EasyMock;
 import org.junit.Test;
 
+import com.gisgraphy.domain.geoloc.entity.Adm;
 import com.gisgraphy.domain.geoloc.entity.AlternateName;
 import com.gisgraphy.domain.geoloc.entity.City;
 import com.gisgraphy.domain.geoloc.entity.GisFeature;
 import com.gisgraphy.domain.geoloc.entity.ZipCode;
 import com.gisgraphy.domain.geoloc.service.fulltextsearch.spell.ISpellCheckerIndexer;
 import com.gisgraphy.domain.geoloc.service.fulltextsearch.spell.SpellCheckerConfig;
+import com.gisgraphy.domain.repository.IAdmDao;
 import com.gisgraphy.domain.repository.ICityDao;
 import com.gisgraphy.domain.valueobject.AlternateNameSource;
 import com.gisgraphy.domain.valueobject.FulltextResultsDto;
@@ -66,6 +68,8 @@ public class FulltextSearchEngineTest extends
 	AbstractIntegrationHttpSolrTestCase {
 
     private ICityDao cityDao;
+    
+    private IAdmDao admDao;
 
     @Resource
     IStatsUsageService statsUsageService;
@@ -286,6 +290,90 @@ public class FulltextSearchEngineTest extends
 			    + FullTextFields.FULLY_QUALIFIED_NAME.getValue()
 			    + "'][.='" + city.getFullyQualifiedName(false)
 			    + "']");
+	} catch (FullTextSearchException e) {
+	    fail("error during search : " + e.getMessage());
+	}
+    }
+    
+    @Test
+    public void testExecuteQueryWithMultiplePlacetype() {
+	City city = GeolocTestHelper.createCity("paris", 1.5F, 2F, 1001L);
+	this.cityDao.save(city);
+	assertNotNull(this.cityDao.getByFeatureId(1001L));
+	Adm adm = GeolocTestHelper.createAdm("paris", "FR", "A1",
+			null, null, null, null, 1);
+	this.admDao.save(adm);
+	// commit changes
+	this.solRSynchroniser.commit();
+
+	try {
+	    Pagination pagination = paginate().from(1).to(10);
+	    Output output = Output.withFormat(OutputFormat.XML)
+		    .withLanguageCode("FR").withStyle(OutputStyle.SHORT)
+		    .withIndentation();
+	    FulltextQuery fulltextQuery = new FulltextQuery("paris",
+		    pagination, output, new Class[]{City.class,Adm.class}, "fr");
+	    String result = fullTextSearchEngine
+		    .executeQueryToString(fulltextQuery);
+	    FeedChecker.assertQ("The query return incorrect values", result,
+		    "//*[@numFound='2']", "//*[@name='status'][.='0']"
+		    );
+	} catch (FullTextSearchException e) {
+	    fail("error during search : " + e.getMessage());
+	}
+    }
+    
+    @Test
+    public void testExecuteQueryWithMultiplePlacetypewithNullPlacetypeAtEnd() {
+	City city = GeolocTestHelper.createCity("paris", 1.5F, 2F, 1001L);
+	this.cityDao.save(city);
+	assertNotNull(this.cityDao.getByFeatureId(1001L));
+	Adm adm = GeolocTestHelper.createAdm("paris", "FR", "A1",
+			null, null, null, null, 1);
+	this.admDao.save(adm);
+	// commit changes
+	this.solRSynchroniser.commit();
+
+	try {
+	    Pagination pagination = paginate().from(1).to(10);
+	    Output output = Output.withFormat(OutputFormat.XML)
+		    .withLanguageCode("FR").withStyle(OutputStyle.SHORT)
+		    .withIndentation();
+	    FulltextQuery fulltextQuery = new FulltextQuery("paris",
+		    pagination, output, new Class[]{City.class,null}, "fr");
+	    String result = fullTextSearchEngine
+		    .executeQueryToString(fulltextQuery);
+	    FeedChecker.assertQ("The query return incorrect values", result,
+		    "//*[@numFound='1']", "//*[@name='status'][.='0']"
+		    );
+	} catch (FullTextSearchException e) {
+	    fail("error during search : " + e.getMessage());
+	}
+    }
+    
+    @Test
+    public void testExecuteQueryWithMultiplePlacetypewithNullPlacetypeAtBeginning() {
+	City city = GeolocTestHelper.createCity("paris", 1.5F, 2F, 1001L);
+	this.cityDao.save(city);
+	assertNotNull(this.cityDao.getByFeatureId(1001L));
+	Adm adm = GeolocTestHelper.createAdm("paris", "FR", "A1",
+			null, null, null, null, 1);
+	this.admDao.save(adm);
+	// commit changes
+	this.solRSynchroniser.commit();
+
+	try {
+	    Pagination pagination = paginate().from(1).to(10);
+	    Output output = Output.withFormat(OutputFormat.XML)
+		    .withLanguageCode("FR").withStyle(OutputStyle.SHORT)
+		    .withIndentation();
+	    FulltextQuery fulltextQuery = new FulltextQuery("paris",
+		    pagination, output, new Class[]{null,City.class,null}, "fr");
+	    String result = fullTextSearchEngine
+		    .executeQueryToString(fulltextQuery);
+	    FeedChecker.assertQ("The query return incorrect values", result,
+		    "//*[@numFound='1']", "//*[@name='status'][.='0']"
+		    );
 	} catch (FullTextSearchException e) {
 	    fail("error during search : " + e.getMessage());
 	}
@@ -729,5 +817,9 @@ public class FulltextSearchEngineTest extends
     public void setCityDao(ICityDao cityDao) {
 	this.cityDao = cityDao;
     }
+
+	public void setAdmDao(IAdmDao admDao) {
+		this.admDao = admDao;
+	}
 
 }

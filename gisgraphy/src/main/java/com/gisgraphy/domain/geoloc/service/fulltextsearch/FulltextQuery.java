@@ -312,14 +312,16 @@ public class FulltextQuery extends AbstractGisQuery {
      */
     @Override
     public String toString() {
-	String asString = "FullTextQuery '" + this.query + "' for ";
+		String asString = "FullTextQuery '" + this.query + "' for ";
 		if (this.placeTypes == null) {
 			asString += "all placeType";
 		} else {
 			for (int i = 0; i < this.placeTypes.length; i++) {
-				asString += this.placeTypes[i].getSimpleName();
-				if (i != this.placeTypes.length - 1) {
-					asString += " and ";
+				if (this.placeTypes[i] != null) {
+					asString += this.placeTypes[i].getSimpleName();
+					if (i != this.placeTypes.length - 1) {
+						asString += " and ";
+					}
 				}
 			}
 		}
@@ -414,14 +416,20 @@ public class FulltextQuery extends AbstractGisQuery {
 		    query.append(" AND ").append(FullTextFields.COUNTRYCODE.getValue()+":"+countryCode);
 
 		}
-	    if (this.placeTypes != null) {
+	    if (this.placeTypes != null && containsOtherThingsThanNull(this.placeTypes)) {
+	    	 query.append(" AND (");
+	    	 boolean firstAppend=false;
 	    	for (int i=0;i< this.placeTypes.length;i++){
-	    		if (placeTypes[i]!=null){
-	    		 query.append(" AND ").append(FullTextFields.PLACETYPE.getValue()+":"+placeTypes[i].getSimpleName())
-				    .append(" ");
-	    		}
+	    		if (placeTypes[i] != null){
+	    			if (firstAppend){
+	    				query.append(" OR ");
+	    			}
+	    		query.append(FullTextFields.PLACETYPE.getValue()+":"+placeTypes[i].getSimpleName());
+	    		firstAppend=true;
 	    	}
 		}
+	    	query.append(") ");
+	    }
 	    parameters.set(Constants.QUERY_PARAMETER, query.toString());
 	}  else if (isNumericQuery) {
 	    parameters.set(Constants.QT_PARAMETER, Constants.SolrQueryType.standard
@@ -450,6 +458,17 @@ public class FulltextQuery extends AbstractGisQuery {
 	return parameters;
     }
 
+    
+    private boolean containsOtherThingsThanNull(Class[] array){
+    	if (array!=null){
+    		for (int i=0;i<=array.length;i++){
+    			if (array[i]!= null){
+    				return true;
+    			}
+    		}
+    	} return false;
+    }
+    
     @Override
     public int getMaxLimitResult() {
 	return FulltextServlet.DEFAULT_MAX_RESULTS;
