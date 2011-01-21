@@ -658,7 +658,7 @@ Limits the numbers of connections to the SolR server for all hosts. Recommended 
 <div align="right"><a href="#top">[top]</a></div>
 <a name="defaultGeolocSearchPlaceType"></a>
 <h4>geolocsearch.defaultGeolocSearchPlaceType</h4>
-define the default placetype Class for the <b>geoloc<b> query <b>(only! not the fulltext one)</b>. An empty or wrong value will search for any placetype by default. This option is case sensitive. and the placeType must be in the entity package
+define the default placetype Class for the <b>geoloc</b> query <b>(only! not the fulltext one)</b>. An empty or wrong value will search for any placetype by default. This option is case sensitive. and the placeType must be in the entity package
 <div class="code">
 Examples : <br/>
 geolocsearch.defaultGeolocSearchPlaceType=City<br/>
@@ -1168,7 +1168,7 @@ Some properties as the AlternateName AdmNames and countryname belongs to a certa
 </li>
 <br/>
 <div class="tip greentip">
-use the alpha2 code when possible, only use the alpha3 code when no alpha2 code exists for the language.
+Use the alpha2 code when possible, only use the alpha3 code when no alpha2 code exists for the language.
 </div>
 <br/>
 
@@ -1195,7 +1195,7 @@ For a full list and descrition of output fields : see <a href="#fulltextserviceo
 
 <br/>
 <a name="placetype"></a>
-<li>The placetype (optional) : limit the search to the specified place type. place type regroup some feature class and feature code. you need to specify the class coresponding to the place type you want to search. default : search for all features</li>
+<li>The placetype(s) (optional) : limit the search to the one or more place type. place type regroup some feature class and feature code. you need to specify the class coresponding to the place type you want to search. default : search for all features</li>
 
 <br/>
 <div class="tip greentip">
@@ -1234,18 +1234,18 @@ All the parameters should be case insensitive. if you've got some problems with 
 </div>
 <br/><br/>
 Here is a summary of the Web parameters mapping : <br/>
-<table class="smallsizetable smartborder">
-<th>Parameter name</th><th>Web parameter name</th>
-<tr><td>The searched text</td><td>q</td></tr>
-<tr><td>Start pagination index</td><td>from</td></tr>
-<tr><td>End pagination index</td><td>to</td></tr>
-<tr><td>Output format</td><td>format</td></tr>
-<tr><td>Language code</td><td>lang</td></tr>
-<tr><td>Output style verbosity</td><td>style</td></tr>
-<tr><td>placetype</td><td>placetype</td></tr>
-<tr><td>country code</td><td>country</td></tr>
-<tr><td>indent</td><td>indent</td></tr>
-<tr><td>spellchecking</td><td>spellchecking</td></tr>
+<table class="mediumsizetable smartborder">
+<th>Parameter name</th><th>Web parameter name</th><th>comment</th>
+<tr><td>The searched text</td><td>q</td><td></td></tr>
+<tr><td>Start pagination index</td><td>from</td><td></td></tr>
+<tr><td>End pagination index</td><td>to</td><td></td></tr>
+<tr><td>Output format</td><td>format</td><td></td></tr>
+<tr><td>Language code</td><td>lang</td><td></td></tr>
+<tr><td>Output style verbosity</td><td>style</td><td></td></tr>
+<tr><td>placetype</td><td>placetype</td><td>You can specify more than one placetype http://localhost:8080/fulltext/fulltextsearch?q=paris&placetype=city&placetype=adm</td></tr>
+<tr><td>country code</td><td>country</td><td></td></tr>
+<tr><td>indent</td><td>indent</td><td></td></tr>
+<tr><td>spellchecking</td><td>spellchecking</td><td></td></tr>
 </table>
 <br/>
 
@@ -1374,7 +1374,7 @@ Here is an example :
 					.withLanguageCode("FR").withStyle(OutputStyle.SHORT)
 					.WithIndentation();
 			FulltextQuery fulltextQuery = new FulltextQuery("Paris Texas",
-					pagination, output, City.class, "US");
+					pagination, output, new String[]{City.class}, "US");
 			String result = fullTextSearchEngine.executeQueryToString(fulltextQuery);
 </pre>
 </div>
