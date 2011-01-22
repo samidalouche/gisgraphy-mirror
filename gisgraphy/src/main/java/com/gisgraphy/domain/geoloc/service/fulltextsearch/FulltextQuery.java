@@ -25,14 +25,10 @@
  */
 package com.gisgraphy.domain.geoloc.service.fulltextsearch;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.apache.solr.client.solrj.util.ClientUtils;
 import org.apache.solr.common.params.ModifiableSolrParams;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 
@@ -41,16 +37,13 @@ import com.gisgraphy.domain.geoloc.entity.City;
 import com.gisgraphy.domain.geoloc.entity.GisFeature;
 import com.gisgraphy.domain.geoloc.service.AbstractGisQuery;
 import com.gisgraphy.domain.geoloc.service.fulltextsearch.spell.SpellCheckerConfig;
-import com.gisgraphy.domain.repository.ICountryDao;
 import com.gisgraphy.domain.valueobject.Constants;
 import com.gisgraphy.domain.valueobject.GisgraphyConfig;
 import com.gisgraphy.domain.valueobject.Output;
 import com.gisgraphy.domain.valueobject.Pagination;
 import com.gisgraphy.domain.valueobject.Output.OutputStyle;
-import com.gisgraphy.helper.GeolocHelper;
 import com.gisgraphy.serializer.OutputFormat;
 import com.gisgraphy.servlet.FulltextServlet;
-import com.gisgraphy.servlet.GisgraphyServlet;
 
 /**
  * A fulltext Query
@@ -93,104 +86,13 @@ public class FulltextQuery extends AbstractGisQuery {
      */
     private Class<? extends GisFeature>[] placeTypes = null;
 
-    @Autowired
-    @Qualifier("countryDao")
-    private ICountryDao countryDao;
 
     private String query = "";
     private String countryCode;
     
     private boolean spellchecking = SpellCheckerConfig.activeByDefault;
 
-    /**
-     * @param req
-     *                an HttpServletRequest to construct a {@link FulltextQuery}
-     */
-    public FulltextQuery(HttpServletRequest req) {
-	super();
-	String httpQueryParameter = req.getParameter(FulltextServlet.QUERY_PARAMETER);
-	if (httpQueryParameter != null){
-		this.query = httpQueryParameter.trim();
-	}
-	if (query == null || "".equals(query.trim())) {
-	    throw new FullTextSearchException("query is not specified or empty");
-	}
-	if (query.length() > FulltextQuery.QUERY_MAX_LENGTH) {
-	    throw new FullTextSearchException("query is limited to "
-		    + FulltextQuery.QUERY_MAX_LENGTH + "characters");
-	}
-	// pagination
-	Pagination pagination = null;
-	int from;
-	int to;
-	try {
-	    from = Integer.valueOf(
-		    req.getParameter(FulltextServlet.FROM_PARAMETER))
-		    .intValue();
-	} catch (Exception e) {
-	    from = Pagination.DEFAULT_FROM;
-	}
-
-	try {
-	    to = Integer
-		    .valueOf(req.getParameter(FulltextServlet.TO_PARAMETER))
-		    .intValue();
-	} catch (NumberFormatException e) {
-	    to = -1;
-	}
-
-	pagination = Pagination.paginateWithMaxResults(this.getMaxLimitResult()).from(from).to(to)
-		.limitNumberOfResults(getMaxLimitResult());
-	// output
-	OutputFormat format = OutputFormat.getFromString(req
-		.getParameter(FulltextServlet.FORMAT_PARAMETER));
-	OutputStyle style = OutputStyle.getFromString(req
-		.getParameter(FulltextServlet.STYLE_PARAMETER));
-	String languageparam = req.getParameter(FulltextServlet.LANG_PARAMETER);
-	Output output = Output.withFormat(format).withLanguageCode(
-		languageparam).withStyle(style);
-
-	// placetype
-	String[] placetypeParameters = req
-		.getParameterValues(FulltextServlet.PLACETYPE_PARAMETER);
-	Class<? extends GisFeature>[] clazzs = null;
-	if (placetypeParameters!=null){
-		clazzs = new Class[placetypeParameters.length]; 
-		for (int i=0;i<placetypeParameters.length;i++){
-			Class<? extends GisFeature> classEntityFromString = GeolocHelper.getClassEntityFromString(placetypeParameters[i]);
-				clazzs[i]= classEntityFromString;
-		}
-	}
-	
-
-	// countrycode
-	String countrycodeParam = req
-		.getParameter(FulltextServlet.COUNTRY_PARAMETER);
-	this.countryCode = countrycodeParam == null ? null : countrycodeParam
-		.toUpperCase();
-
-	//indentation
-	if ("true".equalsIgnoreCase(req
-		.getParameter(GisgraphyServlet.INDENT_PARAMETER))
-		|| "on".equalsIgnoreCase(req
-			.getParameter(GisgraphyServlet.INDENT_PARAMETER))) {
-	    output.withIndentation();
-	}
-	//spellchecking
-	if ("true".equalsIgnoreCase(req
-			.getParameter(FulltextServlet.SPELLCHECKING_PARAMETER))
-			|| "on".equalsIgnoreCase(req
-				.getParameter(FulltextServlet.SPELLCHECKING_PARAMETER))) {
-		    this.withSpellChecking();
-		}
-	else if ("false".equalsIgnoreCase(req.getParameter(FulltextServlet.SPELLCHECKING_PARAMETER))) {
-		this.withoutSpellChecking();
-	}
-
-	this.pagination = pagination;
-	withPlaceTypes(clazzs);
-	this.output = output;
-    }
+   
 
     /**
      * @param query

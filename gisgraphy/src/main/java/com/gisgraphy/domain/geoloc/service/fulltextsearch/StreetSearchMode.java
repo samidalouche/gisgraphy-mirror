@@ -51,5 +51,13 @@ public enum StreetSearchMode {
     	return StreetSearchMode.FULLTEXT;
     }
     
+    public static StreetSearchMode getFromString(String searchModeString) {
+	    try {
+		return StreetSearchMode.valueOf(searchModeString.toUpperCase());
+	    } catch (RuntimeException e) {
+	    	 return StreetSearchMode.getDefault();
+	    }
+}
+    
    
 }

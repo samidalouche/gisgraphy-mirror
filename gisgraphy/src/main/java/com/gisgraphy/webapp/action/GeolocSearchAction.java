@@ -28,6 +28,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Required;
 
 import com.gisgraphy.domain.geoloc.service.geoloc.GeolocQuery;
+import com.gisgraphy.domain.geoloc.service.geoloc.GeolocQueryHttpBuilder;
 import com.gisgraphy.domain.geoloc.service.geoloc.IGeolocSearchEngine;
 import com.gisgraphy.domain.valueobject.GeolocResultsDto;
 import com.gisgraphy.domain.valueobject.GisgraphyConfig;
@@ -82,7 +83,7 @@ public class GeolocSearchAction extends SearchAction {
 
     private void executeQuery() {
 	try {
-	    GeolocQuery geolocQuery = new GeolocQuery(ServletActionContext
+	    GeolocQuery geolocQuery = GeolocQueryHttpBuilder.getInstance().buildFromHttpRequest(ServletActionContext
 		    .getRequest());
 	    this.responseDTO = geolocSearchEngine.executeQuery(geolocQuery);
 	    setFrom(geolocQuery.getFirstPaginationIndex());

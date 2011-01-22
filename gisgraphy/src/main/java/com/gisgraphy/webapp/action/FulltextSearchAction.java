@@ -32,6 +32,7 @@ import org.springframework.beans.factory.annotation.Required;
 
 import com.gisgraphy.domain.geoloc.entity.Country;
 import com.gisgraphy.domain.geoloc.service.fulltextsearch.FulltextQuery;
+import com.gisgraphy.domain.geoloc.service.fulltextsearch.FulltextQueryHttpBuilder;
 import com.gisgraphy.domain.geoloc.service.fulltextsearch.IFullTextSearchEngine;
 import com.gisgraphy.domain.geoloc.service.fulltextsearch.spell.SpellCheckerConfig;
 import com.gisgraphy.domain.repository.CountryDao;
@@ -90,8 +91,8 @@ public class FulltextSearchAction extends SearchAction {
 
     private void executeQuery() {
 	try {
-	    FulltextQuery fulltextQuery = new FulltextQuery(
-		    ServletActionContext.getRequest());
+	    FulltextQuery fulltextQuery = FulltextQueryHttpBuilder.getInstance().buildFromRequest(
+	    		ServletActionContext.getRequest());
 	    setFrom(fulltextQuery.getFirstPaginationIndex());
 	    setTo(fulltextQuery.getLastPaginationIndex());
 	    this.responseDTO = fullTextSearchEngine.executeQuery(fulltextQuery);

@@ -33,6 +33,7 @@ import org.springframework.mock.web.MockHttpServletRequest;
 
 import com.gisgraphy.domain.geoloc.service.geoloc.IStreetSearchEngine;
 import com.gisgraphy.domain.geoloc.service.geoloc.StreetSearchQuery;
+import com.gisgraphy.domain.geoloc.service.geoloc.StreetSearchQueryHttpBuilder;
 import com.gisgraphy.domain.geoloc.service.geoloc.street.StreetType;
 import com.gisgraphy.domain.valueobject.StreetSearchResultsDto;
 import com.gisgraphy.servlet.StreetServlet;
@@ -66,7 +67,7 @@ public class StreetSearchActionTest {
 	    }
 	};
 	IStreetSearchEngine streetSearchEngine = EasyMock.createMock(IStreetSearchEngine.class);
-	EasyMock.expect(streetSearchEngine.executeQuery(new StreetSearchQuery(request))).andReturn(new StreetSearchResultsDto());
+	EasyMock.expect(streetSearchEngine.executeQuery(StreetSearchQueryHttpBuilder.getInstance().buildFromHttpRequest(request))).andReturn(new StreetSearchResultsDto());
 	EasyMock.replay(streetSearchEngine);
 	
 	streetSearchAction.setStreetSearchEngine(streetSearchEngine);
@@ -87,7 +88,7 @@ public class StreetSearchActionTest {
 	    }
 	};
 	IStreetSearchEngine streetSearchEngine = EasyMock.createMock(IStreetSearchEngine.class);
-	EasyMock.expect(streetSearchEngine.executeQuery(new StreetSearchQuery(request))).andReturn(new StreetSearchResultsDto());
+	EasyMock.expect(streetSearchEngine.executeQuery(StreetSearchQueryHttpBuilder.getInstance().buildFromHttpRequest(request))).andReturn(new StreetSearchResultsDto());
 	EasyMock.replay(streetSearchEngine);
 	
 	streetSearchAction.setStreetSearchEngine(streetSearchEngine);

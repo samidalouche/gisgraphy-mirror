@@ -36,6 +36,7 @@ import org.springframework.web.context.support.WebApplicationContextUtils;
 
 import com.gisgraphy.domain.geoloc.service.geoloc.GeolocErrorVisitor;
 import com.gisgraphy.domain.geoloc.service.geoloc.GeolocQuery;
+import com.gisgraphy.domain.geoloc.service.geoloc.GeolocQueryHttpBuilder;
 import com.gisgraphy.domain.geoloc.service.geoloc.IGeolocSearchEngine;
 import com.gisgraphy.domain.valueobject.Constants;
 import com.gisgraphy.domain.valueobject.GisgraphyServiceType;
@@ -118,7 +119,7 @@ public class GeolocServlet extends GisgraphyServlet {
 			"error.emptyLatLong"), format, resp,req);
 		return;
 	    }
-	    GeolocQuery query = new GeolocQuery(req);
+	    GeolocQuery query = GeolocQueryHttpBuilder.getInstance().buildFromHttpRequest(req);
 	    if (logger.isDebugEnabled()){
 	    logger.debug("query=" + query);
 	    logger.debug("fulltext engine=" + geolocSearchEngine);

@@ -33,6 +33,7 @@ import org.slf4j.LoggerFactory;
 
 import com.gisgraphy.domain.geoloc.service.geoloc.IStreetSearchEngine;
 import com.gisgraphy.domain.geoloc.service.geoloc.StreetSearchQuery;
+import com.gisgraphy.domain.geoloc.service.geoloc.StreetSearchQueryHttpBuilder;
 import com.gisgraphy.domain.geoloc.service.geoloc.street.StreetType;
 import com.gisgraphy.domain.valueobject.GisgraphyServiceType;
 import com.gisgraphy.domain.valueobject.OutputFormatHelper;
@@ -90,7 +91,7 @@ public class StreetSearchAction extends SearchAction {
 
     private void executeQuery() {
 	try {
-	    StreetSearchQuery streetSearchQuery = new StreetSearchQuery(getRequest());
+	    StreetSearchQuery streetSearchQuery = StreetSearchQueryHttpBuilder.getInstance().buildFromHttpRequest(getRequest());
 	    this.streetSearchResultsDto = streetSearchEngine.executeQuery(streetSearchQuery);
 	    setFrom(streetSearchQuery.getFirstPaginationIndex());
 	    setTo(streetSearchQuery.getLastPaginationIndex());

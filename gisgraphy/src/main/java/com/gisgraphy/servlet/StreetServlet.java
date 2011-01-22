@@ -38,6 +38,7 @@ import com.gisgraphy.domain.geoloc.service.geoloc.GisgraphyCommunicationExceptio
 import com.gisgraphy.domain.geoloc.service.geoloc.IStreetSearchEngine;
 import com.gisgraphy.domain.geoloc.service.geoloc.StreetSearchErrorVisitor;
 import com.gisgraphy.domain.geoloc.service.geoloc.StreetSearchQuery;
+import com.gisgraphy.domain.geoloc.service.geoloc.StreetSearchQueryHttpBuilder;
 import com.gisgraphy.domain.valueobject.Constants;
 import com.gisgraphy.domain.valueobject.GisgraphyServiceType;
 import com.gisgraphy.helper.HTMLHelper;
@@ -118,7 +119,7 @@ public class StreetServlet extends GisgraphyServlet {
 			"error.emptyLatLong"), format, resp,req);
 		return;
 	    }
-	    StreetSearchQuery query = new StreetSearchQuery(req);
+	    StreetSearchQuery query = StreetSearchQueryHttpBuilder.getInstance().buildFromHttpRequest(req);
 	    if (logger.isDebugEnabled()){
 	    logger.debug("query=" + query);
 	    }

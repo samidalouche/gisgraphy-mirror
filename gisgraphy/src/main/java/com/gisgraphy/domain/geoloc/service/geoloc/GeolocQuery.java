@@ -23,21 +23,15 @@
 package com.gisgraphy.domain.geoloc.service.geoloc;
 
 import javax.persistence.Transient;
-import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.util.Assert;
 
 import com.gisgraphy.domain.geoloc.entity.GisFeature;
 import com.gisgraphy.domain.geoloc.service.AbstractGisQuery;
 import com.gisgraphy.domain.valueobject.GisgraphyConfig;
-import com.gisgraphy.domain.valueobject.GisgraphyServiceType;
 import com.gisgraphy.domain.valueobject.Output;
-import com.gisgraphy.domain.valueobject.OutputFormatHelper;
 import com.gisgraphy.domain.valueobject.Pagination;
-import com.gisgraphy.helper.GeolocHelper;
-import com.gisgraphy.serializer.OutputFormat;
 import com.gisgraphy.servlet.GeolocServlet;
-import com.gisgraphy.servlet.GisgraphyServlet;
 import com.vividsolutions.jts.geom.Point;
 
 /**
@@ -121,109 +115,7 @@ public class GeolocQuery extends AbstractGisQuery {
     private double radius = DEFAULT_RADIUS;
     private boolean distanceField = true;
 
-    /**
-     * @param req
-     *                an HttpServletRequest to construct a {@link GeolocQuery}
-     */
-    public GeolocQuery(HttpServletRequest req) {
-	// point
-	Float latitude;
-	Float longitude;
-	// lat
-	try {
-	    latitude = GeolocHelper.parseInternationalDouble(req
-		    .getParameter(GeolocServlet.LAT_PARAMETER));
-	} catch (Exception e) {
-	    throw new GeolocSearchException("latitude is not correct or empty");
-	}
-	if (latitude == null) {
-	    throw new GeolocSearchException("latitude is not correct or empty");
-	}
-	// long
-	try {
-	    longitude = GeolocHelper.parseInternationalDouble(req
-		    .getParameter(GeolocServlet.LONG_PARAMETER));
-	} catch (Exception e) {
-	    throw new GeolocSearchException(
-		    "longitude is not correct or empty");
-	}
-	if (longitude == null) {
-	    throw new GeolocSearchException(
-		    "longitude is not correct or empty");
-	}
-	// point
-	try {
-	    this.point = GeolocHelper.createPoint(longitude, latitude);
-	} catch (RuntimeException e1) {
-	    throw new GeolocSearchException(e1.getMessage());
-	}
-	if (point == null) {
-	    throw new GeolocSearchException("can not determine Point");
-	}
-	// radius
-	try {
-	    withRadius(GeolocHelper.parseInternationalDouble(req
-		    .getParameter(GeolocServlet.RADIUS_PARAMETER)));
-	} catch (Exception e) {
-	    this.radius = DEFAULT_RADIUS;
-	}
-
-	// pagination
-	Pagination pagination = null;
-	int from;
-	int to;
-	try {
-	    from = Integer.valueOf(
-		    req.getParameter(GisgraphyServlet.FROM_PARAMETER)).intValue();
-	} catch (Exception e) {
-	    from = Pagination.DEFAULT_FROM;
-	}
-
-	try {
-	    to = Integer.valueOf(req.getParameter(GisgraphyServlet.TO_PARAMETER))
-		    .intValue();
-	} catch (NumberFormatException e) {
-	    to = -1;
-	}
-
-	pagination = Pagination.paginateWithMaxResults(this.getMaxLimitResult()).from(from).to(to)
-		.limitNumberOfResults(this.getMaxLimitResult());
-	// output format
-	OutputFormat format = OutputFormat.getFromString(req
-		.getParameter(GisgraphyServlet.FORMAT_PARAMETER));
-	format = OutputFormatHelper.getDefaultForServiceIfNotSupported(format, GisgraphyServiceType.GEOLOC);
-	Output output = Output.withFormat(format);
-
-	// indent
-	if ("true".equalsIgnoreCase(req
-		.getParameter(GisgraphyServlet.INDENT_PARAMETER))
-		|| "on".equalsIgnoreCase(req
-			.getParameter(GisgraphyServlet.INDENT_PARAMETER))) {
-	    output.withIndentation();
-	}
-
-	//placetype
-	Class<? extends GisFeature> clazz = GeolocHelper
-		.getClassEntityFromString(req
-			.getParameter(GeolocServlet.PLACETYPE_PARAMETER));
-
-	//distance field
-	if ("false".equalsIgnoreCase(req
-		.getParameter(GeolocServlet.DISTANCE_PARAMETER))
-		|| "off".equalsIgnoreCase(req
-			.getParameter(GeolocServlet.DISTANCE_PARAMETER))) {
-	    withDistanceField(false);
-	}
-	
-	if (req.getParameter(GeolocServlet.CALLBACK_PARAMETER)!=null){
-	    withCallback(req.getParameter(GeolocServlet.CALLBACK_PARAMETER));
-	}
-	
-	this.pagination = pagination;
-	this.placeType = clazz == null ? GisgraphyConfig.defaultGeolocSearchPlaceTypeClass
-		: clazz;
-	this.output = output;
-    }
+    
 
     /**
      * @param point
@@ -380,7 +272,7 @@ public class GeolocQuery extends AbstractGisQuery {
 
     @Override
     public int getMaxLimitResult() {
-	return GeolocServlet.DEFAULT_MAX_RESULTS;
+    	return GeolocServlet.DEFAULT_MAX_RESULTS;
     }
 
     /**

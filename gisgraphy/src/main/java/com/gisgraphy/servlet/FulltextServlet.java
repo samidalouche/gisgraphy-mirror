@@ -34,8 +34,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
+import sun.reflect.ReflectionFactory.GetReflectionFactoryAction;
+
 import com.gisgraphy.domain.geoloc.service.fulltextsearch.FulltextErrorVisitor;
 import com.gisgraphy.domain.geoloc.service.fulltextsearch.FulltextQuery;
+import com.gisgraphy.domain.geoloc.service.fulltextsearch.FulltextQueryHttpBuilder;
 import com.gisgraphy.domain.geoloc.service.fulltextsearch.IFullTextSearchEngine;
 import com.gisgraphy.domain.valueobject.Constants;
 import com.gisgraphy.domain.valueobject.GisgraphyServiceType;
@@ -116,7 +119,7 @@ public class FulltextServlet extends GisgraphyServlet {
 			"error.emptyQuery"), format, resp,req);
 		return;
 	    }
-	    FulltextQuery query = new FulltextQuery(req);
+	    FulltextQuery query = FulltextQueryHttpBuilder.getInstance().buildFromRequest(req);
 	    if (logger.isDebugEnabled()){
 		logger.debug("query=" + query);
 		logger.debug("fulltext engine=" + fullTextSearchEngine);

@@ -77,43 +77,7 @@ public class StreetSearchQuery extends GeolocQuery {
     private StreetSearchMode streetSearchMode = StreetSearchMode.getDefault();
     
 
-    /**
-     * Build a query from an httpRequest based
-     *  on the {@link StreetServlet} parameter names
-     * @param req the httprequest to build the query
-     */
-    public StreetSearchQuery(HttpServletRequest req) {
-	super(req);
-	//streettype
-	withStreetType(StreetType.getFromString(req
-	.getParameter(StreetServlet.STREETTYPE_PARAMETER)));
-	
-	//OneWay
-	String oneWayParameter = req
-		.getParameter(StreetServlet.ONEWAY_PARAMETER);
-	if ("true".equalsIgnoreCase(oneWayParameter)
-		|| "on".equalsIgnoreCase(oneWayParameter)) {
-	    withOneWay(Boolean.TRUE);
-	}
-	else if ("false".equalsIgnoreCase(oneWayParameter)){
-	    withOneWay(Boolean.FALSE);
-	}
-	//name
-	withName(req.getParameter(StreetServlet.NAME_PARAMETER));
-	
-	String StreetSearchModeparameter = req.getParameter(StreetServlet.STREET_SEARCH_MODE_PARAMETER);
-	setStreetSearchModeFromString(StreetSearchModeparameter);
-
-
-    }
-
-	private void setStreetSearchModeFromString(String searchModeString) {
-		    try {
-			this.streetSearchMode = StreetSearchMode.valueOf(searchModeString.toUpperCase());
-		    } catch (RuntimeException e) {
-		    	this.streetSearchMode= StreetSearchMode.getDefault();
-		    }
-	}
+   
 
     /**
      * @param point

@@ -397,6 +397,9 @@ remove the ability to search for 'no name street'
 				possibility to add several placetype for the fulltext search.
 			</action>
 			
+			<action dev="David Masclet" type="update">
+				Extract the building of fulltextquery, geolocquery and streetsearchquery into separate builder
+			</action>
 			
 			</release>
 			
