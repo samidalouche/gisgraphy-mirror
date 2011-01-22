@@ -29,7 +29,6 @@ import org.apache.solr.client.solrj.util.ClientUtils;
 import org.apache.solr.common.params.ModifiableSolrParams;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 
 import com.gisgraphy.domain.geoloc.entity.Adm;
@@ -53,7 +52,6 @@ import com.gisgraphy.servlet.FulltextServlet;
  * @see IFullTextSearchEngine
  * @author <a href="mailto:david.masclet@gisgraphy.com">David Masclet</a>
  */
-@Component
 public class FulltextQuery extends AbstractGisQuery {
 	/**
 	 * convenence placetype for only city
@@ -264,7 +262,7 @@ public class FulltextQuery extends AbstractGisQuery {
      *         the name of the parameters are defined in {@link Constants}
      */
     public String toQueryString() {
-	return ClientUtils.toQueryString(parameterize(), false);
+    	return ClientUtils.toQueryString(parameterize(), false);
     }
 
     /**
@@ -373,7 +371,7 @@ public class FulltextQuery extends AbstractGisQuery {
     
     @Override
     public int getMaxLimitResult() {
-	return FulltextServlet.DEFAULT_MAX_RESULTS;
+    	return FulltextServlet.DEFAULT_MAX_RESULTS;
     }
 
     /* (non-Javadoc)
