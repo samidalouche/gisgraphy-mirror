@@ -28,12 +28,19 @@ package com.gisgraphy.domain.geoloc.service.fulltextsearch;
 import static com.gisgraphy.domain.geoloc.service.fulltextsearch.FulltextQuery.ONLY_ADM_PLACETYPE;
 import static com.gisgraphy.domain.geoloc.service.fulltextsearch.FulltextQuery.ONLY_CITY_PLACETYPE;
 import static com.gisgraphy.domain.valueobject.Pagination.paginate;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
 import javax.annotation.Resource;
+
+import junit.framework.TestCase;
 
 import org.apache.commons.lang.RandomStringUtils;
 import org.junit.Assert;
@@ -55,10 +62,8 @@ import com.gisgraphy.servlet.FulltextServlet;
 import com.gisgraphy.servlet.GisgraphyServlet;
 import com.gisgraphy.test.GeolocTestHelper;
 
-public class FulltextQueryTest extends AbstractIntegrationHttpSolrTestCase {
+public class FulltextQueryTest {
 
-    @Resource
-    private ICountryDao countryDao;
 
     @Test
     public void testFulltextQueryStringPaginationOutputClassOfQextendsGisFeature() {
@@ -69,7 +74,7 @@ public class FulltextQueryTest extends AbstractIntegrationHttpSolrTestCase {
 		output, ONLY_ADM_PLACETYPE, "fr");
 	assertEquals(pagination, fulltextQuery.getPagination());
 	assertEquals(output, fulltextQuery.getOutput());
-	assertEquals(ONLY_ADM_PLACETYPE, fulltextQuery.getPlaceType());
+	Assert.assertArrayEquals(ONLY_ADM_PLACETYPE, fulltextQuery.getPlaceType());
 	assertEquals("text", fulltextQuery.getQuery());
 	assertTrue(fulltextQuery.isOutputIndented());
 	assertEquals("fr", fulltextQuery.getCountryCode());
@@ -206,9 +211,6 @@ public class FulltextQueryTest extends AbstractIntegrationHttpSolrTestCase {
     @Test
     public void testToQueryStringShouldreturnCorrectParamsForBasicQuery() {
 	Country france = GeolocTestHelper.createCountryForFrance();
-	Country saved = countryDao.save(france);
-	assertNotNull(saved);
-	assertNotNull(saved.getId());
 	Pagination pagination = paginate().from(3).to(10);
 	Output output = Output.withFormat(OutputFormat.JSON).withLanguageCode(
 		"FR").withStyle(OutputStyle.SHORT).withIndentation();
@@ -244,10 +246,6 @@ public class FulltextQueryTest extends AbstractIntegrationHttpSolrTestCase {
     
     @Test
     public void testToQueryStringShouldreturnCorrectParamsForBasicNumericQuery() {
-	Country france = GeolocTestHelper.createCountryForFrance();
-	Country saved = countryDao.save(france);
-	assertNotNull(saved);
-	assertNotNull(saved.getId());
 	Pagination pagination = paginate().from(3).to(10);
 	Output output = Output.withFormat(OutputFormat.JSON).withLanguageCode(
 		"FR").withStyle(OutputStyle.SHORT).withIndentation();
@@ -287,10 +285,6 @@ public class FulltextQueryTest extends AbstractIntegrationHttpSolrTestCase {
     
     @Test
     public void testToQueryStringShouldreturnCorrectParamsForAdvancedNumericQuery() {
-	Country france = GeolocTestHelper.createCountryForFrance();
-	Country saved = countryDao.save(france);
-	assertNotNull(saved);
-	assertNotNull(saved.getId());
 	Pagination pagination = paginate().from(3).to(10);
 	    Output output = Output.withFormat(OutputFormat.JSON)
 		    .withLanguageCode("FR").withStyle(OutputStyle.SHORT)
@@ -339,10 +333,6 @@ public class FulltextQueryTest extends AbstractIntegrationHttpSolrTestCase {
     
     @Test
     public void testToQueryStringShouldreturnCorrectParamsForAdvancedNonNumeric() {
-	Country france = GeolocTestHelper.createCountryForFrance();
-	Country saved = countryDao.save(france);
-	assertNotNull(saved);
-	assertNotNull(saved.getId());
 	Pagination pagination = paginate().from(3).to(10);
 	Output output = Output.withFormat(OutputFormat.JSON).withLanguageCode(
 		"FR").withStyle(OutputStyle.SHORT).withIndentation();
@@ -387,10 +377,6 @@ public class FulltextQueryTest extends AbstractIntegrationHttpSolrTestCase {
 
     @Test
     public void testToQueryStringShouldreturnCorrectParamsForGeoRSS() {
-	Country france = GeolocTestHelper.createCountryForFrance();
-	Country saved = countryDao.save(france);
-	assertNotNull(saved);
-	assertNotNull(saved.getId());
 	Pagination pagination = paginate().from(3).to(10);
 	Output output = Output.withFormat(OutputFormat.GEORSS)
 		.withLanguageCode("FR").withStyle(OutputStyle.SHORT)
@@ -431,10 +417,6 @@ public class FulltextQueryTest extends AbstractIntegrationHttpSolrTestCase {
 
     @Test
     public void testToQueryStringShouldreturnCorrectParamsForAtom() {
-	Country france = GeolocTestHelper.createCountryForFrance();
-	Country saved = countryDao.save(france);
-	assertNotNull(saved);
-	assertNotNull(saved.getId());
 	Pagination pagination = paginate().from(3).to(10);
 	Output output = Output.withFormat(OutputFormat.ATOM).withLanguageCode(
 		"FR").withStyle(OutputStyle.SHORT).withIndentation();
@@ -476,10 +458,6 @@ public class FulltextQueryTest extends AbstractIntegrationHttpSolrTestCase {
     public void testToQueryStringShouldreturnCorrectParamsForSpellChecking() {
     	boolean savedSpellCheckingValue = SpellCheckerConfig.activeByDefault;
     	try {
-    	Country france = GeolocTestHelper.createCountryForFrance();
-	Country saved = countryDao.save(france);
-	assertNotNull(saved);
-	assertNotNull(saved.getId());
 	SpellCheckerConfig.activeByDefault= true;
 	SpellCheckerConfig.enabled = false;
 	Pagination pagination = paginate().from(3).to(10);
