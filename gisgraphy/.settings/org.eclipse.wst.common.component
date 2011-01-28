@@ -15,7 +15,7 @@
     <dependent-module deploy-path="/WEB-INF/lib" handle="module:/classpath/var/M2_REPO/cglib/cglib-nodep/2.1_3/cglib-nodep-2.1_3.jar">
       <dependency-type>uses</dependency-type>
     </dependent-module>
-    <dependent-module deploy-path="/WEB-INF/lib" handle="module:/classpath/var/M2_REPO/com/gisgraphy/universalserializer/1.0/universalserializer-1.0.jar">
+    <dependent-module deploy-path="/WEB-INF/lib" handle="module:/classpath/var/M2_REPO/com/gisgraphy/universalserialiser/1.0/universalserialiser-1.0.jar">
       <dependency-type>uses</dependency-type>
     </dependent-module>
     <dependent-module deploy-path="/WEB-INF/lib" handle="module:/classpath/var/M2_REPO/javax/xml/bind/jaxb-api/2.1/jaxb-api-2.1.jar">

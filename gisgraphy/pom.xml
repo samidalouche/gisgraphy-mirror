@@ -537,7 +537,7 @@
 		</dependency>
 		<dependency>
 			<groupId>com.gisgraphy</groupId>
-			<artifactId>universalserializer</artifactId>
+			<artifactId>universalserialiser</artifactId>
 			<version>1.0</version>
 		</dependency>
 		<dependency>
