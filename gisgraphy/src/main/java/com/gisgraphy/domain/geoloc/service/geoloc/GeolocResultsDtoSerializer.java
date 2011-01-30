@@ -35,7 +35,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.gisgraphy.domain.geoloc.service.ServiceException;
-import com.gisgraphy.domain.geoloc.service.errors.UnsupportedFormatException;
 import com.gisgraphy.domain.valueobject.Constants;
 import com.gisgraphy.domain.valueobject.GeolocResultsDto;
 import com.gisgraphy.domain.valueobject.GisFeatureDistance;
@@ -44,6 +43,7 @@ import com.gisgraphy.domain.valueobject.OutputFormatHelper;
 import com.gisgraphy.domain.valueobject.Pagination;
 import com.gisgraphy.serializer.OutputFormat;
 import com.gisgraphy.serializer.UniversalSerializer;
+import com.gisgraphy.serializer.exception.UnsupportedFormatException;
 import com.sun.syndication.feed.module.georss.GeoRSSModule;
 import com.sun.syndication.feed.module.georss.gml.GMLModuleImpl;
 import com.sun.syndication.feed.module.opensearch.OpenSearchModule;

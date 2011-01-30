@@ -31,10 +31,10 @@ import java.util.Map;
 
 import org.junit.Test;
 
-import com.gisgraphy.domain.geoloc.service.errors.UnsupportedFormatException;
 import com.gisgraphy.domain.valueobject.Constants;
 import com.gisgraphy.domain.valueobject.StreetSearchResultsDto;
 import com.gisgraphy.serializer.OutputFormat;
+import com.gisgraphy.serializer.exception.UnsupportedFormatException;
 import com.gisgraphy.test.FeedChecker;
 import com.gisgraphy.test.GeolocTestHelper;
 

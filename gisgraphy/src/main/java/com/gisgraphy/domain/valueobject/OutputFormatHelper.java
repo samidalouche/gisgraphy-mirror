@@ -2,8 +2,8 @@ package com.gisgraphy.domain.valueobject;
 
 import org.apache.commons.lang.NotImplementedException;
 
-import com.gisgraphy.domain.geoloc.service.errors.UnsupportedFormatException;
 import com.gisgraphy.serializer.OutputFormat;
+import com.gisgraphy.serializer.exception.UnsupportedFormatException;
 
 public class OutputFormatHelper {
 
