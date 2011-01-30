@@ -40,6 +40,7 @@ import org.apache.commons.httpclient.methods.StringRequestEntity;
 import org.apache.commons.httpclient.params.HttpClientParams;
 
 import com.gisgraphy.serializer.OutputFormat;
+import com.gisgraphy.serializer.SerializerException;
 import com.gisgraphy.serializer.UniversalSerializer;
 
 /**
@@ -55,13 +56,16 @@ public class RestClient implements IRestClient {
 
 
     /**
-     * Default constructor needed by cglib and spring
+     * Default constructor 
      */
     @SuppressWarnings("unused")
-    private RestClient() {
-	super();
+    public RestClient() {
+    	this(new MultiThreadedHttpConnectionManager());
     }
 
+    /**
+    
+    
     /**
      * @param multiThreadedHttpConnectionManager
      *                The
@@ -93,10 +97,21 @@ public class RestClient implements IRestClient {
      */
     public <T> T get(String url,Class<T> classToBeBound, OutputFormat format) throws RestClientException {
 	if(url==null){throw new RestClientException("Can not call a null url");}
-	if(classToBeBound==null){throw new RestClientException("Can not bound a null class");}
-	  InputStream inputStream = executeMethod(new GetMethod(url));
-	   T obj = UniversalSerializer.getInstance().read(inputStream, classToBeBound, format);
-	   return obj;
+	 GetMethod getMethod = null;
+	try {
+		if(classToBeBound==null){throw new RestClientException("Can not bound a null class");}
+		  getMethod = new GetMethod(url);
+		InputStream inputStream = executeMethod(getMethod);
+		   T obj = UniversalSerializer.getInstance().read(inputStream, classToBeBound, format);
+		   return obj;
+	} catch (SerializerException e ){
+		throw new RestClientException("an error occured during de-serialization of the http stream "+e.getMessage(),e);
+	}
+	finally{
+		if (getMethod !=null){
+			getMethod.releaseConnection();
+		}
+	}
 	  
 	  
     }
@@ -111,9 +126,7 @@ public class RestClient implements IRestClient {
 	    throw new RestClientException(statusCode, e.getMessage());
 	} catch (IOException e) {
 	    throw new RestClientException(statusCode, e.getMessage());
-	} finally {
-	    httpMethod.releaseConnection();
-	}
+	} 
     }
   
     

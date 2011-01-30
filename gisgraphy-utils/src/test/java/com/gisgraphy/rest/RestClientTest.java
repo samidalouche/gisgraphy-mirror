@@ -4,8 +4,10 @@ import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.nio.charset.Charset;
 
+import org.apache.commons.httpclient.MultiThreadedHttpConnectionManager;
 import org.junit.Assert;
 import org.junit.Test;
+import org.mortbay.jetty.LocalConnector;
 import org.mortbay.jetty.testing.HttpTester;
 import org.mortbay.jetty.testing.ServletTester;
 
@@ -21,15 +23,12 @@ public class RestClientTest {
 	@Test
 	public void getWithStatusOK() throws Exception {
 		ServletTester servletTester = new ServletTester();
+		String url = servletTester.createSocketConnector(true);
+		System.out.println(url);
 		servletTester.addServlet(MockServlet.class, "/*");
 		servletTester.start();
-		String responseString = servletTester.getResponses("GET /test HTTP/1.0\r\n\r\n");
-		final HttpTester response = new HttpTester();
-		response.parse(responseString);
-		String content = response.getContent();
-		System.out.println(content);
-		InputStream inputStream = new ByteArrayInputStream(content.getBytes("UTF-8"));
-		BeanForTest beanForTestActual = UniversalSerializer.getInstance().read(inputStream, BeanForTest.class, OutputFormat.JSON);
+		RestClient restClient = new RestClient();
+		BeanForTest beanForTestActual =  restClient.get(url+"/test",BeanForTest.class, OutputFormat.JSON);
 		Assert.assertEquals(beanForTest, beanForTestActual);
 
 	}
