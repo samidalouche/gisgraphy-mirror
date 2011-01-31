@@ -1181,6 +1181,11 @@
 			<artifactId>velocity</artifactId>
 			<version>${velocity.version}</version>
 		</dependency>
+		<dependency>
+			<groupId>com.gisgraphy</groupId>
+			<artifactId>gisgraphy-utils</artifactId>
+			<version>1.0</version>
+		</dependency>
 	</dependencies>
 
 	<reporting>
