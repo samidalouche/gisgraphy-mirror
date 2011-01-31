@@ -26,6 +26,7 @@ import static java.lang.String.format;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.Map;
 
 import org.apache.commons.httpclient.HttpClient;
@@ -50,126 +51,152 @@ import com.gisgraphy.serializer.UniversalSerializer;
  */
 public class RestClient implements IRestClient {
 
+	private HttpClient httpClient;
 
-    private HttpClient httpClient;
+	/**
+	 * Default constructor 
+	 */
+	@SuppressWarnings("unused")
+	public RestClient() {
+		this(new MultiThreadedHttpConnectionManager());
+	}
 
-
-
-    /**
-     * Default constructor 
-     */
-    @SuppressWarnings("unused")
-    public RestClient() {
-    	this(new MultiThreadedHttpConnectionManager());
-    }
-
-    /**
-    
-    
-    /**
-     * @param multiThreadedHttpConnectionManager
-     *                The
-     * @link {@link MultiThreadedHttpConnectionManager} that the fulltext search
-     *       engine will use
-     * @throws FullTextSearchException
-     *                 If an error occured
-     */
-    public RestClient(
-	    MultiThreadedHttpConnectionManager multiThreadedHttpConnectionManager)
-	    throws RestClientException {
-	if (multiThreadedHttpConnectionManager == null){ throw new RestClientException("multiThreadedHttpConnectionManager can not be null");}
-	this.httpClient = new HttpClient(multiThreadedHttpConnectionManager);
-	HttpClientParams httpClientParams = new HttpClientParams();
-	httpClientParams.setHttpElementCharset("utf8");
-	httpClientParams.setConnectionManagerTimeout(15000);
-	httpClient.setParams(httpClientParams);
+	/**
 	
-	if (this.httpClient == null) {
-	    throw new RestClientException(
-		    "Can not instanciate http client with multiThreadedHttpConnectionManager : "
-			    + multiThreadedHttpConnectionManager);
-	}
-    }
+	
+	/**
+	 * @param multiThreadedHttpConnectionManager
+	 *                The
+	 * @link {@link MultiThreadedHttpConnectionManager} that the fulltext search
+	 *       engine will use
+	 * @throws FullTextSearchException
+	 *                 If an error occured
+	 */
+	public RestClient(MultiThreadedHttpConnectionManager multiThreadedHttpConnectionManager) throws RestClientException {
+		if (multiThreadedHttpConnectionManager == null) {
+			throw new RestClientException("multiThreadedHttpConnectionManager can not be null");
+		}
+		this.httpClient = new HttpClient(multiThreadedHttpConnectionManager);
+		HttpClientParams httpClientParams = new HttpClientParams();
+		httpClientParams.setHttpElementCharset("utf8");
+		httpClientParams.setConnectionManagerTimeout(15000);
+		httpClient.setParams(httpClientParams);
 
-  
-    /* (non-Javadoc)
-     * @see com.gisgraphy.rest.IRestClient#get(java.lang.String, java.lang.Class, com.gisgraphy.serializer.OutputFormat)
-     */
-    public <T> T get(String url,Class<T> classToBeBound, OutputFormat format) throws RestClientException {
-	if(url==null){throw new RestClientException("Can not call a null url");}
-	 GetMethod getMethod = null;
-	try {
-		if(classToBeBound==null){throw new RestClientException("Can not bound a null class");}
-		  getMethod = new GetMethod(url);
-		InputStream inputStream = executeMethod(getMethod);
-		   T obj = UniversalSerializer.getInstance().read(inputStream, classToBeBound, format);
-		   return obj;
-	} catch (SerializerException e ){
-		throw new RestClientException("an error occured during de-serialization of the http stream "+e.getMessage(),e);
-	}
-	finally{
-		if (getMethod !=null){
-			getMethod.releaseConnection();
+		if (this.httpClient == null) {
+			throw new RestClientException("Can not instanciate http client with multiThreadedHttpConnectionManager : " + multiThreadedHttpConnectionManager);
 		}
 	}
-	  
-	  
-    }
-    
-    private InputStream executeMethod(HttpMethod httpMethod)
-    throws RestClientException {
-	int statusCode = -1;
-	try {
-	    statusCode = executeAndCheckStatusCode(httpMethod);
-	    return httpMethod.getResponseBodyAsStream();
-	} catch (HttpException e) {
-	    throw new RestClientException(statusCode, e.getMessage());
-	} catch (IOException e) {
-	    throw new RestClientException(statusCode, e.getMessage());
-	} 
-    }
-  
-    
-    private int executeAndCheckStatusCode(HttpMethod httpMethod) throws IOException,
-    HttpException, RestClientException {
-	int statusCode = httpClient.executeMethod(httpMethod);
-	if (statusCode != HttpStatus.SC_OK && statusCode != HttpStatus.SC_CREATED && statusCode != HttpStatus.SC_NO_CONTENT) {
-	    throw new RestClientException(statusCode, HttpStatus.getStatusText(statusCode));
-	}
-	return statusCode;
-    }
-    
-    private HttpMethod createPostMethod(String url, Map<String, Object> map) throws RestClientException {
-	PostMethod httpMethod = new PostMethod(url);
 
-	if(map!=null) {
-	    for(String key : map.keySet()) {
-		if(map.get(key)!=null) {
-		    httpMethod.addParameter(key, map.get(key).toString());
+	/* (non-Javadoc)
+	 * @see com.gisgraphy.rest.IRestClient#get(java.lang.String, java.lang.Class, com.gisgraphy.serializer.OutputFormat)
+	 */
+	public <T> T get(String url, Class<T> classToBeBound, OutputFormat format) throws RestClientException {
+		if (url == null) {
+			throw new RestClientException("Can not call a null url");
 		}
-	    }
-	}
-
-	httpMethod.setRequestHeader( "Content-Type", "application/x-www-form-urlencoded; charset=UTF-8" );
-
-	return httpMethod;
-    }
-
-    private HttpMethod createPutMethod(String url, Map<String, Object> map) throws RestClientException {
-	PutMethod httpMethod = new PutMethod(url);
-	StringBuilder responseBody = new StringBuilder();
-	if(map!=null) {
-	    for(String key : map.keySet()) {
-		if(map.get(key)!=null) {
-		    responseBody.append(format("%s=%s\n", key, map.get(key).toString()));
+		GetMethod getMethod = null;
+		try {
+			if (classToBeBound == null) {
+				throw new RestClientException("Can not bound a null class");
+			}
+			getMethod = new GetMethod(url);
+			InputStream inputStream = executeMethod(getMethod);
+			T obj = UniversalSerializer.getInstance().read(inputStream, classToBeBound, format);
+			return obj;
+		} catch (SerializerException e) {
+			throw new RestClientException("an error occured during de-serialization of the http stream " + e.getMessage(), e);
+		} finally {
+			if (getMethod != null) {
+				getMethod.releaseConnection();
+			}
 		}
-	    }
-	}
-	String responseBodyAsString = responseBody.toString();
 
-	httpMethod.setRequestEntity(new StringRequestEntity(responseBodyAsString.substring(0, responseBody.length())));
-	httpMethod.setRequestHeader( "Content-Type", "application/x-www-form-urlencoded; charset=UTF-8" );
-	return httpMethod;
-    }
+	}
+	
+	public void get(String url, OutputStream outputStream, OutputFormat format) throws RestClientException {
+		if (url == null) {
+			throw new RestClientException("Can not call a null url");
+		}
+		GetMethod getMethod = null;
+		try {
+			if (outputStream == null) {
+				throw new RestClientException("Can not serialize in a null outputStream");
+			}
+			getMethod = new GetMethod(url);
+			InputStream inputStream = executeMethod(getMethod);
+			 int numRead;
+			 byte[] buf =new byte[256];
+		      while ( (numRead = inputStream.read(buf) ) >= 0) {
+		          outputStream.write(buf, 0, numRead);
+		      }
+		} catch (IOException e) {
+			throw new RestClientException("An error occured during writing of the stream" + e.getMessage(), e);
+		} finally {
+			if (getMethod != null) {
+				getMethod.releaseConnection();
+			}
+			try {
+				outputStream.flush();
+				outputStream.close();
+			} catch (IOException e) {
+			}
+		}
+
+	}
+
+	private InputStream executeMethod(HttpMethod httpMethod) throws RestClientException {
+		int statusCode = -1;
+		try {
+			statusCode = executeAndCheckStatusCode(httpMethod);
+			return httpMethod.getResponseBodyAsStream();
+		} catch (HttpException e) {
+			throw new RestClientException(statusCode, e.getMessage());
+		} catch (IOException e) {
+			throw new RestClientException(statusCode, e.getMessage());
+		}
+	}
+
+	private int executeAndCheckStatusCode(HttpMethod httpMethod) throws IOException, HttpException, RestClientException {
+		int statusCode = httpClient.executeMethod(httpMethod);
+		if (statusCode != HttpStatus.SC_OK && statusCode != HttpStatus.SC_CREATED && statusCode != HttpStatus.SC_NO_CONTENT) {
+			throw new RestClientException(statusCode, HttpStatus.getStatusText(statusCode));
+		}
+		return statusCode;
+	}
+
+	private HttpMethod createPostMethod(String url, Map<String, Object> map) throws RestClientException {
+		PostMethod httpMethod = new PostMethod(url);
+
+		if (map != null) {
+			for (String key : map.keySet()) {
+				if (map.get(key) != null) {
+					httpMethod.addParameter(key, map.get(key).toString());
+				}
+			}
+		}
+
+		httpMethod.setRequestHeader("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8");
+
+		return httpMethod;
+	}
+
+	private HttpMethod createPutMethod(String url, Map<String, Object> map) throws RestClientException {
+		PutMethod httpMethod = new PutMethod(url);
+		StringBuilder responseBody = new StringBuilder();
+		if (map != null) {
+			for (String key : map.keySet()) {
+				if (map.get(key) != null) {
+					responseBody.append(format("%s=%s\n", key, map.get(key).toString()));
+				}
+			}
+		}
+		String responseBodyAsString = responseBody.toString();
+
+		httpMethod.setRequestEntity(new StringRequestEntity(responseBodyAsString.substring(0, responseBody.length())));
+		httpMethod.setRequestHeader("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8");
+		return httpMethod;
+	}
+
+	
 
 }
