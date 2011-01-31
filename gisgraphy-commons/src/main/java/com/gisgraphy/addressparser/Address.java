@@ -5,7 +5,7 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 
 
-@XmlRootElement(name = Constants.Address_ROOT_JAXB_NAME)
+@XmlRootElement(name = Constants.ADDRESS_ROOT_JAXB_NAME)
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Address {
 

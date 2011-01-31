@@ -10,13 +10,11 @@ public interface IAddressParserService {
      * Execute the query. It is thread safe
      * 
      * @param query
-     *                the query to execute
-     * @param outputStream
-     *                the outputstream we want to serialize in
-     * @throws ServiceException
+     *                The query to execute
+     * @throws AddressParserException
      *                 If an error occurred
      */
-    public Address execute(AddressParserQuery query)
+    public AddressResultsDto execute(AddressParserQuery query)
 	    throws AddressParserException;
     
     /**
@@ -27,7 +25,7 @@ public interface IAddressParserService {
      *                the query to execute
      * @param outputStream
      *                the outputstream we want to serialize in
-     * @throws ServiceException
+     * @throws AddressParserException
      *                 If an error occurred
      */
     public void executeAndSerialize(AddressParserQuery query, OutputStream outputStream)
@@ -38,7 +36,7 @@ public interface IAddressParserService {
      * 
      * @param query
      *                the query to execute
-     * @throws ServiceException
+     * @throws AddressParserException
      *                 If an error occurred
      */
     public String executeQueryToString(AddressParserQuery query) throws AddressParserException;
