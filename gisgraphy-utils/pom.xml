@@ -84,7 +84,21 @@
 			<version>2.4</version>
 			<scope>provided</scope>
 		</dependency>
-		
+		<dependency>
+		<groupId>com.gisgraphy</groupId>
+	<artifactId>gisgraphy-commons</artifactId>
+	<version>1.0</version>
+	</dependency>
+	<dependency>
+  <groupId>org.slf4j</groupId>
+  <artifactId>slf4j-api</artifactId>
+  <version>1.5.5</version>
+</dependency>
+<dependency>
+  <groupId>org.slf4j</groupId>
+  <artifactId>slf4j-log4j12</artifactId>
+  <version>1.5.5</version>
+</dependency>
 	</dependencies>
 	<build>
 		<plugins>
@@ -99,4 +113,11 @@
 
 		</plugins>
 	</build>
+		<repositories>
+	<!--  Our own repository -->
+		<repository>
+			<id>gisgraphy</id>
+			<url>http://gisgraphy.free.fr/mavenrepo/</url>
+		</repository>
+		</repositories>
 </project>
