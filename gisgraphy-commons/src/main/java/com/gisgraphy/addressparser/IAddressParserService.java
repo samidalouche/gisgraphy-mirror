@@ -14,7 +14,7 @@ public interface IAddressParserService {
      * @throws AddressParserException
      *                 If an error occurred
      */
-    public AddressResultsDto execute(AddressParserQuery query)
+    public AddressResultsDto execute(AddressQuery query)
 	    throws AddressParserException;
     
     /**
@@ -28,7 +28,7 @@ public interface IAddressParserService {
      * @throws AddressParserException
      *                 If an error occurred
      */
-    public void executeAndSerialize(AddressParserQuery query, OutputStream outputStream)
+    public void executeAndSerialize(AddressQuery query, OutputStream outputStream)
 	    throws AddressParserException;
 
     /**
@@ -39,6 +39,6 @@ public interface IAddressParserService {
      * @throws AddressParserException
      *                 If an error occurred
      */
-    public String executeQueryToString(AddressParserQuery query) throws AddressParserException;
+    public String executeQueryToString(AddressQuery query) throws AddressParserException;
 
 }

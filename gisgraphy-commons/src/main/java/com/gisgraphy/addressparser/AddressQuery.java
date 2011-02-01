@@ -4,7 +4,7 @@ package com.gisgraphy.addressparser;
  * @author <a href="mailto:david.masclet@gisgraphy.com">David Masclet</a>
  *
  */
-public class AddressParserQuery {
+public class AddressQuery {
 
     private String Address;
     private String country;
