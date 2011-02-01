@@ -284,15 +284,7 @@ public class Constants {
      */
     public static final String MAIL_ADDRESS = "davidMasclet@gisgraphy.com";
 
-    /**
-     * The name of The User Agent Header
-     */
-    public static final String HTTP_USER_AGENT_HEADER_NAME = "User-Agent";
-
-    /**
-     * The name of the Referer Header
-     */
-    public static final String HTTP_REFERER_HEADER_NAME = "Referer";
+  
     
     
 

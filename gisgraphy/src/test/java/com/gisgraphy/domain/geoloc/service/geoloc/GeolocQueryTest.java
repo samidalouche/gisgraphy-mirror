@@ -31,14 +31,11 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
-import junit.framework.TestCase;
 
 import org.junit.Assert;
 import org.junit.Test;
-import org.springframework.mock.web.MockHttpServletRequest;
 
 import com.gisgraphy.domain.geoloc.entity.Adm;
-import com.gisgraphy.domain.geoloc.entity.City;
 import com.gisgraphy.domain.geoloc.entity.Country;
 import com.gisgraphy.domain.geoloc.entity.GisFeature;
 import com.gisgraphy.domain.valueobject.GisgraphyConfig;
@@ -47,9 +44,6 @@ import com.gisgraphy.domain.valueobject.Pagination;
 import com.gisgraphy.domain.valueobject.Output.OutputStyle;
 import com.gisgraphy.helper.GeolocHelper;
 import com.gisgraphy.serializer.OutputFormat;
-import com.gisgraphy.servlet.GeolocServlet;
-import com.gisgraphy.servlet.GisgraphyServlet;
-import com.gisgraphy.test.GeolocTestHelper;
 import com.vividsolutions.jts.geom.Point;
 
 public class GeolocQueryTest {

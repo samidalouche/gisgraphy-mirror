@@ -44,7 +44,7 @@ import com.gisgraphy.domain.valueobject.GeolocResultsDto;
 import com.gisgraphy.domain.valueobject.GisFeatureDistance;
 import com.gisgraphy.domain.valueobject.GisgraphyConfig;
 import com.gisgraphy.domain.valueobject.GisgraphyServiceType;
-import com.gisgraphy.domain.valueobject.OutputFormatHelper;
+import com.gisgraphy.helper.OutputFormatHelper;
 import com.gisgraphy.servlet.GeolocServlet;
 
 public class GeolocSearchActionTest {

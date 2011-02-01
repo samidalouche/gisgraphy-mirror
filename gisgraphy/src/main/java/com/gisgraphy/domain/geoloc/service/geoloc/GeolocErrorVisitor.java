@@ -135,7 +135,7 @@ public class GeolocErrorVisitor implements IoutputFormatVisitor {
     }
 
     public String visitYAML(OutputFormat format) {
-	return "";
+	return errorMessage;
     }
 
 }

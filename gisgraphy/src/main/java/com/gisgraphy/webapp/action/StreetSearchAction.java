@@ -36,8 +36,8 @@ import com.gisgraphy.domain.geoloc.service.geoloc.StreetSearchQuery;
 import com.gisgraphy.domain.geoloc.service.geoloc.StreetSearchQueryHttpBuilder;
 import com.gisgraphy.domain.geoloc.service.geoloc.street.StreetType;
 import com.gisgraphy.domain.valueobject.GisgraphyServiceType;
-import com.gisgraphy.domain.valueobject.OutputFormatHelper;
 import com.gisgraphy.domain.valueobject.StreetSearchResultsDto;
+import com.gisgraphy.helper.OutputFormatHelper;
 import com.gisgraphy.serializer.OutputFormat;
 
 /**

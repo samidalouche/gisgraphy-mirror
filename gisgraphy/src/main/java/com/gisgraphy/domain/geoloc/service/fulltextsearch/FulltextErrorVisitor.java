@@ -141,7 +141,7 @@ public class FulltextErrorVisitor implements IoutputFormatVisitor {
      * @see com.gisgraphy.domain.geoloc.service.errors.IoutputFormatVisitor#visitUNSUPPORTED(com.gisgraphy.domain.valueobject.Output.OutputFormat)
      */
     public String visitYAML(OutputFormat format) {
-		return "error";
+		return errorMessage;
 	}
     
 

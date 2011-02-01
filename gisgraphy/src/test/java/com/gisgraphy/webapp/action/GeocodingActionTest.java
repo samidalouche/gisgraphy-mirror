@@ -31,7 +31,6 @@ import org.easymock.classextension.EasyMock;
 import org.junit.Assert;
 import org.junit.Test;
 
-import com.gisgraphy.domain.geoloc.entity.City;
 import com.gisgraphy.domain.geoloc.entity.Country;
 import com.gisgraphy.domain.geoloc.service.fulltextsearch.FulltextQuery;
 import com.gisgraphy.domain.geoloc.service.fulltextsearch.IFullTextSearchEngine;

@@ -34,8 +34,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
-import sun.reflect.ReflectionFactory.GetReflectionFactoryAction;
-
 import com.gisgraphy.domain.geoloc.service.fulltextsearch.FulltextErrorVisitor;
 import com.gisgraphy.domain.geoloc.service.fulltextsearch.FulltextQuery;
 import com.gisgraphy.domain.geoloc.service.fulltextsearch.FulltextQueryHttpBuilder;
@@ -124,8 +122,8 @@ public class FulltextServlet extends GisgraphyServlet {
 		logger.debug("query=" + query);
 		logger.debug("fulltext engine=" + fullTextSearchEngine);
 	    }
-	    String UA = req.getHeader(Constants.HTTP_USER_AGENT_HEADER_NAME);
-	    String referer = req.getHeader(Constants.HTTP_REFERER_HEADER_NAME);
+	    String UA = req.getHeader(com.gisgraphy.domain.Constants.HTTP_USER_AGENT_HEADER_NAME);
+	    String referer = req.getHeader(com.gisgraphy.domain.Constants.HTTP_REFERER_HEADER_NAME);
 	    if (logger.isInfoEnabled()){
 		logger.info("A fulltext request from "+req.getRemoteHost()+" / "+req.getRemoteAddr()+" was received , Referer : "+referer+" , UA : "+UA);
 	    }

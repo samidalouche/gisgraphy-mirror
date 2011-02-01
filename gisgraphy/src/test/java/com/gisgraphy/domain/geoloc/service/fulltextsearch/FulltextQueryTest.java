@@ -34,32 +34,19 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
-import java.util.Arrays;
 import java.util.HashMap;
-import java.util.List;
-
-import javax.annotation.Resource;
-
-import junit.framework.TestCase;
 
 import org.apache.commons.lang.RandomStringUtils;
 import org.junit.Assert;
 import org.junit.Test;
-import org.springframework.mock.web.MockHttpServletRequest;
 
-import com.gisgraphy.domain.geoloc.entity.Adm;
-import com.gisgraphy.domain.geoloc.entity.City;
 import com.gisgraphy.domain.geoloc.entity.Country;
-import com.gisgraphy.domain.geoloc.entity.GisFeature;
 import com.gisgraphy.domain.geoloc.service.fulltextsearch.spell.SpellCheckerConfig;
-import com.gisgraphy.domain.repository.ICountryDao;
 import com.gisgraphy.domain.valueobject.Constants;
 import com.gisgraphy.domain.valueobject.Output;
 import com.gisgraphy.domain.valueobject.Pagination;
 import com.gisgraphy.domain.valueobject.Output.OutputStyle;
 import com.gisgraphy.serializer.OutputFormat;
-import com.gisgraphy.servlet.FulltextServlet;
-import com.gisgraphy.servlet.GisgraphyServlet;
 import com.gisgraphy.test.GeolocTestHelper;
 
 public class FulltextQueryTest {

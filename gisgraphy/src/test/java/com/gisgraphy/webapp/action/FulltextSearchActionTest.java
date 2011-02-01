@@ -44,9 +44,9 @@ import com.gisgraphy.domain.geoloc.service.fulltextsearch.spell.SpellCheckerConf
 import com.gisgraphy.domain.repository.IAlternateNameDao;
 import com.gisgraphy.domain.valueobject.FulltextResultsDto;
 import com.gisgraphy.domain.valueobject.GisgraphyServiceType;
-import com.gisgraphy.domain.valueobject.OutputFormatHelper;
 import com.gisgraphy.domain.valueobject.SolrResponseDto;
 import com.gisgraphy.domain.valueobject.Output.OutputStyle;
+import com.gisgraphy.helper.OutputFormatHelper;
 
 public class FulltextSearchActionTest {
 

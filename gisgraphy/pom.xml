@@ -488,6 +488,11 @@
 	</pluginRepositories>
 	<!-- Dependencies calculated by AppFuse when running full-source plugin -->
 	<dependencies>
+	<dependency>
+	<groupId>com.gisgraphy</groupId>
+	<artifactId>gisgraphy-commons</artifactId>
+	<version>1.0</version>
+	</dependency>
 		<dependency>
 			<groupId>${jdbc.groupId}</groupId>
 			<artifactId>${jdbc.artifactId}</artifactId>

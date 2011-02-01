@@ -60,7 +60,6 @@ import com.gisgraphy.servlet.GisgraphyServlet;
  * @see IFullTextSearchEngine
  * @author <a href="mailto:david.masclet@gisgraphy.com">David Masclet</a>
  */
-@Component
 public class FulltextQueryHttpBuilder {
 	
 	
