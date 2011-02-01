@@ -1,5 +1,7 @@
 package com.gisgraphy.addressparser;
 
+import com.gisgraphy.serializer.OutputFormat;
+
 /**
  * @author <a href="mailto:david.masclet@gisgraphy.com">David Masclet</a>
  *
@@ -8,8 +10,15 @@ public class AddressQuery {
 
     private String Address;
     private String country;
+    private OutputFormat outputFormat;
     
-    public String getAddress() {
+	public OutputFormat getOutputFormat() {
+		return outputFormat;
+	}
+	public void setOutputFormat(OutputFormat outputFormat) {
+		this.outputFormat = outputFormat;
+	}
+	public String getAddress() {
         return Address;
     }
     public void setAddress(String address) {
