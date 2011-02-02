@@ -39,6 +39,6 @@ public interface IAddressParserService {
      * @throws AddressParserException
      *                 If an error occurred
      */
-    public String executeQueryToString(AddressQuery query) throws AddressParserException;
+    public String executeToString(AddressQuery query) throws AddressParserException;
 
 }
