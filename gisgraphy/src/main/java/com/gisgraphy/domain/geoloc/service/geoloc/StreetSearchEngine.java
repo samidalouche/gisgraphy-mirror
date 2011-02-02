@@ -27,6 +27,7 @@ package com.gisgraphy.domain.geoloc.service.geoloc;
 
 import java.io.ByteArrayOutputStream;
 import java.io.OutputStream;
+import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -40,6 +41,7 @@ import org.springframework.util.Assert;
 
 import com.gisgraphy.domain.geoloc.service.ServiceException;
 import com.gisgraphy.domain.repository.IOpenStreetMapDao;
+import com.gisgraphy.domain.valueobject.Constants;
 import com.gisgraphy.domain.valueobject.StreetDistance;
 import com.gisgraphy.domain.valueobject.StreetSearchResultsDto;
 import com.gisgraphy.serializer.UniversalSerializerConstant;
@@ -119,7 +121,11 @@ public class StreetSearchEngine implements IStreetSearchEngine {
 	    throws ServiceException {
 	ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
 	executeAndSerialize(query, outputStream);
-	return outputStream.toString();
+	try {
+	    return outputStream.toString(Constants.CHARSET);
+	} catch (UnsupportedEncodingException e) {
+	   throw new StreetSearchException("unsupported encoding "+Constants.CHARSET);
+	}
     }
 
 }

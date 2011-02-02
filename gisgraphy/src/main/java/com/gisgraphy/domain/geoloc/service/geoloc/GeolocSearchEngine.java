@@ -27,6 +27,7 @@ package com.gisgraphy.domain.geoloc.service.geoloc;
 
 import java.io.ByteArrayOutputStream;
 import java.io.OutputStream;
+import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -42,6 +43,7 @@ import com.gisgraphy.domain.geoloc.entity.GisFeature;
 import com.gisgraphy.domain.geoloc.service.ServiceException;
 import com.gisgraphy.domain.repository.IGisDao;
 import com.gisgraphy.domain.repository.IRepositoryStrategy;
+import com.gisgraphy.domain.valueobject.Constants;
 import com.gisgraphy.domain.valueobject.GeolocResultsDto;
 import com.gisgraphy.domain.valueobject.GisFeatureDistance;
 import com.gisgraphy.serializer.UniversalSerializerConstant;
@@ -135,7 +137,11 @@ public class GeolocSearchEngine implements IGeolocSearchEngine {
 	    throws ServiceException {
 	ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
 	executeAndSerialize(query, outputStream);
-	return outputStream.toString();
+	try {
+	    return outputStream.toString(Constants.CHARSET);
+	} catch (UnsupportedEncodingException e) {
+	    throw new RuntimeException("unknow encoding "+Constants.CHARSET);
+	}
     }
 
 }
