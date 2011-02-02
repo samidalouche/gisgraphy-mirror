@@ -22,6 +22,22 @@ public class AddressResultsDtoTest {
 	}
 	
 	@Test
+	public void equalsShouldBeTrueIfAddressAreEquals(){
+		Address address = new Address();
+		address.setCity("city");
+		List<Address> list = new ArrayList<Address>();
+		list.add(address);
+		Long qtime = 234L;
+		AddressResultsDto dto = new AddressResultsDto(list,qtime );
+		AddressResultsDto otherDto = new AddressResultsDto(list,4L );
+		Assert.assertEquals(dto, otherDto);
+		
+		List<Address> otherList = new ArrayList<Address>();
+		AddressResultsDto otherDtoNotEquals = new AddressResultsDto(otherList,4L );
+		Assert.assertFalse(dto.equals(otherDtoNotEquals));
+	}
+	
+	@Test
 	public void constructorWithNullList(){
 		Long qtime = 234L;
 		AddressResultsDto dto = new AddressResultsDto(null,qtime );

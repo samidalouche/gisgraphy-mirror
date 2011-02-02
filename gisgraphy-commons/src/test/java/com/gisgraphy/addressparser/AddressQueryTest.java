@@ -11,15 +11,41 @@ public class AddressQueryTest {
     
     @Test
     public void toStringWithNullProperty(){
-	AddressQuery query =new AddressQuery();
+	AddressQuery query =new AddressQuery("address","countrycode");
 	query.toString();
     }
     
     @Test
+    public void constructorWithFields(){
+    	AddressQuery query =new AddressQuery("address","countrycode");
+	Assert.assertEquals("address",query.getAddress());
+	Assert.assertEquals("countrycode",query.getCountry());
+    }
+    
+    @Test(expected=IllegalArgumentException.class)
+    public void constructorWithNullAddress(){
+    	new AddressQuery(null,"countrycode");
+    }
+    
+    @Test(expected=IllegalArgumentException.class)
+    public void constructorWithEmptyAddress(){
+    	new AddressQuery(" ","countrycode");
+    }
+    
+    
+    @Test(expected=IllegalArgumentException.class)
+    public void constructorWithNullCountrycode(){
+    	new AddressQuery("address",null);
+    }
+    
+    @Test(expected=IllegalArgumentException.class)
+    public void constructorWithEmptyCountrycode(){
+    	new AddressQuery("address"," ");
+    }
+    
+    @Test
     public void toStringShouldContainsAllData(){
-	AddressQuery query =new AddressQuery();
-	query.setAddress("foo");
-	query.setCountry("bar");
+    AddressQuery query =new AddressQuery("foo","bar");
 	query.setOutputFormat(OutputFormat.XML);
 	query.setIndent(true);
 	query.setCallback("callfoo");
@@ -29,6 +55,12 @@ public class AddressQueryTest {
 	Assert.assertTrue(toString.contains("XML"));
 	Assert.assertTrue(toString.contains("true"));
 	Assert.assertTrue(toString.contains("callfoo"));
+    }
+    
+    @Test
+    public void defaultOutputFormat(){
+    AddressQuery query =new AddressQuery("foo","bar");
+   Assert.assertEquals(OutputFormat.getDefault(), query.getOutputFormat());
     }
 
 }
