@@ -22,14 +22,13 @@
  *******************************************************************************/
 package com.gisgraphy.domain.geoloc.service.geoloc;
 
-import javax.servlet.http.HttpServletRequest;
-
 import com.gisgraphy.domain.geoloc.entity.GisFeature;
 import com.gisgraphy.domain.geoloc.service.fulltextsearch.StreetSearchMode;
 import com.gisgraphy.domain.geoloc.service.geoloc.street.StreetType;
 import com.gisgraphy.domain.valueobject.Output;
 import com.gisgraphy.domain.valueobject.Pagination;
 import com.gisgraphy.servlet.StreetServlet;
+import com.gisgraphy.street.service.exception.StreetSearchException;
 import com.vividsolutions.jts.geom.Point;
 
 /**

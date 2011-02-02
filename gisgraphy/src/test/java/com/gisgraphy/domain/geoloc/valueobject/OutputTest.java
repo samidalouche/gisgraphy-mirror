@@ -26,7 +26,6 @@
 package com.gisgraphy.domain.geoloc.valueobject;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -99,94 +98,6 @@ public class OutputTest  {
 	assertEquals(false, Output.DEFAULT_OUTPUT.isIndented());
     }
 
-    @Test
-    public void outputStyleGetFieldListForShortShouldBeCorrect() {
-	String list = OutputStyle.SHORT.getFieldList(null);
-	assertEquals("The field list has a wrong size for SHORT :" + list, 8,
-		list.split(",").length);
-	assertFalse(
-		"The field list for SHORT must not contains ',,' : " + list,
-		list.contains(",,"));
-	assertFalse(
-		"The field list for SHORT must not ends with ',' : " + list,
-		list.endsWith(","));
-	list = OutputStyle.SHORT.getFieldList("fr");
-	assertEquals(
-		"The field list for SHORT should not be different for a specified country:"
-			+ list, 8, list.split(",").length);
-	assertFalse(
-		"The field list for SHORT must not ends with ',' : " + list,
-		list.endsWith(","));
-
-    }
-
-    @Test
-    public void outputStyleGetFieldListForMediumShouldBeCorrect() {
-	String list = OutputStyle.MEDIUM.getFieldList(null);
-	assertEquals("The field list has a wrong size for MEDIUM :" + list, 34,
-		list.split(",").length);
-	assertFalse("The field list for MEDIUM must not contains ',,' : "
-		+ list, list.contains(",,"));
-	assertFalse("The field list for MEDIUM must not ends with ',' : "
-		+ list, list.endsWith(","));
-	list = OutputStyle.MEDIUM.getFieldList("fr");
-	assertEquals(
-		"The field list for MEDIUM should not be different for a specified country : "
-			+ list, 34, list.split(",").length);
-	assertFalse("The field list for MEDIUM must not ends with ',' : "
-		+ list, list.endsWith(","));
-
-    }
-
-    @Test
-    public void outputStyleGetFieldListForLongShouldBeCorrect() {
-	String list = OutputStyle.LONG.getFieldList(null);
-	assertEquals("The field list has a wrong size for LONG :" + list, 42,
-		list.split(",").length);
-	assertFalse("The field list for LONG must not contains ',,' : " + list,
-		list.contains(",,"));
-	assertFalse("The field list for LONG must not ends with ',' : " + list,
-		list.endsWith(","));
-	list = OutputStyle.LONG.getFieldList("fr");
-	assertEquals(
-		"The field list for LONG should not be different for a specified country : "
-			+ list, 42, list.split(",").length);
-	assertFalse("The field list for LONG must not ends with ',' : " + list,
-		list.endsWith(","));
-
-    }
-
-    @Test
-    public void outputStyleGetFieldListForFullShouldBeCorrect() {
-	String list = OutputStyle.FULL.getFieldList(null);
-	assertEquals(
-		"The field list has a wrong size for FULL without countryCode :"
-			+ list, 2, list.split(",").length);
-	assertFalse("The field list for FULL must not contains ',,' : " + list,
-		list.contains(",,"));
-	assertFalse("The field list for FULL must not ends with ',' : " + list,
-		list.endsWith(","));
-	list = OutputStyle.FULL.getFieldList("fr");
-	assertEquals(
-		"The field list for medium should be different for a specified country :"
-			+ list, 50, list.split(",").length);
-	assertFalse("The field list for FULL must not ends with ',' : " + list,
-		list.endsWith(","));
-
-    }
-
-    @Test
-    public void getFieldListshouldbeConsistant() {
-	assertEquals(OutputStyle.getDefault()
-		.getFieldList(Output.DEFAULT_LANGUAGE_CODE), Output
-		.withDefaultFormat().getFields());
-	// with style
-	assertEquals(OutputStyle.FULL.getFieldList(null), Output
-		.withDefaultFormat().withStyle(OutputStyle.FULL).getFields());
-	// with style and language
-	assertEquals(OutputStyle.FULL.getFieldList("FR"), Output
-		.withDefaultFormat().withStyle(OutputStyle.FULL)
-		.withLanguageCode("FR").getFields());
-    }
+   
 
 }

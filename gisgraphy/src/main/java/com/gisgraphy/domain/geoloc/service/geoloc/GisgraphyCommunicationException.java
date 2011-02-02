@@ -25,7 +25,8 @@
  */
 package com.gisgraphy.domain.geoloc.service.geoloc;
 
-import com.gisgraphy.domain.geoloc.service.ServiceException;
+import com.gisgraphy.service.exception.ServiceException;
+
 
 /**
  * Basic Exception for Communication Exception

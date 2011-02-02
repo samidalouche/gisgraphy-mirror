@@ -43,6 +43,7 @@ import com.gisgraphy.domain.valueobject.Pagination;
 import com.gisgraphy.domain.valueobject.Output.OutputStyle;
 import com.gisgraphy.helper.GeolocHelper;
 import com.gisgraphy.serializer.OutputFormat;
+import com.gisgraphy.street.service.exception.StreetSearchException;
 import com.vividsolutions.jts.geom.Point;
 
 public class StreetSearchQueryTest  {

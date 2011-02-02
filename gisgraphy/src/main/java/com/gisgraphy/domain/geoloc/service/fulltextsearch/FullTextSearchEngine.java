@@ -46,11 +46,12 @@ import org.springframework.beans.factory.annotation.Required;
 import org.springframework.util.Assert;
 
 import com.gisgraphy.domain.geoloc.entity.GisFeature;
-import com.gisgraphy.domain.geoloc.service.ServiceException;
 import com.gisgraphy.domain.repository.GisFeatureDao;
 import com.gisgraphy.domain.valueobject.Constants;
 import com.gisgraphy.domain.valueobject.FulltextResultsDto;
+import com.gisgraphy.fulltext.service.exception.FullTextSearchException;
 import com.gisgraphy.service.IStatsUsageService;
+import com.gisgraphy.service.exception.ServiceException;
 import com.gisgraphy.stats.StatsUsageType;
 
 /**

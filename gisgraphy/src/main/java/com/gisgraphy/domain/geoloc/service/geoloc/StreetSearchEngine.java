@@ -34,19 +34,19 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
-import org.codehaus.jackson.JsonParser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.Assert;
 
-import com.gisgraphy.domain.geoloc.service.ServiceException;
 import com.gisgraphy.domain.repository.IOpenStreetMapDao;
 import com.gisgraphy.domain.valueobject.Constants;
 import com.gisgraphy.domain.valueobject.StreetDistance;
 import com.gisgraphy.domain.valueobject.StreetSearchResultsDto;
 import com.gisgraphy.serializer.UniversalSerializerConstant;
 import com.gisgraphy.service.IStatsUsageService;
+import com.gisgraphy.service.exception.ServiceException;
 import com.gisgraphy.stats.StatsUsageType;
+import com.gisgraphy.street.service.exception.StreetSearchException;
 
 /**
  * Default (threadsafe) implementation of {@link IStreetSearchEngine}.

@@ -44,6 +44,7 @@ import com.gisgraphy.domain.valueobject.GeolocResultsDto;
 import com.gisgraphy.domain.valueobject.GisFeatureDistance;
 import com.gisgraphy.domain.valueobject.Output;
 import com.gisgraphy.domain.valueobject.Pagination;
+import com.gisgraphy.geoloc.service.exception.GeolocSearchException;
 import com.gisgraphy.helper.FileHelper;
 import com.gisgraphy.helper.GeolocHelper;
 import com.gisgraphy.serializer.OutputFormat;

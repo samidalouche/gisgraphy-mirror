@@ -27,10 +27,10 @@ import javax.persistence.Transient;
 import org.springframework.util.Assert;
 
 import com.gisgraphy.domain.geoloc.entity.GisFeature;
-import com.gisgraphy.domain.geoloc.service.AbstractGisQuery;
 import com.gisgraphy.domain.valueobject.GisgraphyConfig;
 import com.gisgraphy.domain.valueobject.Output;
 import com.gisgraphy.domain.valueobject.Pagination;
+import com.gisgraphy.service.AbstractGisQuery;
 import com.gisgraphy.servlet.GeolocServlet;
 import com.vividsolutions.jts.geom.Point;
 

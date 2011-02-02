@@ -29,6 +29,9 @@ import java.io.OutputStream;
 
 import org.codehaus.jra.HttpResource;
 
+import com.gisgraphy.service.AbstractGisQuery;
+import com.gisgraphy.service.exception.ServiceException;
+
 /**
  * Interface that execute {@link AbstractGisQuery}s
  * 

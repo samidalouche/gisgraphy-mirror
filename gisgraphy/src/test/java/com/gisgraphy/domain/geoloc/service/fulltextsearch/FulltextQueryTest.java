@@ -51,6 +51,7 @@ import com.gisgraphy.test.GeolocTestHelper;
 
 public class FulltextQueryTest {
 
+    private static OutputStyleHelper outputStyleHelper = new OutputStyleHelper();
 
     @Test
     public void testFulltextQueryStringPaginationOutputClassOfQextendsGisFeature() {
@@ -208,7 +209,7 @@ public class FulltextQueryTest {
 	HashMap<String, String> parameters = GeolocTestHelper.splitURLParams(
 		fulltextQuery.toQueryString(), "&");
 	// check parameters
-	assertEquals(Output.OutputStyle.SHORT.getFieldList("FR"), parameters
+	assertEquals(outputStyleHelper.getFulltextFieldList(Output.OutputStyle.SHORT,"FR"), parameters
 		.get(Constants.FL_PARAMETER));
 	assertEquals("wrong indent parameter found", "on", parameters
 		.get(Constants.INDENT_PARAMETER));
@@ -243,7 +244,7 @@ public class FulltextQueryTest {
 	HashMap<String, String> parameters = GeolocTestHelper.splitURLParams(
 		fulltextQuery.toQueryString(), "&");
 	// check parameters
-	assertEquals(Output.OutputStyle.SHORT.getFieldList("FR"), parameters
+	assertEquals(outputStyleHelper.getFulltextFieldList(Output.OutputStyle.SHORT,"FR"), parameters
 		.get(Constants.FL_PARAMETER));
 	assertEquals("wrong indent parameter found", "on", parameters
 		.get(Constants.INDENT_PARAMETER));
@@ -282,7 +283,7 @@ public class FulltextQueryTest {
 	HashMap<String, String> parameters = GeolocTestHelper.splitURLParams(
 		fulltextQuery.toQueryString(), "&");
 	// check parameters
-	assertEquals(Output.OutputStyle.SHORT.getFieldList("FR"), parameters
+	assertEquals(outputStyleHelper.getFulltextFieldList(Output.OutputStyle.SHORT,"FR"), parameters
 		.get(Constants.FL_PARAMETER));
 	assertEquals("wrong indent parameter found", "on", parameters
 		.get(Constants.INDENT_PARAMETER));
@@ -330,7 +331,7 @@ public class FulltextQueryTest {
 	HashMap<String, String> parameters = GeolocTestHelper.splitURLParams(
 		fulltextQuery.toQueryString(), "&");
 	// check parameters
-	assertEquals(Output.OutputStyle.SHORT.getFieldList("FR"), parameters
+	assertEquals(outputStyleHelper.getFulltextFieldList(Output.OutputStyle.SHORT,"FR"), parameters
 		.get(Constants.FL_PARAMETER));
 	assertEquals("wrong indent parameter found", "on", parameters
 		.get(Constants.INDENT_PARAMETER));
@@ -374,8 +375,7 @@ public class FulltextQueryTest {
 	HashMap<String, String> parameters = GeolocTestHelper.splitURLParams(
 		fulltextQuery.toQueryString(), "&");
 	// check parameters
-	assertEquals("wrong field list", Output.OutputStyle.MEDIUM
-		.getFieldList("FR"), parameters.get(Constants.FL_PARAMETER));
+	assertEquals("wrong field list", outputStyleHelper.getFulltextFieldList(Output.OutputStyle.MEDIUM,"FR"), parameters.get(Constants.FL_PARAMETER));
 	assertEquals("wrong indent parameter found", "on", parameters
 		.get(Constants.INDENT_PARAMETER));
 	assertEquals("wrong echoparams parameter found", "none", parameters
@@ -413,8 +413,7 @@ public class FulltextQueryTest {
 	HashMap<String, String> parameters = GeolocTestHelper.splitURLParams(
 		fulltextQuery.toQueryString(), "&");
 	// check parameters
-	assertEquals("wrong field list", Output.OutputStyle.MEDIUM
-		.getFieldList("FR"), parameters.get(Constants.FL_PARAMETER));
+	assertEquals("wrong field list",outputStyleHelper.getFulltextFieldList(Output.OutputStyle.MEDIUM,"FR"), parameters.get(Constants.FL_PARAMETER));
 	assertEquals("wrong indent parameter found", "on", parameters
 		.get(Constants.INDENT_PARAMETER));
 	assertEquals("wrong echoparams parameter found", "none", parameters

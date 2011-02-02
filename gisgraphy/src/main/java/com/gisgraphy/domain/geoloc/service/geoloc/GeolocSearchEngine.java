@@ -34,20 +34,20 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
-import org.apache.commons.collections.map.HashedMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.Assert;
 
 import com.gisgraphy.domain.geoloc.entity.GisFeature;
-import com.gisgraphy.domain.geoloc.service.ServiceException;
 import com.gisgraphy.domain.repository.IGisDao;
 import com.gisgraphy.domain.repository.IRepositoryStrategy;
 import com.gisgraphy.domain.valueobject.Constants;
 import com.gisgraphy.domain.valueobject.GeolocResultsDto;
 import com.gisgraphy.domain.valueobject.GisFeatureDistance;
+import com.gisgraphy.geoloc.service.exception.GeolocSearchException;
 import com.gisgraphy.serializer.UniversalSerializerConstant;
 import com.gisgraphy.service.IStatsUsageService;
+import com.gisgraphy.service.exception.ServiceException;
 import com.gisgraphy.stats.StatsUsageType;
 
 /**

@@ -26,8 +26,8 @@ import java.util.List;
 
 import com.gisgraphy.domain.geoloc.entity.GisFeature;
 import com.gisgraphy.domain.geoloc.service.IQueryProcessor;
-import com.gisgraphy.domain.geoloc.service.ServiceException;
 import com.gisgraphy.domain.valueobject.FulltextResultsDto;
+import com.gisgraphy.service.exception.ServiceException;
 
 /**
  * Execute a {@linkplain FulltextQuery} and returns the results in a specific

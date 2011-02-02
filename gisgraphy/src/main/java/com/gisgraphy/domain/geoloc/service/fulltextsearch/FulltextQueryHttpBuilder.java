@@ -27,26 +27,11 @@ package com.gisgraphy.domain.geoloc.service.fulltextsearch;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.solr.client.solrj.util.ClientUtils;
-import org.apache.solr.common.params.ModifiableSolrParams;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.stereotype.Component;
-import org.springframework.util.Assert;
-
-import com.gisgraphy.domain.geoloc.entity.Adm;
-import com.gisgraphy.domain.geoloc.entity.City;
 import com.gisgraphy.domain.geoloc.entity.GisFeature;
-import com.gisgraphy.domain.geoloc.service.AbstractGisQuery;
-import com.gisgraphy.domain.geoloc.service.fulltextsearch.spell.SpellCheckerConfig;
-import com.gisgraphy.domain.repository.ICountryDao;
-import com.gisgraphy.domain.valueobject.Constants;
-import com.gisgraphy.domain.valueobject.GisgraphyConfig;
 import com.gisgraphy.domain.valueobject.Output;
 import com.gisgraphy.domain.valueobject.Pagination;
 import com.gisgraphy.domain.valueobject.Output.OutputStyle;
+import com.gisgraphy.fulltext.service.exception.FullTextSearchException;
 import com.gisgraphy.helper.GeolocHelper;
 import com.gisgraphy.serializer.OutputFormat;
 import com.gisgraphy.servlet.FulltextServlet;

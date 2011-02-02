@@ -34,7 +34,6 @@ import org.springframework.util.Assert;
 import com.gisgraphy.domain.geoloc.entity.Adm;
 import com.gisgraphy.domain.geoloc.entity.City;
 import com.gisgraphy.domain.geoloc.entity.GisFeature;
-import com.gisgraphy.domain.geoloc.service.AbstractGisQuery;
 import com.gisgraphy.domain.geoloc.service.fulltextsearch.spell.SpellCheckerConfig;
 import com.gisgraphy.domain.valueobject.Constants;
 import com.gisgraphy.domain.valueobject.GisgraphyConfig;
@@ -42,6 +41,7 @@ import com.gisgraphy.domain.valueobject.Output;
 import com.gisgraphy.domain.valueobject.Pagination;
 import com.gisgraphy.domain.valueobject.Output.OutputStyle;
 import com.gisgraphy.serializer.OutputFormat;
+import com.gisgraphy.service.AbstractGisQuery;
 import com.gisgraphy.servlet.FulltextServlet;
 
 /**
@@ -53,6 +53,8 @@ import com.gisgraphy.servlet.FulltextServlet;
  * @author <a href="mailto:david.masclet@gisgraphy.com">David Masclet</a>
  */
 public class FulltextQuery extends AbstractGisQuery {
+    
+    private static OutputStyleHelper outputStyleHelper = new OutputStyleHelper();
 	/**
 	 * convenence placetype for only city
 	 */
@@ -295,10 +297,9 @@ public class FulltextQuery extends AbstractGisQuery {
 	// force Medium style if ATOM or Geo RSS
 	if (getOutputFormat() == OutputFormat.ATOM
 		|| getOutputFormat() == OutputFormat.GEORSS) {
-	    parameters.set(Constants.FL_PARAMETER, OutputStyle.MEDIUM
-		    .getFieldList(getOutput().getLanguageCode()));
+	    parameters.set(Constants.FL_PARAMETER,outputStyleHelper.getFulltextFieldList(OutputStyle.MEDIUM, getOutput().getLanguageCode()));
 	} else {
-	    parameters.set(Constants.FL_PARAMETER, getOutput().getFields());
+	    parameters.set(Constants.FL_PARAMETER, outputStyleHelper.getFulltextFieldList(getOutput()));
 	}
 	boolean isAdvancedQuery = (this.countryCode!=null || this.placeTypes != null);
 	boolean isNumericQuery = isNumericQuery();

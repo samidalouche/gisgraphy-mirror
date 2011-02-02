@@ -51,6 +51,7 @@ import com.gisgraphy.helper.GeolocHelper;
 import com.gisgraphy.serializer.OutputFormat;
 import com.gisgraphy.service.IStatsUsageService;
 import com.gisgraphy.stats.StatsUsageType;
+import com.gisgraphy.street.service.exception.StreetSearchException;
 import com.gisgraphy.test.FeedChecker;
 import com.gisgraphy.test.GeolocTestHelper;
 

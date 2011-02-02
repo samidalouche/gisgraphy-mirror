@@ -22,9 +22,10 @@
  *******************************************************************************/
 package com.gisgraphy.domain.geoloc.service.geoloc;
 
+
 import com.gisgraphy.domain.geoloc.service.IQueryProcessor;
-import com.gisgraphy.domain.geoloc.service.ServiceException;
 import com.gisgraphy.domain.valueobject.StreetSearchResultsDto;
+import com.gisgraphy.service.exception.ServiceException;
 
 /**
  * Execute a {@linkplain StreetSearchQuery} and returns the results in a specific

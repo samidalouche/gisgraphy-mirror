@@ -29,6 +29,7 @@ import com.gisgraphy.domain.valueobject.GisgraphyConfig;
 import com.gisgraphy.domain.valueobject.GisgraphyServiceType;
 import com.gisgraphy.domain.valueobject.Output;
 import com.gisgraphy.domain.valueobject.Pagination;
+import com.gisgraphy.geoloc.service.exception.GeolocSearchException;
 import com.gisgraphy.helper.GeolocHelper;
 import com.gisgraphy.helper.OutputFormatHelper;
 import com.gisgraphy.serializer.OutputFormat;

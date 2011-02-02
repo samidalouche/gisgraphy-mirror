@@ -20,6 +20,7 @@ import com.gisgraphy.serializer.OutputFormat;
 import com.gisgraphy.servlet.GeolocServlet;
 import com.gisgraphy.servlet.GisgraphyServlet;
 import com.gisgraphy.servlet.StreetServlet;
+import com.gisgraphy.street.service.exception.StreetSearchException;
 import com.gisgraphy.test.GeolocTestHelper;
 
 
