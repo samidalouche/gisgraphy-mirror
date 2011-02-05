@@ -27,15 +27,20 @@ public class OutputFormatHelperTest {
 	    @Test
 	    public void getListFormatByServiceShouldReturnCorrectValues() {
 		OutputFormat[] expectedFulltext = { OutputFormat.XML, OutputFormat.JSON,
-			OutputFormat.ATOM, OutputFormat.GEORSS,OutputFormat.PHP,OutputFormat.PYTHON,OutputFormat.RUBY, };
-		OutputFormat[] expected = { OutputFormat.XML, OutputFormat.JSON,
-			OutputFormat.ATOM, OutputFormat.GEORSS,OutputFormat.PHP,OutputFormat.RUBY,OutputFormat.PYTHON };
+			OutputFormat.ATOM, OutputFormat.GEORSS,OutputFormat.PHP,OutputFormat.PYTHON,OutputFormat.RUBY };
+		OutputFormat[] expectedForStreetAndGeoloc = { OutputFormat.XML, OutputFormat.JSON,
+			OutputFormat.ATOM, OutputFormat.GEORSS,OutputFormat.PHP,OutputFormat.RUBY,OutputFormat.PYTHON , OutputFormat.YAML };
+		OutputFormat[] expectedForAddress = { OutputFormat.XML, OutputFormat.JSON,
+				OutputFormat.PHP,OutputFormat.RUBY,OutputFormat.PYTHON , OutputFormat.YAML };
+		
 		Assert.assertEquals(Arrays.asList(expectedFulltext), Arrays.asList(OutputFormatHelper
 			.listFormatByService(GisgraphyServiceType.FULLTEXT)));
-		Assert.assertEquals(Arrays.asList(expected), Arrays.asList(OutputFormatHelper
+		Assert.assertEquals(Arrays.asList(expectedForStreetAndGeoloc), Arrays.asList(OutputFormatHelper
 			.listFormatByService(GisgraphyServiceType.GEOLOC)));
-		Assert.assertEquals(Arrays.asList(expected), Arrays.asList(OutputFormatHelper
+		Assert.assertEquals(Arrays.asList(expectedForStreetAndGeoloc), Arrays.asList(OutputFormatHelper
 			.listFormatByService(GisgraphyServiceType.STREET)));
+		Assert.assertEquals(Arrays.asList(expectedForAddress), Arrays.asList(OutputFormatHelper
+				.listFormatByService(GisgraphyServiceType.ADDRESS_PARSER)));
 
 	    }
 	    
@@ -82,27 +87,6 @@ public class OutputFormatHelperTest {
 		}
 	    }
 	    
-
-	    @Test
-	    public void isFormatSupportedShouldReturnCorrectValues() {
-		for (OutputFormat format : OutputFormat.values()) {
-			if (format == OutputFormat.UNSUPPORTED ||format == OutputFormat.YAML){
-				Assert.assertFalse(isFormatSupported(format,GisgraphyServiceType.FULLTEXT));
-			} else {
-				Assert.assertTrue(isFormatSupported(format,GisgraphyServiceType.FULLTEXT));
-			}
-		}
-
-		for (OutputFormat format : OutputFormat.values()) {
-		    if (format == OutputFormat.XML || format == OutputFormat.JSON || format == OutputFormat.GEORSS || format == OutputFormat.ATOM || format == OutputFormat.PHP || format == OutputFormat.PYTHON || format == OutputFormat.RUBY) {
-			Assert.assertTrue(isFormatSupported(format,GisgraphyServiceType.GEOLOC));
-			Assert.assertTrue(isFormatSupported(format,GisgraphyServiceType.STREET));
-		    } else {
-			Assert.assertFalse(isFormatSupported(format,GisgraphyServiceType.GEOLOC));
-			Assert.assertFalse(isFormatSupported(format,GisgraphyServiceType.STREET));
-		    }
-		}
-	    }
 
 	
 }

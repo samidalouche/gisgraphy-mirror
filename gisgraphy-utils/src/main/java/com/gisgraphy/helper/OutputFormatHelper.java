@@ -9,11 +9,11 @@ public class OutputFormatHelper {
     private final static OutputFormat[] FULLTEXTSEARCH_SUPPORTED_FORMAT =  { OutputFormat.XML, OutputFormat.JSON,
 		OutputFormat.ATOM, OutputFormat.GEORSS,OutputFormat.PHP,OutputFormat.PYTHON,OutputFormat.RUBY };
     
-    private final static OutputFormat[] GEOLOCSEARCH_SUPPORTED_FORMAT = { OutputFormat.XML, OutputFormat.JSON, OutputFormat.ATOM, OutputFormat.GEORSS,OutputFormat.PHP,OutputFormat.RUBY,OutputFormat.PYTHON};
+    private final static OutputFormat[] GEOLOCSEARCH_SUPPORTED_FORMAT = { OutputFormat.XML, OutputFormat.JSON, OutputFormat.ATOM, OutputFormat.GEORSS,OutputFormat.PHP,OutputFormat.RUBY,OutputFormat.PYTHON,OutputFormat.YAML};
     
-    private final static OutputFormat[] STREETSEARCH_SUPPORTED_FORMAT = { OutputFormat.XML, OutputFormat.JSON, OutputFormat.ATOM, OutputFormat.GEORSS,OutputFormat.PHP,OutputFormat.RUBY,OutputFormat.PYTHON };
+    private final static OutputFormat[] STREETSEARCH_SUPPORTED_FORMAT = { OutputFormat.XML, OutputFormat.JSON, OutputFormat.ATOM, OutputFormat.GEORSS,OutputFormat.PHP,OutputFormat.RUBY,OutputFormat.PYTHON ,OutputFormat.YAML};
     
-    private final static OutputFormat[] ADDRESS_PARSER_SUPPORTED_FORMAT = { OutputFormat.XML, OutputFormat.JSON, OutputFormat.ATOM, OutputFormat.GEORSS,OutputFormat.PHP,OutputFormat.RUBY,OutputFormat.PYTHON };
+    private final static OutputFormat[] ADDRESS_PARSER_SUPPORTED_FORMAT = { OutputFormat.XML, OutputFormat.JSON, OutputFormat.PHP,OutputFormat.RUBY,OutputFormat.PYTHON,OutputFormat.YAML };
     
 	/**
 	 * @param serviceType
