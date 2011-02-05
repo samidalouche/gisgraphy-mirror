@@ -37,5 +37,16 @@ public class Constants {
      * The name of the Referer Header
      */
     public static final String HTTP_REFERER_HEADER_NAME = "Referer";
+    
+
+    /**
+     * The default mail address
+     */
+    public static final String MAIL_ADDRESS = "davidMasclet@gisgraphy.com";
+    
+    /**
+     * Default charset
+     */
+    public static final String CHARSET = "UTF-8";
 
 }

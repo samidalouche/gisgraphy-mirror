@@ -94,6 +94,8 @@ public class Output {
      * The Default {@link #languageCode}
      */
     public static final String DEFAULT_LANGUAGE_CODE = null;
+    
+    public static final boolean DEFAULT_INDENTATION = false;
 
    
     /**
@@ -111,7 +113,7 @@ public class Output {
      */
     private OutputStyle style =  OutputStyle.MEDIUM;
 
-    private boolean indent = false;
+    private boolean indent = DEFAULT_INDENTATION;
 
     /**
      * Default contructor with format
