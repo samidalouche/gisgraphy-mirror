@@ -133,13 +133,13 @@ This documentation is for the last version of gisgraphy (snapshots, nightly buil
 <a name="about"></a>
 <div align="right"><a href="#top">[top]</a></div>
 <h3>About</h3>
-Gisgraphy is a free and open source framework. Gisgraphy goal is to provide tools to use free GIS Data on the Web. Actually it manage <a href="http://www.geonames.org/" target="_blank">Geonames</a> and <a href="www.openstreetmap.org" target="_blank">OpenStreetMap</a> (42 million entries). it provides an importer to inject the data into a strongly typed Postgres / Postgis database and use them via webservices : worldwide geocoding, worldwide reverse geocoding, fulltext and find nearby. Results can be output in XML, Atom, RSS, JSON, PHP, Ruby, and Python. Here are the main functionalities  :
+Gisgraphy is a free and open source framework. Gisgraphy goal is to provide tools to use free GIS Data on the Web. Actually it manage <a href="http://www.geonames.org/" target="_blank">Geonames</a> and <a href="www.openstreetmap.org" target="_blank">OpenStreetMap</a> (42 million entries). it provides an importer to inject the data into a strongly typed Postgres / Postgis database and use them via webservices : worldwide geocoding, worldwide reverse geocoding, fulltext and find nearby. Results can be output in XML, Atom, RSS, JSON, PHP, Ruby, YAML and Python. Here are the main functionalities  :
 <ul>
 <li> Importers from geonames CSV files. Just give the country(ies) you wish to import and / or the <a href="/placetype.htm">placetypes</a>, and Gisgraphy download the files  and import them with all the alternateNames (optional), and sync the database with the fulltext search engine</li>
 <li> Importers for Openstreetmap data in csv format (view <a href="http://www.gisgraphy.com/download/download_data.htm"> data</a>)
 <li> WorldWide geocoding / worldWide reverse geocoding / street search WebServices;
 <li> REST WebService</li>
-<li> Several output formats supported : XML, json, PHP, ruby, python, Atom, RSS / GeoRSS  </li>
+<li> Several output formats supported : XML, json, PHP, ruby, python, Atom, RSS / GeoRSS, YAML  </li>
 <li> Full text search  (based on <a href="http://lucene.apache.org/java/"/>Lucene</a> / <a href="http://lucene.apache.org/solr/"/>Solr</a>  with default filters optimized for city search
 (case insensitivity, separator characters stripping, ..) via an Java API or a webservice</li>
 <li> Findnearby function (with limits, pagination, restrict to a specific country and/or language and other useful options) via a Java API or a Web Service</li>
@@ -807,6 +807,7 @@ The following languages are supported :
 <li>Python</li>
 <li>Georss</li>
 <li>ATOM</li>
+<li>YAML</li>
 </ul>
 <br/>
 <a name="streetserviceparameters"></a>
@@ -892,6 +893,7 @@ in Both mode the given name is case insensitive and accent insensitive.
 <li>PHP</li>
 <li>ATOM : <a href="./examples/streetsearch_atom.xml">Example</a></li>
 <li>GEORSS : <a href="./examples/streetsearch_georss.xml">Example</a></li>
+<li>YAML</li>
 </ul>
 </li>
 <br>
@@ -904,7 +906,7 @@ in Both mode the given name is case insensitive and accent insensitive.
 
 
 <div class="tip greentip">
-If you use a checkbox in a form to indent the results, the value will be "on" or "off", so for a simple use : the value for the  web service can be "true" or "on".<br/>
+If you use a checkbox in a form to indent the results, the value will be "on" or "off", so to simplify the use : the value for the web service can be "true" or "on".<br/>
 </div>
 
 <br/>
@@ -1417,6 +1419,7 @@ The following languages are supported :
 <li>Python</li>
 <li>Georss</li>
 <li>ATOM</li>
+<li>YAML</li>
 </ul>
 <br/>
 
@@ -1474,6 +1477,7 @@ The following languages are supported :
 <li>PHP</li>
 <li>ATOM : <a href="./examples/geolocsearch_atom.xml">Example</a></li>
 <li>GEORSS : <a href="./examples/geolocsearch_georss.xml">Example</a></li>
+<li>YAML</li>
 </ul>
 </li>
 <br>

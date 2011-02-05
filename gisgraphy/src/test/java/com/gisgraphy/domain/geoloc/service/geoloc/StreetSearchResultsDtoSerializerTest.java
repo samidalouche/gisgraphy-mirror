@@ -29,6 +29,7 @@ import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.junit.Assert;
 import org.junit.Test;
 
 import com.gisgraphy.domain.valueobject.Constants;
@@ -109,7 +110,21 @@ public class StreetSearchResultsDtoSerializerTest {
 	    ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
 	    streetSearchResultsDtoSerializer.serialize(byteArrayOutputStream,
 		    OutputFormat.PHP, streetSearchResultsDto,true,extraParameter);
-	    System.out.println(byteArrayOutputStream.toString(Constants.CHARSET));
+	    String feed = byteArrayOutputStream.toString(Constants.CHARSET);
+	    Assert.assertFalse(feed.toLowerCase().contains("xml"));
+	    System.out.println(feed);
+    }
+    
+    @Test
+    public void serializeShouldSerializeInYAML() throws UnsupportedEncodingException {
+	IStreetSearchResultsDtoSerializer streetSearchResultsDtoSerializer = new StreetSearchResultsDtoSerializer();
+	   StreetSearchResultsDto streetSearchResultsDto = GeolocTestHelper.createStreetSearchResultsDto();
+	    ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+	    streetSearchResultsDtoSerializer.serialize(byteArrayOutputStream,
+		    OutputFormat.YAML, streetSearchResultsDto,true,extraParameter);
+	    String feed = byteArrayOutputStream.toString(Constants.CHARSET);
+	    Assert.assertFalse(feed.toLowerCase().contains("xml"));
+	    System.out.println(feed);
     }
     
     @Test
@@ -119,7 +134,9 @@ public class StreetSearchResultsDtoSerializerTest {
 	    ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
 	    streetSearchResultsDtoSerializer.serialize(byteArrayOutputStream,
 		    OutputFormat.PYTHON, streetSearchResultsDto,true,extraParameter);
-	   System.out.println(byteArrayOutputStream.toString(Constants.CHARSET));
+	    String feed = byteArrayOutputStream.toString(Constants.CHARSET);
+	    Assert.assertFalse(feed.toLowerCase().contains("xml"));
+	    System.out.println(feed);
     }
     
     @Test
@@ -129,7 +146,9 @@ public class StreetSearchResultsDtoSerializerTest {
 	    ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
 	    streetSearchResultsDtoSerializer.serialize(byteArrayOutputStream,
 		    OutputFormat.RUBY, streetSearchResultsDto,true,extraParameter);
-	    System.out.println(byteArrayOutputStream.toString(Constants.CHARSET));
+	    String feed = byteArrayOutputStream.toString(Constants.CHARSET);
+	    Assert.assertFalse(feed.toLowerCase().contains("xml"));
+	    System.out.println(feed);
     }
     
 }

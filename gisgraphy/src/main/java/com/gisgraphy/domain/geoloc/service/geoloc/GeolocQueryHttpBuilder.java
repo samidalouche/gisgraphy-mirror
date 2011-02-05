@@ -154,8 +154,9 @@ public class GeolocQueryHttpBuilder {
 	    geolocQuery.withDistanceField(false);
 	}
 	
-	if (req.getParameter(GeolocServlet.CALLBACK_PARAMETER)!=null){
-	    geolocQuery.withCallback(req.getParameter(GeolocServlet.CALLBACK_PARAMETER));
+	String CallBackParameter = req.getParameter(GeolocServlet.CALLBACK_PARAMETER);
+	if (CallBackParameter!=null){
+	    geolocQuery.withCallback(CallBackParameter);
 	}
 	
 	geolocQuery.withPagination(pagination);

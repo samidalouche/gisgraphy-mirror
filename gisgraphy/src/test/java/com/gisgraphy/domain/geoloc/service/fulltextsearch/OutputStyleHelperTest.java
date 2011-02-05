@@ -3,6 +3,7 @@ package com.gisgraphy.domain.geoloc.service.fulltextsearch;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 
+import org.junit.Assert;
 import org.junit.Test;
 
 import com.gisgraphy.domain.valueobject.Output;
@@ -15,6 +16,13 @@ public class OutputStyleHelperTest {
     
     @Test
     public void AllOutputStyleShouldBeImplemented(){
+    	for (OutputStyle outputStyle:OutputStyle.values()){
+    		try {
+				outputStyleHelper.getFulltextFieldList(outputStyle, "fr");
+			} catch (RuntimeException e) {
+				Assert.fail("getfulltextfield is not implemented for "+outputStyle);
+			}
+    	}
 	
     }
 

@@ -265,7 +265,7 @@ public class Constants {
     /**
      * The default Link for the RSS/ATOM
      */
-    public static final String FEED_LINK = "Gisgraphy";
+    public static final String FEED_LINK = "http://www.gisgraphy.com";
     
     /**
      * The default Description for the RSS/ATOM
@@ -279,10 +279,7 @@ public class Constants {
     
     public static final String STREET_BASE_URL = "http://services.gisgraphy.com/displaystreet.html?gid=";
 
-    /**
-     * The default mail address
-     */
-    public static final String MAIL_ADDRESS = "davidMasclet@gisgraphy.com";
+   
 
   
     

@@ -91,7 +91,7 @@ public class GeolocResultsDtoSerializer implements
 		    + " is not applicable for Geoloc");
 	} 
 	   
-	else if (outputFormat == OutputFormat.JSON || outputFormat == OutputFormat.PHP || outputFormat == OutputFormat.PYTHON  || outputFormat == OutputFormat.RUBY || outputFormat == OutputFormat.XML) {
+	if (outputFormat == OutputFormat.JSON || outputFormat == OutputFormat.PHP || outputFormat == OutputFormat.PYTHON  || outputFormat == OutputFormat.RUBY || outputFormat == OutputFormat.XML || outputFormat == OutputFormat.YAML) {
 		serializeWithUniveraslSerializer(outputStream, geolocResultsDto,  indent, outputFormat,extraParameters);
 	} else 	if (outputFormat==OutputFormat.ATOM){
 	   int  startPaginationIndex = getStartPaginationIndex(extraParameters);
@@ -162,7 +162,7 @@ public class GeolocResultsDtoSerializer implements
 		entry.getModules().add(openSearchModule);
 		entry.getModules().add(geoRSSModuleGML);
 		entry.setTitle(gisFeatureDistance.getName());
-		entry.setAuthor(Constants.MAIL_ADDRESS);
+		entry.setAuthor(com.gisgraphy.domain.Constants.MAIL_ADDRESS);
 		entry
 			.setLink(Constants.GISFEATURE_BASE_URL+
 				+ gisFeatureDistance.getFeatureId());

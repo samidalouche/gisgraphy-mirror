@@ -14,6 +14,7 @@ import org.springframework.mock.web.MockHttpServletRequest;
 import com.gisgraphy.domain.geoloc.entity.City;
 import com.gisgraphy.domain.geoloc.service.fulltextsearch.StreetSearchMode;
 import com.gisgraphy.domain.geoloc.service.geoloc.street.StreetType;
+import com.gisgraphy.domain.valueobject.Output;
 import com.gisgraphy.domain.valueobject.Pagination;
 import com.gisgraphy.domain.valueobject.Output.OutputStyle;
 import com.gisgraphy.serializer.OutputFormat;
@@ -131,15 +132,15 @@ public class StreetSearchQueryHttpBuilderTest {
 		    request = GeolocTestHelper.createMockHttpServletRequestForStreetGeoloc();
 		    request.removeParameter(GisgraphyServlet.INDENT_PARAMETER);
 		    query = buildQuery(request);
-		    assertFalse("When no " + GisgraphyServlet.INDENT_PARAMETER
-			    + " is specified, the  parameter should be set to false",
+		    assertEquals("When no " + GisgraphyServlet.INDENT_PARAMETER
+			    + " is specified, the  parameter should be set to default",Output.DEFAULT_INDENTATION,
 			    query.isOutputIndented());
 		    // with wrong value
 		    request = GeolocTestHelper.createMockHttpServletRequestForStreetGeoloc();
 		    request.setParameter(GisgraphyServlet.INDENT_PARAMETER, "UNK");
 		    query = buildQuery(request);
-		    assertFalse("When wrong " + GisgraphyServlet.INDENT_PARAMETER
-			    + " is specified, the  parameter should be set to false",
+		    assertEquals("When wrong " + GisgraphyServlet.INDENT_PARAMETER
+			    + " is specified, the  parameter should be set to false",Output.DEFAULT_INDENTATION,
 			    query.isOutputIndented());
 		    // test case sensitive
 		    request = GeolocTestHelper.createMockHttpServletRequestForStreetGeoloc();
@@ -180,6 +181,13 @@ public class StreetSearchQueryHttpBuilderTest {
 		    assertEquals(GisgraphyServlet.FORMAT_PARAMETER
 			    + " should be case insensitive  ", OutputFormat.JSON, query
 			    .getOutputFormat());
+		    request = GeolocTestHelper.createMockHttpServletRequestForGeoloc();
+		    request.setParameter(GisgraphyServlet.FORMAT_PARAMETER, "unsupported");
+		    query = buildQuery(request);
+		    assertEquals(GisgraphyServlet.FORMAT_PARAMETER
+			    + " should set default if not supported  ", OutputFormat.getDefault(), query
+			    .getOutputFormat());
+		    
 		    // test streeSearchMode
 		    // with no value specified
 		    request = GeolocTestHelper.createMockHttpServletRequestForStreetGeoloc();

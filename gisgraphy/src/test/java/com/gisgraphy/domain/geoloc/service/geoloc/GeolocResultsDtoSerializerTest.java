@@ -29,6 +29,7 @@ import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.junit.Assert;
 import org.junit.Test;
 
 import com.gisgraphy.domain.valueobject.Constants;
@@ -112,7 +113,21 @@ public class GeolocResultsDtoSerializerTest {
 	    ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
 	    geolocResultsDtoSerializer.serialize(byteArrayOutputStream,
 		    OutputFormat.PHP, geolocResultsDto,false,extraParameter);
-	  System.out.println(byteArrayOutputStream.toString(Constants.CHARSET));
+	    String feed = byteArrayOutputStream.toString(Constants.CHARSET);
+	    Assert.assertFalse(feed.toLowerCase().contains("xml"));
+	    System.out.println(feed);
+    }
+    
+    @Test
+    public void testSerializeShouldSerializeInYAML() throws UnsupportedEncodingException {
+	IGeolocResultsDtoSerializer geolocResultsDtoSerializer = new GeolocResultsDtoSerializer();
+	    GeolocResultsDto geolocResultsDto = GeolocTestHelper.createGeolocResultsDto(310L);
+	    ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+	    geolocResultsDtoSerializer.serialize(byteArrayOutputStream,
+		    OutputFormat.YAML, geolocResultsDto,false,extraParameter);
+	    String feed = byteArrayOutputStream.toString(Constants.CHARSET);
+	    Assert.assertFalse(feed.toLowerCase().contains("xml"));
+	    System.out.println(feed);
     }
     
     @Test
@@ -122,7 +137,9 @@ public class GeolocResultsDtoSerializerTest {
 	    ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
 	    geolocResultsDtoSerializer.serialize(byteArrayOutputStream,
 		    OutputFormat.PYTHON, geolocResultsDto,false,extraParameter);
-	  System.out.println(byteArrayOutputStream.toString(Constants.CHARSET));
+	    String feed = byteArrayOutputStream.toString(Constants.CHARSET);
+	    Assert.assertFalse(feed.toLowerCase().contains("xml"));
+	    System.out.println(feed);
     }
     
     @Test
@@ -132,7 +149,9 @@ public class GeolocResultsDtoSerializerTest {
 	    ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
 	    geolocResultsDtoSerializer.serialize(byteArrayOutputStream,
 		    OutputFormat.RUBY, geolocResultsDto,false,extraParameter);
-	  System.out.println(byteArrayOutputStream.toString(Constants.CHARSET));
+	    String feed = byteArrayOutputStream.toString(Constants.CHARSET);
+	    Assert.assertFalse(feed.toLowerCase().contains("xml"));
+	    System.out.println(feed);
     }
     
     

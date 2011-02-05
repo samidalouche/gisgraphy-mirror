@@ -84,7 +84,7 @@ public class StreetSearchResultsDtoSerializer implements
 		    + " is not applicable for street search");
 	} 
 	   
-	else if (outputFormat == OutputFormat.JSON || outputFormat == OutputFormat.PHP || outputFormat == OutputFormat.PYTHON  || outputFormat == OutputFormat.RUBY || outputFormat == OutputFormat.XML) {
+	if (outputFormat == OutputFormat.JSON || outputFormat == OutputFormat.PHP || outputFormat == OutputFormat.PYTHON  || outputFormat == OutputFormat.RUBY || outputFormat == OutputFormat.XML || outputFormat == OutputFormat.YAML) {
 		serializeWithUniveraslSerializer(outputStream, streetSearchResultsDto,  indent, outputFormat,extraParameters);
 	}else 	if (outputFormat==OutputFormat.ATOM){
 	    int  startPaginationIndex = getStartPaginationIndex(extraParameters);
@@ -154,7 +154,7 @@ public class StreetSearchResultsDtoSerializer implements
 		entry.getModules().add(openSearchModule);
 		entry.getModules().add(geoRSSModuleGML);
 		entry.setTitle(gisFeatureDistance.getName());
-		entry.setAuthor(Constants.MAIL_ADDRESS);
+		entry.setAuthor(com.gisgraphy.domain.Constants.MAIL_ADDRESS);
 		entry
 			.setLink(Constants.STREET_BASE_URL+
 				+ gisFeatureDistance.getGid());

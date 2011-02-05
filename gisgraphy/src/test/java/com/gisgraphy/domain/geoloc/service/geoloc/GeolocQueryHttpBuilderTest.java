@@ -14,6 +14,7 @@ import com.gisgraphy.domain.geoloc.entity.City;
 import com.gisgraphy.domain.geoloc.entity.Country;
 import com.gisgraphy.domain.geoloc.entity.GisFeature;
 import com.gisgraphy.domain.valueobject.GisgraphyConfig;
+import com.gisgraphy.domain.valueobject.Output;
 import com.gisgraphy.domain.valueobject.Pagination;
 import com.gisgraphy.domain.valueobject.Output.OutputStyle;
 import com.gisgraphy.serializer.OutputFormat;
@@ -130,15 +131,15 @@ public class GeolocQueryHttpBuilderTest {
 		    request = GeolocTestHelper.createMockHttpServletRequestForGeoloc();
 		    request.removeParameter(GisgraphyServlet.INDENT_PARAMETER);
 		    query = buildQuery(request);
-		    assertFalse("When no " + GeolocServlet.INDENT_PARAMETER
-			    + " is specified, the  parameter should be set to false",
+		    assertEquals("When no " + GeolocServlet.INDENT_PARAMETER
+			    + " is specified, the  parameter should be set to default",Output.DEFAULT_INDENTATION,
 			    query.isOutputIndented());
 		    // with wrong value
 		    request = GeolocTestHelper.createMockHttpServletRequestForGeoloc();
 		    request.setParameter(GeolocServlet.INDENT_PARAMETER, "UNK");
 		    query = buildQuery(request);
-		    assertFalse("When wrong " + GeolocServlet.INDENT_PARAMETER
-			    + " is specified, the  parameter should be set to false",
+		    assertEquals("When wrong " + GeolocServlet.INDENT_PARAMETER
+			    + " is specified, the  parameter should be set to default",Output.DEFAULT_INDENTATION,
 			    query.isOutputIndented());
 		    // test case sensitive
 		    request = GeolocTestHelper.createMockHttpServletRequestForGeoloc();
@@ -178,6 +179,13 @@ public class GeolocQueryHttpBuilderTest {
 		    query = buildQuery(request);
 		    assertEquals(GisgraphyServlet.FORMAT_PARAMETER
 			    + " should be case insensitive  ", OutputFormat.JSON, query
+			    .getOutputFormat());
+		    // test with unsupported value
+		    request = GeolocTestHelper.createMockHttpServletRequestForGeoloc();
+		    request.setParameter(GisgraphyServlet.FORMAT_PARAMETER, "unsupported");
+		    query = buildQuery(request);
+		    assertEquals(GisgraphyServlet.FORMAT_PARAMETER
+			    + " should set default if not supported  ", OutputFormat.getDefault(), query
 			    .getOutputFormat());
 
 		    // test placetype

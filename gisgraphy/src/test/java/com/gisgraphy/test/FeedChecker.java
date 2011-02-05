@@ -116,14 +116,14 @@ public class FeedChecker {
     public static void checkStreetSearchResultsDtoATOM(StreetSearchResultsDto streetSearchResultsDto, String results) {
 	StreetDistance streetDistance = streetSearchResultsDto.getResult().get(0);
 	assertQ("The query returns incorrect values", results, "/" + "feed/title[.='" + Constants.FEED_TITLE + "']", "/feed/link[@href='" + Constants.FEED_LINK + "']", "/feed/tagline[.='" + Constants.FEED_DESCRIPTION + "']", "/feed/entry/title[.='"
-		+ streetDistance.getName() + "']", "/feed/entry/link[@href='" + Constants.STREET_BASE_URL + streetDistance.getGid() + "']", "/feed/entry/author/name[.='" + Constants.MAIL_ADDRESS + "']", "/feed/entry/itemsPerPage[.='"
+		+ streetDistance.getName() + "']", "/feed/entry/link[@href='" + Constants.STREET_BASE_URL + streetDistance.getGid() + "']", "/feed/entry/author/name[.='" + com.gisgraphy.domain.Constants.MAIL_ADDRESS + "']", "/feed/entry/itemsPerPage[.='"
 		+ Pagination.DEFAULT_PAGINATION.getMaxNumberOfResults() + "']", "/feed/entry/totalResults[.='1']", "/feed/entry/startIndex[.='1']", "/feed/entry/point[.='" + streetDistance.getLat() + " " + streetDistance.getLng() + "']");
     }
 
     public static void checkGeolocResultsDtoATOM(GeolocResultsDto geolocResultsDto, String results) {
 	GisFeatureDistance gisFeatureDistance = geolocResultsDto.getResult().get(0);
 	assertQ("The query returns incorrect values", results, "/" + "feed/title[.='" + Constants.FEED_TITLE + "']", "/feed/link[@href='" + Constants.FEED_LINK + "']", "/feed/tagline[.='" + Constants.FEED_DESCRIPTION + "']", "/feed/entry/title[.='"
-		+ gisFeatureDistance.getName() + "']", "/feed/entry/link[@href='" + Constants.GISFEATURE_BASE_URL + gisFeatureDistance.getFeatureId() + "']", "/feed/entry/author/name[.='" + Constants.MAIL_ADDRESS + "']",
+		+ gisFeatureDistance.getName() + "']", "/feed/entry/link[@href='" + Constants.GISFEATURE_BASE_URL + gisFeatureDistance.getFeatureId() + "']", "/feed/entry/author/name[.='" + com.gisgraphy.domain.Constants.MAIL_ADDRESS + "']",
 		"/feed/entry/itemsPerPage[.='" + Pagination.DEFAULT_PAGINATION.getMaxNumberOfResults() + "']", "/feed/entry/totalResults[.='1']", "/feed/entry/startIndex[.='1']", "/feed/entry/point[.='" + gisFeatureDistance.getLat() + " "
 			+ gisFeatureDistance.getLng() + "']");
     }
@@ -131,7 +131,7 @@ public class FeedChecker {
     public static void checkGeolocResultsDtoGEORSS(GeolocResultsDto geolocResultsDto, String results) {
 	GisFeatureDistance gisFeatureDistance = geolocResultsDto.getResult().get(0);
 	assertQ("The query returns incorrect values", results, "/rss/channel/title[.='" + Constants.FEED_TITLE + "']", "/rss/channel/link[.='" + Constants.FEED_LINK + "']", "/rss/channel/description[.='" + Constants.FEED_DESCRIPTION + "']",
-		"/rss/channel/item/title[.='" + gisFeatureDistance.getName() + "']", "/rss/channel/item/guid[.='" + Constants.GISFEATURE_BASE_URL + gisFeatureDistance.getFeatureId() + "']", "/rss/channel/item/creator[.='" + Constants.MAIL_ADDRESS
+		"/rss/channel/item/title[.='" + gisFeatureDistance.getName() + "']", "/rss/channel/item/guid[.='" + Constants.GISFEATURE_BASE_URL + gisFeatureDistance.getFeatureId() + "']", "/rss/channel/item/creator[.='" + com.gisgraphy.domain.Constants.MAIL_ADDRESS
 			+ "']", "/rss/channel/item/itemsPerPage[.='" + Pagination.DEFAULT_PAGINATION.getMaxNumberOfResults() + "']", "/rss/channel/item/totalResults[.='1']", "/rss/channel/item/startIndex[.='1']", "/rss/channel/item/point[.='"
 			+ gisFeatureDistance.getLat() + " " + gisFeatureDistance.getLng() + "']");
     }
@@ -139,7 +139,7 @@ public class FeedChecker {
     public static void checkStreetSearchResultsDtoGEORSS(StreetSearchResultsDto streetSearchResultsDto, String results) {
 	StreetDistance streetDistance = streetSearchResultsDto.getResult().get(0);
 	assertQ("The query returns incorrect values", results, "/rss/channel/title[.='" + Constants.FEED_TITLE + "']", "/rss/channel/link[.='" + Constants.FEED_LINK + "']", "/rss/channel/description[.='" + Constants.FEED_DESCRIPTION + "']",
-		"/rss/channel/item/title[.='" + streetDistance.getName() + "']", "/rss/channel/item/guid[.='" + Constants.STREET_BASE_URL + streetDistance.getGid() + "']", "/rss/channel/item/creator[.='" + Constants.MAIL_ADDRESS + "']",
+		"/rss/channel/item/title[.='" + streetDistance.getName() + "']", "/rss/channel/item/guid[.='" + Constants.STREET_BASE_URL + streetDistance.getGid() + "']", "/rss/channel/item/creator[.='" + com.gisgraphy.domain.Constants.MAIL_ADDRESS + "']",
 		"/rss/channel/item/itemsPerPage[.='" + Pagination.DEFAULT_PAGINATION.getMaxNumberOfResults() + "']", "/rss/channel/item/totalResults[.='1']", "/rss/channel/item/startIndex[.='1']", "/rss/channel/item/point[.='"
 			+ streetDistance.getLat() + " " + streetDistance.getLng() + "']");
     }

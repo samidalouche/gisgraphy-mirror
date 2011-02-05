@@ -165,7 +165,13 @@ public class FulltextQueryHttpBuilderTest {
 	assertEquals(FulltextServlet.FORMAT_PARAMETER
 		+ " should be case insensitive  ", OutputFormat.JSON, query
 		.getOutputFormat());
-
+	//with unsupported value
+	request = GeolocTestHelper.createMockHttpServletRequestForFullText();
+    request.setParameter(GisgraphyServlet.FORMAT_PARAMETER, "unsupported");
+    query = buildQuery(request);
+    assertEquals(GisgraphyServlet.FORMAT_PARAMETER
+	    + " should set default if not supported  ", OutputFormat.getDefault(), query
+	    .getOutputFormat());
 	// test language
 	// with no value specified
 	request = GeolocTestHelper.createMockHttpServletRequestForFullText();
@@ -271,16 +277,16 @@ public class FulltextQueryHttpBuilderTest {
 	request = GeolocTestHelper.createMockHttpServletRequestForFullText();
 	request.removeParameter(GisgraphyServlet.INDENT_PARAMETER);
 	query = buildQuery(request);
-	assertFalse("When no " + GisgraphyServlet.INDENT_PARAMETER
-		+ " is specified, the  parameter should be set to false", query
-		.isOutputIndented());
+	assertEquals("When no " + GisgraphyServlet.INDENT_PARAMETER
+		+ " is specified, the  parameter should be set to default", Output.DEFAULT_INDENTATION
+		,query.isOutputIndented());
 	// with wrong value
 	request = GeolocTestHelper.createMockHttpServletRequestForFullText();
 	request.setParameter(GisgraphyServlet.INDENT_PARAMETER, "UNK");
 	query = buildQuery(request);
-	assertFalse("When wrong " + GisgraphyServlet.INDENT_PARAMETER
-		+ " is specified, the  parameter should be set to false", query
-		.isOutputIndented());
+	assertEquals("When wrong " + GisgraphyServlet.INDENT_PARAMETER
+		+ " is specified, the  parameter should be set to default",Output.DEFAULT_INDENTATION,
+		query.isOutputIndented());
 	// test case sensitive
 	request = GeolocTestHelper.createMockHttpServletRequestForFullText();
 	request.setParameter(GisgraphyServlet.INDENT_PARAMETER, "True");

@@ -28,11 +28,13 @@ package com.gisgraphy.domain.geoloc.service.fulltextsearch;
 import javax.servlet.http.HttpServletRequest;
 
 import com.gisgraphy.domain.geoloc.entity.GisFeature;
+import com.gisgraphy.domain.valueobject.GisgraphyServiceType;
 import com.gisgraphy.domain.valueobject.Output;
 import com.gisgraphy.domain.valueobject.Pagination;
 import com.gisgraphy.domain.valueobject.Output.OutputStyle;
 import com.gisgraphy.fulltext.service.exception.FullTextSearchException;
 import com.gisgraphy.helper.GeolocHelper;
+import com.gisgraphy.helper.OutputFormatHelper;
 import com.gisgraphy.serializer.OutputFormat;
 import com.gisgraphy.servlet.FulltextServlet;
 import com.gisgraphy.servlet.GisgraphyServlet;
@@ -96,6 +98,7 @@ public class FulltextQueryHttpBuilder {
 	// output
 	OutputFormat format = OutputFormat.getFromString(req
 		.getParameter(FulltextServlet.FORMAT_PARAMETER));
+	format = OutputFormatHelper.getDefaultForServiceIfNotSupported(format, GisgraphyServiceType.FULLTEXT);
 	OutputStyle style = OutputStyle.getFromString(req
 		.getParameter(FulltextServlet.STYLE_PARAMETER));
 	String languageparam = req.getParameter(FulltextServlet.LANG_PARAMETER);
