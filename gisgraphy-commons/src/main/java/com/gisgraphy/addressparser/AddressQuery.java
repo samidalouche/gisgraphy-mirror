@@ -1,5 +1,9 @@
 package com.gisgraphy.addressparser;
 
+import java.util.regex.Pattern;
+
+import org.apache.log4j.Logger;
+
 import com.gisgraphy.serializer.OutputFormat;
 
 /**
@@ -9,6 +13,8 @@ import com.gisgraphy.serializer.OutputFormat;
 public class AddressQuery {
    
 	public final static boolean DEFAULT_INDENTATION = false;
+	private static Pattern callbackValidationPattern = Pattern.compile("\\w+");
+	private static Logger logger = Logger.getLogger(AddressQuery.class); 
 
     private String address;
     private String country;
@@ -38,8 +44,16 @@ public class AddressQuery {
     public String getCallback() {
         return callback;
     }
+    /**
+     * set the callbakparameter only if it is alphanumeric
+     * @param callback 
+     */
     public void setCallback(String callback) {
-        this.callback = callback;
+    	if (callback!=null && callbackValidationPattern.matcher(callback).matches()){
+    	    this.callback= callback;
+    	} else { 
+    	    logger.warn("wrong callback specify : "+callback+", callback method sould be alphanumeric");
+    	}
     }
     public boolean isIndent() {
         return indent;

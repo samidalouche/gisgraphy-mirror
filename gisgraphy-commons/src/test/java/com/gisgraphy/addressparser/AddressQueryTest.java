@@ -62,5 +62,19 @@ public class AddressQueryTest {
     AddressQuery query =new AddressQuery("foo","bar");
    Assert.assertEquals(OutputFormat.getDefault(), query.getOutputFormat());
     }
+    
+    @Test
+    public void callbackNotAlphanumerique(){
+    AddressQuery query =new AddressQuery("foo","bar");
+    query.setCallback("doIt(");
+   Assert.assertNull(query.getCallback());
+    }
+    
+    @Test
+    public void callbackAlphanumerique(){
+    AddressQuery query =new AddressQuery("foo","bar");
+    query.setCallback("doIt");
+   Assert.assertEquals("doIt",query.getCallback());
+    }
 
 }
