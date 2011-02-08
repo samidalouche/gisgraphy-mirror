@@ -2,6 +2,7 @@ package com.gisgraphy.addressparser;
 
 import java.io.OutputStream;
 
+
 import com.gisgraphy.addressparser.exception.AddressParserException;
 
 public interface IAddressParserService {

@@ -67,10 +67,10 @@ public class AddressQuery {
 	return "address query "+address+" for country "+country+" in "+outputFormat+" format , callback = "+callback+" and indentation="+indent;  
     }
 	public AddressQuery(String address, String country) {
-		if (address== null || address.trim().isEmpty()){
+		if (address== null || address.trim().equals("")){
 			throw new IllegalArgumentException("address can not be nul or empty");
 		}
-		if (country== null || country.trim().isEmpty()){
+		if (country== null || country.trim().equals("")){
 			throw new IllegalArgumentException("country can not be nul or empty");
 		}
 		this.address = address;
