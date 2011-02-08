@@ -1,4 +1,4 @@
-package com.gisgraphy.addressparser;
+package com.gisgraphy.rest;
 
 import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
@@ -8,6 +8,7 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.test.AssertThrows;
 
+import com.gisgraphy.addressparser.AddressQuery;
 import com.gisgraphy.addressparser.exception.AddressParserException;
 
 

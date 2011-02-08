@@ -1,4 +1,4 @@
-package com.gisgraphy.addressparser;
+package com.gisgraphy.rest;
 
 import java.beans.Introspector;
 import java.beans.PropertyDescriptor;
