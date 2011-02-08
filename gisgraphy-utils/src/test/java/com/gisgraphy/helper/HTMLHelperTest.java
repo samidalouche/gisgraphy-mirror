@@ -28,8 +28,6 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Test;
 import org.springframework.mock.web.MockHttpServletRequest;
 
-import com.gisgraphy.helper.HTMLHelper;
-
 public class HTMLHelperTest  {
 
     @Test

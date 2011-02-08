@@ -40,6 +40,7 @@ import org.apache.commons.httpclient.methods.PutMethod;
 import org.apache.commons.httpclient.methods.StringRequestEntity;
 import org.apache.commons.httpclient.params.HttpClientParams;
 
+import com.gisgraphy.fulltext.service.exception.FullTextSearchException;
 import com.gisgraphy.serializer.OutputFormat;
 import com.gisgraphy.serializer.SerializerException;
 import com.gisgraphy.serializer.UniversalSerializer;
@@ -56,7 +57,6 @@ public class RestClient implements IRestClient {
 	/**
 	 * Default constructor 
 	 */
-	@SuppressWarnings("unused")
 	public RestClient() {
 		this(new MultiThreadedHttpConnectionManager());
 	}

@@ -8,7 +8,6 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import com.gisgraphy.domain.valueobject.GisgraphyServiceType;
-import com.gisgraphy.helper.OutputFormatHelper;
 import com.gisgraphy.serializer.OutputFormat;
 
 

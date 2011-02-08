@@ -2,15 +2,9 @@ package com.gisgraphy.rest;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.nio.charset.Charset;
 
-import org.apache.commons.httpclient.MultiThreadedHttpConnectionManager;
 import org.junit.Assert;
 import org.junit.Test;
-import org.mortbay.jetty.LocalConnector;
-import org.mortbay.jetty.testing.HttpTester;
 import org.mortbay.jetty.testing.ServletTester;
 
 import com.gisgraphy.serializer.OutputFormat;
