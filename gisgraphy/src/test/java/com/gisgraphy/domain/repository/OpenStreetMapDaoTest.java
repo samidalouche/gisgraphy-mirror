@@ -197,6 +197,14 @@ public class OpenStreetMapDaoTest extends AbstractIntegrationHttpSolrTestCase{
 	Assert.assertEquals("countestimate should return the max gid, the estimation is based on the fact that the importer start the gid to 0",3L, estimateCount);
 	
     }
+    
+    @Test
+    public void testCountEstimateWithOutStreetInDatabase(){
+	long estimateCount = openStreetMapDao.countEstimate();
+	Assert.assertEquals("countestimate should return the max gid, the estimation is based on the fact that the importer start the gid to 0",0L, new Long(estimateCount).intValue());
+	
+    }
+
 
     
     @Test

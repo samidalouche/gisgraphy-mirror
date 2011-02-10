@@ -87,6 +87,7 @@ public class OpenStreetMapFulltextBuilder implements IImporterProcessor {
 	/**
 	 * @param openStreetMapDao the openStreetMapDao to set
 	 */
+	@Required
 	public void setOpenStreetMapDao(IOpenStreetMapDao openStreetMapDao) {
 		this.openStreetMapDao = openStreetMapDao;
 	}
@@ -179,9 +180,8 @@ public class OpenStreetMapFulltextBuilder implements IImporterProcessor {
 	    this.internationalisationService = internationalisationService;
 	}
 
-	@Required
 	public IOpenStreetMapDao getOpenStreetMapDao() {
 	    return openStreetMapDao;
 	}
-
+	
 }

@@ -333,7 +333,7 @@ public class OpenStreetMapDao extends GenericDao<OpenStreetMap, Long> implements
 			Query qry = session.createQuery(queryString);
 			qry.setCacheable(true);
 			Long count = (Long) qry.uniqueResult();
-			return count;
+			return count==null?0:count;
 		    }
 		});
     }
