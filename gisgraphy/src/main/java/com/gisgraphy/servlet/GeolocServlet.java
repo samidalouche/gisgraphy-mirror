@@ -71,6 +71,7 @@ public class GeolocServlet extends GisgraphyServlet {
     @Override
     public void init() throws ServletException {
 	try {
+	    super.init();
 	    WebApplicationContext springContext = WebApplicationContextUtils
 		    .getWebApplicationContext(getServletContext());
 	    geolocSearchEngine = (IGeolocSearchEngine) springContext
@@ -78,8 +79,6 @@ public class GeolocServlet extends GisgraphyServlet {
 	    logger
 		    .info("geolocSearchEngine is injected :"
 			    + geolocSearchEngine);
-	    this.debugMode = Boolean.valueOf(getInitParameter("debugMode"));
-	    logger.info("GeolocServlet debugmode = " + this.debugMode);
 	} catch (Exception e) {
 	    logger.error("Can not start GeolocServlet : " + e.getMessage());
 	}

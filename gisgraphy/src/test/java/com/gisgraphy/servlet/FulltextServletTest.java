@@ -30,6 +30,7 @@ import net.sf.jstester.JsTester;
 import org.apache.commons.httpclient.Header;
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.methods.GetMethod;
+import org.junit.Assert;
 import org.junit.Test;
 import org.mortbay.jetty.servlet.ServletHolder;
 import org.mortbay.jetty.testing.ServletTester;
@@ -83,6 +84,42 @@ public class FulltextServletTest extends AbstractIntegrationHttpSolrTestCase {
     public void onTearDown() throws Exception {
 	super.onTearDown();
 	// servletTester.stop();
+    }
+    
+    @Test
+    public void testInitShouldTakeTheDebugParameterWhenTrue() throws Exception {
+
+	ServletTester servletTester = new ServletTester();
+	ServletHolder sh = servletTester.addServlet(FulltextServlet.class, "/*");
+	sh.setInitParameter(GisgraphyServlet.DEBUG_MODE_PARAMETER_NAME, "true");
+	servletTester.start();
+	FulltextServlet servlet = (FulltextServlet) sh.getServlet();
+	Assert.assertTrue(servlet.isDebugMode());
+	servletTester.stop();
+
+    }
+
+    @Test
+    public void testInitShouldTakeTheDebugParameterWhenIncorrect() throws Exception {
+
+	ServletTester servletTester = new ServletTester();
+	ServletHolder sh = servletTester.addServlet(FulltextServlet.class, "/*");
+	sh.setInitParameter(GisgraphyServlet.DEBUG_MODE_PARAMETER_NAME, "foo");
+	servletTester.start();
+	FulltextServlet servlet = (FulltextServlet) sh.getServlet();
+	Assert.assertFalse(servlet.isDebugMode());
+	servletTester.stop();
+
+    }
+
+    @Test
+    public void testDebugParameterShouldBeFalseByDefault() throws Exception {
+
+	ServletTester servletTester = new ServletTester();
+	ServletHolder sh = servletTester.addServlet(FulltextServlet.class, "/*");
+	servletTester.start();
+	FulltextServlet servlet = (FulltextServlet) sh.getServlet();
+	Assert.assertFalse(servlet.isDebugMode());
     }
 
     @Test

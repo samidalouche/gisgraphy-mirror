@@ -76,6 +76,7 @@ public class StreetServlet extends GisgraphyServlet {
     @Override
     public void init() throws ServletException {
 	try {
+	    super.init();
 	    WebApplicationContext springContext = WebApplicationContextUtils
 		    .getWebApplicationContext(getServletContext());
 	    streetSearchEngine = (IStreetSearchEngine) springContext
@@ -83,8 +84,6 @@ public class StreetServlet extends GisgraphyServlet {
 	    logger
 		    .info("streetSearchEngine is injected :"
 			    + streetSearchEngine);
-	    this.debugMode = Boolean.valueOf(getInitParameter("debugMode"));
-	    logger.info("StreetServlet debugmode = " + this.debugMode);
 	} catch (Exception e) {
 	    logger.error("Can not start StreetServlet : " + e.getMessage());
 	}

@@ -71,15 +71,13 @@ public class FulltextServlet extends GisgraphyServlet {
     @Override
     public void init() throws ServletException {
 	try {
+	    super.init();
 	    WebApplicationContext springContext = WebApplicationContextUtils
 		    .getWebApplicationContext(getServletContext());
 	    fullTextSearchEngine = (IFullTextSearchEngine) springContext
 		    .getBean("fullTextSearchEngine");
 	    logger.info("fullTextSearchEngine is injected :"
 		    + fullTextSearchEngine);
-	    this.debugMode = Boolean.valueOf(getInitParameter("debugMode"));
-	    logger.info("GeolocServlet debugmode = " + this.debugMode);
-	    EncodingHelper.setJVMEncodingToUTF8();
 	} catch (Exception e) {
 	    logger.error("Can not start fulltextServlet : " + e.getMessage());
 	}
