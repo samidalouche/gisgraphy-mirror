@@ -9,7 +9,9 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Address {
 
-	private String recipientName;
+    private Double lng;
+    private Double lat;
+    private String recipientName;
 	
     private String houseNumber;
     /**
@@ -27,31 +29,31 @@ public class Address {
      */
     private String civicNumberSuffix;
 
-    private String streetName;
-    private String streetNameIntersection;
     private String preDirection;
+    private String streetName;
+    private String streetType;
     private String postDirection;
+    
     private String preDirectionIntersection;
+    private String streetNameIntersection;
+    private String StreetTypeIntersection;
     private String postDirectionIntersection;
 
-    private String quarter;
-    private String city;
-    private String dependentLocality;
-    private String postTown;
-    private String state;
-    private String district;
-    private String zipCode;
     private String extraInfo;
     private String floor;
-    private String streetType;
-    private String StreetTypeIntersection;
+    private String quarter;
+
+    private String zipCode;
+    private String district;
+    private String dependentLocality;
+    private String city;
+    private String postTown;
+    private String state;
 
     private String sector;
     private String quadrant;
     private String block;
     
-    private Double lat;
-    private Double lng;
 
     /**
 	 * @return the lat
