@@ -23,6 +23,7 @@
 package com.gisgraphy.servlet;
 
 import java.io.IOException;
+
 import java.io.Writer;
 
 import javax.servlet.ServletException;
@@ -33,6 +34,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.log4j.Logger;
 
 import com.gisgraphy.domain.valueobject.GisgraphyServiceType;
+import com.gisgraphy.helper.EncodingHelper;
 import com.gisgraphy.helper.OutputFormatHelper;
 import com.gisgraphy.serializer.IoutputFormatVisitor;
 import com.gisgraphy.serializer.OutputFormat;
@@ -45,6 +47,17 @@ import com.gisgraphy.serializer.OutputFormat;
  * @see FulltextServlet
  */
 public abstract class  GisgraphyServlet extends HttpServlet {
+    
+    public static final String DEBUG_MODE_PARAMETER_NAME = "debugMode";
+    
+    @Override
+    public void init() throws ServletException {
+        super.init();
+        
+	this.debugMode = Boolean.valueOf(getInitParameter(DEBUG_MODE_PARAMETER_NAME));
+	    logger.info("GeolocServlet debugmode = " + this.debugMode);
+	    EncodingHelper.setJVMEncodingToUTF8();
+    }
 
    
     protected boolean debugMode = false;

@@ -70,13 +70,19 @@ public abstract class AbstractAddressParserServlet extends GisgraphyServlet {
 	    
 	    getAddressParserService().executeAndSerialize(query, resp
 		    .getOutputStream());
-	} catch (RuntimeException e) {
+	} catch (AddressParserException e) {
 	    logger.error("error while execute a Parser query from http request : " + e);
 	    String errorMessage = this.debugMode ? " : " + e.getMessage() : "";
 	    sendCustomError(ResourceBundle
 		    .getBundle(com.gisgraphy.addressparser.Constants.BUNDLE_KEY).getString(
 			    "error.error")
 		    + errorMessage, format, resp,req);
+	}
+	catch (RuntimeException e) {
+	    logger.error("error while execute a Parser query from http request : " + e);
+	    sendCustomError(ResourceBundle
+		    .getBundle(com.gisgraphy.addressparser.Constants.BUNDLE_KEY).getString(
+			    "error.error"), format, resp,req);
 	}
     }
 

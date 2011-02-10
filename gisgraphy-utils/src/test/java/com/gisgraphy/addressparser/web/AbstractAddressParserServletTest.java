@@ -10,6 +10,8 @@ import org.easymock.classextension.EasyMock;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.mortbay.jetty.servlet.ServletHolder;
+import org.mortbay.jetty.testing.ServletTester;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
 
@@ -19,6 +21,9 @@ import com.gisgraphy.addressparser.exception.AddressParserException;
 import com.gisgraphy.domain.valueobject.GisgraphyServiceType;
 import com.gisgraphy.helper.OutputFormatHelper;
 import com.gisgraphy.serializer.OutputFormat;
+import com.gisgraphy.servlet.ConcreteAddressParserServlet;
+import com.gisgraphy.servlet.GisgraphyMockServlet;
+import com.gisgraphy.servlet.GisgraphyServlet;
 
 
 public class AbstractAddressParserServletTest {
@@ -26,6 +31,8 @@ public class AbstractAddressParserServletTest {
 	private boolean customErrorSended = false;
 	private IAddressParserService mockAddressParserService;
 	private AddressQueryHttpBuilder mockAddressQueryHttpBuilder;
+	
+  
 	
 	@Before
 	public void setup(){
@@ -39,6 +46,42 @@ public class AbstractAddressParserServletTest {
 		EasyMock.replay(mockAddressQueryHttpBuilder);
 		
 	}
+	
+	  @Test
+	    public void initShouldTakeTheDebugParameterWhenTrue() throws Exception {
+
+		ServletTester servletTester = new ServletTester();
+		ServletHolder sh = servletTester.addServlet(ConcreteAddressParserServlet.class, "/*");
+		sh.setInitParameter(GisgraphyServlet.DEBUG_MODE_PARAMETER_NAME, "true");
+		servletTester.start();
+		ConcreteAddressParserServlet servlet = (ConcreteAddressParserServlet) sh.getServlet();
+		Assert.assertTrue(servlet.isDebugMode());
+		servletTester.stop();
+
+	    }
+
+	    @Test
+	    public void initShouldTakeTheDebugParameterWhenIncorrect() throws Exception {
+
+		ServletTester servletTester = new ServletTester();
+		ServletHolder sh = servletTester.addServlet(ConcreteAddressParserServlet.class, "/*");
+		sh.setInitParameter(GisgraphyServlet.DEBUG_MODE_PARAMETER_NAME, "foo");
+		servletTester.start();
+		ConcreteAddressParserServlet servlet = (ConcreteAddressParserServlet) sh.getServlet();
+		Assert.assertFalse(servlet.isDebugMode());
+		servletTester.stop();
+
+	    }
+
+	    @Test
+	    public void debugParameterShouldBeFalse() throws Exception {
+
+		ServletTester servletTester = new ServletTester();
+		ServletHolder sh = servletTester.addServlet(ConcreteAddressParserServlet.class, "/*");
+		servletTester.start();
+		ConcreteAddressParserServlet servlet = (ConcreteAddressParserServlet) sh.getServlet();
+		Assert.assertFalse(servlet.isDebugMode());
+	    }
 	
 	private AbstractAddressParserServlet servlet = new AbstractAddressParserServlet(){
 		public com.gisgraphy.addressparser.IAddressParserService getAddressParserService() {return mockAddressParserService;};
