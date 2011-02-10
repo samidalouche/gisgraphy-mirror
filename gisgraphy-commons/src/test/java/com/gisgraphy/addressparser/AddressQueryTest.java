@@ -76,5 +76,7 @@ public class AddressQueryTest {
     query.setCallback("doIt");
    Assert.assertEquals("doIt",query.getCallback());
     }
+    
+  
 
 }

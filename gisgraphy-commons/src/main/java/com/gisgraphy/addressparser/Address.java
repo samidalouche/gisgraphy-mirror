@@ -120,7 +120,9 @@ public class Address {
     }
 
     public void setExtraInfo(String extraInfo) {
-	this.extraInfo = extraInfo;
+	if (extraInfo!= null && !"".equals(extraInfo.trim())){
+	    this.extraInfo = extraInfo;
+	}
     }
 
     public String getHouseNumber() {
