@@ -401,6 +401,14 @@ remove the ability to search for 'no name street'
 				Extract the building of fulltextquery, geolocquery and streetsearchquery into separate builder
 			</action>
 			
+			<action dev="David Masclet" type="fix">
+				When the openstreetmapimporter is disable : the openstreetmapfulltextbuilder returns an error. (http://code.google.com/p/gisgraphy/issues/detail?id=16)
+			</action>
+			
+			<action dev="David Masclet" type="fix">
+				Special char in queryString for fulltext service are removed, this avoid the use of nested queries 
+			</action>
+			
 			</release>
 			
 	</body>

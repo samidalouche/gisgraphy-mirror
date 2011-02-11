@@ -494,4 +494,11 @@ public class FulltextQueryTest {
 		}
     }
 
+    @Test
+    public void testCleanQueryString(){
+	FulltextQuery query = new FulltextQuery("{!dismax qf=population} paris");
+	query.cleanQueryString();
+	Assert.assertEquals("dismax qfpopulation paris", query.getQuery());
+    }
+    
 }

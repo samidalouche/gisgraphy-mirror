@@ -25,6 +25,8 @@
  */
 package com.gisgraphy.domain.geoloc.service.fulltextsearch;
 
+import java.util.regex.Pattern;
+
 import org.apache.solr.client.solrj.util.ClientUtils;
 import org.apache.solr.common.params.ModifiableSolrParams;
 import org.slf4j.Logger;
@@ -123,6 +125,7 @@ public class FulltextQuery extends AbstractGisQuery {
 	    throw new IllegalArgumentException("query is limited to "
 		    + FulltextQuery.QUERY_MAX_LENGTH + "characters");
 	}
+	cleanQueryString();
 	this.query = query.trim();
 	withPlaceTypes(placeType);
 	limitToCountryCode(countryCode);
@@ -139,6 +142,7 @@ public class FulltextQuery extends AbstractGisQuery {
 	super();
 	Assert.notNull(query, "Query must not be null");
 	Assert.isTrue(!"".equals(query.trim()), "Query must not be empty");
+	cleanQueryString();
 	this.query = query.trim(); 
     }
 
@@ -422,5 +426,12 @@ public class FulltextQuery extends AbstractGisQuery {
 	    return false;
 	return true;
     }
+    
+    public void cleanQueryString(){
+	if (this.query != null){
+	   this.query =  Pattern.compile("([\\{\\}\\(\\)\\=\\!]*)").matcher(this.query).replaceAll("");
+	} 
+    }
+    
 
 }
