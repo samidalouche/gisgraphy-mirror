@@ -18,15 +18,15 @@ public class AddressQuery {
 
     private String address;
     private String country;
-    private OutputFormat outputFormat = OutputFormat.getDefault();
+    private OutputFormat format = OutputFormat.getDefault();
     private String callback;
     private boolean indent = DEFAULT_INDENTATION; 
     
-	public OutputFormat getOutputFormat() {
-		return outputFormat;
+	public OutputFormat getFormat() {
+		return format;
 	}
-	public void setOutputFormat(OutputFormat outputFormat) {
-		this.outputFormat = outputFormat;
+	public void setFormat(OutputFormat format) {
+		this.format = format;
 	}
 	public String getAddress() {
         return address;
@@ -64,7 +64,7 @@ public class AddressQuery {
     
     @Override
     public String toString() {
-	return "address query "+address+" for country "+country+" in "+outputFormat+" format , callback = "+callback+" and indentation="+indent;  
+	return "address query "+address+" for country "+country+" in "+format+" format , callback = "+callback+" and indentation="+indent;  
     }
 	public AddressQuery(String address, String country) {
 		if (address== null || address.trim().equals("")){

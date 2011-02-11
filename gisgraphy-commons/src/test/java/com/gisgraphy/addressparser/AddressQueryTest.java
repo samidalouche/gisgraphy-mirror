@@ -46,7 +46,7 @@ public class AddressQueryTest {
     @Test
     public void toStringShouldContainsAllData(){
     AddressQuery query =new AddressQuery("foo","bar");
-	query.setOutputFormat(OutputFormat.XML);
+	query.setFormat(OutputFormat.XML);
 	query.setIndent(true);
 	query.setCallback("callfoo");
 	String toString = query.toString();
@@ -60,7 +60,7 @@ public class AddressQueryTest {
     @Test
     public void defaultOutputFormat(){
     AddressQuery query =new AddressQuery("foo","bar");
-   Assert.assertEquals(OutputFormat.getDefault(), query.getOutputFormat());
+   Assert.assertEquals(OutputFormat.getDefault(), query.getFormat());
     }
     
     @Test
