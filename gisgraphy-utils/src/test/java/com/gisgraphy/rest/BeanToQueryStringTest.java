@@ -6,7 +6,6 @@ import java.util.Map;
 
 import org.junit.Assert;
 import org.junit.Test;
-import org.springframework.test.AssertThrows;
 
 import com.gisgraphy.addressparser.AddressQuery;
 import com.gisgraphy.addressparser.exception.AddressParserException;

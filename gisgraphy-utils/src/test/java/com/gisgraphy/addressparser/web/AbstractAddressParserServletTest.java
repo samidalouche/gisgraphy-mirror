@@ -22,7 +22,6 @@ import com.gisgraphy.domain.valueobject.GisgraphyServiceType;
 import com.gisgraphy.helper.OutputFormatHelper;
 import com.gisgraphy.serializer.OutputFormat;
 import com.gisgraphy.servlet.ConcreteAddressParserServlet;
-import com.gisgraphy.servlet.GisgraphyMockServlet;
 import com.gisgraphy.servlet.GisgraphyServlet;
 
 

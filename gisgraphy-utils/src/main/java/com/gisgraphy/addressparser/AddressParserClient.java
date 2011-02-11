@@ -3,9 +3,6 @@ package com.gisgraphy.addressparser;
 import java.io.ByteArrayOutputStream;
 import java.io.OutputStream;
 
-import com.gisgraphy.addressparser.AddressQuery;
-import com.gisgraphy.addressparser.AddressResultsDto;
-import com.gisgraphy.addressparser.IAddressParserService;
 import com.gisgraphy.addressparser.exception.AddressParserException;
 import com.gisgraphy.rest.BeanToQueryString;
 import com.gisgraphy.rest.IRestClient;

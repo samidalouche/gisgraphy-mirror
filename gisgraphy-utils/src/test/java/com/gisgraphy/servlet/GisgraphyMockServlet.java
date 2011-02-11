@@ -11,7 +11,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.gisgraphy.domain.valueobject.GisgraphyServiceType;
 import com.gisgraphy.serializer.IoutputFormatVisitor;
-import com.gisgraphy.servlet.GisgraphyServlet;
 
 public class GisgraphyMockServlet extends GisgraphyServlet{
 	
