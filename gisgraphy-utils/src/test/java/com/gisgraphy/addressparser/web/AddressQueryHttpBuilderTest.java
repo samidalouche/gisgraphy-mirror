@@ -121,7 +121,7 @@ public class AddressQueryHttpBuilderTest {
 	assertEquals("When no " + AbstractAddressParserServlet.OUTPUT_FORMAT_PARAMETER
 		+ " is specified, the  parameter should be set to  "
 		+ OutputFormat.getDefault(), OutputFormat.getDefault(), query
-		.getOutputFormat());
+		.getFormat());
 	// with wrong value
 	request = new MockHttpServletRequest();
 	request.setParameter(AbstractAddressParserServlet.ADDRESS_PARAMETER, "address");
@@ -131,7 +131,7 @@ public class AddressQueryHttpBuilderTest {
 	assertEquals("When wrong " + AbstractAddressParserServlet.OUTPUT_FORMAT_PARAMETER
 		+ " is specified, the  parameter should be set to  "
 		+ OutputFormat.getDefault(), OutputFormat.getDefault(), query
-		.getOutputFormat());
+		.getFormat());
 	// test case sensitive
 	request = new MockHttpServletRequest();
 	request.setParameter(AbstractAddressParserServlet.ADDRESS_PARAMETER, "address");
@@ -140,7 +140,7 @@ public class AddressQueryHttpBuilderTest {
 	query =builder.buildFromRequest(request);
 	assertEquals(AbstractAddressParserServlet.OUTPUT_FORMAT_PARAMETER
 		+ " should be case insensitive  ", OutputFormat.JSON, query
-		.getOutputFormat());
+		.getFormat());
 	
 	request = new MockHttpServletRequest();
 	request.setParameter(AbstractAddressParserServlet.ADDRESS_PARAMETER, "address");
@@ -149,7 +149,7 @@ public class AddressQueryHttpBuilderTest {
 	query =builder.buildFromRequest(request);
     assertEquals(GisgraphyServlet.FORMAT_PARAMETER
 	    + " should set default if not supported  ", OutputFormat.getDefault(), query
-	    .getOutputFormat());
+	    .getFormat());
     
 
     

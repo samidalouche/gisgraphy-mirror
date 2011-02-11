@@ -74,7 +74,7 @@ public class AddressQueryHttpBuilder {
 	OutputFormat outputFormat = OutputFormat.getFromString(req
 			.getParameter(AbstractAddressParserServlet.FORMAT_PARAMETER));
 	outputFormat =OutputFormatHelper.getDefaultForServiceIfNotSupported(outputFormat, GisgraphyServiceType.ADDRESS_PARSER);
-	query.setOutputFormat(outputFormat);
+	query.setFormat(outputFormat);
 	
 
 	String callbackParameter = req.getParameter(AbstractAddressParserServlet.CALLBACK_PARAMETER);

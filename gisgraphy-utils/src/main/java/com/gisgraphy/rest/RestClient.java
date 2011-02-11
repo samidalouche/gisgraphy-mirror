@@ -39,6 +39,8 @@ import org.apache.commons.httpclient.methods.PostMethod;
 import org.apache.commons.httpclient.methods.PutMethod;
 import org.apache.commons.httpclient.methods.StringRequestEntity;
 import org.apache.commons.httpclient.params.HttpClientParams;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.gisgraphy.fulltext.service.exception.FullTextSearchException;
 import com.gisgraphy.serializer.OutputFormat;
@@ -53,6 +55,8 @@ import com.gisgraphy.serializer.UniversalSerializer;
 public class RestClient implements IRestClient {
 
 	private HttpClient httpClient;
+	
+	private static Logger logger = LoggerFactory.getLogger(RestClient.class);
 
 	/**
 	 * Default constructor 
@@ -99,6 +103,7 @@ public class RestClient implements IRestClient {
 			if (classToBeBound == null) {
 				throw new RestClientException("Can not bound a null class");
 			}
+			logger.info("will call url : "+url);
 			getMethod = new GetMethod(url);
 			InputStream inputStream = executeMethod(getMethod);
 			T obj = UniversalSerializer.getInstance().read(inputStream, classToBeBound, format);
@@ -122,6 +127,7 @@ public class RestClient implements IRestClient {
 			if (outputStream == null) {
 				throw new RestClientException("Can not serialize in a null outputStream");
 			}
+			logger.info("will call url : "+url);
 			getMethod = new GetMethod(url);
 			InputStream inputStream = executeMethod(getMethod);
 			 int numRead;
@@ -148,6 +154,7 @@ public class RestClient implements IRestClient {
 		int statusCode = -1;
 		try {
 			statusCode = executeAndCheckStatusCode(httpMethod);
+			logger.info("URL "+httpMethod.getURI()+" returns http status :"+statusCode);
 			return httpMethod.getResponseBodyAsStream();
 		} catch (HttpException e) {
 			throw new RestClientException(statusCode, e.getMessage());

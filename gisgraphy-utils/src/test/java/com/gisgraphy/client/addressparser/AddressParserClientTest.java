@@ -7,10 +7,12 @@ import org.easymock.classextension.EasyMock;
 import org.junit.Assert;
 import org.junit.Test;
 
+import com.gisgraphy.addressparser.Address;
 import com.gisgraphy.addressparser.AddressParserClient;
 import com.gisgraphy.addressparser.AddressQuery;
 import com.gisgraphy.addressparser.AddressResultsDto;
 import com.gisgraphy.addressparser.exception.AddressParserException;
+import com.gisgraphy.helper.BeanHelper;
 import com.gisgraphy.rest.IRestClient;
 import com.gisgraphy.serializer.OutputFormat;
 
@@ -120,6 +122,21 @@ public class AddressParserClientTest {
     public void executeToStringWithNullQuery(){
 	AddressParserClient service = new AddressParserClient();
 	service.executeToString(null);
+    }
+    
+    @Test
+    public void integrationtest(){
+    	AddressParserClient addressParserClient =new AddressParserClient();
+    	AddressQuery addressQuery = new AddressQuery("Wacholderweg 52a 26133 Oldenburg","de");
+    	AddressResultsDto results = addressParserClient.execute(addressQuery);
+    	Assert.assertNotNull(results);
+    	Assert.assertEquals(1, results.getResult().size());
+    	Address address= results.getResult().get(0);
+    	Assert.assertEquals("Wacholderweg", address.getStreetName() );
+    	Assert.assertEquals("52a", address.getHouseNumber() );
+    	Assert.assertEquals("26133", address.getZipCode() );
+    	Assert.assertEquals("Oldenburg", address.getCity() );
+    	System.out.println(BeanHelper.toString(address));
     }
 
 }

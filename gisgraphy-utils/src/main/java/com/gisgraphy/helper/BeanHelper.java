@@ -58,7 +58,7 @@ public class BeanHelper {
 	return true;
     }
 
-    public String toString(Object current) {
+    public static String toString(Object current) {
 	if (current == null) {
 	    return "null";
 	}

@@ -2,10 +2,12 @@ package com.gisgraphy.rest;
 
 import java.beans.Introspector;
 import java.beans.PropertyDescriptor;
+import java.net.URLEncoder;
 
 import org.apache.commons.beanutils.PropertyUtils;
 
 import com.gisgraphy.addressparser.exception.AddressParserException;
+import com.gisgraphy.domain.Constants;
 
 public class BeanToQueryString {
     
@@ -23,7 +25,7 @@ public class BeanToQueryString {
 		 sb.append( first?"?":andValue );
 		 sb.append(thisPropertyDescriptor.getName());
 		 sb.append("=");
-		 sb.append(property);
+		 sb.append(URLEncoder.encode(property.toString(),Constants.CHARSET));
 		 first=false;
 		}
 	    }

@@ -2,8 +2,14 @@ package com.gisgraphy.addressparser;
 
 import java.io.ByteArrayOutputStream;
 import java.io.OutputStream;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.gisgraphy.addressparser.exception.AddressParserException;
+import com.gisgraphy.domain.Constants;
 import com.gisgraphy.rest.BeanToQueryString;
 import com.gisgraphy.rest.IRestClient;
 import com.gisgraphy.rest.RestClient;
@@ -11,7 +17,11 @@ import com.gisgraphy.serializer.OutputFormat;
 
 public class AddressParserClient implements IAddressParserService {
     
-    public static final String DEFAULT_ADDRESS_PARSER_BASE_URL = "http://addressparser.gisgraphy.com/services/parse";
+	protected OutputFormat PREFERED_FORMAT = OutputFormat.JSON;
+	
+	private static Logger logger = LoggerFactory.getLogger(AddressParserClient.class);
+	
+    public static final String DEFAULT_ADDRESS_PARSER_BASE_URL = "http://addressparser.appspot.com/webaddressparser";
     private String baseURL = DEFAULT_ADDRESS_PARSER_BASE_URL;
     
     public AddressParserClient() {
@@ -31,8 +41,9 @@ public class AddressParserClient implements IAddressParserService {
 	if (addressQuery == null){
 	    throw new AddressParserException("Can not execute a null Adsress query");
 	}
+	addressQuery.setFormat(PREFERED_FORMAT);
 	String url =getUrl(addressQuery); 
-	return getRestClient().get(url, AddressResultsDto.class, OutputFormat.JSON);
+	return getRestClient().get(url, AddressResultsDto.class, PREFERED_FORMAT);
     }
 
     public void executeAndSerialize(AddressQuery addressQuery, OutputStream outputStream) throws AddressParserException {
@@ -58,7 +69,8 @@ public class AddressParserClient implements IAddressParserService {
     }
     
     protected String getUrl(AddressQuery query ){
-	return baseURL+BeanToQueryString.toQueryString(query);
+		return baseURL+BeanToQueryString.toQueryString(query);
+	
     }
 
     public String getBaseURL() {
